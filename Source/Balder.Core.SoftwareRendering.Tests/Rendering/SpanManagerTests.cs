@@ -1,4 +1,4 @@
-﻿using Balder.Core.Interfaces;
+﻿using Balder.Core.Display;
 using Balder.Core.SoftwareRendering.Rendering;
 using Moq;
 using NUnit.Framework;
@@ -14,7 +14,7 @@ namespace Balder.Core.SoftwareRendering.Tests.Rendering
 		[Test]
 		public void ScanlineCountShouldBeSameAsHeightOfViewport()
 		{
-			var viewportMock = new Mock<IViewport>();
+			var viewportMock = new Mock<Viewport>();
 			viewportMock.ExpectGet(v => v.Width).Returns(ViewportWidth);
 			viewportMock.ExpectGet(v => v.Height).Returns(ViewportHeight);
 

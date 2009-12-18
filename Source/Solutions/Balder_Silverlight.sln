@@ -14,12 +14,14 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Silverlight", "..\Balder.Core.Tests\Balder.Core.Tests.Silverlight.csproj", "{14C4473E-12FB-4D78-A607-A84E3FB09322}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{67FF2401-5E46-474C-A0AE-02D1A6B9ED2C}"
-	ProjectSection(SolutionItems) = preProject
-		..\..\Build\Balder.build = ..\..\Build\Balder.build
-		..\..\build.cmd = ..\..\build.cmd
-	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.SoftwareRendering.Tests.Silverlight", "..\Balder.Core.SoftwareRendering.Tests\Balder.Core.SoftwareRendering.Tests.Silverlight.csproj", "{137A2F11-85C7-4F5D-A2BE-EB288EA32231}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Tests", "..\Balder.Silverlight.Tests\Balder.Silverlight.Tests.csproj", "{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2AC081A1-6E83-40C1-9632-127AF77F0065}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Silverlight", "Silverlight", "{4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApp", "TestApp", "{69D3D9BA-47F2-4105-B642-F744DDBB1DDE}"
 EndProject
 Global
 	GlobalSection(TeamFoundationVersionControl) = preSolution
@@ -78,12 +80,21 @@ Global
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Release|Any CPU.Build.0 = Release|Any CPU
-		{137A2F11-85C7-4F5D-A2BE-EB288EA32231}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{137A2F11-85C7-4F5D-A2BE-EB288EA32231}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{137A2F11-85C7-4F5D-A2BE-EB288EA32231}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{137A2F11-85C7-4F5D-A2BE-EB288EA32231}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
+		{14C4473E-12FB-4D78-A607-A84E3FB09322} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
+		{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
+		{E39B101E-9447-49EE-B849-BA2A9E4664D0} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
+		{3029D496-26FD-423A-800B-862168511004} = {69D3D9BA-47F2-4105-B642-F744DDBB1DDE}
+		{BCCA5043-E7BD-4487-AC0C-24C418855645} = {69D3D9BA-47F2-4105-B642-F744DDBB1DDE}
 	EndGlobalSection
 EndGlobal

@@ -1,12 +1,14 @@
-﻿using Balder.Core.Interfaces;
+﻿
+
+using Balder.Core.Display;
 
 namespace Balder.Core.SoftwareRendering.Rendering
 {
 	public class SpanManager
 	{
-		private readonly IViewport _viewport;
+		private readonly Viewport _viewport;
 
-		public SpanManager(IViewport viewport)
+		public SpanManager(Viewport viewport)
 		{
 			_viewport = viewport;
 			Initialize();

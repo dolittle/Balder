@@ -1,6 +1,5 @@
 ﻿using System.Windows.Controls;
-using Balder.Core.Math;
-using Balder.Silverlight.Controls;
+using System.Windows.Media.Animation;
 
 namespace Balder.Silverlight.TestApp
 {
@@ -11,13 +10,11 @@ namespace Balder.Silverlight.TestApp
 			InitializeComponent();
 		}
 
-		private float _angle = 0f;
-
-		private void Updated(RenderingContainer renderingContainer)
+		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
 		{
-			//_audi.Node.World = Matrix.CreateRotationY(_angle);
-			_angle += 0.5f;
-			//_renderingContainer.Camera.Position = new Vector(0,-5,-20);
+			var storyboard = Resources["_testStoryboard"] as Storyboard;
+			storyboard.Begin();
+
 		}
 	}
 }
