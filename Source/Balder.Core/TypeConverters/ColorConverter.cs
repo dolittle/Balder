@@ -20,7 +20,6 @@ namespace Balder.Core.TypeConverters
 		{
 			if (value is string)
 			{
-
 				var type = typeof (System.Windows.Media.Colors);
 				var colorProperty = type.GetProperty((string) value);
 				if (null != colorProperty)

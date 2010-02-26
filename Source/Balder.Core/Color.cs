@@ -18,6 +18,8 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
+using System.ComponentModel;
+using Balder.Core.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
 using SysColor = System.Drawing.Color;
@@ -25,6 +27,9 @@ using SysColor = System.Drawing.Color;
 
 namespace Balder.Core
 {
+#if(SILVERLIGHT)
+	[TypeConverter(typeof(ColorConverter))]
+#endif
 	public struct Color : IEquatable<Color>
 	{
 		private static readonly Random Rnd = new Random();

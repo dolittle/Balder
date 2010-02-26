@@ -20,9 +20,8 @@
 using System.ComponentModel;
 using Balder.Core.TypeConverters;
 
-namespace Balder.Core
+namespace Balder.Core.Math
 {
-#if(SILVERLIGHT)
 	[TypeConverter(typeof(DimensionTypeConverter))]
 #endif
 	public class Dimension
