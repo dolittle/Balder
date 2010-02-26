@@ -23,13 +23,13 @@ using System;
 using System.ComponentModel.Composition;
 using System.Reflection;
 using System.Windows;
+using Balder.Core.Composition;
 using Balder.Core.Execution;
-using Balder.Core.Execution.Composition;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Execution
+namespace Balder.Core.Tests.Composition
 {
 	[TestFixture]
 	public class ComposerTests
@@ -55,7 +55,7 @@ namespace Balder.Core.Tests.Execution
 		{
 			var assemblies = new Assembly[]
 			                 	{
-									GetType().Assembly
+			                 		GetType().Assembly
 			                 	};
 			var uri = new Uri(string.Empty, UriKind.Relative);
 
@@ -93,4 +93,3 @@ namespace Balder.Core.Tests.Execution
 		}
 	}
 }
-

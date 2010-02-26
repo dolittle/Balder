@@ -1,8 +1,9 @@
 using System;
 using System.ComponentModel.Composition.Hosting;
 using System.ComponentModel.Composition.Primitives;
+using Balder.Core.Execution;
 
-namespace Balder.Core.Execution.Composition
+namespace Balder.Core.Composition
 {
 	public class Container : CompositionContainer
 	{

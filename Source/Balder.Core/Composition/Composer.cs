@@ -20,8 +20,9 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
+using Balder.Core.Execution;
 
-namespace Balder.Core.Execution.Composition
+namespace Balder.Core.Composition
 {
 	public class Composer : IComposer
 	{
