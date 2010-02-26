@@ -22,23 +22,59 @@ using Balder.Core.View;
 
 namespace Balder.Core.Display
 {
+	/// <summary>
+	/// Represents a viewport within a display - the Viewport is a 2D rectangle representing a clipping region.
+	/// The viewport also holds the view used to render and also holds the scene that contains the objects that
+	/// will be rendered within the viewport
+	/// </summary>
 	public class Viewport
 	{
+		/// <summary>
+		/// Creates a viewport
+		/// </summary>
 		public Viewport()
 		{
 			DebugInfo = new DebugInfo();
 		}
 
+		/// <summary>
+		/// Get or set the x position in pixelsof the viewport within the display, where 0 is the left
+		/// </summary>
 		public int XPosition { get; set; }
+
+		/// <summary>
+		/// Get or set the y position in pixels of the viewport within the display, where 0 is the top.
+		/// </summary>
 		public int YPosition { get; set; }
+
+		/// <summary>
+		/// Get or set the width in pixels of the viewport within the display
+		/// </summary>
 		public int Width { get; set; }
+
+		/// <summary>
+		/// Get or set the height in pixels of the viewport within the display
+		/// </summary>
 		public int Height { get; set; }
 
+		/// <summary>
+		/// Get or set the scene to use during rendering
+		/// </summary>
 		public Scene Scene { get; set; }
+
+		/// <summary>
+		/// Get or set the view to be used during rendering
+		/// </summary>
 		public IView View { get; set; }
 
+		/// <summary>
+		/// Get or set the debug info for the Viewport
+		/// </summary>
 		public DebugInfo DebugInfo { get; set; }
 
+		/// <summary>
+		/// Get the aspect ratio for the viewport
+		/// </summary>
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
 	}
 }

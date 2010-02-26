@@ -18,11 +18,27 @@
 #endregion
 namespace Balder.Core.Display
 {
+	/// <summary>
+	/// Represents a display on the device
+	/// </summary>
 	public interface IDisplay
 	{
+		/// <summary>
+		/// Get or set the background color used on the display
+		/// </summary>
 		Color BackgroundColor { get; set; }
 
+		/// <summary>
+		/// Initialize the display
+		/// </summary>
+		/// <param name="width">Width of the display</param>
+		/// <param name="height">Height of the display</param>
 		void Initialize(int width, int height);
+
+		/// <summary>
+		/// Initialize display container
+		/// </summary>
+		/// <param name="container">Container</param>
 		void InitializeContainer(object container);
 	}
 }

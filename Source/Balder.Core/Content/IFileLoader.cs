@@ -20,8 +20,17 @@ using System.IO;
 
 namespace Balder.Core.Content
 {
+	/// <summary>
+	/// To load files in Balder, you should go through the fileloader. 
+	/// Loading of files is a platform specific operation.
+	/// </summary>
 	public interface IFileLoader
 	{
-		Stream GetStream(string assetName);
+		/// <summary>
+		/// Get the stream of a given asset
+		/// </summary>
+		/// <param name="fileName">Filename for the file you want to load</param>
+		/// <returns>A stream that can be used to retrieve the content</returns>
+		Stream GetStream(string fileName);
 	}
 }

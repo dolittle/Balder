@@ -18,14 +18,37 @@
 #endregion
 namespace Balder.Core.Display
 {
+	/// <summary>
+	/// Delegate used by <see cref="IDisplayDevice"/> for different display related events
+	/// </summary>
+	/// <param name="display"></param>
 	public delegate void DisplayEvent(IDisplay display);
 
+	/// <summary>
+	/// Represents the display device for a platform
+	/// </summary>
 	public interface IDisplayDevice
 	{
+		/// <summary>
+		/// Update event occurs every update - typically during a vertical refresh of the display
+		/// </summary>
 		event DisplayEvent Update;
+
+		/// <summary>
+		/// Render event occurs everytime the device is ready to render
+		/// </summary>
 		event DisplayEvent Render;
 
+		/// <summary>
+		/// Create a display from the display device
+		/// </summary>
+		/// <returns>Created display</returns>
 		IDisplay CreateDisplay();
+
+		/// <summary>
+		/// Remove a created display
+		/// </summary>
+		/// <param name="display">Display to remove</param>
 		void RemoveDisplay(IDisplay display);
 	}
 }

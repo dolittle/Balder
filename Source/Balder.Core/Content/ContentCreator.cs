@@ -16,22 +16,32 @@
 // limitations under the License.
 //
 #endregion
-
-using System;
 using Balder.Core.Execution;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Content
 {
+	/// <summary>
+	/// Handles the creation of content programatically
+	/// </summary>
 	public class ContentCreator
 	{
 		private readonly IObjectFactory _objectFactory;
 
+		/// <summary>
+		/// Creates a new ContentCreator and provides functionality for creating content
+		/// </summary>
+		/// <param name="objectFactory">the IObjectFactory that the ContentCreator will use for creating content</param>
 		public ContentCreator(IObjectFactory objectFactory)
 		{
 			_objectFactory = objectFactory;
 		}
 
+		/// <summary>
+		/// Creates a geometry based on the geometry type
+		/// </summary>
+		/// <typeparam name="T">Type of geometry to create</typeparam>
+		/// <returns>An instance of the geometry created</returns>
 		public T CreateGeometry<T>() where T : Geometry
 		{
 			var geometry = _objectFactory.Get<T>();

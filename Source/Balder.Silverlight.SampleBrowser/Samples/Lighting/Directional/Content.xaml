@@ -25,11 +25,12 @@
 				<View:Camera Position="0,30,-200"/>
 			</Execution:Game.Camera>
 			
-			<Lighting:DirectionalLight Direction="0,-1,0" Diffuse="Blue"/>
+			<Lighting:DirectionalLight Direction="0,-1,0" Diffuse="White"/>
+			<Lighting:DirectionalLight Direction="0,1,0" Diffuse="Green"/>
 			
 			<Geometries:Ring x:Name="Ring"
 							 Size="20" 
-							 Segments="16"
+							 Segments="48"
 							 InnerRadius="20"
 							 OuterRadius="40"/>
 			

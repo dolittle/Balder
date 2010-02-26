@@ -16,10 +16,12 @@
 // limitations under the License.
 //
 #endregion
+
 using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Ninject.Core;
 
+#pragma warning disable 1591
 namespace Balder.Core.Content
 {
 	[Singleton]
@@ -54,3 +56,4 @@ namespace Balder.Core.Content
 		public string AssetsRoot { get; set; }
 	}
 }
+#pragma warning restore 1591

@@ -45,7 +45,7 @@ namespace Balder.Core
 			_lights = new NodeCollection();
 			_allNodes = new NodeCollection();
 
-			AmbientColor = Color.FromArgb(0xff, 0x3f, 0x3f, 0x3f);
+			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
 
 		public void AddNode(Node node)

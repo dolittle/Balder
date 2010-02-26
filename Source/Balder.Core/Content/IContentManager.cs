@@ -20,13 +20,34 @@ using Balder.Core.Assets;
 
 namespace Balder.Core.Content
 {
+	/// <summary>
+	/// Manages content
+	/// </summary>
 	public interface IContentManager
 	{
+		/// <summary>
+		/// Load an asset based on the assetname.
+		/// </summary>
+		/// <typeparam name="T">Type of asset to load</typeparam>
+		/// <param name="assetName">Name of asset - usually a file reference</param>
+		/// <returns>Loaded asset</returns>
 		T Load<T>(string assetName) where T : IAsset;
+
+		/// <summary>
+		/// Create an asset part - assets can have many parts
+		/// </summary>
+		/// <typeparam name="T">Type of assetpart to create</typeparam>
+		/// <returns>Created assetpart</returns>
 		T CreateAssetPart<T>() where T : IAssetPart;
 
+		/// <summary>
+		/// Get the ContentCreator
+		/// </summary>
 		ContentCreator Creator { get; }
 
+		/// <summary>
+		/// Get or set root of assets - typically a folder relative to current directory or a specific folder
+		/// </summary>
 		string AssetsRoot { get; set; }
 	}
 }

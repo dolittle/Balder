@@ -21,6 +21,9 @@ using Balder.Core.Execution;
 
 namespace Balder.Core.Collections
 {
+	/// <summary>
+	/// Collection holding actors - actors can be Game or any other actor type.
+	/// </summary>
 	public class ActorCollection : List<Actor>
 	{
 

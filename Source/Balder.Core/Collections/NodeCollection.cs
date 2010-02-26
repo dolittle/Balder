@@ -26,6 +26,9 @@ using System.Collections.Generic;
 namespace Balder.Core.Collections
 {
 #if(SILVERLIGHT)
+	/// <summary>
+	/// Collection of nodes	- any node type can be added to this collection type
+	/// </summary>
 	public class NodeCollection : ObservableCollection<Node>
 #else
 	public class NodeCollection : List<Node>

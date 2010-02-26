@@ -19,23 +19,58 @@
 
 namespace Balder.Core.Debug
 {
+	/// <summary>
+	/// Holds all flags for enabling or disabling certain debug information from the
+	/// rendering.
+	/// </summary>
 	public class DebugInfo
 	{
+		/// <summary>
+		/// Creates a debug info object
+		/// </summary>
 		public DebugInfo()
 		{
 			Color = Color.FromArgb(0xFF, 0xFF, 0xFF, 0);
 		}
 
-
+		/// <summary>
+		/// Get or set if the geometry should be visualized in a debug manner
+		/// </summary>
 		public bool Geometry { get; set; }
+
+		/// <summary>
+		/// Get or set if the normals of every face in a geometry should be rendered
+		/// </summary>
 		public bool FaceNormals { get; set; }
+
+		/// <summary>
+		/// Get or set if the normals of every vertex in a geometry should be rendered
+		/// </summary>
 		public bool VertexNormals { get; set; }
+
+		/// <summary>
+		/// Get or set if the lights should be visualized
+		/// </summary>
 		public bool Lights { get; set; }
+
+		/// <summary>
+		/// Get or set if the bounding boxes for objects should be rendered
+		/// </summary>
 		public bool BoundingBoxes { get; set; }
+
+		/// <summary>
+		/// Get or set if the bounding spheres for objects should be rendered
+		/// </summary>
 		public bool BoundingSpheres { get; set; }
+
+		/// <summary>
+		/// Get or set if the vertices should be rendered
+		/// </summary>
 		public bool ShowVertices { get; set; }
 
-
+		/// <summary>
+		/// Get or set the debug information color used for all debug info
+		/// </summary>
 		public Color Color { get; set; } 
 	}
 }
