@@ -90,8 +90,6 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
-    <Compile Include="Animation\AnimatableCollection.cs" />
-    <Compile Include="Animation\AnimationManager.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
@@ -229,7 +227,6 @@
     <Compile Include="Scene.cs" />
     <Compile Include="Utils\EnumHelper.cs" />
     <Compile Include="EnvironmentalNode.cs" />
-    <Compile Include="Animation\IAnimatable.cs" />
     <Compile Include="Lighting\ILight.cs" />
     <Compile Include="Math\Core.cs" />
     <Compile Include="Math\Frustum.cs" />

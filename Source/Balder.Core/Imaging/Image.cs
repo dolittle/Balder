@@ -24,7 +24,9 @@ using Ninject.Core;
 
 namespace Balder.Core.Imaging
 {
+#if(SILVERLIGHT)
 	[TypeConverter(typeof(UriToImageTypeConverter))]
+#endif
 	public class Image : IAsset, IAssetPart
 	{
 		[Inject]
