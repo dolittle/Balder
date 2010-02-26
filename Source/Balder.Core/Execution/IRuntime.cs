@@ -18,9 +18,8 @@
 #endregion
 using System;
 using Balder.Core.Display;
-using Balder.Core.Execution;
 
-namespace Balder.Core
+namespace Balder.Core.Execution
 {
 	public interface IRuntime
 	{
