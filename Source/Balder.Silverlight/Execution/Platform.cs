@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -24,11 +24,10 @@ using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Input;
-using Balder.Core.SoftwareRendering;
-using Balder.Core.SoftwareRendering.Rendering;
 using Balder.Silverlight.Content;
 using Balder.Silverlight.Display;
 using Balder.Silverlight.Input;
+using Balder.Silverlight.Rendering;
 
 namespace Balder.Silverlight.Execution
 {

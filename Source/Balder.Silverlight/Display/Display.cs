@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -24,7 +24,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Balder.Core.Display;
 using Balder.Core.Execution;
-using Balder.Core.SoftwareRendering;
+using Balder.Silverlight.Rendering;
 using Color = Balder.Core.Color;
 
 namespace Balder.Silverlight.Display

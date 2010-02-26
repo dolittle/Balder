@@ -125,8 +125,22 @@
     <Compile Include="Notification\ViewModelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Display\Display.cs" />
+    <Compile Include="Rendering\BufferContainer.cs" />
+    <Compile Include="Rendering\Drawing\FlatTriangle.cs" />
+    <Compile Include="Rendering\Drawing\FlatTriangleAdditive.cs" />
+    <Compile Include="Rendering\Drawing\GouraudTriangle.cs" />
+    <Compile Include="Rendering\Drawing\Point.cs" />
+    <Compile Include="Rendering\Drawing\RenderedSpan.cs" />
+    <Compile Include="Rendering\ShapeContext.cs" />
+    <Compile Include="Rendering\Drawing\TextureTriangle.cs" />
+    <Compile Include="Rendering\Drawing\Triangle.cs" />
+    <Compile Include="Rendering\GeometryContext.cs" />
+    <Compile Include="Rendering\ImageContext.cs" />
+    <Compile Include="Rendering\Interpolator.cs" />
+    <Compile Include="Rendering\Shapes.cs" />
+    <Compile Include="Rendering\SpriteContext.cs" />
     <Compile Include="Services\TargetDevice.cs" />
-    <Compile Include="SoftwareRendering\RenderingManager.cs" />
+    <Compile Include="Rendering\RenderingManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
@@ -141,10 +155,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Balder.Core.SoftwareRendering\Balder.Core.SoftwareRendering.Silverlight.csproj">
-      <Project>{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}</Project>
-      <Name>Balder.Core.SoftwareRendering.Silverlight</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Balder.Core\Balder.Core.Silverlight.csproj">
       <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
       <Name>Balder.Core.Silverlight</Name>
