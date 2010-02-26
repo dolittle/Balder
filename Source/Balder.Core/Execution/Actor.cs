@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Windows.Controls;
 using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Display;
@@ -28,16 +29,16 @@ namespace Balder.Core.Execution
 	/// <summary>
 	/// Base class for all actors.
 	/// </summary>
-	public partial class Actor : IActor
+#if(SILVERLIGHT)
+	public class Actor : Grid, IActor
+#else
+	public class Actor : IActor
+#endif
 	{
 		protected Actor()
 		{
 			Actors = new ActorCollection();
-			Constructed();
-			
 		}
-
-		partial void Constructed();
 
 		/// <summary>
 		/// Gets a collection of all actors contained in the actor - Sub Actors

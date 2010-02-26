@@ -1,5 +1,4 @@
 #region License
-
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,13 +15,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
 
-namespace Balder.Core.Execution
+namespace Balder.Core.Composition
 {
-	public interface IDeviceContext
+	///<summary>
+	/// Adds composition to any component/class
+	/// 
+	/// The purpose is to provide a generic way of importing instances of types
+	/// from any loaded assembly based on [Import] criterias set
+	///</summary>
+	public interface IComposer
 	{
-		object GetContext();
+		/// <summary>
+		/// Satisfy all imports for an instance of a component
+		/// </summary>
+		/// <param name="component">Component to satisfy imports for</param>
+		void SatisfyImportsFor(object component);
 	}
 }

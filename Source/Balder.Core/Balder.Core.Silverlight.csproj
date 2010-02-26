@@ -97,7 +97,7 @@
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ColorCalculator.cs" />
+    <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Debug\BoundingSphereDebugShape.cs" />
     <Compile Include="Debug\DebugRenderer.cs" />
@@ -110,15 +110,13 @@
     <Compile Include="Display\Viewport.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
-    <Compile Include="Execution\Actor.Silverlight.cs" />
     <Compile Include="Execution\ActorState.cs" />
     <Compile Include="Composition\Composer.cs" />
     <Compile Include="Composition\Container.cs" />
     <Compile Include="Composition\Exporter.cs" />
     <Compile Include="Execution\Game.Silverlight.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
-    <Compile Include="Execution\IComposer.cs" />
-    <Compile Include="Execution\IDeviceContext.cs" />
+    <Compile Include="Composition\IComposer.cs" />
     <Compile Include="Execution\KernelContainer.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
@@ -136,7 +134,7 @@
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="Helpers\DependencyProperty.cs" />
     <Compile Include="Helpers\DependencyPropertyHelper.cs" />
-    <Compile Include="IColorCalculator.cs" />
+    <Compile Include="Lighting\ILightCalculator.cs" />
     <Compile Include="Input\IMouseDevice.cs" />
     <Compile Include="Input\IMouseManager.cs" />
     <Compile Include="Input\Mouse.cs" />
