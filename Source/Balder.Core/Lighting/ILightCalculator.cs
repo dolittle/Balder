@@ -1,4 +1,5 @@
 #region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,30 +16,15 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-using System;
 using Balder.Core.Display;
-using Balder.Core.Execution;
-using Ninject.Core.Activation;
-using Ninject.Core.Tracking;
+using Balder.Core.Math;
 
-namespace Balder.Core
+namespace Balder.Core.Lighting
 {
-	public class DisplayActivationContext : StandardContext
+	public interface ILightCalculator
 	{
-		public DisplayActivationContext(IDisplay display, Type service, IScope scope)
-			: base(KernelContainer.Kernel, service, scope)
-		{
-			Display = display;
-		}
-
-
-		public DisplayActivationContext(IDisplay display, Type service, IContext parent)
-			: base(KernelContainer.Kernel, service, parent)
-		{
-			Display = display;
-		}
-
-		public IDisplay Display { get; private set; }
+		Color Calculate(Viewport viewport, Vector vector, Vector normal);
 	}
 }

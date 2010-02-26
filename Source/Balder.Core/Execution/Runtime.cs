@@ -23,10 +23,9 @@ using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Debug;
 using Balder.Core.Display;
-using Balder.Core.Execution;
 using Ninject.Core;
 
-namespace Balder.Core
+namespace Balder.Core.Execution
 {
 	[Singleton]
 	public class Runtime : IRuntime
@@ -200,8 +199,8 @@ namespace Balder.Core
 				actor.ChangeState(ActorState.Run);
 			}
 			if (!actor.HasUpdated &&
-				HasPlatformRun &&
-				actor.State == ActorState.Run)
+			    HasPlatformRun &&
+			    actor.State == ActorState.Run)
 			{
 				actor.OnUpdate();
 			}

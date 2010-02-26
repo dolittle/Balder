@@ -1,9 +1,8 @@
 using System.ComponentModel.Composition;
 using System.ComponentModel.Composition.Hosting;
 using System.Windows;
-using Balder.Core.Execution;
 
-namespace Balder.Core
+namespace Balder.Core.Execution
 {
 	public class RuntimeImports
 	{

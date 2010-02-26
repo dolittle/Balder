@@ -19,6 +19,7 @@
 
 using Balder.Core;
 using Balder.Core.Display;
+using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
@@ -34,13 +35,13 @@ namespace Balder.Silverlight.Rendering
 		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
 		private static readonly Point PointRenderer = new Point();
-		private readonly IColorCalculator _colorCalculator;
+		private readonly ILightCalculator _lightCalculator;
 
 		private bool _hasPrepared;
 
-		public GeometryContext(IColorCalculator colorCalculator)
+		public GeometryContext(ILightCalculator lightCalculator)
 		{
-			_colorCalculator = colorCalculator;
+			_lightCalculator = lightCalculator;
 		}
 
 
@@ -213,7 +214,7 @@ namespace Balder.Silverlight.Rendering
 
 		private void CalculateColorForVertex(ref Vertex vertex, Viewport viewport, Node node)
 		{
-			vertex.CalculatedColor = vertex.Color.Additive(_colorCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal));
+			vertex.CalculatedColor = vertex.Color.Additive(_lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal));
 		}
 
 		private void RenderVertices(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -301,7 +302,7 @@ namespace Balder.Silverlight.Rendering
 							{
 								face.Transform(matrix);
 								var color = face.Material.Diffuse;
-								face.Color = color.Additive(_colorCalculator.Calculate(viewport, face.TransformedPosition, face.TransformedNormal));
+								face.Color = color.Additive(_lightCalculator.Calculate(viewport, face.TransformedPosition, face.TransformedNormal));
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
 									TextureTriangleRenderer.Draw(face, Vertices);

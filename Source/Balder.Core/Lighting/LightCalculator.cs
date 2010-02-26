@@ -1,10 +1,9 @@
 ﻿using Balder.Core.Display;
-using Balder.Core.Lighting;
 using Balder.Core.Math;
 
-namespace Balder.Core
+namespace Balder.Core.Lighting
 {
-	public class ColorCalculator : IColorCalculator
+	public class LightCalculator : ILightCalculator
 	{
 		public Color Calculate(Viewport viewport, Vector vector, Vector normal)
 		{
