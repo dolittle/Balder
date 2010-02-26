@@ -1,4 +1,4 @@
-﻿using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart
 {

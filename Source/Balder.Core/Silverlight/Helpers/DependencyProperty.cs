@@ -19,10 +19,10 @@
 using System;
 using System.Linq.Expressions;
 using System.Windows;
-using Balder.Core.Extensions;
+using Balder.Core.Silverlight.Extensions;
 
 
-namespace Balder.Core.Helpers
+namespace Balder.Core.Silverlight.Helpers
 {
 	public class DependencyProperty<T1,T>
 		where T1:DependencyObject

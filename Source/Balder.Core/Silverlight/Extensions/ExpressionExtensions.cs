@@ -19,7 +19,7 @@
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Balder.Core.Extensions
+namespace Balder.Core.Silverlight.Extensions
 {
 	public static class ExpressionExtensions
 	{

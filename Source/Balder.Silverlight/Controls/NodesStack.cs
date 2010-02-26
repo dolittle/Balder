@@ -20,8 +20,8 @@
 #endregion
 
 using Balder.Core;
-using Balder.Core.Helpers;
 using Balder.Core.Math;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Silverlight.Controls
 {

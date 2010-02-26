@@ -18,6 +18,7 @@
 #endregion
 
 using Balder.Core.Debug;
+using Balder.Core.Math;
 using Balder.Core.View;
 
 namespace Balder.Core.Display
@@ -29,6 +30,9 @@ namespace Balder.Core.Display
 	/// </summary>
 	public class Viewport
 	{
+		private const float MinDepth = 0f;
+		private const float MaxDepth = 1f;
+
 		/// <summary>
 		/// Creates a viewport
 		/// </summary>
@@ -76,5 +80,44 @@ namespace Balder.Core.Display
 		/// Get the aspect ratio for the viewport
 		/// </summary>
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
+
+
+		public Vector Transform(Vector position, Matrix matrix)
+		{
+			Vector vector = Vector.Zero;
+			float num3 = (((position.X * matrix[0, 0]) + (position.Y * matrix[1, 0])) + (position.Z * matrix[2, 0])) + matrix[3, 0];
+			float num2 = (((position.X * matrix[0, 1]) + (position.Y * matrix[1, 1])) + (position.Z * matrix[2, 1])) + matrix[3, 1];
+			float num = (((position.X * matrix[0, 2]) + (position.Y * matrix[1, 2])) + (position.Z * matrix[2, 2])) + matrix[3, 2];
+			vector.X = num3;
+			vector.Y = num2;
+			vector.Z = num;
+			return vector;
+		}
+
+		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
+		{
+			var combinedMatrix = (world * view) * projection;
+			var matrix = Matrix.Invert(combinedMatrix);
+			source.X = (((source.X - XPosition) / ((float)Width)) * 2f) - 1f;
+			source.Y = -((((source.Y - YPosition) / ((float)Height)) * 2f) - 1f);
+			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
+			source.W = 1f;
+			//var vector = Vector.Transform(source, matrix);
+			var vector = Transform(source, matrix);
+			var a = (((source.X * matrix[0, 3]) + (source.Y * matrix[1, 3])) + (source.Z * matrix[2, 3])) + matrix[3, 3];
+			if (!WithinEpsilon(a, 1f))
+			{
+				vector = (Vector)(vector / (a * 2f));
+			}
+			return vector;
+		}
+
+		private static bool WithinEpsilon(float a, float b)
+		{
+			var num = a - b;
+			return ((-1.401298E-45f <= num) && (num <= float.Epsilon));
+		}
+
+
 	}
 }

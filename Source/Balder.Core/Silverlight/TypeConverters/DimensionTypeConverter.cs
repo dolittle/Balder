@@ -23,7 +23,7 @@ using System.ComponentModel;
 using System.Globalization;
 using Balder.Core.Math;
 
-namespace Balder.Core.TypeConverters
+namespace Balder.Core.Silverlight.TypeConverters
 {
 	public class DimensionTypeConverter : TypeConverter
 	{
@@ -47,10 +47,10 @@ namespace Balder.Core.TypeConverters
 				throw new ArgumentException("The format needs to be ([width],[height])");
 			}
 			var dimension = new Dimension
-			{
-				Width = float.Parse(values[0], CultureInfo.InvariantCulture),
-				Height = float.Parse(values[1], CultureInfo.InvariantCulture),
-			};
+			                	{
+			                		Width = float.Parse(values[0], CultureInfo.InvariantCulture),
+			                		Height = float.Parse(values[1], CultureInfo.InvariantCulture),
+			                	};
 			return dimension;
 		}
 

@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Windows;
-using Balder.Core.Helpers;
-using Balder.Core.Extensions;
+using Balder.Core.Silverlight.Extensions;
+using Balder.Core.Silverlight.Helpers;
 using Expression=System.Linq.Expressions.Expression;
 
 namespace Balder.Core.Execution

@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Balder.Core.TypeConverters
+namespace Balder.Core.Silverlight.TypeConverters
 {
 	public class ColorConverter : TypeConverter
 	{

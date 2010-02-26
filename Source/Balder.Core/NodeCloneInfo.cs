@@ -4,7 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows;
 using Balder.Core.Execution;
-using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Core
 {

@@ -19,7 +19,7 @@
 using System.Windows;
 using System.Windows.Media.Animation;
 
-namespace Balder.Core.Extensions
+namespace Balder.Core.Silverlight.Extensions
 {
 	public static class StoryboardExtensions
 	{

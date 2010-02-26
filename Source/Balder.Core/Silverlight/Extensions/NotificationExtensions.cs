@@ -23,7 +23,7 @@ using System.Linq.Expressions;
 using System.Threading;
 using System.Windows;
 
-namespace Balder.Core.Extensions
+namespace Balder.Core.Silverlight.Extensions
 {
 	public delegate void PropertyChangedHandler<T>(T sender);
 

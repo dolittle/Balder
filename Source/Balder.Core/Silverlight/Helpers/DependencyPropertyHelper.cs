@@ -20,9 +20,9 @@ using System;
 using System.Reflection;
 using System.Windows;
 using System.Linq.Expressions;
-using Balder.Core.Extensions;
+using Balder.Core.Silverlight.Extensions;
 
-namespace Balder.Core.Helpers
+namespace Balder.Core.Silverlight.Helpers
 {
 	public static class DependencyPropertyHelper
 	{
@@ -82,7 +82,7 @@ namespace Balder.Core.Helpers
 			                                            			SetIsNotFirstSet(o,true);
 			                                            			Action a = () => propertyInfo.SetValue(o, e.NewValue, null);
 
-																	SetIsExternalSet(o, true);
+			                                            			SetIsExternalSet(o, true);
 			                                            			if (o.Dispatcher.CheckAccess())
 			                                            			{
 			                                            				a();
@@ -91,7 +91,7 @@ namespace Balder.Core.Helpers
 			                                            			{
 			                                            				o.Dispatcher.BeginInvoke(a);
 			                                            			}
-																	SetIsExternalSet(o, false);
+			                                            			SetIsExternalSet(o, false);
 			                                            		}
 			                                            	});
 			return propertyMetadata;

@@ -1,8 +1,8 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using System.Windows;
 using Balder.Core.Execution;
-using Balder.Core.Extensions;
-using Balder.Core.TypeConverters;
+using Balder.Core.Silverlight.Extensions;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core.Math
 {

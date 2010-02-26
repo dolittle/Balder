@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -20,7 +20,7 @@
 using System.ComponentModel;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
-using Balder.Core.TypeConverters;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core.Materials
 {

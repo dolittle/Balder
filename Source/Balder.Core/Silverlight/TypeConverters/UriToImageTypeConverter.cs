@@ -6,7 +6,7 @@ using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Ninject.Core;
 
-namespace Balder.Core.TypeConverters
+namespace Balder.Core.Silverlight.TypeConverters
 {
 	public class UriToImageTypeConverter : TypeConverter
 	{

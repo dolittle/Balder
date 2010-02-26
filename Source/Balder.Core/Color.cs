@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -19,7 +19,7 @@
 #if(SILVERLIGHT)
 using System;
 using System.ComponentModel;
-using Balder.Core.TypeConverters;
+using Balder.Core.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
 using SysColor = System.Drawing.Color;

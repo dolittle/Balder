@@ -1,13 +1,12 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
 using System.ComponentModel;
-using Balder.Silverlight.Extensions;
-using DependencyPropertyHelper = Balder.Core.Helpers.DependencyPropertyHelper;
+using DependencyPropertyHelper = Balder.Core.Silverlight.Helpers.DependencyPropertyHelper;
 
-namespace Balder.Core.Extensions
+namespace Balder.Core.Silverlight.Extensions
 {
 	public static class DependencyPropertyExtensions
 	{

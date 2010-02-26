@@ -4,7 +4,7 @@ using System.Globalization;
 using Balder.Core.Math;
 
 
-namespace Balder.Core.TypeConverters
+namespace Balder.Core.Silverlight.TypeConverters
 {
 	public class CoordinateTypeConverter : TypeConverter
 	{
@@ -28,11 +28,11 @@ namespace Balder.Core.TypeConverters
 				throw new ArgumentException("The format needs to be ([x],[y],[z])");
 			}
 			var vector = new Coordinate
-							{
-								X = float.Parse(values[0], CultureInfo.InvariantCulture),
-								Y = float.Parse(values[1], CultureInfo.InvariantCulture),
-								Z = float.Parse(values[2], CultureInfo.InvariantCulture)
-							};
+			             	{
+			             		X = float.Parse(values[0], CultureInfo.InvariantCulture),
+			             		Y = float.Parse(values[1], CultureInfo.InvariantCulture),
+			             		Z = float.Parse(values[2], CultureInfo.InvariantCulture)
+			             	};
 			return vector;
 		}
 

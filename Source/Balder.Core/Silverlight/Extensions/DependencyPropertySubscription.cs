@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -19,11 +19,10 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
-using Balder.Core.Extensions;
-using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
 using DependencyProperty = System.Windows.DependencyProperty;
 
-namespace Balder.Silverlight.Extensions
+namespace Balder.Core.Silverlight.Extensions
 {
 	public interface IDependencyPropertySubscription : INotifyPropertyChanged
 	{

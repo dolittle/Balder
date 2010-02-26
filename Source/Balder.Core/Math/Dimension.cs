@@ -18,7 +18,7 @@
 #endregion
 
 using System.ComponentModel;
-using Balder.Core.TypeConverters;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core.Math
 {

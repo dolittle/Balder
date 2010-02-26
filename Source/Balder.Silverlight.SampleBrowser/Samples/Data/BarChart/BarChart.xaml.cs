@@ -1,8 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Collections.Specialized;
-using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart
 {

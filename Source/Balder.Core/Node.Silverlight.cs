@@ -5,8 +5,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
 using Balder.Core.Execution;
-using Balder.Core.TypeConverters;
-using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core
 {

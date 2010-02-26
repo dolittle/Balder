@@ -1,5 +1,5 @@
-﻿using System;
-using Balder.Core.Helpers;
+using System;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Core.Objects.Geometries
 {

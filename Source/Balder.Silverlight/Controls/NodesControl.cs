@@ -25,7 +25,7 @@ using System.Collections.Specialized;
 using System.Windows;
 using Balder.Core;
 using Balder.Core.Content;
-using Balder.Core.Helpers;
+using Balder.Core.Silverlight.Helpers;
 using Ninject.Core;
 
 namespace Balder.Silverlight.Controls
