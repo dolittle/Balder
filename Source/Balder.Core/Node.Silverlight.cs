@@ -18,13 +18,12 @@ namespace Balder.Core
 		public new event MouseEventHandler MouseLeave = (s, e) => { };
 		public new event MouseButtonEventHandler MouseLeftButtonDown = (s, e) => { };
 		public new event MouseButtonEventHandler MouseLeftButtonUp = (s, e) => { };
-
+		
 		partial void Construct()
 		{
 			Loaded += NodeLoaded;
 			Children.CollectionChanged += ChildrenChanged;
 		}
-
 		
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
@@ -104,26 +103,31 @@ namespace Balder.Core
 		internal virtual void RaiseMouseLeftButtonUp(MouseButtonEventArgs e)
 		{
 			OnCommand();
+			//OnMouseLeftButtonUp(e);
 			MouseLeftButtonUp(this, e);
 		}
 
 		internal virtual void RaiseMouseMove(MouseEventArgs e)
 		{
+			//OnMouseMove(e);
 			MouseMove(this, e);
 		}
 
 		internal virtual void RaiseMouseLeftButtonDown(MouseButtonEventArgs e)
 		{
+			//OnMouseLeftButtonDown(e);
 			MouseLeftButtonDown(this, e);
 		}
 
 		internal virtual void RaiseMouseEnter(MouseEventArgs e)
 		{
+			//OnMouseEnter(e);
 			MouseEnter(this, e);
 		}
 
 		internal virtual void RaiseMouseLeave(MouseEventArgs e)
 		{
+			//OnMouseLeave(e);
 			MouseLeave(this, e);
 		}
 	}
