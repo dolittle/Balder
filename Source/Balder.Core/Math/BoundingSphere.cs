@@ -191,15 +191,6 @@ namespace Balder.Core.Math
 			return sphere;
 		}
 
-		public static BoundingSphere CreateFromFrustum(BoundingFrustum frustum)
-		{
-			if (frustum == null)
-			{
-				throw new ArgumentNullException("frustum");
-			}
-			return CreateFromPoints(frustum.cornerArray);
-		}
-
 		public bool Intersects(BoundingBox box)
 		{
 			var vector = Vector.Clamp(Center, box.Min, box.Max);
@@ -212,16 +203,6 @@ namespace Balder.Core.Math
 			var vector = Vector.Clamp(this.Center, box.Min, box.Max);
 			var num = Vector.DistanceSquared(this.Center, vector);
 			result = num <= (this.Radius * this.Radius);
-		}
-
-		public bool Intersects(BoundingFrustum frustum)
-		{
-			if (null == frustum)
-			{
-				throw new ArgumentNullException("frustum", "Null is not allowed");
-			}
-			var flag = frustum.Intersects(this);
-			return flag;
 		}
 
 		public PlaneIntersectionType Intersects(Plane plane)
@@ -384,31 +365,6 @@ namespace Balder.Core.Math
 					}
 				}
 			}
-		}
-
-		public ContainmentType Contains(BoundingFrustum frustum)
-		{
-			if (null == frustum)
-			{
-				throw new ArgumentNullException("frustum", "Frustum can't be null");
-			}
-			if (!frustum.Intersects(this))
-			{
-				return ContainmentType.Disjoint;
-			}
-			float num2 = this.Radius * this.Radius;
-			foreach (var vector2 in frustum.cornerArray)
-			{
-				var vector = Vector.Zero;
-				vector.X = vector2.X - this.Center.X;
-				vector.Y = vector2.Y - this.Center.Y;
-				vector.Z = vector2.Z - this.Center.Z;
-				if (vector.LengthSquared() > num2)
-				{
-					return ContainmentType.Intersects;
-				}
-			}
-			return ContainmentType.Contains;
 		}
 
 		public ContainmentType Contains(Vector point)

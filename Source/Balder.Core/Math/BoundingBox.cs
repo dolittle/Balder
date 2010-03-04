@@ -167,14 +167,6 @@ namespace Balder.Core.Math
 			}
 		}
 
-		public bool Intersects(BoundingFrustum frustum)
-		{
-			if (null == frustum)
-			{
-				throw new ArgumentNullException("frustum", "Null is not allowed");
-			}
-			return frustum.Intersects(this);
-		}
 
 		public PlaneIntersectionType Intersects(Plane plane)
 		{
@@ -437,25 +429,6 @@ namespace Balder.Core.Math
 			}
 		}
 
-		public ContainmentType Contains(BoundingFrustum frustum)
-		{
-			if (null == frustum)
-			{
-				throw new ArgumentNullException("frustum", "Frustum can't be null");
-			}
-			if (!frustum.Intersects(this))
-			{
-				return ContainmentType.Disjoint;
-			}
-			foreach (Vector vector in frustum.cornerArray)
-			{
-				if (this.Contains(vector) == ContainmentType.Disjoint)
-				{
-					return ContainmentType.Intersects;
-				}
-			}
-			return ContainmentType.Contains;
-		}
 
 		public ContainmentType Contains(Vector point)
 		{

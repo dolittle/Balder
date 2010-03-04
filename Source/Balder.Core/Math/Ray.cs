@@ -62,14 +62,6 @@ namespace Balder.Core.Math
 			return box.Intersects(this);
 		}
 
-		public float? Intersects(BoundingFrustum frustum)
-		{
-			if (frustum == null)
-			{
-				throw new ArgumentNullException("frustum");
-			}
-			return frustum.Intersects(this);
-		}
 
 		public float? Intersects(Plane plane)
 		{

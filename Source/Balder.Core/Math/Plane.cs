@@ -108,15 +108,6 @@ namespace Balder.Core.Math
 			return PlaneIntersectionType.Intersecting;
 		}
 
-		public PlaneIntersectionType Intersects(BoundingFrustum frustum)
-		{
-			if (null == frustum)
-			{
-				throw new ArgumentNullException("frustum", "Null not allowed");
-			}
-			return frustum.Intersects(this);
-		}
-
 
 		public PlaneIntersectionType Intersects(BoundingSphere sphere)
 		{
