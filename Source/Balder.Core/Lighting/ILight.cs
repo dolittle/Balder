@@ -22,12 +22,33 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+	/// <summary>
+	/// Represents a light
+	/// </summary>
 	public interface ILight
 	{
+		/// <summary>
+		/// Gets or sets the diffuse light <see cref="Color"/>
+		/// </summary>
 		Color Diffuse { get; set; }
+
+		/// <summary>
+		/// Gets or sets the ambient light <see cref="Color"/>
+		/// </summary>
 		Color Ambient { get; set; }
+
+		/// <summary>
+		/// Gets or sets the specular light <see cref="Color"/>
+		/// </summary>
 		Color Specular { get; set; }
 
+		/// <summary>
+		/// Calculate color for the light in a viewport for a specified point and normal of the point
+		/// </summary>
+		/// <param name="viewport"><see cref="Viewport"/> that holds the point</param>
+		/// <param name="point">Point to calculate for - in the form of a <see cref="Vector"/></param>
+		/// <param name="normal">Normal for the point to calculate for - in the form of a <see cref="Vector"/></param>
+		/// <returns>Calculated <see cref="Color"/></returns>
 		Color Calculate(Viewport viewport, Vector point, Vector normal);
 	}
 }

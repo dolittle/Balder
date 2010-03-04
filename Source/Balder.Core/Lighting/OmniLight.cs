@@ -21,11 +21,25 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+	/// <summary>
+	/// Represents a non directional light that emits light in all directions
+	/// </summary>
 	public class OmniLight : Light
 	{
+		/// <summary>
+		/// Gets or sets the strength of the light
+		/// </summary>
 		public float Strength;
+
+		/// <summary>
+		/// Gets or sets the range of the light
+		/// </summary>
         public float Range;
 
+
+		/// <summary>
+		/// Creates an instance of OmniLight
+		/// </summary>
 		public OmniLight()
 		{
 			Strength = 1f;

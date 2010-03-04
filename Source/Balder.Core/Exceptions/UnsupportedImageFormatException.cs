@@ -21,17 +21,28 @@ using Balder.Core.Imaging;
 
 namespace Balder.Core.Exceptions
 {
+	/// <summary>
+	/// The exception that is thrown when a specific <see cref="ImageFormat"/> is not supported
+	/// </summary>
 	public class UnsupportedImageFormatException : ArgumentException
 	{
+		/// <summary>
+		/// Initializes a new instance of <see cref="UnsupportedImageFormatException"/>
+		/// </summary>
+		/// <param name="format">Format that was not supported</param>
 		public UnsupportedImageFormatException(ImageFormat format)
 			: base("Unsupported ImageFormat ("+format.ToString()+")")
 		{
 		}
 
+		/// <summary>
+		/// Initializes a new instance of <see cref="UnsupportedImageFormatException"/>
+		/// </summary>
+		/// <param name="format">Format that was not supported</param>
+		/// <param name="message">Message to show</param>
 		public UnsupportedImageFormatException(ImageFormat format, string message)
 			: base("Unsupported ImageFormat (" + format.ToString() + ") - Message: "+message)
 		{
 		}
-
 	}
 }

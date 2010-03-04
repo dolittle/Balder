@@ -3,6 +3,7 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+#pragma warning disable 1591 // Xml Comments
 	public class LightCalculator : ILightCalculator
 	{
 		public Color Calculate(Viewport viewport, Vector vector, Vector normal)
@@ -18,4 +19,5 @@ namespace Balder.Core.Lighting
 			return color;
 		}
 	}
+#pragma warning restore 1591
 }

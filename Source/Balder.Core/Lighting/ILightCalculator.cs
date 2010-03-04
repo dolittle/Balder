@@ -23,8 +23,23 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+	/// <summary>
+	/// Represents a service for calculating lighting in a viewport
+	/// </summary>
 	public interface ILightCalculator
 	{
-		Color Calculate(Viewport viewport, Vector vector, Vector normal);
+		/// <summary>
+		/// Calculate color based on lighting in the viewport
+		/// </summary>
+		/// <param name="viewport"><see cref="Viewport"/> to calculate from</param>
+		/// <param name="point">Point to calculate for - in the form of a <see cref="Vector"/></param>
+		/// <param name="normal">Normal of the point to calculate for - in the form of a <see cref="Vector"/></param>
+		/// <returns>Calculated <see cref="Color"/></returns>
+		/// <remarks>
+		/// It is assumed that it will take into account all lighting information
+		/// inside the viewport - meaning that it will calculate using all lights
+		/// available.
+		/// </remarks>
+		Color Calculate(Viewport viewport, Vector point, Vector normal);
 	}
 }

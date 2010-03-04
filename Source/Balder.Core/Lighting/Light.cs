@@ -21,8 +21,10 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+#pragma warning disable 1591 // Xml Comments
 	public abstract partial class Light : EnvironmentalNode, ILight
 	{
 		public abstract Color Calculate(Viewport viewport, Vector point, Vector normal);
 	}
+#pragma warning restore 1591
 }

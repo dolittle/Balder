@@ -20,8 +20,15 @@ using System.Threading;
 
 namespace Balder.Core.Extensions
 {
+	/// <summary>
+	/// Extension methods for WaitHandles
+	/// </summary>
 	public static class WaitHandleExentions
 	{
+		/// <summary>
+		/// Reset all <see cref="ManualResetEvent"/> in an array
+		/// </summary>
+		/// <param name="waitHandles">Array of <see cref="ManualResetEvent"/></param>
 		public static void ResetAll(this ManualResetEvent[] waitHandles)
 		{
 			foreach (var waitHandle in waitHandles)
@@ -30,6 +37,10 @@ namespace Balder.Core.Extensions
 			}
 		}
 
+		/// <summary>
+		/// Set all <see cref="ManualResetEvent"/> in an array
+		/// </summary>
+		/// <param name="waitHandles">Array of <see cref="ManualResetEvent"/></param>
 		public static void SetAll(this ManualResetEvent[] waitHandles)
 		{
 			foreach (var waitHandle in waitHandles)

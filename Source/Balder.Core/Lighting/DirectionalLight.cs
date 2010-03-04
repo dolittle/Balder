@@ -19,20 +19,36 @@
 
 #endregion
 
-using System.Collections.Generic;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
 {
+	/// <summary>
+	/// Represents a directional light that has no position in 3D space
+	/// </summary>
 	public class DirectionalLight : Light
 	{
+		/// <summary>
+		/// Gets or sets the specular intensity
+		/// </summary>
 		public float SpecularIntensity = 1f;
+
+		/// <summary>
+		/// Gets or sets the specular power
+		/// </summary>
 		public float SpecularPower = 0f;
 
+		/// <summary>
+		/// Direction Property
+		/// </summary>
 		public static readonly Property<DirectionalLight, Coordinate> DirectionProperty =
 			Property<DirectionalLight, Coordinate>.Register(l => l.Direction);
+		
+		/// <summary>
+		/// Gets or sets the direction of the light
+		/// </summary>
 		public Coordinate Direction
 		{
 			get { return DirectionProperty.GetValue(this); }

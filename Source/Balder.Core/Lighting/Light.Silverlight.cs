@@ -4,6 +4,7 @@ using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core.Lighting
 {
+#pragma warning disable 1591
 	public partial class Light
 	{
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
@@ -33,4 +34,5 @@ namespace Balder.Core.Lighting
 			set { AmbientProp.SetValue(this, value); }
 		}
 	}
+#pragma warning restore 1591
 }

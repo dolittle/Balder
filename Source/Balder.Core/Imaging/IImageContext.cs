@@ -18,6 +18,9 @@
 #endregion
 namespace Balder.Core.Imaging
 {
+	/// <summary>
+	/// The context image data lives in - device specific
+	/// </summary>
 	public interface IImageContext
 	{
 		void SetFrame(byte[] frameBytes);

@@ -20,8 +20,15 @@ using System;
 
 namespace Balder.Core.Exceptions
 {
+	/// <summary>
+	/// The exception that is thrown when an asset is not found during load
+	/// </summary>
 	public class AssetNotFoundException : ArgumentException
 	{
+		/// <summary>
+		/// Initializes a new instance of <see cref="AssetNotFoundException">AssetNotFoundException</see>
+		/// </summary>
+		/// <param name="asset">AssetName that couldn't be found</param>
 		public AssetNotFoundException(string asset)
 			: base("Asset '"+asset+"' could not be found")
 		{

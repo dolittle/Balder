@@ -21,8 +21,16 @@ using System.Collections.Generic;
 
 namespace Balder.Core.Extensions
 {
+	/// <summary>
+	/// Extension methods for IList
+	/// </summary>
 	public static class IListExtensions
 	{
+		/// <summary>
+		/// Add a range of items to a list
+		/// </summary>
+		/// <param name="list"><see cref="IList"/> to add to</param>
+		/// <param name="range"><see cref="IEnumerable"/> containing the range of items to add</param>
 		public static void AddRange(this IList list, IEnumerable range)
 		{
 			foreach (var item in range)
@@ -31,6 +39,12 @@ namespace Balder.Core.Extensions
 			}
 		}
 
+		/// <summary>
+		/// Add a range of items to a generic list
+		/// </summary>
+		/// <typeparam name="T">Type of item to add - will be inferred by compiler</typeparam>
+		/// <param name="list"><see cref="IList{T}"/> to add to</param>
+		/// <param name="range"><see cref="IEnumerable{T}"/> containing the range of items to add</param>
 		public static void AddRange<T>(this IList<T> list, IEnumerable<T> range)
 		{
 			foreach( var item in range )

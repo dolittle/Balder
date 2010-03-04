@@ -25,14 +25,34 @@ using Ninject.Core.Creation.Providers;
 
 namespace Balder.Core.Execution
 {
+	/// <summary>
+	/// Represents the method that will handle resolving a binding
+	/// </summary>
+	/// <param name="context">Binding context to resolve in</param>
+	/// <returns>The resolved binding - null if it didn't solve it</returns>
 	public delegate IBinding BindingResolver(IContext context);
+
+	/// <summary>
+	/// Represents the method that will handle resolving a binding with type information
+	/// </summary>
+	/// <param name="type">Type to resolve</param>
+	/// <param name="context">Binding context to resolve in</param>
+	/// <returns>The resolved binding - null if it didn't solve it</returns>
 	public delegate IBinding GenericBindingResolver(Type type, IContext context);
 
+
+	/// <summary>
+	/// Represents a kernel that can automatically resolve bindings based on conventions
+	/// </summary>
 	public class AutoKernel : StandardKernel
 	{
 		private readonly Dictionary<Type, BindingResolver> _bindingResolvers;
 		private readonly List<GenericBindingResolver> _genericBindingResolvers;
 
+		/// <summary>
+		/// Creates an instance of the <see cref="AutoKernel"/>
+		/// </summary>
+		/// <param name="modules"></param>
 		public AutoKernel(params IModule[] modules)
 			: base(modules)
 		{
@@ -40,16 +60,24 @@ namespace Balder.Core.Execution
 			_genericBindingResolvers = new List<GenericBindingResolver>();
 		}
 
+		/// <summary>
+		/// Add a binding resolver
+		/// </summary>
+		/// <typeparam name="T">Type to add resolver for</typeparam>
+		/// <param name="resolver"><see cref="BindingResolver"/> to use for resolving specific type</param>
 		public void AddBindingResolver<T>(BindingResolver resolver)
 		{
 			_bindingResolvers[typeof (T)] = resolver;
 		}
 
+		/// <summary>
+		/// Add a binding resolver for any type
+		/// </summary>
+		/// <param name="resolver"><see cref="GenericBindingResolver"/> to use for resolving any type</param>
 		public void AddGenericBindingResolver(GenericBindingResolver resolver)
 		{
 			_genericBindingResolvers.Add(resolver);
 		}
-
 
 
 		protected override IBinding ResolveBinding(Type service, IContext context)

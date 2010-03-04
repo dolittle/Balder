@@ -20,8 +20,17 @@ using Balder.Core.Imaging;
 
 namespace Balder.Core.Extensions
 {
+	/// <summary>
+	/// Extension methods for <see cref="ImageFormat"/>
+	/// </summary>
 	public static class ImageFormatExtensions
 	{
+		/// <summary>
+		/// Check if a desired format is supported in an array of formats
+		/// </summary>
+		/// <param name="formats">Available image formats</param>
+		/// <param name="desiredFormat">The desired <see cref="ImageFormat"/></param>
+		/// <returns>True if supported, false if not</returns>
 		public static bool IsSupported(this ImageFormat[] formats, ImageFormat desiredFormat)
 		{
 			for( var formatIndex=0; formatIndex<formats.Length; formatIndex++ )
@@ -34,6 +43,12 @@ namespace Balder.Core.Extensions
 			return false;
 		}
 
+		/// <summary>
+		/// Get the closest matching format from a specific <see cref="ImageFormat"/>
+		/// </summary>
+		/// <param name="formats">Available image formats</param>
+		/// <param name="desiredFormat">The desired <see cref="ImageFormat"/></param>
+		/// <returns>The closest <see cref="ImageFormat"/>, null if no match</returns>
 		public static ImageFormat GetBestSuitedFormat(this ImageFormat[] formats, ImageFormat desiredFormat)
 		{
 			// Todo: Also look for PixelFormat - if there is a format that matches with both Depth and PixelFormat, choose this first.

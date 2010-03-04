@@ -20,8 +20,18 @@ using System.Collections.Generic;
 
 namespace Balder.Core.Extensions
 {
+	/// <summary>
+	/// Extension methods for the generic version of ICollection
+	/// </summary>
 	public static class ICollectionExtensions
 	{
+		/// <summary>
+		/// Add a range to a collection based on an generic IEnumerable with same
+		/// type as the ICollection generic parameter
+		/// </summary>
+		/// <typeparam name="T">Type to add for - will be inferred compiletime</typeparam>
+		/// <param name="collection">Collection to add items to</param>
+		/// <param name="range">IEnumerable with items to add</param>
 		public static void AddRange<T>(this ICollection<T> collection, IEnumerable<T> range)
 		{
 			foreach (var item in range)
