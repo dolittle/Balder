@@ -1,0 +1,11 @@
+IView:
+- Position - A generic view should not have this
+
+IObjectFactory:
+- Not needed, use the IKernel directly - if absolutely needed
+
+Node + other objects dependencies in Silverlight:
+- Can have their dependencies injected by the Game in which they belong to
+
+Viewport:
+- Viewport should hold the Scene and render the scene in its own viewport
