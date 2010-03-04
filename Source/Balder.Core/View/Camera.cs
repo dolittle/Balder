@@ -23,7 +23,11 @@ using Balder.Core.Math;
 
 namespace Balder.Core.View
 {
+#if(SILVERLIGHT)
 	public class Camera : FrameworkElement, IView
+#else
+	public class Camera : IView
+#endif
 	{
 		public const float DefaultFieldOfView = 45f;
 		public const float DefaultFar = 4000f;
