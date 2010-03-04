@@ -81,7 +81,7 @@ namespace Balder.Core.Tests
 
 			var node = new Geometry
 			           	{
-			           		BoundingSphere = new BoundingSphere(Vector.Zero, 10f)
+			           		BoundingSphere = new BoundingSphere(Vector.Zero, 10000f)
 			           	};
 			scene.AddNode(node);
 

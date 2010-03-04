@@ -17,7 +17,6 @@
 //
 #endregion
 using Balder.Core.Display;
-using Balder.Core.Extensions;
 using Balder.Core.Math;
 using NUnit.Framework;
 
@@ -37,7 +36,7 @@ namespace Balder.Core.Tests.Extensions
 			var world = Matrix.Identity;
 			var position = new Vector((float)viewport.Width/2, (float)viewport.Height/2,0);
 			var result = viewport.Unproject(position, projection, view, world);
-			Assert.That(result,Is.EqualTo(new Vector(0,0,-1)));
+			Assert.That(result,Is.EqualTo(Vector.Forward));
 		}
 
 		[Test]
@@ -52,7 +51,7 @@ namespace Balder.Core.Tests.Extensions
 			var result = viewport.Unproject(position, projection, view, world);
 
 			var negativeView = Matrix.CreateRotationY(-90);
-			var expected = new Vector(0, 0, -1);
+			var expected = Vector.Forward;
 			var rotatedExpected = expected*negativeView;
 
 			Assert.That(result, Is.EqualTo(rotatedExpected));

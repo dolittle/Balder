@@ -82,18 +82,15 @@ namespace Balder.Core.Display
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
 
 
-		public Vector Transform(Vector position, Matrix matrix)
-		{
-			Vector vector = Vector.Zero;
-			float num3 = (((position.X * matrix[0, 0]) + (position.Y * matrix[1, 0])) + (position.Z * matrix[2, 0])) + matrix[3, 0];
-			float num2 = (((position.X * matrix[0, 1]) + (position.Y * matrix[1, 1])) + (position.Z * matrix[2, 1])) + matrix[3, 1];
-			float num = (((position.X * matrix[0, 2]) + (position.Y * matrix[1, 2])) + (position.Z * matrix[2, 2])) + matrix[3, 2];
-			vector.X = num3;
-			vector.Y = num2;
-			vector.Z = num;
-			return vector;
-		}
-
+		/// <summary>
+		/// Unproject a 2D coordinate into 3D. Basically convert a 2D point with depth
+		/// information (Z) into a real 3D coordinate.
+		/// </summary>
+		/// <param name="source">Point to unproject</param>
+		/// <param name="projection">Projection matrix</param>
+		/// <param name="view">View matrix</param>
+		/// <param name="world">World matrix</param>
+		/// <returns>Unprojected 3D coordinate</returns>
 		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
 		{
 			var combinedMatrix = (world * view) * projection;
@@ -102,8 +99,7 @@ namespace Balder.Core.Display
 			source.Y = -((((source.Y - YPosition) / ((float)Height)) * 2f) - 1f);
 			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
 			source.W = 1f;
-			//var vector = Vector.Transform(source, matrix);
-			var vector = Transform(source, matrix);
+			var vector = Vector.Transform(source, matrix);
 			var a = (((source.X * matrix[0, 3]) + (source.Y * matrix[1, 3])) + (source.Z * matrix[2, 3])) + matrix[3, 3];
 			if (!WithinEpsilon(a, 1f))
 			{
@@ -117,7 +113,5 @@ namespace Balder.Core.Display
 			var num = a - b;
 			return ((-1.401298E-45f <= num) && (num <= float.Epsilon));
 		}
-
-
 	}
 }

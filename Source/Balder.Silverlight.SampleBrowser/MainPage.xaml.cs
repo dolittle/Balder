@@ -80,6 +80,7 @@ namespace Balder.Silverlight.SampleBrowser
 		}
 
 
+		
 		private bool _tabItemChanged = false;
 		private void TabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
 		{

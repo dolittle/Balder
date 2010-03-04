@@ -5,10 +5,15 @@
     xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" 
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
+    xmlns:Debug="clr-namespace:Balder.Core.Debug;assembly=Balder.Core" 
     >
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
-		<Execution:Game Width="800" Height="600">
+		<Execution:Game x:Name="_game" Width="640" Height="480">
+			<Execution:Game.DebugInfo>
+				<Debug:DebugInfo BoundingSpheres="True"/>
+			</Execution:Game.DebugInfo>
 		
+			
 			<Geometries:Mesh 
 				x:Name="Box1"
 				Color="Red"
@@ -49,10 +54,12 @@
 			<Execution:Game.Camera>
 				<View:Camera Position="-250,240,-580"/>
 			</Execution:Game.Camera>
+			
+			
 		</Execution:Game>
 
 
-		<Grid x:Name="_infoBox" Width="150" Height="150" HorizontalAlignment="Left" VerticalAlignment="Top">
+		<Grid x:Name="_infoBox" Width="150" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
 
 			<Grid.RenderTransform>
 				<TranslateTransform x:Name="_infoBoxTranslation"/>
@@ -60,7 +67,7 @@
 			<Grid.Background>
 				<SolidColorBrush Opacity="0.5" Color="Gray"/>
 			</Grid.Background>
-			<Border BorderBrush="White" BorderThickness="1">
+			<Border BorderBrush="Black" BorderThickness="1">
 				<TextBlock Foreground="White">
 					<Run>X Position : </Run><Run x:Name="_xpos"/><LineBreak/>
 					<Run>Y Position : </Run><Run x:Name="_ypos"/><LineBreak/>

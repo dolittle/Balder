@@ -141,15 +141,12 @@
     <Compile Include="Input\MouseManager.cs" />
     <Compile Include="Lighting\DirectionalLight.cs" />
     <Compile Include="Lighting\Light.Silverlight.cs" />
-    <Compile Include="Materials\Material.Silverlight.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
     <Compile Include="Math\BoundingBox.cs" />
-    <Compile Include="Math\BoundingFrustum.cs" />
     <Compile Include="Math\BoundingSphere.cs" />
     <Compile Include="Math\ContainmentType.cs" />
     <Compile Include="Math\Coordinate.cs" />
     <Compile Include="Math\Coordinate.Silverlight.cs" />
-    <Compile Include="Math\Gjk.cs" />
     <Compile Include="Math\IntFloat.cs" />
     <Compile Include="Math\PlaneIntersectionType.cs" />
     <Compile Include="Math\Ray.cs" />
@@ -184,6 +181,7 @@
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\RuntimeImports.cs" />
+    <Compile Include="Silverlight\Input\NodeMouseEventHelper.cs" />
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\DimensionTypeConverter.cs" />

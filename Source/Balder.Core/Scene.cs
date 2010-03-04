@@ -23,7 +23,6 @@ using Balder.Core.Lighting;
 using Balder.Core.Math;
 using Balder.Core.Objects.Flat;
 using Matrix = Balder.Core.Math.Matrix;
-using Balder.Core.Extensions;
 
 namespace Balder.Core
 {
@@ -195,7 +194,7 @@ namespace Balder.Core
 
 
 
-		public void HandleMouseEvents(Viewport viewport, Mouse mouse)
+		internal void HandleMouseEvents(Viewport viewport, Mouse mouse)
 		{
 			var objectHit = GetNodeAtScreenCoordinate(viewport, mouse.XPosition, mouse.YPosition);
 			if (null != objectHit)
@@ -216,7 +215,7 @@ namespace Balder.Core
 		/// <param name="x">X position</param>
 		/// <param name="y">Y position</param>
 		/// <returns>A RenderableNode - null if it didn't find any node at the position</returns>
-		public RenderableNode GetNodeAtScreenCoordinate(Viewport viewport, int x, int y)
+		public virtual RenderableNode GetNodeAtScreenCoordinate(Viewport viewport, int x, int y)
 		{
 			var nearSource = new Vector((float)x, (float)y, 0f);
 			var farSource = new Vector((float)x, (float)y, 1f);

@@ -23,6 +23,9 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Matrix = Balder.Core.Math.Matrix;
+#if(SILVERLIGHT)
+using Balder.Core.Silverlight.TypeConverters;
+#endif
 
 namespace Balder.Core
 {
@@ -86,6 +89,21 @@ namespace Balder.Core
 			get { return PivotPointProperty.GetValue(this); }
 			set { PivotPointProperty.SetValue(this, value); }
 		}
+
+		public static readonly Property<Node, Color> ColorProp = Property<Node, Color>.Register(n => n.Color);
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color Color
+		{
+			get { return ColorProp.GetValue(this); }
+			set
+			{
+				ColorProp.SetValue(this, value);
+				SetColorForChildren();
+			}
+		}
+
 
 		#region Transform
 		public static readonly Property<Node, Coordinate> PositionProp =

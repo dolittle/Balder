@@ -43,8 +43,9 @@ namespace Balder.Core.View
 			Near = DefaultNear;
 			Far = DefaultFar;
 			FieldOfView = DefaultFieldOfView;
-			ProjectionMatrix = null;
+			ProjectionMatrix = Matrix.Identity;
 			UpdateDepthDivisor();
+			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 
 			_frustum = new Frustum();
 		}

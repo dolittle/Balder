@@ -167,6 +167,7 @@
     <Compile Include="Fakes\FakePlatform.cs" />
     <Compile Include="RuntimeTests.cs" />
     <Compile Include="SceneTests.cs" />
+    <Compile Include="Silverlight\Input\NodeMouseEventHelperTests.cs" />
     <Compile Include="Stubs\ObjectFactoryStub.cs" />
     <Compile Include="Utils\ClonerTests.cs" />
   </ItemGroup>

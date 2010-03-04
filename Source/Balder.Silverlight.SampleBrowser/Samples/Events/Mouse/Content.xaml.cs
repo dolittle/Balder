@@ -7,6 +7,24 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 		public Content()
 		{
 			InitializeComponent();
+
+			Box1.MouseMove += Mesh_MouseMove;
+			Box1.MouseEnter += Mesh_MouseEnter;
+			Box1.MouseLeave += Mesh_MouseLeave;
+			Box1.MouseLeftButtonUp += Mesh_MouseLeftButtonUp;
+			Box1.MouseLeftButtonDown += Mesh_MouseLeftButtonDown;
+
+			Box2.MouseMove += Mesh_MouseMove;
+			Box2.MouseEnter += Mesh_MouseEnter;
+			Box2.MouseLeave += Mesh_MouseLeave;
+			Box2.MouseLeftButtonUp += Mesh_MouseLeftButtonUp;
+			Box2.MouseLeftButtonDown += Mesh_MouseLeftButtonDown;
+
+			Box3.MouseMove += Mesh_MouseMove;
+			Box3.MouseEnter += Mesh_MouseEnter;
+			Box3.MouseLeave += Mesh_MouseLeave;
+			Box3.MouseLeftButtonUp += Mesh_MouseLeftButtonUp;
+			Box3.MouseLeftButtonDown += Mesh_MouseLeftButtonDown;
 		}
 
 		private void Mesh_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
@@ -42,12 +60,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private void LayoutRoot_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			var translation = _infoBoxTranslation;
 			var position = e.GetPosition(LayoutRoot);
-			translation.X = position.X;
-			translation.Y = position.Y;
-			_xpos.Text = translation.X.ToString();
-			_ypos.Text = translation.Y.ToString();
+			_xpos.Text = position.X.ToString();
+			_ypos.Text = position.Y.ToString();
 		}
 
 		private void Mesh_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)

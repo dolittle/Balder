@@ -46,23 +46,12 @@ namespace Balder.Core.Execution
 
 		partial void Constructed();
 
-		public Scene Scene { get; private set; }
+		public Scene Scene { get; set; }
 		public Viewport Viewport { get; private set; }
 		public DebugInfo DebugInfo
 		{
 			get { return Viewport.DebugInfo; }
 			set { Viewport.DebugInfo = value; }
-		}
-
-
-
-		public override void OnBeforeUpdate()
-		{
-			if( null != MouseManager)
-			{
-				MouseManager.HandleButtonSignals(Mouse);
-				MouseManager.HandlePosition(Mouse);
-			}
 		}
 
 		public override void OnInitialize()
@@ -84,7 +73,7 @@ namespace Balder.Core.Execution
 		{
 			Camera.Update(Viewport);
 			Scene.Render(Viewport, Camera.ViewMatrix, Camera.ProjectionMatrix);
-			Scene.HandleMouseEvents(Viewport, Mouse);
+			//Scene.HandleMouseEvents(Viewport, Mouse);
 		}
 	}
 }

@@ -207,6 +207,7 @@ namespace Balder.Silverlight.Rendering
 				TransformAndTranslateVertex(ref vertex, viewport, localView, projection);
 				//CalculateColorForVertex(ref vertex, viewport, node);
 				vertex.Vector -= negativePivot;
+				vertex.IsColorCalculated = false;
 				Vertices[vertexIndex] = vertex;
 			}
 		}
@@ -214,7 +215,8 @@ namespace Balder.Silverlight.Rendering
 
 		private void CalculateColorForVertex(ref Vertex vertex, Viewport viewport, Node node)
 		{
-			vertex.CalculatedColor = vertex.Color.Additive(_lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal));
+			var lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal);
+			vertex.CalculatedColor = vertex.Color.Additive(lightColor);
 		}
 
 		private void RenderVertices(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -235,14 +237,17 @@ namespace Balder.Silverlight.Rendering
 				if (!Vertices[face.A].IsColorCalculated)
 				{
 					CalculateColorForVertex(ref Vertices[face.A], viewport, node);
+					Vertices[face.A].IsColorCalculated = true;
 				}
 				if (!Vertices[face.B].IsColorCalculated)
 				{
 					CalculateColorForVertex(ref Vertices[face.B], viewport, node);
+					Vertices[face.B].IsColorCalculated = true;
 				}
 				if (!Vertices[face.C].IsColorCalculated)
 				{
 					CalculateColorForVertex(ref Vertices[face.C], viewport, node);
+					Vertices[face.C].IsColorCalculated = true;
 				}
 			}
 		}

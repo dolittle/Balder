@@ -7,9 +7,11 @@
 	xmlns:navigation="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Navigation"
 	xmlns:controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls"
 	xmlns:resources="clr-namespace:Balder.Silverlight.SampleBrowser.Features.Resources"
+			 xmlns:events="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Events.Mouse"
     mc:Ignorable="d" d:DesignWidth="640" d:DesignHeight="480">
 
 	<Grid x:Name="LayoutRoot">
+		
 		<Grid.RowDefinitions>
 			<RowDefinition Height="100"/>
 			<RowDefinition Height="*"/>
