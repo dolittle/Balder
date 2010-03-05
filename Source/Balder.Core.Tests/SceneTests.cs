@@ -86,7 +86,7 @@ namespace Balder.Core.Tests
 			           	};
 			scene.AddNode(node);
 
-			var nodeAtCoordinate = scene.GetNodeAtScreenCoordinate(viewport, viewport.Width / 2, viewport.Height / 2);
+			var nodeAtCoordinate = viewport.GetNodeAtScreenCoordinate(viewport.Width / 2, viewport.Height / 2);
 			Assert.That(nodeAtCoordinate, Is.Not.Null);
 			Assert.That(nodeAtCoordinate, Is.EqualTo(node));
 		}
@@ -108,7 +108,7 @@ namespace Balder.Core.Tests
 			           	};
 			scene.AddNode(node);
 
-			var nodeAtCoordinate = scene.GetNodeAtScreenCoordinate(viewport, 0, 0);
+			var nodeAtCoordinate = viewport.GetNodeAtScreenCoordinate(0, 0);
 			Assert.That(nodeAtCoordinate, Is.Null);
 		}
 

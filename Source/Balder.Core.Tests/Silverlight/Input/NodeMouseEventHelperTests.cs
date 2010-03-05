@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Silverlight.Input;
@@ -30,10 +31,10 @@ namespace Balder.Core.Tests.Silverlight.Input
 	[TestFixture]
 	public class NodeMouseEventHelperTests
 	{
-		private class FakeScene : Scene
+		private class FakeViewport : Viewport
 		{
 			public RenderableNode NodeToReturn;
-			public override RenderableNode GetNodeAtScreenCoordinate(Display.Viewport viewport, int x, int y)
+			public override RenderableNode GetNodeAtScreenCoordinate(int x, int y)
 			{
 				return NodeToReturn;
 			}
@@ -43,16 +44,18 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseOverNodeShouldFireMouseMoveEvent()
 		{
 			var game = new Game();
-			var scene = new FakeScene();
-			var geometry = new Geometry();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
 			game.Scene = scene;
+
+			var geometry = new Geometry();
 			scene.AddNode(geometry);
-			scene.NodeToReturn = geometry;
+			viewport.NodeToReturn = geometry;
 
 			var mouseMoved = false;
 			geometry.MouseMove += (s, e) => mouseMoved = true;
 
-			var helper = new NodeMouseEventHelper(game);
+			var helper = new NodeMouseEventHelper(game, viewport);
 			helper.HandleMouseMove(0,0,null);
 
 			Assert.That(mouseMoved,Is.True);
@@ -62,16 +65,17 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void FirstMouseOverShouldFireMouseEnterEvent()
 		{
 			var game = new Game();
-			var scene = new FakeScene();
-			var geometry = new Geometry();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
 			game.Scene = scene;
+			var geometry = new Geometry();
 			scene.AddNode(geometry);
-			scene.NodeToReturn = geometry;
+			viewport.NodeToReturn = geometry;
 
 			var mouseEnter = false;
 			geometry.MouseEnter += (s, e) => mouseEnter = true;
 
-			var helper = new NodeMouseEventHelper(game);
+			var helper = new NodeMouseEventHelper(game,viewport);
 			helper.HandleMouseMove(0, 0, null);
 
 			Assert.That(mouseEnter, Is.True);
@@ -81,16 +85,17 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void SubsequentMouseOverShouldNotFireMouseEnterEvent()
 		{
 			var game = new Game();
-			var scene = new FakeScene();
-			var geometry = new Geometry();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
 			game.Scene = scene;
+			var geometry = new Geometry();
 			scene.AddNode(geometry);
-			scene.NodeToReturn = geometry;
+			viewport.NodeToReturn = geometry;
 
 			var mouseEnter = false;
 			geometry.MouseEnter += (s, e) => mouseEnter = true;
 
-			var helper = new NodeMouseEventHelper(game);
+			var helper = new NodeMouseEventHelper(game,viewport);
 			helper.HandleMouseMove(0, 0, null);
 			mouseEnter = false;
 			helper.HandleMouseMove(0, 0, null);
@@ -102,18 +107,19 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseHoveringOverAndThenNotOverShouldFireMouseLeaveEvent()
 		{
 			var game = new Game();
-			var scene = new FakeScene();
-			var geometry = new Geometry();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
 			game.Scene = scene;
+			var geometry = new Geometry();
 			scene.AddNode(geometry);
-			scene.NodeToReturn = geometry;
+			viewport.NodeToReturn = geometry;
 
 			var mouseLeave = false;
 			geometry.MouseLeave += (s, e) => mouseLeave = true;
-			var helper = new NodeMouseEventHelper(game);
+			var helper = new NodeMouseEventHelper(game, viewport);
 			helper.HandleMouseMove(0, 0, null);
 			helper.HandleMouseMove(0, 0, null);
-			scene.NodeToReturn = null;
+			viewport.NodeToReturn = null;
 			helper.HandleMouseMove(0, 0, null);
 			
 			Assert.That(mouseLeave, Is.True);
@@ -123,7 +129,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseNotHoveringOverAnythingShouldNotFireAnyEvents()
 		{
 			var game = new Game();
-			var scene = new FakeScene();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
 			game.Scene = scene;
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
@@ -136,7 +143,7 @@ namespace Balder.Core.Tests.Silverlight.Input
 			geometry.MouseEnter += (s, e) => mouseEnter = true;
 			geometry.MouseLeave += (s, e) => mouseLeave = true;
 
-			var helper = new NodeMouseEventHelper(game);
+			var helper = new NodeMouseEventHelper(game, viewport);
 			helper.HandleMouseMove(0, 0, null);
 
 			Assert.That(mouseMoved,Is.False);

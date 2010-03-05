@@ -61,7 +61,7 @@ namespace Balder.Core.Execution
 			RegisterGame();
 			AddNodesToScene();
 			InitializeViewport();
-			_nodeMouseEventHelper = new NodeMouseEventHelper(this);
+			_nodeMouseEventHelper = new NodeMouseEventHelper(this, Viewport);
 		}
 
 		private void InitializeViewport()

@@ -108,7 +108,54 @@ namespace Balder.Core.Display
 			return vector;
 		}
 
+		/// <summary>
+		/// Get a node at a specified screen coordinate relative to a specific viewport
+		/// </summary>
+		/// <param name="x">X position</param>
+		/// <param name="y">Y position</param>
+		/// <returns>A RenderableNode - null if it didn't find any node at the position</returns>
+		public virtual RenderableNode GetNodeAtScreenCoordinate(int x, int y)
+		{
+			var nearSource = new Vector((float)x, (float)y, 0f);
+			var farSource = new Vector((float)x, (float)y, 1f);
+			
+			var world = Matrix.CreateTranslation(0, 0, 0);
+			var nearPoint = Unproject(nearSource, View.ProjectionMatrix, View.ViewMatrix, world);
+			var farPoint = Unproject(farSource, View.ProjectionMatrix, View.ViewMatrix, world);
 
+			var direction = farPoint - nearPoint;
+			direction.Normalize();
+
+			var pickRay = new Ray(nearPoint, direction);
+
+			var closestObjectDistance = float.MaxValue;
+			RenderableNode closestObject = null;
+
+			foreach (var node in Scene.RenderableNodes)
+			{
+				if (null != (object)node.BoundingSphere)
+				{
+					// Todo : Hierarchical pick
+					var transformedSphere = node.BoundingSphere.Transform(node.World);
+					var distance = pickRay.Intersects(transformedSphere);
+					if (distance.HasValue)
+					{
+						if (distance < closestObjectDistance)
+						{
+							closestObject = node as RenderableNode;
+							closestObjectDistance = distance.Value;
+						}
+					}
+				}
+			}
+
+			return closestObject;
+		}
+
+
+		/// <summary>
+		/// Renders the viewport
+		/// </summary>
 		public void Render()
 		{
 			Scene.Render(this);

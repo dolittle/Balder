@@ -21,6 +21,7 @@
 
 using System;
 using System.Windows.Input;
+using Balder.Core.Display;
 using Balder.Core.Execution;
 using System.Windows;
 
@@ -29,11 +30,13 @@ namespace Balder.Core.Silverlight.Input
 	public class NodeMouseEventHelper : IDisposable
 	{
 		private readonly Game _game;
+		private readonly Viewport _viewport;
 		private Node _previousNode;
 
-		public NodeMouseEventHelper(Game game)
+		public NodeMouseEventHelper(Game game, Viewport viewport)
 		{
 			_game = game;
+			_viewport = viewport;
 			_previousNode = null;
 			AddEvents(_game);
 		}
@@ -63,7 +66,7 @@ namespace Balder.Core.Silverlight.Input
 
 		public void HandleMouseMove(int xPosition, int yPosition, MouseEventArgs e)
 		{
-			var hitNode = _game.Scene.GetNodeAtScreenCoordinate(_game.Viewport, xPosition, yPosition);
+			var hitNode = _viewport.GetNodeAtScreenCoordinate(xPosition, yPosition);
 			if (null != hitNode)
 			{
 				CallActionOnSilverlightNode(hitNode, n => n.RaiseMouseMove(e));
@@ -83,7 +86,7 @@ namespace Balder.Core.Silverlight.Input
 
 		public void HandleMouseEnter(int xPosition, int yPosition, MouseEventArgs e)
 		{
-			var hitNode = _game.Scene.GetNodeAtScreenCoordinate(_game.Viewport, xPosition, yPosition);
+			var hitNode = _viewport.GetNodeAtScreenCoordinate(xPosition, yPosition);
 			if (null != hitNode)
 			{
 				if (null == _previousNode ||
@@ -101,7 +104,6 @@ namespace Balder.Core.Silverlight.Input
 			{
 				CallActionOnSilverlightNode(_previousNode, n => n.RaiseMouseLeave(e));
 			}
-			
 		}
 
 
@@ -138,7 +140,7 @@ namespace Balder.Core.Silverlight.Input
 		private void RaiseMouseEvent(MouseEventArgs e, Action<Node> a)
 		{
 			var position = e.GetPosition(_game);
-			var hitNode = _game.Scene.GetNodeAtScreenCoordinate(_game.Viewport, (int)position.X, (int)position.Y);
+			var hitNode = _viewport.GetNodeAtScreenCoordinate((int)position.X, (int)position.Y);
 			if (null != hitNode)
 			{
 				CallActionOnSilverlightNode(hitNode, a);
