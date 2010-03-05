@@ -36,27 +36,27 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ra = vertexA.CalculatedColor.RedAsFloat;
-			var ga = vertexA.CalculatedColor.GreenAsFloat;
-			var ba = vertexA.CalculatedColor.BlueAsFloat;
-			var aa = vertexA.CalculatedColor.AlphaAsFloat;
+			var ra = vertexA.CalculatedColor.Red;
+			var ga = vertexA.CalculatedColor.Green;
+			var ba = vertexA.CalculatedColor.Blue;
+			var aa = vertexA.CalculatedColor.Alpha;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var rb = vertexB.CalculatedColor.RedAsFloat;
-			var gb = vertexB.CalculatedColor.GreenAsFloat;
-			var bb = vertexB.CalculatedColor.BlueAsFloat;
-			var ab = vertexB.CalculatedColor.AlphaAsFloat;
+			var rb = vertexB.CalculatedColor.Red;
+			var gb = vertexB.CalculatedColor.Green;
+			var bb = vertexB.CalculatedColor.Blue;
+			var ab = vertexB.CalculatedColor.Alpha;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var rc = vertexC.CalculatedColor.RedAsFloat;
-			var gc = vertexC.CalculatedColor.GreenAsFloat;
-			var bc = vertexC.CalculatedColor.BlueAsFloat;
-			var ac = vertexC.CalculatedColor.AlphaAsFloat;
+			var rc = vertexC.CalculatedColor.Red;
+			var gc = vertexC.CalculatedColor.Green;
+			var bc = vertexC.CalculatedColor.Blue;
+			var ac = vertexC.CalculatedColor.Alpha;
 
 
 			var deltaX1 = xb - xa;

@@ -20,8 +20,10 @@
 #endregion
 
 using System;
+using System.Windows.Media;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -88,7 +90,7 @@ namespace Balder.Core.Objects.Geometries
 						var vertex = vertices[offset + x];
 						var heightBefore = vertex.Vector.Y;
 						var colorBefore = vertex.Color;
-						EventArgs.Color = Color.Black;
+						EventArgs.Color = Colors.Black;
 						EventArgs.ActualVertex = vertex;
 						EventArgs.GridX = x;
 						EventArgs.GridY = y;
@@ -112,7 +114,7 @@ namespace Balder.Core.Objects.Geometries
 
 		public void SetHeightForGridPoint(int gridX, int gridY, float height)
 		{
-			SetHeightForGridPoint(gridX,gridY,height,Color.Black);
+			SetHeightForGridPoint(gridX,gridY,height,Colors.Black);
 		}
 
 

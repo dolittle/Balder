@@ -1,6 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Globalization;
+using System.Windows.Media;
 
 namespace Balder.Core.Silverlight.TypeConverters
 {
@@ -20,7 +21,7 @@ namespace Balder.Core.Silverlight.TypeConverters
 		{
 			if (value is string)
 			{
-				var type = typeof (System.Windows.Media.Colors);
+				var type = typeof (Colors);
 				var colorProperty = type.GetProperty((string) value);
 				if (null != colorProperty)
 				{
@@ -29,7 +30,7 @@ namespace Balder.Core.Silverlight.TypeConverters
 				}
 				else
 				{
-					return Color.Black;
+					return Colors.Black;
 				}
 			}
 			return base.ConvertFrom(context, culture, value);

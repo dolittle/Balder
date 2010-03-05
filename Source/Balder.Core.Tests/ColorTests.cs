@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -23,122 +23,6 @@ namespace Balder.Core.Tests
 	[TestFixture]
 	public class ColorTests
 	{
-		[Test]
-		public void SettingRedShouldSetRedAsFloatToEquivalentColor()
-		{
-			var color = new Color();
-			color.Red = 0xff;
-			Assert.That(color.RedAsFloat, Is.EqualTo(1f));
-			color.Red = 0x80;
-			Assert.That(color.RedAsFloat, Is.EqualTo(0.5f));
-		}
-
-		[Test]
-		public void SettingGreenShouldSetGreenAsFloatToEquivalentColor()
-		{
-			var color = new Color();
-			color.Green = 0xff;
-			Assert.That(color.GreenAsFloat, Is.EqualTo(1f));
-			color.Green = 0x80;
-			Assert.That(color.GreenAsFloat, Is.EqualTo(0.5f));
-		}
-
-		[Test]
-		public void SettingBlueShouldSetBlueAsFloatToEquivalentColor()
-		{
-			var color = new Color();
-			color.Blue = 0xff;
-			Assert.That(color.BlueAsFloat, Is.EqualTo(1f));
-			color.Blue = 0x80;
-			Assert.That(color.BlueAsFloat, Is.EqualTo(0.5f));
-		}
-
-		[Test]
-		public void SettingAlphaShouldSetAlphaAsFloatToEquivalentColor()
-		{
-			var color = new Color();
-			color.Alpha = 0xff;
-			Assert.That(color.AlphaAsFloat, Is.EqualTo(1f));
-			color.Alpha = 0x80;
-			Assert.That(color.AlphaAsFloat, Is.EqualTo(0.5f));
-		}
-
-		[Test]
-		public void SettingRedAsFloatShouldSetRedToEquivalentColor()
-		{
-			var color = new Color();
-			color.RedAsFloat = 1f;
-			Assert.That(color.Red, Is.EqualTo(0xff));
-			color.RedAsFloat = 0.5f;
-			Assert.That(color.Red, Is.EqualTo(0x7f));
-		}
-
-		[Test]
-		public void SettingGreenAsFloatShouldSetGreenToEquivalentColor()
-		{
-			var color = new Color();
-			color.GreenAsFloat = 1f;
-			Assert.That(color.Green, Is.EqualTo(0xff));
-			color.GreenAsFloat = 0.5f;
-			Assert.That(color.Green, Is.EqualTo(0x7f));
-		}
-
-		[Test]
-		public void SettingBlueAsFloatShouldSetBlueToEquivalentColor()
-		{
-			var color = new Color();
-			color.BlueAsFloat = 1f;
-			Assert.That(color.Blue, Is.EqualTo(0xff));
-			color.BlueAsFloat = 0.5f;
-			Assert.That(color.Blue, Is.EqualTo(0x7f));
-		}
-
-		[Test]
-		public void SettingAlphaAsFloatShouldSetAlphaToEquivalentColor()
-		{
-			var color = new Color();
-			color.AlphaAsFloat = 1f;
-			Assert.That(color.Alpha, Is.EqualTo(0xff));
-			color.AlphaAsFloat = 0.5f;
-			Assert.That(color.Alpha, Is.EqualTo(0x7f));
-		}
-
-
-		[Test]
-		public void AddingShouldClampToMaximumValue()
-		{
-			var firstColor = new Color { RedAsFloat = 1f };
-			var secondColor = new Color { RedAsFloat = 1f };
-
-			var result = firstColor + secondColor;
-			Assert.That(result.RedAsFloat, Is.EqualTo(1f));
-		}
-
-		[Test]
-		public void SubtractingShouldClampToMinimumValue()
-		{
-			var firstColor = new Color { RedAsFloat = 0f };
-			var secondColor = new Color { RedAsFloat = 1f };
-
-			var result = firstColor - secondColor;
-			Assert.That(result.RedAsFloat, Is.EqualTo(-1f));
-		}
-
-		[Test]
-		public void ClampingShouldKeepValuesWithinLegalRange()
-		{
-			var firstColor = new Color { RedAsFloat = 1f };
-			var secondColor = new Color { RedAsFloat = 1f };
-
-			var result = firstColor + secondColor;
-			result.Clamp();
-			Assert.That(result.RedAsFloat, Is.EqualTo(1f));
-
-			result = firstColor - secondColor - secondColor;
-			result.Clamp();
-			Assert.That(result.RedAsFloat,Is.EqualTo((0f)));
-		}
-
 
 		[Test]
 		public void ConvertingToUInt32ShouldConvertAllComponentsCorrectly()
@@ -186,23 +70,6 @@ namespace Balder.Core.Tests
 			Assert.That(sysColor.G, Is.EqualTo(green));
 			Assert.That(sysColor.B, Is.EqualTo(blue));
 			Assert.That(sysColor.A, Is.EqualTo(alpha));
-		}
-
-		[Test]
-		public void ScalingColorShouldScaleAllComponentsCorrectly()
-		{
-			var color = new Color
-							{
-								RedAsFloat = 0.1f,
-								GreenAsFloat = 0.2f,
-								BlueAsFloat = 0.3f,
-								AlphaAsFloat = 0.4f
-							};
-			var scaledColor = color*2f;
-			Assert.That(scaledColor.RedAsFloat, Is.EqualTo(0.2f));
-			Assert.That(scaledColor.GreenAsFloat, Is.EqualTo(0.4f));
-			Assert.That(scaledColor.BlueAsFloat, Is.EqualTo(0.6f));
-			Assert.That(scaledColor.AlphaAsFloat, Is.EqualTo(0.8f));
 		}
 
 		[Test]

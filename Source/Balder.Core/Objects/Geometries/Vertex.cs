@@ -43,7 +43,7 @@ namespace Balder.Core.Objects.Geometries
 		public Vector TranslatedScreenCoordinates;
 		public float DepthBufferAdjustedZ;
 		public Color Color;
-		public Color CalculatedColor;
+		public ColorAsFloats CalculatedColor;
 		public bool IsColorCalculated;
 
 		public TextureCoordinate TextureCoordinate;

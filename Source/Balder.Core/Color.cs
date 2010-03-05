@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
 using System;
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#if(SILVERLIGHT)
 using SysColor = System.Windows.Media.Color;
 #else
 using SysColor = System.Drawing.Color;
@@ -33,13 +33,12 @@ namespace Balder.Core
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
-	public struct Color : IEquatable<Color>
+	public struct Color : IEquatable<Color>, IColor<Color>
 	{
 		private static readonly Random Rnd = new Random();
-		public static Color Black = FromArgb(0xff, 0, 0, 0);
-		public static Color White = FromArgb(0xff, 0xff, 0xff, 0xff);
 
-		public Color(byte red, byte green, byte blue, byte alpha) : this()
+		public Color(byte red, byte green, byte blue, byte alpha)
+			: this()
 		{
 			Red = red;
 			Green = green;
@@ -47,96 +46,13 @@ namespace Balder.Core
 			Alpha = alpha;
 		}
 
+		public byte Red { get; set; }
+		public byte Green { get; set; }
+		public byte Blue { get; set; }
+		public byte Alpha { get; set; }
 
 
-		private byte _red;
-		public byte Red
-		{
-			get { return _red; }
-			set
-			{
-				_red = value;
-				_redAsFloat = ConvertToFloat(value);
-			}
-		}
-
-		private byte _green;
-		public byte Green
-		{
-			get { return _green; }
-			set
-			{
-				_green = value;
-				_greenAsFloat = ConvertToFloat(value);
-			}
-		}
-
-		private byte _blue;
-		public byte Blue
-		{
-			get { return _blue; }
-			set
-			{
-				_blue = value;
-				_blueAsFloat = ConvertToFloat(value);
-			}
-		}
-
-		private byte _alpha;
-		public byte Alpha
-		{
-			get { return _alpha; }
-			set
-			{
-				_alpha = value;
-				_alphaAsFloat = ConvertToFloat(value);
-			}
-		}
-
-		private float _redAsFloat;
-		public float RedAsFloat
-		{
-			get { return _redAsFloat; }
-			set
-			{
-				_redAsFloat = value;
-				_red = ConvertToByte(value);
-			}
-		}
-
-		private float _greenAsFloat;
-		public float GreenAsFloat
-		{
-			get { return _greenAsFloat; }
-			set
-			{
-				_greenAsFloat = value;
-				_green = ConvertToByte(value);
-			}
-		}
-
-		private float _blueAsFloat;
-		public float BlueAsFloat
-		{
-			get { return _blueAsFloat; }
-			set
-			{
-				_blueAsFloat = value;
-				_blue = ConvertToByte(value);
-			}
-		}
-
-		private float _alphaAsFloat;
-		public float AlphaAsFloat
-		{
-			get { return _alphaAsFloat; }
-			set
-			{
-				_alphaAsFloat = value;
-				_alpha = ConvertToByte(value);
-			}
-		}
-
+		#region Public Static Methods
 		public static Color Random()
 		{
 			var red = (byte)Rnd.Next(0, 64);
@@ -172,42 +88,9 @@ namespace Balder.Core
 		}
 
 
-		public static Color operator +(Color firstColor, Color secondColor)
-		{
-			var result = firstColor.Additive(secondColor);
-			return result;
-		}
+		#endregion
 
-		public static Color operator -(Color firstColor, Color secondColor)
-		{
-			var newColor = new Color
-			{
-				RedAsFloat = firstColor.RedAsFloat - secondColor.RedAsFloat,
-				GreenAsFloat = firstColor.GreenAsFloat - secondColor.GreenAsFloat,
-				BlueAsFloat = firstColor.BlueAsFloat - secondColor.BlueAsFloat,
-				AlphaAsFloat = firstColor.AlphaAsFloat - secondColor.AlphaAsFloat,
-			};
-			return newColor;
-		}
-
-		public static Color operator *(Color color, float scale)
-		{
-			var scaledColor = new Color
-								{
-									RedAsFloat = color.RedAsFloat * scale,
-									GreenAsFloat = color.GreenAsFloat * scale,
-									BlueAsFloat = color.BlueAsFloat * scale,
-									AlphaAsFloat = color.AlphaAsFloat * scale,
-								};
-			return scaledColor;
-		}
-
-		public static Color operator *(float scale, Color color)
-		{
-			var scaledColor = color * scale;
-			return scaledColor;
-		}
-
+		#region Public Methods
 		public SysColor ToSystemColor()
 		{
 			var sysColor = SysColor.FromArgb(Alpha, Red, Green, Blue);
@@ -223,41 +106,38 @@ namespace Balder.Core
 			return uint32Color;
 		}
 
-		public void Clamp()
-		{
-			RedAsFloat = ClampValue(RedAsFloat);
-			GreenAsFloat = ClampValue(GreenAsFloat);
-			BlueAsFloat = ClampValue(BlueAsFloat);
-			AlphaAsFloat = ClampValue(AlphaAsFloat);
-		}
-
-
-		public bool Equals(Color other)
-		{
-			if (other.Red == Red &&
-				other.Green == Green &&
-				other.Blue == Blue &&
-				other.Alpha == Alpha)
-			{
-				return true;
-			}
-			return false;
-		}
 
 		public Color Additive(Color secondColor)
 		{
-			var red = (int) Red + (int) secondColor.Red;
-			var green = (int) Green + (int) secondColor.Green;
-			var blue = (int) Blue + (int) secondColor.Blue;
-			var alpha = (int) Alpha + (int) secondColor.Alpha;
+			var red = (int)Red + (int)secondColor.Red;
+			var green = (int)Green + (int)secondColor.Green;
+			var blue = (int)Blue + (int)secondColor.Blue;
+			var alpha = (int)Alpha + (int)secondColor.Alpha;
 
 			var result = new Color
-			             	{
-			             		Red = (byte)(red > 255 ? 255 : red),
+							{
+								Red = (byte)(red > 255 ? 255 : red),
 								Green = (byte)(green > 255 ? 255 : green),
 								Blue = (byte)(blue > 255 ? 255 : blue),
 								Alpha = (byte)(alpha > 255 ? 255 : alpha),
 							};
+			return result;
+		}
+
+		public Color Subtract(Color secondColor)
+		{
+			var red = (int)Red - (int)secondColor.Red;
+			var green = (int)Green - (int)secondColor.Green;
+			var blue = (int)Blue - (int)secondColor.Blue;
+			var alpha = (int)Alpha - (int)secondColor.Alpha;
+
+			var result = new Color
+			{
+				Red = (byte)(red < 0 ? 0 : red),
+				Green = (byte)(green < 0 ? 0 : green),
+				Blue = (byte)(blue < 0 ? 0 : blue),
+				Alpha = (byte)(alpha < 0 ? 0 : alpha),
+			};
 			return result;
 		}
 
@@ -270,12 +150,54 @@ namespace Balder.Core
 
 			var result = new Color
 			{
-				Red = (byte)(red>>2),
-				Green = (byte)(green>>2),
-				Blue = (byte)(blue>>2),
-				Alpha = (byte)(alpha>>2),
+				Red = (byte)(red >> 1),
+				Green = (byte)(green >> 1),
+				Blue = (byte)(blue >> 1),
+				Alpha = (byte)(alpha >> 1),
 			};
 			return result;
+		}
+
+
+		public ColorAsFloats ToColorAsFloats()
+		{
+			var color = new ColorAsFloats
+							{
+								Red = ConvertToFloat(Red),
+								Green = ConvertToFloat(Green),
+								Blue = ConvertToFloat(Blue),
+								Alpha = ConvertToFloat(Alpha)
+							};
+			return color;
+		}
+
+
+		public bool Equals(Color other)
+		{
+			return other.Red == Red &&
+				   other.Green == Green &&
+				   other.Blue == Blue &&
+				   other.Alpha == Alpha;
+		}
+
+		public override string ToString()
+		{
+			var colorAsString = string.Format("R: {0}, G: {1}, B: {2}, A: {3}", Red, Green, Blue, Alpha);
+			return colorAsString;
+		}
+		#endregion
+
+		#region Operators
+		public static Color operator +(Color firstColor, Color secondColor)
+		{
+			var result = firstColor.Additive(secondColor);
+			return result;
+		}
+
+		public static Color operator -(Color firstColor, Color secondColor)
+		{
+			var newColor = firstColor.Subtract(secondColor);
+			return newColor;
 		}
 
 		public static implicit operator Color(SysColor color)
@@ -283,21 +205,7 @@ namespace Balder.Core
 			var newColor = FromSystemColor(color);
 			return newColor;
 		}
-
-
-
-		private static float ClampValue(float value)
-		{
-			if (value > 1f)
-			{
-				value = 1f;
-			}
-			if (value < 0f)
-			{
-				value = 0f;
-			}
-			return value;
-		}
+		#endregion
 
 		private static float ConvertToFloat(byte value)
 		{
@@ -306,16 +214,5 @@ namespace Balder.Core
 			return convertedValue;
 		}
 
-		private static byte ConvertToByte(float value)
-		{
-			var convertedValue = (byte)(value * 255f);
-			return convertedValue;
-		}
-
-		public override string ToString()
-		{
-			var colorAsString = string.Format("R: {0}, G: {1}, B: {2}", Red, Green, Blue);
-			return colorAsString;
-		}
 	}
 }

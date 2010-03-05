@@ -97,6 +97,8 @@
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
+    <Compile Include="ColorAsFloats.cs" />
+    <Compile Include="IColor.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Debug\BoundingSphereDebugShape.cs" />

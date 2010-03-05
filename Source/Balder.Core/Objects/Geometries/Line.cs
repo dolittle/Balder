@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+
+using System.Windows.Media;
+
 namespace Balder.Core.Objects.Geometries
 {
 	public struct Line
@@ -29,7 +32,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 			A = a;
 			B = b;
-			Color = Color.White;
+			Color = Colors.White;
 		}
 	}
 }
