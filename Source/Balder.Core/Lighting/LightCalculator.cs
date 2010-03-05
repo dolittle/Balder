@@ -6,9 +6,9 @@ namespace Balder.Core.Lighting
 #pragma warning disable 1591 // Xml Comments
 	public class LightCalculator : ILightCalculator
 	{
-		public Color Calculate(Viewport viewport, Vector vector, Vector normal)
+		public ColorAsFloats Calculate(Viewport viewport, Vector vector, Vector normal)
 		{
-			var color = viewport.Scene.AmbientColor;
+			var color = viewport.Scene.AmbientColor.ToColorAsFloats();
 
 			foreach( ILight light in viewport.Scene.Lights )
 			{
