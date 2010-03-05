@@ -37,6 +37,13 @@ namespace Balder.Core
 	{
 		private static readonly Random Rnd = new Random();
 
+		/// <summary>
+		/// Creates an instance of <see cref="Color"/> with all channels initialized
+		/// </summary>
+		/// <param name="red">Value for Red channel</param>
+		/// <param name="green">Value for Green channel</param>
+		/// <param name="blue">Value for Blue channel</param>
+		/// <param name="alpha">Value for Alpha channel</param>
 		public Color(byte red, byte green, byte blue, byte alpha)
 			: this()
 		{
@@ -46,13 +53,32 @@ namespace Balder.Core
 			Alpha = alpha;
 		}
 
+		/// <summary>
+		/// Gets or sets the Red channel value
+		/// </summary>
 		public byte Red { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Green channel value
+		/// </summary>
 		public byte Green { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Blue channel value
+		/// </summary>
 		public byte Blue { get; set; }
+
+		/// <summary>
+		/// Gets or sets the Alpha channel value
+		/// </summary>
 		public byte Alpha { get; set; }
 
 
 		#region Public Static Methods
+		/// <summary>
+		/// Create a random color
+		/// </summary>
+		/// <returns>Newly created color</returns>
 		public static Color Random()
 		{
 			var red = (byte)Rnd.Next(0, 64);
@@ -62,6 +88,14 @@ namespace Balder.Core
 			return color;
 		}
 
+		/// <summary>
+		/// Create a color from given channel values
+		/// </summary>
+		/// <param name="alpha">Alpha channel value</param>
+		/// <param name="red">Red channel value</param>
+		/// <param name="green">Green channel value</param>
+		/// <param name="blue">Blue channel value</param>
+		/// <returns>Newly created color</returns>
 		public static Color FromArgb(byte alpha, byte red, byte green, byte blue)
 		{
 			var color = new Color
@@ -74,7 +108,11 @@ namespace Balder.Core
 			return color;
 		}
 
-
+		/// <summary>
+		/// Create a color from an existing <see cref="SysColor"/>
+		/// </summary>
+		/// <param name="systemColor"></param>
+		/// <returns></returns>
 		public static Color FromSystemColor(SysColor systemColor)
 		{
 			var color = new Color
@@ -86,11 +124,10 @@ namespace Balder.Core
 			};
 			return color;
 		}
-
-
 		#endregion
 
 		#region Public Methods
+
 		public SysColor ToSystemColor()
 		{
 			var sysColor = SysColor.FromArgb(Alpha, Red, Green, Blue);
@@ -105,7 +142,6 @@ namespace Balder.Core
 								(UInt32)Blue;
 			return uint32Color;
 		}
-
 
 		public Color Additive(Color secondColor)
 		{
@@ -188,18 +224,35 @@ namespace Balder.Core
 		#endregion
 
 		#region Operators
+		/// <summary>
+		/// Add colors - look at <seealso cref="Additive"/> for more details on the operation
+		/// </summary>
+		/// <param name="firstColor">First color in addition</param>
+		/// <param name="secondColor">Second color in addition</param>
+		/// <returns>Combined color</returns>
 		public static Color operator +(Color firstColor, Color secondColor)
 		{
 			var result = firstColor.Additive(secondColor);
 			return result;
 		}
 
+		/// <summary>
+		/// Subtract colors - look at <seealso cref="Subtract"/> for more details on the operation
+		/// </summary>
+		/// <param name="firstColor">First color in subtraction</param>
+		/// <param name="secondColor">Second color in subtraction</param>
+		/// <returns>Combined color</returns>
 		public static Color operator -(Color firstColor, Color secondColor)
 		{
 			var newColor = firstColor.Subtract(secondColor);
 			return newColor;
 		}
 
+		/// <summary>
+		/// Implicitly convert to <see cref="Color"/> from <see cref="SysColor"/>
+		/// </summary>
+		/// <param name="color"></param>
+		/// <returns>Converted color</returns>
 		public static implicit operator Color(SysColor color)
 		{
 			var newColor = FromSystemColor(color);

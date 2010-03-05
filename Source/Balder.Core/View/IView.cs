@@ -27,14 +27,63 @@ namespace Balder.Core.View
 	public interface IView
 	{
 		Coordinate Position { get; set; }
+
+
+		/// <summary>
+		/// Gets the view <see cref="Matrix"/> for the view
+		/// </summary>
+		/// <remarks>
+		/// The view <see cref="Matrix"/> represents the translation of vectors in 
+		/// viewspace
+		/// </remarks>
 		Matrix ViewMatrix { get; }
+
+		/// <summary>
+		/// Gets the projection <see cref="Matrix"/> - the conversion of 3D to 2D
+		/// </summary>
 		Matrix ProjectionMatrix { get; }
+
+		/// <summary>
+		/// Gets or sets the near clipping value - the point closest to the screen before
+		/// clipping should occur
+		/// </summary>
 		float Near { get; set; }
+
+		/// <summary>
+		/// Gets or sets the far clipping value - the point furthest away from the screen before
+		/// clipping should occur
+		/// </summary>
 		float Far { get; set; }
+
+		/// <summary>
+		/// Gets or sets the depthdivisor typically used by Z buffering
+		/// </summary>
 		float DepthDivisor { get; }
+
+		/// <summary>
+		/// Gets the point in depth that represents Zero
+		/// </summary>
 		float DepthZero { get; }
+
+		/// <summary>
+		/// Check if a vector is within view
+		/// </summary>
+		/// <param name="vector"><see cref="Vector"/> to check</param>
+		/// <returns>True if in view, false if not</returns>
 		bool IsInView(Vector vector);
+
+		/// <summary>
+		/// Check if a coordinate is within view
+		/// </summary>
+		/// <param name="coordinate"><see cref="Coordinate"/> to check</param>
+		/// <returns>True if in view, false if not</returns>
 		bool IsInView(Coordinate coordinate);
+
+		/// <summary>
+		/// Update view - typically called before rendering to update all data view is holding
+		/// based upon any changes.
+		/// </summary>
+		/// <param name="viewport"><see cref="Viewport"/> view is being rendered in</param>
 		void Update(Viewport viewport);
 	}
 }

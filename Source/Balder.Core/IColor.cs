@@ -27,12 +27,57 @@ using SysColor = System.Drawing.Color;
 
 namespace Balder.Core
 {
+	/// <summary>
+	/// Represents a color - generically
+	/// </summary>
+	/// <typeparam name="T">Type of color it represents</typeparam>
 	public interface IColor<T>
 	{
+		/// <summary>
+		/// Add color with a second color and clamp
+		/// </summary>
+		/// <param name="secondColor">Second color</param>
+		/// <remarks>
+		/// Clamping means that the color will be in the range of what is
+		/// valid and if the values overflows, they are clamped to max value.
+		/// </remarks>
+		/// <returns>Combined colors, clamped</returns>
 		T Additive(T secondColor);
+
+		/// <summary>
+		/// Subtract color with a second color and clamp
+		/// </summary>
+		/// <param name="secondColor">Second color</param>
+		/// <remarks>
+		/// Clamping means that the color will be in the range of what is
+		/// valid and if the values underflows, they are clamped to min value.
+		/// </remarks>
+		/// <returns>Combined colors, clamped</returns>
 		T Subtract(T secondColor);
+
+		/// <summary>
+		/// Get an average between this color and a second color
+		/// </summary>
+		/// <param name="secondColor">Second color</param>
+		/// <returns>Average color</returns>
 		T Average(T secondColor);
+
+		/// <summary>
+		/// Convert to <see cref="SysColor"/>
+		/// </summary>
+		/// <returns>Converted color</returns>
 		SysColor ToSystemColor();
+
+		/// <summary>
+		/// Convert to an unsigned integer, 32 bit in length containing all the channels
+		/// </summary>
+		/// <remarks>
+		/// Bits 31..24 - Alpha
+		/// Bits 23..16 - Red
+		/// Bits 15..8 - Green
+		/// Bits 7..0 - Blue
+		/// </remarks>
+		/// <returns>Unsigned integer containing the converted color</returns>
 		UInt32 ToUInt32();
 	}
 }
