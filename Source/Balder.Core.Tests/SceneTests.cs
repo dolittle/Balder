@@ -77,6 +77,7 @@ namespace Balder.Core.Tests
 			var scene = new Scene();
 			var camera = new Camera() {Position = {Z = -20}};
 			viewport.View = camera;
+			viewport.Scene = scene;
 			camera.Update(viewport);
 
 			var node = new Geometry
@@ -121,12 +122,13 @@ namespace Balder.Core.Tests
 			camera.Position.Z = -100;
 			camera.Update(viewport);
 			var scene = new Scene();
+			viewport.Scene = scene;
 
 			var renderableNode = new MyRenderableNode();
 
 			scene.AddNode(renderableNode);
 
-			scene.Render(viewport,camera.ViewMatrix,camera.ProjectionMatrix);
+			viewport.Render();
 
 			Assert.That(renderableNode.RenderCalled,Is.True);
 		}
@@ -140,13 +142,14 @@ namespace Balder.Core.Tests
 			camera.Position.Z = -100;
 			camera.Update(viewport);
 			var scene = new Scene();
+			viewport.Scene = scene;
 
 			var topLevelNode = new MyRenderableNode();
 			var childNode = new MyRenderableNode();
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
-			scene.Render(viewport, camera.ViewMatrix, camera.ProjectionMatrix);
+			viewport.Render();
 			Assert.That(childNode.RenderCalled,Is.True);
 		}
 
@@ -159,6 +162,7 @@ namespace Balder.Core.Tests
 			camera.Position.Z = -100;
 			camera.Update(viewport);
 			var scene = new Scene();
+			viewport.Scene = scene;
 
 			var topLevelNode = new MyRenderableNode();
 			topLevelNode.Position.X = 50;
@@ -166,7 +170,7 @@ namespace Balder.Core.Tests
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
-			scene.Render(viewport, camera.ViewMatrix, camera.ProjectionMatrix);
+			viewport.Render();
 
 			var actualPosition = new Coordinate();
 			actualPosition.X = childNode.WorldResult[3, 0];
@@ -185,11 +189,12 @@ namespace Balder.Core.Tests
 			camera.Position.Z = -100;
 			camera.Update(viewport);
 			var scene = new Scene();
+			viewport.Scene = scene;
 
 			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
-			scene.Render(viewport, camera.ViewMatrix, camera.ProjectionMatrix);
+			viewport.Render();
 
 			Assert.That(node.PrepareCalled,Is.True);
 		}
@@ -203,15 +208,16 @@ namespace Balder.Core.Tests
 			camera.Position.Z = -100;
 			camera.Update(viewport);
 			var scene = new Scene();
+			viewport.Scene = scene;
 
 			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
-			scene.Render(viewport, camera.ViewMatrix, camera.ProjectionMatrix);
+			viewport.Render();
 
 			node.PrepareCalled = false;
 
-			scene.Render(viewport, camera.ViewMatrix, camera.ProjectionMatrix);
+			viewport.Render();
 
 			Assert.That(node.PrepareCalled, Is.False);
 		}

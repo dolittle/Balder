@@ -27,7 +27,6 @@ namespace Balder.Core.Execution
 {
 	public delegate void GameEventHandler(Game game);
 
-
 	public partial class Game : Actor
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
@@ -38,15 +37,25 @@ namespace Balder.Core.Execution
 
 		public Game()
 		{
+			Viewport = new Viewport { Width = 800, Height = 600 };
 			Scene = new Scene();
-			Viewport = new Viewport { Scene = Scene, Width = 800, Height = 600 };
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();
 		}
 
 		partial void Constructed();
 
-		public Scene Scene { get; set; }
+		private Scene _scene;
+		public Scene Scene
+		{
+			get { return _scene; }
+			set
+			{
+				_scene = value;
+				Viewport.Scene = value;
+			}
+		}
+
 		public Viewport Viewport { get; private set; }
 		public DebugInfo DebugInfo
 		{
@@ -72,8 +81,7 @@ namespace Balder.Core.Execution
 		public virtual void OnRender()
 		{
 			Camera.Update(Viewport);
-			Scene.Render(Viewport, Camera.ViewMatrix, Camera.ProjectionMatrix);
-			//Scene.HandleMouseEvents(Viewport, Mouse);
+			Viewport.Render();
 		}
 	}
 }

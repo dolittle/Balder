@@ -108,6 +108,13 @@ namespace Balder.Core.Display
 			return vector;
 		}
 
+
+		public void Render()
+		{
+			Scene.Render(this);
+		}
+
+
 		private static bool WithinEpsilon(float a, float b)
 		{
 			var num = a - b;

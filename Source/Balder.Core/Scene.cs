@@ -123,8 +123,10 @@ namespace Balder.Core
 		/// </summary>
 		public NodeCollection Lights { get { return _lights; } }
 
-		public void Render(Viewport viewport, Matrix view, Matrix projection)
+		internal void Render(Viewport viewport)
 		{
+			var view = viewport.View.ViewMatrix;
+			var projection = viewport.View.ProjectionMatrix;
 			lock( _allNodes )
 			{
 				foreach (var node in _allNodes)
