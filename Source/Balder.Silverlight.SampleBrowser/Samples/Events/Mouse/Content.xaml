@@ -50,7 +50,7 @@
 				Position="80,0,50"
 				/>
 
-			<Lighting:OmniLight Position="0,0,-80" Ambient="Grey" Diffuse="Grey" Specular="White"/>
+			<Lighting:OmniLight Position="0,0,-80" Ambient="Gray" Diffuse="Gray" Specular="White"/>
 			<Execution:Game.Camera>
 				<View:Camera Position="-250,240,-580"/>
 			</Execution:Game.Camera>
