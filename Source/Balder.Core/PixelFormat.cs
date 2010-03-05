@@ -16,14 +16,39 @@
 // limitations under the License.
 //
 #endregion
+
+using Balder.Core.Imaging;
+
 namespace Balder.Core
 {
+	/// <summary>
+	/// Specifies the pixelformat used by typical <see cref="Image"/>
+	/// </summary>
 	public enum PixelFormat
 	{
+		/// <summary>
+		/// 8 bit gray without alpha
+		/// </summary>
 		Grayscale = 1,
+
+		/// <summary>
+		/// 8 bit gray with alpha
+		/// </summary>
 		GrayscaleAlpha,
+
+		/// <summary>
+		/// 8 bit palette based (256 colors)
+		/// </summary>
 		Palette,
+
+		/// <summary>
+		/// 24 bit RGB, 8 bits per channel
+		/// </summary>
 		RGB,
+
+		/// <summary>
+		/// 32 bit RGB with Alpha, 8 bits per channel
+		/// </summary>
 		RGBAlpha
 	}
 }

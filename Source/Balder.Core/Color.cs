@@ -27,6 +27,9 @@ using SysColor = System.Drawing.Color;
 
 namespace Balder.Core
 {
+	/// <summary>
+	/// Represents a color
+	/// </summary>
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
