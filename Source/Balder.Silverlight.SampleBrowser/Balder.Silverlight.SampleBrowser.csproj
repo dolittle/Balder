@@ -231,6 +231,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Primitives\AribtraryHeightmap\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Primitives\Box\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -372,6 +375,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
     <Page Include="Samples\Materials\MaterialPicker\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+    <Page Include="Samples\Primitives\AribtraryHeightmap\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>

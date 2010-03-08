@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Silverlight.Rendering
+namespace Balder.Core.Math
 {
 	public struct InterpolationPoint
 	{

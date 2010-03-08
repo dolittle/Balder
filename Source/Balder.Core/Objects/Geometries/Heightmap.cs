@@ -153,6 +153,7 @@ namespace Balder.Core.Objects.Geometries
 
 			PrepareVertices();
 			PrepareFaces();
+
 			base.Prepare();
 		}
 

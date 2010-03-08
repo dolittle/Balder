@@ -135,7 +135,6 @@
     <Compile Include="Rendering\Drawing\Triangle.cs" />
     <Compile Include="Rendering\GeometryContext.cs" />
     <Compile Include="Rendering\ImageContext.cs" />
-    <Compile Include="Rendering\Interpolator.cs" />
     <Compile Include="Rendering\Shapes.cs" />
     <Compile Include="Rendering\SpriteContext.cs" />
     <Compile Include="Rendering\RenderingManager.cs" />
