@@ -13,5 +13,7 @@
         <dtscrollpos>0</dtscrollpos>
     </InPlaceEditor>
 </UserData>
+<c eid="Balder.Core~Balder.Core.Color~op_Addition" tid="##SEEALSO" q="" cd="40242.5967361111"><![CDATA[Target="M:Balder.Core.Color.Additive(Balder.Core.Color)", Caption=""]]></c>
+<c eid="Balder.Core~Balder.Core.Color~op_Subtraction" tid="##SEEALSO" q="" cd="40242.5967361111"><![CDATA[Target="M:Balder.Core.Color.Subtract(Balder.Core.Color)", Caption=""]]></c>
 <c eid="Balder.Core~Balder.Core.Node" tid="##SUMMARY" q="" cd="40173.3820949074">Node represents the root of any element that can be added to a scene.</c>
     </DocumentXComments>
