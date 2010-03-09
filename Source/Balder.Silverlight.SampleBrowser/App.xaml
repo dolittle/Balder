@@ -7,7 +7,7 @@
 	<Application.Resources>
 		<SampleBrowser:ViewModels x:Key="ViewModels"/>
 		<navigationCore:UriMapper x:Key="uriMapper">
-			<navigationCore:UriMapping Uri="Home" MappedUri="/Samples/Primitives/AribtraryHeightmap/Content.xaml"/>
+			<navigationCore:UriMapping Uri="Home" MappedUri="/Samples/Primitives/Cylinder/Content.xaml"/>
 									    <!--  
 				Materials/MaterialPicker/Content.xaml"/>
 			Primitives/Ring/Content.xaml"/>

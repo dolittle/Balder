@@ -60,6 +60,18 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
+		public static readonly Property<Cylinder, bool> SpokesProp = Property<Cylinder, bool>.Register(c => c.Spokes);
+		public bool Spokes
+		{
+			get { return SpokesProp.GetValue(this); }
+			set
+			{
+				SpokesProp.SetValue(this, value);
+				InvalidatePrepare();
+			}
+		}
+
+
 		public static readonly Property<Cylinder, int> SegmentsProp = Property<Cylinder, int>.Register(c => c.Segments);
 		public int Segments
 		{
@@ -200,9 +212,8 @@ namespace Balder.Core.Objects.Geometries
 				var radianDelta = endRadian - startRadian;
 				radianAdd = radianDelta / actualSegments;
 
-				radianAdd += radianAdd/actualSegments;
-
 				isFull = false;
+
 				faceOffset = 0;
 				additionalFaceSegments = 1;
 			}
@@ -272,16 +283,23 @@ namespace Balder.Core.Objects.Geometries
 
 		private int BuildFaces(int actualSegments, int actualStacks, int nextSegmentOffset, int faceSegments, int faceOffset, int additionalFaceSegments, bool isFull)
 		{
+			var spokes = isFull || Spokes;
 			var faceIndex = 0;
 			var faceCount = actualStacks * (actualSegments * 2);
 			if (CapEnds)
 			{
 				faceCount += actualSegments * 2;
 			}
-			if (!isFull)
+			if (!isFull && Spokes )
 			{
 				faceCount += actualStacks * 2;
 			}
+			if( !spokes )
+			{
+				faceSegments--;
+				faceCount -= 2;
+			}
+
 			GeometryContext.AllocateFaces(faceCount);
 
 			Face face;
@@ -292,6 +310,11 @@ namespace Balder.Core.Objects.Geometries
 
 				for (var x = 0; x < faceSegments; x++)
 				{
+					if( !spokes && x == 0 )
+					{
+						faceIndex++;
+						continue;
+					}
 					var actualX = x + faceOffset;
 					var nextX = ((x + 1) % (actualSegments + additionalFaceSegments))+faceOffset;
 

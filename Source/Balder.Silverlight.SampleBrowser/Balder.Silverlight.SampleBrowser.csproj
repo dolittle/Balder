@@ -124,6 +124,7 @@
     <Compile Include="Controls\ViewModels\Category.cs" />
     <Compile Include="Controls\ViewModels\SampleNavigationViewModel.cs" />
     <Compile Include="Controls\ViewModels\SamplePage.cs" />
+    <Compile Include="Converters\DoubleToFloatConverter.cs" />
     <Compile Include="Effects\ReflectionShader.cs" />
     <Compile Include="Features\Resources\FileExtensionToImageConverter.cs" />
     <Compile Include="Features\Resources\ResourceFile.cs" />

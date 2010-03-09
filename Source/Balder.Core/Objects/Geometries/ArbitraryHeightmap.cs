@@ -27,6 +27,13 @@ using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Core.Objects.Geometries
 {
+	/// <summary>
+	/// Represents a heightmap were the 4 corners can be placed arbitrary in 3D space
+	/// </summary>
+	/// <remarks>
+	/// Point 1 and 2 represents one side of the quad
+	/// Point 3 and 4 represents the other side
+	/// </remarks>
 	public class ArbitraryHeightmap : Geometry
 	{
 		private static readonly HeightmapEventArgs EventArgs = new HeightmapEventArgs();
