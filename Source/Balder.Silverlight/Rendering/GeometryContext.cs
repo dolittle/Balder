@@ -252,6 +252,11 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
+		private bool IsFaceInView(Viewport viewport, Face face)
+		{
+			return (Vertices[face.A].TransformedVector.Z >= viewport.View.Near && Vertices[face.B].TransformedVector.Z >= viewport.View.Near) && Vertices[face.C].TransformedVector.Z >= viewport.View.Near;
+		}
+
 
 		private void RenderFaces(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
@@ -274,7 +279,8 @@ namespace Balder.Silverlight.Rendering
 				                   (c.TranslatedVector.X - a.TranslatedVector.X) * (b.TranslatedVector.Y - a.TranslatedVector.Y);
 
 
-				var visible = mixedProduct < 0; // && viewport.View.IsInView(a.TransformedVector);
+				var visible = mixedProduct < 0 && IsFaceInView(viewport, face);
+					//&& viewport.View.IsInView(a.TransformedVector);
 				if (null != face.Material)
 				{
 					visible |= face.Material.DoubleSided;
