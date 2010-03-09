@@ -336,7 +336,7 @@ namespace Balder.Core.Objects.Geometries
 			var yEnd = (float)-Size / 2;
 
 			var yDelta = yEnd - yStart;
-			var yAdd = yDelta / actualStacks;
+			var yAdd = yDelta / (actualStacks-1);
 
 			var startRadian = MathHelper.ToRadians((float)StartAngle);
 			var endRadian = MathHelper.ToRadians((float)EndAngle);
