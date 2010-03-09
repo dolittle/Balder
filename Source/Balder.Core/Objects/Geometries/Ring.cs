@@ -60,6 +60,18 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
+		public static readonly Property<Ring, bool> SpokesProp = Property<Ring, bool>.Register(c => c.Spokes);
+		public bool Spokes
+		{
+			get { return SpokesProp.GetValue(this); }
+			set
+			{
+				SpokesProp.SetValue(this, value);
+				InvalidatePrepare();
+			}
+		}
+
+
 
 		public static readonly Property<Ring, int> SegmentsProp = Property<Ring, int>.Register(c => c.Segments);
 		public int Segments
@@ -124,6 +136,7 @@ namespace Balder.Core.Objects.Geometries
 			Segments = 8;
 			Stacks = 1;
 			CapEnds = true;
+			Spokes = true;
 		}
 
 
@@ -203,8 +216,15 @@ namespace Balder.Core.Objects.Geometries
 			{
 				actualSegments--;
 				openRing = true;
+
 				faceOffset = 2;
-				faceCount += (2 * Stacks);
+				if (Spokes)
+				{
+					faceCount += (2 * Stacks);
+				} else
+				{
+					faceCount -= (2 * Stacks);
+				}
 			}
 
 			GeometryContext.AllocateFaces(faceCount);
@@ -217,7 +237,7 @@ namespace Balder.Core.Objects.Geometries
 			{
 				var currentStack = (verticesPerStack * stack);
 				var nextStack = currentStack + verticesPerStack;
-				if (openRing)
+				if (openRing&&Spokes)
 				{
 					face = CreateFace(nextStack + 1, nextStack, currentStack);
 					GeometryContext.SetFace(faceIndex, face);
@@ -228,7 +248,7 @@ namespace Balder.Core.Objects.Geometries
 					faceIndex++;
 				}
 				faceIndex = BuildInteriorAndExteriorFaces(actualSegments, verticesPerStack, currentStack, faceIndex);
-				if (openRing)
+				if (openRing && Spokes)
 				{
 					currentStack += (verticesPerStack - 2);
 					nextStack += (verticesPerStack - 2);

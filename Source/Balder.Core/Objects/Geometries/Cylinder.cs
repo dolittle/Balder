@@ -135,6 +135,7 @@ namespace Balder.Core.Objects.Geometries
 			Segments = 8;
 			Stacks = 1;
 			CapEnds = true;
+			Spokes = true;
 		}
 
 

@@ -18,16 +18,16 @@
 
 		private void StartValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
-			if( !_loaded )
+			if (!_loaded)
 			{
 				return;
 			}
-			if( e.NewValue > EndSlider.Value )
+			if (e.NewValue > EndSlider.Value)
 			{
 				EndSlider.Value = e.NewValue;
 			}
 			UpdateProperties();
-			
+
 		}
 
 		private void EndValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
@@ -36,7 +36,7 @@
 			{
 				return;
 			}
-			if( e.NewValue < StartSlider.Value )
+			if (e.NewValue < StartSlider.Value)
 			{
 				StartSlider.Value = e.NewValue;
 			}
@@ -49,8 +49,8 @@
 			Cylinder.StartAngle = StartSlider.Value;
 			Cylinder.EndAngle = EndSlider.Value;
 			Cylinder.CapEnds = (bool)CapEnds.IsChecked;
-			Cylinder.Spokes = (bool) Spokes.IsChecked;
-			Cylinder.Segments = (int) SegmentsSlider.Value;
+			Cylinder.Spokes = (bool)Spokes.IsChecked;
+			Cylinder.Segments = (int)SegmentsSlider.Value;
 			Cylinder.TopRadius = TopRadiusSlider.Value;
 			Cylinder.BottomRadius = BottomRadiusSlider.Value;
 		}
@@ -65,7 +65,7 @@
 			UpdateProperties();
 		}
 
-		private void SegmentsSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
+		private void SliderValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
 			if (!_loaded)
 			{
@@ -77,32 +77,11 @@
 
 		private void Spokes_Checked(object sender, System.Windows.RoutedEventArgs e)
 		{
-			if( !_loaded )
-			{
-				return;
-			}
-			UpdateProperties();
-
-		}
-
-		private void TopRadiusSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-		{
 			if (!_loaded)
 			{
 				return;
 			}
 			UpdateProperties();
-
-		}
-
-		private void BottomRadiusSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
-		{
-			if (!_loaded)
-			{
-				return;
-			}
-			UpdateProperties();
-
 		}
 	}
 }
