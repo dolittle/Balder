@@ -136,6 +136,12 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="Assets\AssetLoaderServiceTests.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AseFiles.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
     <Compile Include="ColorAsFloatsTests.cs" />
     <Compile Include="ColorTests.cs" />
     <Compile Include="Content\ContentCreatorTests.cs" />
@@ -143,13 +149,12 @@
     <Compile Include="Composition\ComposerTests.cs" />
     <Compile Include="Execution\PropertyTests.cs" />
     <Compile Include="Extensions\ViewportExtensionsTests.cs" />
-    <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />
+    <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs" />
+    <Compile Include="Fakes\ContentManager.cs" />
     <Compile Include="Fakes\FakeDisplayDevice.cs" />
+    <Compile Include="Fakes\FakeGeometryContext.cs" />
+    <Compile Include="Fakes\StringFileLoader.cs" />
     <Compile Include="Helpers\DependencyPropertyTests.cs" />
     <Compile Include="Input\MouseButtonStateTests.cs" />
     <Compile Include="Input\MouseManagerTests.cs" />
@@ -173,6 +178,10 @@
     <Compile Include="Utils\ClonerTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Assets\AssetLoaders\AseFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AseFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Resources\Models.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Models.Designer.cs</LastGenOutput>
@@ -221,6 +230,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\AssetLoaders\SingleBox.ASE" />
+    <None Include="Assets\AssetLoaders\TwoBoxes.ASE" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup>
@@ -228,9 +239,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </CodeAnalysisDictionary>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Assets\AssetLoaders\" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" Condition="" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

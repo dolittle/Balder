@@ -32,6 +32,166 @@ using Balder.Core.ReadableRex.LinqToRegex;
 
 namespace Balder.Core.Assets.AssetLoaders
 {
+
+	public delegate void AddPropertyHandler(object scopeObject, string propertyName, string content);
+
+	public class AseParser
+	{
+		public const string GEOMOBJECT = "GEOMOBJECT";
+		public const string NODE_NAME = "NODE_NAME";
+		public const string MESH = "MESH";
+		public const string MESH_NUMVERTEX = "MESH_NUMVERTEX";
+		public const string MESH_NUMFACES = "MESH_NUMFACES";
+		public const string MESH_VERTEX = "MESH_VERTEX";
+		public const string MESH_FACE = "MESH_FACE";
+		public const string MESH_VERTEX_LIST = "MESH_VERTEX_LIST";
+		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
+
+
+		public static Geometry[]	Parse(List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		{
+			var scopeStack = new Stack<string>();
+			var scopeObjectStack = new Stack<object>();
+			var currentScope = string.Empty;
+			object currentScopeObject = null;
+
+			var geometries = new List<Geometry>();
+			
+			foreach( var line in lines )
+			{
+				var trimmedLine = line.Trim();
+
+				if( trimmedLine.StartsWith("*") )
+				{
+					if (trimmedLine.Contains("{"))
+					{
+						var startIndex = trimmedLine.IndexOf("*") + 1;
+						var endIndex = trimmedLine.IndexOf("{");
+						var scope = trimmedLine.Substring(startIndex, endIndex - startIndex).Trim();
+						scopeStack.Push(scope);
+						currentScope = scope;
+						currentScopeObject = GetScopeObject(currentScope, currentScopeObject, assetLoaderService, contentManager);
+						scopeObjectStack.Push(currentScopeObject);
+						
+						if( null != currentScopeObject && 
+							currentScopeObject is Geometry &&
+							!geometries.Contains(currentScopeObject as Geometry))
+						{
+							geometries.Add(currentScopeObject as Geometry);
+						}
+					} else
+					{
+						
+						var handler = GetScopeHandler(currentScope);
+						if( null != handler && null != currentScopeObject )
+						{
+							var firstSpace = trimmedLine.IndexOf(' ');
+							var firstTab = trimmedLine.IndexOf('\t');
+
+							var contentIndex = 0;
+							
+							if( (firstTab < firstSpace || firstSpace < 0) &&
+								firstTab > 0)
+							{
+								contentIndex = firstTab;
+							} else
+							{
+								contentIndex = firstSpace;
+							}
+							var propertyName = trimmedLine.Substring(1, contentIndex);
+
+							contentIndex++;
+							var content = trimmedLine.Substring(contentIndex).Trim();
+							handler(currentScopeObject, propertyName, content);
+						}
+					}
+				}
+				if( trimmedLine.Contains("}"))
+				{
+					if (scopeStack.Count > 0)
+					{
+						currentScope = scopeStack.Pop();
+						currentScopeObject = scopeObjectStack.Pop();
+					} else
+					{
+						currentScope = string.Empty;
+						currentScopeObject = null;
+					}
+				}
+			}
+
+			return geometries.ToArray();
+		}
+
+
+		private static object GetScopeObject(string scope, object currentScopeObject, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		{
+			switch (scope)
+			{
+				case GEOMOBJECT:
+					{
+						return contentManager.CreateAssetPart<Geometry>();
+					}
+					break;
+			}
+			return currentScopeObject;
+		}
+	
+
+
+		private static AddPropertyHandler GetScopeHandler(string scope)
+		{
+			switch( scope )
+			{
+				case GEOMOBJECT:
+					{
+						return GeometryScopeHandler;
+					}
+				case MESH:
+					{
+						return MeshScopeHandler;
+					}
+				case MESH_VERTEX_LIST:
+					{
+						return VertexScopeHandler;
+					}
+				case MESH_FACE_LIST:
+					{
+						return FaceScopeHandler;
+					}
+			}
+			return null;
+		}
+
+
+		private static void GeometryScopeHandler(object scopeObject, string propertyName, string content)
+		{
+			int i = 0;
+			i++;
+		}
+
+		private static void MeshScopeHandler(object scopeObject, string propertyName, string content)
+		{
+			int i = 0;
+			i++;
+			
+		}
+
+		private static void VertexScopeHandler(object scopeObject, string propertyName, string content)
+		{
+			int i = 0;
+			i++;
+			
+		}
+
+		private static void FaceScopeHandler(object scopeObject, string propertyName, string content)
+		{
+			int i = 0;
+			i++;
+			
+		}
+	}
+
 	public class AseLoader : AssetLoader<Geometry>
 	{
 		private readonly IAssetLoaderService _assetLoaderService;
@@ -52,21 +212,20 @@ namespace Balder.Core.Assets.AssetLoaders
 				throw new AssetNotFoundException(assetName);
 			}
 			var streamReader = new StreamReader(stream);
-			var file = streamReader.ReadToEnd();
+
+			var lines = new List<string>();
+			while( !streamReader.EndOfStream )
+			{
+				var line = streamReader.ReadLine();
+				lines.Add(line);
+			}
 
 			var format = CultureInfo.InvariantCulture.NumberFormat;
 
-			var geometry = ContentManager.CreateAssetPart<Geometry>();
-			var context = geometry.GeometryContext;
 
-			var materials = LoadMaterials(assetName, context, format, file);
-			LoadVertices(context, format, file);
-			LoadFaces(context, format, file, materials);
-			LoadTextureCoordinates(context, format, file);
-			LoadTextureFaces(context, format, file);
-			GeometryHelper.CalculateVertexNormals(context);
-
-			return new[] { geometry };
+			var geometries = AseParser.Parse(lines,_assetLoaderService,ContentManager);
+			return geometries;
+			
 		}
 
 		private Material[] LoadMaterials(string aseAssetName, IGeometryContext context, IFormatProvider format, string data)
@@ -126,116 +285,8 @@ namespace Balder.Core.Assets.AssetLoaders
 				}
 			}
 			return materials.ToArray();
-
-			/*
-			var materialRegex = new Regex(@"\t\*MATERIAL\s*(\d*)\s*{[\n\r](.*)\t}");
-			var matches = materialRegex.Matches(data);
-
-			var assetName = "BlueEnvMap.png";
-			var loader = AssetLoaderManager.Instance.GetLoader<Image>(assetName);
-			var frames = loader.Load(assetName);
-
-			var material = new Material
-							{
-								DiffuseMap = frames[0]
-							};
-
-			for (var faceIndex = 0; faceIndex < context.FaceCount; faceIndex++)
-			{
-				context.SetMaterial(faceIndex, material);
-			}
-			 */
 		}
 
-		private static void LoadVertices(IGeometryContext context, IFormatProvider format, string data)
-		{
-			var meshRegex = new Regex(@"\t\t\t\*MESH_VERTEX\s*(\d*)\t([\-\d\.]*)\t([\-\d\.]*)\t([\-\d\.]*)[\n\r]*");
-			var matches = meshRegex.Matches(data);
-
-			context.AllocateVertices(matches.Count);
-
-			var vertexIndex = 0;
-			foreach (Match match in matches)
-			{
-				var x = float.Parse(match.Groups[2].Value, format);
-				var z = float.Parse(match.Groups[3].Value, format);
-				var y = float.Parse(match.Groups[4].Value, format);
-
-				context.SetVertex(vertexIndex, new Vertex(x, y, z));
-				vertexIndex++;
-			}
-		}
-
-		private static void LoadFaces(IGeometryContext context, IFormatProvider format, string data, Material[] materials)
-		{
-			var faceRegex = new Regex(@"\t\t\t\*MESH_FACE\s*[0-9]*:\s*A:\s*([0-9]*)\s*B:\s*([0-9]*)\s*C:\s*([0-9]*)\s*AB:\s*([0-9]*)\s*BC:\s*([0-9]*)\s*CA:\s*([0-9]*)\t\s*\*MESH_SMOOTHING\s*[0-9]*\s*\t\*MESH_MTLID\s*([0-9]*)[\n\r]*");
-			var matches = faceRegex.Matches(data);
-
-			context.AllocateFaces(matches.Count);
-
-			var faceIndex = 0;
-			foreach (Match match in matches)
-			{
-				var a = Convert.ToInt32(match.Groups[1].Value);
-				var b = Convert.ToInt32(match.Groups[2].Value);
-				var c = Convert.ToInt32(match.Groups[3].Value);
-				var face = new Face { A = a, B = b, C = c };
-
-				/*
-				var materialIndex = Convert.ToInt32(match.Groups[4].Value);
-				if( materialIndex < materials.Length )
-				{
-					face.Material = materials[materialIndex];
-				}
-				 * */
-				
-				if( materials.Length > 0 )
-				{
-					face.Material = materials[0];
-				}
-
-
-				context.SetFace(faceIndex, face);
-				faceIndex++;
-			}
-		}
-
-		private static void LoadTextureCoordinates(IGeometryContext context, IFormatProvider format, string data)
-		{
-			var meshRegex = new Regex(@"\t\t\t\*MESH_TVERT\s*(\d*)\t([\-\d\.]*)\t([\-\d\.]*)\t([\-\d\.]*)[\n\r]*");
-			var matches = meshRegex.Matches(data);
-
-			context.AllocateTextureCoordinates(matches.Count);
-
-			var vertexIndex = 0;
-			foreach (Match match in matches)
-			{
-				var u = float.Parse(match.Groups[2].Value, format);
-				var v = float.Parse(match.Groups[3].Value, format);
-				v = 1f - v;
-				//var y = -float.Parse(match.Groups[4].Value, format);
-
-				context.SetTextureCoordinate(vertexIndex, new TextureCoordinate(u, v));
-				vertexIndex++;
-			}
-		}
-
-		private static void LoadTextureFaces(IGeometryContext context, IFormatProvider format, string data)
-		{
-			// *MESH_TFACE 0	0	5	6
-			var faceRegex = new Regex(@"\t\t\t\*MESH_TFACE\s*(\d*)\t([0-9]*)\t([0-9]*)\t([0-9]*)[\n\r]*");
-			var matches = faceRegex.Matches(data);
-
-			foreach (Match match in matches)
-			{
-				var faceIndex = Convert.ToInt32(match.Groups[1].Value);
-				var a = Convert.ToInt32(match.Groups[2].Value);
-				var b = Convert.ToInt32(match.Groups[3].Value);
-				var c = Convert.ToInt32(match.Groups[4].Value);
-
-				context.SetFaceTextureCoordinateIndex(faceIndex, a, b, c);
-			}
-		}
 
 		public override string[] FileExtensions
 		{
