@@ -43,7 +43,8 @@ namespace Balder.Core.Tests.AssetLoaders
 		}
 
 		[Test,SilverlightUnitTest]
-		public void SingleObjectWithoutMaterialsShouldReturnOneGeometry()
+		[TestCase("SingleBox")]
+		public void SingleObjectFileShouldReturnOneGeometry(string aseFile)
 		{
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
@@ -54,12 +55,21 @@ namespace Balder.Core.Tests.AssetLoaders
 			                                                                      		return geometry;
 			                                                                      	});
 			var fileLoader = new StringFileLoader();
-			
-			fileLoader.StringToRead = GetResourceString(AseFiles.SingleBox);
+			var fileBytes = AseFiles.ResourceManager.GetObject(aseFile) as byte[];
+
+			fileLoader.StringToRead = GetResourceString(fileBytes);
 			var aseLoader = new AseLoader(null, fileLoader, mockContentManager.Object);
 			var geometries = aseLoader.Load(string.Empty);
 			Assert.That(geometries.Length,Is.EqualTo(1));
 		}
+
+
+		[Test,SilverlightUnitTest]
+		public void SingleObjectFileShouldHaveVerticesLoadedCorrectly()
+		{
+			
+		}
+
 
 	}
 }
