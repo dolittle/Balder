@@ -185,7 +185,6 @@ namespace Balder.Core.Assets.AssetLoaders
 			{
 				case MESH_VERTEX:
 					{
-						//*MESH_VERTEX    0	-10.0000	-10.0000	-10.0000
 						var elements = content.Split('\t');
 						var vertexIndex = Convert.ToInt32(elements[0]);
 						var x = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -213,14 +212,10 @@ namespace Balder.Core.Assets.AssetLoaders
 
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[2].Substring(0, elements[2].Length - 1));
-						var b = Convert.ToInt32(elements[2].Substring(0, elements[3].Length - 1));
-						var c = Convert.ToInt32(elements[2].Substring(0, elements[4].Length - 1));
+						var b = Convert.ToInt32(elements[3].Substring(0, elements[3].Length - 1));
+						var c = Convert.ToInt32(elements[4].Substring(0, elements[4].Length - 2));
 						var face = new Face(a, b, c);
 						geometry.GeometryContext.SetFace(faceIndex,face);
-
-
-						//									*MESH_FACE    0:    A:    0 B:    2 C:    3 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 2 	*MESH_MTLID 1
-
 					}
 					break;
 			}
@@ -255,12 +250,20 @@ namespace Balder.Core.Assets.AssetLoaders
 				lines.Add(line);
 			}
 
-			var format = CultureInfo.InvariantCulture.NumberFormat;
-
-
 			var geometries = AseParser.Parse(lines,_assetLoaderService,ContentManager);
+			HandleNormals(geometries);
+
 			return geometries;
 			
+		}
+
+		private void HandleNormals(Geometry[] geometries)
+		{
+			foreach( var geometry in geometries )
+			{
+				GeometryHelper.CalculateFaceNormals(geometry.GeometryContext);
+				GeometryHelper.CalculateVertexNormals(geometry.GeometryContext);
+			}
 		}
 
 		private Material[] LoadMaterials(string aseAssetName, IGeometryContext context, IFormatProvider format, string data)

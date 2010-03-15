@@ -42,32 +42,8 @@ namespace Balder.Core.Tests.AssetLoaders
 			return str;
 		}
 
-		[Test, SilverlightUnitTest]
-		[TestCase("SingleBox")]
-		public void SingleObjectFileShouldReturnOneGeometry(string aseFile)
+		private Geometry[] LoadGeometries(string resourceName)
 		{
-			var geometryContext = new FakeGeometryContext();
-			var mockContentManager = new Mock<IContentManager>();
-			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
-																					{
-																						var geometry = new Geometry();
-																						geometry.GeometryContext = geometryContext;
-																						return geometry;
-																					});
-			var fileLoader = new StringFileLoader();
-			var fileBytes = AseFiles.ResourceManager.GetObject(aseFile) as byte[];
-
-			fileLoader.StringToRead = GetResourceString(fileBytes);
-			var aseLoader = new AseLoader(null, fileLoader, mockContentManager.Object);
-			var geometries = aseLoader.Load(string.Empty);
-			Assert.That(geometries.Length, Is.EqualTo(1));
-		}
-
-
-		[Test, SilverlightUnitTest]
-		public void SingleObjectFileShouldHaveVerticesLoadedCorrectly()
-		{
-
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
 			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
@@ -77,11 +53,28 @@ namespace Balder.Core.Tests.AssetLoaders
 				return geometry;
 			});
 			var fileLoader = new StringFileLoader();
-			var fileBytes = AseFiles.ResourceManager.GetObject("SingleBox") as byte[];
+			var fileBytes = AseFiles.ResourceManager.GetObject(resourceName) as byte[];
 
 			fileLoader.StringToRead = GetResourceString(fileBytes);
 			var aseLoader = new AseLoader(null, fileLoader, mockContentManager.Object);
 			var geometries = aseLoader.Load(string.Empty);
+			return geometries;
+		}
+
+
+		[Test, SilverlightUnitTest]
+		[TestCase("SingleBox")]
+		public void SingleObjectFileShouldReturnOneGeometry(string aseFile)
+		{
+			var geometries = LoadGeometries(aseFile);
+			Assert.That(geometries.Length, Is.EqualTo(1));
+		}
+
+
+		[Test, SilverlightUnitTest]
+		public void SingleObjectFileShouldHaveVerticesLoadedCorrectly()
+		{
+			var geometries = LoadGeometries("SingleBox");
 
 			var vertices = geometries[0].GeometryContext.GetVertices();
 			Assert.That(vertices.Length, Is.EqualTo(8));
@@ -98,21 +91,7 @@ namespace Balder.Core.Tests.AssetLoaders
 		[Test, SilverlightUnitTest]
 		public void SingleObjectFileShouldHaveFacesLoadedCorrectly()
 		{
-
-			var geometryContext = new FakeGeometryContext();
-			var mockContentManager = new Mock<IContentManager>();
-			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
-			{
-				var geometry = new Geometry();
-				geometry.GeometryContext = geometryContext;
-				return geometry;
-			});
-			var fileLoader = new StringFileLoader();
-			var fileBytes = AseFiles.ResourceManager.GetObject("SingleBox") as byte[];
-
-			fileLoader.StringToRead = GetResourceString(fileBytes);
-			var aseLoader = new AseLoader(null, fileLoader, mockContentManager.Object);
-			var geometries = aseLoader.Load(string.Empty);
+			var geometries = LoadGeometries("SingleBox");
 
 			var faces = geometries[0].GeometryContext.GetFaces();
 			Assert.That(faces.Length, Is.EqualTo(12));
