@@ -101,6 +101,30 @@ namespace Balder.Core.Tests.AssetLoaders
 			Assert.That(faces[0].C, Is.EqualTo(3));
 		}
 
+		[Test, SilverlightUnitTest]
+		public void SingleObjectFileWithTextureInfoShouldHaveTextureCoordinatesLoadedCorrectly()
+		{
+			var geometries = LoadGeometries("SingleBoxWithDiffuseMaterial");
+
+			var textureCoordinates = geometries[0].GeometryContext.GetTextureCoordinates();
+			Assert.That(textureCoordinates.Length, Is.EqualTo(36));
+
+			Assert.That(textureCoordinates[0].U, Is.EqualTo(0.9995f));
+			Assert.That(textureCoordinates[0].V, Is.EqualTo(0.9995f));
+
+			var faces = geometries[0].GeometryContext.GetFaces();
+			Assert.That(faces[0].DiffuseA, Is.EqualTo(8));
+			Assert.That(faces[0].DiffuseB, Is.EqualTo(9));
+			Assert.That(faces[0].DiffuseC, Is.EqualTo(10));
+		}
+
+		[Test, SilverlightUnitTest]
+		public void TwoObjectFileShouldReturnTwoGeometries()
+		{
+			var geometries = LoadGeometries("TwoBoxes");
+			Assert.That(geometries.Length, Is.EqualTo(2));
+		}
+
 
 	}
 }

@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Lighting;
@@ -80,6 +81,11 @@ namespace Balder.Silverlight.Rendering
 			Faces[index].DiffuseA = a;
 			Faces[index].DiffuseB = b;
 			Faces[index].DiffuseC = c;
+		}
+
+		public TextureCoordinate[] GetTextureCoordinates()
+		{
+			return TextureCoordinates;
 		}
 
 		public void SetMaterial(int index, Material material)

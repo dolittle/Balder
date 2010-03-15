@@ -76,7 +76,14 @@ namespace Balder.Core.Tests.Fakes
 
 		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
 		{
-			throw new NotImplementedException();
+			Faces[index].DiffuseA = a;
+			Faces[index].DiffuseB = b;
+			Faces[index].DiffuseC = c;
+		}
+
+		public TextureCoordinate[] GetTextureCoordinates()
+		{
+			return TextureCoordinates;
 		}
 
 		public void SetMaterial(int index, Material material)

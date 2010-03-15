@@ -41,10 +41,18 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string MESH = "MESH";
 		public const string MESH_NUMVERTEX = "MESH_NUMVERTEX";
 		public const string MESH_NUMFACES = "MESH_NUMFACES";
-		public const string MESH_VERTEX = "MESH_VERTEX";
-		public const string MESH_FACE = "MESH_FACE";
+		public const string MESH_NUMTVERTEX = "MESH_NUMTVERTEX";
+		public const string MESH_NUMTVFACES = "MESH_NUMTVFACES";
+
 		public const string MESH_VERTEX_LIST = "MESH_VERTEX_LIST";
 		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
+		public const string MESH_TVERTLIST = "MESH_TVERTLIST";
+		public const string MESH_TFACELIST = "MESH_TFACELIST";
+
+		public const string MESH_VERTEX = "MESH_VERTEX";
+		public const string MESH_FACE = "MESH_FACE";
+		public const string MESH_TVERT = "MESH_TVERT";
+		public const string MESH_TFACE = "MESH_TFACE";
 
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
@@ -52,12 +60,14 @@ namespace Balder.Core.Assets.AssetLoaders
 																					{GEOMOBJECT,GeometryScopeHandler},
 																					{MESH, MeshScopeHandler},
 																					{MESH_VERTEX_LIST, VertexScopeHandler},
-																					{MESH_FACE_LIST, FaceScopeHandler}
+																					{MESH_FACE_LIST, FaceScopeHandler},
+																					{MESH_TVERTLIST, TextureCoordinateScopeHandler},
+																					{MESH_TFACELIST, TextureCoordinateScopeHandler}
 		                                                                     	};
 
 
 
-		public static Geometry[]	Parse(List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		public static Geometry[] Parse(List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
 			var scopeStack = new Stack<string>();
 			var scopeObjectStack = new Stack<object>();
@@ -65,12 +75,16 @@ namespace Balder.Core.Assets.AssetLoaders
 			object currentScopeObject = null;
 
 			var geometries = new List<Geometry>();
-			
-			foreach( var line in lines )
+
+			var lineNumber = 0;
+
+			foreach (var line in lines)
 			{
 				var trimmedLine = line.Trim();
 
-				if( trimmedLine.StartsWith("*") )
+				lineNumber++;
+
+				if (trimmedLine.StartsWith("*"))
 				{
 					if (trimmedLine.Contains("{"))
 					{
@@ -81,14 +95,15 @@ namespace Balder.Core.Assets.AssetLoaders
 						currentScope = scope;
 						currentScopeObject = GetScopeObject(currentScope, currentScopeObject, assetLoaderService, contentManager);
 						scopeObjectStack.Push(currentScopeObject);
-						
-						if( null != currentScopeObject && 
+
+						if (null != currentScopeObject &&
 							currentScopeObject is Geometry &&
 							!geometries.Contains(currentScopeObject as Geometry))
 						{
 							geometries.Add(currentScopeObject as Geometry);
 						}
-					} else
+					}
+					else
 					{
 
 						if (AddPropertyHandlers.ContainsKey(currentScope))
@@ -102,7 +117,7 @@ namespace Balder.Core.Assets.AssetLoaders
 								var contentIndex = 0;
 
 								if ((firstTab < firstSpace || firstSpace < 0) &&
-								    firstTab > 0)
+									firstTab > 0)
 								{
 									contentIndex = firstTab;
 								}
@@ -119,13 +134,16 @@ namespace Balder.Core.Assets.AssetLoaders
 						}
 					}
 				}
-				if( trimmedLine.Contains("}"))
+				if (trimmedLine.Contains("}"))
 				{
+					scopeStack.Pop();
+					scopeObjectStack.Pop();
 					if (scopeStack.Count > 0)
 					{
-						currentScope = scopeStack.Pop();
-						currentScopeObject = scopeObjectStack.Pop();
-					} else
+						currentScope = scopeStack.Peek();
+						currentScopeObject = scopeObjectStack.Peek();
+					}
+					else
 					{
 						currentScope = string.Empty;
 						currentScopeObject = null;
@@ -149,7 +167,7 @@ namespace Balder.Core.Assets.AssetLoaders
 			}
 			return currentScopeObject;
 		}
-	
+
 
 
 		private static void GeometryScopeHandler(object scopeObject, string propertyName, string content)
@@ -161,7 +179,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		private static void MeshScopeHandler(object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
-			switch( propertyName )
+			switch (propertyName)
 			{
 				case MESH_NUMVERTEX:
 					{
@@ -175,13 +193,19 @@ namespace Balder.Core.Assets.AssetLoaders
 						geometry.GeometryContext.AllocateFaces(numFaces);
 					}
 					break;
+				case MESH_NUMTVERTEX:
+					{
+						var numTVertices = Convert.ToInt32(content);
+						geometry.GeometryContext.AllocateTextureCoordinates(numTVertices);
+					}
+					break;
 			}
 		}
 
 		private static void VertexScopeHandler(object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
-			switch( propertyName )
+			switch (propertyName)
 			{
 				case MESH_VERTEX:
 					{
@@ -191,12 +215,12 @@ namespace Balder.Core.Assets.AssetLoaders
 						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
 						var z = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						var vertex = new Vertex(x, y, z);
-						geometry.GeometryContext.SetVertex(vertexIndex,vertex);
+						geometry.GeometryContext.SetVertex(vertexIndex, vertex);
 					}
 					break;
 
 			}
-			
+
 		}
 
 		private static void FaceScopeHandler(object scopeObject, string propertyName, string content)
@@ -215,7 +239,39 @@ namespace Balder.Core.Assets.AssetLoaders
 						var b = Convert.ToInt32(elements[3].Substring(0, elements[3].Length - 1));
 						var c = Convert.ToInt32(elements[4].Substring(0, elements[4].Length - 2));
 						var face = new Face(a, b, c);
-						geometry.GeometryContext.SetFace(faceIndex,face);
+						geometry.GeometryContext.SetFace(faceIndex, face);
+					}
+					break;
+			}
+		}
+
+		private static void TextureCoordinateScopeHandler(object scopeObject, string propertyName, string content)
+		{
+			var geometry = scopeObject as Geometry;
+			switch (propertyName)
+			{
+				case MESH_TVERT:
+					{
+						var elements = content.Split('\t');
+
+						var tvertIndex = Convert.ToInt32(elements[0]);
+						var u = float.Parse(elements[1]);
+						var v = float.Parse(elements[2]);
+						v = 1f - v;
+						var textureCoordinate = new TextureCoordinate(u, v);
+						geometry.GeometryContext.SetTextureCoordinate(tvertIndex, textureCoordinate);
+					}
+					break;
+
+				case MESH_TFACE:
+					{
+						var elements = content.Split('\t');
+						var faceIndex = Convert.ToInt32(elements[0]);
+						var a = Convert.ToInt32(elements[1]);
+						var b = Convert.ToInt32(elements[2]);
+						var c = Convert.ToInt32(elements[3]);
+
+						geometry.GeometryContext.SetFaceTextureCoordinateIndex(faceIndex, a, b, c);
 					}
 					break;
 			}
@@ -237,29 +293,29 @@ namespace Balder.Core.Assets.AssetLoaders
 		public override Geometry[] Load(string assetName)
 		{
 			var stream = FileLoader.GetStream(assetName);
-			if( null == stream )
+			if (null == stream)
 			{
 				throw new AssetNotFoundException(assetName);
 			}
 			var streamReader = new StreamReader(stream);
 
 			var lines = new List<string>();
-			while( !streamReader.EndOfStream )
+			while (!streamReader.EndOfStream)
 			{
 				var line = streamReader.ReadLine();
 				lines.Add(line);
 			}
 
-			var geometries = AseParser.Parse(lines,_assetLoaderService,ContentManager);
+			var geometries = AseParser.Parse(lines, _assetLoaderService, ContentManager);
 			HandleNormals(geometries);
 
 			return geometries;
-			
+
 		}
 
 		private void HandleNormals(Geometry[] geometries)
 		{
-			foreach( var geometry in geometries )
+			foreach (var geometry in geometries)
 			{
 				GeometryHelper.CalculateFaceNormals(geometry.GeometryContext);
 				GeometryHelper.CalculateVertexNormals(geometry.GeometryContext);
@@ -273,46 +329,46 @@ namespace Balder.Core.Assets.AssetLoaders
 			var rootPath = Path.GetDirectoryName(aseAssetName);
 
 			var query = from match in RegexQuery.Against(data)
-			            where	match
-			            	.RegEx("\t")
-			            	.Literal("*MATERIAL")
-			            	.WhiteSpace
-			            	.Group(Pattern.With.Digit.Repeat.ZeroOrMore)
-			            	.WhiteSpace
-			            	.Literal("{")
-			            	.RegEx("[\n\r]*")
-			            	.IsTrue()
-			            select match;
-			
-			foreach( var match in query )
+						where match
+							.RegEx("\t")
+							.Literal("*MATERIAL")
+							.WhiteSpace
+							.Group(Pattern.With.Digit.Repeat.ZeroOrMore)
+							.WhiteSpace
+							.Literal("{")
+							.RegEx("[\n\r]*")
+							.IsTrue()
+						select match;
+
+			foreach (var match in query)
 			{
 				var materialEnd = data.IndexOf("\n\t}", match.Index);
-				if( materialEnd > 0 )
+				if (materialEnd > 0)
 				{
 					materialEnd += 2;
 					var material = new Material();
 					materials.Add(material);
 					var materialString = data.Substring(match.Index, materialEnd - match.Index);
 					var diffuseIndex = materialString.IndexOf("\t\t*MAP_DIFFUSE");
-					if( diffuseIndex > 0 )
+					if (diffuseIndex > 0)
 					{
 						var diffuseEnd = materialString.IndexOf("\n\t\t}", diffuseIndex);
-						if( diffuseEnd > 0 )
+						if (diffuseEnd > 0)
 						{
 							var diffuseString = materialString.Substring(diffuseIndex, diffuseEnd - diffuseIndex);
 							var bitmapIndex = diffuseString.IndexOf("\t\t\t*BITMAP");
 							var eolIndex = diffuseString.IndexOf('\n', bitmapIndex);
-							if( eolIndex > 0 )
+							if (eolIndex > 0)
 							{
 								var bitmapString = diffuseString.Substring(bitmapIndex, eolIndex - bitmapIndex);
 								var fileIndex = bitmapString.IndexOf('"');
-								if( fileIndex > 0 )
+								if (fileIndex > 0)
 								{
 									var file = bitmapString.Substring(fileIndex + 1).Replace('"', ' ').Trim();
 									var relativeFile = Path.GetFileName(file);
 									var actualFile = string.IsNullOrEmpty(rootPath)
-									                 	? relativeFile
-									                 	: string.Format("{0}//{1}", rootPath, relativeFile);
+														? relativeFile
+														: string.Format("{0}//{1}", rootPath, relativeFile);
 									var loader = _assetLoaderService.GetLoader<Image>(actualFile);
 									var frames = loader.Load(actualFile);
 									material.DiffuseMap = frames[0];

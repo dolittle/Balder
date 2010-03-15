@@ -231,6 +231,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\AssetLoaders\SingleBox.ASE" />
+    <None Include="Assets\AssetLoaders\SingleBoxWithDiffuseMaterial.ASE" />
     <None Include="Assets\AssetLoaders\TwoBoxes.ASE" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>

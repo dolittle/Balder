@@ -44,6 +44,7 @@ namespace Balder.Core.Objects.Geometries
 		void AllocateTextureCoordinates(int count);
 		void SetTextureCoordinate(int index,TextureCoordinate textureCoordinate);
 		void SetFaceTextureCoordinateIndex(int index, int a, int b, int c);
+		TextureCoordinate[] GetTextureCoordinates();
 
 		void SetMaterial(int index, Material material);
 
