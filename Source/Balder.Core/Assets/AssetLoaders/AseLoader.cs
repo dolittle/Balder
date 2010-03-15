@@ -47,6 +47,16 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
 
 
+		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
+		                                                                     	{
+																					{GEOMOBJECT,GeometryScopeHandler},
+																					{MESH, MeshScopeHandler},
+																					{MESH_VERTEX_LIST, VertexScopeHandler},
+																					{MESH_FACE_LIST, FaceScopeHandler}
+		                                                                     	};
+
+
+
 		public static Geometry[]	Parse(List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
 			var scopeStack = new Stack<string>();
@@ -80,28 +90,32 @@ namespace Balder.Core.Assets.AssetLoaders
 						}
 					} else
 					{
-						
-						var handler = GetScopeHandler(currentScope);
-						if( null != handler && null != currentScopeObject )
+
+						if (AddPropertyHandlers.ContainsKey(currentScope))
 						{
-							var firstSpace = trimmedLine.IndexOf(' ');
-							var firstTab = trimmedLine.IndexOf('\t');
+							var handler = AddPropertyHandlers[currentScope];
+							if (null != handler && null != currentScopeObject)
+							{
+								var firstSpace = trimmedLine.IndexOf(' ');
+								var firstTab = trimmedLine.IndexOf('\t');
 
-							var contentIndex = 0;
-							
-							if( (firstTab < firstSpace || firstSpace < 0) &&
-								firstTab > 0)
-							{
-								contentIndex = firstTab;
-							} else
-							{
-								contentIndex = firstSpace;
+								var contentIndex = 0;
+
+								if ((firstTab < firstSpace || firstSpace < 0) &&
+								    firstTab > 0)
+								{
+									contentIndex = firstTab;
+								}
+								else
+								{
+									contentIndex = firstSpace;
+								}
+								var propertyName = trimmedLine.Substring(1, contentIndex).Trim();
+
+								contentIndex++;
+								var content = trimmedLine.Substring(contentIndex).Trim();
+								handler(currentScopeObject, propertyName, content);
 							}
-							var propertyName = trimmedLine.Substring(1, contentIndex);
-
-							contentIndex++;
-							var content = trimmedLine.Substring(contentIndex).Trim();
-							handler(currentScopeObject, propertyName, content);
 						}
 					}
 				}
@@ -138,31 +152,6 @@ namespace Balder.Core.Assets.AssetLoaders
 	
 
 
-		private static AddPropertyHandler GetScopeHandler(string scope)
-		{
-			switch( scope )
-			{
-				case GEOMOBJECT:
-					{
-						return GeometryScopeHandler;
-					}
-				case MESH:
-					{
-						return MeshScopeHandler;
-					}
-				case MESH_VERTEX_LIST:
-					{
-						return VertexScopeHandler;
-					}
-				case MESH_FACE_LIST:
-					{
-						return FaceScopeHandler;
-					}
-			}
-			return null;
-		}
-
-
 		private static void GeometryScopeHandler(object scopeObject, string propertyName, string content)
 		{
 			int i = 0;
@@ -171,23 +160,70 @@ namespace Balder.Core.Assets.AssetLoaders
 
 		private static void MeshScopeHandler(object scopeObject, string propertyName, string content)
 		{
-			int i = 0;
-			i++;
-			
+			var geometry = scopeObject as Geometry;
+			switch( propertyName )
+			{
+				case MESH_NUMVERTEX:
+					{
+						var numVertices = Convert.ToInt32(content);
+						geometry.GeometryContext.AllocateVertices(numVertices);
+					}
+					break;
+				case MESH_NUMFACES:
+					{
+						var numFaces = Convert.ToInt32(content);
+						geometry.GeometryContext.AllocateFaces(numFaces);
+					}
+					break;
+			}
 		}
 
 		private static void VertexScopeHandler(object scopeObject, string propertyName, string content)
 		{
-			int i = 0;
-			i++;
+			var geometry = scopeObject as Geometry;
+			switch( propertyName )
+			{
+				case MESH_VERTEX:
+					{
+						//*MESH_VERTEX    0	-10.0000	-10.0000	-10.0000
+						var elements = content.Split('\t');
+						var vertexIndex = Convert.ToInt32(elements[0]);
+						var x = float.Parse(elements[1], CultureInfo.InvariantCulture);
+						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
+						var z = float.Parse(elements[2], CultureInfo.InvariantCulture);
+						var vertex = new Vertex(x, y, z);
+						geometry.GeometryContext.SetVertex(vertexIndex,vertex);
+					}
+					break;
+
+			}
 			
 		}
 
 		private static void FaceScopeHandler(object scopeObject, string propertyName, string content)
 		{
-			int i = 0;
-			i++;
-			
+			var geometry = scopeObject as Geometry;
+			switch (propertyName)
+			{
+
+				case MESH_FACE:
+					{
+						content = content.Replace(" ", string.Empty);
+						var elements = content.Split(':');
+
+						var faceIndex = Convert.ToInt32(elements[0]);
+						var a = Convert.ToInt32(elements[2].Substring(0, elements[2].Length - 1));
+						var b = Convert.ToInt32(elements[2].Substring(0, elements[3].Length - 1));
+						var c = Convert.ToInt32(elements[2].Substring(0, elements[4].Length - 1));
+						var face = new Face(a, b, c);
+						geometry.GeometryContext.SetFace(faceIndex,face);
+
+
+						//									*MESH_FACE    0:    A:    0 B:    2 C:    3 AB:    1 BC:    1 CA:    0	 *MESH_SMOOTHING 2 	*MESH_MTLID 1
+
+					}
+					break;
+			}
 		}
 	}
 

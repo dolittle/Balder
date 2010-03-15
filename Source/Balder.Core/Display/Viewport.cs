@@ -116,8 +116,8 @@ namespace Balder.Core.Display
 		/// <returns>A RenderableNode - null if it didn't find any node at the position</returns>
 		public virtual RenderableNode GetNodeAtScreenCoordinate(int x, int y)
 		{
-			var nearSource = new Vector((float)x, (float)y, 0f);
-			var farSource = new Vector((float)x, (float)y, 1f);
+			var nearSource = new Vector((float)x, (float)y, View.Near);
+			var farSource = new Vector((float)x, (float)y, View.Far);
 			
 			var world = Matrix.CreateTranslation(0, 0, 0);
 			var nearPoint = Unproject(nearSource, View.ProjectionMatrix, View.ViewMatrix, world);

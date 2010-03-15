@@ -18,6 +18,8 @@
 //
 
 #endregion
+
+using System.Windows.Input;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 
@@ -68,6 +70,7 @@ namespace Balder.Core.Objects.Geometries
 			GeometryContext.SetTextureCoordinate(2, new TextureCoordinate(0f, 1f));
 			GeometryContext.SetTextureCoordinate(3, new TextureCoordinate(1f, 1f));
 
+
 			GeometryContext.AllocateFaces(12);
 
 			GeometryContext.SetFace(0, new Face(2, 1, 0) { Normal = Vector.Backward, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0});
@@ -87,7 +90,6 @@ namespace Balder.Core.Objects.Geometries
 
 			GeometryContext.SetFace(10, new Face(6, 3, 2) { Normal = Vector.Down, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0 });
 			GeometryContext.SetFace(11, new Face(3, 6, 7) { Normal = Vector.Down, DiffuseA = 1, DiffuseB = 2, DiffuseC = 3 });
-
 
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
 		}
