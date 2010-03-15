@@ -19,45 +19,71 @@
 
 #endregion
 
+using System;
 using System.Text;
+using Balder.Core.Assets;
 using Balder.Core.Assets.AssetLoaders;
 using Balder.Core.Content;
+using Balder.Core.Imaging;
 using Balder.Core.Objects.Geometries;
-using Balder.Core.Tests.Assets.AssetLoaders;
 using Balder.Core.Tests.Fakes;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.AssetLoaders
+namespace Balder.Core.Tests.Assets.AssetLoaders
 {
+	public class FakeImageLoader : AssetLoader<Image>
+	{
+		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager) : base(fileLoader, contentManager)
+		{
+		}
+
+		public override string[] FileExtensions
+		{
+			get { return new[] {"jpg", "png"}; }
+		}
+
+		public override Image[] Load(string assetName)
+		{
+			var images = new[] {new Image()};
+			return images;
+		}
+	}
 
 
 	[TestFixture]
 	public class AseLoaderTests
 	{
-		private string GetResourceString(byte[] bytes)
+		private static string GetResourceString(byte[] bytes)
 		{
 			var str = Encoding.UTF8.GetString(bytes, 0, bytes.Length);
 			return str;
 		}
 
-		private Geometry[] LoadGeometries(string resourceName)
+		private static Geometry[] LoadGeometries(string resourceName)
 		{
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
 			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
-			{
-				var geometry = new Geometry();
-				geometry.GeometryContext = geometryContext;
-				return geometry;
-			});
+			                                                                      	{
+			                                                                      		var geometry = new Geometry();
+			                                                                      		geometry.GeometryContext = geometryContext;
+			                                                                      		return geometry;
+																					});
+
 			var fileLoader = new StringFileLoader();
+
+			var fakeImageLoader = new FakeImageLoader(fileLoader, mockContentManager.Object);
+			
+			var mockAssetLoaderService = new Mock<IAssetLoaderService>();
+			mockAssetLoaderService.Expect(a => a.GetLoader<Image>(It.IsAny<string>())).Returns(fakeImageLoader);
+
 			var fileBytes = AseFiles.ResourceManager.GetObject(resourceName) as byte[];
 
 			fileLoader.StringToRead = GetResourceString(fileBytes);
-			var aseLoader = new AseLoader(null, fileLoader, mockContentManager.Object);
-			var geometries = aseLoader.Load(string.Empty);
+			var aseLoader = new AseLoader(mockAssetLoaderService.Object, fileLoader, mockContentManager.Object);
+			var geometries = aseLoader.Load(resourceName+".ASE");
 			return geometries;
 		}
 
@@ -119,6 +145,14 @@ namespace Balder.Core.Tests.AssetLoaders
 		}
 
 		[Test, SilverlightUnitTest]
+		public void SingleObjectFileWithDiffuseTextureShouldLoadMaterialAndImage()
+		{
+			var geometries = LoadGeometries("SingleBoxWithDiffuseMaterial");
+			Assert.That(geometries[0].Material, Is.Not.Null);
+			Assert.That(geometries[0].Material.DiffuseMap, Is.Not.Null);
+		}
+
+		[Test, SilverlightUnitTest]
 		public void TwoObjectFileShouldReturnTwoGeometries()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
@@ -128,4 +162,3 @@ namespace Balder.Core.Tests.AssetLoaders
 
 	}
 }
-

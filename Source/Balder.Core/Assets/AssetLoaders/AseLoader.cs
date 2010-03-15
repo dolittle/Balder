@@ -32,13 +32,27 @@ using Balder.Core.ReadableRex.LinqToRegex;
 namespace Balder.Core.Assets.AssetLoaders
 {
 
-	public delegate void AddPropertyHandler(object scopeObject, string propertyName, string content);
+	public delegate void AddPropertyHandler(AseGlobals globals, object scopeObject, string propertyName, string content);
+
+	public class AseGlobals
+	{
+		public Material[] Materials { get; set; }
+		public IAssetLoaderService AssetLoaderService { get; set; }
+		public string RootPath { get; set; }
+	}
 
 	public class AseParser
 	{
 		public const string GEOMOBJECT = "GEOMOBJECT";
 		public const string NODE_NAME = "NODE_NAME";
 		public const string MESH = "MESH";
+
+		public const string MATERIAL_LIST = "MATERIAL_LIST";
+		public const string MATERIAL_COUNT = "MATERIAL_COUNT";
+		public const string MATERIAL = "MATERIAL";
+		public const string MAP_DIFFUSE = "MAP_DIFFUSE";
+		public const string BITMAP = "BITMAP";
+
 		public const string MESH_NUMVERTEX = "MESH_NUMVERTEX";
 		public const string MESH_NUMFACES = "MESH_NUMFACES";
 		public const string MESH_NUMTVERTEX = "MESH_NUMTVERTEX";
@@ -54,6 +68,8 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string MESH_TVERT = "MESH_TVERT";
 		public const string MESH_TFACE = "MESH_TFACE";
 
+		public const string MATERIAL_REF = "MATERIAL_REF";
+
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
 		                                                                     	{
@@ -62,12 +78,15 @@ namespace Balder.Core.Assets.AssetLoaders
 																					{MESH_VERTEX_LIST, VertexScopeHandler},
 																					{MESH_FACE_LIST, FaceScopeHandler},
 																					{MESH_TVERTLIST, TextureCoordinateScopeHandler},
-																					{MESH_TFACELIST, TextureCoordinateScopeHandler}
+																					{MESH_TFACELIST, TextureCoordinateScopeHandler},
+																					{MATERIAL_LIST, MaterialListScopeHandler},
+																					{MATERIAL, MaterialScopeHandler},
+																					{MAP_DIFFUSE, DiffuseScopeHandler}
 		                                                                     	};
 
 
 
-		public static Geometry[] Parse(List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		public static Geometry[] Parse(string assetName, List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
 			var scopeStack = new Stack<string>();
 			var scopeObjectStack = new Stack<object>();
@@ -77,6 +96,12 @@ namespace Balder.Core.Assets.AssetLoaders
 			var geometries = new List<Geometry>();
 
 			var lineNumber = 0;
+
+			var globals = new AseGlobals();
+			globals.AssetLoaderService = assetLoaderService;
+			globals.RootPath = Path.GetDirectoryName(assetName);
+			scopeStack.Push("Globals");
+			scopeObjectStack.Push(globals);
 
 			foreach (var line in lines)
 			{
@@ -91,9 +116,19 @@ namespace Balder.Core.Assets.AssetLoaders
 						var startIndex = trimmedLine.IndexOf("*") + 1;
 						var endIndex = trimmedLine.IndexOf("{");
 						var scope = trimmedLine.Substring(startIndex, endIndex - startIndex).Trim();
+
+						
+						var scopeParameter = string.Empty;
+						var elements = scope.Split(' ');
+						if( elements.Length == 2 )
+						{
+							scope = elements[0];
+							scopeParameter = elements[1];
+						}
+
 						scopeStack.Push(scope);
 						currentScope = scope;
-						currentScopeObject = GetScopeObject(currentScope, currentScopeObject, assetLoaderService, contentManager);
+						currentScopeObject = GetScopeObject(globals, currentScope, scopeParameter, currentScopeObject, assetLoaderService, contentManager);
 						scopeObjectStack.Push(currentScopeObject);
 
 						if (null != currentScopeObject &&
@@ -129,7 +164,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 								contentIndex++;
 								var content = trimmedLine.Substring(contentIndex).Trim();
-								handler(currentScopeObject, propertyName, content);
+								handler(globals, currentScopeObject, propertyName, content);
 							}
 						}
 					}
@@ -155,7 +190,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		}
 
 
-		private static object GetScopeObject(string scope, object currentScopeObject, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		private static object GetScopeObject(AseGlobals globals, string scope, string scopeParameter, object currentScopeObject, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
 			switch (scope)
 			{
@@ -163,20 +198,38 @@ namespace Balder.Core.Assets.AssetLoaders
 					{
 						return contentManager.CreateAssetPart<Geometry>();
 					}
-					break;
+
+				case MATERIAL:
+					{
+						var materialIndex = Convert.ToInt32(scopeParameter);
+						var material = new Material();
+						globals.Materials[materialIndex] = material;
+						return material;
+					}
 			}
 			return currentScopeObject;
 		}
 
 
 
-		private static void GeometryScopeHandler(object scopeObject, string propertyName, string content)
+		private static void GeometryScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
-			int i = 0;
-			i++;
+			var geometry = scopeObject as Geometry;
+			switch (propertyName)
+			{
+				case MATERIAL_REF:
+					{
+						var materialRef = Convert.ToInt32(content);
+						if( null != globals.Materials && materialRef < globals.Materials.Length )
+						{
+							geometry.Material = globals.Materials[materialRef];	
+						}
+					}
+					break;
+			}
 		}
 
-		private static void MeshScopeHandler(object scopeObject, string propertyName, string content)
+		private static void MeshScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
@@ -202,7 +255,7 @@ namespace Balder.Core.Assets.AssetLoaders
 			}
 		}
 
-		private static void VertexScopeHandler(object scopeObject, string propertyName, string content)
+		private static void VertexScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
@@ -223,7 +276,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 		}
 
-		private static void FaceScopeHandler(object scopeObject, string propertyName, string content)
+		private static void FaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
@@ -245,7 +298,7 @@ namespace Balder.Core.Assets.AssetLoaders
 			}
 		}
 
-		private static void TextureCoordinateScopeHandler(object scopeObject, string propertyName, string content)
+		private static void TextureCoordinateScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
@@ -272,6 +325,47 @@ namespace Balder.Core.Assets.AssetLoaders
 						var c = Convert.ToInt32(elements[3]);
 
 						geometry.GeometryContext.SetFaceTextureCoordinateIndex(faceIndex, a, b, c);
+					}
+					break;
+			}
+		}
+
+		private static void MaterialListScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
+		{
+			switch( propertyName )
+			{
+				case MATERIAL_COUNT:
+					{
+						var materialCount = Convert.ToInt32(content);
+						globals.Materials = new Material[materialCount];
+					}
+					break;
+			}
+		}
+
+		private static void MaterialScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
+		{
+			
+		}
+
+		private static void DiffuseScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
+		{
+			var material = scopeObject as Material;
+
+			switch( propertyName )
+			{
+				case BITMAP:
+					{
+						var file = content.Replace("\"", string.Empty);
+						var relativeFile = Path.GetFileName(file);
+						var rootPath = globals.RootPath;
+						var actualFile = string.IsNullOrEmpty(rootPath)
+											? relativeFile
+											: string.Format("{0}//{1}", rootPath, relativeFile);
+
+						var loader = globals.AssetLoaderService.GetLoader<Image>(actualFile);
+						var frames = loader.Load(actualFile);
+						material.DiffuseMap = frames[0];
 					}
 					break;
 			}
@@ -306,7 +400,7 @@ namespace Balder.Core.Assets.AssetLoaders
 				lines.Add(line);
 			}
 
-			var geometries = AseParser.Parse(lines, _assetLoaderService, ContentManager);
+			var geometries = AseParser.Parse(assetName, lines, _assetLoaderService, ContentManager);
 			HandleNormals(geometries);
 
 			return geometries;
