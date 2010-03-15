@@ -15,14 +15,10 @@
     <AssemblyName>Balder.Core</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
-    <SccProjectName>
-    </SccProjectName>
-    <SccLocalPath>
-    </SccLocalPath>
-    <SccAuxPath>
-    </SccAuxPath>
-    <SccProvider>
-    </SccProvider>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <FileUpgradeFlags>
@@ -91,7 +87,9 @@
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\AseParser.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
