@@ -5,6 +5,7 @@ using System.IO;
 using Balder.Core.Content;
 using Balder.Core.Imaging;
 using Balder.Core.Materials;
+using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Assets.AssetLoaders
@@ -38,10 +39,17 @@ namespace Balder.Core.Assets.AssetLoaders
 
 		public const string MATERIAL_REF = "MATERIAL_REF";
 
+		public const string NODE_TM = "NODE_TM";
+		public const string TM_POS = "TM_POS";
+		public const string TM_ROTAXIS = "TM_ROTAXIS";
+		public const string TM_ROTANGLE = "TM_ROTANGLE";
+		public const string TM_SCALE = "TM_SCALE";
+
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
 		                                                                                     	{
 		                                                                                     		{GEOMOBJECT,GeometryScopeHandler},
+																									{NODE_TM,GeometryScopeHandler},
 		                                                                                     		{MESH, MeshScopeHandler},
 		                                                                                     		{MESH_VERTEX_LIST, VertexScopeHandler},
 		                                                                                     		{MESH_FACE_LIST, FaceScopeHandler},
@@ -194,6 +202,18 @@ namespace Balder.Core.Assets.AssetLoaders
 						}
 					}
 					break;
+				case TM_POS:
+					{
+						var elements = content.Split('\t');
+						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
+						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
+						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
+						var coordinate = new Coordinate();
+						coordinate.Set(x,y,z);
+						geometry.Position = coordinate;
+					}
+					break;
+
 			}
 		}
 

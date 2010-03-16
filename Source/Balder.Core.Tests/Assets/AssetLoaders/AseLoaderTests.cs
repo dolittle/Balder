@@ -35,18 +35,19 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 {
 	public class FakeImageLoader : AssetLoader<Image>
 	{
-		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager) : base(fileLoader, contentManager)
+		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager)
+			: base(fileLoader, contentManager)
 		{
 		}
 
 		public override string[] FileExtensions
 		{
-			get { return new[] {"jpg", "png"}; }
+			get { return new[] { "jpg", "png" }; }
 		}
 
 		public override Image[] Load(string assetName)
 		{
-			var images = new[] {new Image()};
+			var images = new[] { new Image() };
 			return images;
 		}
 	}
@@ -66,16 +67,16 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
 			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
-			                                                                      	{
-			                                                                      		var geometry = new Geometry();
-			                                                                      		geometry.GeometryContext = geometryContext;
-			                                                                      		return geometry;
+																					{
+																						var geometry = new Geometry();
+																						geometry.GeometryContext = geometryContext;
+																						return geometry;
 																					});
 
 			var fileLoader = new StringFileLoader();
 
 			var fakeImageLoader = new FakeImageLoader(fileLoader, mockContentManager.Object);
-			
+
 			var mockAssetLoaderService = new Mock<IAssetLoaderService>();
 			mockAssetLoaderService.Expect(a => a.GetLoader<Image>(It.IsAny<string>())).Returns(fakeImageLoader);
 
@@ -83,7 +84,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 
 			fileLoader.StringToRead = GetResourceString(fileBytes);
 			var aseLoader = new AseLoader(mockAssetLoaderService.Object, fileLoader, mockContentManager.Object);
-			var geometries = aseLoader.Load(resourceName+".ASE");
+			var geometries = aseLoader.Load(resourceName + ".ASE");
 			return geometries;
 		}
 
@@ -159,6 +160,17 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries.Length, Is.EqualTo(2));
 		}
 
+		[Test, SilverlightUnitTest]
+		public void TwoObjectFileShouldHavePositionForObjectsReadCorrectly()
+		{
+			var geometries = LoadGeometries("TwoBoxes");
+			Assert.That(geometries[0].Position.X, Is.EqualTo(0d));
+			Assert.That(geometries[0].Position.Y, Is.EqualTo(-10d));
+			Assert.That(geometries[0].Position.Z, Is.EqualTo(0d));
 
+			Assert.That(geometries[1].Position.X, Is.EqualTo(0.4756d));
+			Assert.That(geometries[1].Position.Y, Is.EqualTo(-10d));
+			Assert.That(geometries[1].Position.Z, Is.EqualTo(40d));
+		}
 	}
 }
