@@ -24,7 +24,7 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public class Geometry : RenderableNode, IAssetPart
+	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
 	{
 		public IGeometryContext GeometryContext { get; set; }
 
@@ -46,10 +46,16 @@ namespace Balder.Core.Objects.Geometries
 			// Todo : This should not be necessary.
 			if (null == GeometryContext)
 			{
-				GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
+				MakeUnique();
+				
 			}
 			
 			base.Initialize();
+		}
+
+		public void MakeUnique()
+		{
+			GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
 		}
 
 

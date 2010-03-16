@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Balder.Core.Execution;
 
 namespace Balder.Core
 {
@@ -30,7 +31,7 @@ namespace Balder.Core
 		}
 
 
-		public Node Clone(Node source)
+		public Node Clone(Node source, bool unique)
 		{
 			var type = source.GetType();
 			var cloneInfo = GetInfoForType(type);
@@ -40,9 +41,14 @@ namespace Balder.Core
 			ClonePropertyValues(source, cloneInfo, clone);
 			CloneBindingExpressions(source, cloneInfo, clone);
 
+			if( unique && source is ICanBeUnique )
+			{
+				((ICanBeUnique)source).MakeUnique();
+			}
+
 			foreach( var child in source.Children )
 			{
-				var clonedChild = child.Clone();
+				var clonedChild = child.Clone(unique);
 				clone.Children.Add(clonedChild);
 			}
 

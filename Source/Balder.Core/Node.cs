@@ -204,7 +204,7 @@ namespace Balder.Core
 			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			var negativePivot = PivotPoint.ToVector().Negative();
 			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
-			World = pivotMatrix * rotationMatrix * scaleMatrix * translationMatrix;
+			World = pivotMatrix * scaleMatrix * rotationMatrix * translationMatrix;
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
@@ -224,10 +224,10 @@ namespace Balder.Core
 		}
 
 
-		public virtual Node Clone()
+		public virtual Node Clone(bool unique)
 		{
-			var clone = NodeCloner.Instance.Clone(this);
-			clone.IsClone = true;
+			var clone = NodeCloner.Instance.Clone(this, unique);
+			clone.IsClone = !unique;
 			return clone as Node;
 		}
 

@@ -48,6 +48,14 @@ namespace Balder.Silverlight.Controls
 			base.Prepare();
 		}
 
+		public static readonly DependencyProperty<NodesControl, bool> UniqueNodesProperty =
+			DependencyProperty<NodesControl, bool>.Register(n => n.UniqueNodes);
+		public bool UniqueNodes
+		{
+			get { return UniqueNodesProperty.GetValue(this); }
+			set { UniqueNodesProperty.SetValue(this, value); }
+		}
+
 
 		public static readonly DependencyProperty<NodesControl, DataTemplate> NodeTemplateProperty =
 			DependencyProperty<NodesControl, DataTemplate>.Register(n => n.NodeTemplate);
@@ -71,7 +79,7 @@ namespace Balder.Silverlight.Controls
 			get { return ItemsSourceProperty.GetValue(this); }
 			set
 			{
-				if( null == value )
+				if (null == value)
 				{
 					return;
 				}
@@ -84,17 +92,17 @@ namespace Balder.Silverlight.Controls
 
 		public static readonly DependencyProperty<NodesControl, INodeModifier> ModifierProperty =
 			DependencyProperty<NodesControl, INodeModifier>.Register(n => n.Modifier);
-		
+
 		public INodeModifier Modifier
 		{
 			get { return ModifierProperty.GetValue(this); }
-			set { ModifierProperty.SetValue(this,value); }
+			set { ModifierProperty.SetValue(this, value); }
 		}
 
 		private void HandleNewItemsSource()
 		{
 			var itemsSource = _itemsSource as INotifyCollectionChanged;
-			if( null != itemsSource )
+			if (null != itemsSource)
 			{
 				itemsSource.CollectionChanged += ItemsSourceCollectionChanged;
 			}
@@ -111,11 +119,11 @@ namespace Balder.Silverlight.Controls
 
 		private void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
-			switch( e.Action )
+			switch (e.Action)
 			{
 				case NotifyCollectionChangedAction.Add:
 					{
-						foreach( var item in e.NewItems )
+						foreach (var item in e.NewItems)
 						{
 							LoadAndAddChild(item);
 						}
@@ -124,7 +132,7 @@ namespace Balder.Silverlight.Controls
 
 				case NotifyCollectionChangedAction.Remove:
 					{
-						foreach( var item in e.OldItems )
+						foreach (var item in e.OldItems)
 						{
 							RemoveChildBasedOnItem(item);
 						}
@@ -155,7 +163,7 @@ namespace Balder.Silverlight.Controls
 			{
 				LoadAndAddChild(item);
 			}
-			
+
 			var after = DateTime.Now;
 			var delta = after.Subtract(before);
 			int i = 0;
@@ -168,14 +176,14 @@ namespace Balder.Silverlight.Controls
 
 		private void LoadAndAddChild(object item)
 		{
-			if( _items.Contains(item))
+			if (_items.Contains(item))
 			{
 				return;
 			}
 
 			if (null != NodeTemplate)
 			{
-				if( null == _templateContent )
+				if (null == _templateContent)
 				{
 					_templateContent = NodeTemplate.LoadContent() as Node;
 					if (null == _templateContent)
@@ -183,10 +191,10 @@ namespace Balder.Silverlight.Controls
 						throw new ArgumentException("Content of the template for NodeTemplate must be a derivative of Node");
 					}
 					AddItemAsChild(item, _templateContent);
-				} 
+				}
 				else
 				{
-					_addedItems.Push(item);	
+					_addedItems.Push(item);
 				}
 			}
 			_items.Add(item);
@@ -206,20 +214,18 @@ namespace Balder.Silverlight.Controls
 
 				modifier.Apply(node, index, item);
 			}
-			if( !Children.Contains(node))
+			if (!Children.Contains(node))
 			{
-				Children.Add(node);	
+				Children.Add(node);
 			}
 		}
 
-		
-
 		protected override void BeforeRendering(Balder.Core.Display.Viewport viewport, Balder.Core.Math.Matrix view, Balder.Core.Math.Matrix projection, Balder.Core.Math.Matrix world)
 		{
-			while( _addedItems.Count > 0 )
+			while (_addedItems.Count > 0)
 			{
 				var item = _addedItems.Pop();
-				var node = _templateContent.Clone();
+				var node = _templateContent.Clone(UniqueNodes);
 				AddItemAsChild(item, node);
 			}
 
@@ -229,15 +235,15 @@ namespace Balder.Silverlight.Controls
 		private void RemoveChildBasedOnItem(object item)
 		{
 			var nodesToRemove = new List<Node>();
-			foreach( var node in Children )
+			foreach (var node in Children)
 			{
-				if( node.DataContext.Equals(item))
+				if (node.DataContext.Equals(item))
 				{
 					nodesToRemove.Add(node);
 				}
 			}
 
-			foreach( var node in nodesToRemove )
+			foreach (var node in nodesToRemove)
 			{
 				Children.Remove(node);
 			}
