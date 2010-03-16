@@ -17,12 +17,10 @@
 //
 #endregion
 
-using System;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
-using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Silverlight.Rendering.Drawing;
 using Matrix = Balder.Core.Math.Matrix;
@@ -202,17 +200,11 @@ namespace Balder.Silverlight.Rendering
 
 		private void TransformAndTranslateVertices(Viewport viewport, Node node, Matrix view, Matrix projection, Matrix world)
 		{
-			var negativePivot = -(Vector)node.PivotPoint;
-
 			var localView = (world * view);
 			for (var vertexIndex = 0; vertexIndex < Vertices.Length; vertexIndex++)
 			{
 				var vertex = Vertices[vertexIndex];
-				vertex.Vector += negativePivot;
-
 				TransformAndTranslateVertex(ref vertex, viewport, localView, projection);
-				//CalculateColorForVertex(ref vertex, viewport, node);
-				vertex.Vector -= negativePivot;
 				vertex.IsColorCalculated = false;
 				Vertices[vertexIndex] = vertex;
 			}

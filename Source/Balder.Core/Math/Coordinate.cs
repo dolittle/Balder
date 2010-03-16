@@ -38,6 +38,8 @@ namespace Balder.Core.Math
 			}
 		}
 
+		
+
 		public Vector ToVector()
 		{
 			var vector = new Vector((float)X, (float)Y, (float)Z);

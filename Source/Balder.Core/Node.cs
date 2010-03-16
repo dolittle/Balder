@@ -202,7 +202,9 @@ namespace Balder.Core
 			var scaleMatrix = Matrix.CreateScale(Scale);
 			var translationMatrix = Matrix.CreateTranslation(Position);
 			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
-			World = rotationMatrix * scaleMatrix * translationMatrix;
+			var negativePivot = PivotPoint.ToVector().Negative();
+			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
+			World = pivotMatrix * rotationMatrix * scaleMatrix * translationMatrix;
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
