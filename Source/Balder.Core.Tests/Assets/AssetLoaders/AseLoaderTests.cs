@@ -172,5 +172,18 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries[1].Position.Y, Is.EqualTo(-10d));
 			Assert.That(geometries[1].Position.Z, Is.EqualTo(40d));
 		}
+
+		[Test, SilverlightUnitTest]
+		public void TwoObjectFileShouldHaveScaleForObjectsReadCorrectly()
+		{
+			var geometries = LoadGeometries("TwoBoxes");
+			Assert.That(geometries[0].Scale.X, Is.EqualTo(3d));
+			Assert.That(geometries[0].Scale.Y, Is.EqualTo(1d));
+			Assert.That(geometries[0].Scale.Z, Is.EqualTo(2d));
+
+			Assert.That(geometries[1].Scale.X, Is.EqualTo(1d));
+			Assert.That(geometries[1].Scale.Y, Is.EqualTo(3d));
+			Assert.That(geometries[1].Scale.Z, Is.EqualTo(2d));
+		}
 	}
 }

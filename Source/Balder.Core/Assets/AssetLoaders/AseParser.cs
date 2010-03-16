@@ -213,6 +213,17 @@ namespace Balder.Core.Assets.AssetLoaders
 						geometry.Position = coordinate;
 					}
 					break;
+				case TM_SCALE:
+					{
+						var elements = content.Split('\t');
+						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
+						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
+						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
+						var coordinate = new Coordinate();
+						coordinate.Set(x, y, z);
+						geometry.Scale = coordinate;
+					}
+					break;
 
 			}
 		}
