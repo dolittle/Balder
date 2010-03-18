@@ -114,7 +114,6 @@ namespace Balder.Core.Objects.Geometries
 			{
 				StartAngleProperty.SetValue(this, value);
 				InvalidatePrepare();
-				Log("StartAngle : {0}",value);
 			}
 		}
 
@@ -126,7 +125,6 @@ namespace Balder.Core.Objects.Geometries
 			{
 				EndAngleProperty.SetValue(this, value);
 				InvalidatePrepare();
-				Log("EndAngle : {0}", value);
 			}
 		}
 
@@ -175,24 +173,9 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		private void Log(string format, params object[] args)
-		{
-			var hashCode = GetHashCode();
-			var gHashCode = GeometryContext.GetHashCode();
-			var message = string.Format("{0} - {1} : {2}\n", hashCode, gHashCode, string.Format(format,args));
-			System.Diagnostics.Debugger.Log(0, null, message);
-		}
-
 		protected override void Prepare()
 		{
 			Validate();
-
-
-			
-			Log("{0} - {1}", StartAngle, EndAngle);
-			
-
-
 
 			var actualStacks = Stacks + 1;
 			var actualSegments = Segments;
@@ -228,7 +211,7 @@ namespace Balder.Core.Objects.Geometries
 				startRadian = MathHelper.ToRadians((float)StartAngle);
 				var endRadian = MathHelper.ToRadians((float)EndAngle);
 				var radianDelta = endRadian - startRadian;
-				radianAdd = radianDelta / actualSegments;
+				radianAdd = radianDelta / (actualSegments-1);
 
 				isFull = false;
 
@@ -253,6 +236,7 @@ namespace Balder.Core.Objects.Geometries
 
 			GeometryHelper.CalculateFaceNormals(GeometryContext);
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			InitializeBoundingSphere();
 		}
 
 		private void BuildVertices(int actualSegments, int actualStacks, double startRadian, double radianAdd, float currentY, double currentRadius, float currentV, float uAdd, double radiusAdd, float yAdd, float vAdd)
