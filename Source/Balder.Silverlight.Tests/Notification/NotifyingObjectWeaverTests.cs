@@ -150,6 +150,11 @@ namespace Balder.Silverlight.Tests.Notification
 			public void InitializeContainer(object container)
 			{
 			}
+
+			public Node GetNodeAtPosition(int xPosition, int yPosition)
+			{
+				return null;
+			}
 		}
 
 		#endregion

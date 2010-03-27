@@ -30,6 +30,7 @@ namespace Balder.Core.Debug
 		private readonly IObjectFactory _objectFactory;
 
 		private DebugShape _boundingSphereDebugShape;
+		private RayDebugShape _rayDebugShape;
 
 		public DebugRenderer(IObjectFactory objectFactory)
 		{
@@ -60,6 +61,8 @@ namespace Balder.Core.Debug
 		{
 			_boundingSphereDebugShape = _objectFactory.Get<BoundingSphereDebugShape>();
 			_boundingSphereDebugShape.OnInitialize();
+			_rayDebugShape = _objectFactory.Get<RayDebugShape>();
+			_rayDebugShape.OnInitialize();
 		}
 
 		public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -78,6 +81,14 @@ namespace Balder.Core.Debug
 
 			_boundingSphereDebugShape.World = rotateXMatrix * scaleMatrix * translationMatrix;
 			_boundingSphereDebugShape.OnRender(viewport, view, projection, world);
+		}
+
+		public void RenderRay(Vector position, Vector direction, Viewport viewport)
+		{
+			_rayDebugShape.Start = position;
+			_rayDebugShape.Direction = direction;
+			_rayDebugShape.Color = viewport.DebugInfo.Color;
+			_rayDebugShape.OnRender(viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity);
 		}
 	}
 }

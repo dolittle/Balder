@@ -130,6 +130,8 @@
     <Compile Include="Rendering\Drawing\FlatTriangleAdditive.cs" />
     <Compile Include="Rendering\Drawing\GouraudTriangle.cs" />
     <Compile Include="Rendering\Drawing\Point.cs" />
+    <Compile Include="Rendering\INodesPixelBuffer.cs" />
+    <Compile Include="Rendering\NodesPixelBuffer.cs" />
     <Compile Include="Rendering\ShapeContext.cs" />
     <Compile Include="Rendering\Drawing\TextureTriangle.cs" />
     <Compile Include="Rendering\Drawing\Triangle.cs" />

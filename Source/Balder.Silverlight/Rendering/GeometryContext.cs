@@ -192,6 +192,7 @@ namespace Balder.Silverlight.Rendering
 			vertex.Transform(view);
 			vertex.Translate(projection, viewport.Width, viewport.Height);
 			vertex.MakeScreenCoordinates();
+			 
 			vertex.TransformedVectorNormalized = vertex.TransformedNormal;
 			vertex.TransformedVectorNormalized.Normalize();
 			var z = ((vertex.TransformedVector.Z / viewport.View.DepthDivisor) + viewport.View.DepthZero);
@@ -264,6 +265,7 @@ namespace Balder.Silverlight.Rendering
 			}
 
 			var matrix = world*view;
+			var nodeIdentifier = ((Balder.Silverlight.Display.Display) viewport.Display).NodesPixelBuffer.GetNodeIdentifier(node);
 
 			for (var faceIndex = 0; faceIndex < Faces.Length; faceIndex++)
 			{
@@ -298,11 +300,11 @@ namespace Balder.Silverlight.Rendering
 								face.Color = face.Material.Diffuse;
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
-									TextureTriangleRenderer.Draw(face, Vertices);
+									TextureTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 								else
 								{
-									FlatTriangleRenderer.Draw(face, Vertices);
+									FlatTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 							}
 							break;
@@ -314,11 +316,11 @@ namespace Balder.Silverlight.Rendering
 								face.Color = color.Additive(_lightCalculator.Calculate(viewport, face.TransformedPosition, face.TransformedNormal));
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
-									TextureTriangleRenderer.Draw(face, Vertices);
+									TextureTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 								else
 								{
-									FlatTriangleRenderer.Draw(face, Vertices);
+									FlatTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 							}
 							break;
@@ -332,11 +334,11 @@ namespace Balder.Silverlight.Rendering
 
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
-									TextureTriangleRenderer.Draw(face, Vertices);
+									TextureTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 								else
 								{
-									GouraudTriangleRenderer.Draw(face, Vertices);
+									GouraudTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 								}
 
 							}
@@ -354,7 +356,7 @@ namespace Balder.Silverlight.Rendering
 					Vertices[face.A].CalculatedColor = Vertices[face.A].CalculatedColor.Additive(color);
 					Vertices[face.B].CalculatedColor = Vertices[face.B].CalculatedColor.Additive(color);
 					Vertices[face.C].CalculatedColor = Vertices[face.C].CalculatedColor.Additive(color);
-					GouraudTriangleRenderer.Draw(face, Vertices);
+					GouraudTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
 					Vertices[face.A].CalculatedColor = aColor;
 					Vertices[face.B].CalculatedColor = bColor;
 					Vertices[face.C].CalculatedColor = cColor;

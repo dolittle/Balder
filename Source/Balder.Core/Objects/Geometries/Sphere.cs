@@ -133,7 +133,9 @@ namespace Balder.Core.Objects.Geometries
 				GeometryContext.SetFace(faceIndex, face);
 			}*/
 
+			GeometryHelper.CalculateFaceNormals(GeometryContext);
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			InitializeBoundingSphere();
 
 			base.Prepare();
 		}

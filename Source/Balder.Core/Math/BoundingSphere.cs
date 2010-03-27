@@ -22,11 +22,11 @@ using System.Globalization;
 
 namespace Balder.Core.Math
 {
-	public class BoundingSphere : IEquatable<BoundingSphere>
+	public struct BoundingSphere : IEquatable<BoundingSphere>
 	{
 		public Vector Center;
 		public float Radius;
-		public BoundingSphere(Vector center, float radius)
+		public BoundingSphere(Vector center, float radius) : this()
 		{
 			if (radius < 0f)
 			{
@@ -421,20 +421,22 @@ namespace Balder.Core.Math
 		public BoundingSphere Transform(Matrix matrix)
 		{
 			var center = Vector.Transform(Center, matrix);
-			float num4 = ((matrix[0, 0] * matrix[0, 0]) + (matrix[0, 1] * matrix[0, 1])) + (matrix[0, 2] * matrix[0, 2]);
-			float num3 = ((matrix[1, 0] * matrix[1, 0]) + (matrix[1, 1] * matrix[1, 1])) + (matrix[1, 2] * matrix[1, 2]);
-			float num2 = ((matrix[2, 0] * matrix[2, 0]) + (matrix[2, 1] * matrix[2, 1])) + (matrix[2, 2] * matrix[2, 2]);
-			float num = System.Math.Max(num4, System.Math.Max(num3, num2));
+			var num4 = ((matrix[0, 0] * matrix[0, 0]) + (matrix[0, 1] * matrix[0, 1])) + (matrix[0, 2] * matrix[0, 2]);
+			var num3 = ((matrix[1, 0] * matrix[1, 0]) + (matrix[1, 1] * matrix[1, 1])) + (matrix[1, 2] * matrix[1, 2]);
+			var num2 = ((matrix[2, 0] * matrix[2, 0]) + (matrix[2, 1] * matrix[2, 1])) + (matrix[2, 2] * matrix[2, 2]);
+			var num = System.Math.Max(num4, System.Math.Max(num3, num2));
 			var radius = this.Radius * ((float)System.Math.Sqrt((double)num));
 			var sphere = new BoundingSphere(center,radius);
 			return sphere;
 		}
 
 
+		
 		public static bool operator ==(BoundingSphere a, BoundingSphere b)
 		{
 			return a.Equals(b);
 		}
+		 
 
 		public static bool operator !=(BoundingSphere a, BoundingSphere b)
 		{

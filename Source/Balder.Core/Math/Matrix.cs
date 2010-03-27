@@ -172,7 +172,7 @@ namespace Balder.Core.Math
 		public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		{
 			var matrix = new Matrix();
-			var viewAngle = (float)System.Math.Tan(fieldOfView/2f);
+			var viewAngle = (float)System.Math.Tan((double)(fieldOfView*0.5f));
 			var yscale = 1f/viewAngle;
 			var xscale = 1f/aspectRatio*yscale;
 				
@@ -188,6 +188,7 @@ namespace Balder.Core.Math
 
 			matrix[3, 0] = matrix[3, 1] = matrix[3, 3] = 0f;
 			matrix[3, 2] = -nearPlaneDistance * farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+
 			return matrix;
 		}
 

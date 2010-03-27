@@ -91,7 +91,9 @@ namespace Balder.Core.Objects.Geometries
 			GeometryContext.SetFace(10, new Face(6, 3, 2) { Normal = Vector.Down, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0 });
 			GeometryContext.SetFace(11, new Face(3, 6, 7) { Normal = Vector.Down, DiffuseA = 1, DiffuseB = 2, DiffuseC = 3 });
 
+			GeometryHelper.CalculateFaceNormals(GeometryContext);
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			InitializeBoundingSphere();
 		}
 	}
 }

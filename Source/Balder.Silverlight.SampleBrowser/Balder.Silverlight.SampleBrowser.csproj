@@ -259,6 +259,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Primitives\MoreCylinders\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Primitives\Ring\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -395,6 +398,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
+    <Page Include="Samples\Primitives\MoreCylinders\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
     <Page Include="Samples\Primitives\Ring\Content.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -436,6 +443,8 @@
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
+    <Resource Include="Samples\Programatic\Teapot\Assets\stage2_3dsmax.ASE" />
+    <Resource Include="Samples\Programatic\Teapot\Assets\stage2.ase" />
     <Resource Include="Samples\Programatic\Materials\Assets\teapot.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Earth.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Hello.ASE" />

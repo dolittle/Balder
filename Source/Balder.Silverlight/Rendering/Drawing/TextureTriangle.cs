@@ -41,7 +41,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			textureCoordinate.V = -(t * 0.5f) + 0.5f;
 		}
 
-		public override void Draw(Face face, Vertex[] vertices)
+		public override void Draw(Face face, Vertex[] vertices, UInt32 nodeIdentifier)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -146,6 +146,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 			var framebuffer = BufferContainer.Framebuffer;
 			var depthBuffer = BufferContainer.DepthBuffer;
+			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -302,7 +303,9 @@ namespace Balder.Silverlight.Rendering.Drawing
 					         offset,
 					         framebuffer,
 					         image,
-					         imageContext);
+					         imageContext,
+							 nodeBuffer,
+							 nodeIdentifier);
 				}
 
 				if (y == (int)yb)
@@ -338,18 +341,21 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 		}
 
-		protected virtual void DrawSpan(int length,
-		                                float zStart,
-		                                float zAdd,
-		                                float uStart,
-		                                float uAdd,
-		                                float vStart,
-		                                float vAdd,
-		                                uint[] depthBuffer,
-		                                int offset,
-		                                int[] framebuffer,
-		                                Image image,
-		                                ImageContext imageContext)
+		protected virtual void DrawSpan(
+			int length,
+		    float zStart,
+		    float zAdd,
+		    float uStart,
+		    float uAdd,
+		    float vStart,
+		    float vAdd,
+		    uint[] depthBuffer,
+		    int offset,
+		    int[] framebuffer,
+		    Image image,
+			ImageContext imageContext, 
+			UInt32[] nodeBuffer, 
+			UInt32 nodeIdentifier)
 		{
 
 			for (var x = 0; x <= length; x++)
@@ -367,6 +373,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 					
 					framebuffer[offset] = imageContext.Pixels[texel];
 					depthBuffer[offset] = bufferZ;
+					nodeBuffer[offset] = nodeIdentifier;
 				}
 
 				offset++;

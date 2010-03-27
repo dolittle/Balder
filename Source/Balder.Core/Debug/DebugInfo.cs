@@ -69,6 +69,11 @@ namespace Balder.Core.Debug
 		public bool ShowVertices { get; set; }
 
 		/// <summary>
+		/// Get or set if the ray that is used for mouse hit detection should show or not
+		/// </summary>
+		public bool ShowMouseHitDetectionRay { get; set; }
+
+		/// <summary>
 		/// Get or set the debug information color used for all debug info
 		/// </summary>
 		public Color Color { get; set; } 

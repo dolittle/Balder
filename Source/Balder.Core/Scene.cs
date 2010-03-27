@@ -85,6 +85,43 @@ namespace Balder.Core
 			}
 		}
 
+		public void RemoveNode(Node node)
+		{
+			if (node is RenderableNode)
+			{
+				lock (_renderableNodes)
+				{
+					_renderableNodes.Remove(node);
+
+				}
+				if (node is Sprite)
+				{
+					lock (_flatNodes)
+					{
+						_flatNodes.Remove(node);
+					}
+				}
+			}
+			else
+			{
+				lock (_environmentalNodes)
+				{
+					_environmentalNodes.Remove(node);
+				}
+				if (node is ILight)
+				{
+					lock (_lights)
+					{
+						_lights.Remove(node);
+					}
+				}
+			}
+			lock (_allNodes)
+			{
+				_allNodes.Remove(node);
+			}
+		}
+
 		public void Clear()
 		{
 			lock (_renderableNodes)

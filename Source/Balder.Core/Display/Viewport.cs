@@ -18,8 +18,12 @@
 #endregion
 
 using Balder.Core.Debug;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.View;
+#if(SILVERLIGHT)
+using System.Windows;
+#endif
 
 namespace Balder.Core.Display
 {
@@ -28,10 +32,16 @@ namespace Balder.Core.Display
 	/// The viewport also holds the view used to render and also holds the scene that contains the objects that
 	/// will be rendered within the viewport
 	/// </summary>
+#if(SILVERLIGHT)
+	public class Viewport : FrameworkElement
+#else
 	public class Viewport
+#endif
 	{
 		private const float MinDepth = 0f;
 		private const float MaxDepth = 1f;
+
+		private Ray _mousePickRay;
 
 		/// <summary>
 		/// Creates a viewport
@@ -39,6 +49,8 @@ namespace Balder.Core.Display
 		public Viewport()
 		{
 			DebugInfo = new DebugInfo();
+
+			_mousePickRay = new Ray(Vector.Zero,Vector.Forward);
 		}
 
 		/// <summary>
@@ -77,9 +89,41 @@ namespace Balder.Core.Display
 		public DebugInfo DebugInfo { get; set; }
 
 		/// <summary>
+		/// Get the display in which the viewport is rendered to
+		/// </summary>
+		public IDisplay Display { get; internal set; }
+
+		/// <summary>
 		/// Get the aspect ratio for the viewport
 		/// </summary>
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
+
+
+		public static readonly Property<Viewport, Coordinate> MousePickRayStartProperty =
+			Property<Viewport, Coordinate>.Register(v => v.MousePickRayStart);
+		public Coordinate MousePickRayStart
+		{
+			get { return MousePickRayStartProperty.GetValue(this); }
+			set { MousePickRayStartProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Viewport, Coordinate> MousePickRayDirectionProperty =
+			Property<Viewport, Coordinate>.Register(v => v.MousePickRayDirection);
+		public Coordinate MousePickRayDirection
+		{
+			get { return MousePickRayDirectionProperty.GetValue(this); }
+			set { MousePickRayDirectionProperty.SetValue(this, value); }
+		}
+
+
+		public static Vector Transform(Vector vector, Matrix matrix)
+		{
+			var vector2 = Vector.Zero;
+			vector2.X = (((vector.X*matrix[0, 0]) + (vector.Y*matrix[1, 0])) + (vector.Z*matrix[2, 0]));
+			vector2.Y = (((vector.X * matrix[0, 1]) + (vector.Y * matrix[1, 1])) + (vector.Z * matrix[2, 1]));
+			vector2.Z = (((vector.X * matrix[0, 2]) + (vector.Y * matrix[1, 2])) + (vector.Z * matrix[2, 2]));
+			return vector2;
+		}
 
 
 		/// <summary>
@@ -93,20 +137,40 @@ namespace Balder.Core.Display
 		/// <returns>Unprojected 3D coordinate</returns>
 		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
 		{
-			var combinedMatrix = (world * view) * projection;
+			var combinedMatrix = (world*view)*projection; 
 			var matrix = Matrix.Invert(combinedMatrix);
-			source.X = (((source.X - XPosition) / ((float)Width)) * 2f) - 1f;
-			source.Y = -((((source.Y - YPosition) / ((float)Height)) * 2f) - 1f);
+
+			source.X = (source.X - (Width / 2f)) / Width;
+			source.Y = -((source.Y - (Height / 2f)) / Height);
 			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
 			source.W = 1f;
 			var vector = Vector.Transform(source, matrix);
-			var a = (((source.X * matrix[0, 3]) + (source.Y * matrix[1, 3])) + (source.Z * matrix[2, 3])) + matrix[3, 3];
+			
+			var a = (source.X * matrix[0, 3]) + 
+						(source.Y * matrix[1, 3]) + 
+						(source.Z * matrix[2, 3]) + 
+						(matrix[3, 3]);
+
 			if (!WithinEpsilon(a, 1f))
 			{
-				vector = (Vector)(vector / (a * 2f));
+				vector = (Vector)(vector / (a));
 			}
+			 
 			return vector;
 		}
+
+
+
+		public void HandleMouseDebugInfo(int x, int y, Node hitNode)
+		{
+			if( DebugInfo.ShowMouseHitDetectionRay )
+			{
+				_mousePickRay = GetPickRay(x, y);
+				MousePickRayStart = _mousePickRay.Position;
+				MousePickRayDirection = _mousePickRay.Direction;
+			} 
+		}
+
 
 		/// <summary>
 		/// Get a node at a specified screen coordinate relative to a specific viewport
@@ -116,40 +180,27 @@ namespace Balder.Core.Display
 		/// <returns>A RenderableNode - null if it didn't find any node at the position</returns>
 		public virtual RenderableNode GetNodeAtScreenCoordinate(int x, int y)
 		{
-			var nearSource = new Vector((float)x, (float)y, View.Near);
-			var farSource = new Vector((float)x, (float)y, View.Far);
-			
-			var world = Matrix.CreateTranslation(0, 0, 0);
+			var node = Display.GetNodeAtPosition(x, y);
+			if( node is RenderableNode )
+			{
+				return node as RenderableNode;
+			}
+			return null;
+		}
+
+		public Ray GetPickRay(int x, int y)
+		{
+			var nearSource = new Vector((float) x, (float) y, 0);
+			var farSource = new Vector((float) x, (float) y, 1);
+
+			var world = Matrix.CreateTranslation(0,0,0);
 			var nearPoint = Unproject(nearSource, View.ProjectionMatrix, View.ViewMatrix, world);
 			var farPoint = Unproject(farSource, View.ProjectionMatrix, View.ViewMatrix, world);
 
 			var direction = farPoint - nearPoint;
 			direction.Normalize();
 
-			var pickRay = new Ray(nearPoint, direction);
-
-			var closestObjectDistance = float.MaxValue;
-			RenderableNode closestObject = null;
-
-			foreach (var node in Scene.RenderableNodes)
-			{
-				if (null != (object)node.BoundingSphere)
-				{
-					// Todo : Hierarchical pick
-					var transformedSphere = node.BoundingSphere.Transform(node.World);
-					var distance = pickRay.Intersects(transformedSphere);
-					if (distance.HasValue)
-					{
-						if (distance < closestObjectDistance)
-						{
-							closestObject = node as RenderableNode;
-							closestObjectDistance = distance.Value;
-						}
-					}
-				}
-			}
-
-			return closestObject;
+			return new Ray(nearPoint, direction);
 		}
 
 
@@ -159,6 +210,11 @@ namespace Balder.Core.Display
 		public void Render()
 		{
 			Scene.Render(this);
+
+			if( DebugInfo.ShowMouseHitDetectionRay )
+			{
+				DebugRenderer.Instance.RenderRay(_mousePickRay.Position,_mousePickRay.Direction,this);
+			}
 		}
 
 

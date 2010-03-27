@@ -42,6 +42,8 @@ namespace Balder.Core.Composition
 			
 		}
 
+		
+
 		public void SatisfyImportsFor(object component)
 		{
 			_compositionContainer.SatisfyImportsOnce(component);

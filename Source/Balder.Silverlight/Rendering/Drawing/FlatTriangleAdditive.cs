@@ -25,7 +25,16 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public class FlatTriangleAdditive : FlatTriangle
 	{
-		protected override void DrawSpan(int length, float zStart, float zAdd, uint[] depthBuffer, int offset, int[] framebuffer, int colorAsInt)
+		protected override void DrawSpan(
+			int length, 
+			float zStart, 
+			float zAdd, 
+			uint[] depthBuffer, 
+			int offset, 
+			int[] framebuffer, 
+			int colorAsInt, 
+			UInt32[] nodeBuffer, 
+			UInt32 nodeIdentifier)
 		{
 			for (var x = 0; x <= length; x++)
 			{
@@ -36,6 +45,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 				{
 					framebuffer[offset] = colorAsInt;
 					depthBuffer[offset] = bufferZ;
+					nodeBuffer[offset] = nodeIdentifier;
 				}
 
 				offset++;

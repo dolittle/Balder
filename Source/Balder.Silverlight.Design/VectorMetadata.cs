@@ -1,4 +1,5 @@
-﻿using Balder.Silverlight.Controls;
+﻿using Balder.Core;
+
 using Microsoft.Windows.Design.Metadata;
 using Microsoft.Windows.Design.PropertyEditing;
 

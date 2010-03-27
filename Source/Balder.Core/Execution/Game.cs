@@ -65,6 +65,9 @@ namespace Balder.Core.Execution
 
 		public override void OnInitialize()
 		{
+			// Todo: Figure out a better way to inject this dependency
+			Viewport.Display = Display;
+
 			Initialize(this);
 		}
 

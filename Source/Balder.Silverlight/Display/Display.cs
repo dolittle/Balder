@@ -22,9 +22,11 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Silverlight.Rendering;
+using Ninject.Core;
 using Color = Balder.Core.Color;
 
 namespace Balder.Silverlight.Display
@@ -51,6 +53,10 @@ namespace Balder.Silverlight.Display
 			_bitmapQueue = new WriteableBitmapQueue(width,height);
 			_frontDepthBuffer = new UInt32[width*height];
 
+			// Todo : Have this injected
+			NodesPixelBuffer = new NodesPixelBuffer();
+			NodesPixelBuffer.Initialize(width,height);
+
 			BufferContainer.Width = width;
 			BufferContainer.Height = height;
 			BufferContainer.RedPosition = 2;
@@ -75,12 +81,22 @@ namespace Balder.Silverlight.Display
 			}
 		}
 
+		public Node GetNodeAtPosition(int xPosition, int yPosition)
+		{
+			var node = NodesPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
+			return node;
+		}
+
 		public Color BackgroundColor { get; set; }
 
 		private WriteableBitmap _currentFrontBitmap;
 		private WriteableBitmap _currentRenderBitmap;
 		
 		private UInt32[] _frontDepthBuffer;
+
+		
+		public NodesPixelBuffer NodesPixelBuffer { get; set; }
+		
 
 		public void PrepareRender()
 		{
@@ -90,6 +106,8 @@ namespace Balder.Silverlight.Display
 				
 				BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
 				BufferContainer.DepthBuffer = _frontDepthBuffer;
+				BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
+				NodesPixelBuffer.NewFrame();
 				Array.Clear(_frontDepthBuffer,0,_frontDepthBuffer.Length);
 			}
 		}

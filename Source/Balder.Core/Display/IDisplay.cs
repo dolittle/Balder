@@ -40,5 +40,13 @@ namespace Balder.Core.Display
 		/// </summary>
 		/// <param name="container">Container</param>
 		void InitializeContainer(object container);
+
+		/// <summary>
+		/// Get a node at a specific position within the display
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>The node at the position, null if no node is at the position</returns>
+		Node GetNodeAtPosition(int xPosition, int yPosition);
 	}
 }

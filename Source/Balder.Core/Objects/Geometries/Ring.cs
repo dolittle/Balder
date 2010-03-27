@@ -191,6 +191,7 @@ namespace Balder.Core.Objects.Geometries
 
 			GeometryHelper.CalculateFaceNormals(GeometryContext);
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			InitializeBoundingSphere();
 
 			base.Prepare();
 		}

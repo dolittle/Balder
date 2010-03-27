@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Primitives.MoreCylinders.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Execution="clr-namespace:Balder.Core.Execution;assembly=Balder.Core" 
+    xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" 
+    xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
+    xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
+    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight">
+	<Grid x:Name="LayoutRoot">
+		<Grid.Triggers>
+			<EventTrigger RoutedEvent="Grid.Loaded">
+				<BeginStoryboard>
+					<Storyboard RepeatBehavior="Forever">
+						<Animation:StoryboardExtensions.CoordinateAnimation>
+							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Container" TargetProperty="(Node.Rotation)"/>
+						</Animation:StoryboardExtensions.CoordinateAnimation>
+					</Storyboard>
+				</BeginStoryboard>
+			</EventTrigger>
+		</Grid.Triggers>
+
+		<Execution:Game Width="640" Height="480">
+
+			<Execution:Game.Camera>
+				<View:Camera Position="0,20,-100"/>
+			</Execution:Game.Camera>
+
+			<Lighting:OmniLight Ambient="Gray" Diffuse="Gray" Specular="White" Position="0,30,0"/>
+
+
+			<Geometries:Geometry x:Name="Container">
+				<Geometries:Cylinder Segments="16" 
+								 Size="10" 
+								 TopRadius="20" 
+								 BottomRadius="20"
+								 StartAngle="0"
+								 EndAngle="180"
+								 Color="Red"
+								 />
+				<Geometries:Cylinder Segments="16" 
+								 Size="10" 
+								 TopRadius="20" 
+								 BottomRadius="20"
+								 StartAngle="180"
+								 EndAngle="360"
+								 Color="Blue"
+								 />
+			</Geometries:Geometry>
+		</Execution:Game>
+
+	</Grid>
+</UserControl>

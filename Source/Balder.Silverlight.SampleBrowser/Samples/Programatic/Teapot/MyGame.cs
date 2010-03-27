@@ -2,6 +2,7 @@ using System;
 using System.Windows.Media;
 using Balder.Core.Execution;
 using Balder.Core.Lighting;
+using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 using Color=Balder.Core.Color;
 
@@ -26,8 +27,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 			Scene.AddNode(light);
 
 			Camera.Position.X = 0;
-			Camera.Position.Y = 20;
-			Camera.Position.Z = -100;
+			Camera.Position.Y = 0;
+			Camera.Position.Z = -500;
 
 			Camera.Target.Y = 0;
 
@@ -36,8 +37,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 		public override void OnLoadContent()
 		{
-			_teapot = ContentManager.Load<Mesh>("teapot.ase");
-			_teapot.Color = Colors.Blue;
+			_teapot = ContentManager.Load<Mesh>("stage2.ase");
+
+			var material = new Material
+			               	{
+			               		Diffuse = Colors.Blue,
+			               		Shade = MaterialShade.Gouraud,
+			               		DoubleSided = true
+			               	};
+			_teapot.Material = material;
+
+			_teapot.Color = Colors.Black;
 			Scene.AddNode(_teapot);
 
 			base.OnLoadContent();

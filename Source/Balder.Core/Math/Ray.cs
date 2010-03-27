@@ -21,20 +21,20 @@ using System.Globalization;
 
 namespace Balder.Core.Math
 {
-	public class Ray : IEquatable<Ray>
+	public struct Ray : IEquatable<Ray>
 	{
 		public Vector Position;
 		public Vector Direction;
 
-		public Ray(Vector position, Vector direction)
+		public Ray(Vector position, Vector direction) : this()
 		{
-			this.Position = position;
-			this.Direction = direction;
+			Position = position;
+			Direction = direction;
 		}
 
 		public bool Equals(Ray other)
 		{
-			return (((((this.Position.X == other.Position.X) && (this.Position.Y == other.Position.Y)) && ((this.Position.Z == other.Position.Z) && (this.Direction.X == other.Direction.X))) && (this.Direction.Y == other.Direction.Y)) && (this.Direction.Z == other.Direction.Z));
+			return (((((Position.X == other.Position.X) && (Position.Y == other.Position.Y)) && ((Position.Z == other.Position.Z) && (Direction.X == other.Direction.X))) && (Direction.Y == other.Direction.Y)) && (Direction.Z == other.Direction.Z));
 		}
 
 		public override bool Equals(object obj)
@@ -42,19 +42,19 @@ namespace Balder.Core.Math
 			bool flag = false;
 			if ((obj != null) && (obj is Ray))
 			{
-				flag = this.Equals((Ray)obj);
+				flag = Equals((Ray)obj);
 			}
 			return flag;
 		}
 
 		public override int GetHashCode()
 		{
-			return (this.Position.GetHashCode() + this.Direction.GetHashCode());
+			return (Position.GetHashCode() + Direction.GetHashCode());
 		}
 
 		public override string ToString()
 		{
-			return string.Format(CultureInfo.CurrentCulture, "{{Position:{0} Direction:{1}}}", new object[] { this.Position.ToString(), this.Direction.ToString() });
+			return string.Format(CultureInfo.CurrentCulture, "{{Position:{0} Direction:{1}}}", new object[] { Position.ToString(), Direction.ToString() });
 		}
 
 		public float? Intersects(BoundingBox box)
@@ -65,12 +65,12 @@ namespace Balder.Core.Math
 
 		public float? Intersects(Plane plane)
 		{
-			float num2 = ((plane.Normal.X * this.Direction.X) + (plane.Normal.Y * this.Direction.Y)) + (plane.Normal.Z * this.Direction.Z);
+			float num2 = ((plane.Normal.X * Direction.X) + (plane.Normal.Y * Direction.Y)) + (plane.Normal.Z * Direction.Z);
 			if (System.Math.Abs(num2) < 1E-05f)
 			{
 				return null;
 			}
-			float num3 = ((plane.Normal.X * this.Position.X) + (plane.Normal.Y * this.Position.Y)) + (plane.Normal.Z * this.Position.Z);
+			float num3 = ((plane.Normal.X * Position.X) + (plane.Normal.Y * Position.Y)) + (plane.Normal.Z * Position.Z);
 			float num = (-plane.Distance - num3) / num2;
 			if (num < 0f)
 			{

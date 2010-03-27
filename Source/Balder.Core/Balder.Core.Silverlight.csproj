@@ -96,6 +96,7 @@
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ColorAsFloats.cs" />
+    <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />

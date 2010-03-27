@@ -24,5 +24,6 @@ namespace Balder.Core.Debug
 	public interface IDebugRenderer
 	{
 		void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, Matrix view, Matrix projection, Matrix world);
+		void RenderRay(Vector position, Vector direction, Viewport viewport);
 	}
 }

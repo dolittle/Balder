@@ -6,14 +6,14 @@
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
     xmlns:Debug="clr-namespace:Balder.Core.Debug;assembly=Balder.Core" 
+    xmlns:Controls="clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight" 
     >
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
 		<Execution:Game x:Name="_game" Width="640" Height="480">
 			<Execution:Game.DebugInfo>
-				<Debug:DebugInfo BoundingSpheres="False"/>
+				<Debug:DebugInfo BoundingSpheres="True" ShowMouseHitDetectionRay="True"/>
 			</Execution:Game.DebugInfo>
-		
-			
+
 			<Geometries:Box 
 				x:Name="Box1"
 				Color="Red"
@@ -52,14 +52,14 @@
 
 			<Lighting:OmniLight Position="0,0,-80" Ambient="Gray" Diffuse="Gray" Specular="White"/>
 			<Execution:Game.Camera>
-				<View:Camera Position="-250,240,-580"/>
+				<View:Camera Position="-150,20,-480"/>
 			</Execution:Game.Camera>
 			
 			
 		</Execution:Game>
 
 
-		<Grid x:Name="_infoBox" Width="150" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+		<Grid x:Name="_infoBox" Width="300" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
 
 			<Grid.RenderTransform>
 				<TranslateTransform x:Name="_infoBoxTranslation"/>
@@ -75,6 +75,8 @@
 					<Run>Object : </Run><Run x:Name="_object"/><LineBreak/>
 					<Run>Mouse LButton Down : </Run><Run x:Name="_mouseLButtonDown"/><LineBreak/>
 					<Run>Mouse LButton Up : </Run><Run x:Name="_mouseLButtonUp"/><LineBreak/>
+					<Run>Mouse PickRay Position :</Run><Run x:Name="_mousePickRayPosition"/><LineBreak/>
+					<Run>Mouse PickRay Direction :</Run><Run x:Name="_mousePickRayDirection"/><LineBreak/>
 				</TextBlock>
 			</Border>
 		</Grid>

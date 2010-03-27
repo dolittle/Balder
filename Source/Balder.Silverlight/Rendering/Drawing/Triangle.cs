@@ -19,6 +19,7 @@
 
 #endregion
 
+using System;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.Rendering.Drawing
@@ -60,6 +61,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 			vertexC = point3;
 		}
 
-		public abstract void Draw(Face face, Vertex[] vertices);
+		public abstract void Draw(Face face, Vertex[] vertices, UInt32 nodeIdentifier);
 	}
 }

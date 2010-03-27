@@ -82,6 +82,7 @@ namespace Balder.Core.Silverlight.Input
 			{
 				CallActionOnSilverlightNode(_previousNode, n => n.RaiseMouseLeave(e));
 			}
+			_viewport.HandleMouseDebugInfo(xPosition, yPosition, hitNode);
 		}
 
 		public void HandleMouseEnter(int xPosition, int yPosition, MouseEventArgs e)

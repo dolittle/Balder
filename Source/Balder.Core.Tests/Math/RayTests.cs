@@ -88,7 +88,7 @@ namespace Balder.Core.Tests.Math
 		}
 
 		[Test]
-		public void RayPointintIntoBoundSphereFromMultipleLocationsShouldBeIntersected()
+		public void RayPointingIntoBoundSphereFromMultipleLocationsShouldBeIntersected()
 		{
 
 			var rays = new Ray[]
@@ -106,7 +106,7 @@ namespace Balder.Core.Tests.Math
 			{
 				var direction = destination - ray.Position;
 				direction.Normalize();
-				ray.Direction = direction;
+				var newRay = new Ray(ray.Position, direction);
 
 				var result = ray.Intersects(boundingSphere);
 				Assert.That(result, Is.Not.Null);
