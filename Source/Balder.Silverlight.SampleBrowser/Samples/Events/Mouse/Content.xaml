@@ -10,9 +10,10 @@
     >
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
 		<Execution:Game x:Name="_game" Width="640" Height="480">
+			<!--
 			<Execution:Game.DebugInfo>
 				<Debug:DebugInfo BoundingSpheres="True" ShowMouseHitDetectionRay="True"/>
-			</Execution:Game.DebugInfo>
+			</Execution:Game.DebugInfo>-->
 
 			<Geometries:Box 
 				x:Name="Box1"
@@ -71,12 +72,11 @@
 				<TextBlock Foreground="White">
 					<Run>X Position : </Run><Run x:Name="_xpos"/><LineBreak/>
 					<Run>Y Position : </Run><Run x:Name="_ypos"/><LineBreak/>
-					<Run>Mouse Over : </Run><Run x:Name="_mouseEnter"/><LineBreak/>
+					<Run>Mouse Enter : </Run><Run x:Name="_mouseEnter"/><LineBreak/>
+					<Run>Mouse Over : </Run><Run x:Name="_mouseMove"/><LineBreak/>
 					<Run>Object : </Run><Run x:Name="_object"/><LineBreak/>
 					<Run>Mouse LButton Down : </Run><Run x:Name="_mouseLButtonDown"/><LineBreak/>
 					<Run>Mouse LButton Up : </Run><Run x:Name="_mouseLButtonUp"/><LineBreak/>
-					<Run>Mouse PickRay Position :</Run><Run x:Name="_mousePickRayPosition"/><LineBreak/>
-					<Run>Mouse PickRay Direction :</Run><Run x:Name="_mousePickRayDirection"/><LineBreak/>
 				</TextBlock>
 			</Border>
 		</Grid>

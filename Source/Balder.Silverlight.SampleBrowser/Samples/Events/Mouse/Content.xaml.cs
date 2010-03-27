@@ -1,13 +1,20 @@
-﻿using Balder.Core;
+﻿using System.Collections.Generic;
+using System.Windows.Media;
+using Balder.Core;
 using Balder.Core.Math;
+using Color=Balder.Core.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 {
 	public partial class Content
 	{
+		private readonly Dictionary<object, Color> _originalNodeColors;
+
 		public Content()
 		{
 			InitializeComponent();
+
+			_originalNodeColors = new Dictionary<object, Color>();
 
 			Box1.MouseMove += Mesh_MouseMove;
 			Box1.MouseEnter += Mesh_MouseEnter;
@@ -26,14 +33,23 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			Box3.MouseLeave += Mesh_MouseLeave;
 			Box3.MouseLeftButtonUp += Mesh_MouseLeftButtonUp;
 			Box3.MouseLeftButtonDown += Mesh_MouseLeftButtonDown;
+
+			_originalNodeColors[Box1] = Box1.Color;
+			_originalNodeColors[Box2] = Box2.Color;
+			_originalNodeColors[Box3] = Box3.Color;
 		}
+
+
+		private int _mouseEnterCounter;
 
 		private void Mesh_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			_mouseEnter.Text = "true";
+			_mouseEnterCounter = 0;
 			var node = sender as Node;
 			if( null != node )
 			{
+				node.Color = Colors.White;
 				if( !string.IsNullOrEmpty(node.Name) )
 				{
 					_object.Text = node.Name;
@@ -43,6 +59,16 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private void Mesh_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
 		{
+			var node = sender as Node;
+			if (null != node)
+			{
+				if( _originalNodeColors.ContainsKey(node))
+				{
+					node.Color = _originalNodeColors[node];
+				}
+			}
+
+			_mouseMove.Text = "false";
 			_mouseEnter.Text = "false";
 			_object.Text = "None";
 		}
@@ -79,14 +105,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			var position = e.GetPosition(LayoutRoot);
 			_xpos.Text = position.X.ToString();
 			_ypos.Text = position.Y.ToString();
-
-			_mousePickRayPosition.Text = FormatCoordinate(_game.Viewport.MousePickRayStart);
-			_mousePickRayDirection.Text = FormatCoordinate(_game.Viewport.MousePickRayDirection);
 		}
 
 		private void Mesh_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			_mouseEnter.Text = "true";
+			if( ++_mouseEnterCounter > 2 )
+			{
+				_mouseEnter.Text = "false";
+			}
+			_mouseMove.Text = "true";
 			var node = sender as Node;
 			if (null != node)
 			{

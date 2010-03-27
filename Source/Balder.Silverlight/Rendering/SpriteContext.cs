@@ -41,6 +41,10 @@ namespace Balder.Silverlight.Rendering
 		{
 			var image = sprite.CurrentFrame;
 
+			var nodeBuffer = BufferContainer.NodeBuffer;
+			var nodeIdentifier =
+				((Balder.Silverlight.Display.Display) viewport.Display).NodesPixelBuffer.GetNodeIdentifier(sprite);
+
 			var position = new Vector(0, 0, 0);
 			var transformedPosition = Vector.Transform(position, world, view);
 			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
@@ -66,20 +70,32 @@ namespace Balder.Silverlight.Rendering
 
 			if (xScale != 1f || yScale != 1f)
 			{
-				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, xScale, yScale);
+				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, xScale, yScale, nodeBuffer, nodeIdentifier);
 			}
 			else
 			{
-				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ);
+				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, nodeBuffer, nodeIdentifier);
 			}
 		}
 
-		private static void RenderUnscaled(Viewport viewport, int positionOffset, int actualX, int actualY, Image image, Vector translatedPosition, int bufferSize, UInt32 bufferZ)
+		private static void RenderUnscaled(
+			Viewport viewport, 
+			int positionOffset, 
+			int actualX, 
+			int actualY, 
+			Image image, 
+			Vector translatedPosition, 
+			int bufferSize, 
+			UInt32 bufferZ,
+			UInt32[] nodeBuffer,
+			UInt32 nodeIdentifier)
 		{
 			var imageContext = image.ImageContext as ImageContext;
 			var spriteOffset = 0;
 
 			var currentY = actualY;
+
+			
 
 			for (var y = 0; y < image.Height; y++)
 			{
@@ -111,6 +127,7 @@ namespace Balder.Silverlight.Rendering
 								{
 									BufferContainer.Framebuffer[actualOffset] = pixel;
 									BufferContainer.DepthBuffer[actualOffset] = bufferZ;
+									nodeBuffer[actualOffset] = nodeIdentifier;
 								}
 							}
 						}
@@ -124,7 +141,19 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private static void RenderScaled(Viewport viewport, int positionOffset, int actualX, int actualY, Image image, Vector translatedPosition, int bufferSize, UInt32 bufferZ, float xScale, float yScale)
+		private static void RenderScaled(
+			Viewport viewport, 
+			int positionOffset, 
+			int actualX, 
+			int actualY, 
+			Image image, 
+			Vector translatedPosition, 
+			int bufferSize, 
+			UInt32 bufferZ, 
+			float xScale, 
+			float yScale,
+			UInt32[] nodeBuffer,
+			UInt32 nodeIdentifier)
 		{
 			var imageContext = image.ImageContext as ImageContext;
 
@@ -182,6 +211,7 @@ namespace Balder.Silverlight.Rendering
 								{
 									BufferContainer.Framebuffer[actualOffset] = pixel;
 									BufferContainer.DepthBuffer[actualOffset] = bufferZ;
+									nodeBuffer[actualOffset] = nodeIdentifier;
 								}
 							}
 						}

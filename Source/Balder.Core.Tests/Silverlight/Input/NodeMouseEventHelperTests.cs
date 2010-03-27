@@ -150,6 +150,33 @@ namespace Balder.Core.Tests.Silverlight.Input
 			Assert.That(mouseEnter,Is.False);
 			Assert.That(mouseLeave, Is.False);
 		}
+
+		[Test, SilverlightUnitTest]
+		public void MouseEnteringAndLeavingAndThenEnteringShouldFireMouseEnter()
+		{
+			var game = new Game();
+			var scene = new Scene();
+			var viewport = new FakeViewport { Scene = scene };
+			game.Scene = scene;
+			var geometry = new Geometry();
+			scene.AddNode(geometry);
+			viewport.NodeToReturn = geometry;
+
+			var mouseEnter = false;
+
+			geometry.MouseEnter += (s, e) => mouseEnter = true;
+
+			var helper = new NodeMouseEventHelper(game, viewport);
+			helper.HandleMouseMove(0, 0, null);
+			viewport.NodeToReturn = null;
+			helper.HandleMouseMove(0, 0, null);
+			mouseEnter = false;
+			viewport.NodeToReturn = geometry;
+			
+
+			helper.HandleMouseMove(0, 0, null);
+			Assert.That(mouseEnter, Is.True);
+		}
 		
 	}
 }

@@ -80,7 +80,7 @@ namespace Balder.Core.Silverlight.Input
 			}
 			else if (null != _previousNode)
 			{
-				CallActionOnSilverlightNode(_previousNode, n => n.RaiseMouseLeave(e));
+				HandleMouseLeave(xPosition, yPosition, e);
 			}
 			_viewport.HandleMouseDebugInfo(xPosition, yPosition, hitNode);
 		}
@@ -104,6 +104,7 @@ namespace Balder.Core.Silverlight.Input
 			if (null != _previousNode)
 			{
 				CallActionOnSilverlightNode(_previousNode, n => n.RaiseMouseLeave(e));
+				_previousNode = null;
 			}
 		}
 
