@@ -137,6 +137,17 @@ namespace Balder.Core.Execution
 			_objectFactory.WireUpDependencies(objectToWire);
 		}
 
+		public void SignalRenderingForObject(object objectToSignalFor)
+		{
+			if( _gamesPerDisplay.Keys.Count == 1 )
+			{
+				var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
+				enumerator.MoveNext();
+				var display = enumerator.Current;
+				display.SignalRendering();
+			}
+		}
+
 		private void WireUpGame(IDisplay display, Game objectToWire)
 		{
 			if (null != KernelContainer.Kernel)

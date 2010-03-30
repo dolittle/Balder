@@ -3,7 +3,7 @@ using Balder.Core.Execution;
 
 namespace Balder.Core.Math
 {
-	public partial class Coordinate : ICloneable
+	public partial class Coordinate : ICloneable, ICanNotifyChanges
 	{
 		public Coordinate()
 		{
@@ -106,6 +106,11 @@ namespace Balder.Core.Math
 		public override string ToString()
 		{
 			return ToString(null, null);
+		}
+
+		public void Notify(string propertyName, object oldValue, object newValue)
+		{
+			Runtime.Instance.SignalRenderingForObject(this);
 		}
 
 		public string ToString(string format, IFormatProvider formatProvider)

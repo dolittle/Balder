@@ -4,14 +4,17 @@ using System.Linq.Expressions;
 using System.Windows;
 using Balder.Core.Silverlight.Extensions;
 using Balder.Core.Silverlight.Helpers;
-using Expression=System.Linq.Expressions.Expression;
 
 namespace Balder.Core.Execution
 {
 	public class Property<T,TP>
+#if(SILVERLIGHT)
 		where T:DependencyObject
+#endif
 	{
+#if(SILVERLIGHT)
 		private readonly DependencyProperty<T, TP> _internalDependencyProperty;
+#endif
 		private readonly Expression<Func<T, TP>> _expression;
 		private readonly string _propertyName;
 		private readonly Dictionary<object, TP> _valueHash;
@@ -20,7 +23,9 @@ namespace Balder.Core.Execution
 
 		private Property(Expression<Func<T, TP>> expression, TP defaultValue)
 		{
+#if(SILVERLIGHT)
 			_internalDependencyProperty = DependencyProperty<T, TP>.Register(expression, defaultValue);
+#endif
 			_expression = expression;
 			_valueHash = new Dictionary<object, TP>();
 
@@ -37,7 +42,9 @@ namespace Balder.Core.Execution
 			_propertyName = propertyInfo.Name;
 		}
 
+#if(SILVERLIGHT)
 		public DependencyProperty ActualDependencyProperty { get { return _internalDependencyProperty.ActualDependencyProperty; } }
+#endif
 
 		public static Property<T, TP> Register(Expression<Func<T,TP>> expression)
 		{

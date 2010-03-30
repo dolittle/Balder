@@ -63,10 +63,51 @@ namespace Balder.Core.Execution
 			set { Viewport.DebugInfo = value; }
 		}
 
+		private bool _passiveRendering;
+		public bool PassiveRendering
+		{
+			get { return _passiveRendering; }
+			set
+			{
+				_passiveRendering = value;
+				HandlePassiveRendering();
+			}
+		}
+
+		private PassiveRenderingMode _passiveRenderingMode;
+		public PassiveRenderingMode PassiveRenderingMode
+		{
+			get { return _passiveRenderingMode; }
+			set
+			{
+				_passiveRenderingMode = value;
+				HandlePassiveRendering();
+			}
+		}
+
+		private void HandlePassiveRendering()
+		{
+			if( null == Display )
+			{
+				return;
+			}
+			if (_passiveRendering)
+			{
+				Display.EnablePassiveRendering();
+			}
+			else
+			{
+				Display.EnableActiveRendering();
+			}
+			Display.SetPassiveRenderingMode(_passiveRenderingMode);
+		}
+
 		public override void OnInitialize()
 		{
 			// Todo: Figure out a better way to inject this dependency
 			Viewport.Display = Display;
+			HandlePassiveRendering();
+
 
 			Initialize(this);
 		}

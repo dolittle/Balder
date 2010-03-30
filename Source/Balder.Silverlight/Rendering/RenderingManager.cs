@@ -17,12 +17,7 @@
 //
 #endregion
 using System;
-using System.ComponentModel;
-using System.Threading;
 using System.Windows.Media;
-using Balder.Core.Diagnostics;
-using Balder.Core.Extensions;
-using Balder.Silverlight.Notification;
 
 namespace Balder.Silverlight.Rendering
 {
@@ -38,81 +33,52 @@ namespace Balder.Silverlight.Rendering
 		public event RenderEventHandler Swapped = () => { };
 		public event RenderEventHandler Show = () => { };
 
-		private ManualResetEvent _renderWait;
-		private ManualResetEvent _clearWait;
+		private bool _activeRendering;
+		private bool _renderFrame;
 
-		private Thread _renderThread;
-		private Thread _clearThread;
-
-		private bool _frameBufferManagerAlive;
 
 		private RenderingManager()
 		{
+			_activeRendering = true;
 		}
 
 		public void Start()
 		{
-			_frameBufferManagerAlive = true;
-
-			_renderWait = new ManualResetEvent(false);
-			_clearWait = new ManualResetEvent(false);
-
-			_renderThread = new Thread(RenderThread);
-			_clearThread = new Thread(ClearThread);
-
-			//_renderThread.Start();
-			//_clearThread.Start();
-
 			CompositionTarget.Rendering += ShowTimer;
 		}
 
 		public void Stop()
 		{
-			_frameBufferManagerAlive = false;
 		}
 
-
-		private void RenderThread()
+		public void EnablePassiveRendering()
 		{
-			while (_frameBufferManagerAlive)
-			{
-				//_renderWait.WaitOne();
-				Render();
-				//_renderWait.Reset();
-			}
+			_activeRendering = false;
 		}
 
-		
-		private void ClearThread()
+		public void EnableActiveRendering()
 		{
-			while (_frameBufferManagerAlive)
-			{
-				//_clearWait.WaitOne();
-				Clear();
-				//_clearWait.Reset();
-			}
+			_activeRendering = true;
+		}
+
+		public void SignalRendering()
+		{
+			_renderFrame = true;
 		}
 
 		private void ShowTimer(object sender, EventArgs e)
 		{
-			//_renderWait.Set();
-			//_clearWait.Set();
-			//Show();
 			Updated();
-			//return;
-			//if (_hasCleared && _hasRendered)
-			{			
+
+			if (_activeRendering || _renderFrame)
+			{
 				Render();
 				Swapped();
-
 				Clear();
-
 				Show();
+
+				_renderFrame = false;
 			}
-
-			
 		}
-
-		
 	}
 }

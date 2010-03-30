@@ -42,6 +42,27 @@ namespace Balder.Core.Display
 		void InitializeContainer(object container);
 
 		/// <summary>
+		/// Enables passive rendering on the display
+		/// </summary>
+		void EnablePassiveRendering();
+
+		/// <summary>
+		/// Enables active rendering on the display
+		/// </summary>
+		void EnableActiveRendering();
+
+		/// <summary>
+		/// Sets the passive rendering mode used during rendering
+		/// </summary>
+		/// <param name="renderingMode"></param>
+		void SetPassiveRenderingMode(PassiveRenderingMode renderingMode);
+
+		/// <summary>
+		/// Signal the display that it should render next frame
+		/// </summary>
+		void SignalRendering();
+
+		/// <summary>
 		/// Get a node at a specific position within the display
 		/// </summary>
 		/// <param name="xPosition">X position</param>

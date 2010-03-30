@@ -18,9 +18,8 @@
 #endregion
 using Balder.Core.Collections;
 using Balder.Core.Display;
-using Balder.Core.Input;
+using Balder.Core.Execution;
 using Balder.Core.Lighting;
-using Balder.Core.Math;
 using Balder.Core.Objects.Flat;
 using Matrix = Balder.Core.Math.Matrix;
 
@@ -83,6 +82,8 @@ namespace Balder.Core
 			{
 				_allNodes.Add(node);
 			}
+
+			Runtime.Instance.SignalRenderingForObject(this);
 		}
 
 		public void RemoveNode(Node node)

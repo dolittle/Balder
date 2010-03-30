@@ -81,6 +81,26 @@ namespace Balder.Silverlight.Display
 			}
 		}
 
+		public void EnablePassiveRendering()
+		{
+			RenderingManager.Instance.EnablePassiveRendering();
+		}
+
+		public void EnableActiveRendering()
+		{
+			RenderingManager.Instance.EnableActiveRendering();
+		}
+
+		public void SetPassiveRenderingMode(PassiveRenderingMode renderingMode)
+		{
+			
+		}
+
+		public void SignalRendering()
+		{
+			RenderingManager.Instance.SignalRendering();
+		}
+
 		public Node GetNodeAtPosition(int xPosition, int yPosition)
 		{
 			var node = NodesPixelBuffer.GetNodeAtPosition(xPosition, yPosition);

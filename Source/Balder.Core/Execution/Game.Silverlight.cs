@@ -68,6 +68,8 @@ namespace Balder.Core.Execution
 		{
 			Viewport.Width = (int)Width;
 			Viewport.Height = (int)Height;
+			// Todo: Figure out a better way to inject this dependency
+			Viewport.Display = Display;
 		}
 
 		private void RegisterGame()

@@ -22,6 +22,7 @@ using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Ninject.Core;
 using Matrix = Balder.Core.Math.Matrix;
 #if(SILVERLIGHT)
 using Balder.Core.Silverlight.TypeConverters;
@@ -32,7 +33,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node
+	public abstract partial class Node : ICanNotifyChanges
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -81,6 +82,7 @@ namespace Balder.Core
 
 		public BoundingSphere BoundingSphere { get; set; }
 		public Scene Scene { get; set; }
+
 		public NodeCollection Children { get; private set; }
 
 		public static readonly Property<Node, Coordinate> PivotPointProperty = Property<Node, Coordinate>.Register(n => n.PivotPoint);
@@ -288,6 +290,11 @@ namespace Balder.Core
 
 			_isPrepared = true;
 			Prepare();
+		}
+
+		public void Notify(string propertyName, object oldValue, object newValue)
+		{
+			Runtime.Instance.SignalRenderingForObject(this);
 		}
 	}
 }

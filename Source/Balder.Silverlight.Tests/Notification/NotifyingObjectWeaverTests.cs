@@ -151,6 +151,26 @@ namespace Balder.Silverlight.Tests.Notification
 			{
 			}
 
+			public void EnablePassiveRendering()
+			{
+				throw new NotImplementedException();
+			}
+
+			public void EnableActiveRendering()
+			{
+				throw new NotImplementedException();
+			}
+
+			public void SetPassiveRenderingMode(PassiveRenderingMode renderingMode)
+			{
+				throw new NotImplementedException();
+			}
+
+			public void SignalRendering()
+			{
+				throw new NotImplementedException();
+			}
+
 			public Node GetNodeAtPosition(int xPosition, int yPosition)
 			{
 				return null;
