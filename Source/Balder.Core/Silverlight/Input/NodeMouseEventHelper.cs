@@ -66,6 +66,8 @@ namespace Balder.Core.Silverlight.Input
 
 		public void HandleMouseMove(int xPosition, int yPosition, MouseEventArgs e)
 		{
+			// Todo: Mouse events are not routed to parents
+
 			var hitNode = _viewport.GetNodeAtScreenCoordinate(xPosition, yPosition);
 			if (null != hitNode)
 			{
