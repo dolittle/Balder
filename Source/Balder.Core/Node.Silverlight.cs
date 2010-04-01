@@ -10,11 +10,11 @@ namespace Balder.Core
 	[ContentProperty("Children")]
 	public partial class Node : ItemsControl
 	{
-		public new MouseEventHandler MouseMove;
-		public new MouseEventHandler MouseEnter;
-		public new MouseEventHandler MouseLeave;
-		public new MouseButtonEventHandler MouseLeftButtonDown;
-		public new MouseButtonEventHandler MouseLeftButtonUp;
+		public new event MouseEventHandler MouseMove;
+		public new event MouseEventHandler MouseEnter;
+		public new event MouseEventHandler MouseLeave;
+		public new event MouseButtonEventHandler MouseLeftButtonDown;
+		public new event MouseButtonEventHandler MouseLeftButtonUp;
 
 
 		partial void Construct()

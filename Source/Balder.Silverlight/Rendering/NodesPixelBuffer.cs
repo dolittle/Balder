@@ -49,6 +49,7 @@ namespace Balder.Silverlight.Rendering
 				_nodeIdentifiers = new Dictionary<Node, UInt32>();
 				_nodeIdentifiersByIdentifier = new Dictionary<UInt32, Node>();
 				RenderingBuffer = new UInt32[width*height];
+				Reset();
 			}
 		}
 

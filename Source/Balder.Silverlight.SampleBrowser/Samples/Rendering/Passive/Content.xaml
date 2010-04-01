@@ -26,15 +26,23 @@
 			</i:Interaction.Triggers>
 		</Button>
 
-		<Execution:Game Width="640" Height="480" PassiveRendering="True">
-
+		<Execution:Game x:Name="Game" 
+						Width="640" 
+						Height="480"
+						PassiveRendering="True"
+						>
 			<Execution:Game.Camera>
 				<View:Camera Position="-20,10,-100"/>
 			</Execution:Game.Camera>
 			
 			<Lighting:DirectionalLight Direction="0,-1,0" Ambient="Gray" Diffuse="Green" Specular="White"/>
 			
-			<Geometries:Box x:Name="Box" Dimension="10,10,10"/>
+			<Geometries:Box x:Name="Box" 
+							Dimension="10,10,10"
+							Color="Green"
+							MouseEnter="Box_MouseEnter"
+							MouseLeave="Box_MouseLeave"
+							/>
 		</Execution:Game>
 		
 		

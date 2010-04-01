@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Documents;
-using System.Windows.Input;
+﻿using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
-using System.Windows.Shapes;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Rendering.Passive
 {
-	public partial class Content : UserControl
+	public partial class Content
 	{
 		public Content()
 		{
 			InitializeComponent();
+		}
+
+		private void Box_MouseEnter(object sender, MouseEventArgs e)
+		{
+			Box.Color = Colors.Blue;
+
+		}
+
+		private void Box_MouseLeave(object sender, MouseEventArgs e)
+		{
+			Box.Color = Colors.Green;
 		}
 	}
 }

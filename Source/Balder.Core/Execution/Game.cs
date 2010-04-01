@@ -105,6 +105,8 @@ namespace Balder.Core.Execution
 		public override void OnInitialize()
 		{
 			// Todo: Figure out a better way to inject this dependency
+			// Plus, this is really fragile - when overridden and base class is not called, this won't work.
+			// it affects both Passive Rendering and mouse handling, really bad..
 			Viewport.Display = Display;
 			HandlePassiveRendering();
 
