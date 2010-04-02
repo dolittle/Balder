@@ -177,6 +177,12 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Data\BarChart\ViewModel.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\Column.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\HierarchicalNodesControl\Row.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\ViewModel.cs" />
     <Compile Include="Samples\Data\NodesControl\BusinessObject.cs" />
     <Compile Include="Samples\Data\NodesControl\MyGame.cs" />
     <Compile Include="Samples\Data\NodesControl\Resources.Designer.cs">
@@ -358,6 +364,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
     <Page Include="Samples\Data\BarChart\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+    <Page Include="Samples\Data\HierarchicalNodesControl\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>

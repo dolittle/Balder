@@ -23,6 +23,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows;
+using System.Windows.Controls;
 using Balder.Core;
 using Balder.Core.Content;
 using Balder.Core.Silverlight.Helpers;
@@ -217,6 +218,10 @@ namespace Balder.Silverlight.Controls
 			if (!Children.Contains(node))
 			{
 				Children.Add(node);
+				if( node is NodesControl )
+				{
+					((NodesControl)node).PopulateFromItemsSource();
+				}
 			}
 		}
 
