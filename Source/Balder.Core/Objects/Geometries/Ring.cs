@@ -185,8 +185,14 @@ namespace Balder.Core.Objects.Geometries
 			var actualStacks = Stacks + 1;
 			var actualSegments = Segments;
 
+			var open = false;
+			if (StartAngle > 0 || EndAngle < 360)
+			{
+				open = true;
+			}
+
 			var vertexCount = (actualSegments * 2) * actualStacks;
-			BuildVertices(actualSegments, actualStacks, vertexCount);
+			BuildVertices(actualSegments, actualStacks, vertexCount, open);
 			BuildFaces(actualSegments, actualStacks, vertexCount);
 
 			GeometryHelper.CalculateFaceNormals(GeometryContext);
@@ -328,7 +334,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		private void BuildVertices(int actualSegments, int actualStacks, int vertexCount)
+		private void BuildVertices(int actualSegments, int actualStacks, int vertexCount, bool open)
 		{
 			GeometryContext.AllocateVertices(vertexCount);
 			GeometryContext.AllocateTextureCoordinates(vertexCount);
@@ -342,7 +348,12 @@ namespace Balder.Core.Objects.Geometries
 			var startRadian = MathHelper.ToRadians((float)StartAngle);
 			var endRadian = MathHelper.ToRadians((float)EndAngle);
 			var deltaRadian = endRadian - startRadian;
+
 			var addRadian = deltaRadian / actualSegments;
+			if( open )
+			{
+				addRadian = deltaRadian / (actualSegments-1);
+			}
 
 			var uDelta = 1f;
 			var vDelta = 2f;

@@ -13,7 +13,7 @@
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="359,359,0" Duration="00:00:05" TargetName="Ring" TargetProperty="(Node.Rotation)"/>
+							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Ring" TargetProperty="(Node.Rotation)"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 					</Storyboard>
 				</BeginStoryboard>
