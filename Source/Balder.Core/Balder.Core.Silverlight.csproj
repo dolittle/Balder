@@ -96,9 +96,11 @@
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ColorAsFloats.cs" />
+    <Compile Include="ColorOperations.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Display\PassiveRenderingMode.cs" />
     <Compile Include="Execution\ICanBeUnique.cs" />
+    <Compile Include="Execution\ICanHandlePostClone.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />

@@ -143,6 +143,7 @@
     </Compile>
     <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
     <Compile Include="ColorAsFloatsTests.cs" />
+    <Compile Include="ColorOperationsTests.cs" />
     <Compile Include="ColorTests.cs" />
     <Compile Include="Content\ContentCreatorTests.cs" />
     <Compile Include="Content\ContentManagerTests.cs" />

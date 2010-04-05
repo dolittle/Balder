@@ -52,6 +52,11 @@ namespace Balder.Core
 				clone.Children.Add(clonedChild);
 			}
 
+			if( clone is ICanHandlePostClone )
+			{
+				((ICanHandlePostClone)clone).PostClone(source);
+			}
+
 			return clone;
 
 		}

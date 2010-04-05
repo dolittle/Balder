@@ -19,20 +19,24 @@
 
 #endregion
 
-using Balder.Core;
-using Balder.Core.Math;
+using NUnit.Framework;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Core.Tests
 {
-	public class Column
+	[TestFixture]
+	public class ColorOperationsTests
 	{
-		public Coordinate Position { get; set; }
-		public Color Color { get; set; }
-
-
-		public override string ToString()
+		[Test]
+		public void AdditiveValuesShouldClampAtMax()
 		{
-			return string.Format("Column : {0}",Position.ToString());
+			var value1 = (byte)192;
+			var value2 = (byte)192;
+
+			var result = ColorOperations.AddValues(value1, value2);
+
+			Assert.That(result,Is.EqualTo(byte.MaxValue));
 		}
+		
 	}
 }
+

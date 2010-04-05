@@ -20,42 +20,35 @@
 #endregion
 
 using System.Collections.ObjectModel;
-using Balder.Core;
-using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
-	public class Row
+	public class Depth
 	{
-		private readonly double _yPosition;
 		private readonly double _zPosition;
-		public const int ColumnCount = 2;
-		public const double ColumnSpace = 12;
+		public const int RowCount = 2;
+		public const double RowSpace = 12;
 
-		public Row(double yPosition, double zPosition)
+
+		public Depth(double zPosition)
 		{
-			_yPosition = yPosition;
 			_zPosition = zPosition;
-			Columns = new ObservableCollection<Column>();
+			Rows = new ObservableCollection<Row>();
 
-			var position = -(ColumnSpace*(ColumnCount/2d));
-			for( var columnIndex=0; columnIndex<ColumnCount; columnIndex++ )
+			var position = -(RowSpace*(RowCount/2d));
+			for( var rowIndex=0; rowIndex<RowCount; rowIndex++ )
 			{
-				var column = new Column
-				             	{
-				             		Position = new Coordinate(position, yPosition, zPosition),
-									Color = Color.Random()
-				             	};
-				Columns.Add(column);
-				position += ColumnSpace;
+				var row = new Row(position, zPosition);
+				Rows.Add(row);
+				position += RowSpace;
 			}
 		}
 
-		public ObservableCollection<Column> Columns { get; private set; }
+		public ObservableCollection<Row> Rows { get; private set; }
 
 		public override string ToString()
 		{
-			return string.Format("Row : {0},{1}", _yPosition, _zPosition);
+			return string.Format("Depth : {0}", _zPosition);
 		}
 	}
 }

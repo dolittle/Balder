@@ -24,14 +24,16 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Content;
+using Balder.Core.Execution;
 using Balder.Core.Silverlight.Helpers;
 using Ninject.Core;
 
 namespace Balder.Silverlight.Controls
 {
-	public class NodesControl : RenderableNode
+	public class NodesControl : RenderableNode, ICanHandlePostClone
 	{
 		private Node _templateContent;
 		private List<object> _items;
@@ -154,8 +156,6 @@ namespace Balder.Silverlight.Controls
 
 		private void PopulateFromItemsSource()
 		{
-			var before = DateTime.Now;
-
 			if (null == _itemsSource)
 			{
 				return;
@@ -165,11 +165,6 @@ namespace Balder.Silverlight.Controls
 			{
 				LoadAndAddChild(item);
 			}
-
-			var after = DateTime.Now;
-			var delta = after.Subtract(before);
-			int i = 0;
-			i++;
 		}
 
 		[Inject]
@@ -204,7 +199,6 @@ namespace Balder.Silverlight.Controls
 
 		private void AddItemAsChild(object item, Node node)
 		{
-			node.DataContext = item;
 			var modifier = Modifier;
 			if (null != modifier)
 			{
@@ -218,11 +212,12 @@ namespace Balder.Silverlight.Controls
 			}
 			if (!Children.Contains(node))
 			{
-				Children.Add(node);
-				if( node is NodesControl )
+				node.DataContext = item;
+				if (node is NodesControl)
 				{
 					((NodesControl)node).PopulateFromItemsSource();
 				}
+				Children.Add(node);
 			}
 		}
 
@@ -232,6 +227,11 @@ namespace Balder.Silverlight.Controls
 			{
 				var item = _addedItems.Pop();
 				var node = _templateContent.Clone(UniqueNodes);
+				
+				if( node is NodesControl )
+				{
+					node.Children.Clear();
+				}
 				AddItemAsChild(item, node);
 			}
 
@@ -255,6 +255,15 @@ namespace Balder.Silverlight.Controls
 			}
 
 			_items.Remove(item);
+		}
+
+		public void PostClone(object source)
+		{
+			var sourceNodesControl = source as NodesControl;
+			if( null != sourceNodesControl )
+			{
+				_templateContent = sourceNodesControl._templateContent;	
+			}
 		}
 	}
 }

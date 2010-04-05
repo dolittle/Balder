@@ -181,6 +181,7 @@
     <Compile Include="Samples\Data\HierarchicalNodesControl\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Data\HierarchicalNodesControl\Depth.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\Row.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\ViewModel.cs" />
     <Compile Include="Samples\Data\NodesControl\BusinessObject.cs" />
@@ -464,6 +465,7 @@
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
+    <Resource Include="Samples\Data\HierarchicalNodesControl\Assets\box.ASE" />
     <Resource Include="Samples\Programatic\Teapot\Assets\stage2_3dsmax.ASE" />
     <Resource Include="Samples\Programatic\Teapot\Assets\stage2.ase" />
     <Resource Include="Samples\Programatic\Materials\Assets\teapot.ASE" />

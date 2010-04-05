@@ -25,22 +25,22 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
 	public class ViewModel
 	{
-		public const int RowCount = 4;
-		public const double RowSpace = 12;
+		public const int DepthCount = 4;
+		public const double DepthSpace = 12;
 
 		public ViewModel()
 		{
-			Rows = new ObservableCollection<Row>();
+			Depths = new ObservableCollection<Depth>();
 
-			var position = -(RowSpace*(RowCount/2d));
-			for( var rowIndex=0; rowIndex<RowCount; rowIndex++)
+			var position = -(DepthSpace*(DepthCount/2d));
+			for( var depthIndex=0; depthIndex<DepthCount; depthIndex++)
 			{
-				var row = new Row(position);
-				Rows.Add(row);
-				position += RowSpace;
+				var row = new Depth(position);
+				Depths.Add(row);
+				position += DepthSpace;
 			}
 		}
 
-		public ObservableCollection<Row> Rows { get; private set; }
+		public ObservableCollection<Depth> Depths { get; private set; }
 	}
 }
