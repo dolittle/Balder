@@ -61,7 +61,8 @@ namespace Balder.Core
 			foreach( var property in cloneInfo.Properties )
 			{
 				var value = property.GetValue(source, null);
-				if( cloneInfo.IsPropertyCloneable(property))
+				if( cloneInfo.IsPropertyCloneable(property) &&
+					null != value )
 				{
 					value = ((Execution.ICloneable) value).Clone();
 				}

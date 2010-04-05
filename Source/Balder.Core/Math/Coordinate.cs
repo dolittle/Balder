@@ -154,6 +154,5 @@ namespace Balder.Core.Math
 			}
 		}
 
-
 	}
 }

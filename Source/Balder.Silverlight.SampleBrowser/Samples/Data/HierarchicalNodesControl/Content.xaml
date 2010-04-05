@@ -29,7 +29,6 @@
 			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Rows}">
 				<Controls:NodesControl.NodeTemplate>
 					<DataTemplate>
-
 						<Controls:NodesControl ItemsSource="{Binding Columns}">
 							<Controls:NodesControl.NodeTemplate>
 								<DataTemplate>
@@ -39,7 +38,6 @@
 						</Controls:NodesControl>
 					</DataTemplate>
 				</Controls:NodesControl.NodeTemplate>
-
 			</Controls:NodesControl>
 
 			<Execution:Game.Camera>

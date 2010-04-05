@@ -123,6 +123,10 @@ namespace Balder.Core
 				{
 					_position.PropertyChanged -= TransformChanged;
 				}
+				if (null == value)
+				{
+					value = new Coordinate(0, 0, 0);
+				}
 				PositionProp.SetValue(this, value);
 				_position = value;
 				if (null != _position)
@@ -154,6 +158,10 @@ namespace Balder.Core
 				{
 					_scale.PropertyChanged -= TransformChanged;
 				}
+				if( null == value )
+				{
+					value = new Coordinate(1,1,1);
+				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
 				if (null != _scale)
@@ -180,6 +188,10 @@ namespace Balder.Core
 				if (null != _rotation)
 				{
 					_rotation.PropertyChanged -= TransformChanged;
+				}
+				if( null == value )
+				{
+					value = new Coordinate(0,0,0);
 				}
 				RotationProp.SetValue(this, value);
 				_rotation = value;

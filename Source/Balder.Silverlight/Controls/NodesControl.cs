@@ -88,6 +88,7 @@ namespace Balder.Silverlight.Controls
 				_itemsSource = value;
 				ItemsSourceProperty.SetValue(this, value);
 				HandleNewItemsSource();
+				InvalidatePrepare();
 			}
 		}
 
