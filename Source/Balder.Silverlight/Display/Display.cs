@@ -107,6 +107,13 @@ namespace Balder.Silverlight.Display
 			return node;
 		}
 
+		public int[] GetCurrentFrame()
+		{
+			var frame = new int[BufferContainer.Framebuffer.Length];
+			Buffer.BlockCopy(BufferContainer.Framebuffer,0,frame,0,frame.Length*4);
+			return frame;
+		}
+
 		public Color BackgroundColor { get; set; }
 
 		private WriteableBitmap _currentFrontBitmap;

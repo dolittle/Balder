@@ -165,11 +165,8 @@ namespace Balder.Core
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
-				if (null != _scale)
-				{
-					_scale.PropertyChanged += TransformChanged;
-					PrepareWorld();
-				}
+				_scale.PropertyChanged += TransformChanged;
+				PrepareWorld();
 			}
 		}
 
@@ -196,11 +193,8 @@ namespace Balder.Core
 				}
 				RotationProp.SetValue(this, value);
 				_rotation = value;
-				if (null != _rotation)
-				{
-					_rotation.PropertyChanged += TransformChanged;
-					PrepareWorld();
-				}
+				_rotation.PropertyChanged += TransformChanged;
+				PrepareWorld();
 			}
 		}
 

@@ -175,6 +175,11 @@ namespace Balder.Silverlight.Tests.Notification
 			{
 				return null;
 			}
+
+			public int[] GetCurrentFrame()
+			{
+				throw new NotImplementedException();
+			}
 		}
 
 		#endregion

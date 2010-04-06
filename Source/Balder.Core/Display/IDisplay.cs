@@ -69,5 +69,11 @@ namespace Balder.Core.Display
 		/// <param name="yPosition">Y position</param>
 		/// <returns>The node at the position, null if no node is at the position</returns>
 		Node GetNodeAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Gets the current frames pixeldata
+		/// </summary>
+		/// <returns>An array of pixels, 32 bit with alpha</returns>
+		int[] GetCurrentFrame();
 	}
 }
