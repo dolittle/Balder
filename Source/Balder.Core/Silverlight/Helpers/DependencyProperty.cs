@@ -37,14 +37,14 @@ namespace Balder.Core.Silverlight.Helpers
 
 		private DependencyProperty(DependencyProperty dependencyProperty, string name)
 		{
-			this.ActualDependencyProperty = dependencyProperty;
-			this.PropertyName = name;
+			ActualDependencyProperty = dependencyProperty;
+			PropertyName = name;
 		}
 
 
 		public T GetValue(DependencyObject obj)
 		{
-			return obj.GetValue<T>(this.ActualDependencyProperty);
+			return obj.GetValue<T>(ActualDependencyProperty);
 		}
 
 		public void SetValue(DependencyObject obj, T value)
@@ -53,7 +53,7 @@ namespace Balder.Core.Silverlight.Helpers
 			if (!isExternal)
 			{
 				DependencyPropertyHelper.SetIsInternalSet(obj, true);
-				obj.SetValue<T>(this.ActualDependencyProperty, value);
+				obj.SetValue<T>(ActualDependencyProperty, value);
 				DependencyPropertyHelper.SetIsInternalSet(obj, false);
 			}
 		}

@@ -42,6 +42,7 @@ namespace Balder.Core
 		private bool _isWired = false;
 		private bool _isPrepared = false;
 		private bool _isInitialized = false;
+		private bool _isWorldInvalidated = false;
 
 		protected Node()
 		{
@@ -52,6 +53,11 @@ namespace Balder.Core
 		}
 
 		partial void Construct();
+
+		private void InvalidateWorld()
+		{
+			_isWorldInvalidated = true;
+		}
 
 		private void InitializeColor()
 		{
@@ -67,7 +73,9 @@ namespace Balder.Core
 			Rotation = new Coordinate();
 			Children = new NodeCollection();
 			World = Matrix.Identity;
-			PrepareActualWorld();
+			ActualWorld = Matrix.Identity;
+
+			InvalidateWorld();
 		}
 
 
@@ -84,10 +92,25 @@ namespace Balder.Core
 		public NodeCollection Children { get; private set; }
 
 		public static readonly Property<Node, Coordinate> PivotPointProperty = Property<Node, Coordinate>.Register(n => n.PivotPoint);
+		private Coordinate _pivotPoint;
 		public Coordinate PivotPoint
 		{
 			get { return PivotPointProperty.GetValue(this); }
-			set { PivotPointProperty.SetValue(this, value); }
+			set
+			{
+				if( null != _pivotPoint )
+				{
+					_pivotPoint.PropertyChanged -= TransformChanged;
+				}
+				if( null == value )
+				{
+					value = new Coordinate();
+				}
+				PivotPointProperty.SetValue(this, value);
+				_pivotPoint = value;
+				_pivotPoint.PropertyChanged += TransformChanged;
+				InvalidateWorld();
+			}
 		}
 
 		public static readonly Property<Node, Color> ColorProp = Property<Node, Color>.Register(n => n.Color);
@@ -117,12 +140,18 @@ namespace Balder.Core
 			get { return PositionProp.GetValue(this); }
 			set
 			{
+				if( null != _position )
+				{
+					_position.PropertyChanged -= TransformChanged;
+				}
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				PositionProp.SetValue(this, value);
 				_position = value;
+				_position.PropertyChanged += TransformChanged;
+				InvalidateWorld();
 			}
 		}
 
@@ -143,12 +172,18 @@ namespace Balder.Core
 			get { return ScaleProp.GetValue(this); }
 			set
 			{
+				if( null != _scale )
+				{
+					_scale.PropertyChanged -= TransformChanged;
+				}
 				if (null == value)
 				{
 					value = new Coordinate(1, 1, 1);
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
+				_scale.PropertyChanged += TransformChanged;
+				InvalidateWorld();
 			}
 		}
 
@@ -165,12 +200,18 @@ namespace Balder.Core
 			get { return RotationProp.GetValue(this); }
 			set
 			{
+				if( null != _rotation )
+				{
+					_rotation.PropertyChanged -= TransformChanged;
+				}
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				RotationProp.SetValue(this, value);
 				_rotation = value;
+				_rotation.PropertyChanged += TransformChanged;
+				InvalidateWorld();
 			}
 		}
 
@@ -180,17 +221,22 @@ namespace Balder.Core
 
 		private void PrepareActualWorld()
 		{
+			if( !_isWorldInvalidated )
+			{
+				return;
+			}
 			var scaleMatrix = Matrix.CreateScale(Scale);
 			var translationMatrix = Matrix.CreateTranslation(Position);
 			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			var negativePivot = PivotPoint.ToVector().Negative();
 			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
 			ActualWorld = World * pivotMatrix * scaleMatrix * rotationMatrix * translationMatrix;
+			_isWorldInvalidated = false;
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
 		{
-			PrepareActualWorld();
+			InvalidateWorld();
 		}
 		#endregion
 

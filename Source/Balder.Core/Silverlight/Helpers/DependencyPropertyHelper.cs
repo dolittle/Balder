@@ -18,9 +18,11 @@
 #endregion
 using System;
 using System.Reflection;
+using System.Reflection.Emit;
 using System.Windows;
 using System.Linq.Expressions;
 using Balder.Core.Silverlight.Extensions;
+using Expression = System.Linq.Expressions.Expression;
 
 namespace Balder.Core.Silverlight.Helpers
 {
@@ -33,7 +35,7 @@ namespace Balder.Core.Silverlight.Helpers
 			DependencyProperty.RegisterAttached("IsExternalSet", typeof(bool), typeof(DependencyPropertyHelper), null);
 
 		public static readonly DependencyProperty IsNotFirstSetProperty =
-			DependencyProperty.RegisterAttached("IsNotFirstSet", typeof (bool), typeof (DependencyPropertyHelper), null);
+			DependencyProperty.RegisterAttached("IsNotFirstSet", typeof(bool), typeof(DependencyPropertyHelper), null);
 
 		public static void SetIsInternalSet(DependencyObject obj, bool value)
 		{
@@ -57,12 +59,14 @@ namespace Balder.Core.Silverlight.Helpers
 
 		public static void SetIsNotFirstSet(DependencyObject obj, bool value)
 		{
-			obj.SetValue(IsNotFirstSetProperty,value);
+
+
+			obj.SetValue(IsNotFirstSetProperty, value);
 		}
 
 		public static bool GetIsNotFirstSet(DependencyObject obj)
 		{
-			return (bool) obj.GetValue(IsNotFirstSetProperty);
+			return (bool)obj.GetValue(IsNotFirstSetProperty);
 		}
 
 
@@ -70,30 +74,31 @@ namespace Balder.Core.Silverlight.Helpers
 		private static PropertyMetadata GetPropertyMetaData(PropertyInfo propertyInfo, object defaultValue)
 		{
 			var propertyMetadata = new PropertyMetadata(defaultValue,
-			                                            (o, e) =>
-			                                            	{
-			                                            		var isInternal = GetIsInternalSet(o);
-			                                            		if (isInternal)
-			                                            		{
-			                                            			return;
-			                                            		}
-			                                            		if (null == e.OldValue || (!e.OldValue.Equals(e.NewValue)||!GetIsNotFirstSet(o)) )
-			                                            		{
-			                                            			SetIsNotFirstSet(o,true);
-			                                            			Action a = () => propertyInfo.SetValue(o, e.NewValue, null);
+														(o, e) =>
+														{
 
-			                                            			SetIsExternalSet(o, true);
-			                                            			if (o.Dispatcher.CheckAccess())
-			                                            			{
-			                                            				a();
-			                                            			}
-			                                            			else
-			                                            			{
-			                                            				o.Dispatcher.BeginInvoke(a);
-			                                            			}
-			                                            			SetIsExternalSet(o, false);
-			                                            		}
-			                                            	});
+															var isInternal = GetIsInternalSet(o);
+															if (isInternal)
+															{
+																return;
+															}
+															if (null == e.OldValue || (!e.OldValue.Equals(e.NewValue) || !GetIsNotFirstSet(o)))
+															{
+																SetIsNotFirstSet(o, true);
+																Action a = () => propertyInfo.SetValue(o, e.NewValue, null);
+
+																SetIsExternalSet(o, true);
+																if (o.Dispatcher.CheckAccess())
+																{
+																	a();
+																}
+																else
+																{
+																	o.Dispatcher.BeginInvoke(a);
+																}
+																SetIsExternalSet(o, false);
+															}
+														});
 			return propertyMetadata;
 		}
 
