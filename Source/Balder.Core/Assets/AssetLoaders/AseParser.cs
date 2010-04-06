@@ -12,7 +12,9 @@ namespace Balder.Core.Assets.AssetLoaders
 {
 	public class AseParser
 	{
+// ReSharper disable InconsistentNaming
 		public const string GEOMOBJECT = "GEOMOBJECT";
+
 		public const string NODE_NAME = "NODE_NAME";
 		public const string MESH = "MESH";
 
@@ -44,7 +46,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string TM_ROTAXIS = "TM_ROTAXIS";
 		public const string TM_ROTANGLE = "TM_ROTANGLE";
 		public const string TM_SCALE = "TM_SCALE";
-
+// ReSharper restore InconsistentNaming
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
 		                                                                                     	{
@@ -212,7 +214,6 @@ namespace Balder.Core.Assets.AssetLoaders
 						coordinate.Set(x,y,z);
 						var translation = Matrix.CreateTranslation(coordinate);
 						geometry.World = translation;
-						//geometry.Position = coordinate;
 					}
 					break;
 				case TM_SCALE:
@@ -223,11 +224,8 @@ namespace Balder.Core.Assets.AssetLoaders
 						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
 						var coordinate = new Coordinate();
 						coordinate.Set(x, y, z);
-
 						var scale = Matrix.CreateScale(coordinate);
 						geometry.World = geometry.World*scale;
-
-						//geometry.Scale = coordinate;
 					}
 					break;
 

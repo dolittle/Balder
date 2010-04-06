@@ -40,7 +40,6 @@ namespace Balder.Core
 		public event EventHandler Click = (s, e) => { };
 
 		private bool _isWired = false;
-		private bool _isInitializingTransform;
 		private bool _isPrepared = false;
 		private bool _isInitialized = false;
 
@@ -62,15 +61,13 @@ namespace Balder.Core
 
 		private void InitializeTransform()
 		{
-			_isInitializingTransform = true;
 			Position = new Coordinate();
 			PivotPoint = new Coordinate();
 			Scale = new Coordinate(1f, 1f, 1f);
 			Rotation = new Coordinate();
-			_isInitializingTransform = false;
 			Children = new NodeCollection();
 			World = Matrix.Identity;
-			PrepareWorld();
+			PrepareActualWorld();
 		}
 
 
@@ -120,21 +117,12 @@ namespace Balder.Core
 			get { return PositionProp.GetValue(this); }
 			set
 			{
-				if (null != _position)
-				{
-					_position.PropertyChanged -= TransformChanged;
-				}
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				PositionProp.SetValue(this, value);
 				_position = value;
-				if (null != _position)
-				{
-					_position.PropertyChanged += TransformChanged;
-					PrepareWorld();
-				}
 			}
 		}
 
@@ -155,18 +143,12 @@ namespace Balder.Core
 			get { return ScaleProp.GetValue(this); }
 			set
 			{
-				if (null != _scale)
+				if (null == value)
 				{
-					_scale.PropertyChanged -= TransformChanged;
-				}
-				if( null == value )
-				{
-					value = new Coordinate(1,1,1);
+					value = new Coordinate(1, 1, 1);
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
-				_scale.PropertyChanged += TransformChanged;
-				PrepareWorld();
 			}
 		}
 
@@ -183,33 +165,21 @@ namespace Balder.Core
 			get { return RotationProp.GetValue(this); }
 			set
 			{
-				if (null != _rotation)
+				if (null == value)
 				{
-					_rotation.PropertyChanged -= TransformChanged;
-				}
-				if( null == value )
-				{
-					value = new Coordinate(0,0,0);
+					value = new Coordinate(0, 0, 0);
 				}
 				RotationProp.SetValue(this, value);
 				_rotation = value;
-				_rotation.PropertyChanged += TransformChanged;
-				PrepareWorld();
 			}
 		}
 
 		public Matrix World { get; set; }
-
 		public Matrix ActualWorld { get; private set; }
-
 		public Matrix RenderingWorld { get; internal set; }
 
-		private void PrepareWorld()
+		private void PrepareActualWorld()
 		{
-			if (_isInitializingTransform)
-			{
-				return;
-			}
 			var scaleMatrix = Matrix.CreateScale(Scale);
 			var translationMatrix = Matrix.CreateTranslation(Position);
 			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
@@ -220,7 +190,7 @@ namespace Balder.Core
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
 		{
-			PrepareWorld();
+			PrepareActualWorld();
 		}
 		#endregion
 
@@ -268,6 +238,7 @@ namespace Balder.Core
 			}
 
 			Initialize();
+			_isInitialized = true;
 		}
 
 		internal void OnBeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -288,6 +259,7 @@ namespace Balder.Core
 
 		internal void OnPrepare()
 		{
+			PrepareActualWorld();
 			if (IsClone || _isPrepared)
 			{
 				return;
