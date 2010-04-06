@@ -20,38 +20,34 @@ namespace Balder.Core.Math
 {
 	public class Matrix
 	{
-		public float[] data;
+		private float[,] _data;
 
 		public Matrix()
 		{
 			Initialize();
 		}
 
-		public Matrix(float[] Matrix)
-		{
-			Initialize();
-			for (var i = 0; i < data.Length; i++)
-			{
-				data[i] = Matrix[i];
-			}
-		}
 
 		private void Initialize()
 		{
-			data = new float[4 * 4];
+			_data = new float[4, 4];
+			SetIdentity(this);
 		}
 
 
 		private static void SetIdentity(Matrix matrix)
 		{
-			for (int i = 0; i < matrix.data.Length; i++)
+			for (var i = 0; i < matrix._data.GetLength(0); i++)
 			{
-				matrix.data[i] = 0;
+				for (var j = 0; j < matrix._data.GetLength(1); j++)
+				{
+					matrix._data[i, j] = 0;
+				}
 			}
 
-			for (int i = 0; i < 4; i++)
+			for (var i = 0; i < 4; i++)
 			{
-				matrix[i, i] = 1;
+				matrix._data[i, i] = 1;
 			}
 		}
 
@@ -59,35 +55,34 @@ namespace Balder.Core.Math
 		{
 			get
 			{
-				if (data == null)
+				if (null == _data)
 				{
-					data = new float[4 * 4];
+					Initialize();
 				}
-				return data[(i << 2) + j];
+				return _data[i, j];
 			}
 			set
 			{
-				if (data == null)
+				if (null == _data)
 				{
-					data = new float[4 * 4];
+					Initialize();
 				}
-				data[(i << 2) + j] = value;
+				_data[i, j] = value;
 			}
-		}
-
-		public static explicit operator float[](Matrix value)
-		{
-			return value.data;
 		}
 
 
 		public static Matrix operator +(Matrix matrix1, Matrix matrix2)
 		{
 			var matrix = new Matrix();
-			for (var i = 0; i < matrix.data.Length; i++)
+			for (var i = 0; i < matrix._data.GetLength(0); i++)
 			{
-				matrix.data[i] = matrix1.data[i] + matrix2.data[i];
+				for (var j = 0; j < matrix._data.GetLength(1); j++)
+				{
+					matrix._data[i,j] = matrix1._data[i,j] + matrix2._data[i,j];
+				}
 			}
+
 			return matrix;
 		}
 
@@ -98,22 +93,22 @@ namespace Balder.Core.Math
 		public static Matrix operator *(Matrix matrix1, Matrix matrix2)
 		{
 			var matrix = Identity;
-			matrix[0, 0] = (((matrix1[0, 0] * matrix2[0, 0]) + (matrix1[0, 1] * matrix2[1, 0])) + (matrix1[0, 2] * matrix2[2, 0])) + (matrix1[0, 3] * matrix2[3, 0]);
-			matrix[0, 1] = (((matrix1[0, 0] * matrix2[0, 1]) + (matrix1[0, 1] * matrix2[1, 1])) + (matrix1[0, 2] * matrix2[2, 1])) + (matrix1[0, 3] * matrix2[3, 1]);
-			matrix[0, 2] = (((matrix1[0, 0] * matrix2[0, 2]) + (matrix1[0, 1] * matrix2[1, 2])) + (matrix1[0, 2] * matrix2[2, 2])) + (matrix1[0, 3] * matrix2[3, 2]);
-			matrix[0, 3] = (((matrix1[0, 0] * matrix2[0, 3]) + (matrix1[0, 1] * matrix2[1, 3])) + (matrix1[0, 2] * matrix2[2, 3])) + (matrix1[0, 3] * matrix2[3, 3]);
-			matrix[1, 0] = (((matrix1[1, 0] * matrix2[0, 0]) + (matrix1[1, 1] * matrix2[1, 0])) + (matrix1[1, 2] * matrix2[2, 0])) + (matrix1[1, 3] * matrix2[3, 0]);
-			matrix[1, 1] = (((matrix1[1, 0] * matrix2[0, 1]) + (matrix1[1, 1] * matrix2[1, 1])) + (matrix1[1, 2] * matrix2[2, 1])) + (matrix1[1, 3] * matrix2[3, 1]);
-			matrix[1, 2] = (((matrix1[1, 0] * matrix2[0, 2]) + (matrix1[1, 1] * matrix2[1, 2])) + (matrix1[1, 2] * matrix2[2, 2])) + (matrix1[1, 3] * matrix2[3, 2]);
-			matrix[1, 3] = (((matrix1[1, 0] * matrix2[0, 3]) + (matrix1[1, 1] * matrix2[1, 3])) + (matrix1[1, 2] * matrix2[2, 3])) + (matrix1[1, 3] * matrix2[3, 3]);
-			matrix[2, 0] = (((matrix1[2, 0] * matrix2[0, 0]) + (matrix1[2, 1] * matrix2[1, 0])) + (matrix1[2, 2] * matrix2[2, 0])) + (matrix1[2, 3] * matrix2[3, 0]);
-			matrix[2, 1] = (((matrix1[2, 0] * matrix2[0, 1]) + (matrix1[2, 1] * matrix2[1, 1])) + (matrix1[2, 2] * matrix2[2, 1])) + (matrix1[2, 3] * matrix2[3, 1]);
-			matrix[2, 2] = (((matrix1[2, 0] * matrix2[0, 2]) + (matrix1[2, 1] * matrix2[1, 2])) + (matrix1[2, 2] * matrix2[2, 2])) + (matrix1[2, 3] * matrix2[3, 2]);
-			matrix[2, 3] = (((matrix1[2, 0] * matrix2[0, 3]) + (matrix1[2, 1] * matrix2[1, 3])) + (matrix1[2, 2] * matrix2[2, 3])) + (matrix1[2, 3] * matrix2[3, 3]);
-			matrix[3, 0] = (((matrix1[3, 0] * matrix2[0, 0]) + (matrix1[3, 1] * matrix2[1, 0])) + (matrix1[3, 2] * matrix2[2, 0])) + (matrix1[3, 3] * matrix2[3, 0]);
-			matrix[3, 1] = (((matrix1[3, 0] * matrix2[0, 1]) + (matrix1[3, 1] * matrix2[1, 1])) + (matrix1[3, 2] * matrix2[2, 1])) + (matrix1[3, 3] * matrix2[3, 1]);
-			matrix[3, 2] = (((matrix1[3, 0] * matrix2[0, 2]) + (matrix1[3, 1] * matrix2[1, 2])) + (matrix1[3, 2] * matrix2[2, 2])) + (matrix1[3, 3] * matrix2[3, 2]);
-			matrix[3, 3] = (((matrix1[3, 0] * matrix2[0, 3]) + (matrix1[3, 1] * matrix2[1, 3])) + (matrix1[3, 2] * matrix2[2, 3])) + (matrix1[3, 3] * matrix2[3, 3]);
+			matrix._data[0, 0] = (((matrix1._data[0, 0] * matrix2._data[0, 0]) + (matrix1._data[0, 1] * matrix2._data[1, 0])) + (matrix1._data[0, 2] * matrix2._data[2, 0])) + (matrix1._data[0, 3] * matrix2._data[3, 0]);
+			matrix._data[0, 1] = (((matrix1._data[0, 0] * matrix2._data[0, 1]) + (matrix1._data[0, 1] * matrix2._data[1, 1])) + (matrix1._data[0, 2] * matrix2._data[2, 1])) + (matrix1._data[0, 3] * matrix2._data[3, 1]);
+			matrix._data[0, 2] = (((matrix1._data[0, 0] * matrix2._data[0, 2]) + (matrix1._data[0, 1] * matrix2._data[1, 2])) + (matrix1._data[0, 2] * matrix2._data[2, 2])) + (matrix1._data[0, 3] * matrix2._data[3, 2]);
+			matrix._data[0, 3] = (((matrix1._data[0, 0] * matrix2._data[0, 3]) + (matrix1._data[0, 1] * matrix2._data[1, 3])) + (matrix1._data[0, 2] * matrix2._data[2, 3])) + (matrix1._data[0, 3] * matrix2._data[3, 3]);
+			matrix._data[1, 0] = (((matrix1._data[1, 0] * matrix2._data[0, 0]) + (matrix1._data[1, 1] * matrix2._data[1, 0])) + (matrix1._data[1, 2] * matrix2._data[2, 0])) + (matrix1._data[1, 3] * matrix2._data[3, 0]);
+			matrix._data[1, 1] = (((matrix1._data[1, 0] * matrix2._data[0, 1]) + (matrix1._data[1, 1] * matrix2._data[1, 1])) + (matrix1._data[1, 2] * matrix2._data[2, 1])) + (matrix1._data[1, 3] * matrix2._data[3, 1]);
+			matrix._data[1, 2] = (((matrix1._data[1, 0] * matrix2._data[0, 2]) + (matrix1._data[1, 1] * matrix2._data[1, 2])) + (matrix1._data[1, 2] * matrix2._data[2, 2])) + (matrix1._data[1, 3] * matrix2._data[3, 2]);
+			matrix._data[1, 3] = (((matrix1._data[1, 0] * matrix2._data[0, 3]) + (matrix1._data[1, 1] * matrix2._data[1, 3])) + (matrix1._data[1, 2] * matrix2._data[2, 3])) + (matrix1._data[1, 3] * matrix2._data[3, 3]);
+			matrix._data[2, 0] = (((matrix1._data[2, 0] * matrix2._data[0, 0]) + (matrix1._data[2, 1] * matrix2._data[1, 0])) + (matrix1._data[2, 2] * matrix2._data[2, 0])) + (matrix1._data[2, 3] * matrix2._data[3, 0]);
+			matrix._data[2, 1] = (((matrix1._data[2, 0] * matrix2._data[0, 1]) + (matrix1._data[2, 1] * matrix2._data[1, 1])) + (matrix1._data[2, 2] * matrix2._data[2, 1])) + (matrix1._data[2, 3] * matrix2._data[3, 1]);
+			matrix._data[2, 2] = (((matrix1._data[2, 0] * matrix2._data[0, 2]) + (matrix1._data[2, 1] * matrix2._data[1, 2])) + (matrix1._data[2, 2] * matrix2._data[2, 2])) + (matrix1._data[2, 3] * matrix2._data[3, 2]);
+			matrix._data[2, 3] = (((matrix1._data[2, 0] * matrix2._data[0, 3]) + (matrix1._data[2, 1] * matrix2._data[1, 3])) + (matrix1._data[2, 2] * matrix2._data[2, 3])) + (matrix1._data[2, 3] * matrix2._data[3, 3]);
+			matrix._data[3, 0] = (((matrix1._data[3, 0] * matrix2._data[0, 0]) + (matrix1._data[3, 1] * matrix2._data[1, 0])) + (matrix1._data[3, 2] * matrix2._data[2, 0])) + (matrix1._data[3, 3] * matrix2._data[3, 0]);
+			matrix._data[3, 1] = (((matrix1._data[3, 0] * matrix2._data[0, 1]) + (matrix1._data[3, 1] * matrix2._data[1, 1])) + (matrix1._data[3, 2] * matrix2._data[2, 1])) + (matrix1._data[3, 3] * matrix2._data[3, 1]);
+			matrix._data[3, 2] = (((matrix1._data[3, 0] * matrix2._data[0, 2]) + (matrix1._data[3, 1] * matrix2._data[1, 2])) + (matrix1._data[3, 2] * matrix2._data[2, 2])) + (matrix1._data[3, 3] * matrix2._data[3, 2]);
+			matrix._data[3, 3] = (((matrix1._data[3, 0] * matrix2._data[0, 3]) + (matrix1._data[3, 1] * matrix2._data[1, 3])) + (matrix1._data[3, 2] * matrix2._data[2, 3])) + (matrix1._data[3, 3] * matrix2._data[3, 3]);
 			return matrix;
 		}
 
@@ -126,7 +121,7 @@ namespace Balder.Core.Math
 
 		public static explicit operator Vector(Matrix matrix)
 		{
-			return new Vector(matrix[3, 0], matrix[3, 1], matrix[3, 2]);
+			return new Vector(matrix._data[3, 0], matrix._data[3, 1], matrix._data[3, 2]);
 		}
 
 
@@ -148,68 +143,68 @@ namespace Balder.Core.Math
 
 			var zCross = Vector.Cross(cameraUpVector, zaxis);
 			var xaxis = Vector.Normalize(zCross);
-			
+
 			var yaxis = Vector.Cross(zaxis, xaxis);
-			matrix[0, 0] = xaxis.X;
-			matrix[0, 1] = yaxis.X;
-			matrix[0, 2] = zaxis.X;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = xaxis.Y;
-			matrix[1, 1] = yaxis.Y;
-			matrix[1, 2] = zaxis.Y;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = xaxis.Z;
-			matrix[2, 1] = yaxis.Z;
-			matrix[2, 2] = zaxis.Z;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = -Vector.Dot(xaxis, cameraPosition);
-			matrix[3, 1] = -Vector.Dot(yaxis, cameraPosition);
-			matrix[3, 2] = -Vector.Dot(zaxis, cameraPosition);
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = xaxis.X;
+			matrix._data[0, 1] = yaxis.X;
+			matrix._data[0, 2] = zaxis.X;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = xaxis.Y;
+			matrix._data[1, 1] = yaxis.Y;
+			matrix._data[1, 2] = zaxis.Y;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = xaxis.Z;
+			matrix._data[2, 1] = yaxis.Z;
+			matrix._data[2, 2] = zaxis.Z;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = -Vector.Dot(xaxis, cameraPosition);
+			matrix._data[3, 1] = -Vector.Dot(yaxis, cameraPosition);
+			matrix._data[3, 2] = -Vector.Dot(zaxis, cameraPosition);
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
 		public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
 		{
 			var matrix = new Matrix();
-			var viewAngle = (float)System.Math.Tan((double)(fieldOfView*0.5f));
-			var yscale = 1f/viewAngle;
-			var xscale = 1f/aspectRatio*yscale;
-				
-			matrix[0, 0] = xscale;
-			matrix[0, 1] = matrix[0, 2] = matrix[0, 3] = 0f;
+			var viewAngle = (float)System.Math.Tan((double)(fieldOfView * 0.5f));
+			var yscale = 1f / viewAngle;
+			var xscale = 1f / aspectRatio * yscale;
 
-			matrix[1, 1] = yscale;
-			matrix[1, 0] = matrix[1, 2] = matrix[1, 3] = 0f;
+			matrix._data[0, 0] = xscale;
+			matrix._data[0, 1] = matrix._data[0, 2] = matrix._data[0, 3] = 0f;
 
-			matrix[2, 0] = matrix[2, 1] = 0f;
-			matrix[2, 2] = farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
-			matrix[2, 3] = 1f;
+			matrix._data[1, 1] = yscale;
+			matrix._data[1, 0] = matrix._data[1, 2] = matrix._data[1, 3] = 0f;
 
-			matrix[3, 0] = matrix[3, 1] = matrix[3, 3] = 0f;
-			matrix[3, 2] = -nearPlaneDistance * farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+			matrix._data[2, 0] = matrix._data[2, 1] = 0f;
+			matrix._data[2, 2] = farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+			matrix._data[2, 3] = 1f;
+
+			matrix._data[3, 0] = matrix._data[3, 1] = matrix._data[3, 3] = 0f;
+			matrix._data[3, 2] = -nearPlaneDistance * farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
 
 			return matrix;
 		}
 
 		public static Matrix CreateScreenTranslation(int width, int height)
 		{
-			var centerX = ((float) width)/2f;
-			var centerY = ((float) height)/2f;
+			var centerX = ((float)width) / 2f;
+			var centerY = ((float)height) / 2f;
 			var matrix = new Matrix();
-			matrix[0, 0] = centerX;
-			matrix[0, 1] = matrix[0, 2] = matrix[0, 3] = 0f;
+			matrix._data[0, 0] = centerX;
+			matrix._data[0, 1] = matrix._data[0, 2] = matrix._data[0, 3] = 0f;
 
-			matrix[1, 1] = centerY;
-			matrix[1, 0] = matrix[1, 2] = matrix[1, 3] = 0f;
+			matrix._data[1, 1] = centerY;
+			matrix._data[1, 0] = matrix._data[1, 2] = matrix._data[1, 3] = 0f;
 
-			matrix[2, 0] = matrix[2, 1] = matrix[2, 2] = 0f;
-			matrix[2, 3] = 1f;
+			matrix._data[2, 0] = matrix._data[2, 1] = matrix._data[2, 2] = 0f;
+			matrix._data[2, 3] = 1f;
 
-			matrix[3, 0] = centerX;
-			matrix[3, 1] = centerY;
-			matrix[3, 2] = 0;
-			matrix[3, 3] = 1f;
+			matrix._data[3, 0] = centerX;
+			matrix._data[3, 1] = centerY;
+			matrix._data[3, 2] = 0;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
@@ -219,22 +214,22 @@ namespace Balder.Core.Math
 
 			var num2 = (float)System.Math.Cos(MathHelper.ToRadians(degrees));
 			var num = (float)System.Math.Sin(MathHelper.ToRadians(degrees));
-			matrix[0, 0] = 1f;
-			matrix[0, 1] = 0f;
-			matrix[0, 2] = 0f;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = 0f;
-			matrix[1, 1] = num2;
-			matrix[1, 2] = num;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = 0f;
-			matrix[2, 1] = -num;
-			matrix[2, 2] = num2;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = 0f;
-			matrix[3, 1] = 0f;
-			matrix[3, 2] = 0f;
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = 1f;
+			matrix._data[0, 1] = 0f;
+			matrix._data[0, 2] = 0f;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = 0f;
+			matrix._data[1, 1] = num2;
+			matrix._data[1, 2] = num;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = 0f;
+			matrix._data[2, 1] = -num;
+			matrix._data[2, 2] = num2;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = 0f;
+			matrix._data[3, 1] = 0f;
+			matrix._data[3, 2] = 0f;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
@@ -243,22 +238,22 @@ namespace Balder.Core.Math
 			var matrix = new Matrix();
 			var num2 = (float)System.Math.Cos(MathHelper.ToRadians(degrees));
 			var num = (float)System.Math.Sin(MathHelper.ToRadians(degrees));
-			matrix[0, 0] = num2;
-			matrix[0, 1] = 0f;
-			matrix[0, 2] = -num;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = 0f;
-			matrix[1, 1] = 1f;
-			matrix[1, 2] = 0f;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = num;
-			matrix[2, 1] = 0f;
-			matrix[2, 2] = num2;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = 0f;
-			matrix[3, 1] = 0f;
-			matrix[3, 2] = 0f;
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = num2;
+			matrix._data[0, 1] = 0f;
+			matrix._data[0, 2] = -num;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = 0f;
+			matrix._data[1, 1] = 1f;
+			matrix._data[1, 2] = 0f;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = num;
+			matrix._data[2, 1] = 0f;
+			matrix._data[2, 2] = num2;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = 0f;
+			matrix._data[3, 1] = 0f;
+			matrix._data[3, 2] = 0f;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
@@ -268,22 +263,22 @@ namespace Balder.Core.Math
 			var num2 = (float)System.Math.Cos(MathHelper.ToRadians(degrees));
 			var num = (float)System.Math.Sin(MathHelper.ToRadians(degrees));
 
-			matrix[0, 0] = num2;
-			matrix[0, 1] = num;
-			matrix[0, 2] = 0f;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = -num;
-			matrix[1, 1] = num2;
-			matrix[1, 2] = 0f;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = 0f;
-			matrix[2, 1] = 0f;
-			matrix[2, 2] = 1f;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = 0f;
-			matrix[3, 1] = 0f;
-			matrix[3, 2] = 0f;
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = num2;
+			matrix._data[0, 1] = num;
+			matrix._data[0, 2] = 0f;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = -num;
+			matrix._data[1, 1] = num2;
+			matrix._data[1, 2] = 0f;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = 0f;
+			matrix._data[2, 1] = 0f;
+			matrix._data[2, 2] = 1f;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = 0f;
+			matrix._data[3, 1] = 0f;
+			matrix._data[3, 2] = 0f;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
@@ -308,22 +303,22 @@ namespace Balder.Core.Math
 		public static Matrix CreateTranslation(float x, float y, float z)
 		{
 			var matrix = new Matrix();
-			matrix[0, 0] = 1f;
-			matrix[0, 1] = 0f;
-			matrix[0, 2] = 0f;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = 0f;
-			matrix[1, 1] = 1f;
-			matrix[1, 2] = 0f;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = 0f;
-			matrix[2, 1] = 0f;
-			matrix[2, 2] = 1f;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = x;
-			matrix[3, 1] = y;
-			matrix[3, 2] = z;
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = 1f;
+			matrix._data[0, 1] = 0f;
+			matrix._data[0, 2] = 0f;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = 0f;
+			matrix._data[1, 1] = 1f;
+			matrix._data[1, 2] = 0f;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = 0f;
+			matrix._data[2, 1] = 0f;
+			matrix._data[2, 2] = 1f;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = x;
+			matrix._data[3, 1] = y;
+			matrix._data[3, 2] = z;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
@@ -338,44 +333,44 @@ namespace Balder.Core.Math
 			var x = scales.X;
 			var y = scales.Y;
 			var z = scales.Z;
-			matrix[0, 0] = x;
-			matrix[0, 1] = 0f;
-			matrix[0, 2] = 0f;
-			matrix[0, 3] = 0f;
-			matrix[1, 0] = 0f;
-			matrix[1, 1] = y;
-			matrix[1, 2] = 0f;
-			matrix[1, 3] = 0f;
-			matrix[2, 0] = 0f;
-			matrix[2, 1] = 0f;
-			matrix[2, 2] = z;
-			matrix[2, 3] = 0f;
-			matrix[3, 0] = 0f;
-			matrix[3, 1] = 0f;
-			matrix[3, 2] = 0f;
-			matrix[3, 3] = 1f;
+			matrix._data[0, 0] = x;
+			matrix._data[0, 1] = 0f;
+			matrix._data[0, 2] = 0f;
+			matrix._data[0, 3] = 0f;
+			matrix._data[1, 0] = 0f;
+			matrix._data[1, 1] = y;
+			matrix._data[1, 2] = 0f;
+			matrix._data[1, 3] = 0f;
+			matrix._data[2, 0] = 0f;
+			matrix._data[2, 1] = 0f;
+			matrix._data[2, 2] = z;
+			matrix._data[2, 3] = 0f;
+			matrix._data[3, 0] = 0f;
+			matrix._data[3, 1] = 0f;
+			matrix._data[3, 2] = 0f;
+			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
 
 		public static Matrix Invert(Matrix matrix)
 		{
 			var matrix2 = new Matrix();
-			var num5 = matrix[0, 0];
-			var num4 = matrix[0, 1];
-			var num3 = matrix[0, 2];
-			var num2 = matrix[0, 3];
-			var num9 = matrix[1, 0];
-			var num8 = matrix[1, 1];
-			var num7 = matrix[1, 2];
-			var num6 = matrix[1, 3];
-			var num17 = matrix[2, 0];
-			var num16 = matrix[2, 1];
-			var num15 = matrix[2, 2];
-			var num14 = matrix[2, 3];
-			var num13 = matrix[3, 0];
-			var num12 = matrix[3, 1];
-			var num11 = matrix[3, 2];
-			var num10 = matrix[3, 3];
+			var num5 = matrix._data[0, 0];
+			var num4 = matrix._data[0, 1];
+			var num3 = matrix._data[0, 2];
+			var num2 = matrix._data[0, 3];
+			var num9 = matrix._data[1, 0];
+			var num8 = matrix._data[1, 1];
+			var num7 = matrix._data[1, 2];
+			var num6 = matrix._data[1, 3];
+			var num17 = matrix._data[2, 0];
+			var num16 = matrix._data[2, 1];
+			var num15 = matrix._data[2, 2];
+			var num14 = matrix._data[2, 3];
+			var num13 = matrix._data[3, 0];
+			var num12 = matrix._data[3, 1];
+			var num11 = matrix._data[3, 2];
+			var num10 = matrix._data[3, 3];
 			var num23 = (num15 * num10) - (num14 * num11);
 			var num22 = (num16 * num10) - (num14 * num12);
 			var num21 = (num16 * num11) - (num15 * num12);
@@ -387,34 +382,34 @@ namespace Balder.Core.Math
 			var num37 = ((num9 * num22) - (num8 * num20)) + (num6 * num18);
 			var num36 = -(((num9 * num21) - (num8 * num19)) + (num7 * num18));
 			var num = 1f / ((((num5 * num39) + (num4 * num38)) + (num3 * num37)) + (num2 * num36));
-			matrix2[0, 0] = num39 * num;
-			matrix2[1, 0] = num38 * num;
-			matrix2[2, 0] = num37 * num;
-			matrix2[3, 0] = num36 * num;
-			matrix2[0, 1] = -(((num4 * num23) - (num3 * num22)) + (num2 * num21)) * num;
-			matrix2[1, 1] = (((num5 * num23) - (num3 * num20)) + (num2 * num19)) * num;
-			matrix2[2, 1] = -(((num5 * num22) - (num4 * num20)) + (num2 * num18)) * num;
-			matrix2[3, 1] = (((num5 * num21) - (num4 * num19)) + (num3 * num18)) * num;
+			matrix2._data[0, 0] = num39 * num;
+			matrix2._data[1, 0] = num38 * num;
+			matrix2._data[2, 0] = num37 * num;
+			matrix2._data[3, 0] = num36 * num;
+			matrix2._data[0, 1] = -(((num4 * num23) - (num3 * num22)) + (num2 * num21)) * num;
+			matrix2._data[1, 1] = (((num5 * num23) - (num3 * num20)) + (num2 * num19)) * num;
+			matrix2._data[2, 1] = -(((num5 * num22) - (num4 * num20)) + (num2 * num18)) * num;
+			matrix2._data[3, 1] = (((num5 * num21) - (num4 * num19)) + (num3 * num18)) * num;
 			var num35 = (num7 * num10) - (num6 * num11);
 			var num34 = (num8 * num10) - (num6 * num12);
 			var num33 = (num8 * num11) - (num7 * num12);
 			var num32 = (num9 * num10) - (num6 * num13);
 			var num31 = (num9 * num11) - (num7 * num13);
 			var num30 = (num9 * num12) - (num8 * num13);
-			matrix2[0, 2] = (((num4 * num35) - (num3 * num34)) + (num2 * num33)) * num;
-			matrix2[1, 2] = -(((num5 * num35) - (num3 * num32)) + (num2 * num31)) * num;
-			matrix2[2, 2] = (((num5 * num34) - (num4 * num32)) + (num2 * num30)) * num;
-			matrix2[3, 2] = -(((num5 * num33) - (num4 * num31)) + (num3 * num30)) * num;
+			matrix2._data[0, 2] = (((num4 * num35) - (num3 * num34)) + (num2 * num33)) * num;
+			matrix2._data[1, 2] = -(((num5 * num35) - (num3 * num32)) + (num2 * num31)) * num;
+			matrix2._data[2, 2] = (((num5 * num34) - (num4 * num32)) + (num2 * num30)) * num;
+			matrix2._data[3, 2] = -(((num5 * num33) - (num4 * num31)) + (num3 * num30)) * num;
 			var num29 = (num7 * num14) - (num6 * num15);
 			var num28 = (num8 * num14) - (num6 * num16);
 			var num27 = (num8 * num15) - (num7 * num16);
 			var num26 = (num9 * num14) - (num6 * num17);
 			var num25 = (num9 * num15) - (num7 * num17);
 			var num24 = (num9 * num16) - (num8 * num17);
-			matrix2[0, 3] = -(((num4 * num29) - (num3 * num28)) + (num2 * num27)) * num;
-			matrix2[1, 3] = (((num5 * num29) - (num3 * num26)) + (num2 * num25)) * num;
-			matrix2[2, 3] = -(((num5 * num28) - (num4 * num26)) + (num2 * num24)) * num;
-			matrix2[3, 3] = (((num5 * num27) - (num4 * num25)) + (num3 * num24)) * num;
+			matrix2._data[0, 3] = -(((num4 * num29) - (num3 * num28)) + (num2 * num27)) * num;
+			matrix2._data[1, 3] = (((num5 * num29) - (num3 * num26)) + (num2 * num25)) * num;
+			matrix2._data[2, 3] = -(((num5 * num28) - (num4 * num26)) + (num2 * num24)) * num;
+			matrix2._data[3, 3] = (((num5 * num27) - (num4 * num25)) + (num3 * num24)) * num;
 			return matrix2;
 		}
 

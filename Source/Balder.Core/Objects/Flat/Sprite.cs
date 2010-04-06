@@ -77,7 +77,8 @@ namespace Balder.Core.Objects.Flat
 			 */
 
 			var position = new Vector(0, 0, 0);
-			var actualPosition = new Vector(world.data[12], world.data[13], world.data[14]);
+			var actualPosition = new Vector(world[3, 0], world[3, 1], world[3, 2]);
+				//data[12], world.data[13], world.data[14]);
 			var transformedPosition = Vector.Transform(position, world, view);
 			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
 
