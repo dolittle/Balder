@@ -69,6 +69,7 @@ namespace Balder.Core
 			Rotation = new Coordinate();
 			_isInitializingTransform = false;
 			Children = new NodeCollection();
+			World = Matrix.Identity;
 			PrepareWorld();
 		}
 
@@ -205,6 +206,8 @@ namespace Balder.Core
 
 		public Matrix World { get; set; }
 
+		public Matrix ActualWorld { get; private set; }
+
 		public Matrix RenderingWorld { get; internal set; }
 
 		private void PrepareWorld()
@@ -218,7 +221,7 @@ namespace Balder.Core
 			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			var negativePivot = PivotPoint.ToVector().Negative();
 			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
-			World = pivotMatrix * scaleMatrix * rotationMatrix * translationMatrix;
+			ActualWorld = World * pivotMatrix * scaleMatrix * rotationMatrix * translationMatrix;
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)

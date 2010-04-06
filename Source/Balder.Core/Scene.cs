@@ -202,7 +202,7 @@ namespace Balder.Core
 			{
 				return;
 			}
-			world = node.World * world;
+			world = node.ActualWorld * world;
 			node.RenderingWorld = world;
 			
 			node.OnBeforeRendering(viewport,view,projection,node.RenderingWorld);

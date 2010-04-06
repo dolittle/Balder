@@ -298,6 +298,7 @@ namespace Balder.Silverlight.Rendering
 						case MaterialShade.None:
 							{
 								face.Color = face.Material.Diffuse;
+								
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
 									TextureTriangleRenderer.Draw(face, Vertices, nodeIdentifier);
