@@ -259,11 +259,6 @@ namespace Balder.Silverlight.Controls
 
 		public void PreClone()
 		{
-			var binding = GetBindingExpression(ItemsSourceProperty.ActualDependencyProperty);
-			if( null != binding )
-			{
-				Children.Clear();
-			}
 		}
 
 		public void PostClone(object source)
@@ -274,5 +269,7 @@ namespace Balder.Silverlight.Controls
 				_templateContent = sourceNodesControl._templateContent;	
 			}
 		}
+
+		public bool CopyChildren { get { return false; } }
 	}
 }

@@ -126,6 +126,7 @@
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
     <Compile Include="Math\Interpolator.cs" />
+    <Compile Include="NodeClonePropertyInfo.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />

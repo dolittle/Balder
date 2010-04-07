@@ -16,13 +16,16 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using Balder.Core.Assets;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 using Ninject.Core;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public partial class Mesh : Geometry, IAsset
+	public partial class Mesh : Geometry, IAsset, ICanHandleCloning
 	{
 		[Inject]
 		public IAssetLoaderService AssetLoaderService { get; set; }
@@ -43,6 +46,21 @@ namespace Balder.Core.Objects.Geometries
 
 			// Todo: This has to be done since Loading of the node is done after Xaml has been bound - but we will get color from the File loaded
 			SetColorForChildren();
+		}
+
+		public void PreClone()
+		{
+			
+		}
+
+		public void PostClone(object source)
+		{
+			
+		}
+
+		public bool CopyChildren
+		{
+			get { return true; }
 		}
 	}
 }

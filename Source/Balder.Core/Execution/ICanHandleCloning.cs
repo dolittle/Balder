@@ -25,5 +25,6 @@ namespace Balder.Core.Execution
 	{
 		void PreClone();
 		void PostClone(object source);
+		bool CopyChildren { get; }
 	}
 }

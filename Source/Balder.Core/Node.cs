@@ -98,11 +98,11 @@ namespace Balder.Core
 			get { return PivotPointProperty.GetValue(this); }
 			set
 			{
-				if( null != _pivotPoint )
+				if (null != _pivotPoint)
 				{
 					_pivotPoint.PropertyChanged -= TransformChanged;
 				}
-				if( null == value )
+				if (null == value)
 				{
 					value = new Coordinate();
 				}
@@ -140,7 +140,7 @@ namespace Balder.Core
 			get { return PositionProp.GetValue(this); }
 			set
 			{
-				if( null != _position )
+				if (null != _position)
 				{
 					_position.PropertyChanged -= TransformChanged;
 				}
@@ -172,7 +172,7 @@ namespace Balder.Core
 			get { return ScaleProp.GetValue(this); }
 			set
 			{
-				if( null != _scale )
+				if (null != _scale)
 				{
 					_scale.PropertyChanged -= TransformChanged;
 				}
@@ -200,7 +200,7 @@ namespace Balder.Core
 			get { return RotationProp.GetValue(this); }
 			set
 			{
-				if( null != _rotation )
+				if (null != _rotation)
 				{
 					_rotation.PropertyChanged -= TransformChanged;
 				}
@@ -221,16 +221,45 @@ namespace Balder.Core
 
 		private void PrepareActualWorld()
 		{
-			if( !_isWorldInvalidated )
+			if (!_isWorldInvalidated)
 			{
 				return;
 			}
-			var scaleMatrix = Matrix.CreateScale(Scale);
-			var translationMatrix = Matrix.CreateTranslation(Position);
-			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
-			var negativePivot = PivotPoint.ToVector().Negative();
-			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
-			ActualWorld = World * pivotMatrix * scaleMatrix * rotationMatrix * translationMatrix;
+
+			var matrix = Matrix.Identity;
+
+			if (!World.IsIdentity)
+			{
+				matrix = matrix*World;
+			}
+
+			if (PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
+			{
+				var negativePivot = PivotPoint.ToVector().Negative();
+				var pivotMatrix = Matrix.CreateTranslation(negativePivot);
+				matrix = matrix*pivotMatrix;
+			}
+
+			if (Scale.X != 1f && Scale.Y != 1f && Scale.Z != 1f)
+			{
+				var scaleMatrix = Matrix.CreateScale(Scale);
+				matrix = matrix*scaleMatrix;
+			}
+
+			if (Rotation.X != 0f || Rotation.Y != 0f || Rotation.Z != 0f)
+			{
+				var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
+				matrix = matrix*rotationMatrix;
+			}
+
+			if (Position.X != 0f || Position.Y != 0f || Position.Z != 0f)
+			{
+				var translationMatrix = Matrix.CreateTranslation(Position);
+				matrix = matrix*translationMatrix;
+			}
+
+			ActualWorld = matrix;
+
 			_isWorldInvalidated = false;
 		}
 

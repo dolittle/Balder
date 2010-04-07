@@ -11,7 +11,7 @@ namespace Balder.Core
 	public class NodeCloneInfo
 	{
 		public Type Type { get; private set; }
-		public PropertyInfo[] Properties { get; private set; }
+		public Dictionary<PropertyInfo,NodeClonePropertyInfo> Properties { get; private set; }
 		public DependencyProperty[] DependencyProperties { get; private set; }
 
 		private FieldInfo[] _dependencyPropertyFields;
@@ -19,25 +19,28 @@ namespace Balder.Core
 		public NodeCloneInfo(Type type)
 		{
 			Type = type;
+			Properties = new Dictionary<PropertyInfo, NodeClonePropertyInfo>();
 			PrepareDependencyProperties();
 			PrepareProperties();
-
 		}
 
 		private void PrepareProperties()
 		{
-			var properties = new List<PropertyInfo>();
-
 			var propertiesInType = Type.GetProperties(BindingFlags.Instance | BindingFlags.Public);
 			foreach (var property in propertiesInType)
 			{
 				if (!ShouldPropertyBeIgnored(property))
 				{
-					properties.Add(property);
+					var cloneableInterface = property.PropertyType.GetInterface(typeof (ICloneable).Name, false);
+					var isCloneable = null != cloneableInterface;
+					var nodeCloneProperty = new NodeClonePropertyInfo
+					                        	{
+					                        		PropertyInfo = property,
+					                        		IsCloneable = isCloneable
+					                        	};
+					Properties[property] = nodeCloneProperty;
 				}
 			}
-
-			Properties = properties.ToArray();
 		}
 
 
@@ -66,12 +69,14 @@ namespace Balder.Core
 
 		public bool IsPropertyCloneable(PropertyInfo property)
 		{
-			if( !property.PropertyType.IsValueType )
-			{
-				var cloneableInterface = property.PropertyType.GetInterface(typeof (ICloneable).Name, false);
-				return null != cloneableInterface;
-			}
-			return false;
+			var nodeClonePropertyInfo = Properties[property];
+			return nodeClonePropertyInfo.IsCloneable;
+		}
+
+		public NodeClonePropertyInfo[]	GetProperties()
+		{
+			var properties = Properties.Values.ToArray();
+			return properties;
 		}
 
 		private void PrepareDependencyProperties()

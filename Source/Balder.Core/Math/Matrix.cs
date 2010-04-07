@@ -16,10 +16,17 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
+
 namespace Balder.Core.Math
 {
 	public class Matrix
 	{
+		public static readonly Matrix ScaleOneMatrix = CreateScale(1f);
+		public static readonly Matrix TranslationZeroMatrix = CreateTranslation(0, 0, 0);
+		public static readonly Matrix RotationZeroMatrix = CreateRotation(0, 0, 0);
+
 		private float[,] _data;
 
 		public Matrix()
@@ -33,6 +40,25 @@ namespace Balder.Core.Math
 			_data = new float[4, 4];
 			SetIdentity(this);
 		}
+
+		public bool IsIdentity { get { return EqualsTo(Identity); } }
+
+		public bool EqualsTo(Matrix matrix)
+		{
+			for (var i = 0; i < matrix._data.GetLength(0); i++)
+			{
+				for (var j = 0; j < matrix._data.GetLength(1); j++)
+				{
+					if( _data[i,j] != matrix._data[i, j] )
+					{
+						return false;
+					}
+				}
+			}
+
+			return true;
+		}
+		
 
 
 		private static void SetIdentity(Matrix matrix)
@@ -412,6 +438,7 @@ namespace Balder.Core.Math
 			matrix2._data[3, 3] = (((num5 * num27) - (num4 * num25)) + (num3 * num24)) * num;
 			return matrix2;
 		}
+
 
 		public override string ToString()
 		{

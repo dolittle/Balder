@@ -25,7 +25,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
 	public class ViewModel
 	{
-		public const int DepthCount = 4;
+		public const int DepthCount = 2;
 		public const double DepthSpace = 12;
 
 		public ViewModel()

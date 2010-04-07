@@ -26,7 +26,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 	public class Depth
 	{
 		private readonly double _zPosition;
-		public const int RowCount = 2;
+		public const int RowCount = 1;
 		public const double RowSpace = 12;
 
 
