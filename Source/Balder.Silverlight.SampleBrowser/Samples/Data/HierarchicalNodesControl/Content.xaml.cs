@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
+using Balder.Core;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
@@ -17,6 +18,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		public Content()
 		{
 			InitializeComponent();
+
+			Game.Update += new Balder.Core.Execution.GameEventHandler(Game_Update);
 		}
+
+		void Game_Update(Balder.Core.Execution.Game game)
+		{
+			NodeCounter.Text = Scene.NodeCount.ToString();
+		}
+
 	}
 }

@@ -27,6 +27,9 @@ namespace Balder.Core
 {
 	public class Scene
 	{
+		public static int NodeCount = 0;
+		
+
 		private readonly NodeCollection _renderableNodes;
 		private readonly NodeCollection _flatNodes;
 		private readonly NodeCollection _environmentalNodes;
@@ -163,6 +166,8 @@ namespace Balder.Core
 
 		internal void Render(Viewport viewport)
 		{
+			NodeCount = 0;
+			
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
 			lock( _allNodes )
@@ -219,6 +224,7 @@ namespace Balder.Core
 				return;
 			}
 
+			NodeCount++;
 			
 			node.OnRender(viewport, view, projection, node.RenderingWorld);
 

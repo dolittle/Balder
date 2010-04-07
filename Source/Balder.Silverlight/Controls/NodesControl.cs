@@ -33,7 +33,7 @@ using Ninject.Core;
 
 namespace Balder.Silverlight.Controls
 {
-	public class NodesControl : RenderableNode, ICanHandlePostClone
+	public class NodesControl : RenderableNode, ICanHandleCloning
 	{
 		private Node _templateContent;
 		private List<object> _items;
@@ -255,6 +255,15 @@ namespace Balder.Silverlight.Controls
 			}
 
 			_items.Remove(item);
+		}
+
+		public void PreClone()
+		{
+			var binding = GetBindingExpression(ItemsSourceProperty.ActualDependencyProperty);
+			if( null != binding )
+			{
+				Children.Clear();
+			}
 		}
 
 		public void PostClone(object source)

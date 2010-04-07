@@ -33,6 +33,11 @@ namespace Balder.Core
 
 		public Node Clone(Node source, bool unique)
 		{
+			if (source is ICanHandleCloning)
+			{
+				((ICanHandleCloning)source).PreClone();
+			}
+
 			var type = source.GetType();
 			var cloneInfo = GetInfoForType(type);
 
@@ -52,9 +57,9 @@ namespace Balder.Core
 				clone.Children.Add(clonedChild);
 			}
 
-			if( clone is ICanHandlePostClone )
+			if( clone is ICanHandleCloning )
 			{
-				((ICanHandlePostClone)clone).PostClone(source);
+				((ICanHandleCloning)clone).PostClone(source);
 			}
 
 			return clone;
