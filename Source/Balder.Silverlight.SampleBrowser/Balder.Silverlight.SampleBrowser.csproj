@@ -227,6 +227,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Geometries\Mesh\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\GettingStarted\HelloWorld\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -392,6 +395,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
+    <Page Include="Samples\Geometries\Mesh\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
     <Page Include="Samples\Lighting\Directional\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -465,6 +472,8 @@
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\EiffelTower.ASE" />
+    <None Include="Samples\Geometries\Mesh\Assets\Thumbs.db" />
     <Resource Include="Samples\Data\HierarchicalNodesControl\Assets\box.ASE" />
     <Resource Include="Samples\Programatic\Teapot\Assets\stage2_3dsmax.ASE" />
     <Resource Include="Samples\Programatic\Teapot\Assets\stage2.ase" />
@@ -600,6 +609,44 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Samples\Programatic\Materials\Assets\VisualStudio.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Geometries\Mesh\Assets\1.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\2.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\3.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\4.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\401.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\402.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\403.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\404.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\405.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\406.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\407.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\408.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\409.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\6.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\arch.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\baseston.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\entrance.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame01.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame02.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame03.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame2.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame201.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame202.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame203.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\frame204.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\Google01.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\Google_E.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\internal.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\middle.png" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\profile.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\top.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\top_midd.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\window.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\_Charcoa.jpg" />
+    <Resource Include="Samples\Geometries\Mesh\Assets\_Gray6_.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

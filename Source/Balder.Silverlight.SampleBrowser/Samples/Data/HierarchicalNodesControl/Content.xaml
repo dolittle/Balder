@@ -24,7 +24,7 @@
 			</EventTrigger>
 		</Grid.Triggers>
 
-		<Execution:Game Width="640" Height="480">
+		<Execution:Game x:Name="Game" Width="640" Height="480">
 
 			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
 				<Controls:NodesControl.NodeTemplate>
@@ -52,6 +52,8 @@
 			</Execution:Game.Camera>
 
 		</Execution:Game>
+		
+		<TextBlock x:Name="NodeCounter"/>
 
 	</Grid>
 </UserControl>
