@@ -76,7 +76,6 @@ namespace Balder.Core.Silverlight.Helpers
 			var propertyMetadata = new PropertyMetadata(defaultValue,
 														(o, e) =>
 														{
-
 															var isInternal = GetIsInternalSet(o);
 															if (isInternal)
 															{
@@ -120,7 +119,6 @@ namespace Balder.Core.Silverlight.Helpers
 
 			return prop;
 		}
-
 
 		private static object GetDependencyPropertyByPropertyName(Type root, string propertyName, out string propertyPath)
 		{

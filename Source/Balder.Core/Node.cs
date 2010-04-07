@@ -174,7 +174,7 @@ namespace Balder.Core
 			{
 				if (null != _scale)
 				{
-					_scale.PropertyChanged -= ScaleChanged;
+					_scale.PropertyChanged -= TransformChanged;
 				}
 				if (null == value)
 				{
@@ -182,7 +182,7 @@ namespace Balder.Core
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
-				_scale.PropertyChanged += ScaleChanged;
+				_scale.PropertyChanged += TransformChanged;
 				InvalidateWorld();
 			}
 		}
@@ -264,10 +264,6 @@ namespace Balder.Core
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
-		{
-			InvalidateWorld();
-		}
-		private void ScaleChanged(object sender, PropertyChangedEventArgs e)
 		{
 			InvalidateWorld();
 		}
