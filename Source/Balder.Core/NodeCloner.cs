@@ -33,37 +33,57 @@ namespace Balder.Core
 
 		public Node Clone(Node source, bool unique)
 		{
-			if (source is ICanHandleCloning)
-			{
-				((ICanHandleCloning)source).PreClone();
-			}
+			PreClone(source);
 
 			var type = source.GetType();
 			var cloneInfo = GetInfoForType(type);
-
 			var clone = Activator.CreateInstance(type) as Node;
 
 			ClonePropertyValues(source, cloneInfo, clone);
 			CloneBindingExpressions(source, cloneInfo, clone);
 
-			if( unique && source is ICanBeUnique )
+			if( unique ) 
 			{
-				((ICanBeUnique)source).MakeUnique();
+				MakeUnique(source);
 			}
 
+			CloneChildren(source, clone, unique);
+			PostClone(source, clone);
+
+			return clone;
+		}
+
+		private void PostClone(Node source, Node clone)
+		{
+			if( clone is ICanHandleCloning )
+			{
+				((ICanHandleCloning)clone).PostClone(source);
+			}
+		}
+
+		private void PreClone(Node source)
+		{
+			if (source is ICanHandleCloning)
+			{
+				((ICanHandleCloning)source).PreClone();
+			}
+		}
+
+		private void MakeUnique(Node source)
+		{
+			if (source is ICanBeUnique)
+			{
+				((ICanBeUnique) source).MakeUnique();
+			}
+		}
+
+		private void CloneChildren(Node source, Node clone, bool unique)
+		{
 			foreach (var child in source.Children)
 			{
 				var clonedChild = child.Clone(unique);
 				clone.Children.Add(clonedChild);
 			}
-
-			if( clone is ICanHandleCloning )
-			{
-				((ICanHandleCloning)clone).PostClone(source);
-			}
-
-			return clone;
-
 		}
 
 		private static void ClonePropertyValues(Node source, NodeCloneInfo cloneInfo, Node clone)

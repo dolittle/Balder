@@ -174,7 +174,7 @@ namespace Balder.Core
 			{
 				if (null != _scale)
 				{
-					_scale.PropertyChanged -= TransformChanged;
+					_scale.PropertyChanged -= ScaleChanged;
 				}
 				if (null == value)
 				{
@@ -182,7 +182,7 @@ namespace Balder.Core
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
-				_scale.PropertyChanged += TransformChanged;
+				_scale.PropertyChanged += ScaleChanged;
 				InvalidateWorld();
 			}
 		}
@@ -240,7 +240,7 @@ namespace Balder.Core
 				matrix = matrix*pivotMatrix;
 			}
 
-			if (Scale.X != 1f && Scale.Y != 1f && Scale.Z != 1f)
+			if (Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f)
 			{
 				var scaleMatrix = Matrix.CreateScale(Scale);
 				matrix = matrix*scaleMatrix;
@@ -264,6 +264,10 @@ namespace Balder.Core
 		}
 
 		private void TransformChanged(object sender, PropertyChangedEventArgs e)
+		{
+			InvalidateWorld();
+		}
+		private void ScaleChanged(object sender, PropertyChangedEventArgs e)
 		{
 			InvalidateWorld();
 		}
