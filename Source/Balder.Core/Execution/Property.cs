@@ -1,50 +1,100 @@
 using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using System.Reflection;
 using System.Windows;
 using Balder.Core.Silverlight.Extensions;
-using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Core.Execution
 {
+
+
 	public class Property<T,TP>
 #if(SILVERLIGHT)
 		where T:DependencyObject
 #endif
 	{
-#if(SILVERLIGHT)
-		private readonly DependencyProperty<T, TP> _internalDependencyProperty;
-#endif
-		private readonly Expression<Func<T, TP>> _expression;
-		private readonly string _propertyName;
-		private readonly Dictionary<object, TP> _valueHash;
-		private readonly bool _canNotiify;
-		
+		public class ObjectProperty<T>
+		{
+			public T Value;
+			public WeakReference Object;
+			public bool CallFromExternal;
+			public bool CallFromProperty;
+			private bool _isValueType;
+
+			internal ObjectProperty(DependencyObject obj, bool isValueType)
+			{
+				Object = new WeakReference(obj);
+				CallFromExternal = false;
+				CallFromProperty = false;
+				_isValueType = isValueType;
+			}
+
+			public bool DoesValueCauseChange(T value)
+			{
+				if( !_isValueType) 
+				{
+
+					if ((null == (object) Value && null != (object) value) ||
+					    null == (object) value || !value.Equals(Value))
+					{
+						return true;
+					}
+					return false;
+				} else
+				{
+					return !value.Equals(Value);
+				}
+			}
+		}
+
+
+		private readonly bool _canNotify;
+		private readonly PropertyInfo _propertyInfo;
+		private readonly Dictionary<int, ObjectProperty<TP>> _objectPropertyBag;
+		private readonly string _ownerTypeName;
+		private readonly TP _defaultValue;
+		private readonly Type _ownerType;
+		private readonly bool _isValueType;
 
 		private Property(Expression<Func<T, TP>> expression, TP defaultValue)
 		{
-#if(SILVERLIGHT)
-			_internalDependencyProperty = DependencyProperty<T, TP>.Register(expression, defaultValue);
-#endif
-			_expression = expression;
-			_valueHash = new Dictionary<object, TP>();
+			_ownerType = typeof (T);
+			_objectPropertyBag = new Dictionary<int, ObjectProperty<TP>>();
+			_ownerTypeName = _ownerType.Name;
+			_propertyInfo = expression.GetPropertyInfo();
+			_defaultValue = defaultValue;
+			_isValueType = typeof(TP).IsValueType;
 
-			var ownerType = typeof (T);
+			Initialize();
+			
 
-			if ( null != ownerType.GetInterface(typeof(ICanNotifyChanges).Name,false))
+			if ( null != _ownerType.GetInterface(typeof(ICanNotifyChanges).Name,false))
 			{
-				_canNotiify = true;
+				_canNotify = true;
 			} else
 			{
-				_canNotiify = false;
+				_canNotify = false;
 			}
-			var propertyInfo = expression.GetPropertyInfo();
-			_propertyName = propertyInfo.Name;
+			
 		}
 
-#if(SILVERLIGHT)
-		public DependencyProperty ActualDependencyProperty { get { return _internalDependencyProperty.ActualDependencyProperty; } }
-#endif
+		private ObjectProperty<TP>	GetObjectProperty(T obj)
+		{
+			var key = obj.GetHashCode();
+			ObjectProperty<TP> objectProperty;
+			if( _objectPropertyBag.ContainsKey(key))
+			{
+				objectProperty = _objectPropertyBag[key];
+			} else
+			{
+				objectProperty = new ObjectProperty<TP>(obj, _isValueType);
+				objectProperty.Value = _defaultValue;
+				_objectPropertyBag[key] = objectProperty;
+			}
+			return objectProperty;
+		}
+
 
 		public static Property<T, TP> Register(Expression<Func<T,TP>> expression)
 		{
@@ -61,50 +111,98 @@ namespace Balder.Core.Execution
 
 		public void SetValue(T obj, TP value)
 		{
-			if( obj.Dispatcher.CheckAccess())
+			var objectProperty = GetObjectProperty(obj);
+			if (objectProperty.CallFromExternal)
 			{
-				_internalDependencyProperty.SetValue(obj, value);	
-			} else
-			{
-				obj.Dispatcher.BeginInvoke(() => _internalDependencyProperty.SetValue(obj, value));
+				return;
 			}
 
-			var oldValue = default(TP);
-			if( _valueHash.ContainsKey(obj))
+			objectProperty.CallFromProperty = true;
+			if ( objectProperty.DoesValueCauseChange(value))
 			{
-				oldValue = _valueHash[obj];
+				var oldValue = objectProperty.Value;
+				objectProperty.Value = value;
+				OnSet(obj, value, objectProperty);
+				HandleNotification(obj, value, oldValue);
 			}
-			
-			NotifyChanges(obj, oldValue, value);
-			_valueHash[obj] = value;
+			objectProperty.CallFromProperty = false;
+		}
+
+		private void HandleNotification(T obj, TP newValue, TP oldValue)
+		{
+			if( _canNotify )
+			{
+				((ICanNotifyChanges)obj).Notify(_propertyInfo.Name,oldValue,newValue);
+				
+			}
+			Runtime.Instance.SignalRenderingForObject(this);
 		}
 
 		public TP GetValue(T obj)
 		{
-			var value = default(TP);
-			if (_valueHash.ContainsKey(obj))
-			{
-				value = _valueHash[obj];
-			}
-			return value;
+			var objectProperty = GetObjectProperty(obj);
+			return objectProperty.Value;
 		}
 
-		private void NotifyChanges(T obj, TP oldValue, TP value)
+#if(SILVERLIGHT)
+
+		public DependencyProperty ActualDependencyProperty { get; private set; }
+
+		private void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
-			if (_canNotiify)
+			var objectProperty = GetObjectProperty((T)obj);
+			var oldValue = objectProperty.Value;
+			var newValue = (TP) e.NewValue;
+			if( objectProperty.DoesValueCauseChange(newValue))
 			{
-				var oldValueAsObject = (object) oldValue;
-				var valueAsObject = (object) value;
+				HandleNotification((T)obj,newValue,oldValue);
+			}
+			objectProperty.Value = newValue;
 
-				var notify = (null == oldValueAsObject && null != valueAsObject) ||
-				             (null != oldValueAsObject && null == valueAsObject) ||
-				             (null != oldValueAsObject && !oldValueAsObject.Equals(valueAsObject));
-
-				if (notify)
-				{
-					((ICanNotifyChanges) obj).Notify(_propertyName, oldValue, value);
-				}
+			if (!objectProperty.CallFromProperty)
+			{
+				objectProperty.CallFromExternal = true;
+				_propertyInfo.SetValue(obj, e.NewValue, null);
+				objectProperty.CallFromExternal = false;
 			}
 		}
+
+		private void Initialize()
+		{
+			ActualDependencyProperty =
+				DependencyProperty.Register(
+					_propertyInfo.Name,
+					_propertyInfo.PropertyType,
+					_ownerType,
+					new PropertyMetadata(_defaultValue, PropertyChanged)
+				);
+		}
+
+		private void OnSet(T obj, TP value, ObjectProperty<TP> objectProperty)
+		{
+			if( Deployment.Current.Dispatcher.CheckAccess())
+			{
+				obj.SetValue(ActualDependencyProperty, value);
+			} else
+			{
+				Deployment.Current.Dispatcher.BeginInvoke(
+						() => obj.SetValue(ActualDependencyProperty, value));
+			}
+		}
+
+#else
+		private void Initialize(PropertyInfo propertyInfo)
+		{
+			
+		}
+
+		private void OnSet(T obj, TP value, ObjectProperty<TP> objectProperty)
+		{
+			
+		}
+
+#endif
+
+
 	}
 }

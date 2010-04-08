@@ -9,7 +9,7 @@ namespace Balder.Core.Math
 	[TypeConverter(typeof(CoordinateTypeConverter))]
 	public partial class Coordinate : DependencyObject, INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+		public event PropertyChangedEventHandler PropertyChanged;
 
 		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X);
 		public double X

@@ -33,7 +33,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : ICanNotifyChanges
+	public abstract partial class Node
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -346,11 +346,6 @@ namespace Balder.Core
 
 			_isPrepared = true;
 			Prepare();
-		}
-
-		public void Notify(string propertyName, object oldValue, object newValue)
-		{
-			Runtime.Instance.SignalRenderingForObject(this);
 		}
 	}
 }

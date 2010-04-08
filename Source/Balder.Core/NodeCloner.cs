@@ -90,20 +90,37 @@ namespace Balder.Core
 		{
 			foreach( var property in cloneInfo.GetProperties() )
 			{
-
 				var value = property.PropertyInfo.GetValue(source, null);
-				if( property.IsCloneable &&
-					null != value )
-				{
-					value = ((Execution.ICloneable) value).Clone();
-				}
+				var cloneValue = property.PropertyInfo.GetValue(clone, null);
 
-				if (null != value)
+				if (ShouldPropertyBeCloned(value, cloneValue))
 				{
-					property.PropertyInfo.SetValue(clone, value, null);
+					if (property.IsCloneable &&
+					    null != value)
+					{
+						value = ((Execution.ICloneable) value).Clone();
+					}
+
+					if (null != value)
+					{
+						property.PropertyInfo.SetValue(clone, value, null);
+					}
 				}
 			}
 		}
+
+		private static bool ShouldPropertyBeCloned(object newValue, object existingValue)
+		{
+			if ((null == (object)existingValue && null != (object)newValue) ||
+				null == (object)newValue || !newValue.Equals(existingValue))
+			{
+				return true;
+			}
+			return false;
+		}
+
+		
+
 
 		private static void CloneBindingExpressions(Node source, NodeCloneInfo cloneInfo, Node clone)
 		{

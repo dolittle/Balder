@@ -3,7 +3,7 @@ using Balder.Core.Execution;
 
 namespace Balder.Core.Math
 {
-	public partial class Coordinate : ICloneable, ICanNotifyChanges
+	public partial class Coordinate : ICloneable
 	{
 		public Coordinate()
 		{
@@ -119,10 +119,6 @@ namespace Balder.Core.Math
 			return ToString(null, null);
 		}
 
-		public void Notify(string propertyName, object oldValue, object newValue)
-		{
-			Runtime.Instance.SignalRenderingForObject(this);
-		}
 
 		public string ToString(string format, IFormatProvider formatProvider)
 		{
@@ -163,6 +159,18 @@ namespace Balder.Core.Math
 							Z.ToString(format, formatProvider)
 						);
 			}
+		}
+
+		public override bool Equals(object obj)
+		{
+			var coordinate = obj as Coordinate;
+			if (null != coordinate)
+			{
+				return X == coordinate.X &&
+				       Y == coordinate.Y &&
+				       Z == coordinate.Z;
+			}
+			return false;
 		}
 
 	}

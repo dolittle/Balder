@@ -128,7 +128,6 @@
     <Compile Include="Math\Interpolator.cs" />
     <Compile Include="NodeClonePropertyInfo.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
-    <Compile Include="PropertyObject.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />
