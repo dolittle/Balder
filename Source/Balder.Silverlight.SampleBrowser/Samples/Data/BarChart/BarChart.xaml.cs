@@ -107,7 +107,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart
 		{
 			BackgroundContainer.Scale.X = _values.Count;
 			BackgroundContainer.Position.X = (_values.Count * 5)-5;
-			NodesStack.Position.X = -(_values.Count * 5);
+			//NodesStack.Position.X = -(_values.Count * 5);
 		}
 	}
 }

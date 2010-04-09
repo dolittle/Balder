@@ -19,28 +19,10 @@
 
 #endregion
 
-using System.Collections.ObjectModel;
-
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Core.Execution
 {
-	public class ViewModel
+	public interface ICopyable
 	{
-		public const int DepthCount = 10;
-		public const double DepthSpace = 12;
-
-		public ViewModel()
-		{
-			Depths = new ObservableCollection<Depth>();
-
-			var position = -(DepthSpace*(DepthCount/2d));
-			for( var depthIndex=0; depthIndex<DepthCount; depthIndex++)
-			{
-				var row = new Depth(position);
-				Depths.Add(row);
-				position += DepthSpace;
-			}
-		}
-
-		public ObservableCollection<Depth> Depths { get; private set; }
+		void CopyTo(object destination);
 	}
 }

@@ -18,29 +18,32 @@
 #endregion
 using Balder.Core.Debug;
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 
 namespace Balder.Core
 {
-	public abstract class RenderableNode : Node
+	public abstract class RenderableNode : Node, ICanBeVisible, ICanRender
 	{
-		protected virtual void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
-		protected virtual void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public RenderableNode()
+		{
+			IsVisible = true;
+		}
+
+		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible);
+		public bool IsVisible
+		{
+			get { return IsVisibleProp.GetValue(this); }
+			set { IsVisibleProp.SetValue(this, value); }
+		}
+
+		public virtual void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
+		public virtual void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (viewport.DebugInfo.BoundingSpheres)
 			{
 				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, view, projection, world);
 			}
-		}
-
-		internal void OnRender(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			Render(viewport, view, projection, world);
-		}
-
-		internal void OnRenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			RenderDebugInfo(viewport, view, projection, world);
 		}
 	}
 }

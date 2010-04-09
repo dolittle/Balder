@@ -51,7 +51,7 @@ namespace Balder.Silverlight.Controls
 			StartPosition = new Coordinate();
 			ItemAdd = new Coordinate();
 			var stackModifier = new NodesStackModifier(this);
-			Modifier = stackModifier;
+			//Modifier = stackModifier;
 		}
 
 		public static readonly DependencyProperty<NodesStack, Coordinate> StartPositionProperty =
@@ -62,7 +62,7 @@ namespace Balder.Silverlight.Controls
 			set
 			{
 				StartPositionProperty.SetValue(this, value);
-				InvalidatePrepare();
+				//InvalidatePrepare();
 			}
 		}
 
@@ -74,7 +74,7 @@ namespace Balder.Silverlight.Controls
 			set
 			{
 				ItemAddProperty.SetValue(this, value);
-				InvalidatePrepare();
+				//InvalidatePrepare();
 			}
 		}
 	}

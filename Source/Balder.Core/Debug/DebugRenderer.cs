@@ -74,13 +74,13 @@ namespace Balder.Core.Debug
 
 			_boundingSphereDebugShape.Color = viewport.DebugInfo.Color;
 			_boundingSphereDebugShape.World = scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.OnRender(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, view, projection, world);
 
 			_boundingSphereDebugShape.World = rotateYMatrix * scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.OnRender(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, view, projection, world);
 
 			_boundingSphereDebugShape.World = rotateXMatrix * scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.OnRender(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, view, projection, world);
 		}
 
 		public void RenderRay(Vector position, Vector direction, Viewport viewport)
@@ -88,7 +88,7 @@ namespace Balder.Core.Debug
 			_rayDebugShape.Start = position;
 			_rayDebugShape.Direction = direction;
 			_rayDebugShape.Color = viewport.DebugInfo.Color;
-			_rayDebugShape.OnRender(viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity);
+			_rayDebugShape.Render(viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity);
 		}
 	}
 }

@@ -73,7 +73,7 @@ namespace Balder.Core.Objects.Geometries
 
 		
 
-		protected override void BeforeRendering(Display.Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void BeforeRendering(Display.Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if( null != HeightInput )
 			{

@@ -28,7 +28,6 @@ namespace Balder.Core
 	public class Scene
 	{
 		public static int NodeCount = 0;
-		
 
 		private readonly NodeCollection _renderableNodes;
 		private readonly NodeCollection _flatNodes;
@@ -49,10 +48,10 @@ namespace Balder.Core
 			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
 
-		public void AddNode(Node node)
+		public void AddNode(INode node)
 		{
 			node.Scene = this;
-			if (node is RenderableNode)
+			if (node is ICanBeVisible)
 			{
 				lock (_renderableNodes)
 				{
@@ -89,9 +88,9 @@ namespace Balder.Core
 			Runtime.Instance.SignalRenderingForObject(this);
 		}
 
-		public void RemoveNode(Node node)
+		public void RemoveNode(INode node)
 		{
-			if (node is RenderableNode)
+			if (node is ICanBeVisible)
 			{
 				lock (_renderableNodes)
 				{
@@ -170,72 +169,110 @@ namespace Balder.Core
 			
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
-			lock( _allNodes )
-			{
-				foreach (var node in _allNodes)
-				{
-					Prepare(node);
-				}
-				foreach( var node in _allNodes )
-				{
-					var world = Matrix.Identity;
-					PrepareRender(node, viewport, view, projection, world);
-				}
-			}
-			
+
+			PrepareNodes(viewport, view, projection);
+			RenderNodes(viewport, view, projection);
+		}
+
+		private void RenderNodes(Viewport viewport, Matrix view, Matrix projection)
+		{
 			lock (_renderableNodes)
 			{
-				foreach (RenderableNode node in _renderableNodes)
+				foreach (var node in _renderableNodes)
 				{
 					RenderNode(node, viewport, view, projection);
 				}
 			}
 		}
 
-		private static void Prepare(Node node)
+		private void PrepareNodes(Viewport viewport, Matrix view, Matrix projection)
 		{
-			node.OnPrepare();
-			foreach (var child in node.Children)
+			lock( _allNodes )
 			{
-				Prepare(child);
+				foreach( var node in _allNodes )
+				{
+					Prepare(node);
+					var world = Matrix.Identity;
+					PrepareRender(node, viewport, view, projection, world);
+				}
 			}
 		}
 
-		private static void PrepareRender(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private static void Prepare(INode node)
 		{
-			if( !node.IsVisible )
+			if( node is Node )
+			{
+				((Node)node).OnPrepare();	
+			}
+
+			PrepareChildren(node);
+		}
+
+		private static void PrepareChildren(INode node)
+		{
+			if (node is IHaveChildren)
+			{
+				foreach (var child in ((IHaveChildren)node).Children)
+				{
+					Prepare(child);
+				}
+			}
+		}
+
+		private static void PrepareRender(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			/*
+			if( node.IsVisible() )
 			{
 				return;
 			}
+			 * */
 			world = node.ActualWorld * world;
 			node.RenderingWorld = world;
 			
-			node.OnBeforeRendering(viewport,view,projection,node.RenderingWorld);
-			foreach (var child in node.Children)
+			node.BeforeRendering(viewport,view,projection,node.RenderingWorld);
+			PrepareRenderChildren(node, world, viewport, view, projection);
+		}
+
+		private static void PrepareRenderChildren(INode node, Matrix world, Viewport viewport, Matrix view, Matrix projection)
+		{
+			if( node is IHaveChildren )
 			{
-				PrepareRender(child, viewport, view, projection, world);
+				foreach (var child in ((IHaveChildren)node).Children)
+				{
+					PrepareRender(child, viewport, view, projection, world);
+				}
 			}
 		}
 
-		private static void RenderNode(RenderableNode node, Viewport viewport, Matrix view, Matrix projection)
+
+		private static void RenderNode(INode node, Viewport viewport, Matrix view, Matrix projection)
 		{
-			if( !node.IsVisible )
+			if( !node.IsVisible() )
 			{
 				return;
 			}
 
 			NodeCount++;
 			
-			node.OnRender(viewport, view, projection, node.RenderingWorld);
-
-			foreach (var child in node.Children)
+			if( node is ICanRender )
 			{
-				if (child is RenderableNode)
-				{
-					RenderNode((RenderableNode)child, viewport, view, projection);
+				((ICanRender)node).Render(viewport, view, projection, node.RenderingWorld);	
+				((ICanRender)node).RenderDebugInfo(viewport, view, projection, node.RenderingWorld);
+			}
+			RenderChildren(node, viewport, view, projection);
+		}
+
+
+		private static void RenderChildren(INode node, Viewport viewport, Matrix view, Matrix projection)
+		{
+			if (node is IHaveChildren)
+			{
+				foreach (var child in ((IHaveChildren)node).Children)
+				{	
+					RenderNode(child, viewport, view, projection);
 				}
 			}
-			node.OnRenderDebugInfo(viewport, view, projection, node.RenderingWorld);
 		}
 	}
 }

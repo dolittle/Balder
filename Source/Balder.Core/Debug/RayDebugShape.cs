@@ -44,7 +44,7 @@ namespace Balder.Core.Debug
 		public Vector Direction { get; set; }
 
 
-		protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			var vertex = new Vertex(Start.X, Start.Y, Start.Z);
 			GeometryContext.SetVertex(0,vertex);

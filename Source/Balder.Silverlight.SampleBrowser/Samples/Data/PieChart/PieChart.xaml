@@ -4,7 +4,7 @@
     xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" 
     xmlns:Controls="clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight" 
     >
-	<Controls:NodesControl x:Name="NodesControl" UniqueNodes="True">
+	<Controls:NodesControl x:Name="NodesControl"> <!-- UniqueNodes="True" -->
 		<Controls:NodesControl.NodeTemplate>
 			<DataTemplate>
 				<Geometries:Cylinder Size="5" 

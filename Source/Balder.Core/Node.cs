@@ -22,7 +22,6 @@ using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-using Ninject.Core;
 using Matrix = Balder.Core.Math.Matrix;
 #if(SILVERLIGHT)
 using Balder.Core.Silverlight.TypeConverters;
@@ -33,7 +32,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : ICanNotifyChanges
+	public abstract partial class Node : INode, IHaveChildren
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -46,7 +45,6 @@ namespace Balder.Core
 
 		protected Node()
 		{
-			IsVisible = true;
 			InitializeTransform();
 			InitializeColor();
 			Construct();
@@ -64,7 +62,6 @@ namespace Balder.Core
 			Color = Color.Random();
 		}
 
-
 		private void InitializeTransform()
 		{
 			Position = new Coordinate();
@@ -78,18 +75,11 @@ namespace Balder.Core
 			InvalidateWorld();
 		}
 
-
-		public static readonly Property<Node, bool> IsVisibleProp = Property<Node, bool>.Register(n => n.IsVisible);
-		public bool IsVisible
-		{
-			get { return IsVisibleProp.GetValue(this); }
-			set { IsVisibleProp.SetValue(this, value); }
-		}
-
 		public BoundingSphere BoundingSphere { get; set; }
 		public Scene Scene { get; set; }
-
 		public NodeCollection Children { get; private set; }
+
+		#region Transform
 
 		public static readonly Property<Node, Coordinate> PivotPointProperty = Property<Node, Coordinate>.Register(n => n.PivotPoint);
 		private Coordinate _pivotPoint;
@@ -128,7 +118,6 @@ namespace Balder.Core
 		}
 
 
-		#region Transform
 		public static readonly Property<Node, Coordinate> PositionProp =
 			Property<Node, Coordinate>.Register(t => t.Position);
 		private Coordinate _position;
@@ -174,7 +163,7 @@ namespace Balder.Core
 			{
 				if (null != _scale)
 				{
-					_scale.PropertyChanged -= ScaleChanged;
+					_scale.PropertyChanged -= TransformChanged;
 				}
 				if (null == value)
 				{
@@ -182,7 +171,7 @@ namespace Balder.Core
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
-				_scale.PropertyChanged += ScaleChanged;
+				_scale.PropertyChanged += TransformChanged;
 				InvalidateWorld();
 			}
 		}
@@ -217,7 +206,7 @@ namespace Balder.Core
 
 		public Matrix World { get; set; }
 		public Matrix ActualWorld { get; private set; }
-		public Matrix RenderingWorld { get; internal set; }
+		public Matrix RenderingWorld { get; set; }
 
 		private void PrepareActualWorld()
 		{
@@ -267,19 +256,16 @@ namespace Balder.Core
 		{
 			InvalidateWorld();
 		}
-		private void ScaleChanged(object sender, PropertyChangedEventArgs e)
-		{
-			InvalidateWorld();
-		}
 		#endregion
-
-
 
 		protected void SetColorForChildren()
 		{
 			foreach (var node in Children)
 			{
-				node.Color = Color;
+				if( node is Node )
+				{
+					((Node)node).Color = Color;	
+				}
 			}
 		}
 
@@ -298,11 +284,12 @@ namespace Balder.Core
 			_isPrepared = false;
 		}
 
-		protected virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
+		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
 		protected virtual void Prepare() { }
 		protected virtual void Initialize() { }
 
 
+		#region Internal EventModel
 		internal void OnInitialize()
 		{
 			if (_isInitialized)
@@ -320,10 +307,6 @@ namespace Balder.Core
 			_isInitialized = true;
 		}
 
-		internal void OnBeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			BeforeRendering(viewport, view, projection, world);
-		}
 
 		internal void OnHover()
 		{
@@ -351,10 +334,6 @@ namespace Balder.Core
 			_isPrepared = true;
 			Prepare();
 		}
-
-		public void Notify(string propertyName, object oldValue, object newValue)
-		{
-			Runtime.Instance.SignalRenderingForObject(this);
-		}
+		#endregion
 	}
 }

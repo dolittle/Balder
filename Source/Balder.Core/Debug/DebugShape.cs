@@ -32,7 +32,7 @@ namespace Balder.Core.Debug
 			GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
 		}
 
-		protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			GeometryContext.Render(viewport, this, view, projection, World);
 		}

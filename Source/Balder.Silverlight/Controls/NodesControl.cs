@@ -18,258 +18,104 @@
 //
 
 #endregion
-using System;
+
 using System.Collections;
-using System.Collections.Generic;
-using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using Balder.Core;
-using Balder.Core.Content;
+using Balder.Core.Collections;
+using Balder.Core.Display;
 using Balder.Core.Execution;
-using Balder.Core.Silverlight.Helpers;
-using Ninject.Core;
+using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.Controls
 {
-	public class NodesControl : RenderableNode, ICanHandleCloning
+	public class NodesControl : ItemsControl, INode, IHaveChildren, ICanBeVisible
 	{
-		private Node _templateContent;
-		private List<object> _items;
-		private Stack<object> _addedItems;
-
 		public NodesControl()
 		{
-			_items = new List<object>();
-			_addedItems = new Stack<object>();
+			Children = new NodeCollection();
+			Loaded += NodesControlLoaded;
+			IsVisible = true;
+			ActualWorld = Matrix.Identity;
 		}
 
-		protected override void Prepare()
+		/*
+		public static readonly new DependencyProperty ItemsSourceProperty =
+			DependencyProperty.Register("ItemsSource",
+			                            typeof (IEnumerable),
+			                            typeof (NodesControl),
+			                            new PropertyMetadata(ItemsSourceChanged));
+
+		private static void ItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
-			PopulateFromItemsSource();
-			base.Prepare();
+			var nodesControl = obj as NodesControl;
+			if( null != nodesControl )
+			{
+				nodesControl.UpdateLayout();
+				//nodesControl.PrepareChildren();
+			}
 		}
+		*/
 
-		public static readonly DependencyProperty<NodesControl, bool> UniqueNodesProperty =
-			DependencyProperty<NodesControl, bool>.Register(n => n.UniqueNodes);
-		public bool UniqueNodes
+		private void NodesControlLoaded(object sender, RoutedEventArgs e)
 		{
-			get { return UniqueNodesProperty.GetValue(this); }
-			set { UniqueNodesProperty.SetValue(this, value); }
+			PrepareChildren();
 		}
 
-
-		public static readonly DependencyProperty<NodesControl, DataTemplate> NodeTemplateProperty =
-			DependencyProperty<NodesControl, DataTemplate>.Register(n => n.NodeTemplate);
+		public static readonly Property<NodesControl, DataTemplate> NodeTemplateProperty =
+			Property<NodesControl, DataTemplate>.Register(n => n.NodeTemplate);
 		public DataTemplate NodeTemplate
 		{
-			get { return NodeTemplateProperty.GetValue(this); }
-			set
-			{
-				NodeTemplateProperty.SetValue(this, value);
-				_templateContent = null;
-			}
+			get { return base.ItemTemplate; }
+			set { base.ItemTemplate = value; }
 		}
 
+		#region Hidden Properties
+		private new ItemsPanelTemplate ItemsPanel { get; set; }
+		private new DataTemplate ItemTemplate { get; set; }
+		#endregion
 
-		public static new readonly DependencyProperty<NodesControl, IEnumerable> ItemsSourceProperty =
-			DependencyProperty<NodesControl, IEnumerable>.Register(n => n.ItemsSource);
-
-		private IEnumerable _itemsSource;
-		public new IEnumerable ItemsSource
+		private void PrepareChildren()
 		{
-			get { return ItemsSourceProperty.GetValue(this); }
-			set
+			var count = VisualTreeHelper.GetChildrenCount(this);
+			if( count == 1 )
 			{
-				if (null == value)
+				var itemsPresenter = VisualTreeHelper.GetChild(this, 0) as ItemsPresenter;
+				if( null != itemsPresenter )
 				{
-					return;
-				}
-				HandlePreviousItemsSource();
-				_itemsSource = value;
-				ItemsSourceProperty.SetValue(this, value);
-				HandleNewItemsSource();
-				InvalidatePrepare();
-			}
-		}
-
-		public static readonly DependencyProperty<NodesControl, INodeModifier> ModifierProperty =
-			DependencyProperty<NodesControl, INodeModifier>.Register(n => n.Modifier);
-
-		public INodeModifier Modifier
-		{
-			get { return ModifierProperty.GetValue(this); }
-			set { ModifierProperty.SetValue(this, value); }
-		}
-
-		private void HandleNewItemsSource()
-		{
-			var itemsSource = _itemsSource as INotifyCollectionChanged;
-			if (null != itemsSource)
-			{
-				itemsSource.CollectionChanged += ItemsSourceCollectionChanged;
-			}
-		}
-
-		private void HandlePreviousItemsSource()
-		{
-			var itemsSource = _itemsSource as INotifyCollectionChanged;
-			if (null != itemsSource)
-			{
-				itemsSource.CollectionChanged -= ItemsSourceCollectionChanged;
-			}
-		}
-
-		private void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case NotifyCollectionChangedAction.Add:
+					count = VisualTreeHelper.GetChildrenCount(itemsPresenter);
+					if( count == 1 )
 					{
-						foreach (var item in e.NewItems)
+						var panel = VisualTreeHelper.GetChild(itemsPresenter,0) as StackPanel;
+						if( null != panel )
 						{
-							LoadAndAddChild(item);
+							foreach( ContentPresenter contentPresenter in panel.Children )
+							{
+								var child = VisualTreeHelper.GetChild(contentPresenter,0);
+								if( null != child &&
+									child is INode )
+								{
+									Children.Add(child as INode);
+								}
+							}
 						}
 					}
-					break;
-
-				case NotifyCollectionChangedAction.Remove:
-					{
-						foreach (var item in e.OldItems)
-						{
-							RemoveChildBasedOnItem(item);
-						}
-					}
-					break;
-
-				case NotifyCollectionChangedAction.Reset:
-					{
-						Children.Clear();
-						_items.Clear();
-					}
-					break;
-
-			}
-		}
-
-
-		private void PopulateFromItemsSource()
-		{
-			if (null == _itemsSource)
-			{
-				return;
-			}
-
-			foreach (var item in _itemsSource)
-			{
-				LoadAndAddChild(item);
-			}
-		}
-
-		[Inject]
-		public IContentManager ContentManager { get; set; }
-
-
-		private void LoadAndAddChild(object item)
-		{
-			if (_items.Contains(item))
-			{
-				return;
-			}
-
-			if (null != NodeTemplate)
-			{
-				if (null == _templateContent)
-				{
-					_templateContent = NodeTemplate.LoadContent() as Node;
-					if (null == _templateContent)
-					{
-						throw new ArgumentException("Content of the template for NodeTemplate must be a derivative of Node");
-					}
-					AddItemAsChild(item, _templateContent);
-				}
-				else
-				{
-					_addedItems.Push(item);
 				}
 			}
-			_items.Add(item);
 		}
 
-		private void AddItemAsChild(object item, Node node)
+		public NodeCollection Children { get; private set; }
+		public Matrix ActualWorld { get; private set; }
+		public Matrix RenderingWorld { get; set; }
+		public bool IsVisible { get; set; }
+		public Scene Scene { get; set; }
+
+		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			var modifier = Modifier;
-			if (null != modifier)
-			{
-				var index = 0;
-				if (_itemsSource is IList)
-				{
-					index = ((IList)_itemsSource).IndexOf(item);
-				}
-
-				modifier.Apply(node, index, item);
-			}
-			if (!Children.Contains(node))
-			{
-				node.DataContext = item;
-				if (node is NodesControl)
-				{
-					((NodesControl)node).PopulateFromItemsSource();
-				}
-				Children.Add(node);
-			}
+			int i = 0;
+			i++;
 		}
-
-		protected override void BeforeRendering(Balder.Core.Display.Viewport viewport, Balder.Core.Math.Matrix view, Balder.Core.Math.Matrix projection, Balder.Core.Math.Matrix world)
-		{
-			while (_addedItems.Count > 0)
-			{
-				var item = _addedItems.Pop();
-				var node = _templateContent.Clone(UniqueNodes);
-				
-				if( node is NodesControl )
-				{
-					node.Children.Clear();
-				}
-				AddItemAsChild(item, node);
-			}
-
-			base.BeforeRendering(viewport, view, projection, world);
-		}
-
-		private void RemoveChildBasedOnItem(object item)
-		{
-			var nodesToRemove = new List<Node>();
-			foreach (var node in Children)
-			{
-				if (node.DataContext.Equals(item))
-				{
-					nodesToRemove.Add(node);
-				}
-			}
-
-			foreach (var node in nodesToRemove)
-			{
-				Children.Remove(node);
-			}
-
-			_items.Remove(item);
-		}
-
-		public void PreClone()
-		{
-		}
-
-		public void PostClone(object source)
-		{
-			var sourceNodesControl = source as NodesControl;
-			if( null != sourceNodesControl )
-			{
-				_templateContent = sourceNodesControl._templateContent;	
-			}
-		}
-
-		public bool CopyChildren { get { return false; } }
 	}
 }

@@ -11,6 +11,8 @@
 		<local:ViewModel/>
 	</UserControl.DataContext>
 	<Grid x:Name="LayoutRoot">
+
+		<!--
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -22,13 +24,27 @@
 				</BeginStoryboard>
 
 			</EventTrigger>
-		</Grid.Triggers>
+		</Grid.Triggers>-->
+
+
 
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 
-			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
+			<!--
+			<ItemsControl x:Name="Geom" ItemsSource="{Binding Depths}">
+				<ItemsControl.ItemTemplate>
+					<DataTemplate>
+						<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>
+					</DataTemplate>
+				</ItemsControl.ItemTemplate>
+			</ItemsControl>
+			-->
+
+
+			<Controls:NodesControl ItemsSource="{Binding Depths}">
 				<Controls:NodesControl.NodeTemplate>
 					<DataTemplate>
+
 						<Controls:NodesControl ItemsSource="{Binding Rows}">
 							<Controls:NodesControl.NodeTemplate>
 								<DataTemplate>
@@ -46,13 +62,14 @@
 					</DataTemplate>
 				</Controls:NodesControl.NodeTemplate>
 			</Controls:NodesControl>
+
 			
 			<Execution:Game.Camera>
-				<View:Camera Position="0,250,-1000"/>
+				<View:Camera Position="30,250,-1000"/>
 			</Execution:Game.Camera>
 
 		</Execution:Game>
-		
+
 		<TextBlock x:Name="NodeCounter"/>
 
 	</Grid>

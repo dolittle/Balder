@@ -39,7 +39,7 @@ namespace Balder.Core.Tests
 			}
 
 			public bool RenderCalled = false;
-			protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+			public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 			{
 				RenderCalled = true;
 			}
@@ -59,7 +59,7 @@ namespace Balder.Core.Tests
 			}
 
 			public Matrix WorldResult;
-			protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+			public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 			{
 				WorldResult = world;
 				if (null != _actionToCall)

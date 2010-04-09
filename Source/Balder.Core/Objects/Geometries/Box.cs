@@ -25,8 +25,17 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public class Box : Geometry
+	public class 
+		Box : Geometry
 	{
+		public Box()
+		{
+			int i = 0;
+			i++;
+		}
+
+
+
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);
 		public Coordinate Dimension
 		{

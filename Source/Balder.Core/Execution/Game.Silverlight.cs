@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Media;
 using Balder.Core.Display;
 using Balder.Core.Silverlight.Input;
 using Balder.Core.View;
@@ -93,9 +94,9 @@ namespace Balder.Core.Execution
 		{
 			foreach (var element in Children)
 			{
-				if (element is Node)
+				if (element is INode)
 				{
-					Scene.AddNode(element as Node);
+					Scene.AddNode(element as INode);
 				}
 			}
 		}
