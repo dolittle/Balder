@@ -7,6 +7,5 @@ namespace Balder.Core
 	{
 		void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world);
 		void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world);
-		
 	}
 }

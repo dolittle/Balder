@@ -19,44 +19,103 @@
 
 #endregion
 
-using System;
+using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Media;
 using Balder.Core;
+using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
-using Balder.Core.Math;
+using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.Controls
 {
-	public class NodesControl : ItemsControl, INode, ICanRender
+	public class NodesControl : ItemsControl, INode, IHaveChildren, ICanBeVisible
 	{
+		public NodesControl()
+		{
+			Children = new NodeCollection();
+			Loaded += NodesControlLoaded;
+			IsVisible = true;
+			ActualWorld = Matrix.Identity;
+		}
+
+		/*
+		public static readonly new DependencyProperty ItemsSourceProperty =
+			DependencyProperty.Register("ItemsSource",
+			                            typeof (IEnumerable),
+			                            typeof (NodesControl),
+			                            new PropertyMetadata(ItemsSourceChanged));
+
+		private static void ItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+		{
+			var nodesControl = obj as NodesControl;
+			if( null != nodesControl )
+			{
+				nodesControl.UpdateLayout();
+				//nodesControl.PrepareChildren();
+			}
+		}
+		*/
+
+		private void NodesControlLoaded(object sender, RoutedEventArgs e)
+		{
+			PrepareChildren();
+		}
+
 		public static readonly Property<NodesControl, DataTemplate> NodeTemplateProperty =
 			Property<NodesControl, DataTemplate>.Register(n => n.NodeTemplate);
 		public DataTemplate NodeTemplate
 		{
-			get { return ItemTemplate; }
-			set { ItemTemplate = value; }
+			get { return base.ItemTemplate; }
+			set { base.ItemTemplate = value; }
 		}
 
+		#region Hidden Properties
+		private new ItemsPanelTemplate ItemsPanel { get; set; }
+		private new DataTemplate ItemTemplate { get; set; }
+		#endregion
+
+		private void PrepareChildren()
+		{
+			var count = VisualTreeHelper.GetChildrenCount(this);
+			if( count == 1 )
+			{
+				var itemsPresenter = VisualTreeHelper.GetChild(this, 0) as ItemsPresenter;
+				if( null != itemsPresenter )
+				{
+					count = VisualTreeHelper.GetChildrenCount(itemsPresenter);
+					if( count == 1 )
+					{
+						var panel = VisualTreeHelper.GetChild(itemsPresenter,0) as StackPanel;
+						if( null != panel )
+						{
+							foreach( ContentPresenter contentPresenter in panel.Children )
+							{
+								var child = VisualTreeHelper.GetChild(contentPresenter,0);
+								if( null != child &&
+									child is INode )
+								{
+									Children.Add(child as INode);
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+
+		public NodeCollection Children { get; private set; }
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
-
+		public bool IsVisible { get; set; }
+		public Scene Scene { get; set; }
 
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			
-		}
-
-
-		public void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			
-		}
-
-		public void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			
+			int i = 0;
+			i++;
 		}
 	}
 }

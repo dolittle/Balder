@@ -94,9 +94,9 @@ namespace Balder.Core.Execution
 		{
 			foreach (var element in Children)
 			{
-				if (element is Node)
+				if (element is INode)
 				{
-					Scene.AddNode(element as Node);
+					Scene.AddNode(element as INode);
 				}
 			}
 		}

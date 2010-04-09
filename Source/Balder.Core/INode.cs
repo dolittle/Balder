@@ -7,6 +7,8 @@ namespace Balder.Core
 	{
 		Matrix ActualWorld { get; }
 		Matrix RenderingWorld { get; set; }
+		
+		Scene Scene { get; set; }
 
 		void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world);
 	}

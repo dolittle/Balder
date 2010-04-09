@@ -32,7 +32,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode
+	public abstract partial class Node : INode, IHaveChildren
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -45,7 +45,6 @@ namespace Balder.Core
 
 		protected Node()
 		{
-			IsVisible = true;
 			InitializeTransform();
 			InitializeColor();
 			Construct();
@@ -63,7 +62,6 @@ namespace Balder.Core
 			Color = Color.Random();
 		}
 
-
 		private void InitializeTransform()
 		{
 			Position = new Coordinate();
@@ -77,18 +75,11 @@ namespace Balder.Core
 			InvalidateWorld();
 		}
 
-
-		public static readonly Property<Node, bool> IsVisibleProp = Property<Node, bool>.Register(n => n.IsVisible);
-		public bool IsVisible
-		{
-			get { return IsVisibleProp.GetValue(this); }
-			set { IsVisibleProp.SetValue(this, value); }
-		}
-
 		public BoundingSphere BoundingSphere { get; set; }
 		public Scene Scene { get; set; }
-
 		public NodeCollection Children { get; private set; }
+
+		#region Transform
 
 		public static readonly Property<Node, Coordinate> PivotPointProperty = Property<Node, Coordinate>.Register(n => n.PivotPoint);
 		private Coordinate _pivotPoint;
@@ -127,7 +118,6 @@ namespace Balder.Core
 		}
 
 
-		#region Transform
 		public static readonly Property<Node, Coordinate> PositionProp =
 			Property<Node, Coordinate>.Register(t => t.Position);
 		private Coordinate _position;
@@ -268,8 +258,6 @@ namespace Balder.Core
 		}
 		#endregion
 
-
-
 		protected void SetColorForChildren()
 		{
 			foreach (var node in Children)
@@ -278,7 +266,6 @@ namespace Balder.Core
 				{
 					((Node)node).Color = Color;	
 				}
-				
 			}
 		}
 
@@ -302,6 +289,7 @@ namespace Balder.Core
 		protected virtual void Initialize() { }
 
 
+		#region Internal EventModel
 		internal void OnInitialize()
 		{
 			if (_isInitialized)
@@ -346,5 +334,6 @@ namespace Balder.Core
 			_isPrepared = true;
 			Prepare();
 		}
+		#endregion
 	}
 }

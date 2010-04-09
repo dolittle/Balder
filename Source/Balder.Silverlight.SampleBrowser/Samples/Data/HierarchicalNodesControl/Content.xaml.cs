@@ -29,6 +29,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			int i = 0;
 			i++;
 
+			/*
 			var count = VisualTreeHelper.GetChildrenCount(Geom);
 			var presenter = VisualTreeHelper.GetChild(Geom, 0) as ItemsPresenter;
 			var presenterCount = VisualTreeHelper.GetChildrenCount(presenter);
@@ -38,9 +39,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			{
 				var c = VisualTreeHelper.GetChild(child, 0);
 				var content = child.Content;
-				var dataTemplate = child.ContentTemplate as DataTemplate;
-				var actualContent = dataTemplate.LoadContent();
-			}
+				//var dataTemplate = child.ContentTemplate as DataTemplate;
+				//var actualContent = dataTemplate.LoadContent();
+			}*/
 
 			
 		}
