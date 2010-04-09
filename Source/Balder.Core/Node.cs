@@ -22,7 +22,6 @@ using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-using Ninject.Core;
 using Matrix = Balder.Core.Math.Matrix;
 #if(SILVERLIGHT)
 using Balder.Core.Silverlight.TypeConverters;
@@ -33,7 +32,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node
+	public abstract partial class Node : INode
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -217,7 +216,7 @@ namespace Balder.Core
 
 		public Matrix World { get; set; }
 		public Matrix ActualWorld { get; private set; }
-		public Matrix RenderingWorld { get; internal set; }
+		public Matrix RenderingWorld { get; set; }
 
 		private void PrepareActualWorld()
 		{
@@ -275,7 +274,11 @@ namespace Balder.Core
 		{
 			foreach (var node in Children)
 			{
-				node.Color = Color;
+				if( node is Node )
+				{
+					((Node)node).Color = Color;	
+				}
+				
 			}
 		}
 
@@ -294,7 +297,7 @@ namespace Balder.Core
 			_isPrepared = false;
 		}
 
-		protected virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
+		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
 		protected virtual void Prepare() { }
 		protected virtual void Initialize() { }
 
@@ -316,10 +319,6 @@ namespace Balder.Core
 			_isInitialized = true;
 		}
 
-		internal void OnBeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			BeforeRendering(viewport, view, projection, world);
-		}
 
 		internal void OnHover()
 		{

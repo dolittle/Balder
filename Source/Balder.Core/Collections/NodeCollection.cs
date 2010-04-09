@@ -29,9 +29,9 @@ namespace Balder.Core.Collections
 	/// <summary>
 	/// Collection of nodes	- any node type can be added to this collection type
 	/// </summary>
-	public class NodeCollection : ObservableCollection<Node>
+	public class NodeCollection : ObservableCollection<INode>
 #else
-	public class NodeCollection : List<Node>
+	public class NodeCollection : List<INode>
 #endif
 	{
 

@@ -101,7 +101,10 @@
     <Compile Include="Display\PassiveRenderingMode.cs" />
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="Execution\ICanHandleCloning.cs" />
+    <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="ICanRender.cs" />
     <Compile Include="IColor.cs" />
+    <Compile Include="INode.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Debug\BoundingSphereDebugShape.cs" />

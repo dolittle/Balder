@@ -79,7 +79,7 @@ namespace Balder.Core
 
 		private void CloneChildren(Node source, Node clone, bool unique)
 		{
-			foreach (var child in source.Children)
+			foreach (Node child in source.Children)
 			{
 				var clonedChild = child.Clone(unique);
 				clone.Children.Add(clonedChild);
@@ -95,15 +95,24 @@ namespace Balder.Core
 
 				if (ShouldPropertyBeCloned(value, cloneValue))
 				{
-					if (property.IsCloneable &&
-					    null != value)
+					if (property.IsCopyable &&
+						null != value &&
+						null != cloneValue)
 					{
-						value = ((Execution.ICloneable) value).Clone();
+						((Execution.ICopyable)value).CopyTo(cloneValue);
 					}
-
-					if (null != value)
+					else
 					{
-						property.PropertyInfo.SetValue(clone, value, null);
+						if (property.IsCloneable &&
+						    null != value)
+						{
+							value = ((Execution.ICloneable) value).Clone();
+						}
+
+						if (null != value)
+						{
+							property.PropertyInfo.SetValue(clone, value, null);
+						}
 					}
 				}
 			}

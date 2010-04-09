@@ -100,7 +100,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if( null != Material && !_materialSet )
 			{

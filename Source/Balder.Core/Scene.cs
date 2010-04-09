@@ -172,14 +172,15 @@ namespace Balder.Core
 			var projection = viewport.View.ProjectionMatrix;
 			lock( _allNodes )
 			{
-				foreach (var node in _allNodes)
-				{
-					Prepare(node);
-				}
 				foreach( var node in _allNodes )
 				{
-					var world = Matrix.Identity;
-					PrepareRender(node, viewport, view, projection, world);
+					var actualNode = node as Node;
+					if (null != actualNode)
+					{
+						Prepare(actualNode);
+						var world = Matrix.Identity;
+						PrepareRender(actualNode, viewport, view, projection, world);
+					}
 				}
 			}
 			
@@ -197,23 +198,30 @@ namespace Balder.Core
 			node.OnPrepare();
 			foreach (var child in node.Children)
 			{
-				Prepare(child);
+				if( child is Node )
+				{
+					Prepare((Node)child);	
+				}
 			}
 		}
 
-		private static void PrepareRender(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private static void PrepareRender(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			if( !node.IsVisible )
+			if( node is Node && !((Node)node).IsVisible )
 			{
 				return;
 			}
 			world = node.ActualWorld * world;
 			node.RenderingWorld = world;
 			
-			node.OnBeforeRendering(viewport,view,projection,node.RenderingWorld);
-			foreach (var child in node.Children)
+			node.BeforeRendering(viewport,view,projection,node.RenderingWorld);
+			if( node is Node )
 			{
-				PrepareRender(child, viewport, view, projection, world);
+				foreach (var child in ((Node)node).Children)
+				{
+					PrepareRender(child, viewport, view, projection, world);
+				}
+					
 			}
 		}
 
@@ -226,7 +234,7 @@ namespace Balder.Core
 
 			NodeCount++;
 			
-			node.OnRender(viewport, view, projection, node.RenderingWorld);
+			node.Render(viewport, view, projection, node.RenderingWorld);
 
 			foreach (var child in node.Children)
 			{
@@ -235,7 +243,7 @@ namespace Balder.Core
 					RenderNode((RenderableNode)child, viewport, view, projection);
 				}
 			}
-			node.OnRenderDebugInfo(viewport, view, projection, node.RenderingWorld);
+			node.RenderDebugInfo(viewport, view, projection, node.RenderingWorld);
 		}
 	}
 }

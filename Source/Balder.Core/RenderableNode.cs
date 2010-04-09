@@ -22,25 +22,15 @@ using Balder.Core.Math;
 
 namespace Balder.Core
 {
-	public abstract class RenderableNode : Node
+	public abstract class RenderableNode : Node, ICanRender
 	{
-		protected virtual void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
-		protected virtual void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public virtual void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
+		public virtual void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (viewport.DebugInfo.BoundingSpheres)
 			{
 				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, view, projection, world);
 			}
-		}
-
-		internal void OnRender(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			Render(viewport, view, projection, world);
-		}
-
-		internal void OnRenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			RenderDebugInfo(viewport, view, projection, world);
 		}
 	}
 }

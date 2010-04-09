@@ -58,7 +58,7 @@ namespace Balder.Core.Objects.Flat
 
 		public Image CurrentFrame { get { return _frames[0]; } }
 
-		protected override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			/* From DirectX sample
 				w = width passed to D3DXMatrixPerspectiveLH

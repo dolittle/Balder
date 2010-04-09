@@ -1,7 +1,8 @@
 #region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
-// Copyright (c) 2007-2010, DoLittle Studios
+// Copyright (c) 2007-2009, DoLittle Studios
 //
 // Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
 // you may not use this file except in compliance with the License.
@@ -15,26 +16,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
 
-namespace Balder.Core.Debug
+namespace Balder.Core.Execution
 {
-	public class DebugShape : RenderableNode
+	public interface ICopyable
 	{
-		protected IGeometryContext GeometryContext { get; private set; }
-
-		public DebugShape()
-		{
-			GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
-		}
-
-		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			GeometryContext.Render(viewport, this, view, projection, World);
-		}
+		void CopyTo(object destination);
 	}
 }

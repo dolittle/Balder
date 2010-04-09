@@ -33,10 +33,13 @@ namespace Balder.Core
 				{
 					var cloneableInterface = property.PropertyType.GetInterface(typeof (ICloneable).Name, false);
 					var isCloneable = null != cloneableInterface;
+					var copyableInterface = property.PropertyType.GetInterface(typeof (ICopyable).Name, false);
+					var isCopyable = null != copyableInterface;
 					var nodeCloneProperty = new NodeClonePropertyInfo
 					                        	{
 					                        		PropertyInfo = property,
-					                        		IsCloneable = isCloneable
+					                        		IsCloneable = isCloneable,
+													IsCopyable = isCopyable
 					                        	};
 					Properties[property] = nodeCloneProperty;
 				}

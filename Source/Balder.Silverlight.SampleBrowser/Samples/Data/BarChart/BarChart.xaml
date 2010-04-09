@@ -17,7 +17,7 @@
 		<Geometries:Heightmap Dimension="40,20" Color="Gray" Rotation="0,0,-90" Position="-10,0,0" Material="{StaticResource BarBackgroundMaterial}"/>
 	</Geometries:Geometry>
 
-	<Controls:NodesStack x:Name="NodesStack" StartPosition="0,0,0" ItemAdd="10,0,0" Scale="1,1,1">
+	<Controls:NodesStack x:Name="NodesStack" StartPosition="0,0,0" ItemAdd="10,0,0"> <!-- Scale="1,1,1" -->
 		<Controls:NodesStack.NodeTemplate>
 			<DataTemplate>
 				<local:Bar Value="{Binding Value}"/>
