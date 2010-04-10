@@ -21,5 +21,6 @@ namespace Balder.Core.Execution
 	public interface ICloneable
 	{
 		object Clone();
+		object Clone(bool unique);
 	}
 }

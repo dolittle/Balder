@@ -34,19 +34,19 @@ namespace Balder.Core.Math
 
 		public Coordinate(double x, double y, double z)
 		{
-			if( x != 0d )
+			if (x != 0d)
 			{
-				X = x;	
+				X = x;
 			}
-			
-			if( y != 0d)
+
+			if (y != 0d)
 			{
-				Y = y;	
+				Y = y;
 			}
-			
-			if( z != 0d )
+
+			if (z != 0d)
 			{
-				Z = z;	
+				Z = z;
 			}
 		}
 
@@ -67,7 +67,7 @@ namespace Balder.Core.Math
 			}
 		}
 
-		
+
 
 		public Vector ToVector()
 		{
@@ -77,7 +77,7 @@ namespace Balder.Core.Math
 
 		public static implicit operator Coordinate(Vector vector)
 		{
-			var coordinate = new Coordinate {X = vector.X, Y = vector.Y, Z = vector.Z};
+			var coordinate = new Coordinate { X = vector.X, Y = vector.Y, Z = vector.Z };
 			return coordinate;
 		}
 
@@ -129,7 +129,12 @@ namespace Balder.Core.Math
 
 		public object Clone()
 		{
-			return new Coordinate(X,Y,Z);
+			return new Coordinate(X, Y, Z);
+		}
+
+		public object Clone(bool unique)
+		{
+			return new Coordinate(X, Y, Z);
 		}
 
 		public override string ToString()
@@ -185,8 +190,8 @@ namespace Balder.Core.Math
 			if (null != coordinate)
 			{
 				return X == coordinate.X &&
-				       Y == coordinate.Y &&
-				       Z == coordinate.Z;
+					   Y == coordinate.Y &&
+					   Z == coordinate.Z;
 			}
 			return false;
 		}
@@ -194,7 +199,7 @@ namespace Balder.Core.Math
 		public void CopyTo(object destination)
 		{
 			var coordinate = destination as Coordinate;
-			if( null != coordinate )
+			if (null != coordinate)
 			{
 				coordinate.X = X;
 				coordinate.Y = Y;

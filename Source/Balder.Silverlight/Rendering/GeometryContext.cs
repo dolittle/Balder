@@ -218,7 +218,7 @@ namespace Balder.Silverlight.Rendering
 			vertex.CalculatedColor = vertex.Color.Additive(lightColor);
 		}
 
-		private void RenderVertices(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderVertices(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			for (var vertexIndex = 0; vertexIndex < Vertices.Length; vertexIndex++)
 			{
@@ -257,7 +257,7 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private void RenderFaces(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderFaces(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null == Faces)
 			{
@@ -365,7 +365,7 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private void RenderLines(Node node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderLines(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null == Lines)
 			{

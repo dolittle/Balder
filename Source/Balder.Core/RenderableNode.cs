@@ -16,18 +16,53 @@
 // limitations under the License.
 //
 #endregion
+
+using System.ComponentModel;
 using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core
 {
-	public abstract class RenderableNode : Node, ICanBeVisible, ICanRender
+	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender
 	{
-		public RenderableNode()
+		protected RenderableNode()
 		{
 			IsVisible = true;
+			InitializeColor();
+		}
+
+
+		private void InitializeColor()
+		{
+			Color = Color.Random();
+		}
+
+		public static readonly Property<RenderableNode, Color> ColorProp = Property<RenderableNode, Color>.Register(n => n.Color);
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color Color
+		{
+			get { return ColorProp.GetValue(this); }
+			set
+			{
+				ColorProp.SetValue(this, value);
+				SetColorForChildren();
+			}
+		}
+
+		protected void SetColorForChildren()
+		{
+			foreach (var node in Children)
+			{
+				if (node is RenderableNode)
+				{
+					((RenderableNode)node).Color = Color;
+				}
+			}
 		}
 
 		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible);

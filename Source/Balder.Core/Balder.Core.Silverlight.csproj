@@ -102,6 +102,7 @@
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="HierarchicalNode.cs" />
     <Compile Include="ICanBeVisible.cs" />
     <Compile Include="ICanRender.cs" />
     <Compile Include="IColor.cs" />

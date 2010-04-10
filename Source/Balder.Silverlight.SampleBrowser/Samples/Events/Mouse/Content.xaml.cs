@@ -46,7 +46,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 		{
 			_mouseEnter.Text = "true";
 			_mouseEnterCounter = 0;
-			var node = sender as Node;
+			var node = sender as RenderableNode;
 			if( null != node )
 			{
 				node.Color = Colors.White;
@@ -59,7 +59,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private void Mesh_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			var node = sender as Node;
+			var node = sender as RenderableNode;
 			if (null != node)
 			{
 				if( _originalNodeColors.ContainsKey(node))

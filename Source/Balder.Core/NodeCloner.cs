@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Windows;
 using Balder.Core.Execution;
 
 namespace Balder.Core
@@ -31,16 +32,18 @@ namespace Balder.Core
 		}
 
 
-		public Node Clone(Node source, bool unique)
+		public INode Clone(INode source, bool unique)
 		{
 			PreClone(source);
 
 			var type = source.GetType();
 			var cloneInfo = GetInfoForType(type);
-			var clone = Activator.CreateInstance(type) as Node;
+			var clone = Activator.CreateInstance(type) as INode;
 
 			ClonePropertyValues(source, cloneInfo, clone);
+#if(SILVERLIGHT)
 			CloneBindingExpressions(source, cloneInfo, clone);
+#endif
 
 			if( unique ) 
 			{
@@ -53,7 +56,7 @@ namespace Balder.Core
 			return clone;
 		}
 
-		private void PostClone(Node source, Node clone)
+		private void PostClone(INode source, INode clone)
 		{
 			if( clone is ICanHandleCloning )
 			{
@@ -61,7 +64,7 @@ namespace Balder.Core
 			}
 		}
 
-		private void PreClone(Node source)
+		private void PreClone(INode source)
 		{
 			if (source is ICanHandleCloning)
 			{
@@ -69,7 +72,7 @@ namespace Balder.Core
 			}
 		}
 
-		private void MakeUnique(Node source)
+		private void MakeUnique(INode source)
 		{
 			if (source is ICanBeUnique)
 			{
@@ -77,16 +80,23 @@ namespace Balder.Core
 			}
 		}
 
-		private void CloneChildren(Node source, Node clone, bool unique)
+		private void CloneChildren(INode source, INode clone, bool unique)
 		{
-			foreach (Node child in source.Children)
+			if (source is IHaveChildren &&
+				clone is IHaveChildren)
 			{
-				var clonedChild = child.Clone(unique);
-				clone.Children.Add(clonedChild);
+				foreach (var child in ((IHaveChildren)source).Children)
+				{
+					if (child is ICloneable)
+					{
+						var clonedChild = ((ICloneable)child).Clone(unique) as INode;
+						((IHaveChildren)clone).Children.Add(clonedChild);
+					}
+				}
 			}
 		}
 
-		private static void ClonePropertyValues(Node source, NodeCloneInfo cloneInfo, Node clone)
+		private static void ClonePropertyValues(INode source, NodeCloneInfo cloneInfo, INode clone)
 		{
 			foreach( var property in cloneInfo.GetProperties() )
 			{
@@ -130,17 +140,25 @@ namespace Balder.Core
 
 		
 
-
-		private static void CloneBindingExpressions(Node source, NodeCloneInfo cloneInfo, Node clone)
+#if(SILVERLIGHT)
+		private static void CloneBindingExpressions(INode source, NodeCloneInfo cloneInfo, INode clone)
 		{
-			foreach( var dependencyProperty in cloneInfo.DependencyProperties )
+			if (source is FrameworkElement &&
+				clone is FrameworkElement)
 			{
-				var bindingExpression = source.GetBindingExpression(dependencyProperty);
-				if( null != bindingExpression )
+				var sourceAsframeworkElement = source as FrameworkElement;
+				var cloneAsFrameworkElement = clone as FrameworkElement;
+
+				foreach (var dependencyProperty in cloneInfo.DependencyProperties)
 				{
-					clone.SetBinding(dependencyProperty, bindingExpression.ParentBinding);
+					var bindingExpression = sourceAsframeworkElement.GetBindingExpression(dependencyProperty);
+					if (null != bindingExpression)
+					{
+						cloneAsFrameworkElement.SetBinding(dependencyProperty, bindingExpression.ParentBinding);
+					}
 				}
 			}
 		}
+#endif
 	}
 }

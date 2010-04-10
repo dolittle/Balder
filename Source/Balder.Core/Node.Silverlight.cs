@@ -16,12 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using System.Collections.Specialized;
+
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Markup;
-using Balder.Core.Silverlight.Helpers;
+using Balder.Core.Execution;
 
 namespace Balder.Core
 {
@@ -38,40 +38,11 @@ namespace Balder.Core
 		partial void Construct()
 		{
 			Loaded += NodeLoaded;
-			Children.CollectionChanged += ChildrenChanged;
 			Width = 0;
 			Height = 0;
 			Visibility = Visibility.Collapsed;
 		}
 
-		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
-		{
-			switch (e.Action)
-			{
-				case NotifyCollectionChangedAction.Add:
-					{
-						foreach (var item in e.NewItems)
-						{
-							Items.Add(item);
-						}
-					}
-					break;
-				case NotifyCollectionChangedAction.Remove:
-					{
-						foreach (var item in e.OldItems)
-						{
-							Items.Remove(item);
-						}
-					}
-					break;
-				case NotifyCollectionChangedAction.Reset:
-					{
-						Items.Clear();
-					}
-					break;
-
-			}
-		}
 
 		private void NodeLoaded(object sender, RoutedEventArgs e)
 		{
@@ -79,16 +50,16 @@ namespace Balder.Core
 		}
 
 
-		public static readonly DependencyProperty<Node, ICommand> CommandProperty =
-			DependencyProperty<Node, ICommand>.Register(o => o.Command);
+		public static readonly Property<Node, ICommand> CommandProperty =
+			Property<Node, ICommand>.Register(o => o.Command);
 		public ICommand Command
 		{
 			get { return CommandProperty.GetValue(this); }
 			set { CommandProperty.SetValue(this, value); }
 		}
 
-		public static readonly DependencyProperty<Node, object> CommandParameterProperty =
-			DependencyProperty<Node, object>.Register(o => o.CommandParameter);
+		public static readonly Property<Node, object> CommandParameterProperty =
+			Property<Node, object>.Register(o => o.CommandParameter);
 		public object CommandParameter
 		{
 			get { return CommandParameterProperty.GetValue(this); }

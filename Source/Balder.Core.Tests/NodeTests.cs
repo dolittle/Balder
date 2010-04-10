@@ -21,21 +21,19 @@
 
 using System.Windows.Media;
 using CThru.Silverlight;
-using Moq;
 using NUnit.Framework;
-using Geometry=Balder.Core.Objects.Geometries.Geometry;
 
 namespace Balder.Core.Tests
 {
 	[TestFixture]
 	public class NodeTests
 	{
-		public class SomeNode : Node
+		public class SomeNode : RenderableNode
 		{
 			
 		}
 
-		private Node CreateNode()
+		private RenderableNode CreateNode()
 		{
 			var node = new SomeNode();
 			return node;

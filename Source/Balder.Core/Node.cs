@@ -32,7 +32,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode, IHaveChildren
+	public abstract partial class Node : INode, ICloneable
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 		public event EventHandler Hover = (s, e) => { };
@@ -46,7 +46,7 @@ namespace Balder.Core
 		protected Node()
 		{
 			InitializeTransform();
-			InitializeColor();
+			
 			Construct();
 		}
 
@@ -57,10 +57,6 @@ namespace Balder.Core
 			_isWorldInvalidated = true;
 		}
 
-		private void InitializeColor()
-		{
-			Color = Color.Random();
-		}
 
 		private void InitializeTransform()
 		{
@@ -68,7 +64,7 @@ namespace Balder.Core
 			PivotPoint = new Coordinate();
 			Scale = new Coordinate(1f, 1f, 1f);
 			Rotation = new Coordinate();
-			Children = new NodeCollection();
+			
 			World = Matrix.Identity;
 			ActualWorld = Matrix.Identity;
 
@@ -77,7 +73,6 @@ namespace Balder.Core
 
 		public BoundingSphere BoundingSphere { get; set; }
 		public Scene Scene { get; set; }
-		public NodeCollection Children { get; private set; }
 
 		#region Transform
 
@@ -103,19 +98,6 @@ namespace Balder.Core
 			}
 		}
 
-		public static readonly Property<Node, Color> ColorProp = Property<Node, Color>.Register(n => n.Color);
-#if(SILVERLIGHT)
-		[TypeConverter(typeof(ColorConverter))]
-#endif
-		public Color Color
-		{
-			get { return ColorProp.GetValue(this); }
-			set
-			{
-				ColorProp.SetValue(this, value);
-				SetColorForChildren();
-			}
-		}
 
 
 		public static readonly Property<Node, Coordinate> PositionProp =
@@ -258,23 +240,18 @@ namespace Balder.Core
 		}
 		#endregion
 
-		protected void SetColorForChildren()
+
+
+		public object Clone()
 		{
-			foreach (var node in Children)
-			{
-				if( node is Node )
-				{
-					((Node)node).Color = Color;	
-				}
-			}
+			return Clone(false);
 		}
 
-
-		public virtual Node Clone(bool unique)
+		public virtual object Clone(bool unique)
 		{
-			var clone = NodeCloner.Instance.Clone(this, unique);
+			var clone = NodeCloner.Instance.Clone(this, unique) as Node;
 			clone.IsClone = !unique;
-			return clone as Node;
+			return clone;
 		}
 
 		protected bool IsClone { get; private set; }
