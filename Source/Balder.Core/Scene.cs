@@ -221,12 +221,6 @@ namespace Balder.Core
 
 		private static void PrepareRender(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			/*
-			if( node.IsVisible() )
-			{
-				return;
-			}
-			 * */
 			world = node.ActualWorld * world;
 			node.RenderingWorld = world;
 			

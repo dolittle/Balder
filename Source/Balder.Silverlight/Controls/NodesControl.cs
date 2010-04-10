@@ -22,6 +22,7 @@
 using System.Collections;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Collections;
@@ -33,35 +34,33 @@ namespace Balder.Silverlight.Controls
 {
 	public class NodesControl : ItemsControl, INode, IHaveChildren, ICanBeVisible
 	{
+		private bool _prepareChildren;
+
 		public NodesControl()
 		{
+			_prepareChildren = false;
 			Children = new NodeCollection();
-			Loaded += NodesControlLoaded;
 			IsVisible = true;
 			ActualWorld = Matrix.Identity;
+
+			var binding = new Binding();
+			binding.Source = this;
+			binding.Path = new PropertyPath("ItemsSource");
+			SetBinding(ItemsSourceChangedProperty, binding);
 		}
 
-		/*
-		public static readonly new DependencyProperty ItemsSourceProperty =
-			DependencyProperty.Register("ItemsSource",
+		public static readonly DependencyProperty ItemsSourceChangedProperty =
+			DependencyProperty.Register("ItemsSourceChanged",
 			                            typeof (IEnumerable),
 			                            typeof (NodesControl),
-			                            new PropertyMetadata(ItemsSourceChanged));
-
+										new PropertyMetadata(ItemsSourceChanged));
 		private static void ItemsSourceChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
 			var nodesControl = obj as NodesControl;
 			if( null != nodesControl )
 			{
-				nodesControl.UpdateLayout();
-				//nodesControl.PrepareChildren();
+				nodesControl._prepareChildren = true;
 			}
-		}
-		*/
-
-		private void NodesControlLoaded(object sender, RoutedEventArgs e)
-		{
-			PrepareChildren();
 		}
 
 		public static readonly Property<NodesControl, DataTemplate> NodeTemplateProperty =
@@ -79,6 +78,7 @@ namespace Balder.Silverlight.Controls
 
 		private void PrepareChildren()
 		{
+			Children.Clear();
 			var count = VisualTreeHelper.GetChildrenCount(this);
 			if( count == 1 )
 			{
@@ -114,8 +114,11 @@ namespace Balder.Silverlight.Controls
 
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			int i = 0;
-			i++;
+			if( _prepareChildren )
+			{
+				_prepareChildren = false;
+				PrepareChildren();
+			}
 		}
 	}
 }
