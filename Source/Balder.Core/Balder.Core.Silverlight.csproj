@@ -136,6 +136,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="NodeExtensions.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
+    <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />
