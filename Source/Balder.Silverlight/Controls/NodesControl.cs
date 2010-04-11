@@ -65,6 +65,15 @@ namespace Balder.Silverlight.Controls
 			set { base.ItemTemplate = value; }
 		}
 
+		public static readonly Property<NodesControl, INodeModifier> ModifierProperty =
+			Property<NodesControl, INodeModifier>.Register(n => n.Modifier);
+		public INodeModifier Modifier
+		{
+			get { return ModifierProperty.GetValue(this); }
+			set { ModifierProperty.SetValue(this, value); }
+		}
+
+
 		#region Hidden Properties
 		private new ItemsPanelTemplate ItemsPanel { get; set; }
 		private new DataTemplate ItemTemplate { get; set; }
@@ -100,13 +109,34 @@ namespace Balder.Silverlight.Controls
 			}
 		}
 
-		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+
+		private void HandleModifier()
 		{
-			if( _prepareChildren )
+			if( null == Modifier )
+			{
+				return;
+			}
+			var nodeIndex = 0;
+			foreach( var child in Children )
+			{
+				Modifier.Apply(child,nodeIndex,DataContext);
+				nodeIndex++;
+			}
+		}
+
+		protected override void Prepare()
+		{
+			if (_prepareChildren)
 			{
 				_prepareChildren = false;
 				PrepareChildren();
 			}
+			HandleModifier();
+			base.Prepare();
+		}
+
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
 		}
 	}
 }

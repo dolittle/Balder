@@ -34,13 +34,16 @@ namespace Balder.Silverlight.Controls
 			_stack = stack;
 		}
 
-		public void Apply(Node node, int nodeIndex, object dataContext)
+		public void Apply(INode node, int nodeIndex, object dataContext)
 		{
 			Vector startPosition = _stack.StartPosition;
 			Vector itemAdd = _stack.ItemAdd;
 
 			var actualPosition = startPosition + (itemAdd*nodeIndex);
-			node.Position = actualPosition;
+			if( node is Node )
+			{
+				((Node)node).Position = actualPosition;	
+			}
 		}
 	}
 
@@ -51,7 +54,7 @@ namespace Balder.Silverlight.Controls
 			StartPosition = new Coordinate();
 			ItemAdd = new Coordinate();
 			var stackModifier = new NodesStackModifier(this);
-			//Modifier = stackModifier;
+			Modifier = stackModifier;
 		}
 
 		public static readonly DependencyProperty<NodesStack, Coordinate> StartPositionProperty =
@@ -62,7 +65,7 @@ namespace Balder.Silverlight.Controls
 			set
 			{
 				StartPositionProperty.SetValue(this, value);
-				//InvalidatePrepare();
+				InvalidatePrepare();
 			}
 		}
 
@@ -74,7 +77,7 @@ namespace Balder.Silverlight.Controls
 			set
 			{
 				ItemAddProperty.SetValue(this, value);
-				//InvalidatePrepare();
+				InvalidatePrepare();
 			}
 		}
 	}

@@ -25,6 +25,6 @@ namespace Balder.Silverlight.Controls
 {
 	public interface INodeModifier
 	{
-		void Apply(Node node, int nodeIndex, object dataContext);
+		void Apply(INode node, int nodeIndex, object dataContext);
 	}
 }
