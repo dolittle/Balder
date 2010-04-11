@@ -6,7 +6,6 @@
     xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
     xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
-    xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core" 
     >
 	<UserControl.DataContext>
 		<local:ViewModel/>
@@ -28,15 +27,13 @@
 
 		<local:MyGame x:Name="Game" Width="800" Height="600">
 
-			<!--<Core:Container x:Name="Nodes">-->
-				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Objects}">
-					<Controls:NodesControl.NodeTemplate>
-						<DataTemplate>
-							<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>
-						</DataTemplate>
-					</Controls:NodesControl.NodeTemplate>
-				</Controls:NodesControl>
-			<!--</Core:Container>-->
+			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Objects}">
+				<Controls:NodesControl.NodeTemplate>
+					<DataTemplate>
+						<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>
+					</DataTemplate>
+				</Controls:NodesControl.NodeTemplate>
+			</Controls:NodesControl>
 
 			<local:MyGame.Camera>
 				<View:Camera Position="0,250,-1000"/>

@@ -39,9 +39,7 @@ namespace Balder.Silverlight.Controls
 		{
 			_prepareChildren = false;
 
-			var binding = new Binding();
-			binding.Source = this;
-			binding.Path = new PropertyPath("ItemsSource");
+			var binding = new Binding {Source = this, Path = new PropertyPath("ItemsSource")};
 			SetBinding(ItemsSourceChangedProperty, binding);
 		}
 

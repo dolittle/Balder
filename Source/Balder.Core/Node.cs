@@ -18,14 +18,10 @@
 #endregion
 using System;
 using System.ComponentModel;
-using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Matrix = Balder.Core.Math.Matrix;
-#if(SILVERLIGHT)
-using Balder.Core.Silverlight.TypeConverters;
-#endif
 
 namespace Balder.Core
 {
