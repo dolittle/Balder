@@ -15,8 +15,20 @@
 		<ValueConverters:VectorToCoordinateValueConverter x:Key="VectorToCoordinateConverter"/>
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
+		<Grid.Triggers>
+			<EventTrigger RoutedEvent="Grid.Loaded">
+				<BeginStoryboard>
+					<Storyboard RepeatBehavior="Forever">
+						<Animation:StoryboardExtensions.CoordinateAnimation>
+							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Nodes" TargetProperty="(Node.Rotation)"/>
+						</Animation:StoryboardExtensions.CoordinateAnimation>
+					</Storyboard>
+				</BeginStoryboard>
+			</EventTrigger>
+		</Grid.Triggers>
+		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
-			<Controls:NodesControl ItemsSource="{Binding Depths}">
+			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
 				<Controls:NodesControl.NodeTemplate>
 					<DataTemplate>
 
@@ -51,21 +63,3 @@
 		<TextBlock x:Name="NodeCounter"/>
 	</Grid>
 </UserControl>
-
-
-
-
-<!--
-		<Grid.Triggers>
-			<EventTrigger RoutedEvent="Grid.Loaded">
-				<BeginStoryboard>
-					<Storyboard RepeatBehavior="Forever">
-						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Nodes" TargetProperty="(Node.Rotation)"/>
-						</Animation:StoryboardExtensions.CoordinateAnimation>
-					</Storyboard>
-				</BeginStoryboard>
-
-			</EventTrigger>
-		</Grid.Triggers>-->
-
