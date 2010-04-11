@@ -20,6 +20,7 @@
 #endregion
 
 using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -33,12 +34,8 @@ namespace Balder.Silverlight.Controls
 {
 	public class NodesControl : Container
 	{
-		private bool _prepareChildren;
-
 		public NodesControl()
 		{
-			_prepareChildren = false;
-
 			var binding = new Binding {Source = this, Path = new PropertyPath("ItemsSource")};
 			SetBinding(ItemsSourceChangedProperty, binding);
 		}
@@ -53,7 +50,13 @@ namespace Balder.Silverlight.Controls
 			var nodesControl = obj as NodesControl;
 			if( null != nodesControl )
 			{
-				nodesControl._prepareChildren = true;
+				if( null != e.OldValue && e.OldValue is INotifyCollectionChanged )
+				{
+					var notifyingItemsSource = e.OldValue as INotifyCollectionChanged;
+					notifyingItemsSource.CollectionChanged -= nodesControl.ItemsSourceCollectionChanged;
+				}
+				
+				nodesControl.InvalidatePrepare();
 			}
 		}
 
@@ -109,6 +112,21 @@ namespace Balder.Silverlight.Controls
 			}
 		}
 
+		private void HandleItemsSource()
+		{
+			if( null != ItemsSource &&
+				ItemsSource is INotifyCollectionChanged )
+			{
+				var notifyingItemsSource = ItemsSource as INotifyCollectionChanged;
+				notifyingItemsSource.CollectionChanged += ItemsSourceCollectionChanged;
+			}
+		}
+
+		void ItemsSourceCollectionChanged(object sender, NotifyCollectionChangedEventArgs e)
+		{
+			InvalidatePrepare();
+		}
+
 
 		private void HandleModifier()
 		{
@@ -126,11 +144,8 @@ namespace Balder.Silverlight.Controls
 
 		protected override void Prepare()
 		{
-			if (_prepareChildren)
-			{
-				_prepareChildren = false;
-				PrepareChildren();
-			}
+			PrepareChildren();
+			HandleItemsSource();
 			HandleModifier();
 			base.Prepare();
 		}

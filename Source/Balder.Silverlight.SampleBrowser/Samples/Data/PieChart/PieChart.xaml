@@ -12,6 +12,7 @@
 									 BottomRadius="20"
 									 StartAngle="{Binding StartAngle}" 
 									 EndAngle="{Binding EndAngle}" 
+									 Spokes="False"
 									 Segments="16" />
 			</DataTemplate>
 		</Controls:NodesControl.NodeTemplate>
