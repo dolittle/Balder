@@ -133,6 +133,7 @@
     <Compile Include="Execution\Property.cs" />
     <Compile Include="Math\Interpolator.cs" />
     <Compile Include="NodeClonePropertyInfo.cs" />
+    <Compile Include="Container.cs" />
     <Compile Include="NodeExtensions.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />

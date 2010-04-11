@@ -18,21 +18,38 @@
 //
 
 #endregion
+using System.Linq;
+using Balder.Core.Collections;
+using Balder.Core.Execution;
 
-using Balder.Core;
-using Balder.Core.Math;
-
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Core
 {
-	public class Column
+	public class Container : Node, IHaveChildren, ICanBeVisible
 	{
-		public Vector Position { get; set; }
-		public Color Color { get; set; }
-
-
-		public override string ToString()
+		public Container()
 		{
-			return string.Format("Column : {0}",Position.ToString());
+			Children = new NodeCollection();
+			IsVisible = true;
+		}
+
+		public NodeCollection Children { get; private set; }
+
+		protected override void Prepare()
+		{
+			var query = from i in Items
+						where i is INode
+						select i as INode;
+
+			Children.Merge(query);
+			base.Prepare();
+		}
+
+		public Property<Container, bool> IsVisibleProperty =
+			Property<Container, bool>.Register(c => c.IsVisible);
+		public bool IsVisible
+		{
+			get { return IsVisibleProperty.GetValue(this); }
+			set { IsVisibleProperty.SetValue(this,value); }
 		}
 	}
 }

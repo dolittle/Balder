@@ -19,20 +19,25 @@
 
 #endregion
 
-using Balder.Core;
+using System;
+using System.Globalization;
+using System.Windows.Data;
 using Balder.Core.Math;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.ValueConverters
 {
-	public class Column
+	public class VectorToCoordinateValueConverter : IValueConverter
 	{
-		public Vector Position { get; set; }
-		public Color Color { get; set; }
-
-
-		public override string ToString()
+		public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
 		{
-			return string.Format("Column : {0}",Position.ToString());
+			var coordinate = (Coordinate)(Vector)value;
+			return coordinate;
+		}
+
+		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+		{
+			var vector = (Vector)(Coordinate)value;
+			return vector;
 		}
 	}
 }

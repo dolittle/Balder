@@ -140,6 +140,7 @@
     <Compile Include="Rendering\Shapes.cs" />
     <Compile Include="Rendering\SpriteContext.cs" />
     <Compile Include="Rendering\RenderingManager.cs" />
+    <Compile Include="ValueConverters\VectorToCoordinateValueConverter.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

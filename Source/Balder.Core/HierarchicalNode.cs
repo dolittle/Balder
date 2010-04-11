@@ -20,10 +20,12 @@
 #endregion
 
 using System.Collections.Specialized;
+using System.Windows.Markup;
 using Balder.Core.Collections;
 
 namespace Balder.Core
 {
+	[ContentProperty("Children")]
 	public class HierarchicalNode : Node, IHaveChildren
 	{
 		protected HierarchicalNode()

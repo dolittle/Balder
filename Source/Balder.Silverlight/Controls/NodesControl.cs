@@ -25,23 +25,19 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using Balder.Core;
-using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.Controls
 {
-	public class NodesControl : ItemsControl, INode, IHaveChildren, ICanBeVisible
+	public class NodesControl : Container
 	{
 		private bool _prepareChildren;
 
 		public NodesControl()
 		{
 			_prepareChildren = false;
-			Children = new NodeCollection();
-			IsVisible = true;
-			ActualWorld = Matrix.Identity;
 
 			var binding = new Binding();
 			binding.Source = this;
@@ -106,13 +102,7 @@ namespace Balder.Silverlight.Controls
 			}
 		}
 
-		public NodeCollection Children { get; private set; }
-		public Matrix ActualWorld { get; private set; }
-		public Matrix RenderingWorld { get; set; }
-		public bool IsVisible { get; set; }
-		public Scene Scene { get; set; }
-
-		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if( _prepareChildren )
 			{

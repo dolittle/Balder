@@ -18,6 +18,7 @@
 #endregion
 
 #if(SILVERLIGHT)
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 #else
 using System.Collections.Generic;
@@ -34,6 +35,25 @@ namespace Balder.Core.Collections
 	public class NodeCollection : List<INode>
 #endif
 	{
+
+		public void AddMany(IEnumerable<INode> nodes)
+		{
+			foreach( var node in nodes )
+			{
+				Add(node);
+			}
+		}
+
+		public void Merge(IEnumerable<INode> nodes)
+		{
+			foreach( var node in nodes )
+			{
+				if( !Contains(node) )
+				{
+					Add(node);
+				}
+			}
+		}
 
 	}
 }
