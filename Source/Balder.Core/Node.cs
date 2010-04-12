@@ -35,6 +35,8 @@ namespace Balder.Core
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
 
+		
+
 		private bool _isWired = false;
 		private bool _isPrepared = false;
 		private bool _isInitialized = false;
