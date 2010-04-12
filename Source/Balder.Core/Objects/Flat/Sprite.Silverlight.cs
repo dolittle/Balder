@@ -13,7 +13,7 @@ namespace Balder.Core.Objects.Flat
 			set { AssetNameProperty.SetValue(this, value); }
 		}
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			if (null != AssetName)
 			{

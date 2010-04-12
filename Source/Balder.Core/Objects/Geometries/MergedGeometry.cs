@@ -18,6 +18,7 @@
 //
 
 #endregion
+
 using System.Collections.Generic;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -46,7 +47,7 @@ namespace Balder.Core.Objects.Geometries
 			{
 				MakeUnique();
 			}
-			
+
 			base.Initialize();
 		}
 
@@ -56,19 +57,24 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			var nodes = new List<INode>();
-			foreach( var item in Items )
+			foreach (var item in Items)
 			{
-				if( item is INode )
+				if (item is INode)
 				{
 					nodes.Add(item as INode);
+					if( item is Node )
+					{
+						((Node) item).Prepare();
+					}
 				}
 			}
 
+			
 			var geometryContexts = new List<IGeometryContext>();
-			GatherGeometries(nodes,geometryContexts);
+			GatherGeometries(nodes, geometryContexts);
 			MergeGeometries(geometryContexts);
 
 			base.Prepare();
@@ -76,26 +82,122 @@ namespace Balder.Core.Objects.Geometries
 
 		private void GatherGeometries(IEnumerable<INode> nodes, IList<IGeometryContext> geometryContexts)
 		{
-			foreach( var node in nodes )
+			foreach (var node in nodes)
 			{
-				if( node is Geometry )
+				if (node is Geometry)
 				{
 					geometryContexts.Add(((Geometry)node).GeometryContext);
 				}
 
-				if( node is IHaveChildren )
+				if (node is IHaveChildren)
 				{
-					GatherGeometries(((IHaveChildren)node).Children,geometryContexts);
+					GatherGeometries(((IHaveChildren)node).Children, geometryContexts);
+				}
+				if( node is ICanPrepare )
+				{
+					((ICanPrepare)node).Prepared += new PreparedEventHandler(NodePrepared);
 				}
 			}
+		}
 
-			
+		private void NodePrepared(ICanPrepare preparedObject)
+		{
+			InvalidatePrepare();
 		}
 
 		private void MergeGeometries(IEnumerable<IGeometryContext> geometryContexts)
 		{
-			
+			var vertexCount = 0;
+			var faceCount = 0;
+			var textureCoordinateCount = 0;
+			var lineCount = 0;
+			foreach (var geometryContext in geometryContexts)
+			{
+				vertexCount += geometryContext.VertexCount;
+				faceCount += geometryContext.FaceCount;
+				textureCoordinateCount += geometryContext.TextureCoordinateCount;
+				lineCount += geometryContext.LineCount;
+			}
+
+			GeometryContext.AllocateVertices(vertexCount);
+			GeometryContext.AllocateFaces(faceCount);
+			GeometryContext.AllocateTextureCoordinates(textureCoordinateCount);
+			GeometryContext.AllocateLines(lineCount);
+
+			var vertexOffset = 0;
+			var textureCoordinateOffset = 0;
+			var faceOffset = 0;
+			var lineOffset = 0;
+
+			foreach (var geometryContext in geometryContexts)
+			{
+				var vertices = geometryContext.GetVertices();
+				SetVertices(vertexOffset, vertices);
+				var textureCoordinates = geometryContext.GetTextureCoordinates();
+				SetTextureCoordinates(textureCoordinateOffset, textureCoordinates);
+				var faces = geometryContext.GetFaces();
+				SetFaces(vertexOffset, textureCoordinateOffset, faceOffset, faces);
+				var lines = geometryContext.GetLines();
+				SetLines(vertexOffset, lineOffset, lines);
+
+
+				vertexOffset += geometryContext.VertexCount;
+				textureCoordinateOffset += geometryContext.TextureCoordinateCount;
+				faceOffset += geometryContext.FaceCount;
+				lineOffset += geometryContext.LineCount;
+			}
 		}
+
+
+
+		private void SetVertices(int vertexOffset, Vertex[] vertices)
+		{
+			for (var index = 0; index < vertices.Length; index++)
+			{
+				GeometryContext.SetVertex(index + vertexOffset, vertices[index]);
+			}
+		}
+
+		private void SetTextureCoordinates(int textureCoordinateOffset, TextureCoordinate[] textureCoordinates)
+		{
+			for (var index = 0; index < textureCoordinates.Length; index++)
+			{
+				GeometryContext.SetTextureCoordinate(index + textureCoordinateOffset, textureCoordinates[index]);
+			}
+		}
+
+		private void SetFaces(int vertexOffset, int textureCoordinateOffset, int faceOffset, Face[] faces)
+		{
+			for (var index = 0; index < faces.Length; index++)
+			{
+				var face = faces[index];
+				face.A += vertexOffset;
+				face.B += vertexOffset;
+				face.C += vertexOffset;
+				face.DiffuseA += textureCoordinateOffset;
+				face.DiffuseB += textureCoordinateOffset;
+				face.DiffuseC += textureCoordinateOffset;
+				GeometryContext.SetFace(index + faceOffset, face);
+			}
+
+		}
+
+		private void SetLines(int vertexOffset, int lineOffset, Line[] lines)
+		{
+			for (var index = 0; index < lines.Length; index++)
+			{
+				var line = lines[index];
+				line.A += vertexOffset;
+				line.B += vertexOffset;
+				GeometryContext.SetLine(index + lineOffset, line);
+			}
+		}
+
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			base.BeforeRendering(viewport, view, projection, world);
+		}
+
 
 		public bool IsVisible { get; set; }
 		public void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -104,7 +206,7 @@ namespace Balder.Core.Objects.Geometries
 
 		public void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			
+
 		}
 	}
 }

@@ -47,7 +47,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		protected override void  Prepare()
+		public override void  Prepare()
 		{
 			var dimensionAsVector = (Vector)Dimension;
 			var halfDimension = dimensionAsVector / 2f;

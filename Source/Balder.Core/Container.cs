@@ -34,7 +34,7 @@ namespace Balder.Core
 
 		public NodeCollection Children { get; private set; }
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			var query = from i in Items
 						where i is INode

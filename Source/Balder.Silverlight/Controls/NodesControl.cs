@@ -142,7 +142,7 @@ namespace Balder.Silverlight.Controls
 			}
 		}
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			PrepareChildren();
 			HandleItemsSource();

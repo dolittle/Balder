@@ -28,9 +28,10 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode, ICloneable
+	public abstract partial class Node : INode, ICloneable, ICanPrepare
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
+		public event PreparedEventHandler Prepared = (s) => { };
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
 
@@ -252,13 +253,18 @@ namespace Balder.Core
 
 		protected bool IsClone { get; private set; }
 
-		protected void InvalidatePrepare()
+		public void InvalidatePrepare()
 		{
 			_isPrepared = false;
 		}
 
 		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
-		protected virtual void Prepare() { }
+
+		public virtual void Prepare()
+		{
+			Prepared(this);
+		}
+
 		protected virtual void Initialize() { }
 
 
