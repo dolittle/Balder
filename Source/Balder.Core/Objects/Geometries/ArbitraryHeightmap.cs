@@ -200,7 +200,7 @@ namespace Balder.Core.Objects.Geometries
 			ContentInterpolator.SetNumberOfInterpolationPoints(3);
 		}
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			if (LengthSegments <= 0 || HeightSegments <= 0)
 			{

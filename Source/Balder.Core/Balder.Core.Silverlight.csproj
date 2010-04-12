@@ -99,11 +99,13 @@
     <Compile Include="ColorOperations.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Display\PassiveRenderingMode.cs" />
+    <Compile Include="Execution\EventRouter.cs" />
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICopyable.cs" />
     <Compile Include="HierarchicalNode.cs" />
     <Compile Include="ICanBeVisible.cs" />
+    <Compile Include="ICanPrepare.cs" />
     <Compile Include="ICanRender.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="IHaveChildren.cs" />
@@ -136,6 +138,7 @@
     <Compile Include="Container.cs" />
     <Compile Include="NodeExtensions.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
+    <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />

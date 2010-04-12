@@ -178,7 +178,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			Validate();
 
