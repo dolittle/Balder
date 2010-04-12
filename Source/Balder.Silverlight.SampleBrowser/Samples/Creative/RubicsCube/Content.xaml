@@ -21,7 +21,7 @@
 		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,-25,-100"/>
+				<View:Camera Position="0,25,-100"/>
 			</Execution:Game.Camera>
 			
 			<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>

@@ -1,11 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Windows.Media;
-using Balder.Core.Assets;
-using Balder.Core.Execution;
-using Balder.Core.Imaging;
-using Balder.Core.Materials;
 using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -31,143 +25,116 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 	public partial class Cube
 	{
+		public const int Depth = 3;
+		public const int Width = 3;
+		public const int Height = 3;
+
 		public Cube()
 		{
 			InitializeComponent();
+			PrepareCubeBoxGroups();
 		}
 
-		private const int Depth = 3;
-		private const int Width = 3;
-		private const int Height = 3;
-		private const float BoxSize = 5f;
-		private const float BoxSpace = 0.3f;
-		private const float BoxAdd = BoxSize + BoxSpace;
+		public class CubeBoxGroup
+		{
+			public CubeBoxGroup()
+			{
+				Boxes = new List<CubeBox>();
+			}
 
-		private Material _black;
-		private Dictionary<CubeSide, Material> _materials;
+			public List<CubeBox> Boxes { get; private set; }
 
+			public void Clear()
+			{
+				Boxes.Clear();
+			}
+
+			public void Add(CubeBox box)
+			{
+				Boxes.Add(box);
+			}
+
+			public void Rotate(double x, double y, double z)
+			{
+				foreach (var box in Boxes)
+				{
+					box.Rotation.Set(x, y, z);
+				}
+			}
+		}
+
+
+		private Dictionary<CubeSide, CubeBoxGroup> _groups;
+
+		private void PrepareCubeBoxGroups()
+		{
+			_groups = new Dictionary<CubeSide, CubeBoxGroup>();
+			_groups[CubeSide.Front] = new CubeBoxGroup();
+			_groups[CubeSide.Back] = new CubeBoxGroup();
+			_groups[CubeSide.Left] = new CubeBoxGroup();
+			_groups[CubeSide.Right] = new CubeBoxGroup();
+			_groups[CubeSide.Top] = new CubeBoxGroup();
+			_groups[CubeSide.Bottom] = new CubeBoxGroup();
+		}
 
 		protected override void Prepare()
 		{
-			_materials = new Dictionary<CubeSide, Material>();
-			GenerateMaterials();
 			GenerateCubeBoxes();
+			OrganizeCubeBoxesInGroups();
+
+			_groups[CubeSide.Top].Rotate(0, 12, 0);
 			base.Prepare();
 		}
 
 
-		private void GenerateMaterials()
-		{
-			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
-			_materials[CubeSide.Front] = LoadMaterial("White.png");
-			_materials[CubeSide.Back] = LoadMaterial("Yellow.png");
-			_materials[CubeSide.Left] = LoadMaterial("Orange.png");
-			_materials[CubeSide.Right] = LoadMaterial("Red.png");
-			_materials[CubeSide.Top] = LoadMaterial("Blue.png");
-			_materials[CubeSide.Bottom] = LoadMaterial("Green.png");
-		}
-
 		private void GenerateCubeBoxes()
 		{
-			var currentDepth = (-((BoxAdd * Depth) / 2)) + (BoxAdd / 2);
-
-			for (var depthIndex = 0; depthIndex < Depth; depthIndex++)
+			for (var z = 0; z < Depth; z++)
 			{
-				var currentHeight = (-((BoxAdd * Height) / 2)) + (BoxAdd / 2);
-				for (var heightIndex = 0; heightIndex < Height; heightIndex++)
+				for (var y = 0; y < Height; y++)
 				{
-					var currentWidth = ((BoxAdd * Width) / 2) - (BoxAdd / 2);
-					for (var widthIndex = 0; widthIndex < Width; widthIndex++)
+					for (var x = 0; x < Width; x++)
 					{
-						var box = CreateBox();
-						box.PivotPoint = new Coordinate(currentWidth, currentHeight, currentDepth);
-						SetMaterial(box, widthIndex, heightIndex, depthIndex);
-
-
-						if (heightIndex == 0)
-						{
-							box.Rotation.Y = 25;
-						}
-
+						var box = new CubeBox(x, y, z);
 						Children.Add(box);
-						currentWidth -= BoxAdd;
 					}
-					currentHeight += BoxAdd;
 				}
-				currentDepth += BoxAdd;
 			}
 		}
 
-		private void SetMaterial(Box box, int x, int y, int z)
+		private void OrganizeCubeBoxesInGroups()
 		{
-			var front = _black;
-			var back = _black;
-			var left = _black;
-			var right = _black;
-			var top = _black;
-			var bottom = _black;
+			foreach (CubeBox box in Children)
+			{
+				box.UpdateNormals();
 
-			if (x == 0)
-			{
-				right = _materials[CubeSide.Right];
-			} else if( x == Width -1)
-			{
-				left = _materials[CubeSide.Left];
+				if (box.CalculatedFrontNormal.Equals(Vector.Backward))
+				{
+					_groups[CubeSide.Front].Add(box);
+				}
+				else if (box.CalculatedFrontNormal.Equals(Vector.Forward))
+				{
+					_groups[CubeSide.Back].Add(box);
+				}
+
+				if (box.CalculatedSideNormal.Equals(Vector.Left))
+				{
+					_groups[CubeSide.Left].Add(box);
+				}
+				else if (box.CalculatedSideNormal.Equals(Vector.Right))
+				{
+					_groups[CubeSide.Right].Add(box);
+				}
+
+				if (box.CalculatedUpNormal.Equals(Vector.Up))
+				{
+					_groups[CubeSide.Top].Add(box);
+				}
+				else if (box.CalculatedUpNormal.Equals(Vector.Down))
+				{
+					_groups[CubeSide.Bottom].Add(box);
+				}
 			}
-			
-			if (y == 0)
-			{
-				top = _materials[CubeSide.Top];
-			} else if( y == Height -1 )
-			{
-				bottom = _materials[CubeSide.Bottom];
-			}
-			
-			if( z == 0 )
-			{
-				back = _materials[CubeSide.Back];
-			} else if ( z == Depth -1 )
-			{
-				front = _materials[CubeSide.Front];				
-			}
-
-			box.SetMaterialOnSide(BoxSide.Front, front);
-			box.SetMaterialOnSide(BoxSide.Back, back);
-			box.SetMaterialOnSide(BoxSide.Left, left);
-			box.SetMaterialOnSide(BoxSide.Right, right);
-			box.SetMaterialOnSide(BoxSide.Top, top);
-			box.SetMaterialOnSide(BoxSide.Bottom, bottom);
-
-		}
-
-
-		private Box CreateBox()
-		{
-			var box = new Box();
-			box.Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
-			return box;
-		}
-
-		private Material LoadMaterial(string file)
-		{
-			var material = new Material();
-			material.DiffuseMap = LoadTexture(file);
-			return material;
-		}
-
-		private Image LoadTexture(string file)
-		{
-			var uri = string.Format("/Balder.Silverlight.SampleBrowser;component/Samples/Creative/RubicsCube/Assets/{0}", file);
-
-			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
-			var assetLoaderService = KernelContainer.Kernel.Get<IAssetLoaderService>();
-			var loader = assetLoaderService.GetLoader<Image>(uri);
-			var images = loader.Load(uri);
-			if (images.Length == 1)
-			{
-				return images[0];
-			}
-			return null;
 		}
 	}
 }

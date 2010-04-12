@@ -158,6 +158,7 @@
     <Compile Include="Samples\Creative\RubicsCube\Cube.xaml.cs">
       <DependentUpon>Cube.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\CubeBox.cs" />
     <Compile Include="Samples\Creative\Water\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>

@@ -36,10 +36,9 @@ namespace Balder.Core.Objects.Geometries
 		Bottom
 	}
 
-	public class
-		Box : Geometry
+	public class Box : Geometry
 	{
-		private Dictionary<BoxSide, Material> _materials;
+		private readonly Dictionary<BoxSide, Material> _materials;
 
 		public Box()
 		{
