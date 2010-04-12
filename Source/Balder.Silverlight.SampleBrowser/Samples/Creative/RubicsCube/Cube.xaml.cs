@@ -77,7 +77,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_groups[CubeSide.Bottom] = new CubeBoxGroup();
 		}
 
-		protected override void Prepare()
+		public override void Prepare()
 		{
 			GenerateCubeBoxes();
 			OrganizeCubeBoxesInGroups();
