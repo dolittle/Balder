@@ -19,22 +19,39 @@
 
 #endregion
 
-using System.Windows.Input;
+using System.Collections.Generic;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public class 
+	public enum BoxSide
+	{
+		Front = 0,
+		Back,
+		Left,
+		Right,
+		Top,
+		Bottom
+	}
+
+	public class
 		Box : Geometry
 	{
+		private Dictionary<BoxSide, Material> _materials;
+
 		public Box()
 		{
-			int i = 0;
-			i++;
+			_materials = new Dictionary<BoxSide, Material>();
 		}
 
 
+		public void SetMaterialOnSide(BoxSide side, Material material)
+		{
+			_materials[side] = material;
+			InvalidatePrepare();
+		}
 
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);
 		public Coordinate Dimension
@@ -47,7 +64,18 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		protected override void  Prepare()
+		protected override void Prepare()
+		{
+			GenerateVertices();
+			GenereateTextureCoordinate();
+			GenerateFaces();
+
+			GeometryHelper.CalculateFaceNormals(GeometryContext);
+			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			InitializeBoundingSphere();
+		}
+
+		private void GenerateVertices()
 		{
 			var dimensionAsVector = (Vector)Dimension;
 			var halfDimension = dimensionAsVector / 2f;
@@ -72,37 +100,86 @@ namespace Balder.Core.Objects.Geometries
 			GeometryContext.SetVertex(5, backUpperLeft);
 			GeometryContext.SetVertex(6, backLowerRight);
 			GeometryContext.SetVertex(7, backLowerLeft);
+		}
 
+		private void GenereateTextureCoordinate()
+		{
 			GeometryContext.AllocateTextureCoordinates(4);
 			GeometryContext.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
 			GeometryContext.SetTextureCoordinate(1, new TextureCoordinate(1f, 0f));
 			GeometryContext.SetTextureCoordinate(2, new TextureCoordinate(0f, 1f));
 			GeometryContext.SetTextureCoordinate(3, new TextureCoordinate(1f, 1f));
+		}
 
 
+		private BoxSide GetBoxSideFromNormal(Vector normal)
+		{
+			if (normal.Equals(Vector.Backward))
+			{
+				return BoxSide.Front;
+			}
+			if (normal.Equals(Vector.Forward))
+			{
+				return BoxSide.Back;
+			}
+			if (normal.Equals(Vector.Right))
+			{
+				return BoxSide.Left;
+			}
+			if (normal.Equals(Vector.Left))
+			{
+				return BoxSide.Right;
+			}
+			if (normal.Equals(Vector.Up))
+			{
+				return BoxSide.Top;
+			}
+			if (normal.Equals(Vector.Down))
+			{
+				return BoxSide.Bottom;
+			}
+			return BoxSide.Front;
+		}
+
+		private void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC)
+		{
+			var face = new Face(a, b, c) { Normal = normal, DiffuseA = diffuseA, DiffuseB = diffuseB, DiffuseC = diffuseC };
+			var boxSide = GetBoxSideFromNormal(normal);
+			if (_materials.ContainsKey(boxSide))
+			{
+				var material = _materials[boxSide];
+				if (null != material)
+				{
+					face.Material = material;
+				}
+			}
+			GeometryContext.SetFace(faceIndex, face);
+		}
+
+		private void GenerateFaces()
+		{
 			GeometryContext.AllocateFaces(12);
 
-			GeometryContext.SetFace(0, new Face(2, 1, 0) { Normal = Vector.Backward, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0});
-			GeometryContext.SetFace(1, new Face(1, 2, 3) { Normal = Vector.Backward, DiffuseA = 1, DiffuseB = 2, DiffuseC = 3});
+			SetFace(0, 2, 1, 0, Vector.Backward, 2, 1, 0);
+			SetFace(1, 1, 2, 3, Vector.Backward, 1, 2, 3);
 
-			GeometryContext.SetFace(2, new Face(4, 5, 6) { Normal = Vector.Forward, DiffuseA = 1, DiffuseB = 0, DiffuseC = 3 });
-			GeometryContext.SetFace(3, new Face(7, 6, 5) { Normal = Vector.Forward, DiffuseA = 2, DiffuseB = 3, DiffuseC = 0 });
+			SetFace(2, 4, 5, 6, Vector.Forward, 1, 0, 3);
+			SetFace(3, 7, 6, 5, Vector.Forward, 2, 3, 0);
 
-			GeometryContext.SetFace(4, new Face(0, 4, 2) { Normal = Vector.Left, DiffuseA = 1, DiffuseB = 0, DiffuseC = 3 });
-			GeometryContext.SetFace(5, new Face(6, 2, 4) { Normal = Vector.Left, DiffuseA = 2, DiffuseB = 3, DiffuseC = 0 });
+			SetFace(4, 0, 4, 2, Vector.Left, 1, 0, 3);
+			SetFace(5, 6, 2, 4, Vector.Left, 2, 3, 0);
 
-			GeometryContext.SetFace(6, new Face(3, 5, 1) { Normal = Vector.Right, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0 });
-			GeometryContext.SetFace(7, new Face(5, 3, 7) { Normal = Vector.Right, DiffuseA = 1, DiffuseB = 2, DiffuseC = 3 });
 
-			GeometryContext.SetFace(8, new Face(0, 1, 4) { Normal = Vector.Up, DiffuseA = 2, DiffuseB = 3, DiffuseC = 0 });
-			GeometryContext.SetFace(9, new Face(5, 4, 1) { Normal = Vector.Up, DiffuseA = 1, DiffuseB = 0, DiffuseC = 3 });
+			SetFace(6, 3, 5, 1, Vector.Right, 2, 1, 0);
+			SetFace(7, 5, 3, 7, Vector.Right, 1, 2, 3);
 
-			GeometryContext.SetFace(10, new Face(6, 3, 2) { Normal = Vector.Down, DiffuseA = 2, DiffuseB = 1, DiffuseC = 0 });
-			GeometryContext.SetFace(11, new Face(3, 6, 7) { Normal = Vector.Down, DiffuseA = 1, DiffuseB = 2, DiffuseC = 3 });
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
-			InitializeBoundingSphere();
+			SetFace(8, 0, 1, 4, Vector.Up, 2, 3, 0);
+			SetFace(9, 5, 4, 1, Vector.Up, 1, 0, 3);
+
+
+			SetFace(10, 6, 3, 2, Vector.Down, 2, 1, 0);
+			SetFace(11, 3, 6, 7, Vector.Down, 1, 2, 3);
 		}
 	}
 }

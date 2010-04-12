@@ -662,6 +662,16 @@
     <Resource Include="Samples\Geometries\Mesh\Assets\_Charcoa.jpg" />
     <Resource Include="Samples\Geometries\Mesh\Assets\_Gray6_.jpg" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Blue.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Green.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Orange.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Red.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Assets\White.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\v3.0\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
