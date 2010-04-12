@@ -1,0 +1,10 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Execution="clr-namespace:Balder.Core.Execution;assembly=Balder.Core">
+    <Grid x:Name="LayoutRoot">
+		<Execution:Game Width="640" Height="480">
+			
+		</Execution:Game>
+    </Grid>
+</UserControl>

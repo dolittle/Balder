@@ -19,7 +19,6 @@
 			<Controls:NodesControl ItemsSource="{Binding Depths}">
 				<Controls:NodesControl.NodeTemplate>
 					<DataTemplate>
-
 						<Controls:NodesControl ItemsSource="{Binding Rows}">
 							<Controls:NodesControl.NodeTemplate>
 								<DataTemplate>
