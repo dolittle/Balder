@@ -148,7 +148,7 @@
     <Compile Include="Content\ContentCreatorTests.cs" />
     <Compile Include="Content\ContentManagerTests.cs" />
     <Compile Include="Composition\ComposerTests.cs" />
-    <Compile Include="Execution\RoutedEventTests.cs" />
+    <Compile Include="Execution\BubbledEventTests.cs" />
     <Compile Include="Extensions\ViewportExtensionsTests.cs" />
     <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />
     <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs" />

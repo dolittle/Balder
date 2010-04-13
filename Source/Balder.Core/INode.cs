@@ -5,6 +5,8 @@ namespace Balder.Core
 {
 	public interface INode
 	{
+		INode Parent { get; }
+
 		Matrix ActualWorld { get; }
 		Matrix RenderingWorld { get; set; }
 		

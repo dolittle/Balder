@@ -18,14 +18,16 @@
 //
 
 #endregion
+using System;
 
-using NUnit.Framework;
-
-namespace Balder.Core.Tests.Execution
+namespace Balder.Core.Execution
 {
-	[TestFixture]
-	public class RoutedEventTests
+	/// <summary>
+	/// Base class for arguments for Bubbled events
+	/// </summary>
+	public class BubbledEventArgs : EventArgs
 	{
+		public INode OriginalSource { get; internal set; }
+		public bool Handled { get; set; }
 	}
 }
-

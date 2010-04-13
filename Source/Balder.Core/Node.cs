@@ -186,6 +186,8 @@ namespace Balder.Core
 		}
 
 		public Matrix World { get; set; }
+		public INode Parent { get; internal set; }
+
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 
