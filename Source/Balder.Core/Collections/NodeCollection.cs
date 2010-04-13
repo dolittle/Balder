@@ -35,6 +35,21 @@ namespace Balder.Core.Collections
 	public class NodeCollection : List<INode>
 #endif
 	{
+		private readonly object _owner;
+
+		public NodeCollection(object owner)
+		{
+			_owner = owner;
+		}
+
+		public new void Add(INode node)
+		{
+			if (node is Node && _owner is INode)
+			{
+				((Node)node).Parent = _owner as INode;
+			}
+			base.Add(node);
+		}
 
 		public void AddMany(IEnumerable<INode> nodes)
 		{

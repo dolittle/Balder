@@ -28,7 +28,7 @@ namespace Balder.Core
 	{
 		public Container()
 		{
-			Children = new NodeCollection();
+			Children = new NodeCollection(this);
 			IsVisible = true;
 		}
 

@@ -30,7 +30,7 @@ namespace Balder.Core
 	{
 		protected HierarchicalNode()
 		{
-			Children = new NodeCollection();
+			Children = new NodeCollection(this);
 #if(SILVERLIGHT)
 			Children.CollectionChanged += ChildrenChanged;
 #endif

@@ -118,6 +118,7 @@
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
+    <Compile Include="Manipulation\IManipulationService.cs" />
     <Compile Include="Manipulation\ManipulationDeltaEventArgs.cs" />
     <Compile Include="Manipulation\ManipulationEventArgs.cs" />
     <Compile Include="Math\Dimension.cs" />

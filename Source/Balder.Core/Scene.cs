@@ -39,11 +39,11 @@ namespace Balder.Core
 
 		public Scene()
 		{
-			_renderableNodes = new NodeCollection();
-			_flatNodes = new NodeCollection();
-			_environmentalNodes = new NodeCollection();
-			_lights = new NodeCollection();
-			_allNodes = new NodeCollection();
+			_renderableNodes = new NodeCollection(this);
+			_flatNodes = new NodeCollection(this);
+			_environmentalNodes = new NodeCollection(this);
+			_lights = new NodeCollection(this);
+			_allNodes = new NodeCollection(this);
 
 			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
