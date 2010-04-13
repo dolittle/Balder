@@ -26,6 +26,17 @@ namespace Balder.Core
 {
 	public partial class Node : ItemsControl
 	{
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseMoveEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseMove);
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseEnterEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseEnter);
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseLeaveEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseLeave);
+		internal static new readonly BubbledEvent<Node, MouseButtonEventHandler> MouseLeftButtonDownEvent =
+			BubbledEvent<Node, MouseButtonEventHandler>.Register(n => n.MouseLeftButtonDown);
+		internal static new readonly BubbledEvent<Node, MouseButtonEventHandler> MouseLeftButtonUpEvent =
+			BubbledEvent<Node, MouseButtonEventHandler>.Register(n => n.MouseLeftButtonUp);
+
 		public new event MouseEventHandler MouseMove;
 		public new event MouseEventHandler MouseEnter;
 		public new event MouseEventHandler MouseLeave;
@@ -38,6 +49,7 @@ namespace Balder.Core
 			Loaded += NodeLoaded;
 			Width = 0;
 			Height = 0;
+			MouseLeftButtonUp += (s, e) => OnCommand();
 		}
 
 
@@ -72,47 +84,6 @@ namespace Balder.Core
 				{
 					Command.Execute(CommandParameter);
 				}
-			}
-		}
-
-		internal virtual void RaiseMouseLeftButtonUp(MouseButtonEventArgs e)
-		{
-			OnCommand();
-			if (null != MouseLeftButtonUp)
-			{
-				MouseLeftButtonUp(this, e);
-			}
-		}
-
-		internal virtual void RaiseMouseMove(MouseEventArgs e)
-		{
-			if (null != MouseMove)
-			{
-				MouseMove(this, e);
-			}
-		}
-
-		internal virtual void RaiseMouseLeftButtonDown(MouseButtonEventArgs e)
-		{
-			if (null != MouseLeftButtonDown)
-			{
-				MouseLeftButtonDown(this, e);
-			}
-		}
-
-		internal virtual void RaiseMouseEnter(MouseEventArgs e)
-		{
-			if (null != MouseEnter)
-			{
-				MouseEnter(this, e);
-			}
-		}
-
-		internal virtual void RaiseMouseLeave(MouseEventArgs e)
-		{
-			if (null != MouseLeave)
-			{
-				MouseLeave(this, e);
 			}
 		}
 	}

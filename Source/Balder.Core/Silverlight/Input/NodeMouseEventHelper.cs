@@ -18,7 +18,6 @@
 //
 
 #endregion
-
 using System;
 using System.Windows.Input;
 using Balder.Core.Display;
@@ -66,17 +65,15 @@ namespace Balder.Core.Silverlight.Input
 
 		public void HandleMouseMove(int xPosition, int yPosition, MouseEventArgs e)
 		{
-			// Todo: Mouse events are not routed to parents
-
 			var hitNode = _viewport.GetNodeAtScreenCoordinate(xPosition, yPosition);
 			if (null != hitNode)
 			{
-				CallActionOnSilverlightNode(hitNode, n => n.RaiseMouseMove(e));
-				
+				Node.MouseMoveEvent.Raise(hitNode, hitNode, e);
+
 				if (null == _previousNode ||
 					!hitNode.Equals(_previousNode))
 				{
-					CallActionOnSilverlightNode(hitNode, n => n.RaiseMouseEnter(e));
+					Node.MouseEnterEvent.Raise(hitNode, hitNode, e);
 				}
 				_previousNode = hitNode;
 			}
@@ -95,7 +92,7 @@ namespace Balder.Core.Silverlight.Input
 				if (null == _previousNode ||
 					!hitNode.Equals(_previousNode))
 				{
-					CallActionOnSilverlightNode(hitNode, n => n.RaiseMouseEnter(e));
+					Node.MouseEnterEvent.Raise(hitNode, hitNode, e);
 				}
 			}
 			_previousNode = hitNode;
@@ -105,7 +102,7 @@ namespace Balder.Core.Silverlight.Input
 		{
 			if (null != _previousNode)
 			{
-				CallActionOnSilverlightNode(_previousNode, n => n.RaiseMouseLeave(e));
+				Node.MouseLeaveEvent.Raise(_previousNode, _previousNode, e);
 				_previousNode = null;
 			}
 		}
@@ -114,46 +111,39 @@ namespace Balder.Core.Silverlight.Input
 		private void MouseMove(object sender, MouseEventArgs e)
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
-			HandleMouseMove((int)position.X,(int)position.Y,e);
+			HandleMouseMove((int)position.X, (int)position.Y, e);
 		}
 
 		private void MouseEnter(object sender, MouseEventArgs e)
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
-			//HandleMouseMove((int)position.X, (int)position.Y, e);
-			HandleMouseEnter((int)position.X,(int)position.Y,e);
+			HandleMouseEnter((int)position.X, (int)position.Y, e);
 		}
 
 		private void MouseLeave(object sender, MouseEventArgs e)
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
-			//HandleMouseMove((int)position.X, (int)position.Y, e);
 			HandleMouseLeave((int)position.X, (int)position.Y, e);
 		}
 
 		private void MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
-			RaiseMouseEvent(e, n => n.RaiseMouseLeftButtonDown(e));
+			var position = e.GetPosition(_game);
+			var hitNode = _viewport.GetNodeAtScreenCoordinate((int)position.X, (int)position.Y);
+			if (null != hitNode)
+			{
+				Node.MouseLeftButtonDownEvent.Raise(hitNode, hitNode, e);
+			}
 		}
 
 		private void MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			RaiseMouseEvent(e, n => n.RaiseMouseLeftButtonUp(e));
-		}
-
-		private void RaiseMouseEvent(MouseEventArgs e, Action<Node> a)
 		{
 			var position = e.GetPosition(_game);
 			var hitNode = _viewport.GetNodeAtScreenCoordinate((int)position.X, (int)position.Y);
 			if (null != hitNode)
 			{
-				CallActionOnSilverlightNode(hitNode, a);
+				Node.MouseLeftButtonUpEvent.Raise(hitNode, hitNode, e);
 			}
-		}
-
-		private static void CallActionOnSilverlightNode(Node node, Action<Node> a)
-		{
-			a(node);
 		}
 	}
 }

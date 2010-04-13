@@ -26,7 +26,6 @@
 				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
 				Position="-80,0,-50"
 				/>
-
 			<Geometries:Box
 				x:Name="Box2"
 				Color="Green"
