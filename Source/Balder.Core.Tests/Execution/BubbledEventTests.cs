@@ -60,9 +60,6 @@ namespace Balder.Core.Tests.Execution
 		}
 	}
 
-
-
-
 	[TestFixture]
 	public class BubbledEventTests
 	{
@@ -158,7 +155,6 @@ namespace Balder.Core.Tests.Execution
 
 			Assert.That(called,Is.False);
 		}
-
 	}
 }
 

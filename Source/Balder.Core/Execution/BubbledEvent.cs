@@ -38,6 +38,10 @@ namespace Balder.Core.Execution
 	/// <remarks>
 	/// In order for a bubbled event to be able to alert the entire hierarchy, all
 	/// elements in the hierarchy must be the same type.
+	/// 
+	/// If using the BubbledEventArgs as base for your event argument, events can
+	/// be handled through the hierarchy with the Handled property. That will stop
+	/// the bubbling.
 	/// </remarks>
 	public class BubbledEvent<T,TEt>
 		where T:INode
@@ -109,14 +113,19 @@ namespace Balder.Core.Execution
 		/// <summary>
 		/// Register a bubbled event on a type
 		/// </summary>
-		/// <param name="eventHandlerFunc"></param>
-		/// <returns></returns>
+		/// <param name="eventHandlerFunc">Func representing the eventhandler to invoke during raise</param>
+		/// <returns>BubbledEvent ready to be used</returns>
 		public static BubbledEvent<T, TEt> Register(Func<T, TEt> eventHandlerFunc)
 		{
 			var routedEvent = new BubbledEvent<T, TEt>(eventHandlerFunc);
 			return routedEvent;
 		}
 
+		/// <summary>
+		/// Raise a bubbled event through the hierarchy
+		/// </summary>
+		/// <param name="instance">Instance to raise event for</param>
+		/// <param name="arguments">Arguments for the event, important that these match to the signature of the delegate representing the event</param>
 		public void Raise(T instance, params object[] arguments)
 		{
 			InternalRaise(instance,instance,arguments);
