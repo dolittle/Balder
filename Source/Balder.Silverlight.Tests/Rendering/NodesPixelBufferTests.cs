@@ -20,6 +20,7 @@
 #endregion
 
 using Balder.Core;
+using Balder.Core.Materials;
 using Balder.Silverlight.Rendering;
 using CThru.Silverlight;
 using Moq;
@@ -108,7 +109,7 @@ namespace Balder.Silverlight.Tests.Rendering
 			Assert.That(node, Is.EqualTo(firstNodeMock.Object));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test, SilverlightUnitTest]
 		public void GettingNodeAtPositionAfterNewFrameAndNodeNotInFrameShouldReturnNull()
 		{
 			var manager = new NodesPixelBuffer();
@@ -147,13 +148,52 @@ namespace Balder.Silverlight.Tests.Rendering
 				manager.Initialize(640, 480);
 
 				var nodeMock = new Mock<Node>();
+
+				var hashCode = nodeMock.Object.GetHashCode();
+
 				manager.SetNodeAtPosition(nodeMock.Object, -1, -1);
 				manager.SetNodeAtPosition(nodeMock.Object, 641, 481);
-			} catch
+			}
+			catch
 			{
 				Assert.Fail();
 			}
 		}
+
+		[Test, SilverlightUnitTest]
+		public void SettingNodeWithMaterialShouldReturnSameMaterialWhenGetting()
+		{
+			var manager = new NodesPixelBuffer();
+			manager.Initialize(640, 480);
+			var material = new Material();
+
+			var firstNodeMock = new Mock<Node>();
+			var secondNodeMock = new Mock<Node>();
+
+			manager.SetNodeAtPosition(firstNodeMock.Object, material, 0, 0);
+			manager.SetNodeAtPosition(secondNodeMock.Object, 0, 1);
+
+			var actualMaterial = manager.GetMaterialAtPosition(0, 0);
+
+			Assert.That(actualMaterial, Is.EqualTo(material));
+		}
+
+		[Test, SilverlightUnitTest]
+		public void GettingMaterialAtPositionOutsideTheScreenShouldReturnNull()
+		{
+			var manager = new NodesPixelBuffer();
+			manager.Initialize(640, 480);
+
+			var material = new Material();
+			var nodeMock = new Mock<Node>();
+			manager.SetNodeAtPosition(nodeMock.Object, material, 0, 0);
+
+			var actualMaterial = manager.GetMaterialAtPosition(-1, -1);
+			Assert.That(actualMaterial, Is.Null);
+			material = manager.GetMaterialAtPosition(641, 481);
+			Assert.That(actualMaterial, Is.Null);
+		}
+
 	}
 }
 

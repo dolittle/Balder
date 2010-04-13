@@ -1,5 +1,6 @@
 using System;
 using Balder.Core;
+using Balder.Core.Materials;
 
 namespace Balder.Silverlight.Rendering
 {
@@ -44,6 +45,14 @@ namespace Balder.Silverlight.Rendering
 		UInt32 GetNodeIdentifier(Node node);
 
 		/// <summary>
+		/// Get identifier for a Node
+		/// </summary>
+		/// <param name="node">Node to get identifier for</param>
+		/// <param name="material">Material to combine with node identifier</param>
+		/// <returns>A unique identifier for the node for the current frame</returns>
+		UInt32 GetNodeIdentifier(Node node, Material material);
+
+		/// <summary>
 		/// Set a specific node at a specific pixel position
 		/// </summary>
 		/// <param name="node">Node to set</param>
@@ -52,11 +61,28 @@ namespace Balder.Silverlight.Rendering
 		void SetNodeAtPosition(Node node, int xPosition, int yPosition);
 
 		/// <summary>
+		/// Set a specific node associated with a material at a specific pixel position
+		/// </summary>
+		/// <param name="node">Node to set</param>
+		/// <param name="material">Material to associate at position</param>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		void SetNodeAtPosition(Node node, Material material, int xPosition, int yPosition);
+
+		/// <summary>
 		/// Get node that is at a specific position, if any
 		/// </summary>
 		/// <param name="xPosition">X position</param>
 		/// <param name="yPosition">Y position</param>
 		/// <returns>Node at position, null if there is no node</returns>
 		Node GetNodeAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Get material that is at a specific position, if any
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>Material at position, null if there is no material</returns>
+		Material GetMaterialAtPosition(int xPosition, int yPosition);
 	}
 }

@@ -265,11 +265,13 @@ namespace Balder.Silverlight.Rendering
 			}
 
 			var matrix = world*view;
-			var nodeIdentifier = ((Balder.Silverlight.Display.Display) viewport.Display).NodesPixelBuffer.GetNodeIdentifier(node);
 
 			for (var faceIndex = 0; faceIndex < Faces.Length; faceIndex++)
 			{
 				var face = Faces[faceIndex];
+
+				var nodeIdentifier =
+					((Balder.Silverlight.Display.Display)viewport.Display).NodesPixelBuffer.GetNodeIdentifier(node,face.Material);
 
 				var a = Vertices[face.A];
 				var b = Vertices[face.B];
