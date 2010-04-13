@@ -31,11 +31,18 @@ namespace Balder.Core
 	public abstract partial class Node : INode, ICloneable, ICanPrepare
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
-		public event PreparedEventHandler Prepared = (s) => { };
+
+		public static readonly BubbledEvent<Node, BubbledEventHandler> PreparedEvent =
+			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.Prepared);
+
+		public static readonly BubbledEvent<Node, BubbledEventHandler> ContentPreparedEvent =
+			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ContentPrepared);
+
+		public event BubbledEventHandler Prepared = (s, e) => { };
+		public event BubbledEventHandler ContentPrepared = (s, e) => { };
+
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
-
-		
 
 		private bool _isWired = false;
 		private bool _isPrepared = false;
@@ -45,7 +52,7 @@ namespace Balder.Core
 		protected Node()
 		{
 			InitializeTransform();
-			
+
 			Construct();
 		}
 
@@ -63,7 +70,7 @@ namespace Balder.Core
 			PivotPoint = new Coordinate();
 			Scale = new Coordinate(1f, 1f, 1f);
 			Rotation = new Coordinate();
-			
+
 			World = Matrix.Identity;
 			ActualWorld = Matrix.Identity;
 
@@ -202,32 +209,32 @@ namespace Balder.Core
 
 			if (!World.IsIdentity)
 			{
-				matrix = matrix*World;
+				matrix = matrix * World;
 			}
 
 			if (PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
 			{
 				var negativePivot = PivotPoint.ToVector().Negative();
 				var pivotMatrix = Matrix.CreateTranslation(negativePivot);
-				matrix = matrix*pivotMatrix;
+				matrix = matrix * pivotMatrix;
 			}
 
 			if (Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f)
 			{
 				var scaleMatrix = Matrix.CreateScale(Scale);
-				matrix = matrix*scaleMatrix;
+				matrix = matrix * scaleMatrix;
 			}
 
 			if (Rotation.X != 0f || Rotation.Y != 0f || Rotation.Z != 0f)
 			{
 				var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
-				matrix = matrix*rotationMatrix;
+				matrix = matrix * rotationMatrix;
 			}
 
 			if (Position.X != 0f || Position.Y != 0f || Position.Z != 0f)
 			{
 				var translationMatrix = Matrix.CreateTranslation(Position);
-				matrix = matrix*translationMatrix;
+				matrix = matrix * translationMatrix;
 			}
 
 			ActualWorld = matrix;
@@ -266,11 +273,21 @@ namespace Balder.Core
 
 		public virtual void Prepare()
 		{
-			Prepared(this);
+			OnPrepared();
 		}
 
 		protected virtual void Initialize() { }
 
+
+		protected void OnPrepared()
+		{
+			PreparedEvent.Raise(this, this, new BubbledEventArgs());
+		}
+
+		protected void OnContentPrepared()
+		{
+			ContentPreparedEvent.Raise(this, this, new BubbledEventArgs());
+		}
 
 		#region Internal EventModel
 		internal void OnInitialize()

@@ -37,6 +37,7 @@ namespace Balder.Core.Objects.Geometries
 			{
 				MakeUnique();
 			}
+			ContentPrepared += ChildPrepared;
 		}
 
 
@@ -86,24 +87,29 @@ namespace Balder.Core.Objects.Geometries
 			{
 				if (node is Geometry)
 				{
-					geometryContexts.Add(((Geometry)node).GeometryContext);
+					var context = ((Geometry) node).GeometryContext;
+					if (null != context &&
+						context.VertexCount > 0)
+					{
+						geometryContexts.Add(context);
+					}
 				}
 
 				if (node is IHaveChildren)
 				{
 					GatherGeometries(((IHaveChildren)node).Children, geometryContexts);
 				}
-				if( node is ICanPrepare )
-				{
-					((ICanPrepare)node).Prepared += new PreparedEventHandler(NodePrepared);
-				}
 			}
 		}
 
-		private void NodePrepared(ICanPrepare preparedObject)
+		private void ChildPrepared(INode sender, BubbledEventArgs eventArgs)
 		{
-			InvalidatePrepare();
+			if( !eventArgs.OriginalSource.Equals(this))
+			{
+				InvalidatePrepare();	
+			}
 		}
+
 
 		private void MergeGeometries(IEnumerable<IGeometryContext> geometryContexts)
 		{

@@ -110,6 +110,8 @@ namespace Balder.Silverlight.Controls
 					}
 				}
 			}
+
+			OnContentPrepared();
 		}
 
 		private void HandleItemsSource()

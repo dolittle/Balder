@@ -237,6 +237,8 @@ namespace Balder.Core.Objects.Geometries
 			GeometryHelper.CalculateFaceNormals(GeometryContext);
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
 			InitializeBoundingSphere();
+
+			base.Prepare();
 		}
 
 		private void BuildVertices(int actualSegments, int actualStacks, double startRadian, double radianAdd, float currentY, double currentRadius, float currentV, float uAdd, double radiusAdd, float yAdd, float vAdd)
