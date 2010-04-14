@@ -21,6 +21,7 @@ using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core

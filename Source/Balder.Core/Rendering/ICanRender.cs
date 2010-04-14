@@ -1,7 +1,7 @@
 using Balder.Core.Display;
 using Balder.Core.Math;
 
-namespace Balder.Core
+namespace Balder.Core.Rendering
 {
 	public interface ICanRender
 	{

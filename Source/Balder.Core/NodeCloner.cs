@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using Balder.Core.Execution;
+using Balder.Core.Rendering;
 
 namespace Balder.Core
 {

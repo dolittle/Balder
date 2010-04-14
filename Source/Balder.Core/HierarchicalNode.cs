@@ -22,6 +22,7 @@
 using System.Collections.Specialized;
 using System.Windows.Markup;
 using Balder.Core.Collections;
+using Balder.Core.Rendering;
 
 namespace Balder.Core
 {

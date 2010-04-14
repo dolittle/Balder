@@ -1,6 +1,6 @@
 using Balder.Core.Display;
 
-namespace Balder.Core
+namespace Balder.Core.Rendering
 {
 	public interface ICanPrepare
 	{

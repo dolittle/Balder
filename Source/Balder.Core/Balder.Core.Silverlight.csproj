@@ -105,12 +105,12 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICopyable.cs" />
     <Compile Include="HierarchicalNode.cs" />
-    <Compile Include="ICanBeVisible.cs" />
-    <Compile Include="ICanPrepare.cs" />
-    <Compile Include="ICanRender.cs" />
+    <Compile Include="Rendering\ICanBeVisible.cs" />
+    <Compile Include="Rendering\ICanPrepare.cs" />
+    <Compile Include="Rendering\ICanRender.cs" />
     <Compile Include="IColor.cs" />
-    <Compile Include="IHaveChildren.cs" />
-    <Compile Include="IHaveColor.cs" />
+    <Compile Include="Rendering\IHaveChildren.cs" />
+    <Compile Include="Rendering\IHaveColor.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />

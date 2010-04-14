@@ -21,6 +21,7 @@ using System.ComponentModel;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Core

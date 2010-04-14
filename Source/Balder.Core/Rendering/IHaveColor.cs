@@ -1,4 +1,5 @@
 #region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,8 +16,10 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-namespace Balder.Core
+
+namespace Balder.Core.Rendering
 {
 	public interface IHaveColor
 	{

@@ -22,6 +22,7 @@ using System.Linq;
 using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Rendering;
 
 namespace Balder.Core
 {

@@ -1,6 +1,6 @@
 using Balder.Core.Collections;
 
-namespace Balder.Core
+namespace Balder.Core.Rendering
 {
 	public interface IHaveChildren
 	{

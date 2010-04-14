@@ -23,6 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 using Balder.Silverlight.Rendering.Drawing;
 using Color=Balder.Core.Color;
 using Matrix = Balder.Core.Math.Matrix;
