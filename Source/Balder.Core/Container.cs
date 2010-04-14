@@ -20,6 +20,7 @@
 #endregion
 using System.Linq;
 using Balder.Core.Collections;
+using Balder.Core.Display;
 using Balder.Core.Execution;
 
 namespace Balder.Core
@@ -34,14 +35,14 @@ namespace Balder.Core
 
 		public NodeCollection Children { get; private set; }
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			var query = from i in Items
 						where i is INode
 						select i as INode;
 
 			Children.Merge(query);
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 		public Property<Container, bool> IsVisibleProperty =

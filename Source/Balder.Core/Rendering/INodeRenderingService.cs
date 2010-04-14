@@ -21,6 +21,7 @@
 
 using Balder.Core.Collections;
 using Balder.Core.Display;
+using Balder.Core.Math;
 
 namespace Balder.Core.Rendering
 {

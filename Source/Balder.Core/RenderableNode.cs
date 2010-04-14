@@ -16,7 +16,6 @@
 // limitations under the License.
 //
 #endregion
-
 using System.ComponentModel;
 using Balder.Core.Debug;
 using Balder.Core.Display;
@@ -26,7 +25,7 @@ using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core
 {
-	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender
+	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor
 	{
 		protected RenderableNode()
 		{

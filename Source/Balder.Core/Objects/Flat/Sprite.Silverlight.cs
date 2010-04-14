@@ -1,4 +1,5 @@
 using System;
+using Balder.Core.Display;
 using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Core.Objects.Flat
@@ -13,13 +14,13 @@ namespace Balder.Core.Objects.Flat
 			set { AssetNameProperty.SetValue(this, value); }
 		}
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			if (null != AssetName)
 			{
 				Load(AssetName.ToString());
 			}
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 	}
 }

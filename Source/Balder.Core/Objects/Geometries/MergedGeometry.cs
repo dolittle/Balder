@@ -20,24 +20,37 @@
 #endregion
 
 using System.Collections.Generic;
+using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Objects.Geometries
 {
 	public class MergedGeometry : Node, ICanBeVisible, ICanRender
 	{
+		private readonly INodeRenderingService _renderingService;
+
 		public IGeometryContext GeometryContext { get; set; }
 
 		public MergedGeometry()
+			: this(KernelContainer.Kernel.Get<INodeRenderingService>())
 		{
+			
+		}
+
+		public MergedGeometry(INodeRenderingService renderingService)
+		{
+			_renderingService = renderingService;
+
 			// Todo : This should not be necessary.
 			if (ObjectFactory.IsObjectFactoryInitialized)
 			{
 				MakeUnique();
 			}
 			ContentPrepared += ChildPrepared;
+			IsVisible = true;
 		}
 
 
@@ -58,27 +71,25 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
-			var nodes = new List<INode>();
+			var nodes = new NodeCollection(this);
 			foreach (var item in Items)
 			{
 				if (item is INode)
 				{
 					nodes.Add(item as INode);
-					if( item is Node )
-					{
-						((Node) item).Prepare();
-					}
 				}
 			}
 
+			_renderingService.Prepare(viewport, nodes);
+			_renderingService.PrepareForRendering(viewport, nodes);
 			
 			var geometryContexts = new List<IGeometryContext>();
 			GatherGeometries(nodes, geometryContexts);
 			MergeGeometries(geometryContexts);
 
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 		private void GatherGeometries(IEnumerable<INode> nodes, IList<IGeometryContext> geometryContexts)
@@ -138,14 +149,28 @@ namespace Balder.Core.Objects.Geometries
 			foreach (var geometryContext in geometryContexts)
 			{
 				var vertices = geometryContext.GetVertices();
-				SetVertices(vertexOffset, vertices);
-				var textureCoordinates = geometryContext.GetTextureCoordinates();
-				SetTextureCoordinates(textureCoordinateOffset, textureCoordinates);
-				var faces = geometryContext.GetFaces();
-				SetFaces(vertexOffset, textureCoordinateOffset, faceOffset, faces);
-				var lines = geometryContext.GetLines();
-				SetLines(vertexOffset, lineOffset, lines);
+				if( null != vertices )
+				{
+					SetVertices(vertexOffset, vertices);	
+				}
 
+				var textureCoordinates = geometryContext.GetTextureCoordinates();
+				if (null != textureCoordinates)
+				{
+					SetTextureCoordinates(textureCoordinateOffset, textureCoordinates);
+				}
+
+				var faces = geometryContext.GetFaces();
+				if( null != faces )
+				{
+					SetFaces(vertexOffset, textureCoordinateOffset, faceOffset, faces);	
+				}
+				
+				var lines = geometryContext.GetLines();
+				if( null != lines )
+				{
+					SetLines(vertexOffset, lineOffset, lines);	
+				}
 
 				vertexOffset += geometryContext.VertexCount;
 				textureCoordinateOffset += geometryContext.TextureCoordinateCount;
@@ -199,15 +224,11 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			base.BeforeRendering(viewport, view, projection, world);
-		}
-
 
 		public bool IsVisible { get; set; }
 		public void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
+			GeometryContext.Render(viewport, this, view, projection, world);
 		}
 
 		public void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)

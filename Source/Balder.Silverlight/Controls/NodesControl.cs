@@ -144,12 +144,12 @@ namespace Balder.Silverlight.Controls
 			}
 		}
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			PrepareChildren();
 			HandleItemsSource();
 			HandleModifier();
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)

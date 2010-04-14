@@ -17,12 +17,14 @@
 //
 #endregion
 
+using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 using Balder.Silverlight.Rendering.Drawing;
+using Color=Balder.Core.Color;
 using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.Rendering
@@ -163,7 +165,7 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		public void Render(Viewport viewport, RenderableNode node, Matrix view, Matrix projection, Matrix world)
+		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null == Vertices)
 			{
@@ -187,6 +189,15 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
+		private static Color GetColorFromNode(INode node)
+		{
+			if( node is IHaveColor )
+			{
+				return ((IHaveColor) node).Color;
+			}
+			return Colors.Gray;
+		}
+
 		private static void TransformAndTranslateVertex(ref Vertex vertex, Viewport viewport, Matrix view, Matrix projection)
 		{
 			vertex.Transform(view);
@@ -199,7 +210,7 @@ namespace Balder.Silverlight.Rendering
 			vertex.DepthBufferAdjustedZ = z;
 		}
 
-		private void TransformAndTranslateVertices(Viewport viewport, Node node, Matrix view, Matrix projection, Matrix world)
+		private void TransformAndTranslateVertices(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
 			var localView = (world * view);
 			for (var vertexIndex = 0; vertexIndex < Vertices.Length; vertexIndex++)
@@ -212,13 +223,13 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private void CalculateColorForVertex(ref Vertex vertex, Viewport viewport, Node node)
+		private void CalculateColorForVertex(ref Vertex vertex, Viewport viewport, INode node)
 		{
 			var lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal);
 			vertex.CalculatedColor = vertex.Color.Additive(lightColor);
 		}
 
-		private void RenderVertices(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderVertices(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			for (var vertexIndex = 0; vertexIndex < Vertices.Length; vertexIndex++)
 			{
@@ -229,7 +240,7 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private void CalculateVertexColorsForFace(ref Face face, Viewport viewport, Node node)
+		private void CalculateVertexColorsForFace(ref Face face, Viewport viewport, INode node)
 		{
 			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
 			{
@@ -257,7 +268,7 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private void RenderFaces(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderFaces(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null == Faces)
 			{
@@ -350,9 +361,7 @@ namespace Balder.Silverlight.Rendering
 				}
 				else
 				{
-					var color = node.Color;
-
-
+					var color = GetColorFromNode(node);
 					var aColor = Vertices[face.A].CalculatedColor;
 					var bColor = Vertices[face.B].CalculatedColor;
 					var cColor = Vertices[face.C].CalculatedColor;
@@ -367,7 +376,7 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private void RenderLines(RenderableNode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		private void RenderLines(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null == Lines)
 			{
@@ -386,7 +395,8 @@ namespace Balder.Silverlight.Rendering
 				                (int)xstart,
 				                (int)ystart,
 				                (int)xend,
-				                (int)yend, node.Color);
+				                (int)yend, 
+								GetColorFromNode(node));
 			}
 		}
 	}

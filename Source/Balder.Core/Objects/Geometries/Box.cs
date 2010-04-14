@@ -20,6 +20,7 @@
 #endregion
 
 using System.Collections.Generic;
+using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Math;
@@ -63,7 +64,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		public override void  Prepare()
+		public override void  Prepare(Viewport viewport)
 		{
 			GenerateVertices();
 			GenereateTextureCoordinate();
@@ -73,7 +74,7 @@ namespace Balder.Core.Objects.Geometries
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
 			InitializeBoundingSphere();
 
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 		private void GenerateVertices()

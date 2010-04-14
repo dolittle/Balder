@@ -50,6 +50,6 @@ namespace Balder.Core.Objects.Geometries
 
 		void SetMaterialForAllFaces(Material material);
 
-		void Render(Viewport viewport, RenderableNode geometry, Matrix view, Matrix projection, Matrix world);
+		void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world);
 	}
 }

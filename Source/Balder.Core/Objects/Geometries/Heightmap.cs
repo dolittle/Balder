@@ -21,6 +21,7 @@
 
 using System;
 using System.Windows.Media;
+using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Matrix=Balder.Core.Math.Matrix;
@@ -144,7 +145,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			if (LengthSegments <= 0 || HeightSegments <= 0)
 			{
@@ -154,7 +155,7 @@ namespace Balder.Core.Objects.Geometries
 			PrepareVertices();
 			PrepareFaces();
 
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 

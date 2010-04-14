@@ -33,7 +33,7 @@ namespace Balder.Core.Tests
 		{
 
 			public bool PrepareCalled = false;
-			public override void Prepare()
+			public override void Prepare(Viewport viewport)
 			{
 				PrepareCalled = true;
 			}

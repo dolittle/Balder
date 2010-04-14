@@ -171,7 +171,7 @@ namespace Balder.Silverlight.Tests.Notification
 				throw new NotImplementedException();
 			}
 
-			public Node GetNodeAtPosition(int xPosition, int yPosition)
+			public INode GetNodeAtPosition(int xPosition, int yPosition)
 			{
 				return null;
 			}

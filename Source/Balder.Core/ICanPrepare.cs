@@ -1,8 +1,10 @@
+using Balder.Core.Display;
+
 namespace Balder.Core
 {
 	public interface ICanPrepare
 	{
-		void Prepare();
+		void Prepare(Viewport viewport);
 		void InvalidatePrepare();
 	}
 }

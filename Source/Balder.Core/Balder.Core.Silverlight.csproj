@@ -110,6 +110,7 @@
     <Compile Include="ICanRender.cs" />
     <Compile Include="IColor.cs" />
     <Compile Include="IHaveChildren.cs" />
+    <Compile Include="IHaveColor.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Content\ContentCreator.cs" />

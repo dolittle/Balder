@@ -26,7 +26,6 @@ using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Silverlight.Rendering;
-using Ninject.Core;
 using Color = Balder.Core.Color;
 
 namespace Balder.Silverlight.Display
@@ -101,7 +100,7 @@ namespace Balder.Silverlight.Display
 			RenderingManager.Instance.SignalRendering();
 		}
 
-		public Node GetNodeAtPosition(int xPosition, int yPosition)
+		public INode GetNodeAtPosition(int xPosition, int yPosition)
 		{
 			var node = NodesPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
 			return node;

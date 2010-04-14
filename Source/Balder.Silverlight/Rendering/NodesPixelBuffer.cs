@@ -33,18 +33,18 @@ namespace Balder.Silverlight.Rendering
 	{
 		public class NodeMaterialAssociation
 		{
-			public Node Node { get; private set; }
+			public INode Node { get; private set; }
 			public Material Material { get; private set; }
 			public UInt32 Identifier { get; private set; }
 
-			public NodeMaterialAssociation(Node node, Material material, UInt32 identifier)
+			public NodeMaterialAssociation(INode node, Material material, UInt32 identifier)
 			{
 				Node = node;
 				Material = material;
 				Identifier = identifier;
 			}
 
-			public static UInt64 GetKey(Node node, Material material)
+			public static UInt64 GetKey(INode node, Material material)
 			{
 				var key = (UInt64)node.GetHashCode();
 				if( null != material )
@@ -57,7 +57,7 @@ namespace Balder.Silverlight.Rendering
 
 		private readonly object _lockObject = new object();
 
-		private Dictionary<UInt32, Node> _nodeIdentifiersByIdentifier;
+		private Dictionary<UInt32, INode> _nodeIdentifiersByIdentifier;
 		private Dictionary<UInt32, Material> _materialIdentifiersByIdentifier;
 		private Dictionary<UInt64, NodeMaterialAssociation> _nodeMaterialsByKey;
 		private UInt32 _identifierCounter;
@@ -73,7 +73,7 @@ namespace Balder.Silverlight.Rendering
 			{
 				_width = width;
 				_height = height;
-				_nodeIdentifiersByIdentifier = new Dictionary<UInt32, Node>();
+				_nodeIdentifiersByIdentifier = new Dictionary<UInt32, INode>();
 				_materialIdentifiersByIdentifier = new Dictionary<UInt32, Material>();
 				_nodeMaterialsByKey = new Dictionary<UInt64, NodeMaterialAssociation>();
 				RenderingBuffer = new UInt32[width*height];
@@ -116,12 +116,12 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		public UInt32 GetNodeIdentifier(Node node)
+		public UInt32 GetNodeIdentifier(INode node)
 		{
 			return GetNodeIdentifier(node, null);
 		}
 
-		public UInt32 GetNodeIdentifier(Node node, Material material)
+		public UInt32 GetNodeIdentifier(INode node, Material material)
 		{
 			lock (_lockObject)
 			{
@@ -143,12 +143,12 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		public void SetNodeAtPosition(Node node, int xPosition, int yPosition)
+		public void SetNodeAtPosition(INode node, int xPosition, int yPosition)
 		{
 			SetNodeAtPosition(node, null, xPosition, yPosition);
 		}
 
-		public void SetNodeAtPosition(Node node, Material material, int xPosition, int yPosition)
+		public void SetNodeAtPosition(INode node, Material material, int xPosition, int yPosition)
 		{
 			if( xPosition < 0 || yPosition < 0 || xPosition >= _width || yPosition >= _height )
 			{
@@ -160,7 +160,7 @@ namespace Balder.Silverlight.Rendering
 			RenderingBuffer[offset] = identifier;
 		}
 
-		public Node GetNodeAtPosition(int xPosition, int yPosition)
+		public INode GetNodeAtPosition(int xPosition, int yPosition)
 		{
 			if (xPosition < 0 || yPosition < 0 || xPosition >= _width || yPosition >= _height)
 			{

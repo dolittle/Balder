@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using Balder.Core.Display;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
@@ -77,13 +78,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_groups[CubeSide.Bottom] = new CubeBoxGroup();
 		}
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			GenerateCubeBoxes();
 			OrganizeCubeBoxesInGroups();
 
 			_groups[CubeSide.Top].Rotate(0, 12, 0);
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 

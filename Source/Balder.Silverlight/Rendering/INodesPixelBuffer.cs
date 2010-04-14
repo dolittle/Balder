@@ -42,7 +42,7 @@ namespace Balder.Silverlight.Rendering
 		/// </summary>
 		/// <param name="node">Node to get identifier for</param>
 		/// <returns>A unique identifier for the node for the current frame</returns>
-		UInt32 GetNodeIdentifier(Node node);
+		UInt32 GetNodeIdentifier(INode node);
 
 		/// <summary>
 		/// Get identifier for a Node
@@ -50,7 +50,7 @@ namespace Balder.Silverlight.Rendering
 		/// <param name="node">Node to get identifier for</param>
 		/// <param name="material">Material to combine with node identifier</param>
 		/// <returns>A unique identifier for the node for the current frame</returns>
-		UInt32 GetNodeIdentifier(Node node, Material material);
+		UInt32 GetNodeIdentifier(INode node, Material material);
 
 		/// <summary>
 		/// Set a specific node at a specific pixel position
@@ -58,7 +58,7 @@ namespace Balder.Silverlight.Rendering
 		/// <param name="node">Node to set</param>
 		/// <param name="xPosition">X position</param>
 		/// <param name="yPosition">Y position</param>
-		void SetNodeAtPosition(Node node, int xPosition, int yPosition);
+		void SetNodeAtPosition(INode node, int xPosition, int yPosition);
 
 		/// <summary>
 		/// Set a specific node associated with a material at a specific pixel position
@@ -67,7 +67,7 @@ namespace Balder.Silverlight.Rendering
 		/// <param name="material">Material to associate at position</param>
 		/// <param name="xPosition">X position</param>
 		/// <param name="yPosition">Y position</param>
-		void SetNodeAtPosition(Node node, Material material, int xPosition, int yPosition);
+		void SetNodeAtPosition(INode node, Material material, int xPosition, int yPosition);
 
 		/// <summary>
 		/// Get node that is at a specific position, if any
@@ -75,7 +75,7 @@ namespace Balder.Silverlight.Rendering
 		/// <param name="xPosition">X position</param>
 		/// <param name="yPosition">Y position</param>
 		/// <returns>Node at position, null if there is no node</returns>
-		Node GetNodeAtPosition(int xPosition, int yPosition);
+		INode GetNodeAtPosition(int xPosition, int yPosition);
 
 		/// <summary>
 		/// Get material that is at a specific position, if any

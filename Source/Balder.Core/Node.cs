@@ -271,7 +271,7 @@ namespace Balder.Core
 
 		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
 
-		public virtual void Prepare()
+		public virtual void Prepare(Viewport viewport)
 		{
 			OnPrepared();
 		}
@@ -319,7 +319,7 @@ namespace Balder.Core
 		}
 
 
-		internal void OnPrepare()
+		internal void OnPrepare(Viewport viewport)
 		{
 			PrepareActualWorld();
 			if (IsClone || _isPrepared)
@@ -332,7 +332,7 @@ namespace Balder.Core
 			}
 
 			_isPrepared = true;
-			Prepare();
+			Prepare(viewport);
 		}
 		#endregion
 	}

@@ -10,7 +10,7 @@ namespace Balder.Core.Rendering
 		{
 			foreach (var node in nodes)
 			{
-				Prepare(node);
+				Prepare(viewport, node);
 			}
 		}
 
@@ -39,23 +39,23 @@ namespace Balder.Core.Rendering
 		}
 
 		#region Private Helpers
-		private static void Prepare(INode node)
+		private static void Prepare(Viewport viewport, INode node)
 		{
 			if (node is Node)
 			{
-				((Node)node).OnPrepare();
+				((Node)node).OnPrepare(viewport);
 			}
 
-			PrepareChildren(node);
+			PrepareChildren(viewport, node);
 		}
 
-		private static void PrepareChildren(INode node)
+		private static void PrepareChildren(Viewport viewport, INode node)
 		{
 			if (node is IHaveChildren)
 			{
 				foreach (var child in ((IHaveChildren)node).Children)
 				{
-					Prepare(child);
+					Prepare(viewport, child);
 				}
 			}
 		}

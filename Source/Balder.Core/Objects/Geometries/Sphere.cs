@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Core.Display;
 using Balder.Core.Execution;
 
 namespace Balder.Core.Objects.Geometries
@@ -48,7 +49,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		public override void Prepare()
+		public override void Prepare(Viewport viewport)
 		{
 			var radius = (float)Radius;
 			var segments = Segments;
@@ -137,7 +138,7 @@ namespace Balder.Core.Objects.Geometries
 			GeometryHelper.CalculateVertexNormals(GeometryContext);
 			InitializeBoundingSphere();
 
-			base.Prepare();
+			base.Prepare(viewport);
 		}
 
 

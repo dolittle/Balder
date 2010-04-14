@@ -96,7 +96,7 @@ namespace Balder.Core.Tests.Fakes
 			throw new NotImplementedException();
 		}
 
-		public void Render(Viewport viewport, RenderableNode geometry, Matrix view, Matrix projection, Matrix world)
+		public void Render(Viewport viewport, INode geometry, Matrix view, Matrix projection, Matrix world)
 		{
 			throw new NotImplementedException();
 		}
