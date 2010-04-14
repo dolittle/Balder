@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using System.Threading;
 using System.Windows.Media;
 
 namespace Balder.Silverlight.Rendering
@@ -35,6 +36,11 @@ namespace Balder.Silverlight.Rendering
 
 		private bool _activeRendering;
 		private bool _renderFrame;
+		private Thread _renderingThread;
+		private bool _active;
+
+		private ManualResetEvent _showStartedEvent;
+		
 
 
 		private RenderingManager()
@@ -45,10 +51,17 @@ namespace Balder.Silverlight.Rendering
 		public void Start()
 		{
 			CompositionTarget.Rendering += ShowTimer;
+
+			_showStartedEvent = new ManualResetEvent(false);
+
+			_active = true;
+			_renderingThread = new Thread(RenderingThread);
+			_renderingThread.Start();
 		}
 
 		public void Stop()
 		{
+			_active = false;
 		}
 
 		public void EnablePassiveRendering()
@@ -66,16 +79,28 @@ namespace Balder.Silverlight.Rendering
 			_renderFrame = true;
 		}
 
+		private void RenderingThread()
+		{
+			_showStartedEvent.WaitOne();
+			
+			while( _active )
+			{
+				Clear();
+				Render();
+				
+				Swapped();
+			}
+		}
+
 		private void ShowTimer(object sender, EventArgs e)
 		{
 			Updated();
 
 			if (_activeRendering || _renderFrame)
 			{
-				Render();
-				Swapped();
-				Clear();
+				_showStartedEvent.Set();
 				Show();
+				
 
 				_renderFrame = false;
 			}

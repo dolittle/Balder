@@ -35,7 +35,7 @@ namespace Balder.Core.Execution
 
 		private readonly IObjectFactory _objectFactory;
 		private readonly IAssetLoaderService _assetLoaderService;
-		
+
 		private readonly Dictionary<IDisplay, ActorCollection> _gamesPerDisplay;
 		private readonly IPlatform _platform;
 
@@ -102,29 +102,33 @@ namespace Balder.Core.Execution
 		public void UnregisterGame(Game game)
 		{
 			var displaysToRemove = new List<IDisplay>();
-			foreach( var display in _gamesPerDisplay.Keys )
+			lock (_gamesPerDisplay)
 			{
-				var gameFound = false;
-				var actorCollection = _gamesPerDisplay[display];
-				foreach( var actor in actorCollection )
+				
+				foreach (var display in _gamesPerDisplay.Keys)
 				{
-					if( actor is Game && actor.Equals(game) )
+					var gameFound = false;
+					var actorCollection = _gamesPerDisplay[display];
+					foreach (var actor in actorCollection)
 					{
-						gameFound = true;
-						break;
+						if (actor is Game && actor.Equals(game))
+						{
+							gameFound = true;
+							break;
+						}
 					}
-				}
-				if( gameFound )
-				{
-					actorCollection.Remove(game);
-					if( actorCollection.Count == 0 )
+					if (gameFound)
 					{
-						displaysToRemove.Add(display);
+						actorCollection.Remove(game);
+						if (actorCollection.Count == 0)
+						{
+							displaysToRemove.Add(display);
+						}
 					}
 				}
 			}
 
-			foreach( var display in displaysToRemove )
+			foreach (var display in displaysToRemove)
 			{
 				_gamesPerDisplay.Remove(display);
 				Platform.DisplayDevice.RemoveDisplay(display);
@@ -139,12 +143,15 @@ namespace Balder.Core.Execution
 
 		public void SignalRenderingForObject(object objectToSignalFor)
 		{
-			if( _gamesPerDisplay.Keys.Count == 1 )
+			lock (_gamesPerDisplay)
 			{
-				var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
-				enumerator.MoveNext();
-				var display = enumerator.Current;
-				display.SignalRendering();
+				if (_gamesPerDisplay.Keys.Count == 1)
+				{
+					var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
+					enumerator.MoveNext();
+					var display = enumerator.Current;
+					display.SignalRendering();
+				}
 			}
 		}
 
@@ -164,17 +171,21 @@ namespace Balder.Core.Execution
 
 		private ActorCollection GetGameCollectionForDisplay(IDisplay display)
 		{
-			ActorCollection actorCollection = null;
-			if (_gamesPerDisplay.ContainsKey(display))
+			lock (_gamesPerDisplay)
 			{
-				actorCollection = _gamesPerDisplay[display];
+
+				ActorCollection actorCollection = null;
+				if (_gamesPerDisplay.ContainsKey(display))
+				{
+					actorCollection = _gamesPerDisplay[display];
+				}
+				else
+				{
+					actorCollection = new ActorCollection();
+					_gamesPerDisplay[display] = actorCollection;
+				}
+				return actorCollection;
 			}
-			else
-			{
-				actorCollection = new ActorCollection();
-				_gamesPerDisplay[display] = actorCollection;
-			}
-			return actorCollection;
 		}
 
 
@@ -189,11 +200,14 @@ namespace Balder.Core.Execution
 
 		private void HandleEventsForGames()
 		{
-			foreach (var games in _gamesPerDisplay.Values)
+			lock (_gamesPerDisplay)
 			{
-				foreach (var game in games)
+				foreach (var games in _gamesPerDisplay.Values)
 				{
-					HandleEventsForActor(game);
+					foreach (var game in games)
+					{
+						HandleEventsForActor(game);
+					}
 				}
 			}
 		}
@@ -210,8 +224,8 @@ namespace Balder.Core.Execution
 				actor.ChangeState(ActorState.Run);
 			}
 			if (!actor.HasUpdated &&
-			    HasPlatformRun &&
-			    actor.State == ActorState.Run)
+				HasPlatformRun &&
+				actor.State == ActorState.Run)
 			{
 				actor.OnUpdate();
 			}
@@ -253,25 +267,29 @@ namespace Balder.Core.Execution
 
 		private void CallMethodOnGames(IDisplay display, Action<Game> action, Func<Game, bool> advice)
 		{
-			if (_gamesPerDisplay.ContainsKey(display))
+			lock (_gamesPerDisplay)
 			{
-				var games = _gamesPerDisplay[display];
-				foreach (Game game in games)
+				if (_gamesPerDisplay.ContainsKey(display))
 				{
-					if (null != advice)
+					var games = _gamesPerDisplay[display];
+					foreach (Game game in games)
 					{
-						if (advice(game))
+						if (null != advice)
+						{
+							if (advice(game))
+							{
+								action(game);
+							}
+						}
+						else
 						{
 							action(game);
 						}
 					}
-					else
-					{
-						action(game);
-					}
 				}
 			}
 		}
+
 
 		private void PlatformStateChanged(IPlatform platform, PlatformState state)
 		{

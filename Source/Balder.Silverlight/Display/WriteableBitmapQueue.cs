@@ -24,19 +24,10 @@ using System.Windows.Media.Imaging;
 
 namespace Balder.Silverlight.Display
 {
-	public enum BufferType
-	{
-		Clear,
-		Render,
-		Show
-	}
-
-
 	public class WriteableBitmapQueue
 	{
-
-
-		private readonly Dictionary<BufferType,Queue<WriteableBitmap>> _bufferQueues;
+		private Queue<WriteableBitmap> _renderQueue;
+		private Stack<WriteableBitmap> _showStack;
 		private readonly int _width;
 		private readonly int _height;
 
@@ -44,96 +35,65 @@ namespace Balder.Silverlight.Display
 		{
 			_width = width;
 			_height = height;
-			_bufferQueues = new Dictionary<BufferType, Queue<WriteableBitmap>>();
+			_renderQueue = new Queue<WriteableBitmap>();
+			_showStack = new Stack<WriteableBitmap>();
 
-			EnsureQueueExistence(BufferType.Clear);
-			EnsureQueueExistence(BufferType.Show);
-			EnsureQueueExistence(BufferType.Render);
-
-			/*
 			for( var i=0; i<20; i++ )
 			{
-				CreateAndEnqueue(BufferType.Clear);
-				CreateAndEnqueue(BufferType.Show);
-				CreateAndEnqueue(BufferType.Render);
-			}*/
+				var writeableBitmap = new WriteableBitmap(_width, _height);
+				_renderQueue.Enqueue(writeableBitmap);
+			}
 
+			CurrentRenderBitmap = _renderQueue.Dequeue();
 		}
 
-		private void CreateAndEnqueue(BufferType bufferType)
-		{
-			var writeableBitmap = new WriteableBitmap(_width, _height);
-			Enqueue(bufferType,writeableBitmap);
-		}
 
-		public WriteableBitmap GetClearBitmap()
-		{
-			var bitmap = Dequeue(BufferType.Clear);
-			return bitmap;
-		}
+		public WriteableBitmap CurrentRenderBitmap { get; private set; }
+		public WriteableBitmap CurrentShowBitmap { get; private set; }
+		public WriteableBitmap PreviousShowBitmap { get; private set; }
 
-		public void ClearCompleteForBitmap(WriteableBitmap bitmap)
-		{
-			Enqueue(BufferType.Render,bitmap);
-		}
 
-		public WriteableBitmap GetRenderBitmap()
+		public void RenderDone()
 		{
-			var bitmap = Dequeue(BufferType.Render);
-			return bitmap;
-		}
-
-		public void RenderCompleteForBitmap(WriteableBitmap bitmap)
-		{
-			Enqueue(BufferType.Show, bitmap);
-		}
-
-		public WriteableBitmap GetShowBitmap()
-		{
-			var bitmap = Dequeue(BufferType.Show);
-			return bitmap;
-		}
-
-		public void ShowCompleteForBitmap(WriteableBitmap bitmap)
-		{
-			Enqueue(BufferType.Clear, bitmap);
-		}
-
-		private void EnsureQueueExistence(BufferType bufferType)
-		{
-			if (!_bufferQueues.ContainsKey(bufferType))
+			var current = CurrentRenderBitmap;
+			if (_renderQueue.Count > 0)
 			{
-				_bufferQueues[bufferType] = new Queue<WriteableBitmap>();
+				CurrentRenderBitmap = _renderQueue.Dequeue();
+				_showStack.Push(current);
 			}
 		}
 
-		private WriteableBitmap Dequeue(BufferType bufferType)
+		public WriteableBitmap	GetCurrentShowBitmap()
 		{
-			var queue = _bufferQueues[bufferType];
-			lock (queue)
+			if( _showStack.Count == 0 )
 			{
-				WriteableBitmap bitmap;
-				
-				if (queue.Count == 0) 
-				{
-					bitmap = new WriteableBitmap(_width,_height);
-				}
-				else
-				{
-					bitmap = queue.Dequeue();
-				}
-				
-				
-				return bitmap;
+				return null;
 			}
+			var next = _showStack.Pop();
+			if( _showStack.Count > 0 )
+			{
+				foreach( var bitmap in _showStack )
+				{
+					if( null != PreviousShowBitmap && bitmap.Equals(PreviousShowBitmap))
+					{
+						continue;
+					}
+					_renderQueue.Enqueue(bitmap);
+				}
+				_showStack.Clear();
+			}
+			CurrentShowBitmap = next;
+
+			return next;
 		}
 
-		private void Enqueue(BufferType bufferType, WriteableBitmap bitmap)
+		public void ShowDone()
 		{
-			var queue = _bufferQueues[bufferType];
-			lock (queue)
+			var previous = PreviousShowBitmap;
+			PreviousShowBitmap = CurrentShowBitmap;
+			if (null != previous)
 			{
-				queue.Enqueue(bitmap);
+				_renderQueue.Enqueue(previous);
 			}
 		}
 	}

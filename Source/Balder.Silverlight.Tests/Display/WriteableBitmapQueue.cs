@@ -28,52 +28,6 @@ namespace Balder.Silverlight.Tests.Display
 	[TestFixture]
 	public class WriteableBitmapQueueTest
 	{
-		[Test, SilverlightUnitTest]
-		public void GettingClearBitmapShouldReturnValidWriteableBitmap()
-		{
-			var writeableBitmapQueue = new WriteableBitmapQueue(640, 480);
-			var writeableBitmap = writeableBitmapQueue.GetClearBitmap();
-			Assert.That(writeableBitmap,Is.Not.Null);
-		}
-
-		[Test, SilverlightUnitTest]
-		public void CompletingClearBitmapShouldPutItInRenderQueue()
-		{
-			var writeableBitmapQueue = new WriteableBitmapQueue(640, 480);
-			var clearBitmap = writeableBitmapQueue.GetClearBitmap();
-			writeableBitmapQueue.ClearCompleteForBitmap(clearBitmap);
-			var renderBitmap = writeableBitmapQueue.GetRenderBitmap();
-			Assert.That(renderBitmap,Is.EqualTo(clearBitmap));
-		}
-
-		[Test, SilverlightUnitTest]
-		public void CompletingRenderBitmapShouldPutItInShowQueue()
-		{
-			var writeableBitmapQueue = new WriteableBitmapQueue(640, 480);
-			var renderBitmap = writeableBitmapQueue.GetRenderBitmap();
-			writeableBitmapQueue.RenderCompleteForBitmap(renderBitmap);
-			var showBitmap = writeableBitmapQueue.GetShowBitmap();
-			Assert.That(showBitmap, Is.EqualTo(renderBitmap));
-		}
-
-		[Test, SilverlightUnitTest]
-		public void CompletingShowBitmapShouldPutItInClearQueue()
-		{
-			var writeableBitmapQueue = new WriteableBitmapQueue(640, 480);
-			var renderBitmap = writeableBitmapQueue.GetShowBitmap();
-			writeableBitmapQueue.ShowCompleteForBitmap(renderBitmap);
-			var showBitmap = writeableBitmapQueue.GetClearBitmap();
-			Assert.That(showBitmap, Is.EqualTo(renderBitmap));
-		}
-
-		[Test, SilverlightUnitTest]
-		public void GettingClearBitmapTwiceShouldReturnDifferentBitmaps()
-		{
-			var writeableBitmapQueue = new WriteableBitmapQueue(640, 480);
-			var firstBitmap = writeableBitmapQueue.GetClearBitmap();
-			var secondBitmap = writeableBitmapQueue.GetClearBitmap();
-			Assert.That(firstBitmap,Is.Not.EqualTo(secondBitmap));
-		}
 	}
 }
 

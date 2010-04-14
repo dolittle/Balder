@@ -128,13 +128,16 @@ namespace Balder.Silverlight.Display
 		{
 			if (_initialized)
 			{
-				_currentRenderBitmap = _bitmapQueue.GetRenderBitmap();
-				
-				BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
-				BufferContainer.DepthBuffer = _frontDepthBuffer;
-				BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
-				NodesPixelBuffer.NewFrame();
-				Array.Clear(_frontDepthBuffer,0,_frontDepthBuffer.Length);
+				_currentRenderBitmap = _bitmapQueue.CurrentRenderBitmap;
+					
+				if (null != _currentRenderBitmap)
+				{
+					BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
+					BufferContainer.DepthBuffer = _frontDepthBuffer;
+					BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
+					
+					Array.Clear(_frontDepthBuffer, 0, _frontDepthBuffer.Length);
+				}
 			}
 		}
 
@@ -142,7 +145,7 @@ namespace Balder.Silverlight.Display
 		{
 			if (_initialized)
 			{
-				_bitmapQueue.RenderCompleteForBitmap(_currentRenderBitmap);
+				_bitmapQueue.RenderDone();
 			}
 
 		}
@@ -164,10 +167,11 @@ namespace Balder.Silverlight.Display
 		{
 			if (_initialized)
 			{
-				var clearBitmap = _bitmapQueue.GetClearBitmap();
-				Array.Clear(clearBitmap.Pixels,0,clearBitmap.Pixels.Length);
-
-				_bitmapQueue.ClearCompleteForBitmap(clearBitmap);
+				var clearBitmap = _bitmapQueue.CurrentRenderBitmap;
+				if (null != clearBitmap)
+				{
+					Array.Clear(clearBitmap.Pixels, 0, clearBitmap.Pixels.Length);
+				}
 			}
 		}
 
@@ -178,16 +182,14 @@ namespace Balder.Silverlight.Display
 			{
 				if (null != _image)
 				{
-					if( null != _currentFrontBitmap )
-					{
-						_bitmapQueue.ShowCompleteForBitmap(_currentFrontBitmap);
-					}
-					_currentFrontBitmap = _bitmapQueue.GetShowBitmap();
+					_currentFrontBitmap = _bitmapQueue.GetCurrentShowBitmap();
 					if (null != _currentFrontBitmap)
 					{
 						_image.Source = _currentFrontBitmap;
 						_currentFrontBitmap.Invalidate();
-						
+						_bitmapQueue.ShowDone();
+
+						NodesPixelBuffer.NewFrame();
 					}
 				}
 			}

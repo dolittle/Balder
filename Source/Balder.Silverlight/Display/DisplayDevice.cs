@@ -57,11 +57,14 @@ namespace Balder.Silverlight.Display
 
 		private void RenderingManagerRender()
 		{
-			foreach (var display in _displays)
+			lock (_displays)
 			{
-				display.PrepareRender();
-				Render(display);
-				display.AfterRender();
+				foreach (var display in _displays)
+				{
+					display.PrepareRender();
+					Render(display);
+					display.AfterRender();
+				}
 			}
 		}
 
@@ -83,16 +86,23 @@ namespace Balder.Silverlight.Display
 		private void RenderingManagerUpdated()
 		{
 			CallMethodOnDisplays(d => d.Update());
-			foreach (var display in _displays)
+			lock (_displays)
 			{
-				Update(display);
+				foreach (var display in _displays)
+				{
+					Update(display);
+				}
 			}
 		}
 
 		public IDisplay CreateDisplay()
 		{
 			var display = new Display(_platform);
-			_displays.Add(display);
+			lock( _displays )
+			{
+				_displays.Add(display);	
+			}
+			
 			return display;
 		}
 
@@ -101,15 +111,21 @@ namespace Balder.Silverlight.Display
 		{
 			if (display is Display)
 			{
-				_displays.Remove(display as Display);
+				lock( _displays )
+				{
+					_displays.Remove(display as Display);	
+				}
 			}
 		}
 
 		private void CallMethodOnDisplays(Action<Display> displayAction)
 		{
-			foreach (var display in _displays)
+			lock (_displays)
 			{
-				displayAction(display);
+				foreach (var display in _displays)
+				{
+					displayAction(display);
+				}
 			}
 		}
 
