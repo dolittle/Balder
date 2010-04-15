@@ -201,17 +201,20 @@ namespace Balder.Core
 		public NodeCollection Lights { get { return _lights; } }
 
 
-		internal void Render(Viewport viewport)
+		public void Render(Viewport viewport)
 		{
-			lock( _allNodes )
-			{
-				_nodeRenderingService.Prepare(viewport, _allNodes);	
-			}
-
 			lock( _renderableNodes )
 			{
 				_nodeRenderingService.PrepareForRendering(viewport, _renderableNodes);
 				_nodeRenderingService.Render(viewport, _renderableNodes);
+			}
+		}
+
+		public void Prepare(Viewport viewport)
+		{
+			lock (_allNodes)
+			{
+				_nodeRenderingService.Prepare(viewport, _allNodes);
 			}
 		}
 	}

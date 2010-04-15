@@ -40,6 +40,10 @@ namespace Balder.Silverlight.Rendering
 		public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
 		{
 			var image = sprite.CurrentFrame;
+			if( null == image )
+			{
+				return;
+			}
 
 			var nodeBuffer = BufferContainer.NodeBuffer;
 			var nodeIdentifier =

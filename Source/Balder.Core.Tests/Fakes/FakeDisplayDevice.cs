@@ -27,7 +27,7 @@ namespace Balder.Core.Tests.Fakes
 	{
 		public event DisplayEvent Update = (d) => { };
 		public event DisplayEvent Render = (d) => { };
-
+		public event DisplayEvent Prepare = (d) => { };
 
 
 		public IDisplay CreateDisplay()

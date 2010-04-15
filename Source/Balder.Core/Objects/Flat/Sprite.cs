@@ -56,7 +56,17 @@ namespace Balder.Core.Objects.Flat
 
 		private Image[] _frames;
 
-		public Image CurrentFrame { get { return _frames[0]; } }
+		public Image CurrentFrame
+		{
+			get
+			{
+				if( null == _frames )
+				{
+					return null;
+				}
+				return _frames[0];
+			}
+		}
 
 		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
@@ -78,7 +88,7 @@ namespace Balder.Core.Objects.Flat
 
 			var position = new Vector(0, 0, 0);
 			var actualPosition = new Vector(world[3, 0], world[3, 1], world[3, 2]);
-				//data[12], world.data[13], world.data[14]);
+			//data[12], world.data[13], world.data[14]);
 			var transformedPosition = Vector.Transform(position, world, view);
 			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
 
@@ -96,7 +106,7 @@ namespace Balder.Core.Objects.Flat
 			var xscale = scale;
 			var yscale = scale;
 
-			_spriteContext.Render(viewport,this,view,projection,world,xscale,yscale,0f);
+			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
 		}
 
 		public void Load(string assetName)

@@ -217,6 +217,11 @@ namespace Balder.Core.Display
 			}
 		}
 
+		public void Prepare()
+		{
+			Scene.Prepare(this);
+		}
+
 
 		private static bool WithinEpsilon(float a, float b)
 		{

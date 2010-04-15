@@ -129,5 +129,10 @@ namespace Balder.Core.Execution
 			Camera.Update(Viewport);
 			Viewport.Render();
 		}
+
+		public virtual void OnPrepare()
+		{
+			Viewport.Prepare();
+		}
 	}
 }

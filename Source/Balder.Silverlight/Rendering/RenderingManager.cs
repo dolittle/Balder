@@ -33,6 +33,7 @@ namespace Balder.Silverlight.Rendering
 		public event RenderEventHandler Clear = () => { };
 		public event RenderEventHandler Swapped = () => { };
 		public event RenderEventHandler Show = () => { };
+		public event RenderEventHandler Prepare = () => { };
 
 		private bool _activeRendering;
 		private bool _renderFrame;
@@ -100,6 +101,7 @@ namespace Balder.Silverlight.Rendering
 			{
 				_showStartedEvent.Set();
 				Show();
+				Prepare();
 				
 
 				_renderFrame = false;

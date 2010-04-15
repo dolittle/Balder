@@ -30,6 +30,7 @@ namespace Balder.Silverlight.Display
 	{
 		public event DisplayEvent Update = (d) => { };
 		public event DisplayEvent Render = (d) => { };
+		public event DisplayEvent Prepare = (d) => { };
 
 		private readonly List<Display> _displays;
 		private readonly IPlatform _platform;
@@ -50,6 +51,7 @@ namespace Balder.Silverlight.Display
 				RenderingManager.Instance.Clear += RenderingManagerClear;
 				RenderingManager.Instance.Swapped += RenderingManagerSwapped;
 				RenderingManager.Instance.Updated += RenderingManagerUpdated;
+				RenderingManager.Instance.Prepare += RenderingManagerPrepare;
 				RenderingManager.Instance.Start();
 			}
 		}
@@ -95,9 +97,21 @@ namespace Balder.Silverlight.Display
 			}
 		}
 
+		private void RenderingManagerPrepare()
+		{
+			CallMethodOnDisplays(d => d.Prepare());
+			lock (_displays)
+			{
+				foreach (var display in _displays)
+				{
+					Prepare(display);
+				}
+			}
+		}
+
 		public IDisplay CreateDisplay()
 		{
-			var display = new Display(_platform);
+			var display = new Display(_platform,new NodesPixelBuffer());
 			lock( _displays )
 			{
 				_displays.Add(display);	

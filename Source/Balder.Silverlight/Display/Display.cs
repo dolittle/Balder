@@ -39,21 +39,17 @@ namespace Balder.Silverlight.Display
 
 		private bool _initialized;
 
-		public Display(IPlatform platform)
+		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
 		{
 			_platform = platform;
+			NodesPixelBuffer = nodesPixelBuffer;
 		}
 
 		public void Initialize(int width, int height)
 		{
-			//_framebuffer.Initialize(width, height);
-
-
 			_bitmapQueue = new WriteableBitmapQueue(width,height);
 			_frontDepthBuffer = new UInt32[width*height];
 
-			// Todo : Have this injected
-			NodesPixelBuffer = new NodesPixelBuffer();
 			NodesPixelBuffer.Initialize(width,height);
 
 			BufferContainer.Width = width;
@@ -121,7 +117,7 @@ namespace Balder.Silverlight.Display
 		private UInt32[] _frontDepthBuffer;
 
 		
-		public NodesPixelBuffer NodesPixelBuffer { get; set; }
+		public INodesPixelBuffer NodesPixelBuffer { get; private set; }
 		
 
 		public void PrepareRender()
@@ -193,6 +189,11 @@ namespace Balder.Silverlight.Display
 					}
 				}
 			}
+		}
+
+		public void Prepare()
+		{
+			
 		}
 
 		public void Update()

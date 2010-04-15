@@ -196,7 +196,9 @@ namespace Balder.Core.Execution
 			_platform.StateChanged += PlatformStateChanged;
 			_platform.DisplayDevice.Render += PlatformRender;
 			_platform.DisplayDevice.Update += PlatformUpdate;
+			_platform.DisplayDevice.Prepare += PlatformPrepare;
 		}
+
 
 		private void HandleEventsForGames()
 		{
@@ -264,6 +266,15 @@ namespace Balder.Core.Execution
 				CallMethodOnGames(display, g => g.OnRender(), g => g.State == ActorState.Run);
 			}
 		}
+
+		private void PlatformPrepare(IDisplay display)
+		{
+			if (_platform.CurrentState == PlatformState.Run)
+			{
+				CallMethodOnGames(display, g => g.OnPrepare(), g => g.State == ActorState.Run);
+			}
+		}
+
 
 		private void CallMethodOnGames(IDisplay display, Action<Game> action, Func<Game, bool> advice)
 		{

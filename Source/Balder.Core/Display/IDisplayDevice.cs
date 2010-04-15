@@ -40,6 +40,12 @@ namespace Balder.Core.Display
 		event DisplayEvent Render;
 
 		/// <summary>
+		/// Render event occurs everytime the device is ready for any preparation of data that
+		/// could affect the device and display itself
+		/// </summary>
+		event DisplayEvent Prepare;
+
+		/// <summary>
 		/// Create a display from the display device
 		/// </summary>
 		/// <returns>Created display</returns>

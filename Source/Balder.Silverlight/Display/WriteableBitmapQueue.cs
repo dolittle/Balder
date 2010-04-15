@@ -38,7 +38,7 @@ namespace Balder.Silverlight.Display
 			_renderQueue = new Queue<WriteableBitmap>();
 			_showStack = new Stack<WriteableBitmap>();
 
-			for( var i=0; i<20; i++ )
+			for( var i=0; i<4; i++ )
 			{
 				var writeableBitmap = new WriteableBitmap(_width, _height);
 				_renderQueue.Enqueue(writeableBitmap);
