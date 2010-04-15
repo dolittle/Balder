@@ -413,8 +413,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 				    zStart < 1f
 					)
 				{
-
-
 					var red = (uint)(rStart >> 8) & 0xff;
 					var green = (uint)(gStart >> 8) & 0xff;
 					var blue = (uint)(bStart >> 8) & 0xff;
@@ -424,6 +422,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 					                  (red << 16) |
 					                  (green << 8) |
 					                  blue;
+
 
 
 					framebuffer[offset] = (int)colorAsInt;

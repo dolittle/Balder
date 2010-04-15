@@ -165,6 +165,10 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
+		public void CalculateVertices(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
+		{
+			TransformAndTranslateVertices(viewport, node, view, projection, world);
+		}
 
 		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
@@ -178,9 +182,7 @@ namespace Balder.Silverlight.Rendering
 				_hasPrepared = true;
 			}
 
-
-			TransformAndTranslateVertices(viewport, node, view, projection, world);
-
+			CalculateVertices(viewport, node, view, projection, world);
 			RenderFaces(node, viewport, view, projection, world);
 			RenderLines(node, viewport, view, projection, world);
 

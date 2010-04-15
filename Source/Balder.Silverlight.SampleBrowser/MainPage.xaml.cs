@@ -16,7 +16,7 @@ namespace Balder.Silverlight.SampleBrowser
 		{
 			InitializeComponent();
 
-
+			/*
 			var camera = new Camera();
 			var viewport = new Viewport {Width = 640, Height = 480, View = camera};
 			camera.Position = new Coordinate(0,0,-480);
@@ -30,7 +30,7 @@ namespace Balder.Silverlight.SampleBrowser
 			var result = Vector.Transform(vector, matrix);
 
 			var translated = Vector.Translate(result, camera.ProjectionMatrix, viewport.Width, viewport.Height);
-			
+			*/
 
 			/*
 			var translated = result;
@@ -39,6 +39,7 @@ namespace Balder.Silverlight.SampleBrowser
 			 * */
 			//translated.Z = 0;
 
+			/*
 			var source = translated;
 			source.X = (translated.X - (viewport.Width/2))/viewport.Width;
 			source.Y = -((translated.Y - (viewport.Height/2))/viewport.Height);
@@ -47,7 +48,7 @@ namespace Balder.Silverlight.SampleBrowser
 			var unprojected = viewport.Unproject(translated, camera.ProjectionMatrix, camera.ViewMatrix, world);
 
 			var ray = viewport.GetPickRay((int)translated.X, (int)translated.Y);
-
+			*/
 
 		}
 

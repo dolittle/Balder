@@ -29,6 +29,9 @@ namespace Balder.Core.Execution
 
 	public partial class Game : Actor
 	{
+		// Todo : Figure out a better way to get this initialized
+		private static readonly IRuntime RuntimeForInit = Runtime.Instance;
+
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
 		public event GameEventHandler Update = (s) => { };

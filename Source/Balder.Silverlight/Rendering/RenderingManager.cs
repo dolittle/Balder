@@ -83,7 +83,8 @@ namespace Balder.Silverlight.Rendering
 		private void RenderingThread()
 		{
 			_showStartedEvent.WaitOne();
-			
+
+			return;
 			while( _active )
 			{
 				Clear();
@@ -100,9 +101,12 @@ namespace Balder.Silverlight.Rendering
 			if (_activeRendering || _renderFrame)
 			{
 				_showStartedEvent.Set();
-				Show();
 				Prepare();
-				
+				Clear();
+				Render();
+				Swapped();
+
+				Show();
 
 				_renderFrame = false;
 			}

@@ -34,6 +34,8 @@ namespace Balder.Core.Objects.Geometries
 
 		public IGeometryContext GeometryContext { get; set; }
 
+		private readonly Dictionary<IGeometryContext, INode> _nodes;
+
 		public MergedGeometry()
 			: this(KernelContainer.Kernel.Get<INodeRenderingService>())
 		{
@@ -43,6 +45,7 @@ namespace Balder.Core.Objects.Geometries
 		public MergedGeometry(INodeRenderingService renderingService)
 		{
 			_renderingService = renderingService;
+			_nodes = new Dictionary<IGeometryContext, INode>();
 
 			// Todo : This should not be necessary.
 			if (ObjectFactory.IsObjectFactoryInitialized)
@@ -87,7 +90,7 @@ namespace Balder.Core.Objects.Geometries
 			
 			var geometryContexts = new List<IGeometryContext>();
 			GatherGeometries(nodes, geometryContexts);
-			MergeGeometries(geometryContexts);
+			MergeGeometries(viewport, geometryContexts);
 
 			base.Prepare(viewport);
 		}
@@ -103,6 +106,7 @@ namespace Balder.Core.Objects.Geometries
 						context.VertexCount > 0)
 					{
 						geometryContexts.Add(context);
+						_nodes[context] = node;
 					}
 				}
 
@@ -122,7 +126,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		private void MergeGeometries(IEnumerable<IGeometryContext> geometryContexts)
+		private void MergeGeometries(Viewport viewport, IEnumerable<IGeometryContext> geometryContexts)
 		{
 			var vertexCount = 0;
 			var faceCount = 0;
@@ -146,8 +150,14 @@ namespace Balder.Core.Objects.Geometries
 			var faceOffset = 0;
 			var lineOffset = 0;
 
+			var view = Matrix.Identity;
+			var projection = Matrix.Identity;
+
 			foreach (var geometryContext in geometryContexts)
 			{
+				var node = _nodes[geometryContext];
+				geometryContext.CalculateVertices(viewport, node, view, projection, node.ActualWorld);
+				
 				var vertices = geometryContext.GetVertices();
 				if( null != vertices )
 				{
@@ -185,7 +195,9 @@ namespace Balder.Core.Objects.Geometries
 		{
 			for (var index = 0; index < vertices.Length; index++)
 			{
-				GeometryContext.SetVertex(index + vertexOffset, vertices[index]);
+				var vector = vertices[index].TransformedVector;
+				var vertex = new Vertex(vector.X, vector.Y, vector.Z);
+				GeometryContext.SetVertex(index + vertexOffset, vertex); //vertices[index]);
 			}
 		}
 

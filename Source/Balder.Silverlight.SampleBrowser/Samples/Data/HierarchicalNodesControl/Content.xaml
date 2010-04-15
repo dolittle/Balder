@@ -26,33 +26,39 @@
 				</BeginStoryboard>
 			</EventTrigger>
 		</Grid.Triggers>
-		
+
 		<Execution:Game x:Name="Game" Width="640" Height="480">
-			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
-				<Controls:NodesControl.NodeTemplate>
-					<DataTemplate>
-						<Controls:NodesControl ItemsSource="{Binding Rows}">
-							<Controls:NodesControl.NodeTemplate>
-								<DataTemplate>
-									<Controls:NodesControl ItemsSource="{Binding Columns}">
-										<Controls:NodesControl.NodeTemplate>
-											<DataTemplate>
+			<Geometries:MergedGeometry x:Name="Nodes">
+				<Controls:NodesControl ItemsSource="{Binding Depths}">
+					<Controls:NodesControl.NodeTemplate>
+						<DataTemplate>
+							<Controls:NodesControl ItemsSource="{Binding Rows}">
+								<Controls:NodesControl.NodeTemplate>
+									<DataTemplate>
+										<Controls:NodesControl ItemsSource="{Binding Columns}">
+											<Controls:NodesControl.NodeTemplate>
+												<DataTemplate>
+													<!--
 												<Geometries:Mesh 
 													Color="{Binding Color}" 
 													Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
 													AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Data/HierarchicalNodesControl/Assets/box.ASE"/>
-												<!--<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>-->
-											</DataTemplate>
-										</Controls:NodesControl.NodeTemplate>
-									</Controls:NodesControl>
-								</DataTemplate>
-							</Controls:NodesControl.NodeTemplate>
-						</Controls:NodesControl>
-					</DataTemplate>
-				</Controls:NodesControl.NodeTemplate>
-			</Controls:NodesControl>
+												-->
+													<Geometries:Box Color="{Binding Color}" 
+																Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
+																Dimension="10,10,10"/>
+												</DataTemplate>
+											</Controls:NodesControl.NodeTemplate>
+										</Controls:NodesControl>
+									</DataTemplate>
+								</Controls:NodesControl.NodeTemplate>
+							</Controls:NodesControl>
+						</DataTemplate>
+					</Controls:NodesControl.NodeTemplate>
+				</Controls:NodesControl>
+			</Geometries:MergedGeometry>
 
-			
+
 			<Execution:Game.Camera>
 				<View:Camera Position="30,250,-1000"/>
 			</Execution:Game.Camera>

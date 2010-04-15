@@ -69,44 +69,35 @@ namespace Balder.Silverlight.Rendering
 
 		public void Initialize(int width, int height)
 		{
-			lock (_lockObject)
-			{
-				_width = width;
-				_height = height;
-				_nodeIdentifiersByIdentifier = new Dictionary<UInt32, INode>();
-				_materialIdentifiersByIdentifier = new Dictionary<UInt32, Material>();
-				_nodeMaterialsByKey = new Dictionary<UInt64, NodeMaterialAssociation>();
-				RenderingBuffer = new UInt32[width*height];
-				Reset();
-			}
+			_width = width;
+			_height = height;
+			_nodeIdentifiersByIdentifier = new Dictionary<UInt32, INode>();
+			_materialIdentifiersByIdentifier = new Dictionary<UInt32, Material>();
+			_nodeMaterialsByKey = new Dictionary<UInt64, NodeMaterialAssociation>();
+			RenderingBuffer = new UInt32[width*height];
+			Reset();
 		}
 
 		public UInt32[] RenderingBuffer { get; private set; }
 
 		public void Reset()
 		{
-			lock (_lockObject)
-			{
-				_identifierCounter = 1;
-				NewFrame();
-				Clear();
-			}
+			_identifierCounter = 1;
+			NewFrame();
+			Clear();
 		}
 
 		public void NewFrame()
 		{
-			lock( _lockObject )
+			_currentFrameIdentifierOffset = _identifierCounter;
+			var counter = _identifierCounter + _nodeMaterialsByKey.Count;
+			if( counter < _identifierCounter )
 			{
-				_currentFrameIdentifierOffset = _identifierCounter;
-				var counter = _identifierCounter + _nodeMaterialsByKey.Count;
-				if( counter < _identifierCounter )
-				{
-					Clear();
-				}
-
-				_nodeMaterialsByKey.Clear();
-				_nodeIdentifiersByIdentifier.Clear();
+				Clear();
 			}
+
+			_nodeMaterialsByKey.Clear();
+			_nodeIdentifiersByIdentifier.Clear();
 		}
 
 
@@ -123,7 +114,7 @@ namespace Balder.Silverlight.Rendering
 
 		public UInt32 GetNodeIdentifier(INode node, Material material)
 		{
-			lock (_lockObject)
+			//lock (_lockObject)
 			{
 				var identifier = 0u;
 				var associationKey = NodeMaterialAssociation.GetKey(node, material);

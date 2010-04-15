@@ -96,6 +96,11 @@ namespace Balder.Core.Tests.Fakes
 			throw new NotImplementedException();
 		}
 
+		public void CalculateVertices(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
+		{
+			throw new NotImplementedException();
+		}
+
 		public void Render(Viewport viewport, INode geometry, Matrix view, Matrix projection, Matrix world)
 		{
 			throw new NotImplementedException();
