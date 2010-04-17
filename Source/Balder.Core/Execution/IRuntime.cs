@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Balder.Core.Display;
+using Ninject.Core;
 
 namespace Balder.Core.Execution
 {
@@ -26,6 +27,10 @@ namespace Balder.Core.Execution
 		T CreateGame<T>() where T : Game;
 		Game CreateGame(Type type);
 		void RegisterGame(IDisplay display, Game game);
+		void UnregisterGame(Game game);
 		void WireUpDependencies(object objectToWire);
+		void SignalRenderingForObject(object objectToSignalFor);
+		IPlatform Platform { get; }
+		IKernel Kernel { get; }
 	}
 }

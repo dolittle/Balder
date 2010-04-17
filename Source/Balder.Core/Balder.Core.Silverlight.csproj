@@ -135,7 +135,6 @@
     <Compile Include="Execution\Game.Silverlight.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Composition\IComposer.cs" />
-    <Compile Include="Execution\KernelContainer.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
     <Compile Include="Math\Interpolator.cs" />

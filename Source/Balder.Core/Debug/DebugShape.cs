@@ -29,7 +29,7 @@ namespace Balder.Core.Debug
 
 		public DebugShape()
 		{
-			GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
+			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
 		}
 
 		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)

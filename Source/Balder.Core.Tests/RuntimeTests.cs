@@ -23,6 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Tests.Fakes;
 using CThru.Silverlight;
 using Moq;
+using Ninject.Core;
 using NUnit.Framework;
 using Balder.Core.Execution;
 
@@ -65,7 +66,8 @@ namespace Balder.Core.Tests
 				});
 
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 
 			if (changeStateFirst)
 			{
@@ -113,7 +115,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onRenderCalled = false;
@@ -130,7 +133,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onRenderCalled = false;
@@ -149,7 +153,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onUpdateCalled = false;
@@ -166,7 +171,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onUpdateCalled = false;
@@ -185,7 +191,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onUpdateCalled = false;
@@ -208,7 +215,8 @@ namespace Balder.Core.Tests
 			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var runtime = new Runtime(platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var kernel = new PlatformKernel(platform);
+			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 			var displayMock = new Mock<IDisplay>();
 			var gameMock = new Mock<Game>();
 			var onRenderCalled = false;

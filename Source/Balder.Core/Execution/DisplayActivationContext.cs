@@ -26,14 +26,14 @@ namespace Balder.Core.Execution
 	public class DisplayActivationContext : StandardContext
 	{
 		public DisplayActivationContext(IDisplay display, Type service, IScope scope)
-			: base(KernelContainer.Kernel, service, scope)
+			: base(Runtime.Instance.Kernel, service, scope)
 		{
 			Display = display;
 		}
 
 
 		public DisplayActivationContext(IDisplay display, Type service, IContext parent)
-			: base(KernelContainer.Kernel, service, parent)
+			: base(Runtime.Instance.Kernel, service, parent)
 		{
 			Display = display;
 		}

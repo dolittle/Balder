@@ -49,7 +49,7 @@ namespace Balder.Core.Debug
 				{
 					if( null == _instance )
 					{
-						_instance = ObjectFactory.Instance.Get<IDebugRenderer>();
+						_instance = Runtime.Instance.Kernel.Get<IDebugRenderer>();
 					}
 					return _instance;
 				}

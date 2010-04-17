@@ -51,7 +51,7 @@ namespace Balder.Core
 		/// Construct a scene
 		/// </summary>
 		public Scene()
-			: this(KernelContainer.Kernel.Get<INodeRenderingService>())
+			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 			
 		}

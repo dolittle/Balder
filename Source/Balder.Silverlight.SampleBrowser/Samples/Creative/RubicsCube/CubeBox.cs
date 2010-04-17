@@ -52,7 +52,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var uri = string.Format("/Balder.Silverlight.SampleBrowser;component/Samples/Creative/RubicsCube/Assets/{0}", file);
 
 			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
-			var assetLoaderService = KernelContainer.Kernel.Get<IAssetLoaderService>();
+			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
 			var loader = assetLoaderService.GetLoader<Image>(uri);
 			var images = loader.Load(uri);
 			if (images.Length == 1)

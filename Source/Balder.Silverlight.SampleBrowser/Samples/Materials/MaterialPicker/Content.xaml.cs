@@ -48,7 +48,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 		private Core.Imaging.Image LoadTexture(string uri)
 		{
 			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
-			var assetLoaderService = KernelContainer.Kernel.Get<IAssetLoaderService>();
+			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
 			var loader = assetLoaderService.GetLoader<Core.Imaging.Image>(uri);
 			var images = loader.Load(uri);
 			if( images.Length == 1 )

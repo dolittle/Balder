@@ -30,22 +30,22 @@ namespace Balder.Core.Execution
 	[Singleton]
 	public class Runtime : IRuntime
 	{
-		private static Runtime _instance;
+		private static IRuntime _instance;
 		private static readonly object InstanceLockObject = new object();
 
 		private readonly IObjectFactory _objectFactory;
 		private readonly IAssetLoaderService _assetLoaderService;
 
 		private readonly Dictionary<IDisplay, ActorCollection> _gamesPerDisplay;
-		private readonly IPlatform _platform;
 
 		private bool _hasPlatformInitialized;
 		private bool _hasPlatformLoaded;
 		private bool _hasPlatformRun;
 
-		public Runtime(IPlatform platform, IObjectFactory objectFactory, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		public Runtime(IKernel kernel, IPlatform platform, IObjectFactory objectFactory, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
-			_platform = platform;
+			Kernel = kernel;
+			Platform = platform;
 			_gamesPerDisplay = new Dictionary<IDisplay, ActorCollection>();
 			_objectFactory = objectFactory;
 			_assetLoaderService = assetLoaderService;
@@ -55,7 +55,7 @@ namespace Balder.Core.Execution
 			platform.RegisterAssetLoaders(_assetLoaderService);
 		}
 
-		public static Runtime Instance
+		public static IRuntime Instance
 		{
 			get
 			{
@@ -63,16 +63,24 @@ namespace Balder.Core.Execution
 				{
 					if (null == _instance)
 					{
-						var runtimeImports = new RuntimeImports();
-						KernelContainer.Initialize(runtimeImports.Platform);
-						_instance = KernelContainer.Kernel.Get<IRuntime>() as Runtime;
+						_instance = GetRuntime();
 					}
 					return _instance;
 				}
 			}
 		}
 
-		public IPlatform Platform { get { return _platform; } }
+		private static IRuntime GetRuntime()
+		{
+			var runtimeImports = new RuntimeImports();
+			var kernel = new PlatformKernel(runtimeImports.Platform);
+			return kernel.Get<IRuntime>();
+		}
+
+
+		public IKernel Kernel { get; private set; }
+
+		public IPlatform Platform { get; private set; }
 		public IContentManager ContentManager { get; private set; }
 
 		public DebugInfo DebugInfo { get; set; }
@@ -157,11 +165,11 @@ namespace Balder.Core.Execution
 
 		private void WireUpGame(IDisplay display, Game objectToWire)
 		{
-			if (null != KernelContainer.Kernel)
+			if (null != Kernel)
 			{
-				var scope = KernelContainer.Kernel.CreateScope();
+				var scope = Kernel.CreateScope();
 				var displayActivationContext = new DisplayActivationContext(display, objectToWire.GetType(), scope);
-				KernelContainer.Kernel.Inject(objectToWire, displayActivationContext);
+				Kernel.Inject(objectToWire, displayActivationContext);
 			}
 			else
 			{
@@ -193,10 +201,10 @@ namespace Balder.Core.Execution
 
 		private void InitializePlatformEventHandlers()
 		{
-			_platform.StateChanged += PlatformStateChanged;
-			_platform.DisplayDevice.Render += PlatformRender;
-			_platform.DisplayDevice.Update += PlatformUpdate;
-			_platform.DisplayDevice.Prepare += PlatformPrepare;
+			Platform.StateChanged += PlatformStateChanged;
+			Platform.DisplayDevice.Render += PlatformRender;
+			Platform.DisplayDevice.Update += PlatformUpdate;
+			Platform.DisplayDevice.Prepare += PlatformPrepare;
 		}
 
 
@@ -239,7 +247,7 @@ namespace Balder.Core.Execution
 			{
 				return true;
 			}
-			if (_platform.CurrentState >= state)
+			if (Platform.CurrentState >= state)
 			{
 				return true;
 			}
@@ -253,7 +261,7 @@ namespace Balder.Core.Execution
 
 		private void PlatformUpdate(IDisplay display)
 		{
-			if (_platform.CurrentState == PlatformState.Run)
+			if (Platform.CurrentState == PlatformState.Run)
 			{
 				CallMethodOnGames(display, g => g.OnUpdate(), g => g.State == ActorState.Run);
 			}
@@ -261,7 +269,7 @@ namespace Balder.Core.Execution
 
 		private void PlatformRender(IDisplay display)
 		{
-			if (_platform.CurrentState == PlatformState.Run)
+			if (Platform.CurrentState == PlatformState.Run)
 			{
 				CallMethodOnGames(display, g => g.OnRender(), g => g.State == ActorState.Run);
 			}
@@ -269,7 +277,7 @@ namespace Balder.Core.Execution
 
 		private void PlatformPrepare(IDisplay display)
 		{
-			if (_platform.CurrentState == PlatformState.Run)
+			if (Platform.CurrentState == PlatformState.Run)
 			{
 				CallMethodOnGames(display, g => g.OnPrepare(), g => g.State == ActorState.Run);
 			}

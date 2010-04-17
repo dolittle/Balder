@@ -34,24 +34,8 @@ namespace Balder.Core.Objects.Flat
 
 		public Sprite()
 		{
-			// Todo : This should not be necessary.
-			if (ObjectFactory.IsObjectFactoryInitialized)
-			{
-				_spriteContext = ObjectFactory.Instance.Get<ISpriteContext>();
-			}
+			_spriteContext = Runtime.Instance.Kernel.Get<ISpriteContext>();
 		}
-
-		protected override void Initialize()
-		{
-			// Todo : This should not be necessary.
-			if (null == _spriteContext)
-			{
-				_spriteContext = ObjectFactory.Instance.Get<ISpriteContext>();
-			}
-
-			base.Initialize();
-		}
-
 
 
 		private Image[] _frames;

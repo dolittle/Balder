@@ -37,7 +37,7 @@ namespace Balder.Core.Objects.Geometries
 		private readonly Dictionary<IGeometryContext, INode> _nodes;
 
 		public MergedGeometry()
-			: this(KernelContainer.Kernel.Get<INodeRenderingService>())
+			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 			
 		}
@@ -47,30 +47,16 @@ namespace Balder.Core.Objects.Geometries
 			_renderingService = renderingService;
 			_nodes = new Dictionary<IGeometryContext, INode>();
 
-			// Todo : This should not be necessary.
-			if (ObjectFactory.IsObjectFactoryInitialized)
-			{
-				MakeUnique();
-			}
+			MakeUnique();
 			ContentPrepared += ChildPrepared;
 			IsVisible = true;
 		}
 
 
-		protected override void Initialize()
-		{
-			// Todo : This should not be necessary.
-			if (null == GeometryContext)
-			{
-				MakeUnique();
-			}
-
-			base.Initialize();
-		}
 
 		public void MakeUnique()
 		{
-			GeometryContext = ObjectFactory.Instance.Get<IGeometryContext>();
+			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
 		}
 
 
