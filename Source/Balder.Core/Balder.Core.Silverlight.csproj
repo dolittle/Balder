@@ -104,6 +104,7 @@
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\Messenger.cs" />
     <Compile Include="HierarchicalNode.cs" />
     <Compile Include="Rendering\ICanBeVisible.cs" />
     <Compile Include="Rendering\ICanPrepare.cs" />
