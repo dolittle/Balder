@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Core.Execution;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Execution
@@ -26,7 +27,35 @@ namespace Balder.Core.Tests.Execution
 	[TestFixture]
 	public class MessengerTests
 	{
+		[Test]
+		public void DefaultContextShouldExist()
+		{
+			Assert.That(Messenger.DefaultContext, Is.Not.Null);
+		}
+
+		[Test]
+		public void SpecifyingContextShouldReturnAContext()
+		{
+			var context = Messenger.Context(new object());
+			Assert.That(context,Is.Not.Null);
+		}
+
+		[Test]
+		public void GettingContextForSameObjectTwiceShouldReturnSameContext()
+		{
+			var obj = new object();
+			var firstContext = Messenger.Context(obj);
+			var secondContext = Messenger.Context(obj);
+			Assert.That(secondContext, Is.SameAs(firstContext));
+		}
 		
+		[Test]
+		public void GettingContextForObjectShouldNotReturnDefaultContext()
+		{
+			var obj = new object();
+			var context = Messenger.Context(obj);
+			Assert.That(context, Is.Not.SameAs(Messenger.DefaultContext));
+		}
 	}
 }
 

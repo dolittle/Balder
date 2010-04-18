@@ -149,6 +149,8 @@
     <Compile Include="Content\ContentManagerTests.cs" />
     <Compile Include="Composition\ComposerTests.cs" />
     <Compile Include="Execution\BubbledEventTests.cs" />
+    <Compile Include="Execution\MessengerContextTests.cs" />
+    <Compile Include="Execution\MessengerSubscriptionTests.cs" />
     <Compile Include="Execution\MessengerTests.cs" />
     <Compile Include="Extensions\ViewportExtensionsTests.cs" />
     <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />

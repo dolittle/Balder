@@ -19,54 +19,48 @@
 
 #endregion
 
-using System;
+using System.Collections.Generic;
 
 namespace Balder.Core.Execution
 {
-	public class MessengerSubscription<T>
-	{
-		private WeakReference _action;
-
-		public MessengerSubscription(Action<T> actionToCall)
-		{
-			_action = new WeakReference(actionToCall);
-		}
-
-		public void Notify(T message)
-		{
-			var action = _action.Target as Action<T>;
-			if( null != action )
-			{
-				action(message);
-			}
-		}
-	}
-
-	public class MessengerContext
-	{
-		public void ListenTo<T>(T message, Action<T> actionToCall)
-		{
-			
-		}
-
-		public void Send<T>(T message)
-		{
-			
-		}
-	}
-
+	/// <summary>
+	/// Handles decoupled messaging
+	/// </summary>
 	public class Messenger
 	{
-		public Messenger()
+		private static readonly Dictionary<object, MessengerContext> Contexts;
+
+		static Messenger()
 		{
 			DefaultContext = new MessengerContext();
+			Contexts = new Dictionary<object, MessengerContext>();
 		}
 
-		public MessengerContext DefaultContext { get; private set; }
 
-		public MessengerContext Context(object context)
+		/// <summary>
+		/// Gets the default messenger context
+		/// </summary>
+		public static MessengerContext DefaultContext { get; private set; }
+
+
+		/// <summary>
+		/// Get a specific context for an object instance
+		/// </summary>
+		/// <param name="obj">Object instance to get context for</param>
+		/// <returns>Messenger context</returns>
+		public static MessengerContext Context(object obj)
 		{
-			
+			MessengerContext context = null;
+			if( Contexts.ContainsKey(obj))
+			{
+				context = Contexts[obj];
+			} else
+			{
+				context = new MessengerContext();
+				Contexts[obj] = context;
+			}
+
+			return context;
 		}
 	}
 }
