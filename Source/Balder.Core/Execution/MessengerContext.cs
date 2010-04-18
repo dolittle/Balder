@@ -23,10 +23,17 @@ using System.Collections.Generic;
 
 namespace Balder.Core.Execution
 {
+	/// <summary>
+	/// Represents a context for the messenger in which one can publish and subscribe
+	/// to messages from
+	/// </summary>
 	public class MessengerContext
 	{
 		private readonly Dictionary<Type, object> _messageSubscriptions;
 
+		/// <summary>
+		/// Creates a messenger context
+		/// </summary>
 		public MessengerContext()
 		{
 			_messageSubscriptions = new Dictionary<Type, object>();
@@ -47,12 +54,24 @@ namespace Balder.Core.Execution
 			return subscription;
 		}
 
+
+		/// <summary>
+		/// Adds a subscription for a specified message
+		/// </summary>
+		/// <typeparam name="T">Type of message to subscribe to</typeparam>
+		/// <param name="actionToCall">Action to call when a message is received</param>
 		public void ListenTo<T>(Action<T> actionToCall)
 		{
 			var subscription = GetSubscription<T>();
 			subscription.AddListener(actionToCall);
 		}
 
+
+		/// <summary>
+		/// Sends a specific message to any listeners
+		/// </summary>
+		/// <typeparam name="T">Type of message to send</typeparam>
+		/// <param name="message">Actual message to send</param>
 		public void Send<T>(T message)
 		{
 			var subscription = GetSubscription<T>();

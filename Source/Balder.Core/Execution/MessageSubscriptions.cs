@@ -23,21 +23,37 @@ using System.Collections.Generic;
 
 namespace Balder.Core.Execution
 {
+	/// <summary>
+	/// Represents all subscriptions for a message type
+	/// </summary>
+	/// <typeparam name="T">Type of message it holds subscriptions for</typeparam>
 	public class MessageSubscriptions<T>
 	{
 		private readonly List<WeakReference> _actions;
 
+		/// <summary>
+		/// Creates a message subscriptions container
+		/// </summary>
 		public MessageSubscriptions()
 		{
 			_actions = new List<WeakReference>();
 		}
 
+		/// <summary>
+		/// Add a listener in the subscription
+		/// </summary>
+		/// <param name="listener">Action to call when subsriptions are notified</param>
 		public void AddListener(Action<T> listener)
 		{
 			var reference = new WeakReference(listener);
 			_actions.Add(reference);
 		}
 
+
+		/// <summary>
+		/// Notify to the subscriptions with a specific message
+		/// </summary>
+		/// <param name="message">Message to notify with</param>
 		public void Notify(T message)
 		{
 			foreach( var referenceToAction in _actions )
