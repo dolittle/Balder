@@ -10,7 +10,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("DoLittle Studios")]
 [assembly: AssemblyProduct("Balder.Silverlight.Tests")]
-[assembly: AssemblyCopyright("Copyright © DoLittle Studios 2007-2009")]
+[assembly: AssemblyCopyright("Copyright © DoLittle Studios 2007-2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
