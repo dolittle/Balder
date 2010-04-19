@@ -21,6 +21,7 @@
 
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -60,7 +61,10 @@ namespace Balder.Core.Objects.Geometries
 			int ySegment = 0;
 
 			var vertexCount = (int)(xSegments) * (int)ySegments;
-			GeometryContext.AllocateVertices(vertexCount);
+
+			var geometryDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
+
+			geometryDetailLevel.AllocateVertices(vertexCount);
 
 			Vertex vertex;
 			var vertexIndex = 0;
@@ -76,19 +80,19 @@ namespace Balder.Core.Objects.Geometries
 					var x = r * System.Math.Cos(segmentRadius * xSegment);
 
 					vertex = new Vertex((float)x, (float)y, (float)z);
-					GeometryContext.SetVertex(vertexIndex, vertex);
+					geometryDetailLevel.SetVertex(vertexIndex, vertex);
 
 					vertexIndex++;
 				}
 			}
 
 			vertex = new Vertex(0, radius, 0);
-			GeometryContext.SetVertex(vertexIndex++, vertex);
+			geometryDetailLevel.SetVertex(vertexIndex++, vertex);
 			vertex = new Vertex(0, -1 * radius, 0);
-			GeometryContext.SetVertex(vertexIndex, vertex);
+			geometryDetailLevel.SetVertex(vertexIndex, vertex);
 
 			var faceCount = ((ySegments * segments) * 2);
-			GeometryContext.AllocateFaces(faceCount);
+			geometryDetailLevel.AllocateFaces(faceCount);
 
 			var faceIndex = 0;
 
@@ -102,14 +106,14 @@ namespace Balder.Core.Objects.Geometries
 							index,
 							index + segments,
 							index + 1 % segments + segments);
-					GeometryContext.SetFace(faceIndex, face);
+					geometryDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
 					face = new Face(
 							index + 1 % segments + segments,
 							index + 1 % segments,
 							index);
-					GeometryContext.SetFace(faceIndex, face);
+					geometryDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 				}
 			}
@@ -134,9 +138,9 @@ namespace Balder.Core.Objects.Geometries
 				GeometryContext.SetFace(faceIndex, face);
 			}*/
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
-			InitializeBoundingSphere();
+			GeometryHelper.CalculateFaceNormals(geometryDetailLevel);
+			GeometryHelper.CalculateVertexNormals(geometryDetailLevel);
+			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}

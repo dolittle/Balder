@@ -235,9 +235,9 @@ namespace Balder.Core.Objects.Geometries
 				BuildEnds(actualSegments, actualStacks, nextSegmentOffset, faceSegments, faceOffset, additionalFaceSegments, faceIndex);
 			}
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
-			InitializeBoundingSphere();
+			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
+			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}
@@ -248,8 +248,8 @@ namespace Balder.Core.Objects.Geometries
 			var vertexCount = (actualStacks * (actualSegments + 1));
 			var vertexIndex = 0;
 
-			GeometryContext.AllocateVertices(vertexCount);
-			GeometryContext.AllocateTextureCoordinates(vertexCount);
+			FullDetailLevel.AllocateVertices(vertexCount);
+			FullDetailLevel.AllocateTextureCoordinates(vertexCount);
 
 			for (var y = 0; y < actualStacks; y++)
 			{
@@ -258,8 +258,8 @@ namespace Balder.Core.Objects.Geometries
 
 				var centerTextureCoordinate = new TextureCoordinate(0.5f, 0.5f);
 				vertex = new Vertex(0, currentY, 0);
-				GeometryContext.SetVertex(vertexIndex, vertex);
-				GeometryContext.SetTextureCoordinate(vertexIndex, centerTextureCoordinate);
+				FullDetailLevel.SetVertex(vertexIndex, vertex);
+				FullDetailLevel.SetTextureCoordinate(vertexIndex, centerTextureCoordinate);
 				vertexIndex++;
 
 
@@ -269,10 +269,10 @@ namespace Balder.Core.Objects.Geometries
 					var currentZ = (float)(System.Math.Cos(currentRadian) * currentRadius);
 
 					vertex = new Vertex(currentX, currentY, currentZ);
-					GeometryContext.SetVertex(vertexIndex, vertex);
+					FullDetailLevel.SetVertex(vertexIndex, vertex);
 
 					var textureCoordinate = new TextureCoordinate(1f - currentU, currentV);
-					GeometryContext.SetTextureCoordinate(vertexIndex, textureCoordinate);
+					FullDetailLevel.SetTextureCoordinate(vertexIndex, textureCoordinate);
 
 					vertexIndex++;
 					currentRadian += radianAdd;
@@ -305,7 +305,7 @@ namespace Balder.Core.Objects.Geometries
 				faceCount -= 2;
 			}
 
-			GeometryContext.AllocateFaces(faceCount);
+			FullDetailLevel.AllocateFaces(faceCount);
 
 			Face face;
 			for (var y = 0; y < actualStacks - 1; y++)
@@ -329,7 +329,7 @@ namespace Balder.Core.Objects.Geometries
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
 					face = new Face(nextSegmentVertexOffset + nextX,
@@ -338,7 +338,7 @@ namespace Balder.Core.Objects.Geometries
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 
 					faceIndex++;
 				}
@@ -360,7 +360,7 @@ namespace Balder.Core.Objects.Geometries
 				face.DiffuseA = face.A;
 				face.DiffuseB = face.B;
 				face.DiffuseC = face.C;
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
 
@@ -375,7 +375,7 @@ namespace Balder.Core.Objects.Geometries
 				face.DiffuseA = face.A;
 				face.DiffuseB = face.B;
 				face.DiffuseC = face.C;
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
 		}

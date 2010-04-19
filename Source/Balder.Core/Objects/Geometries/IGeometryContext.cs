@@ -16,41 +16,18 @@
 // limitations under the License.
 //
 #endregion
+
 using Balder.Core.Display;
 using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Objects.Geometries
 {
 	public interface IGeometryContext
 	{
-		int FaceCount { get; }
-		int VertexCount { get; }
-		int TextureCoordinateCount { get; }
-		int LineCount { get; }
-
-		void AllocateFaces(int count);
-		void SetFace(int index,Face face);
-		Face[] GetFaces();
-
-		void AllocateVertices(int count);
-		void SetVertex(int index,Vertex vertex);
-		Vertex[] GetVertices();
-
-		void AllocateLines(int count);
-		void SetLine(int index, Line line);
-		Line[] GetLines();
-		
-		void AllocateTextureCoordinates(int count);
-		void SetTextureCoordinate(int index,TextureCoordinate textureCoordinate);
-		void SetFaceTextureCoordinateIndex(int index, int a, int b, int c);
-		TextureCoordinate[] GetTextureCoordinates();
-
-		void SetMaterial(int index, Material material);
-
 		void SetMaterialForAllFaces(Material material);
-
-		void CalculateVertices(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world);
-		void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world);
+		void GenerateDetailLevel(DetailLevel targetLevel, DetailLevel sourceLevel);
+		IGeometryDetailLevel GetDetailLevel(DetailLevel level);
+		void Render(Viewport viewport, INode node, DetailLevel detailLevel);
 	}
 }

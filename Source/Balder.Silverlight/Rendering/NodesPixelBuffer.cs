@@ -23,12 +23,14 @@ using System;
 using System.Collections.Generic;
 using Balder.Core;
 using Balder.Core.Materials;
+using Ninject.Core;
 
 namespace Balder.Silverlight.Rendering
 {
 	/// <summary>
 	/// Represents a concrete implementation of a nodes pixelbuffer
 	/// </summary>
+	[Singleton]	// TODO: This should be available in the GeometryDetailLevel as an injected property - That is why its a Singleton for now
 	public class NodesPixelBuffer : INodesPixelBuffer
 	{
 		public class NodeMaterialAssociation
@@ -66,7 +68,6 @@ namespace Balder.Silverlight.Rendering
 		private UInt32 _currentFrameIdentifierOffset;
 		
 		
-
 		public void Initialize(int width, int height)
 		{
 			_width = width;

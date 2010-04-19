@@ -125,11 +125,13 @@
     <Compile Include="Notification\ViewModelModule.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Display\Display.cs" />
+    <Compile Include="Rendering\BoundingGeometryDetailLevel.cs" />
     <Compile Include="Rendering\BufferContainer.cs" />
     <Compile Include="Rendering\Drawing\FlatTriangle.cs" />
     <Compile Include="Rendering\Drawing\FlatTriangleAdditive.cs" />
     <Compile Include="Rendering\Drawing\GouraudTriangle.cs" />
     <Compile Include="Rendering\Drawing\Point.cs" />
+    <Compile Include="Rendering\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\INodesPixelBuffer.cs" />
     <Compile Include="Rendering\NodesPixelBuffer.cs" />
     <Compile Include="Rendering\ShapeContext.cs" />

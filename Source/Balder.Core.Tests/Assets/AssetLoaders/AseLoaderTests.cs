@@ -26,6 +26,7 @@ using Balder.Core.Assets.AssetLoaders;
 using Balder.Core.Content;
 using Balder.Core.Imaging;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 using Balder.Core.Tests.Fakes;
 using CThru.Silverlight;
 using Moq;
@@ -102,8 +103,9 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		public void SingleObjectFileShouldHaveVerticesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBox");
+			var geometryDetailLevel = geometries[0].GeometryContext.GetDetailLevel(DetailLevel.Full);
 
-			var vertices = geometries[0].GeometryContext.GetVertices();
+			var vertices = geometryDetailLevel.GetVertices();
 			Assert.That(vertices.Length, Is.EqualTo(8));
 
 			Assert.That(vertices[0].Vector.X, Is.EqualTo(-10f));
@@ -119,8 +121,8 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		public void SingleObjectFileShouldHaveFacesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBox");
-
-			var faces = geometries[0].GeometryContext.GetFaces();
+			var geometryDetailLevel = geometries[0].GeometryContext.GetDetailLevel(DetailLevel.Full);
+			var faces = geometryDetailLevel.GetFaces();
 			Assert.That(faces.Length, Is.EqualTo(12));
 
 			Assert.That(faces[0].A, Is.EqualTo(0));
@@ -132,14 +134,14 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		public void SingleObjectFileWithTextureInfoShouldHaveTextureCoordinatesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBoxWithDiffuseMaterial");
-
-			var textureCoordinates = geometries[0].GeometryContext.GetTextureCoordinates();
+			var geometryDetailLevel = geometries[0].GeometryContext.GetDetailLevel(DetailLevel.Full);
+			var textureCoordinates = geometryDetailLevel.GetTextureCoordinates();
 			Assert.That(textureCoordinates.Length, Is.EqualTo(36));
 
 			Assert.That(textureCoordinates[0].U, Is.EqualTo(0.9995f));
 			Assert.That(textureCoordinates[0].V, Is.EqualTo(0.9995f));
 
-			var faces = geometries[0].GeometryContext.GetFaces();
+			var faces = geometryDetailLevel.GetFaces();
 			Assert.That(faces[0].DiffuseA, Is.EqualTo(8));
 			Assert.That(faces[0].DiffuseB, Is.EqualTo(9));
 			Assert.That(faces[0].DiffuseC, Is.EqualTo(10));

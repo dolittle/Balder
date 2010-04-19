@@ -28,6 +28,7 @@ using Balder.Core.Exceptions;
 using Balder.Core.Imaging;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Assets.AssetLoaders
 {
@@ -107,9 +108,11 @@ namespace Balder.Core.Assets.AssetLoaders
 				var numVertices = Convert.ToInt32(mesh.Attribute("num_vertices").Value);
 				var numFaces = Convert.ToInt32(mesh.Attribute("num_faces").Value);
 
-				geometry.GeometryContext.AllocateVertices(numVertices);
-				geometry.GeometryContext.AllocateTextureCoordinates(numVertices);
-				geometry.GeometryContext.AllocateFaces(numFaces);
+				var geometryDetaillevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
+
+				geometryDetaillevel.AllocateVertices(numVertices);
+				geometryDetaillevel.AllocateTextureCoordinates(numVertices);
+				geometryDetaillevel.AllocateFaces(numFaces);
 
 				var vertices = mesh.Elements("v");
 
@@ -125,10 +128,10 @@ namespace Balder.Core.Assets.AssetLoaders
 					v = 1f - v;
 
 					var actualVertex = new Vertex(x, y, z);
-					geometry.GeometryContext.SetVertex(index,actualVertex);
+					geometryDetaillevel.SetVertex(index, actualVertex);
 
 					var textureCoordinate = new TextureCoordinate(u, v);
-					geometry.GeometryContext.SetTextureCoordinate(index,textureCoordinate);
+					geometryDetaillevel.SetTextureCoordinate(index, textureCoordinate);
 				}
 
 				var faces = mesh.Elements("f");
@@ -151,7 +154,7 @@ namespace Balder.Core.Assets.AssetLoaders
 					                 		DiffuseC = c,
 					                 		Material = materials[materialIndex]
 					                 	};
-					geometry.GeometryContext.SetFace(index,actualFace);
+					geometryDetaillevel.SetFace(index, actualFace);
 				}
 			}
 

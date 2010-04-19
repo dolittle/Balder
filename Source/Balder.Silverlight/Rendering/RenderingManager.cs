@@ -35,7 +35,6 @@ namespace Balder.Silverlight.Rendering
 		public event RenderEventHandler Show = () => { };
 		public event RenderEventHandler Prepare = () => { };
 
-		private bool _activeRendering;
 		private bool _renderFrame;
 		private Thread _renderingThread;
 		private bool _active;
@@ -45,7 +44,6 @@ namespace Balder.Silverlight.Rendering
 
 		private RenderingManager()
 		{
-			_activeRendering = true;
 		}
 
 		public void Start()
@@ -62,16 +60,6 @@ namespace Balder.Silverlight.Rendering
 		public void Stop()
 		{
 			_active = false;
-		}
-
-		public void EnablePassiveRendering()
-		{
-			_activeRendering = false;
-		}
-
-		public void EnableActiveRendering()
-		{
-			_activeRendering = true;
 		}
 
 		public void SignalRendering()
@@ -97,18 +85,13 @@ namespace Balder.Silverlight.Rendering
 		{
 			Updated();
 
-			if (_activeRendering || _renderFrame)
-			{
-				_showStartedEvent.Set();
-				Prepare();
-				Clear();
-				Render();
-				Swapped();
+			_showStartedEvent.Set();
+			Prepare();
+			Clear();
+			Render();
+			Swapped();
 
-				Show();
-
-				_renderFrame = false;
-			}
+			Show();
 		}
 	}
 }

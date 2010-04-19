@@ -32,9 +32,10 @@ namespace Balder.Core.Objects.Geometries
 	{
 		private readonly INodeRenderingService _renderingService;
 
-		public IGeometryContext GeometryContext { get; set; }
+		private IGeometryContext _geometryContext { get; set; }
+		private IGeometryDetailLevel _geometryDetailLevel { get; set; }
 
-		private readonly Dictionary<IGeometryContext, INode> _nodes;
+		private readonly Dictionary<IGeometryDetailLevel, INode> _nodes;
 
 		public MergedGeometry()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
@@ -45,7 +46,7 @@ namespace Balder.Core.Objects.Geometries
 		public MergedGeometry(INodeRenderingService renderingService)
 		{
 			_renderingService = renderingService;
-			_nodes = new Dictionary<IGeometryContext, INode>();
+			_nodes = new Dictionary<IGeometryDetailLevel, INode>();
 
 			MakeUnique();
 			ContentPrepared += ChildPrepared;
@@ -56,7 +57,8 @@ namespace Balder.Core.Objects.Geometries
 
 		public void MakeUnique()
 		{
-			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
+			_geometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
+			_geometryDetailLevel = _geometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 
 
@@ -74,31 +76,35 @@ namespace Balder.Core.Objects.Geometries
 			_renderingService.Prepare(viewport, nodes);
 			_renderingService.PrepareForRendering(viewport, nodes);
 			
-			var geometryContexts = new List<IGeometryContext>();
-			GatherGeometries(nodes, geometryContexts);
-			MergeGeometries(viewport, geometryContexts);
+			var geometryDetailLevels = new List<IGeometryDetailLevel>();
+			GatherGeometries(nodes, geometryDetailLevels);
+			MergeGeometries(viewport, geometryDetailLevels);
 
 			base.Prepare(viewport);
 		}
 
-		private void GatherGeometries(IEnumerable<INode> nodes, IList<IGeometryContext> geometryContexts)
+		private void GatherGeometries(IEnumerable<INode> nodes, ICollection<IGeometryDetailLevel> geometryDetailLevels)
 		{
 			foreach (var node in nodes)
 			{
 				if (node is Geometry)
 				{
 					var context = ((Geometry) node).GeometryContext;
-					if (null != context &&
-						context.VertexCount > 0)
+					if( null != context )
 					{
-						geometryContexts.Add(context);
-						_nodes[context] = node;
+						var detailLevel = context.GetDetailLevel(DetailLevel.Full);
+						if( detailLevel.VertexCount > 0 )
+						{
+
+							geometryDetailLevels.Add(detailLevel);
+							_nodes[detailLevel] = node;
+						}
 					}
 				}
 
 				if (node is IHaveChildren)
 				{
-					GatherGeometries(((IHaveChildren)node).Children, geometryContexts);
+					GatherGeometries(((IHaveChildren)node).Children, geometryDetailLevels);
 				}
 			}
 		}
@@ -112,24 +118,24 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		private void MergeGeometries(Viewport viewport, IEnumerable<IGeometryContext> geometryContexts)
+		private void MergeGeometries(Viewport viewport, IEnumerable<IGeometryDetailLevel> geometryDetailLevels)
 		{
 			var vertexCount = 0;
 			var faceCount = 0;
 			var textureCoordinateCount = 0;
 			var lineCount = 0;
-			foreach (var geometryContext in geometryContexts)
+			foreach (var geometryDetailLevel in geometryDetailLevels)
 			{
-				vertexCount += geometryContext.VertexCount;
-				faceCount += geometryContext.FaceCount;
-				textureCoordinateCount += geometryContext.TextureCoordinateCount;
-				lineCount += geometryContext.LineCount;
+				vertexCount += geometryDetailLevel.VertexCount;
+				faceCount += geometryDetailLevel.FaceCount;
+				textureCoordinateCount += geometryDetailLevel.TextureCoordinateCount;
+				lineCount += geometryDetailLevel.LineCount;
 			}
 
-			GeometryContext.AllocateVertices(vertexCount);
-			GeometryContext.AllocateFaces(faceCount);
-			GeometryContext.AllocateTextureCoordinates(textureCoordinateCount);
-			GeometryContext.AllocateLines(lineCount);
+			_geometryDetailLevel.AllocateVertices(vertexCount);
+			_geometryDetailLevel.AllocateFaces(faceCount);
+			_geometryDetailLevel.AllocateTextureCoordinates(textureCoordinateCount);
+			_geometryDetailLevel.AllocateLines(lineCount);
 
 			var vertexOffset = 0;
 			var textureCoordinateOffset = 0;
@@ -139,39 +145,39 @@ namespace Balder.Core.Objects.Geometries
 			var view = Matrix.Identity;
 			var projection = Matrix.Identity;
 
-			foreach (var geometryContext in geometryContexts)
+			foreach (var geometryDetailLevel in geometryDetailLevels)
 			{
-				var node = _nodes[geometryContext];
-				geometryContext.CalculateVertices(viewport, node, view, projection, node.ActualWorld);
+				var node = _nodes[geometryDetailLevel];
+				geometryDetailLevel.CalculateVertices(viewport, node);
 				
-				var vertices = geometryContext.GetVertices();
+				var vertices = geometryDetailLevel.GetVertices();
 				if( null != vertices )
 				{
 					SetVertices(vertexOffset, vertices);	
 				}
 
-				var textureCoordinates = geometryContext.GetTextureCoordinates();
+				var textureCoordinates = geometryDetailLevel.GetTextureCoordinates();
 				if (null != textureCoordinates)
 				{
 					SetTextureCoordinates(textureCoordinateOffset, textureCoordinates);
 				}
 
-				var faces = geometryContext.GetFaces();
+				var faces = geometryDetailLevel.GetFaces();
 				if( null != faces )
 				{
 					SetFaces(vertexOffset, textureCoordinateOffset, faceOffset, faces);	
 				}
 				
-				var lines = geometryContext.GetLines();
+				var lines = geometryDetailLevel.GetLines();
 				if( null != lines )
 				{
 					SetLines(vertexOffset, lineOffset, lines);	
 				}
 
-				vertexOffset += geometryContext.VertexCount;
-				textureCoordinateOffset += geometryContext.TextureCoordinateCount;
-				faceOffset += geometryContext.FaceCount;
-				lineOffset += geometryContext.LineCount;
+				vertexOffset += geometryDetailLevel.VertexCount;
+				textureCoordinateOffset += geometryDetailLevel.TextureCoordinateCount;
+				faceOffset += geometryDetailLevel.FaceCount;
+				lineOffset += geometryDetailLevel.LineCount;
 			}
 		}
 
@@ -183,7 +189,7 @@ namespace Balder.Core.Objects.Geometries
 			{
 				var vector = vertices[index].TransformedVector;
 				var vertex = new Vertex(vector.X, vector.Y, vector.Z);
-				GeometryContext.SetVertex(index + vertexOffset, vertex); //vertices[index]);
+				_geometryDetailLevel.SetVertex(index + vertexOffset, vertex); //vertices[index]);
 			}
 		}
 
@@ -191,7 +197,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 			for (var index = 0; index < textureCoordinates.Length; index++)
 			{
-				GeometryContext.SetTextureCoordinate(index + textureCoordinateOffset, textureCoordinates[index]);
+				_geometryDetailLevel.SetTextureCoordinate(index + textureCoordinateOffset, textureCoordinates[index]);
 			}
 		}
 
@@ -206,7 +212,7 @@ namespace Balder.Core.Objects.Geometries
 				face.DiffuseA += textureCoordinateOffset;
 				face.DiffuseB += textureCoordinateOffset;
 				face.DiffuseC += textureCoordinateOffset;
-				GeometryContext.SetFace(index + faceOffset, face);
+				_geometryDetailLevel.SetFace(index + faceOffset, face);
 			}
 
 		}
@@ -218,18 +224,18 @@ namespace Balder.Core.Objects.Geometries
 				var line = lines[index];
 				line.A += vertexOffset;
 				line.B += vertexOffset;
-				GeometryContext.SetLine(index + lineOffset, line);
+				_geometryDetailLevel.SetLine(index + lineOffset, line);
 			}
 		}
 
 
 		public bool IsVisible { get; set; }
-		public void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-			GeometryContext.Render(viewport, this, view, projection, world);
+			_geometryContext.Render(viewport, this, detailLevel);
 		}
 
-		public void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public void RenderDebugInfo(Viewport viewport, DetailLevel detailLevel)
 		{
 
 		}

@@ -18,12 +18,13 @@
 #endregion
 using Balder.Core.Display;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Debug
 {
 	public interface IDebugRenderer
 	{
-		void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, Matrix view, Matrix projection, Matrix world);
+		void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world);
 		void RenderRay(Vector position, Vector direction, Viewport viewport);
 	}
 }

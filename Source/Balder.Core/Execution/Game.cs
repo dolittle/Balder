@@ -16,8 +16,6 @@
 // limitations under the License.
 //
 #endregion
-
-using System;
 using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Math;
@@ -30,23 +28,27 @@ namespace Balder.Core.Execution
 
 	public partial class Game : Actor
 	{
-		// Todo : Figure out a better way to get this initialized
-		private static readonly IRuntime RuntimeForInit = Runtime.Instance;
-
-		private static readonly EventArgs DefaultEventArgs = new EventArgs();
+		private readonly RuntimeContext _runtimeContext;
 
 		public event GameEventHandler Update = (s) => { };
 		public event GameEventHandler Initialize = (s) => { };
 		public event GameEventHandler LoadContent = (s) => { };
 
 		public Game()
+			: this(Runtime.Instance.Kernel.Get<RuntimeContext>())
 		{
+		}
+
+		public Game(RuntimeContext runtimeContext)
+		{
+			_runtimeContext = runtimeContext;
 			Viewport = new Viewport { Width = 800, Height = 600 };
 			Scene = new Scene();
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();
 
-			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this,UpdateAction);
+			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
+			
 		}
 
 		partial void Constructed();
@@ -76,7 +78,7 @@ namespace Balder.Core.Execution
 			set
 			{
 				_passiveRendering = value;
-				HandlePassiveRendering();
+				_runtimeContext.PassiveRendering = true;
 			}
 		}
 
@@ -87,42 +89,20 @@ namespace Balder.Core.Execution
 			set
 			{
 				_passiveRenderingMode = value;
-				HandlePassiveRendering();
+				_runtimeContext.PassiveRenderingMode = value;
 			}
 		}
 
-		private void HandlePassiveRendering()
-		{
-			if( null == Display )
-			{
-				return;
-			}
-			if (_passiveRendering)
-			{
-				Display.EnablePassiveRendering();
-			}
-			else
-			{
-				Display.EnableActiveRendering();
-			}
-			Display.SetPassiveRenderingMode(_passiveRenderingMode);
-		}
-
-		public override void OnInitialize()
-		{
-			// Todo: Figure out a better way to inject this dependency
-			// Plus, this is really fragile - when overridden and base class is not called, this won't work.
-			// it affects both Passive Rendering and mouse handling, really bad..
-			Viewport.Display = Display;
-			HandlePassiveRendering();
-
-
-			Initialize(this);
-		}
 
 		public override void OnLoadContent()
 		{
 			LoadContent(this);
+		}
+
+		public override void OnInitialize()
+		{
+			Initialize(this);
+			base.OnInitialize();
 		}
 
 		private void UpdateAction(UpdateMessage updateMessage)

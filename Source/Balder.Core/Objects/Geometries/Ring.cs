@@ -196,9 +196,9 @@ namespace Balder.Core.Objects.Geometries
 			BuildVertices(actualSegments, actualStacks, vertexCount, open);
 			BuildFaces(actualSegments, actualStacks, vertexCount);
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
-			InitializeBoundingSphere();
+			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
+			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}
@@ -235,7 +235,7 @@ namespace Balder.Core.Objects.Geometries
 				}
 			}
 
-			GeometryContext.AllocateFaces(faceCount);
+			FullDetailLevel.AllocateFaces(faceCount);
 
 			var faceIndex = 0;
 
@@ -248,11 +248,11 @@ namespace Balder.Core.Objects.Geometries
 				if (openRing&&Spokes)
 				{
 					face = CreateFace(nextStack + 1, nextStack, currentStack);
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
 					face = CreateFace(nextStack + 1, currentStack, currentStack + 1);
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 				}
 				faceIndex = BuildInteriorAndExteriorFaces(actualSegments, verticesPerStack, currentStack, faceIndex);
@@ -261,11 +261,11 @@ namespace Balder.Core.Objects.Geometries
 					currentStack += (verticesPerStack - 2);
 					nextStack += (verticesPerStack - 2);
 					face = CreateFace(currentStack, nextStack, nextStack + 1);
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
 					face = CreateFace(currentStack + 1, currentStack, nextStack + 1);
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 				}
 			}
@@ -287,18 +287,18 @@ namespace Balder.Core.Objects.Geometries
 				var nextStackAndSegmentOffset = nextSegmentOffset + (verticesPerStack);
 
 				face = CreateFace(nextStackOffset, nextSegmentOffset, segmentOffset);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 				face = CreateFace(nextSegmentOffset, nextStackOffset, nextStackAndSegmentOffset);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 
 
 				face = CreateFace(segmentOffset + 1, nextSegmentOffset + 1, nextStackOffset + 1);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 				face = CreateFace(nextStackAndSegmentOffset + 1, nextStackOffset + 1, nextSegmentOffset + 1);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
 			return faceIndex;
@@ -313,10 +313,10 @@ namespace Balder.Core.Objects.Geometries
 				var nextSegmentOffset = (segmentOffset + 2) % verticesPerStack;
 
 				face = CreateFace(nextSegmentOffset + 1, segmentOffset + 1, segmentOffset);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 				face = CreateFace(nextSegmentOffset, nextSegmentOffset + 1, segmentOffset);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
 
@@ -327,18 +327,18 @@ namespace Balder.Core.Objects.Geometries
 				var nextSegmentOffset = bottomCapOffset + ((segmentOffset + 2) % verticesPerStack);
 
 				face = CreateFace(segmentOffset, segmentOffset + 1, nextSegmentOffset + 1);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 				face = CreateFace(segmentOffset, nextSegmentOffset + 1, nextSegmentOffset);
-				GeometryContext.SetFace(faceIndex, face);
+				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
 		}
 
 		private void BuildVertices(int actualSegments, int actualStacks, int vertexCount, bool open)
 		{
-			GeometryContext.AllocateVertices(vertexCount);
-			GeometryContext.AllocateTextureCoordinates(vertexCount);
+			FullDetailLevel.AllocateVertices(vertexCount);
+			FullDetailLevel.AllocateTextureCoordinates(vertexCount);
 
 			var yStart = (float)Size / 2;
 			var yEnd = (float)-Size / 2;
@@ -376,10 +376,10 @@ namespace Balder.Core.Objects.Geometries
 					var innerZ = (float)(System.Math.Cos(currentRadian) * InnerRadius);
 
 					var innerVertex = new Vertex(innerX, currentY, innerZ);
-					GeometryContext.SetVertex(vertexIndex, innerVertex);
+					FullDetailLevel.SetVertex(vertexIndex, innerVertex);
 
 					var textureCoordinate = new TextureCoordinate(1f - currentU, 0);
-					GeometryContext.SetTextureCoordinate(vertexIndex, textureCoordinate);
+					FullDetailLevel.SetTextureCoordinate(vertexIndex, textureCoordinate);
 
 					vertexIndex++;
 
@@ -387,10 +387,10 @@ namespace Balder.Core.Objects.Geometries
 					var outerZ = (float)(System.Math.Cos(currentRadian) * OuterRadius);
 
 					var outerVertex = new Vertex(outerX, currentY, outerZ);
-					GeometryContext.SetVertex(vertexIndex, outerVertex);
+					FullDetailLevel.SetVertex(vertexIndex, outerVertex);
 
 					textureCoordinate = new TextureCoordinate(1f - currentU, 1);
-					GeometryContext.SetTextureCoordinate(vertexIndex, textureCoordinate);
+					FullDetailLevel.SetTextureCoordinate(vertexIndex, textureCoordinate);
 
 					vertexIndex++;
 

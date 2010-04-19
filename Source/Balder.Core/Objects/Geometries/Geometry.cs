@@ -20,13 +20,14 @@ using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Objects.Geometries
 {
 	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
 	{
 		public IGeometryContext GeometryContext { get; set; }
+		public IGeometryDetailLevel FullDetailLevel { get; set; }
 
 		private bool _materialSet = false;
 
@@ -40,8 +41,11 @@ namespace Balder.Core.Objects.Geometries
 		public void MakeUnique()
 		{
 			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
+			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 
+		// TODO : Add boundingsphere automatically somewhere else..
+		/*
 		public void InitializeBoundingSphere()
 		{
 			var lowestVector = Vector.Zero;
@@ -81,9 +85,10 @@ namespace Balder.Core.Objects.Geometries
 
 			BoundingSphere = new BoundingSphere(center, length.Length / 2);
 		}
+		 * */
 
 
-		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
 			if( null != Material && !_materialSet )
 			{
@@ -99,7 +104,7 @@ namespace Balder.Core.Objects.Geometries
 
 				_materialSet = true;
 			}
-			GeometryContext.Render(viewport, this, view, projection, world);
+			GeometryContext.Render(viewport, this, detailLevel);
 		}
 
 

@@ -7,6 +7,7 @@ using Balder.Core.Imaging;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Assets.AssetLoaders
 {
@@ -235,24 +236,25 @@ namespace Balder.Core.Assets.AssetLoaders
 		private static void MeshScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
+			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
 				case MESH_NUMVERTEX:
 					{
 						var numVertices = Convert.ToInt32(content);
-						geometry.GeometryContext.AllocateVertices(numVertices);
+						geometryDetailLevel.AllocateVertices(numVertices);
 					}
 					break;
 				case MESH_NUMFACES:
 					{
 						var numFaces = Convert.ToInt32(content);
-						geometry.GeometryContext.AllocateFaces(numFaces);
+						geometryDetailLevel.AllocateFaces(numFaces);
 					}
 					break;
 				case MESH_NUMTVERTEX:
 					{
 						var numTVertices = Convert.ToInt32(content);
-						geometry.GeometryContext.AllocateTextureCoordinates(numTVertices);
+						geometryDetailLevel.AllocateTextureCoordinates(numTVertices);
 					}
 					break;
 			}
@@ -261,6 +263,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		private static void VertexScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
+			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
 				case MESH_VERTEX:
@@ -271,7 +274,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
 						var z = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						var vertex = new Vertex(x, y, z);
-						geometry.GeometryContext.SetVertex(vertexIndex, vertex);
+						geometryDetailLevel.SetVertex(vertexIndex, vertex);
 					}
 					break;
 
@@ -282,6 +285,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		private static void FaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
+			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
 
@@ -295,7 +299,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var b = Convert.ToInt32(elements[3].Substring(0, elements[3].Length - 1));
 						var c = Convert.ToInt32(elements[4].Substring(0, elements[4].Length - 2));
 						var face = new Face(a, b, c);
-						geometry.GeometryContext.SetFace(faceIndex, face);
+						geometryDetailLevel.SetFace(faceIndex, face);
 					}
 					break;
 			}
@@ -304,6 +308,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		private static void TextureCoordinateScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var geometry = scopeObject as Geometry;
+			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
 				case MESH_TVERT:
@@ -315,7 +320,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var v = float.Parse(elements[2]);
 						v = 1f - v;
 						var textureCoordinate = new TextureCoordinate(u, v);
-						geometry.GeometryContext.SetTextureCoordinate(tvertIndex, textureCoordinate);
+						geometryDetailLevel.SetTextureCoordinate(tvertIndex, textureCoordinate);
 					}
 					break;
 
@@ -327,7 +332,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var b = Convert.ToInt32(elements[2]);
 						var c = Convert.ToInt32(elements[3]);
 
-						geometry.GeometryContext.SetFaceTextureCoordinateIndex(faceIndex, a, b, c);
+						geometryDetailLevel.SetFaceTextureCoordinateIndex(faceIndex, a, b, c);
 					}
 					break;
 			}

@@ -1,4 +1,4 @@
-namespace Balder.Core.Display
+namespace Balder.Core.Rendering
 {
 	/// <summary>
 	/// Rendering mode for a display

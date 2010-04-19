@@ -124,7 +124,7 @@ namespace Balder.Core.Objects.Geometries
 				var actualHeight = HeightSegments + 1;
 
 				var vertexIndex = 0;
-				//var vertices = GeometryContext.GetVertices();
+				//var vertices = FullDetailLevel.GetVertices();
 				for (var y = 0; y < actualHeight; y++)
 				{
 					var offset = y * actualLength;
@@ -146,7 +146,7 @@ namespace Balder.Core.Objects.Geometries
 							vertex.Vector = GetVectorHeightFromVertex(vertex, EventArgs.Height);
 								//EventArgs.Height;
 							vertex.Color = EventArgs.Color;
-							GeometryContext.SetVertex(vertexIndex, vertex);
+							FullDetailLevel.SetVertex(vertexIndex, vertex);
 						}
 
 						vertexIndex++;
@@ -186,7 +186,7 @@ namespace Balder.Core.Objects.Geometries
 			vertex.Vector = GetVectorHeightFromVertex(vertex, EventArgs.Height);
 				//.Y = height;
 			vertex.Color = color;
-			GeometryContext.SetVertex(index, vertex);
+			FullDetailLevel.SetVertex(index, vertex);
 		}
 
 
@@ -211,10 +211,10 @@ namespace Balder.Core.Objects.Geometries
 			PrepareVertices();
 			PrepareFaces();
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
+			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
+			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
 
-			var vertices = GeometryContext.GetVertices();
+			var vertices = FullDetailLevel.GetVertices();
 
 			for( var vertexIndex=0; vertexIndex<vertices.Length; vertexIndex++ )
 			{
@@ -230,7 +230,7 @@ namespace Balder.Core.Objects.Geometries
 			var actualLength = LengthSegments + 1;
 			var actualHeight = HeightSegments + 1;
 			var vertexCount = actualLength*actualHeight;
-			GeometryContext.AllocateVertices(vertexCount);
+			FullDetailLevel.AllocateVertices(vertexCount);
 			_vertices = new Vertex[vertexCount];
 
 
@@ -269,7 +269,7 @@ namespace Balder.Core.Objects.Geometries
 					var z = ContentInterpolator.Points[2].InterpolatedValues[contentPoint];
 
 					var vertex = new Vertex(x, y, z);
-					GeometryContext.SetVertex(vertexIndex, vertex);
+					FullDetailLevel.SetVertex(vertexIndex, vertex);
 					_vertices[vertexIndex] = vertex;
 					vertexIndex++;
 				}
@@ -283,7 +283,7 @@ namespace Balder.Core.Objects.Geometries
 			var actualHeight = HeightSegments + 1;
 
 			var faceCount = ((actualLength - 1) * 2) * (actualHeight - 1);
-			GeometryContext.AllocateFaces(faceCount);
+			FullDetailLevel.AllocateFaces(faceCount);
 			var faceIndex = 0;
 
 			for (var y = 0; y < actualHeight - 1; y++)
@@ -294,10 +294,10 @@ namespace Balder.Core.Objects.Geometries
 					var offsetNextLine = offset + actualLength;
 					var face = new Face(offsetNextLine, offset + 1, offset);
 					face.Normal = Vector.Up;
-					GeometryContext.SetFace(faceIndex, face);
+					FullDetailLevel.SetFace(faceIndex, face);
 					face = new Face(offset + 1, offsetNextLine, offsetNextLine + 1);
 					face.Normal = Vector.Up;
-					GeometryContext.SetFace(faceIndex + 1, face);
+					FullDetailLevel.SetFace(faceIndex + 1, face);
 
 
 					faceIndex += 2;

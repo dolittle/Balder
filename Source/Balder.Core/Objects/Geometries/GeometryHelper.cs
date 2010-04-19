@@ -25,7 +25,7 @@ namespace Balder.Core.Objects.Geometries
 	public static class GeometryHelper
 	{
 
-		public static void CalculateFaceNormals(IGeometryContext context)
+		public static void CalculateFaceNormals(IGeometryDetailLevel context)
 		{
 			var vertices = context.GetVertices();
 			var faces = context.GetFaces();
@@ -43,7 +43,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		public static void CalculateVertexNormals(IGeometryContext context)
+		public static void CalculateVertexNormals(IGeometryDetailLevel context)
 		{
 			var vertexCount = new Dictionary<int, int>();
 			var vertexNormal = new Dictionary<int, Vector>();

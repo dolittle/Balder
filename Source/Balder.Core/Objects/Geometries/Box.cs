@@ -70,9 +70,9 @@ namespace Balder.Core.Objects.Geometries
 			GenereateTextureCoordinate();
 			GenerateFaces();
 
-			GeometryHelper.CalculateFaceNormals(GeometryContext);
-			GeometryHelper.CalculateVertexNormals(GeometryContext);
-			InitializeBoundingSphere();
+			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
+			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}
@@ -92,25 +92,25 @@ namespace Balder.Core.Objects.Geometries
 			var backLowerRight = new Vertex(-halfDimension.X, -halfDimension.Y, halfDimension.Z);
 			var backLowerLeft = new Vertex(halfDimension.X, -halfDimension.Y, halfDimension.Z);
 
-			GeometryContext.AllocateVertices(8);
-			GeometryContext.SetVertex(0, frontUpperRight);
-			GeometryContext.SetVertex(1, frontUpperLeft);
-			GeometryContext.SetVertex(2, frontLowerRight);
-			GeometryContext.SetVertex(3, frontLowerLeft);
+			FullDetailLevel.AllocateVertices(8);
+			FullDetailLevel.SetVertex(0, frontUpperRight);
+			FullDetailLevel.SetVertex(1, frontUpperLeft);
+			FullDetailLevel.SetVertex(2, frontLowerRight);
+			FullDetailLevel.SetVertex(3, frontLowerLeft);
 
-			GeometryContext.SetVertex(4, backUpperRight);
-			GeometryContext.SetVertex(5, backUpperLeft);
-			GeometryContext.SetVertex(6, backLowerRight);
-			GeometryContext.SetVertex(7, backLowerLeft);
+			FullDetailLevel.SetVertex(4, backUpperRight);
+			FullDetailLevel.SetVertex(5, backUpperLeft);
+			FullDetailLevel.SetVertex(6, backLowerRight);
+			FullDetailLevel.SetVertex(7, backLowerLeft);
 		}
 
 		private void GenereateTextureCoordinate()
 		{
-			GeometryContext.AllocateTextureCoordinates(4);
-			GeometryContext.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
-			GeometryContext.SetTextureCoordinate(1, new TextureCoordinate(1f, 0f));
-			GeometryContext.SetTextureCoordinate(2, new TextureCoordinate(0f, 1f));
-			GeometryContext.SetTextureCoordinate(3, new TextureCoordinate(1f, 1f));
+			FullDetailLevel.AllocateTextureCoordinates(4);
+			FullDetailLevel.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
+			FullDetailLevel.SetTextureCoordinate(1, new TextureCoordinate(1f, 0f));
+			FullDetailLevel.SetTextureCoordinate(2, new TextureCoordinate(0f, 1f));
+			FullDetailLevel.SetTextureCoordinate(3, new TextureCoordinate(1f, 1f));
 		}
 
 
@@ -155,12 +155,12 @@ namespace Balder.Core.Objects.Geometries
 					face.Material = material;
 				}
 			}
-			GeometryContext.SetFace(faceIndex, face);
+			FullDetailLevel.SetFace(faceIndex, face);
 		}
 
 		private void GenerateFaces()
 		{
-			GeometryContext.AllocateFaces(12);
+			FullDetailLevel.AllocateFaces(12);
 
 			SetFace(0, 2, 1, 0, Vector.Backward, 2, 1, 0);
 			SetFace(1, 1, 2, 3, Vector.Backward, 1, 2, 3);

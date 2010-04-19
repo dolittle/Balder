@@ -1,4 +1,5 @@
 #region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,29 +16,16 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
 
-namespace Balder.Core.Debug
+namespace Balder.Core.Rendering
 {
-	public class DebugShape : RenderableNode
+	public enum DetailLevel
 	{
-		private IGeometryContext GeometryContext { get; set; }
-		protected IGeometryDetailLevel GeometryDetailLevel { get; private set; }
-		
-
-		public DebugShape()
-		{
-			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
-			GeometryDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
-		}
-
-		public override void Render(Viewport viewport, DetailLevel detailLevel)
-		{
-			GeometryDetailLevel.Render(viewport, this);
-		}
+		Full=1,
+		Low,
+		Wireframe,
+		BoundingBox
 	}
 }

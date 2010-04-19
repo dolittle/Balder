@@ -20,6 +20,7 @@ using System;
 using Balder.Core.Display;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 using Balder.Core.View;
 using CThru.Silverlight;
 using NUnit.Framework;
@@ -39,7 +40,7 @@ namespace Balder.Core.Tests
 			}
 
 			public bool RenderCalled = false;
-			public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+			public override void Render(Viewport viewport, DetailLevel detailLevel)
 			{
 				RenderCalled = true;
 			}
@@ -59,9 +60,9 @@ namespace Balder.Core.Tests
 			}
 
 			public Matrix WorldResult;
-			public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+			public override void Render(Viewport viewport, DetailLevel detailLevel)
 			{
-				WorldResult = world;
+				
 				if (null != _actionToCall)
 				{
 					_actionToCall();

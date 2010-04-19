@@ -19,11 +19,10 @@
 
 #endregion
 
-using System.Windows.Media;
 using Balder.Core.Display;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
-using Matrix=Balder.Core.Math.Matrix;
+using Balder.Core.Rendering;
 
 namespace Balder.Core.Debug
 {
@@ -31,11 +30,11 @@ namespace Balder.Core.Debug
 	{
 		protected override void Initialize()
 		{
-			GeometryContext.AllocateVertices(2);
-			GeometryContext.AllocateLines(1);
+			GeometryDetailLevel.AllocateVertices(2);
+			GeometryDetailLevel.AllocateLines(1);
 
 			var line = new Line(0, 1);
-			GeometryContext.SetLine(0,line);
+			GeometryDetailLevel.SetLine(0, line);
 			
 			base.Initialize();
 		}
@@ -44,10 +43,10 @@ namespace Balder.Core.Debug
 		public Vector Direction { get; set; }
 
 
-		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
 			var vertex = new Vertex(Start.X, Start.Y, Start.Z);
-			GeometryContext.SetVertex(0,vertex);
+			GeometryDetailLevel.SetVertex(0, vertex);
 
 			var normalizedDirection = Direction;
 			normalizedDirection.Normalize();
@@ -56,9 +55,9 @@ namespace Balder.Core.Debug
 			var end = Start + (normalizedDirection*frustumDepth);
 
 			vertex = new Vertex(end.X,end.Y,end.Z);
-			GeometryContext.SetVertex(1,vertex);
+			GeometryDetailLevel.SetVertex(1, vertex);
 
-			base.Render(viewport, view, projection, world);
+			base.Render(viewport, detailLevel);
 		}
 	}
 }

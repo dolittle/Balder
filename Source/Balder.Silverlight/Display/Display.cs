@@ -64,9 +64,10 @@ namespace Balder.Silverlight.Display
 			BufferContainer.BluePosition = 1;
 			BufferContainer.AlphaPosition = 3;
 			BufferContainer.Stride = width;
-			_initialized = true;
+			
 			BackgroundColor = Color.FromArgb(0xff, 0, 0, 0);
 			InitializeRendering();
+			_initialized = true;
 		}
 
 		public void Uninitialize()
@@ -107,25 +108,6 @@ namespace Balder.Silverlight.Display
 			}
 		}
 
-		public void EnablePassiveRendering()
-		{
-			RenderingManager.Instance.EnablePassiveRendering();
-		}
-
-		public void EnableActiveRendering()
-		{
-			RenderingManager.Instance.EnableActiveRendering();
-		}
-
-		public void SetPassiveRenderingMode(PassiveRenderingMode renderingMode)
-		{
-			
-		}
-
-		public void SignalRendering()
-		{
-			RenderingManager.Instance.SignalRendering();
-		}
 
 		public INode GetNodeAtPosition(int xPosition, int yPosition)
 		{
@@ -180,9 +162,12 @@ namespace Balder.Silverlight.Display
 
 		public void Render()
 		{
-			PrepareRender();
-			Messenger.DefaultContext.Send(_renderMessage);
-			AfterRender();
+			if (_initialized)
+			{
+				PrepareRender();
+				Messenger.DefaultContext.Send(_renderMessage);
+				AfterRender();
+			}
 		}
 
 

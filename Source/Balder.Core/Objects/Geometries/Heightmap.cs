@@ -82,7 +82,7 @@ namespace Balder.Core.Objects.Geometries
 				var actualHeight = HeightSegments + 1;
 
 				var vertexIndex = 0;
-				var vertices = GeometryContext.GetVertices();
+				var vertices = FullDetailLevel.GetVertices();
 				for( var y=0; y<actualHeight; y++ )
 				{
 					var offset = y*actualLength;
@@ -103,7 +103,7 @@ namespace Balder.Core.Objects.Geometries
 						{
 							vertex.Vector.Y = EventArgs.Height;
 							vertex.Color = EventArgs.Color;
-							GeometryContext.SetVertex(vertexIndex,vertex);
+							FullDetailLevel.SetVertex(vertexIndex,vertex);
 						}
 
 						vertexIndex++;
@@ -141,7 +141,7 @@ namespace Balder.Core.Objects.Geometries
 
 			var vertex = new Vertex(xPos, height, zPos);
 			vertex.Color = color;
-			GeometryContext.SetVertex(index,vertex);
+			FullDetailLevel.SetVertex(index,vertex);
 		}
 
 
@@ -163,7 +163,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 			var actualLength = LengthSegments + 1;
 			var actualHeight = HeightSegments + 1;
-			GeometryContext.AllocateVertices(actualLength*actualHeight);
+			FullDetailLevel.AllocateVertices(actualLength*actualHeight);
 			var yStart = (float)-(Dimension.Height / 2);
 			var xStep = ((float)Dimension.Width) / (float)actualLength;
 			var yStep = ((float)Dimension.Height) / (float)actualHeight;
@@ -182,7 +182,7 @@ namespace Balder.Core.Objects.Geometries
 				for (var x = 0; x < actualLength; x++)
 				{
 					var vertex = new Vertex(xStart, 0, yStart) { Normal = Vector.Up };
-					GeometryContext.SetVertex(vertexIndex, vertex);
+					FullDetailLevel.SetVertex(vertexIndex, vertex);
 					xStart += xStep;
 					u += uStep;
 					vertexIndex++;
@@ -199,7 +199,7 @@ namespace Balder.Core.Objects.Geometries
 			var actualHeight = HeightSegments + 1;
 
 			var faceCount = ((actualLength- 1) * 2) * (actualHeight - 1);
-			GeometryContext.AllocateFaces(faceCount);
+			FullDetailLevel.AllocateFaces(faceCount);
 			var faceIndex = 0;
 
 			for (var y = 0; y < actualHeight - 1; y++)
@@ -210,10 +210,10 @@ namespace Balder.Core.Objects.Geometries
 					var offsetNextLine = offset + actualLength;
 					var face = new Face(offset, offset + 1, offsetNextLine);
 					face.Normal = Vector.Up;
-					GeometryContext.SetFace(faceIndex,face);
+					FullDetailLevel.SetFace(faceIndex,face);
 					face = new Face(offsetNextLine + 1, offsetNextLine, offset + 1);
 					face.Normal = Vector.Up;
-					GeometryContext.SetFace(faceIndex+1, face);
+					FullDetailLevel.SetFace(faceIndex+1, face);
 
 					
 					faceIndex += 2;

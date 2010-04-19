@@ -35,27 +35,27 @@ namespace Balder.Core.Debug
 		{
 			const float angle = MathHelper.TwoPi / NumberOfCirclePoints;
 
-			GeometryContext.AllocateVertices(NumberOfCirclePoints);
+			GeometryDetailLevel.AllocateVertices(NumberOfCirclePoints);
 
 			for (var vertexIndex = 0; vertexIndex < NumberOfCirclePoints; vertexIndex++)
 			{
 				var x = (float)System.Math.Round(System.Math.Sin(angle * vertexIndex), 4);
 				var y = (float)System.Math.Round(System.Math.Cos(angle * vertexIndex), 4);
 				var vertex = new Vertex(x, y, 0f);
-				GeometryContext.SetVertex(vertexIndex, vertex);
+				GeometryDetailLevel.SetVertex(vertexIndex, vertex);
 			}
 		}
 
 		private void InitializeLines()
 		{
-			GeometryContext.AllocateLines(NumberOfCirclePoints + 1);
+			GeometryDetailLevel.AllocateLines(NumberOfCirclePoints + 1);
 			for (var vertexIndex = 0; vertexIndex < NumberOfCirclePoints-1; vertexIndex++)
 			{
 				var line = new Line(vertexIndex, vertexIndex + 1);
-				GeometryContext.SetLine(vertexIndex,line);
+				GeometryDetailLevel.SetLine(vertexIndex, line);
 			}
 			var lastLine = new Line(NumberOfCirclePoints - 1, 0);
-			GeometryContext.SetLine(NumberOfCirclePoints-1, lastLine);
+			GeometryDetailLevel.SetLine(NumberOfCirclePoints - 1, lastLine);
 		}
 	}
 }

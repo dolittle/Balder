@@ -38,8 +38,8 @@ namespace Balder.Core.Objects.Geometries
 			var boundingSphere = new BoundingSphere(Vector.Zero,0);
 			foreach( var geometry in geometries )
 			{
-				geometry.InitializeBoundingSphere();
-				boundingSphere = BoundingSphere.CreateMerged(boundingSphere, geometry.BoundingSphere);
+				//geometry.InitializeBoundingSphere();
+				//boundingSphere = BoundingSphere.CreateMerged(boundingSphere, geometry.BoundingSphere);
 				Children.Add(geometry);
 			}
 			BoundingSphere = boundingSphere;

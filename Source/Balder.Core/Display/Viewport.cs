@@ -48,10 +48,15 @@ namespace Balder.Core.Display
 		/// Creates a viewport
 		/// </summary>
 		public Viewport()
+			: this(Runtime.Instance.Kernel.Get<RuntimeContext>())
+		{
+		}
+
+		public Viewport(RuntimeContext runtimeContext)
 		{
 			DebugInfo = new DebugInfo();
 
-			_mousePickRay = new Ray(Vector.Zero,Vector.Forward);
+			_mousePickRay = new Ray(Vector.Zero, Vector.Forward);
 
 			Messenger.DefaultContext.SubscriptionsFor<RenderMessage>().AddListener(this, Render);
 			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
@@ -95,7 +100,7 @@ namespace Balder.Core.Display
 		/// <summary>
 		/// Get the display in which the viewport is rendered to
 		/// </summary>
-		public IDisplay Display { get; internal set; }
+		public IDisplay Display { get; private set; }
 
 		/// <summary>
 		/// Get the aspect ratio for the viewport

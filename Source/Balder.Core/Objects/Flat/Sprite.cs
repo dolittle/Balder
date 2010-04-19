@@ -21,6 +21,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Ninject.Core;
 
 namespace Balder.Core.Objects.Flat
@@ -52,7 +53,7 @@ namespace Balder.Core.Objects.Flat
 			}
 		}
 
-		public override void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
 			/* From DirectX sample
 				w = width passed to D3DXMatrixPerspectiveLH
@@ -69,6 +70,10 @@ namespace Balder.Core.Objects.Flat
 				renderedWidth = vw * qw * scale / w 
 				renderedHeight = vh * qh * scale / h
 			 */
+
+			var world = RenderingWorld;
+			var view = viewport.View.ViewMatrix;
+			var projection = viewport.View.ProjectionMatrix;
 
 			var position = new Vector(0, 0, 0);
 			var actualPosition = new Vector(world[3, 0], world[3, 1], world[3, 2]);

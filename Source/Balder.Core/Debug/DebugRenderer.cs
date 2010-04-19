@@ -19,6 +19,7 @@
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Ninject.Core;
 using Matrix = Balder.Core.Math.Matrix;
 
@@ -65,7 +66,7 @@ namespace Balder.Core.Debug
 			_rayDebugShape.OnInitialize();
 		}
 
-		public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world)
 		{
 			var scaleMatrix = Matrix.CreateScale(sphere.Radius);
 			var translationMatrix = Matrix.CreateTranslation(sphere.Center) * world;
@@ -74,13 +75,13 @@ namespace Balder.Core.Debug
 
 			_boundingSphereDebugShape.Color = viewport.DebugInfo.Color;
 			_boundingSphereDebugShape.World = scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.Render(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, detailLevel);
 
 			_boundingSphereDebugShape.World = rotateYMatrix * scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.Render(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, detailLevel);
 
 			_boundingSphereDebugShape.World = rotateXMatrix * scaleMatrix * translationMatrix;
-			_boundingSphereDebugShape.Render(viewport, view, projection, world);
+			_boundingSphereDebugShape.Render(viewport, detailLevel);
 		}
 
 		public void RenderRay(Vector position, Vector direction, Viewport viewport)
@@ -88,7 +89,7 @@ namespace Balder.Core.Debug
 			_rayDebugShape.Start = position;
 			_rayDebugShape.Direction = direction;
 			_rayDebugShape.Color = viewport.DebugInfo.Color;
-			_rayDebugShape.Render(viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity);
+			_rayDebugShape.Render(viewport, DetailLevel.Full);
 		}
 	}
 }

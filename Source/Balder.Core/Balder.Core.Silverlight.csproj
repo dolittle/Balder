@@ -98,7 +98,10 @@
     <Compile Include="ColorAsFloats.cs" />
     <Compile Include="ColorOperations.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
-    <Compile Include="Display\PassiveRenderingMode.cs" />
+    <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
+    <Compile Include="Rendering\RenderingDetailLevel.cs" />
+    <Compile Include="Rendering\RuntimeContext.cs" />
+    <Compile Include="Rendering\PassiveRenderingMode.cs" />
     <Compile Include="Execution\BubbledEvent.cs" />
     <Compile Include="Execution\BubbledEventArgs.cs" />
     <Compile Include="Execution\ICanBeUnique.cs" />

@@ -10,7 +10,7 @@ namespace Balder.Core.Rendering
 
 		public void Prepare(Viewport viewport, NodeCollection nodes)
 		{
-			foreach (INode node in nodes)
+			foreach (var node in nodes)
 			{
 				Prepare(viewport, node);
 			}
@@ -19,7 +19,7 @@ namespace Balder.Core.Rendering
 
 		public void PrepareForRendering(Viewport viewport, NodeCollection nodes)
 		{
-			foreach (INode node in nodes)
+			foreach (var node in nodes)
 			{
 				var world = Matrix.Identity;
 				var view = viewport.View.ViewMatrix;
@@ -34,9 +34,9 @@ namespace Balder.Core.Rendering
 		{
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
-			foreach (INode node in nodes)
+			foreach (var node in nodes)
 			{
-				RenderNode(node, viewport, view, projection);
+				RenderNode(node, viewport, DetailLevel.Full);
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace Balder.Core.Rendering
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (INode child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren) node).Children)
 				{
 					Prepare(viewport, child);
 				}
@@ -79,7 +79,7 @@ namespace Balder.Core.Rendering
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (INode child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren) node).Children)
 				{
 					PrepareForRendering(child, viewport, view, projection, world);
 				}
@@ -87,7 +87,7 @@ namespace Balder.Core.Rendering
 		}
 
 
-		private static void RenderNode(INode node, Viewport viewport, Matrix view, Matrix projection)
+		private static void RenderNode(INode node, Viewport viewport, DetailLevel detailLevel)
 		{
 			if (!node.IsVisible())
 			{
@@ -96,20 +96,20 @@ namespace Balder.Core.Rendering
 
 			if (node is ICanRender)
 			{
-				((ICanRender) node).Render(viewport, view, projection, node.RenderingWorld);
-				((ICanRender) node).RenderDebugInfo(viewport, view, projection, node.RenderingWorld);
+				((ICanRender) node).Render(viewport, detailLevel);
+				((ICanRender)node).RenderDebugInfo(viewport, detailLevel);
 			}
-			RenderChildren(node, viewport, view, projection);
+			RenderChildren(node, viewport, detailLevel);
 		}
 
 
-		private static void RenderChildren(INode node, Viewport viewport, Matrix view, Matrix projection)
+		private static void RenderChildren(INode node, Viewport viewport, DetailLevel detailLevel)
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (INode child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren) node).Children)
 				{
-					RenderNode(child, viewport, view, projection);
+					RenderNode(child, viewport, detailLevel);
 				}
 			}
 		}

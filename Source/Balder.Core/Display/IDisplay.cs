@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+
+using Balder.Core.Rendering;
+
 namespace Balder.Core.Display
 {
 	/// <summary>
@@ -45,27 +48,6 @@ namespace Balder.Core.Display
 		/// </summary>
 		/// <param name="container">Container</param>
 		void InitializeContainer(object container);
-
-		/// <summary>
-		/// Enables passive rendering on the display
-		/// </summary>
-		void EnablePassiveRendering();
-
-		/// <summary>
-		/// Enables active rendering on the display
-		/// </summary>
-		void EnableActiveRendering();
-
-		/// <summary>
-		/// Sets the passive rendering mode used during rendering
-		/// </summary>
-		/// <param name="renderingMode"></param>
-		void SetPassiveRenderingMode(PassiveRenderingMode renderingMode);
-
-		/// <summary>
-		/// Signal the display that it should render next frame
-		/// </summary>
-		void SignalRendering();
 
 		/// <summary>
 		/// Get a node at a specific position within the display

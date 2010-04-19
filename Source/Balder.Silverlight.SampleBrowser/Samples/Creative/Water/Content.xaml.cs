@@ -1,6 +1,7 @@
 using System;
 using Balder.Core.Execution;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 {
@@ -64,11 +65,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 				_waveMap[frame1, x, z] = -10;
 			}
 
-			if( HeightMap.GeometryContext.FaceCount > 0 &&
-				HeightMap.GeometryContext.VertexCount > 0 )
+			var geometryDetailLevel = HeightMap.GeometryContext.GetDetailLevel(DetailLevel.Full);
+			if( geometryDetailLevel.FaceCount > 0 &&
+				geometryDetailLevel.VertexCount > 0)
 			{
-				GeometryHelper.CalculateFaceNormals(HeightMap.GeometryContext);
-				GeometryHelper.CalculateVertexNormals(HeightMap.GeometryContext);
+				GeometryHelper.CalculateFaceNormals(geometryDetailLevel);
+				GeometryHelper.CalculateVertexNormals(geometryDetailLevel);
 				
 			}
 

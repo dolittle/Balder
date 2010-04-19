@@ -7,13 +7,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public Content()
 		{
 			InitializeComponent();
-
-			Game.Initialize += Game_Initialize;
-		}
-
-		private void Game_Initialize(Game game)
-		{
-			game.ContentManager.AssetsRoot = "Samples/Creative/RubicsCube/Assets";
 		}
 	}
 }

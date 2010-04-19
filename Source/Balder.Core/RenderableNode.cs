@@ -20,7 +20,6 @@ using System.ComponentModel;
 using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Execution;
-using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.Silverlight.TypeConverters;
 
@@ -72,12 +71,12 @@ namespace Balder.Core
 			set { IsVisibleProp.SetValue(this, value); }
 		}
 
-		public virtual void Render(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
-		public virtual void RenderDebugInfo(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		public virtual void Render(Viewport viewport, DetailLevel detailLevel) { }
+		public virtual void RenderDebugInfo(Viewport viewport, DetailLevel detailLevel)
 		{
 			if (viewport.DebugInfo.BoundingSpheres)
 			{
-				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, view, projection, world);
+				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, detailLevel, RenderingWorld);
 			}
 		}
 	}

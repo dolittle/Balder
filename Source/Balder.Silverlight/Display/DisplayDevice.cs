@@ -40,7 +40,8 @@ namespace Balder.Silverlight.Display
 
 		public IDisplay CreateDisplay()
 		{
-			var display = new Display(_platform,new NodesPixelBuffer());
+			// TODO: Don't like that I have to call the Kernel here.  Need to get this injected. Decouple decouple decouple.... 
+			var display = new Display(_platform,Runtime.Instance.Kernel.Get<INodesPixelBuffer>());
 			lock( _displays )
 			{
 				_displays.Add(display);	

@@ -1,4 +1,5 @@
 #region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,29 +16,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
 
-namespace Balder.Core.Debug
+using Ninject.Core;
+
+namespace Balder.Core.Rendering
 {
-	public class DebugShape : RenderableNode
+	[Singleton]
+	public class RuntimeContext
 	{
-		private IGeometryContext GeometryContext { get; set; }
-		protected IGeometryDetailLevel GeometryDetailLevel { get; private set; }
-		
-
-		public DebugShape()
-		{
-			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
-			GeometryDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
-		}
-
-		public override void Render(Viewport viewport, DetailLevel detailLevel)
-		{
-			GeometryDetailLevel.Render(viewport, this);
-		}
+		public bool PassiveRendering { get; set; }
+		public PassiveRenderingMode PassiveRenderingMode { get; set; }
 	}
 }

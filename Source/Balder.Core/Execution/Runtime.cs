@@ -158,7 +158,6 @@ namespace Balder.Core.Execution
 					var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
 					enumerator.MoveNext();
 					var display = enumerator.Current;
-					display.SignalRendering();
 				}
 			}
 		}

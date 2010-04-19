@@ -22,6 +22,7 @@ using System.IO;
 using Balder.Core.Content;
 using Balder.Core.Exceptions;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 
 
 namespace Balder.Core.Assets.AssetLoaders
@@ -68,8 +69,9 @@ namespace Balder.Core.Assets.AssetLoaders
 		{
 			foreach (var geometry in geometries)
 			{
-				GeometryHelper.CalculateFaceNormals(geometry.GeometryContext);
-				GeometryHelper.CalculateVertexNormals(geometry.GeometryContext);
+				var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
+				GeometryHelper.CalculateFaceNormals(geometryDetailLevel);
+				GeometryHelper.CalculateVertexNormals(geometryDetailLevel);
 			}
 		}
 
