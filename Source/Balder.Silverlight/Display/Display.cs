@@ -40,6 +40,7 @@ namespace Balder.Silverlight.Display
 
 		private bool _initialized;
 
+		private UpdateMessage _updateMessage;
 		private RenderMessage _renderMessage;
 		private PrepareMessage _prepareMessage;
 
@@ -233,6 +234,7 @@ namespace Balder.Silverlight.Display
 		{
 			if (_initialized)
 			{
+				Messenger.DefaultContext.Send(_updateMessage);
 			}
 		}
 	}

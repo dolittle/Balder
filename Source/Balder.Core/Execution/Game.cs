@@ -21,6 +21,7 @@ using System;
 using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Balder.Core.View;
 
 namespace Balder.Core.Execution
@@ -44,6 +45,8 @@ namespace Balder.Core.Execution
 			Scene = new Scene();
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();
+
+			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this,UpdateAction);
 		}
 
 		partial void Constructed();
@@ -122,7 +125,7 @@ namespace Balder.Core.Execution
 			LoadContent(this);
 		}
 
-		public override void OnUpdate()
+		private void UpdateAction(UpdateMessage updateMessage)
 		{
 			Update(this);
 		}

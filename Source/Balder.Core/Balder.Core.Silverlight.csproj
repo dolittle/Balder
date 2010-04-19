@@ -151,6 +151,7 @@
     <Compile Include="Rendering\NodeRenderingService.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
+    <Compile Include="Rendering\UpdateMessage.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />
