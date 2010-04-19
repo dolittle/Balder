@@ -29,5 +29,6 @@ namespace Balder.Core.Objects.Geometries
 		void GenerateDetailLevel(DetailLevel targetLevel, DetailLevel sourceLevel);
 		IGeometryDetailLevel GetDetailLevel(DetailLevel level);
 		void Render(Viewport viewport, INode node, DetailLevel detailLevel);
+		bool HasDetailLevel(DetailLevel level);
 	}
 }

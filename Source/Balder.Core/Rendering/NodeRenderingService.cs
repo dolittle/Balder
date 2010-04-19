@@ -6,6 +6,13 @@ namespace Balder.Core.Rendering
 {
 	public class NodeRenderingService : INodeRenderingService
 	{
+		private readonly RuntimeContext _runtimeContext;
+
+		public NodeRenderingService(RuntimeContext runtimeContext)
+		{
+			_runtimeContext = runtimeContext;
+		}
+
 		#region INodeRenderingService Members
 
 		public void Prepare(Viewport viewport, NodeCollection nodes)

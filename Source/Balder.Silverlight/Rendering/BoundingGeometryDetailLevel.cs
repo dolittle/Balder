@@ -6,18 +6,18 @@ namespace Balder.Silverlight.Rendering
 {
 	public class BoundingGeometryDetailLevel : GeometryDetailLevel
 	{
-		public BoundingGeometryDetailLevel(Vector dimension, ILightCalculator lightCalculator, INodesPixelBuffer nodesPixelBuffer)
+		public BoundingGeometryDetailLevel(Vector minimum, Vector maximum, ILightCalculator lightCalculator, INodesPixelBuffer nodesPixelBuffer)
 			: base(lightCalculator, nodesPixelBuffer)
 		{
 			AllocateVertices(8);
-			SetVertex(0,new Vertex(-dimension.X, dimension.Y, -dimension.Z));
-			SetVertex(1,new Vertex(dimension.X, dimension.Y, -dimension.Z));
-			SetVertex(2,new Vertex(-dimension.X, -dimension.Y, -dimension.Z));
-			SetVertex(3,new Vertex(dimension.X, -dimension.Y, -dimension.Z));
-			SetVertex(4,new Vertex(-dimension.X, dimension.Y, dimension.Z));
-			SetVertex(5,new Vertex(dimension.X, dimension.Y, dimension.Z));
-			SetVertex(6,new Vertex(-dimension.X, -dimension.Y, dimension.Z));
-			SetVertex(7,new Vertex(dimension.X, -dimension.Y, dimension.Z));
+			SetVertex(0,new Vertex(minimum.X, maximum.Y, minimum.Z));
+			SetVertex(1,new Vertex(maximum.X, maximum.Y, minimum.Z));
+			SetVertex(2,new Vertex(minimum.X, minimum.Y, minimum.Z));
+			SetVertex(3,new Vertex(maximum.X, minimum.Y, minimum.Z));
+			SetVertex(4,new Vertex(minimum.X, maximum.Y, maximum.Z));
+			SetVertex(5,new Vertex(maximum.X, maximum.Y, maximum.Z));
+			SetVertex(6,new Vertex(minimum.X, minimum.Y, maximum.Z));
+			SetVertex(7,new Vertex(maximum.X, minimum.Y, maximum.Z));
 
 			AllocateLines(12);
 			SetLine(0, new Line(0, 1));

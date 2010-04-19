@@ -27,5 +27,10 @@ namespace Balder.Core.Tests.Fakes
 		{
 			throw new NotImplementedException();
 		}
+
+		public bool HasDetailLevel(DetailLevel level)
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

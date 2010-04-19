@@ -23,6 +23,7 @@ using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
+using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 
@@ -52,7 +53,10 @@ namespace Balder.Silverlight.Rendering
 
 		public void GenerateDetailLevel(DetailLevel targetLevel, DetailLevel sourceLevel)
 		{
-
+			if( targetLevel == DetailLevel.BoundingBox )
+			{
+				GenerateBoundingBoxDetailLevel(sourceLevel);	
+			}
 		}
 
 		public IGeometryDetailLevel GetDetailLevel(DetailLevel level)
@@ -77,6 +81,52 @@ namespace Balder.Silverlight.Rendering
 			{
 				geometryDetailLevel.Render(viewport, node);
 			}
+		}
+
+		public bool HasDetailLevel(DetailLevel level)
+		{
+			return _detailLevels.ContainsKey(level);
+		}
+
+		private void GenerateBoundingBoxDetailLevel(DetailLevel sourceLevel)
+		{
+			var sourceDetailLevel = GetDetailLevel(sourceLevel);
+
+			var minimum = new Vector(0, 0, 0);
+			var maximum = new Vector(0, 0, 0);
+			var vertices = sourceDetailLevel.GetVertices();
+
+
+			foreach( var vertex in vertices )
+			{
+				if (vertex.Vector.X < minimum.X)
+				{
+					minimum.X = vertex.Vector.X;
+				}
+				if (vertex.Vector.Y < minimum.Y)
+				{
+					minimum.Y = vertex.Vector.Y;
+				}
+				if (vertex.Vector.Z < minimum.Z)
+				{
+					minimum.Z = vertex.Vector.Z;
+				}
+				if (vertex.Vector.X > maximum.X)
+				{
+					maximum.X = vertex.Vector.X;
+				}
+				if (vertex.Vector.Y > maximum.Y)
+				{
+					maximum.Y = vertex.Vector.Y;
+				}
+				if (vertex.Vector.Z > maximum.Z)
+				{
+					maximum.Z = vertex.Vector.Z;
+				}
+			}
+
+			var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _nodesPixelBuffer);
+			_detailLevels[DetailLevel.BoundingBox] = boundingBoxDetailLevel;
 		}
 	}
 }

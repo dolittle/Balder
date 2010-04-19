@@ -88,6 +88,15 @@ namespace Balder.Core.Objects.Geometries
 		 * */
 
 
+		public override void Prepare(Viewport viewport)
+		{
+			if( !GeometryContext.HasDetailLevel(DetailLevel.BoundingBox) )
+			{
+				GeometryContext.GenerateDetailLevel(DetailLevel.BoundingBox,DetailLevel.Full);
+			}
+			base.Prepare(viewport);
+		}
+
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
 			if( null != Material && !_materialSet )
