@@ -20,6 +20,7 @@
 using Balder.Core.Debug;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Balder.Core.View;
 #if(SILVERLIGHT)
 using System.Windows;
@@ -51,6 +52,9 @@ namespace Balder.Core.Display
 			DebugInfo = new DebugInfo();
 
 			_mousePickRay = new Ray(Vector.Zero,Vector.Forward);
+
+			Messenger.DefaultContext.SubscriptionsFor<RenderMessage>().AddListener(this, Render);
+			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
 		}
 
 		/// <summary>
@@ -204,11 +208,12 @@ namespace Balder.Core.Display
 		}
 
 
-		/// <summary>
-		/// Renders the viewport
-		/// </summary>
-		public void Render()
+		public void Render(RenderMessage renderMessage)
 		{
+			if( null != View )
+			{
+				View.Update(this);	
+			}
 			Scene.Render(this);
 
 			if( DebugInfo.ShowMouseHitDetectionRay )
@@ -217,7 +222,7 @@ namespace Balder.Core.Display
 			}
 		}
 
-		public void Prepare()
+		private void Prepare(PrepareMessage prepareMessage)
 		{
 			Scene.Prepare(this);
 		}

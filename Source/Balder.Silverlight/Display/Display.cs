@@ -25,6 +25,7 @@ using System.Windows.Media.Imaging;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Rendering;
 using Balder.Silverlight.Rendering;
 using Color = Balder.Core.Color;
 
@@ -38,6 +39,9 @@ namespace Balder.Silverlight.Display
 		private WriteableBitmapQueue _bitmapQueue;
 
 		private bool _initialized;
+
+		private RenderMessage _renderMessage;
+		private PrepareMessage _prepareMessage;
 
 		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
 		{
@@ -61,7 +65,33 @@ namespace Balder.Silverlight.Display
 			BufferContainer.Stride = width;
 			_initialized = true;
 			BackgroundColor = Color.FromArgb(0xff, 0, 0, 0);
+			InitializeRendering();
 		}
+
+		public void Uninitialize()
+		{
+			RenderingManager.Instance.Render -= Render;
+			RenderingManager.Instance.Show -= Show;
+			RenderingManager.Instance.Clear -= Clear;
+			RenderingManager.Instance.Swapped -= Swap;
+			RenderingManager.Instance.Updated -= Update;
+			RenderingManager.Instance.Prepare -= Prepare;
+		}
+
+		private void InitializeRendering()
+		{
+			RenderingManager.Instance.Render += Render;
+			RenderingManager.Instance.Show += Show;
+			RenderingManager.Instance.Clear += Clear;
+			RenderingManager.Instance.Swapped += Swap;
+			RenderingManager.Instance.Updated += Update;
+			RenderingManager.Instance.Prepare += Prepare;
+			RenderingManager.Instance.Start();
+
+			_renderMessage = new RenderMessage();
+			_prepareMessage = new PrepareMessage();
+		}
+
 
 		private Image _image;
 		public void InitializeContainer(object container)
@@ -149,7 +179,9 @@ namespace Balder.Silverlight.Display
 
 		public void Render()
 		{
-			
+			PrepareRender();
+			Messenger.DefaultContext.Send(_renderMessage);
+			AfterRender();
 		}
 
 
@@ -194,7 +226,7 @@ namespace Balder.Silverlight.Display
 
 		public void Prepare()
 		{
-			
+			Messenger.DefaultContext.Send(_prepareMessage);
 		}
 
 		public void Update()

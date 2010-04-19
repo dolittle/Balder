@@ -39,7 +39,7 @@ namespace Balder.Core.Execution
 			_messageSubscriptions = new Dictionary<Type, object>();
 		}
 
-		private MessageSubscriptions<T> GetSubscription<T>()
+		private MessageSubscriptions<T> GetSubscriptions<T>()
 		{
 			var type = typeof (T);
 			MessageSubscriptions<T> subscription = null;
@@ -56,26 +56,26 @@ namespace Balder.Core.Execution
 
 
 		/// <summary>
-		/// Adds a subscription for a specified message
+		/// Get subscriptions for a specific message type
 		/// </summary>
-		/// <typeparam name="T">Type of message to subscribe to</typeparam>
-		/// <param name="actionToCall">Action to call when a message is received</param>
-		public void ListenTo<T>(Action<T> actionToCall)
+		/// <typeparam name="T">MessageType to get for</typeparam>
+		/// <returns>Subscriptions</returns>
+		public MessageSubscriptions<T> SubscriptionsFor<T>()
 		{
-			var subscription = GetSubscription<T>();
-			subscription.AddListener(actionToCall);
+			var subscriptions = GetSubscriptions<T>();
+			return subscriptions;
 		}
 
 
 		/// <summary>
-		/// Sends a specific message to any listeners
+		/// Send a message to subscribers of a specific message type
 		/// </summary>
-		/// <typeparam name="T">Type of message to send</typeparam>
-		/// <param name="message">Actual message to send</param>
+		/// <typeparam name="T">Type of message to send - inferred from parameter</typeparam>
+		/// <param name="message">Message to send</param>
 		public void Send<T>(T message)
 		{
-			var subscription = GetSubscription<T>();
-			subscription.Notify(message);
+			var subscriptions = GetSubscriptions<T>();
+			subscriptions.Notify(message);
 		}
 	}
 }

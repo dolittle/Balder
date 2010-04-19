@@ -1,4 +1,5 @@
-﻿#region License
+#region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,25 +16,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
 
-using System;
-using Balder.Core.Display;
-using Moq;
-
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Core.Rendering
 {
-	public class FakeDisplayDevice : IDisplayDevice
+	public class RenderMessage
 	{
-		public IDisplay CreateDisplay()
-		{
-			var mock = new Mock<IDisplay>();
-			return mock.Object;
-		}
-
-		public void RemoveDisplay(IDisplay display)
-		{
-			throw new NotImplementedException();
-		}
+		
 	}
 }

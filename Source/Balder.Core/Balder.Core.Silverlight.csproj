@@ -104,6 +104,7 @@
     <Compile Include="Execution\ICanBeUnique.cs" />
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\MessageAction.cs" />
     <Compile Include="Execution\MessageSubscriptions.cs" />
     <Compile Include="Execution\Messenger.cs" />
     <Compile Include="Execution\MessengerContext.cs" />
@@ -148,6 +149,8 @@
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Rendering\INodeRenderingService.cs" />
     <Compile Include="Rendering\NodeRenderingService.cs" />
+    <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
     <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />

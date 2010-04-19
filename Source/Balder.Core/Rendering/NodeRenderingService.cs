@@ -21,9 +21,9 @@ namespace Balder.Core.Rendering
 		{
 			foreach (INode node in nodes)
 			{
-				Matrix world = Matrix.Identity;
-				Matrix view = viewport.View.ViewMatrix;
-				Matrix projection = viewport.View.ProjectionMatrix;
+				var world = Matrix.Identity;
+				var view = viewport.View.ViewMatrix;
+				var projection = viewport.View.ProjectionMatrix;
 
 				PrepareForRendering(node, viewport, view, projection, world);
 			}
@@ -32,8 +32,8 @@ namespace Balder.Core.Rendering
 
 		public void Render(Viewport viewport, NodeCollection nodes)
 		{
-			Matrix view = viewport.View.ViewMatrix;
-			Matrix projection = viewport.View.ProjectionMatrix;
+			var view = viewport.View.ViewMatrix;
+			var projection = viewport.View.ProjectionMatrix;
 			foreach (INode node in nodes)
 			{
 				RenderNode(node, viewport, view, projection);

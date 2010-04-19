@@ -18,6 +18,8 @@
 //
 
 #endregion
+
+using System;
 using Balder.Core.Execution;
 using NUnit.Framework;
 
@@ -36,7 +38,7 @@ namespace Balder.Core.Tests.Execution
 		{
 			var wasCalled = false;
 			var subscription = new MessageSubscriptions<Message>();
-			subscription.AddListener(m => wasCalled = true);
+			subscription.AddListener(this,m => wasCalled = true);
 			subscription.Notify(new Message());
 			Assert.That(wasCalled,Is.True);
 		}
@@ -46,8 +48,8 @@ namespace Balder.Core.Tests.Execution
 		{
 			var callCount = 0;
 			var subscription = new MessageSubscriptions<Message>();
-			subscription.AddListener(m => callCount++);
-			subscription.AddListener(m => callCount++);
+			subscription.AddListener(this, m => callCount++);
+			subscription.AddListener(this, m => callCount++);
 			subscription.Notify(new Message());
 			Assert.That(callCount,Is.EqualTo(2));
 		}
@@ -58,9 +60,15 @@ namespace Balder.Core.Tests.Execution
 			var actualContent = 0;
 			var expectedContent = 42;
 			var subscription = new MessageSubscriptions<Message>();
-			subscription.AddListener(m => actualContent = m.Content);
+			subscription.AddListener(this, m => actualContent = m.Content);
 			subscription.Notify(new Message {Content = expectedContent});
 			Assert.That(actualContent,Is.EqualTo(expectedContent));
+		}
+
+		[Test]
+		public void RemovingListenerShouldNotCallTheListenerWhenNotifying()
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

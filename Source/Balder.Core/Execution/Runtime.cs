@@ -202,9 +202,6 @@ namespace Balder.Core.Execution
 		private void InitializePlatformEventHandlers()
 		{
 			Platform.StateChanged += PlatformStateChanged;
-			Platform.DisplayDevice.Render += PlatformRender;
-			Platform.DisplayDevice.Update += PlatformUpdate;
-			Platform.DisplayDevice.Prepare += PlatformPrepare;
 		}
 
 
@@ -257,57 +254,6 @@ namespace Balder.Core.Execution
 		private bool HasPlatformLoaded { get { return IsPlatformInStateOrLater(PlatformState.Load, ref _hasPlatformLoaded); } }
 		private bool HasPlatformInitialized { get { return IsPlatformInStateOrLater(PlatformState.Initialize, ref _hasPlatformInitialized); } }
 		private bool HasPlatformRun { get { return IsPlatformInStateOrLater(PlatformState.Run, ref _hasPlatformRun); } }
-
-
-		private void PlatformUpdate(IDisplay display)
-		{
-			if (Platform.CurrentState == PlatformState.Run)
-			{
-				CallMethodOnGames(display, g => g.OnUpdate(), g => g.State == ActorState.Run);
-			}
-		}
-
-		private void PlatformRender(IDisplay display)
-		{
-			if (Platform.CurrentState == PlatformState.Run)
-			{
-				CallMethodOnGames(display, g => g.OnRender(), g => g.State == ActorState.Run);
-			}
-		}
-
-		private void PlatformPrepare(IDisplay display)
-		{
-			if (Platform.CurrentState == PlatformState.Run)
-			{
-				CallMethodOnGames(display, g => g.OnPrepare(), g => g.State == ActorState.Run);
-			}
-		}
-
-
-		private void CallMethodOnGames(IDisplay display, Action<Game> action, Func<Game, bool> advice)
-		{
-			lock (_gamesPerDisplay)
-			{
-				if (_gamesPerDisplay.ContainsKey(display))
-				{
-					var games = _gamesPerDisplay[display];
-					foreach (Game game in games)
-					{
-						if (null != advice)
-						{
-							if (advice(game))
-							{
-								action(game);
-							}
-						}
-						else
-						{
-							action(game);
-						}
-					}
-				}
-			}
-		}
 
 
 		private void PlatformStateChanged(IPlatform platform, PlatformState state)

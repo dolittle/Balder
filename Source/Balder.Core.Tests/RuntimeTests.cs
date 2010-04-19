@@ -23,7 +23,6 @@ using Balder.Core.Display;
 using Balder.Core.Tests.Fakes;
 using CThru.Silverlight;
 using Moq;
-using Ninject.Core;
 using NUnit.Framework;
 using Balder.Core.Execution;
 
@@ -107,130 +106,6 @@ namespace Balder.Core.Tests
 		public void GameRegisteredAfterLoadStateChangeOccuredOnPlatformShouldHaveItsLoadEventCalledDirectly()
 		{
 			EventShouldBeCalledForStateDuringRegistration(g => g.OnLoadContent(), PlatformState.Load, true);
-		}
-
-		[Test, SilverlightUnitTest]
-		public void OnRenderForGamesShouldNotBeCalledBeforePlatformIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onRenderCalled = false;
-
-			gameMock.Expect(g => g.OnRender()).Callback(() => onRenderCalled = true);
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			((FakeDisplayDevice)platform.DisplayDevice).FireRenderEvent(displayMock.Object);
-			Assert.That(onRenderCalled, Is.False);
-		}
-
-		[Test, SilverlightUnitTest]
-		public void OnRenderForGamesShouldBeCalledWhenPlatformAndGameIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onRenderCalled = false;
-
-			gameMock.Expect(g => g.OnRender()).Callback(() => onRenderCalled = true);
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			platform.ChangeState(PlatformState.Run);
-			gameMock.Object.ChangeState(ActorState.Run);
-			((FakeDisplayDevice)platform.DisplayDevice).FireRenderEvent(displayMock.Object);
-			Assert.That(onRenderCalled, Is.True);
-		}
-
-		[Test, SilverlightUnitTest]
-		public void OnUpdateForGamesShouldNotBeCalledBeforePlatformIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onUpdateCalled = false;
-
-			gameMock.Expect(g => g.OnUpdate()).Callback(() => onUpdateCalled = true);
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			((FakeDisplayDevice)platform.DisplayDevice).FireUpdateEvent(displayMock.Object);
-			Assert.That(onUpdateCalled, Is.False);
-		}
-
-		[Test, SilverlightUnitTest]
-		public void OnUpdateForGamesShouldBeCalledWhenPlatformAndGameIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onUpdateCalled = false;
-
-			gameMock.Expect(g => g.OnUpdate()).Callback(() => onUpdateCalled = true);
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			platform.ChangeState(PlatformState.Run);
-			gameMock.Object.ChangeState(ActorState.Run);
-			((FakeDisplayDevice)platform.DisplayDevice).FireUpdateEvent(displayMock.Object);
-			Assert.That(onUpdateCalled, Is.True);
-		}
-
-		[Test,SilverlightUnitTest]
-		public void OnUpdateForGamesShouldNotBeCalledBeforeGameIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onUpdateCalled = false;
-
-			gameMock.Expect(g => g.OnUpdate()).Callback(() => onUpdateCalled = true);
-
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			platform.ChangeState(PlatformState.Run);
-
-			((FakeDisplayDevice)platform.DisplayDevice).FireUpdateEvent(displayMock.Object);
-			if (onUpdateCalled)
-			{
-				Assert.That(gameMock.Object.State, Is.EqualTo(ActorState.Run));
-			}
-		}
-
-		[Test,SilverlightUnitTest]
-		public void OnRenderForGamesShouldNotBeCalledBeforeGameIsInRunState()
-		{
-			var platform = new FakePlatform();
-			var objectFactoryMock = new Mock<IObjectFactory>();
-			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
-			var displayMock = new Mock<IDisplay>();
-			var gameMock = new Mock<Game>();
-			var onRenderCalled = false;
-
-			gameMock.Expect(g => g.OnRender()).Callback(() => onRenderCalled = true);
-
-			runtime.RegisterGame(displayMock.Object, gameMock.Object);
-			platform.ChangeState(PlatformState.Run);
-
-			((FakeDisplayDevice)platform.DisplayDevice).FireUpdateEvent(displayMock.Object);
-			if (onRenderCalled)
-			{
-				Assert.That(gameMock.Object.State, Is.EqualTo(ActorState.Run));
-			}
 		}
 
 

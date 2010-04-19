@@ -147,6 +147,11 @@ namespace Balder.Silverlight.Tests.Notification
 			{
 			}
 
+			public void Uninitialize()
+			{
+				throw new NotImplementedException();
+			}
+
 			public void InitializeContainer(object container)
 			{
 			}

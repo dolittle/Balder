@@ -128,7 +128,7 @@ namespace Balder.Core.Tests
 
 			scene.AddNode(renderableNode);
 
-			viewport.Render();
+			viewport.Render(null);
 
 			Assert.That(renderableNode.RenderCalled,Is.True);
 		}
@@ -149,7 +149,7 @@ namespace Balder.Core.Tests
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
-			viewport.Render();
+			viewport.Render(null);
 			Assert.That(childNode.RenderCalled,Is.True);
 		}
 
@@ -170,7 +170,7 @@ namespace Balder.Core.Tests
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
-			viewport.Render();
+			viewport.Render(null);
 
 			var actualPosition = new Coordinate();
 			actualPosition.X = childNode.WorldResult[3, 0];
@@ -194,7 +194,7 @@ namespace Balder.Core.Tests
 			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
-			viewport.Render();
+			viewport.Render(null);
 
 			Assert.That(node.PrepareCalled,Is.True);
 		}
@@ -213,11 +213,11 @@ namespace Balder.Core.Tests
 			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
-			viewport.Render();
+			viewport.Render(null);
 
 			node.PrepareCalled = false;
 
-			viewport.Render();
+			viewport.Render(null);
 
 			Assert.That(node.PrepareCalled, Is.False);
 		}

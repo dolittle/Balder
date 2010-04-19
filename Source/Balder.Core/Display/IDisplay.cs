@@ -36,6 +36,11 @@ namespace Balder.Core.Display
 		void Initialize(int width, int height);
 
 		/// <summary>
+		/// Uninitialize a display
+		/// </summary>
+		void Uninitialize();
+
+		/// <summary>
 		/// Initialize display container
 		/// </summary>
 		/// <param name="container">Container</param>

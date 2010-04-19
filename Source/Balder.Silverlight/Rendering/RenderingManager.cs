@@ -41,7 +41,6 @@ namespace Balder.Silverlight.Rendering
 		private bool _active;
 
 		private ManualResetEvent _showStartedEvent;
-		
 
 
 		private RenderingManager()

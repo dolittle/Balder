@@ -29,24 +29,49 @@ namespace Balder.Core.Execution
 	/// <typeparam name="T">Type of message it holds subscriptions for</typeparam>
 	public class MessageSubscriptions<T>
 	{
-		private readonly List<WeakReference> _actions;
+		private readonly List<MessageAction<T>> _actions;
 
 		/// <summary>
 		/// Creates a message subscriptions container
 		/// </summary>
 		public MessageSubscriptions()
 		{
-			_actions = new List<WeakReference>();
+			_actions = new List<MessageAction<T>>();
 		}
 
 		/// <summary>
-		/// Add a listener in the subscription
+		/// Add a listener to the subscriptions
 		/// </summary>
+		/// <param name="target">Target object action belongs to</param>
 		/// <param name="listener">Action to call when subsriptions are notified</param>
-		public void AddListener(Action<T> listener)
+		public void AddListener(object target, Action<T> listener)
 		{
-			var reference = new WeakReference(listener);
-			_actions.Add(reference);
+			var action = new MessageAction<T>(target, listener);
+			_actions.Add(action);
+		}
+
+		/// <summary>
+		/// Removes a listener from the subscriptions
+		/// </summary>
+		/// <param name="target">Target object action belongs to</param>
+		/// <param name="listener">Action to remove</param>
+		public void RemoveListener(object target, Action<T> listener)
+		{
+			var actionsToRemove = new List<MessageAction<T>>();
+
+			foreach( var action in _actions )
+			{
+				if( action.Target.Equals(target) &&
+					action.Action.Equals(listener))
+				{
+					actionsToRemove.Add(action);
+				}
+			}
+
+			foreach( var action in actionsToRemove )
+			{
+				_actions.Remove(action);
+			}
 		}
 
 
@@ -58,7 +83,7 @@ namespace Balder.Core.Execution
 		{
 			foreach( var referenceToAction in _actions )
 			{
-				var action = referenceToAction.Target as Action<T>;
+				var action = referenceToAction.Action;
 				if (null != action)
 				{
 					action(message);

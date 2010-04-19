@@ -56,6 +56,7 @@ namespace Balder.Core.Tests.Execution
 			var context = Messenger.Context(obj);
 			Assert.That(context, Is.Not.SameAs(Messenger.DefaultContext));
 		}
+
 	}
 }
 

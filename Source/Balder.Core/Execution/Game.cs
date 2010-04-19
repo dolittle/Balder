@@ -126,16 +126,5 @@ namespace Balder.Core.Execution
 		{
 			Update(this);
 		}
-
-		public virtual void OnRender()
-		{
-			Camera.Update(Viewport);
-			Viewport.Render();
-		}
-
-		public virtual void OnPrepare()
-		{
-			Viewport.Prepare();
-		}
 	}
 }
