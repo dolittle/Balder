@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Core.Display;
 using Ninject.Core;
 
 namespace Balder.Core.Rendering

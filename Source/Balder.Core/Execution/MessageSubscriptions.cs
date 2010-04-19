@@ -61,7 +61,7 @@ namespace Balder.Core.Execution
 
 			foreach( var action in _actions )
 			{
-				if( action.Target.Equals(target) &&
+				if( action.Target.Target.Equals(target) &&
 					action.Action.Equals(listener))
 				{
 					actionsToRemove.Add(action);

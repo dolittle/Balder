@@ -48,13 +48,16 @@ namespace Balder.Silverlight.Rendering
 
 		public void Start()
 		{
-			CompositionTarget.Rendering += ShowTimer;
+			if (!_active)
+			{
+				CompositionTarget.Rendering += ShowTimer;
 
-			_showStartedEvent = new ManualResetEvent(false);
+				_showStartedEvent = new ManualResetEvent(false);
 
-			_active = true;
-			_renderingThread = new Thread(RenderingThread);
-			_renderingThread.Start();
+				_active = true;
+				_renderingThread = new Thread(RenderingThread);
+				_renderingThread.Start();
+			}
 		}
 
 		public void Stop()

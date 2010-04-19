@@ -109,6 +109,10 @@ namespace Balder.Core.Execution
 
 		public void UnregisterGame(Game game)
 		{
+			// Todo : This should be handled by removing runtime context when it is a fully qualified member of the system
+			game.Viewport.Uninitialize();
+			game.Uninitialize();
+
 			var displaysToRemove = new List<IDisplay>();
 			lock (_gamesPerDisplay)
 			{
@@ -138,6 +142,7 @@ namespace Balder.Core.Execution
 
 			foreach (var display in displaysToRemove)
 			{
+				display.Uninitialize();
 				_gamesPerDisplay.Remove(display);
 				Platform.DisplayDevice.RemoveDisplay(display);
 			}

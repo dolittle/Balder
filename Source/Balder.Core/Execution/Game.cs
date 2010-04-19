@@ -48,7 +48,11 @@ namespace Balder.Core.Execution
 			Constructed();
 
 			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
-			
+		}
+
+		public void Uninitialize()
+		{
+			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().RemoveListener(this, UpdateAction);
 		}
 
 		partial void Constructed();
@@ -64,7 +68,18 @@ namespace Balder.Core.Execution
 			}
 		}
 
-		public Viewport Viewport { get; private set; }
+		private Viewport _viewport;
+		public Viewport Viewport
+		{
+			get { return _viewport; }
+			private set
+			{
+				_viewport = value;
+				// Todo: This should be injected - need to figure out how to do this properly!
+				Viewport.Display = Display;
+			}
+		}
+
 		public DebugInfo DebugInfo
 		{
 			get { return Viewport.DebugInfo; }

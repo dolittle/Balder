@@ -62,6 +62,12 @@ namespace Balder.Core.Display
 			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
 		}
 
+		public void Uninitialize()
+		{
+			Messenger.DefaultContext.SubscriptionsFor<RenderMessage>().RemoveListener(this, Render);
+			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().RemoveListener(this, Prepare);
+		}
+
 		/// <summary>
 		/// Get or set the x position in pixelsof the viewport within the display, where 0 is the left
 		/// </summary>
@@ -100,7 +106,7 @@ namespace Balder.Core.Display
 		/// <summary>
 		/// Get the display in which the viewport is rendered to
 		/// </summary>
-		public IDisplay Display { get; private set; }
+		public IDisplay Display { get; internal set; }
 
 		/// <summary>
 		/// Get the aspect ratio for the viewport
