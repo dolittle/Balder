@@ -23,6 +23,7 @@ using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Debug;
 using Balder.Core.Display;
+using Balder.Core.Rendering;
 using Ninject.Core;
 
 namespace Balder.Core.Execution
@@ -154,16 +155,21 @@ namespace Balder.Core.Execution
 			_objectFactory.WireUpDependencies(objectToWire);
 		}
 
+		private PassiveRenderingSignal	_renderSignal = new PassiveRenderingSignal();
+
 		public void SignalRenderingForObject(object objectToSignalFor)
 		{
 			lock (_gamesPerDisplay)
 			{
+				/*
 				if (_gamesPerDisplay.Keys.Count == 1)
 				{
 					var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
 					enumerator.MoveNext();
 					var display = enumerator.Current;
-				}
+				}*/
+
+				Messenger.DefaultContext.Send(_renderSignal);
 			}
 		}
 

@@ -1,5 +1,6 @@
 using Balder.Core.Collections;
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 
 namespace Balder.Core.Rendering
@@ -8,9 +9,23 @@ namespace Balder.Core.Rendering
 	{
 		private readonly RuntimeContext _runtimeContext;
 
+		private int _frameCounter;
+		private bool _render;
+		private ShowMessage _showMessage;
+
+
 		public NodeRenderingService(RuntimeContext runtimeContext)
 		{
 			_runtimeContext = runtimeContext;
+			Messenger.DefaultContext.SubscriptionsFor<PassiveRenderingSignal>().AddListener(this, PassiveRenderingSignaled);
+			_render = true;
+			_showMessage = new ShowMessage();
+		}
+
+		private void PassiveRenderingSignaled(PassiveRenderingSignal signal)
+		{
+			_frameCounter = 2;
+			_render = true;
 		}
 
 		#region INodeRenderingService Members
@@ -26,24 +41,53 @@ namespace Balder.Core.Rendering
 
 		public void PrepareForRendering(Viewport viewport, NodeCollection nodes)
 		{
-			foreach (var node in nodes)
+			if( _runtimeContext.PassiveRendering )
 			{
-				var world = Matrix.Identity;
-				var view = viewport.View.ViewMatrix;
-				var projection = viewport.View.ProjectionMatrix;
+				viewport.Display.Paused = true;
+			}
 
-				PrepareForRendering(node, viewport, view, projection, world);
+			if (_render)
+			{
+				foreach (var node in nodes)
+				{
+					var world = Matrix.Identity;
+					var view = viewport.View.ViewMatrix;
+					var projection = viewport.View.ProjectionMatrix;
+
+					PrepareForRendering(node, viewport, view, projection, world);
+				}
 			}
 		}
 
 
 		public void Render(Viewport viewport, NodeCollection nodes)
 		{
-			var view = viewport.View.ViewMatrix;
-			var projection = viewport.View.ProjectionMatrix;
-			foreach (var node in nodes)
+			if (_render)
 			{
-				RenderNode(node, viewport, DetailLevel.Full);
+				var detailLevel = DetailLevel.Full;
+				if( _runtimeContext.PassiveRendering )
+				{
+					if( _frameCounter-- < 0 )
+					{
+						_frameCounter = 0;
+						_render = false;
+						detailLevel = DetailLevel.Full;
+						
+					} else
+					{
+						detailLevel = _runtimeContext.PassiveRenderingMode==PassiveRenderingMode.BoundingBox?DetailLevel.BoundingBox:DetailLevel.Full;
+						
+					}
+				}
+				foreach (var node in nodes)
+				{
+					RenderNode(node, viewport, detailLevel);
+				}
+
+				if (_runtimeContext.PassiveRendering)
+				{
+					Messenger.DefaultContext.Send(_showMessage);
+				}
 			}
 		}
 

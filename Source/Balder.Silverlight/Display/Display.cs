@@ -43,12 +43,18 @@ namespace Balder.Silverlight.Display
 		private UpdateMessage _updateMessage;
 		private RenderMessage _renderMessage;
 		private PrepareMessage _prepareMessage;
+		private bool _forceShow;
+		private bool _forceClear;
 
 		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
 		{
 			_platform = platform;
 			NodesPixelBuffer = nodesPixelBuffer;
+			ClearEnabled = true;
 		}
+
+		public bool ClearEnabled { get; set; }
+		public bool Paused { get; set; }
 
 		public void Initialize(int width, int height)
 		{
@@ -78,6 +84,7 @@ namespace Balder.Silverlight.Display
 			RenderingManager.Instance.Swapped -= Swap;
 			RenderingManager.Instance.Updated -= Update;
 			RenderingManager.Instance.Prepare -= Prepare;
+			Messenger.DefaultContext.SubscriptionsFor<ShowMessage>().RemoveListener(this, ShowMessage);
 		}
 
 		private void InitializeRendering()
@@ -90,8 +97,19 @@ namespace Balder.Silverlight.Display
 			RenderingManager.Instance.Prepare += Prepare;
 			RenderingManager.Instance.Start();
 
+			Messenger.DefaultContext.SubscriptionsFor<ShowMessage>().AddListener(this,ShowMessage);
+
 			_renderMessage = new RenderMessage();
 			_prepareMessage = new PrepareMessage();
+		}
+
+		private void ShowMessage(ShowMessage message)
+		{
+			_forceShow = true;
+			if( ClearEnabled )
+			{
+				_forceClear = true;
+			}
 		}
 
 
@@ -180,20 +198,21 @@ namespace Balder.Silverlight.Display
 
 		public void Clear()
 		{
-			if (_initialized)
+			if (_initialized && ClearEnabled && !Paused || _forceClear)
 			{
 				var clearBitmap = _bitmapQueue.CurrentRenderBitmap;
 				if (null != clearBitmap)
 				{
 					Array.Clear(clearBitmap.Pixels, 0, clearBitmap.Pixels.Length);
 				}
+				_forceClear = false;
 			}
 		}
 
 
 		public void Show()
 		{
-			if (_initialized)
+			if (_initialized && !Paused || _forceShow)
 			{
 				if (null != _image)
 				{
@@ -203,10 +222,9 @@ namespace Balder.Silverlight.Display
 						_image.Source = _currentFrontBitmap;
 						_currentFrontBitmap.Invalidate();
 						_bitmapQueue.ShowDone();
-
-						
 					}
 				}
+				_forceShow = false;
 			}
 		}
 

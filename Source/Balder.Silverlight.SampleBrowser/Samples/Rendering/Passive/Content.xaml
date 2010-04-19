@@ -30,6 +30,7 @@
 						Width="640" 
 						Height="480"
 						PassiveRendering="True"
+						PassiveRenderingMode="BoundingBox"
 						>
 			<Execution:Game.Camera>
 				<View:Camera Position="-20,10,-100"/>

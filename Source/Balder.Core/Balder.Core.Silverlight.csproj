@@ -99,6 +99,7 @@
     <Compile Include="ColorOperations.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
+    <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
     <Compile Include="Rendering\RuntimeContext.cs" />
     <Compile Include="Rendering\PassiveRenderingMode.cs" />
@@ -154,6 +155,7 @@
     <Compile Include="Rendering\NodeRenderingService.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
+    <Compile Include="Rendering\ShowMessage.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />

@@ -32,6 +32,17 @@ namespace Balder.Core.Display
 		Color BackgroundColor { get; set; }
 
 		/// <summary>
+		/// Get or set wether or not clear should occur
+		/// </summary>
+		bool ClearEnabled { get; set; }
+
+		/// <summary>
+		/// Get or set wether or not the display is paused
+		/// By paused, this means that it won't clear or swap next buffer
+		/// </summary>
+		bool Paused { get; set; }
+
+		/// <summary>
 		/// Initialize the display
 		/// </summary>
 		/// <param name="width">Width of the display</param>

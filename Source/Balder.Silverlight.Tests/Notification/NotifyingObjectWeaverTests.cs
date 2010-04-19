@@ -142,6 +142,18 @@ namespace Balder.Silverlight.Tests.Notification
 		public class TypeImplementingInterfaceInOtherAssembly : IDisplay
 		{
 			public Color BackgroundColor { get; set; }
+			public bool ClearEnabled
+			{
+				get { throw new NotImplementedException(); }
+				set { throw new NotImplementedException(); }
+			}
+
+			public bool Paused
+			{
+				get { throw new NotImplementedException(); }
+				set { throw new NotImplementedException(); }
+			}
+
 			public virtual Color VirtualBackgroundColor { get; set; }
 
 			public void Initialize(int width, int height)
