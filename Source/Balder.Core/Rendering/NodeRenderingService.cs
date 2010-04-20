@@ -11,7 +11,7 @@ namespace Balder.Core.Rendering
 
 		private int _frameCounter;
 		private bool _render;
-		private ShowMessage _showMessage;
+		private readonly ShowMessage _showMessage;
 
 
 		public NodeRenderingService(RuntimeContext runtimeContext)
@@ -118,9 +118,8 @@ namespace Balder.Core.Rendering
 
 		private static void PrepareForRendering(INode node, Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			world = node.ActualWorld*world;
+			world = node.ActualWorld * world;
 			node.RenderingWorld = world;
-
 			node.BeforeRendering(viewport, view, projection, node.RenderingWorld);
 			PrepareChildrenForRendering(node, world, viewport, view, projection);
 		}

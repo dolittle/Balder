@@ -25,7 +25,19 @@
 				MouseLeftButtonDown="Mesh_MouseLeftButtonDown"
 				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
 				Position="-80,0,-50"
-				/>
+				
+				>
+				<Geometries:Box.ToolTip>
+					<ToolTip>
+						<ToolTip.Content>
+							<StackPanel Orientation="Vertical">
+								<TextBlock Text="Red"/>
+								<TextBlock Text="Something more"/>
+							</StackPanel>
+						</ToolTip.Content>
+					</ToolTip>
+				</Geometries:Box.ToolTip>
+			</Geometries:Box>
 			<Geometries:Box
 				x:Name="Box2"
 				Color="Green"
@@ -36,6 +48,7 @@
 				MouseLeftButtonDown="Mesh_MouseLeftButtonDown"
 				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
 				Position="0,0,0"
+				ToolTip="Green"
 				/>
 
 			<Geometries:Box
@@ -48,6 +61,7 @@
 				MouseLeftButtonDown="Mesh_MouseLeftButtonDown"
 				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
 				Position="80,0,50"
+				ToolTip="Blue"
 				/>
 
 			<Lighting:OmniLight Position="0,0,-80" Ambient="Gray" Diffuse="Gray" Specular="White"/>

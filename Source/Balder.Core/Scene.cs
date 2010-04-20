@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+
+using System.Windows;
 using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -31,7 +33,11 @@ namespace Balder.Core
 	/// scene and the scene will handle the management and rendering 
 	/// of the nodes
 	/// </summary>
+#if(SILVERLIGHT)
+	public class Scene : FrameworkElement
+#else
 	public class Scene
+#endif
 	{
 		public static int NodeCount = 0;
 

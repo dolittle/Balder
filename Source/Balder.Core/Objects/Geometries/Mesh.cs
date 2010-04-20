@@ -17,26 +17,40 @@
 //
 #endregion
 
-using System;
 using Balder.Core.Assets;
+using Balder.Core.Content;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-using Ninject.Core;
 
 namespace Balder.Core.Objects.Geometries
 {
 	public partial class Mesh : Geometry, IAsset, ICanHandleCloning
 	{
-		[Inject]
-		public IAssetLoaderService AssetLoaderService { get; set; }
+		private readonly IAssetLoaderService _assetLoaderService;
+		private readonly IContentManager _contentManager;
+
+		public Mesh()
+			: this(Runtime.Instance.Kernel.Get<IAssetLoaderService>(),
+					Runtime.Instance.Kernel.Get<IContentManager>())
+		{
+
+		}
+
+		public Mesh(IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		{
+			_assetLoaderService = assetLoaderService;
+			_contentManager = contentManager;
+		}
+
 
 		public void Load(string assetName)
 		{
-			var loader = AssetLoaderService.GetLoader<Geometry>(assetName);
+
+			var loader = _assetLoaderService.GetLoader<Geometry>(assetName);
 			var geometries = loader.Load(assetName);
 
-			var boundingSphere = new BoundingSphere(Vector.Zero,0);
-			foreach( var geometry in geometries )
+			var boundingSphere = new BoundingSphere(Vector.Zero, 0);
+			foreach (var geometry in geometries)
 			{
 				//geometry.InitializeBoundingSphere();
 				//boundingSphere = BoundingSphere.CreateMerged(boundingSphere, geometry.BoundingSphere);
@@ -50,12 +64,12 @@ namespace Balder.Core.Objects.Geometries
 
 		public void PreClone()
 		{
-			
+
 		}
 
 		public void PostClone(object source)
 		{
-			
+
 		}
 
 		public bool CopyChildren

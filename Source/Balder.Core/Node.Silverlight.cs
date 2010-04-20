@@ -17,10 +17,13 @@
 //
 #endregion
 
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using Balder.Core.Execution;
+using Balder.Core.Silverlight.Helpers;
+using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core
 {
@@ -73,6 +76,20 @@ namespace Balder.Core
 		{
 			get { return CommandParameterProperty.GetValue(this); }
 			set { CommandParameterProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Node, ToolTip> ToolTipProperty =
+			Property<Node, ToolTip>.Register(o => o.ToolTip);
+
+		[TypeConverter(typeof(ToolTipTypeConverter))]
+		public ToolTip ToolTip
+		{
+			get { return ToolTipProperty.GetValue(this); }
+			set
+			{
+				ToolTipProperty.SetValue(this, value);
+				NodeTooltipHelper.Register(this);
+			}
 		}
 
 

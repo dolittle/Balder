@@ -98,6 +98,7 @@
     <Compile Include="ColorAsFloats.cs" />
     <Compile Include="ColorOperations.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
@@ -222,6 +223,7 @@
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\DimensionTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\ToolTipTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\UriToImageTypeConverter.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\NInjectExtensions.cs" />
