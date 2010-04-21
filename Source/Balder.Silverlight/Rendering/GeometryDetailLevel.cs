@@ -131,6 +131,11 @@ namespace Balder.Silverlight.Rendering
 			return Vertices;
 		}
 
+		public void InvalidateVertex(int index)
+		{
+			
+		}
+
 		public void AllocateLines(int count)
 		{
 			Lines = new Line[count];

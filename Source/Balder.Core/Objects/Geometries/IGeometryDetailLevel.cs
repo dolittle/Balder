@@ -17,6 +17,7 @@ namespace Balder.Core.Objects.Geometries
 		void AllocateVertices(int count);
 		void SetVertex(int index, Vertex vertex);
 		Vertex[] GetVertices();
+		void InvalidateVertex(int index);
 
 		void AllocateLines(int count);
 		void SetLine(int index, Line line);
