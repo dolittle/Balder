@@ -205,18 +205,8 @@ namespace Balder.Core.Objects.Geometries
 
 		private void BuildFaces(int actualSegments, int actualStacks, int vertexCount)
 		{
-			var topFaceCount = vertexCount;
-			var bottomFaceCount = vertexCount;
-			var innerSidesFaceCount = vertexCount;
-			var outerSidesFaceCount = vertexCount;
-			var faceCount = (innerSidesFaceCount + outerSidesFaceCount) * Stacks;
+			var faceCount = 0;
 			var faceOffset = 0;
-			if (CapEnds)
-			{
-				faceCount += topFaceCount;
-				faceCount += bottomFaceCount;
-			}
-
 			var verticesPerStack = actualSegments * 2;
 
 			var openRing = false;
@@ -228,12 +218,25 @@ namespace Balder.Core.Objects.Geometries
 				faceOffset = 2;
 				if (Spokes)
 				{
-					faceCount += (2 * Stacks);
-				} else
+					faceCount += (4 * Stacks);
+				} 
+				/*else
 				{
 					faceCount -= (2 * Stacks);
-				}
+				}*/
 			}
+
+			var topFaceCount = actualSegments * 2;
+			var bottomFaceCount = actualSegments * 2;
+			var innerSidesFaceCount = actualSegments * 2;
+			var outerSidesFaceCount = actualSegments * 2;
+			faceCount += (innerSidesFaceCount + outerSidesFaceCount) * Stacks;
+			if (CapEnds)
+			{
+				faceCount += topFaceCount;
+				faceCount += bottomFaceCount;
+			}
+
 
 			FullDetailLevel.AllocateFaces(faceCount);
 
@@ -272,7 +275,7 @@ namespace Balder.Core.Objects.Geometries
 
 			if (CapEnds)
 			{
-				BuildCapFaces(vertexCount, actualSegments, verticesPerStack, faceIndex);
+				faceIndex = BuildCapFaces(vertexCount, actualSegments, verticesPerStack, faceIndex);
 			}
 		}
 
@@ -304,7 +307,7 @@ namespace Balder.Core.Objects.Geometries
 			return faceIndex;
 		}
 
-		private void BuildCapFaces(int vertexCount, int actualSegments, int verticesPerStack, int faceIndex)
+		private int BuildCapFaces(int vertexCount, int actualSegments, int verticesPerStack, int faceIndex)
 		{
 			Face face;
 			for (var segment = 0; segment < actualSegments; segment++)
@@ -333,6 +336,7 @@ namespace Balder.Core.Objects.Geometries
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
+			return faceIndex;
 		}
 
 		private void BuildVertices(int actualSegments, int actualStacks, int vertexCount, bool open)
