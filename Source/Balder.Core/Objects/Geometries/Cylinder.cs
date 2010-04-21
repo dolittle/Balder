@@ -232,7 +232,7 @@ namespace Balder.Core.Objects.Geometries
 			var faceIndex = BuildFaces(actualSegments, actualStacks, nextSegmentOffset, faceSegments, faceOffset, additionalFaceSegments, isFull);
 			if (CapEnds)
 			{
-				BuildEnds(actualSegments, actualStacks, nextSegmentOffset, faceSegments, faceOffset, additionalFaceSegments, faceIndex);
+				faceIndex = BuildEnds(actualSegments, actualStacks, nextSegmentOffset, faceSegments, faceOffset, additionalFaceSegments, faceIndex);
 			}
 
 			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
@@ -290,19 +290,15 @@ namespace Balder.Core.Objects.Geometries
 		{
 			var spokes = isFull || Spokes;
 			var faceIndex = 0;
-			var faceCount = actualStacks * (actualSegments * 2);
+			var faceCount = (actualStacks-1) * (faceSegments * 2);
 			if (CapEnds)
 			{
-				faceCount += actualSegments * 2;
-			}
-			if (!isFull && Spokes )
-			{
-				faceCount += actualStacks * 2;
+				faceCount += faceSegments * 2;
 			}
 			if( !spokes )
 			{
 				faceSegments--;
-				faceCount -= 2;
+				faceCount -= 4;
 			}
 
 			FullDetailLevel.AllocateFaces(faceCount);
@@ -317,7 +313,6 @@ namespace Balder.Core.Objects.Geometries
 				{
 					if( !spokes && x == 0 )
 					{
-						faceIndex++;
 						continue;
 					}
 					var actualX = x + faceOffset;
@@ -346,7 +341,7 @@ namespace Balder.Core.Objects.Geometries
 			return faceIndex;
 		}
 
-		private void BuildEnds(int actualSegments, int actualStacks, int nextSegmentOffset, int faceSegments, int faceOffset, int additionalFaceSegments, int faceIndex)
+		private int BuildEnds(int actualSegments, int actualStacks, int nextSegmentOffset, int faceSegments, int faceOffset, int additionalFaceSegments, int faceIndex)
 		{
 			var vertexOffset = 0;
 			Face face;
@@ -378,6 +373,8 @@ namespace Balder.Core.Objects.Geometries
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
+
+			return faceIndex;
 		}
 	}
 }
