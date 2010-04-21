@@ -34,7 +34,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var n = vertex.TransformedNormal;
 			var r = Vector.Reflect(n, u);
 			var m = MathHelper.Sqrt((r.X * r.X) + (r.Y * r.Y) +
-			                        ((r.Z + 0f) * (r.Z + 0f)));
+									((r.Z + 0f) * (r.Z + 0f)));
 			var s = (r.X / m);
 			var t = (r.Y / m);
 			vertex.U = (s * 0.5f) + 0.5f;
@@ -47,12 +47,22 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
 
-			vertexA.U = face.DiffuseTextureCoordinateA.U;
-			vertexA.V = face.DiffuseTextureCoordinateA.V;
-			vertexB.U = face.DiffuseTextureCoordinateB.U;
-			vertexB.V = face.DiffuseTextureCoordinateB.V;
-			vertexC.U = face.DiffuseTextureCoordinateC.U;
-			vertexC.V = face.DiffuseTextureCoordinateC.V;
+			if (null != face.DiffuseTextureCoordinateA)
+			{
+				vertexA.U = face.DiffuseTextureCoordinateA.U;
+				vertexA.V = face.DiffuseTextureCoordinateA.V;
+			}
+			if (null != face.DiffuseTextureCoordinateB)
+			{
+				vertexB.U = face.DiffuseTextureCoordinateB.U;
+				vertexB.V = face.DiffuseTextureCoordinateB.V;
+			}
+			if (null != face.DiffuseTextureCoordinateC)
+			{
+				vertexC.U = face.DiffuseTextureCoordinateC.U;
+				vertexC.V = face.DiffuseTextureCoordinateC.V;
+			}
+
 
 			Image image = null;
 
@@ -69,7 +79,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
-			if( null == image )
+			if (null == image)
 			{
 				return;
 			}
@@ -296,17 +306,17 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					offset = yoffset + xStart;
 					DrawSpan(length,
-					         zStart,
-					         zAdd,
-					         uStart,
-					         uAdd,
-					         vStart,
-					         vAdd,
-					         depthBuffer,
-					         offset,
-					         framebuffer,
-					         image,
-					         imageContext,
+							 zStart,
+							 zAdd,
+							 uStart,
+							 uAdd,
+							 vStart,
+							 vAdd,
+							 depthBuffer,
+							 offset,
+							 framebuffer,
+							 image,
+							 imageContext,
 							 nodeBuffer,
 							 nodeIdentifier);
 				}
@@ -346,18 +356,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 		protected virtual void DrawSpan(
 			int length,
-		    float zStart,
-		    float zAdd,
-		    float uStart,
-		    float uAdd,
-		    float vStart,
-		    float vAdd,
-		    uint[] depthBuffer,
-		    int offset,
-		    int[] framebuffer,
-		    Image image,
-			ImageContext imageContext, 
-			UInt32[] nodeBuffer, 
+			float zStart,
+			float zAdd,
+			float uStart,
+			float uAdd,
+			float vStart,
+			float vAdd,
+			uint[] depthBuffer,
+			int offset,
+			int[] framebuffer,
+			Image image,
+			ImageContext imageContext,
+			UInt32[] nodeBuffer,
 			UInt32 nodeIdentifier)
 		{
 
@@ -365,15 +375,15 @@ namespace Balder.Silverlight.Rendering.Drawing
 			{
 				var bufferZ = (UInt32)((1.0f - zStart) * (float)UInt32.MaxValue);
 				if (bufferZ > depthBuffer[offset] &&
-				    zStart >= 0f &&
-				    zStart < 1f
+					zStart >= 0f &&
+					zStart < 1f
 					)
 				{
 					var intu = ((int)uStart) & (image.Width - 1);
 					var intv = ((int)vStart) & (image.Height - 1);
 
 					var texel = ((intv << image.WidthBitCount) + intu);
-					
+
 					framebuffer[offset] = imageContext.Pixels[texel];
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
