@@ -122,7 +122,7 @@ namespace Balder.Core.Execution
 
 		private void UpdateAction(UpdateMessage updateMessage)
 		{
-			Update(this);
+			OnUpdateOccured();
 		}
 	}
 }
