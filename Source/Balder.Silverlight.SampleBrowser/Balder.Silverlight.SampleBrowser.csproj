@@ -286,9 +286,6 @@
     <Compile Include="Samples\Primitives\Ring\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Primitives\Sphere\Content.xaml.cs">
-      <DependentUpon>Content.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Samples\Primitives\Sprites\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -445,10 +442,6 @@
     <Page Include="Samples\Primitives\Ring\Content.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Samples\Primitives\Sphere\Content.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
     <Page Include="Samples\Primitives\Sprites\Content.xaml">
       <SubType>Designer</SubType>

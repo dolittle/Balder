@@ -220,10 +220,6 @@ namespace Balder.Core.Objects.Geometries
 				{
 					faceCount += (4 * Stacks);
 				} 
-				/*else
-				{
-					faceCount -= (2 * Stacks);
-				}*/
 			}
 
 			var topFaceCount = actualSegments * 2;

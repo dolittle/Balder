@@ -115,7 +115,8 @@ namespace Balder.Silverlight.SampleBrowser
 			{
 			} else
 			{
-				game.Unload();	
+				game.Unload();
+				game.RuntimeContext.PassiveRendering = false;
 			}
 		}
 

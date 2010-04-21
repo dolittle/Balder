@@ -291,6 +291,12 @@ namespace Balder.Silverlight.Rendering
 			       _vertices[face.C].TransformedVector.Z >= viewport.View.Near;
 		}
 
+		private bool IsLineInView(Viewport viewport, Line line)
+		{
+			return (_vertices[line.A].TransformedVector.Z >= viewport.View.Near &&
+			        _vertices[line.B].TransformedVector.Z >= viewport.View.Near);
+		}
+
 
 		private void RenderFaces(INode node, Viewport viewport)
 		{
@@ -412,6 +418,12 @@ namespace Balder.Silverlight.Rendering
 			for (var lineIndex = 0; lineIndex < _lines.Length; lineIndex++)
 			{
 				var line = _lines[lineIndex];
+
+				if( !IsLineInView(viewport, line))
+				{
+					continue;
+				}
+
 				var a = _vertices[line.A];
 				var b = _vertices[line.B];
 				var xstart = a.TranslatedScreenCoordinates.X;

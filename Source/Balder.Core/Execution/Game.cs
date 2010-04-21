@@ -28,7 +28,7 @@ namespace Balder.Core.Execution
 
 	public partial class Game : Actor
 	{
-		private readonly RuntimeContext _runtimeContext;
+		public RuntimeContext RuntimeContext { get; private set; }
 
 		public event GameEventHandler Update = (s) => { };
 		public event GameEventHandler Initialize = (s) => { };
@@ -41,7 +41,7 @@ namespace Balder.Core.Execution
 
 		public Game(RuntimeContext runtimeContext)
 		{
-			_runtimeContext = runtimeContext;
+			RuntimeContext = runtimeContext;
 			Viewport = new Viewport { Width = 800, Height = 600 };
 			Scene = new Scene();
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
@@ -93,7 +93,7 @@ namespace Balder.Core.Execution
 			set
 			{
 				_passiveRendering = value;
-				_runtimeContext.PassiveRendering = true;
+				RuntimeContext.PassiveRendering = true;
 			}
 		}
 
@@ -104,7 +104,7 @@ namespace Balder.Core.Execution
 			set
 			{
 				_passiveRenderingMode = value;
-				_runtimeContext.PassiveRenderingMode = value;
+				RuntimeContext.PassiveRenderingMode = value;
 			}
 		}
 
