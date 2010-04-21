@@ -41,6 +41,7 @@ namespace Balder.Core.Objects.Geometries
 		public event EventHandler<HeightmapEventArgs> HeightInput;
 
 		private Vertex[] _vertices;
+		private Vertex[] _deviceVertices;
 
 
 		public ArbitraryHeightmap()
@@ -124,7 +125,7 @@ namespace Balder.Core.Objects.Geometries
 				var actualHeight = HeightSegments + 1;
 
 				var vertexIndex = 0;
-				//var vertices = FullDetailLevel.GetVertices();
+				
 				for (var y = 0; y < actualHeight; y++)
 				{
 					var offset = y * actualLength;
@@ -143,10 +144,9 @@ namespace Balder.Core.Objects.Geometries
 						if (heightBefore != EventArgs.Height ||
 							!colorBefore.Equals(EventArgs.Color))
 						{
-							SetVectorHeightFromVertex(vertex, EventArgs.Height);
-								//EventArgs.Height;
+							SetVectorHeightFromVertex(vertex, EventArgs.Height, offset +x);
 							vertex.Color = EventArgs.Color;
-							FullDetailLevel.SetVertex(vertexIndex, vertex);
+							//FullDetailLevel.SetVertex(vertexIndex, vertex);
 						}
 
 						vertexIndex++;
@@ -156,14 +156,15 @@ namespace Balder.Core.Objects.Geometries
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		private void SetVectorHeightFromVertex(Vertex vertex, float height)
+		private void SetVectorHeightFromVertex(Vertex vertex, float height, int vertexIndex)
 		{
 			var normal = vertex.NormalToVector();
 			var vector = vertex.ToVector();
 			var newVector = vector + (normal*height);
-			vertex.X = newVector.X;
-			vertex.Y = newVector.Y;
-			vertex.Z = newVector.Z;
+			_deviceVertices[vertexIndex].X = newVector.X;
+			_deviceVertices[vertexIndex].Y = newVector.Y;
+			_deviceVertices[vertexIndex].Z = newVector.Z;
+
 		}
 
 
@@ -186,10 +187,8 @@ namespace Balder.Core.Objects.Geometries
 			var index = (gridY * actualLength) + gridX;
 
 			var vertex = _vertices[index];
-			SetVectorHeightFromVertex(vertex, EventArgs.Height);
-				//.Y = height;
+			SetVectorHeightFromVertex(vertex, EventArgs.Height, index);
 			vertex.Color = color;
-			FullDetailLevel.SetVertex(index, vertex);
 		}
 
 
@@ -279,6 +278,7 @@ namespace Balder.Core.Objects.Geometries
 					vertexIndex++;
 				}
 			}
+			_deviceVertices = FullDetailLevel.GetVertices();
 		}
 
 
