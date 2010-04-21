@@ -47,7 +47,18 @@ namespace Balder.Core.Objects.Geometries
 		public RenderFace(Face face)
 			: this(face.A, face.B, face.C)
 		{
-			
+			Material = face.Material;
+			Color = face.Color;
+			DiffuseA = face.DiffuseA;
+			DiffuseB = face.DiffuseB;
+			DiffuseC = face.DiffuseC;
+			SmoothingGroupA = face.SmoothingGroupA;
+			SmoothingGroupB = face.SmoothingGroupB;
+			SmoothingGroupC = face.SmoothingGroupC;
+			VertexNormalA = face.VertexNormalA;
+			VertexNormalB = face.VertexNormalB;
+			VertexNormalC = face.VertexNormalC;
+			Normal = face.Normal;
 		}
 
 		public void Transform(Matrix matrix)
