@@ -18,21 +18,11 @@
 #endregion
 using Balder.Core.Materials;
 using Balder.Core.Math;
-using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public struct Face
+	public class Face
 	{
-		public static readonly float DebugNormalLength = 5f;
-		public Vector Normal;
-		public Vector TransformedNormal;
-		public Vector Position;
-		public Vector TransformedPosition;
-		public Vector TranslatedPosition;
-		public Vector TransformedDebugNormal;
-		public Vector TranslatedDebugNormal;
-
 		public Material Material;
 		public Color Color;
 
@@ -44,9 +34,6 @@ namespace Balder.Core.Objects.Geometries
 		public int DiffuseB;
 		public int DiffuseC;
 
-		public TextureCoordinate DiffuseTextureCoordinateA;
-		public TextureCoordinate DiffuseTextureCoordinateB;
-		public TextureCoordinate DiffuseTextureCoordinateC;
 
 		public int SmoothingGroupA;
 		public int SmoothingGroupB;
@@ -56,33 +43,13 @@ namespace Balder.Core.Objects.Geometries
 		public Vector VertexNormalB;
 		public Vector VertexNormalC;
 
+		public Vector Normal;
+
 		public Face(int a, int b, int c)
-			: this()
 		{
 			A = a;
 			B = b;
 			C = c;
-		}
-
-		public void Transform(Matrix matrix)
-		{
-			TransformedNormal = Vector.TransformNormal(Normal, matrix);
-			TransformedPosition = Vector.Transform(Position, matrix);
-		}
-
-		public void Transform(Matrix world, Matrix view)
-		{
-			TransformedNormal = Vector.TransformNormal(Normal, world);
-			TransformedNormal = Vector.TransformNormal(TransformedNormal, view);
-			TransformedPosition = Vector.Transform(Position, world, view);
-
-			TransformedDebugNormal = TransformedPosition +(TransformedNormal); //*DebugNormalLength);
-		}
-
-		public void Translate(Matrix projectionMatrix, float width, float height)
-		{
-			TranslatedPosition = Vector.Translate(TransformedPosition, projectionMatrix, width, height);
-			TranslatedDebugNormal = Vector.Translate(TransformedDebugNormal, projectionMatrix, width, height);
 		}
 	}
 }

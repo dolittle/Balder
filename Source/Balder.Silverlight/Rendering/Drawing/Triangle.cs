@@ -61,6 +61,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 			vertexC = point3;
 		}
 
-		public abstract void Draw(Face face, RenderVertex[] vertices, UInt32 nodeIdentifier);
+		public abstract void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier);
 	}
 }

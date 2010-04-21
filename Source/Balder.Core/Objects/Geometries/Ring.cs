@@ -405,11 +405,8 @@ namespace Balder.Core.Objects.Geometries
 
 		private Face CreateFace(int a, int b, int c)
 		{
-			var face = new Face
+			var face = new Face(a,b,c)
 			           	{
-			           		A = a,
-			           		B = b,
-			           		C = c,
 			           		DiffuseA = a,
 			           		DiffuseB = b,
 			           		DiffuseC = c

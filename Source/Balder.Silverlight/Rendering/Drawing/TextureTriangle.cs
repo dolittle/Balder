@@ -28,7 +28,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public class TextureTriangle : Triangle
 	{
-		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex, TextureCoordinate textureCoordinate)
+		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
 			var u = vertex.TransformedVectorNormalized;
 			var n = vertex.TransformedNormal;
@@ -37,19 +37,22 @@ namespace Balder.Silverlight.Rendering.Drawing
 			                        ((r.Z + 0f) * (r.Z + 0f)));
 			var s = (r.X / m);
 			var t = (r.Y / m);
-			textureCoordinate.U = (s * 0.5f) + 0.5f;
-			textureCoordinate.V = -(t * 0.5f) + 0.5f;
+			vertex.U = (s * 0.5f) + 0.5f;
+			vertex.V = -(t * 0.5f) + 0.5f;
 		}
 
-		public override void Draw(Face face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
 
-			vertexA.TextureCoordinate = face.DiffuseTextureCoordinateA;
-			vertexB.TextureCoordinate = face.DiffuseTextureCoordinateB;
-			vertexC.TextureCoordinate = face.DiffuseTextureCoordinateC;
+			vertexA.U = face.DiffuseTextureCoordinateA.U;
+			vertexA.V = face.DiffuseTextureCoordinateA.V;
+			vertexB.U = face.DiffuseTextureCoordinateB.U;
+			vertexB.V = face.DiffuseTextureCoordinateB.V;
+			vertexC.U = face.DiffuseTextureCoordinateC.U;
+			vertexC.V = face.DiffuseTextureCoordinateC.V;
 
 			Image image = null;
 
@@ -62,9 +65,9 @@ namespace Balder.Silverlight.Rendering.Drawing
 			{
 				image = face.Material.ReflectionMap;
 
-				SetSphericalEnvironmentMapTextureCoordinate(vertexA, vertexA.TextureCoordinate);
-				SetSphericalEnvironmentMapTextureCoordinate(vertexB, vertexB.TextureCoordinate);
-				SetSphericalEnvironmentMapTextureCoordinate(vertexC, vertexC.TextureCoordinate);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
 			if( null == image )
 			{
@@ -79,21 +82,21 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.TextureCoordinate.U * image.Width;
-			var va = vertexA.TextureCoordinate.V * image.Height;
+			var ua = vertexA.U * image.Width;
+			var va = vertexA.V * image.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.TextureCoordinate.U * image.Width;
-			var vb = vertexB.TextureCoordinate.V * image.Height;
+			var ub = vertexB.U * image.Width;
+			var vb = vertexB.V * image.Height;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.TextureCoordinate.U * image.Width;
-			var vc = vertexC.TextureCoordinate.V * image.Height;
+			var uc = vertexC.U * image.Width;
+			var vc = vertexC.V * image.Height;
 
 
 			var deltaX1 = xb - xa;

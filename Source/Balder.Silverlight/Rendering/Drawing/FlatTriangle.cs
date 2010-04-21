@@ -26,7 +26,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public class FlatTriangle : Triangle
 	{
-		public override void Draw(Face face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];

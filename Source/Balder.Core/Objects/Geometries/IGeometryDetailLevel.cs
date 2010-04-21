@@ -13,6 +13,7 @@ namespace Balder.Core.Objects.Geometries
 		void AllocateFaces(int count);
 		void SetFace(int index, Face face);
 		Face[] GetFaces();
+		void InvalidateFace(int index);
 
 		void AllocateVertices(int count);
 		void SetVertex(int index, Vertex vertex);

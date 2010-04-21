@@ -18,10 +18,9 @@
 #endregion
 namespace Balder.Core.Objects.Geometries
 {
-	public struct TextureCoordinate
+	public class TextureCoordinate
 	{
 		public TextureCoordinate(float u, float v)
-			: this()
 		{
 			U = u;
 			V = v;

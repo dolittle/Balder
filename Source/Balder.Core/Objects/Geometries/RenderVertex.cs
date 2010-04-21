@@ -78,6 +78,8 @@ namespace Balder.Core.Objects.Geometries
 		public float DepthBufferAdjustedZ;
 		public ColorAsFloats CalculatedColor;
 		public bool IsColorCalculated;
-		public TextureCoordinate TextureCoordinate;
+
+		public float U;
+		public float V;
 	}
 }

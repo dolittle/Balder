@@ -21,6 +21,10 @@ namespace Balder.Silverlight.Rendering
 		private readonly ILightCalculator _lightCalculator;
 		private readonly INodesPixelBuffer _nodesPixelBuffer;
 
+		private RenderVertex[] _vertices;
+		private RenderFace[] _faces;
+		private TextureCoordinate[] _textureCoordinates;
+		private Line[] _lines;
 
 		private bool _hasPrepared;
 
@@ -31,91 +35,69 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private RenderVertex[] _vertices;
-		public Vertex[] Vertices
-		{
-			get { return _vertices; }
-		}
 
-		private Face[] _faces;
-		public Face[] Faces
-		{
-			get { return _faces; }
-			private set { _faces = value; }
-		}
+		public int FaceCount { get { return null == _faces ? 0 : _faces.Length; } }
+		public int VertexCount { get { return null == _vertices ? 0 : _vertices.Length; } }
+		public int TextureCoordinateCount { get { return null == _textureCoordinates ? 0 : _textureCoordinates.Length; } }
+		public int LineCount { get { return null == _lines ? 0 : _lines.Length; } }
 
-		public TextureCoordinate[] TextureCoordinates { get; private set; }
-		private Line[] _lines;
-		public Line[] Lines
-		{
-			get { return _lines; }
-			private set { _lines = value; }
-		}
-
-		public int FaceCount { get { return null == Faces ? 0 : Faces.Length; } }
-		public int VertexCount { get { return null == Vertices ? 0 : Vertices.Length; } }
-		public int TextureCoordinateCount { get { return null == TextureCoordinates ? 0 : TextureCoordinates.Length; } }
-		public int LineCount { get { return null == Lines ? 0 : Lines.Length; } }
-
+		#region Face related
 		public void AllocateFaces(int count)
 		{
-			Faces = new Face[count];
+			_faces = new RenderFace[count];
 		}
 
 		public void SetFace(int index, Face face)
 		{
-			var aVector = _vertices[face.A].ToVector();
-			var bVector = _vertices[face.A].ToVector();
-			var cVector = _vertices[face.A].ToVector();
+			var renderFace = new RenderFace(face);
+			var aVector = _vertices[renderFace.A].ToVector();
+			var bVector = _vertices[renderFace.A].ToVector();
+			var cVector = _vertices[renderFace.A].ToVector();
 
 			var v1 = cVector - aVector;
 			var v2 = bVector - aVector;
 
 			var cross = v1.Cross(v2);
 			cross.Normalize();
-			face.Normal = cross;
+			renderFace.Normal = cross;
 
 			var v = aVector + bVector + cVector;
-			face.Position = v / 3;
+			renderFace.Position = v / 3;
 
-			Faces[index] = face;
+			_faces[index] = renderFace;
 		}
 
-		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
-		{
-			Faces[index].DiffuseA = a;
-			Faces[index].DiffuseB = b;
-			Faces[index].DiffuseC = c;
-		}
-
-		public TextureCoordinate[] GetTextureCoordinates()
-		{
-			return TextureCoordinates;
-		}
 
 		public void SetMaterial(int index, Material material)
 		{
-			Faces[index].Material = material;
+			_faces[index].Material = material;
 		}
 
 		public void SetMaterialForAllFaces(Material material)
 		{
-			if (null == Faces)
+			if (null == _faces)
 			{
 				return;
 			}
 
-			for (var index = 0; index < Faces.Length; index++)
+			for (var index = 0; index < _faces.Length; index++)
 			{
-				Faces[index].Material = material;
+				_faces[index].Material = material;
 			}
 		}
 
 		public Face[] GetFaces()
 		{
-			return Faces;
+			return _faces;
 		}
 
+		public void InvalidateFace(int index)
+		{
+
+		}
+		#endregion
+
+		#region Vertex related
 		public void AllocateVertices(int count)
 		{
 			_vertices = new RenderVertex[count];
@@ -123,53 +105,72 @@ namespace Balder.Silverlight.Rendering
 
 		public void SetVertex(int index, Vertex vertex)
 		{
-			Vertices[index] = new RenderVertex(vertex);
+			_vertices[index] = new RenderVertex(vertex);
 		}
 
 		public Vertex[] GetVertices()
 		{
-			return Vertices;
+			return _vertices;
 		}
 
 		public void InvalidateVertex(int index)
 		{
-			
-		}
 
+		}
+		#endregion
+
+		#region Line related
 		public void AllocateLines(int count)
 		{
-			Lines = new Line[count];
+			_lines = new Line[count];
 		}
 
 		public void SetLine(int index, Line line)
 		{
-			Lines[index] = line;
+			_lines[index] = line;
 		}
 
 		public Line[] GetLines()
 		{
-			return Lines;
+			return _lines;
 		}
+		#endregion
+
+		#region TextureCoordinate related
 
 		public void AllocateTextureCoordinates(int count)
 		{
-			TextureCoordinates = new TextureCoordinate[count];
+			_textureCoordinates = new TextureCoordinate[count];
 		}
 
 		public void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate)
 		{
-			TextureCoordinates[index] = textureCoordinate;
+			_textureCoordinates[index] = textureCoordinate;
 		}
+
+		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
+		{
+			_faces[index].DiffuseA = a;
+			_faces[index].DiffuseB = b;
+			_faces[index].DiffuseC = c;
+		}
+
+		public TextureCoordinate[] GetTextureCoordinates()
+		{
+			return _textureCoordinates;
+		}
+
+		#endregion
 
 		private void Prepare()
 		{
-			if (null != TextureCoordinates && TextureCoordinates.Length > 0 && null != Faces)
+			if (null != _textureCoordinates && _textureCoordinates.Length > 0 && null != _faces)
 			{
-				for (var index = 0; index < Faces.Length; index++)
+				for (var index = 0; index < _faces.Length; index++)
 				{
-					Faces[index].DiffuseTextureCoordinateA = TextureCoordinates[Faces[index].DiffuseA];
-					Faces[index].DiffuseTextureCoordinateB = TextureCoordinates[Faces[index].DiffuseB];
-					Faces[index].DiffuseTextureCoordinateC = TextureCoordinates[Faces[index].DiffuseC];
+					_faces[index].DiffuseTextureCoordinateA = _textureCoordinates[_faces[index].DiffuseA];
+					_faces[index].DiffuseTextureCoordinateB = _textureCoordinates[_faces[index].DiffuseB];
+					_faces[index].DiffuseTextureCoordinateC = _textureCoordinates[_faces[index].DiffuseC];
 				}
 			}
 		}
@@ -181,7 +182,7 @@ namespace Balder.Silverlight.Rendering
 
 		public void Render(Viewport viewport, INode node)
 		{
-			if (null == Vertices)
+			if (null == _vertices)
 			{
 				return;
 			}
@@ -192,8 +193,8 @@ namespace Balder.Silverlight.Rendering
 			}
 
 			CalculateVertices(viewport, node);
-			RenderFaces(node, viewport, ref _faces);
-			RenderLines(node, viewport, ref _lines);
+			RenderFaces(node, viewport);
+			RenderLines(node, viewport);
 
 			if (viewport.DebugInfo.ShowVertices)
 			{
@@ -248,7 +249,7 @@ namespace Balder.Silverlight.Rendering
 
 		private void RenderVertices(INode node, Viewport viewport)
 		{
-			for (var vertexIndex = 0; vertexIndex < Vertices.Length; vertexIndex++)
+			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
 				PointRenderer.Draw((int)vertex.TranslatedScreenCoordinates.X,
@@ -258,7 +259,7 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private void CalculateVertexColorsForFace(ref Face face, Viewport viewport, INode node)
+		private void CalculateVertexColorsForFace(Face face, Viewport viewport, INode node)
 		{
 			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
 			{
@@ -291,9 +292,9 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private void RenderFaces(INode node, Viewport viewport, ref Face[] faces)
+		private void RenderFaces(INode node, Viewport viewport)
 		{
-			if (null == faces)
+			if (null == _faces)
 			{
 				return;
 			}
@@ -304,9 +305,9 @@ namespace Balder.Silverlight.Rendering
 
 			var matrix = world * view;
 
-			for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
+			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
-				var face = faces[faceIndex];
+				var face = _faces[faceIndex];
 				
 				var nodeIdentifier = _nodesPixelBuffer.GetNodeIdentifier(node, face.Material);
 
@@ -329,7 +330,7 @@ namespace Balder.Silverlight.Rendering
 					continue;
 				}
 
-				CalculateVertexColorsForFace(ref face, viewport, node);
+				CalculateVertexColorsForFace(face, viewport, node);
 				if (null != face.Material)
 				{
 					switch (face.Material.Shade)
@@ -402,15 +403,15 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
-		private void RenderLines(INode node, Viewport viewport, ref Line[] lines)
+		private void RenderLines(INode node, Viewport viewport)
 		{
-			if (null == lines)
+			if (null == _lines)
 			{
 				return;
 			}
-			for (var lineIndex = 0; lineIndex < lines.Length; lineIndex++)
+			for (var lineIndex = 0; lineIndex < _lines.Length; lineIndex++)
 			{
-				var line = lines[lineIndex];
+				var line = _lines[lineIndex];
 				var a = _vertices[line.A];
 				var b = _vertices[line.B];
 				var xstart = a.TranslatedScreenCoordinates.X;

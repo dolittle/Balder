@@ -22,13 +22,19 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
+	/// <summary>
+	/// Helper for working with geometries and its data
+	/// </summary>
 	public static class GeometryHelper
 	{
-
-		public static void CalculateFaceNormals(IGeometryDetailLevel context)
+		/// <summary>
+		/// Generate face normals for faces added to a specific <see cref="IGeometryDetailLevel"/>
+		/// </summary>
+		/// <param name="detailLevel"></param>
+		public static void CalculateFaceNormals(IGeometryDetailLevel detailLevel)
 		{
-			var vertices = context.GetVertices();
-			var faces = context.GetFaces();
+			var vertices = detailLevel.GetVertices();
+			var faces = detailLevel.GetFaces();
 
 			for( var faceIndex=0; faceIndex<faces.Length; faceIndex++ )
 			{
@@ -39,17 +45,22 @@ namespace Balder.Core.Objects.Geometries
 				var cross = (v2 - v1).Cross(v3 - v1);
 				cross.Normalize();
 				faces[faceIndex].Normal = -cross;
+				detailLevel.InvalidateFace(faceIndex);
 			}
 		}
 
 
-		public static void CalculateVertexNormals(IGeometryDetailLevel context)
+		/// <summary>
+		/// Generate vertex normals for vertices added to a specific <see cref="IGeometryDetailLevel"/>
+		/// </summary>
+		/// <param name="detailLevel"></param>
+		public static void CalculateVertexNormals(IGeometryDetailLevel detailLevel)
 		{
 			var vertexCount = new Dictionary<int, int>();
 			var vertexNormal = new Dictionary<int, Vector>();
 
-			var vertices = context.GetVertices();
-			var faces = context.GetFaces();
+			var vertices = detailLevel.GetVertices();
+			var faces = detailLevel.GetFaces();
 
 			Func<int, Vector, int> addNormal =
 				delegate(int vertex, Vector normal)
@@ -85,6 +96,7 @@ namespace Balder.Core.Objects.Geometries
 				vertices[vertex].NormalX = normal.X;
 				vertices[vertex].NormalY = normal.Y;
 				vertices[vertex].NormalZ = normal.Z;
+				detailLevel.InvalidateVertex(vertex);
 			}
 		}
 	}

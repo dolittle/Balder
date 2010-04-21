@@ -144,11 +144,8 @@ namespace Balder.Core.Assets.AssetLoaders
 					var c = int.Parse(face.Attribute("c").Value);
 					var materialIndex = int.Parse(face.Attribute("matidx").Value);
 
-					var actualFace = new Face
+					var actualFace = new Face(c,b,a)
 					                 	{
-					                 		A = c,
-					                 		B = b,
-					                 		C = a,
 					                 		DiffuseA = a,
 					                 		DiffuseB = b,
 					                 		DiffuseC = c,
