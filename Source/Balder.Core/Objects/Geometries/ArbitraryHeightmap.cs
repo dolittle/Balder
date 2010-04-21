@@ -146,7 +146,6 @@ namespace Balder.Core.Objects.Geometries
 						{
 							SetVectorHeightFromVertex(vertex, EventArgs.Height, offset +x);
 							vertex.Color = EventArgs.Color;
-							//FullDetailLevel.SetVertex(vertexIndex, vertex);
 						}
 
 						vertexIndex++;
