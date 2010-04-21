@@ -100,29 +100,29 @@ namespace Balder.Silverlight.Rendering
 			{
 				foreach (var vertex in vertices)
 				{
-					if (vertex.Vector.X < minimum.X)
+					if (vertex.X < minimum.X)
 					{
-						minimum.X = vertex.Vector.X;
+						minimum.X = vertex.X;
 					}
-					if (vertex.Vector.Y < minimum.Y)
+					if (vertex.Y < minimum.Y)
 					{
-						minimum.Y = vertex.Vector.Y;
+						minimum.Y = vertex.Y;
 					}
-					if (vertex.Vector.Z < minimum.Z)
+					if (vertex.Z < minimum.Z)
 					{
-						minimum.Z = vertex.Vector.Z;
+						minimum.Z = vertex.Z;
 					}
-					if (vertex.Vector.X > maximum.X)
+					if (vertex.X > maximum.X)
 					{
-						maximum.X = vertex.Vector.X;
+						maximum.X = vertex.X;
 					}
-					if (vertex.Vector.Y > maximum.Y)
+					if (vertex.Y > maximum.Y)
 					{
-						maximum.Y = vertex.Vector.Y;
+						maximum.Y = vertex.Y;
 					}
-					if (vertex.Vector.Z > maximum.Z)
+					if (vertex.Z > maximum.Z)
 					{
-						maximum.Z = vertex.Vector.Z;
+						maximum.Z = vertex.Z;
 					}
 				}
 

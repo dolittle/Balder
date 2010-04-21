@@ -16,55 +16,56 @@
 // limitations under the License.
 //
 #endregion
+
 using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public struct Vertex
+	public class Vertex
 	{
-		public Vertex(float x, float y, float z) : this()
+		public static readonly Vertex Zero = new Vertex(0, 0, 0);
+
+		public Vertex()
+			: this(0, 0, 0)
 		{
-			Vector = new Vector(x, y, z);
-			TransformedVector = new Math.Vector(x, y, z);
-			TranslatedVector = new Math.Vector(x, y, z);
-			Normal = Vector.Zero;
-			TranslatedScreenCoordinates = Vector.Zero;
-			IsColorCalculated = false;
+
 		}
 
-		public static Vertex Zero = new Vertex(0,0,0);
-
-		public Vector Vector;
-		public Vector TransformedVector;
-		public Vector TranslatedVector;
-		public Vector Normal;
-		public Vector TransformedNormal;
-		public Vector TransformedVectorNormalized;
-		public Vector TranslatedScreenCoordinates;
-		public float DepthBufferAdjustedZ;
-		public Color Color;
-		public ColorAsFloats CalculatedColor;
-		public bool IsColorCalculated;
-
-		public TextureCoordinate TextureCoordinate;
-
-		public void Transform(Matrix matrix)
+		public Vertex(float x, float y, float z)
+			: this(x, y, z, 0, 0, 0)
 		{
-			TransformedVector = Vector.Transform(Vector, matrix);
-			TransformedNormal = Vector.TransformNormal(Normal, matrix);
+
+		}
+
+		public Vertex(float x, float y, float z, float normalX, float normalY, float normalZ)
+		{
+			X = x;
+			Y = y;
+			Z = z;
+			NormalX = normalX;
+			NormalY = normalY;
+			NormalZ = normalZ;
 		}
 
 
-		public void Translate(Matrix projectionMatrix, float width, float height)
+		public float X { get; set; }
+		public float Y { get; set; }
+		public float Z { get; set; }
+
+		public float NormalX { get; set; }
+		public float NormalY { get; set; }
+		public float NormalZ { get; set; }
+
+		public Color Color { get; set; }
+
+		public Vector ToVector()
 		{
-			TranslatedVector = Vector.Translate(TransformedVector, projectionMatrix, width, height);
+			return new Vector(X, Y, Z);
 		}
 
-		public void MakeScreenCoordinates()
+		public Vector NormalToVector()
 		{
-			TranslatedScreenCoordinates.X = (int)TranslatedVector.X;
-			TranslatedScreenCoordinates.Y = (int)TranslatedVector.Y;
-			TranslatedScreenCoordinates.Z = (int)TranslatedVector.Z;
+			return new Vector(NormalX, NormalY, NormalZ);
 		}
 	}
 }

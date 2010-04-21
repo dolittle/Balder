@@ -131,7 +131,7 @@ namespace Balder.Core.Objects.Geometries
 					for (var x = 0; x < actualLength; x++)
 					{
 						var vertex = _vertices[offset + x];
-						var heightBefore = vertex.Vector.Y;
+						var heightBefore = vertex.Y;
 						var colorBefore = vertex.Color;
 						EventArgs.Color = Colors.Black;
 						EventArgs.ActualVertex = vertex;
@@ -143,7 +143,7 @@ namespace Balder.Core.Objects.Geometries
 						if (heightBefore != EventArgs.Height ||
 							!colorBefore.Equals(EventArgs.Color))
 						{
-							vertex.Vector = GetVectorHeightFromVertex(vertex, EventArgs.Height);
+							SetVectorHeightFromVertex(vertex, EventArgs.Height);
 								//EventArgs.Height;
 							vertex.Color = EventArgs.Color;
 							FullDetailLevel.SetVertex(vertexIndex, vertex);
@@ -156,11 +156,14 @@ namespace Balder.Core.Objects.Geometries
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		private Vector GetVectorHeightFromVertex(Vertex vertex, float height)
+		private void SetVectorHeightFromVertex(Vertex vertex, float height)
 		{
-			var newVector = vertex.Vector + (vertex.Normal*height);
-			return newVector;
-			
+			var normal = vertex.NormalToVector();
+			var vector = vertex.ToVector();
+			var newVector = vector + (normal*height);
+			vertex.X = newVector.X;
+			vertex.Y = newVector.Y;
+			vertex.Z = newVector.Z;
 		}
 
 
@@ -183,7 +186,7 @@ namespace Balder.Core.Objects.Geometries
 			var index = (gridY * actualLength) + gridX;
 
 			var vertex = _vertices[index];
-			vertex.Vector = GetVectorHeightFromVertex(vertex, EventArgs.Height);
+			SetVectorHeightFromVertex(vertex, EventArgs.Height);
 				//.Y = height;
 			vertex.Color = color;
 			FullDetailLevel.SetVertex(index, vertex);
@@ -218,7 +221,9 @@ namespace Balder.Core.Objects.Geometries
 
 			for( var vertexIndex=0; vertexIndex<vertices.Length; vertexIndex++ )
 			{
-				_vertices[vertexIndex].Normal = vertices[vertexIndex].Normal;
+				_vertices[vertexIndex].NormalX = vertices[vertexIndex].NormalX;
+				_vertices[vertexIndex].NormalY = vertices[vertexIndex].NormalY;
+				_vertices[vertexIndex].NormalZ = vertices[vertexIndex].NormalZ;
 			}
 
 			base.Prepare(viewport);

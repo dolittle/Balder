@@ -108,13 +108,13 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			var vertices = geometryDetailLevel.GetVertices();
 			Assert.That(vertices.Length, Is.EqualTo(8));
 
-			Assert.That(vertices[0].Vector.X, Is.EqualTo(-10f));
-			Assert.That(vertices[0].Vector.Y, Is.EqualTo(-10f));
-			Assert.That(vertices[0].Vector.Z, Is.EqualTo(-10f));
+			Assert.That(vertices[0].X, Is.EqualTo(-10f));
+			Assert.That(vertices[0].Y, Is.EqualTo(-10f));
+			Assert.That(vertices[0].Z, Is.EqualTo(-10f));
 
-			Assert.That(vertices[2].Vector.X, Is.EqualTo(-10f));
-			Assert.That(vertices[2].Vector.Y, Is.EqualTo(-10f));
-			Assert.That(vertices[2].Vector.Z, Is.EqualTo(10f));
+			Assert.That(vertices[2].X, Is.EqualTo(-10f));
+			Assert.That(vertices[2].Y, Is.EqualTo(-10f));
+			Assert.That(vertices[2].Z, Is.EqualTo(10f));
 		}
 
 		[Test, SilverlightUnitTest]

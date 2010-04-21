@@ -32,9 +32,9 @@ namespace Balder.Core.Objects.Geometries
 
 			for( var faceIndex=0; faceIndex<faces.Length; faceIndex++ )
 			{
-				var v1 = vertices[faces[faceIndex].A].Vector;
-				var v2 = vertices[faces[faceIndex].B].Vector;
-				var v3 = vertices[faces[faceIndex].C].Vector;
+				var v1 = vertices[faces[faceIndex].A].ToVector();
+				var v2 = vertices[faces[faceIndex].B].ToVector();
+				var v3 = vertices[faces[faceIndex].C].ToVector();
 
 				var cross = (v2 - v1).Cross(v3 - v1);
 				cross.Normalize();
@@ -82,7 +82,9 @@ namespace Balder.Core.Objects.Geometries
 				var normal = new Vector(addedNormals.X / count,
 				                        addedNormals.Y / count,
 				                        addedNormals.Z / count);
-				vertices[vertex].Normal = normal;
+				vertices[vertex].NormalX = normal.X;
+				vertices[vertex].NormalY = normal.Y;
+				vertices[vertex].NormalZ = normal.Z;
 			}
 		}
 	}

@@ -26,9 +26,9 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public abstract class Triangle
 	{
-		protected void GetSortedPoints(	ref Vertex vertexA,
-		                               	ref Vertex vertexB,
-		                               	ref Vertex vertexC)
+		protected void GetSortedPoints(ref RenderVertex vertexA,
+										ref RenderVertex vertexB,
+										ref RenderVertex vertexC)
 		{
 			var point1 = vertexA;
 			var point2 = vertexB;
@@ -61,6 +61,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 			vertexC = point3;
 		}
 
-		public abstract void Draw(Face face, Vertex[] vertices, UInt32 nodeIdentifier);
+		public abstract void Draw(Face face, RenderVertex[] vertices, UInt32 nodeIdentifier);
 	}
 }

@@ -187,9 +187,9 @@ namespace Balder.Core.Objects.Geometries
 		{
 			for (var index = 0; index < vertices.Length; index++)
 			{
-				var vector = vertices[index].TransformedVector;
-				var vertex = new Vertex(vector.X, vector.Y, vector.Z);
-				_geometryDetailLevel.SetVertex(index + vertexOffset, vertex); //vertices[index]);
+				//var vector = vertices[index].TransformedVector;
+				//var vertex = new Vertex(vector.X, vector.Y, vector.Z);
+				//_geometryDetailLevel.SetVertex(index + vertexOffset, vertex); //vertices[index]);
 			}
 		}
 

@@ -89,7 +89,7 @@ namespace Balder.Core.Objects.Geometries
 					for( var x=0; x<actualLength; x++ )
 					{
 						var vertex = vertices[offset + x];
-						var heightBefore = vertex.Vector.Y;
+						var heightBefore = vertex.Y;
 						var colorBefore = vertex.Color;
 						EventArgs.Color = Colors.Black;
 						EventArgs.ActualVertex = vertex;
@@ -101,7 +101,7 @@ namespace Balder.Core.Objects.Geometries
 						if( heightBefore != EventArgs.Height ||
 							!colorBefore.Equals(EventArgs.Color) )
 						{
-							vertex.Vector.Y = EventArgs.Height;
+							vertex.Y = EventArgs.Height;
 							vertex.Color = EventArgs.Color;
 							FullDetailLevel.SetVertex(vertexIndex,vertex);
 						}
@@ -181,7 +181,8 @@ namespace Balder.Core.Objects.Geometries
 
 				for (var x = 0; x < actualLength; x++)
 				{
-					var vertex = new Vertex(xStart, 0, yStart) { Normal = Vector.Up };
+
+					var vertex = new Vertex(xStart, 0f, yStart, 0f, 1f, 0f);
 					FullDetailLevel.SetVertex(vertexIndex, vertex);
 					xStart += xStep;
 					u += uStep;

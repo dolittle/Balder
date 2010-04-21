@@ -28,7 +28,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public class TextureTriangle : Triangle
 	{
-		private static void SetSphericalEnvironmentMapTextureCoordinate(ref Vertex vertex, ref TextureCoordinate textureCoordinate)
+		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex, TextureCoordinate textureCoordinate)
 		{
 			var u = vertex.TransformedVectorNormalized;
 			var n = vertex.TransformedNormal;
@@ -41,7 +41,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			textureCoordinate.V = -(t * 0.5f) + 0.5f;
 		}
 
-		public override void Draw(Face face, Vertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(Face face, RenderVertex[] vertices, UInt32 nodeIdentifier)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -62,9 +62,9 @@ namespace Balder.Silverlight.Rendering.Drawing
 			{
 				image = face.Material.ReflectionMap;
 
-				SetSphericalEnvironmentMapTextureCoordinate(ref vertexA, ref vertexA.TextureCoordinate);
-				SetSphericalEnvironmentMapTextureCoordinate(ref vertexB, ref vertexB.TextureCoordinate);
-				SetSphericalEnvironmentMapTextureCoordinate(ref vertexC, ref vertexC.TextureCoordinate);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexA, vertexA.TextureCoordinate);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexB, vertexB.TextureCoordinate);
+				SetSphericalEnvironmentMapTextureCoordinate(vertexC, vertexC.TextureCoordinate);
 			}
 			if( null == image )
 			{

@@ -26,13 +26,15 @@
 
 		<local:MyGame x:Name="Game" Width="800" Height="600">
 
-			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Objects}">
-				<Controls:NodesControl.NodeTemplate>
-					<DataTemplate>
-						<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>
-					</DataTemplate>
-				</Controls:NodesControl.NodeTemplate>
-			</Controls:NodesControl>
+			<!--<Geometries:MergedGeometry >-->
+				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Objects}">
+					<Controls:NodesControl.NodeTemplate>
+						<DataTemplate>
+							<Geometries:Box Color="{Binding Color}" Position="{Binding Position}" Dimension="10,10,10"/>
+						</DataTemplate>
+					</Controls:NodesControl.NodeTemplate>
+				</Controls:NodesControl>
+			<!--</Geometries:MergedGeometry>-->
 
 			<local:MyGame.Camera>
 				<View:Camera Position="0,250,-1000"/>
