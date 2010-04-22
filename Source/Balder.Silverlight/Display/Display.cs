@@ -161,10 +161,14 @@ namespace Balder.Silverlight.Display
 				{
 					BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
 					BufferContainer.DepthBuffer = _frontDepthBuffer;
-					NodesPixelBuffer.NewFrame();
-					BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
+					if( _initialized && ClearEnabled && !Paused || _forceClear)
+					{
+						NodesPixelBuffer.NewFrame();
+						BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
+					}
 					
 					Array.Clear(_frontDepthBuffer, 0, _frontDepthBuffer.Length);
+					
 				}
 			}
 		}

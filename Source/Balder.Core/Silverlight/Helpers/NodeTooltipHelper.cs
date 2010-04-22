@@ -59,6 +59,7 @@ namespace Balder.Core.Silverlight.Helpers
 				if (null != toolTip)
 				{
 					toolTip.IsOpen = true;
+					toolTip.Visibility = Visibility.Visible;
 					toolTip.Margin = new Thickness(_mousePosition.X, _mousePosition.Y, 0,0);
 					
 
@@ -76,7 +77,10 @@ namespace Balder.Core.Silverlight.Helpers
 
 		private static void CloseAutomaticToolTip(object sender, EventArgs e)
 		{
-			_closeTimer.Stop();
+			if( null != _closeTimer )
+			{
+				_closeTimer.Stop();	
+			}
 			var source = _lastEnterSource;
 			if (null != source)
 			{

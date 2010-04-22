@@ -46,6 +46,7 @@ namespace Balder.Core.Execution
 			Scene = new Scene();
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();
+			PassiveRenderingMode = PassiveRenderingMode.FullDetail;
 
 			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
 		}

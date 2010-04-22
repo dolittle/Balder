@@ -9,7 +9,7 @@
     xmlns:Controls="clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight" 
     >
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
-		<Execution:Game x:Name="_game" Width="640" Height="480">
+		<Execution:Game x:Name="_game" Width="640" Height="480" PassiveRendering="True">
 			<!--
 			<Execution:Game.DebugInfo>
 				<Debug:DebugInfo BoundingSpheres="True" ShowMouseHitDetectionRay="True"/>
@@ -25,6 +25,7 @@
 				MouseLeftButtonDown="Mesh_MouseLeftButtonDown"
 				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
 				Position="-80,0,-50"
+				
 				
 				>
 				<Geometries:Box.ToolTip>
