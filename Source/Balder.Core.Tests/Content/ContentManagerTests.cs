@@ -18,9 +18,12 @@
 //
 
 #endregion
+
+using System;
 using Balder.Core.Assets;
 using Balder.Core.Content;
 using Balder.Core.Tests.Stubs;
+using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Content
@@ -37,14 +40,74 @@ namespace Balder.Core.Tests.Content
 			}
 		}
 
+		public class MyAssetPart : IAssetPart
+		{
+			public string Name { get; set; }
+			public object CacheKey { get; set; }
+			public object GetContext()
+			{
+				return Context;
+			}
+
+			public void SetContext(object obj)
+			{
+				Context = obj;
+			}
+
+			public object Context { get; set; }
+		}
+
 		[Test]
 		public void LoadingAssetShouldCallLoadOnAsset()
 		{
 			var objectFactoryStub = new ObjectFactoryStub();
-			var contentManager = new ContentManager(objectFactoryStub);
+			var cacheMock = new Mock<IContentCache>();
+			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
+			var contentManager = new ContentManager(objectFactoryStub, cacheMock.Object, assetLoaderServiceMock.Object);
 			var asset = contentManager.Load<MyAsset>("something");
 			Assert.That(asset,Is.Not.Null);
 			Assert.That(asset.LoadCalled,Is.True);
+		}
+
+		[Test]
+		public void LoadingAssetPartShouldReturnAnAssetPart()
+		{
+			var objectFactoryStub = new ObjectFactoryStub();
+			var cacheMock = new Mock<IContentCache>();
+			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
+			var contentManager = new ContentManager(objectFactoryStub, cacheMock.Object, assetLoaderServiceMock.Object);
+			var assetPart = contentManager.LoadPart<MyAssetPart>("something");
+
+			Assert.That(assetPart,Is.Not.Null);
+		}
+
+		[Test]
+		public void LoadingAssetPartForTheFirstTimeShouldLoadIt()
+		{
+			var objectFactoryStub = new ObjectFactoryStub();
+			var cacheMock = new Mock<IContentCache>();
+			cacheMock.Expect(c => c.Exists<MyAssetPart>(It.IsAny<object>())).Returns(false);
+			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
+			assetLoaderServiceMock.Expect(a => a.GetLoader<MyAssetPart>(It.IsAny<string>()));
+			var contentManager = new ContentManager(objectFactoryStub, cacheMock.Object, assetLoaderServiceMock.Object);
+			var assetPart = contentManager.LoadPart<MyAssetPart>("something");
+			assetLoaderServiceMock.VerifyAll();
+		}
+
+		[Test]
+		public void LoadingAssetPartForTheFirstTimeShouldAddContextToCache()
+		{
+			var objectFactoryStub = new ObjectFactoryStub();
+			var cacheMock = new Mock<IContentCache>();
+			cacheMock.Expect(c => c.Put<object>(It.IsAny<object>(), It.IsAny<object>()));
+
+			var assetLoaderMock = new Mock<AssetLoader<MyAssetPart>>();
+			assetLoaderMock.Expect(a => a.Load(It.IsAny<string>())).Returns(new [] {new MyAssetPart()});
+			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
+			assetLoaderServiceMock.Expect(a => a.GetLoader<MyAssetPart>(It.IsAny<string>()));
+			var contentManager = new ContentManager(objectFactoryStub, cacheMock.Object, assetLoaderServiceMock.Object);
+			var assetPart = contentManager.LoadPart<MyAssetPart>("something");
+			cacheMock.VerifyAll();
 		}
 	}
 }

@@ -97,6 +97,8 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColorAsFloats.cs" />
     <Compile Include="ColorOperations.cs" />
+    <Compile Include="Content\ContentCache.cs" />
+    <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Objects\Geometries\RenderFace.cs" />
     <Compile Include="Objects\Geometries\RenderVertex.cs" />

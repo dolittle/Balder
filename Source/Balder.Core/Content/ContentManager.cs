@@ -27,12 +27,16 @@ namespace Balder.Core.Content
 	[Singleton]
 	public class ContentManager : IContentManager
 	{
-		private readonly IObjectFactory _objectFactory;
 		public const string DefaultAssetsRoot = "Assets";
+		private readonly IObjectFactory _objectFactory;
+		private readonly IContentCache _contentCache;
+		private readonly IAssetLoaderService _assetLoaderService;
 
-		public ContentManager(IObjectFactory objectFactory)
+		public ContentManager(IObjectFactory objectFactory, IContentCache contentCache, IAssetLoaderService assetLoaderService)
 		{
 			_objectFactory = objectFactory;
+			_contentCache = contentCache;
+			_assetLoaderService = assetLoaderService;
 			AssetsRoot = DefaultAssetsRoot;
 			Creator = new ContentCreator(objectFactory);
 		}
@@ -43,6 +47,22 @@ namespace Balder.Core.Content
 			var asset = _objectFactory.Get<T>();
 			asset.Load(assetName);
 			return asset;
+		}
+
+		public T LoadPart<T>(string assetPartName)
+			where T : IAssetPart
+		{
+			T assetPart;
+			if( _contentCache.Exists<T>(assetPartName) )
+			{
+				assetPart = CreateAssetPart<T>();	
+			} else
+			{
+				var loader = _assetLoaderService.GetLoader<T>(assetPartName);
+				assetPart = default(T);
+			}
+			
+			return assetPart;
 		}
 
 		public T CreateAssetPart<T>() where T : IAssetPart

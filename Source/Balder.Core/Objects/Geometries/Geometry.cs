@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+
 using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -132,5 +133,16 @@ namespace Balder.Core.Objects.Geometries
 #if(!SILVERLIGHT)
 		public string Name { get; set; }
 #endif
+		public object CacheKey { get; set; }
+
+		public object GetContext()
+		{
+			return GeometryContext;
+		}
+
+		public void SetContext(object obj)
+		{
+			GeometryContext = obj as IGeometryContext;
+		}
 	}
 }

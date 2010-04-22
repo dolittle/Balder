@@ -39,7 +39,6 @@ namespace Balder.Core.Composition
 			var provider = new Exporter(objectFactory);
 			
 			_compositionContainer = new Container(packageCatalog,objectFactory); //, provider);
-			
 		}
 
 		

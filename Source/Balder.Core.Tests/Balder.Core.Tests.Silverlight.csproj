@@ -145,6 +145,7 @@
     <Compile Include="ColorAsFloatsTests.cs" />
     <Compile Include="ColorOperationsTests.cs" />
     <Compile Include="ColorTests.cs" />
+    <Compile Include="Content\ContentCacheTests.cs" />
     <Compile Include="Content\ContentCreatorTests.cs" />
     <Compile Include="Content\ContentManagerTests.cs" />
     <Compile Include="Composition\ComposerTests.cs" />

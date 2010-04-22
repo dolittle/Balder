@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.ComponentModel;
 using Balder.Core.Assets;
 using Balder.Core.Silverlight.TypeConverters;
@@ -92,6 +93,17 @@ namespace Balder.Core.Imaging
 		
 
 		public string Name { get; set; }
+		public object CacheKey { get; set; }
+
+		public object GetContext()
+		{
+			return ImageContext;
+		}
+
+		public void SetContext(object obj)
+		{
+			ImageContext = obj as IImageContext;
+		}
 
 		public void Load(string assetName)
 		{

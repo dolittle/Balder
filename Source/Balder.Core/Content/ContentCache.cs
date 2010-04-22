@@ -1,4 +1,4 @@
-﻿#region License
+#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,14 +16,41 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Assets
-{
-	public interface IAssetPart
-	{
-		string Name { get; set; }
 
-		object CacheKey { get; set; }
-		object GetContext();
-		void SetContext(object obj);
+using System.Collections.Generic;
+
+namespace Balder.Core.Content
+{
+	public class ContentCache : IContentCache
+	{
+		public static class TypeCache<T>
+		{
+			public static Dictionary<object, object> Cache { get; private set; }
+
+			static TypeCache()
+			{
+				Cache = new Dictionary<object, object>();
+			}
+			
+		}
+
+		public bool Exists<T>(object key)
+		{
+			return TypeCache<T>.Cache.ContainsKey(key);
+		}
+
+		public object Get<T>(object key)
+		{
+			if( Exists<T>(key))
+			{
+				return TypeCache<T>.Cache[key];
+			}
+			return null;
+		}
+
+		public void Put<T>(object key, object content)
+		{
+			TypeCache<T>.Cache[key] = content;
+		}
 	}
 }
