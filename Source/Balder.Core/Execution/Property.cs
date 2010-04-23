@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
+using Balder.Core.Rendering;
 using Balder.Core.Silverlight.Extensions;
 
 namespace Balder.Core.Execution
@@ -128,6 +129,8 @@ namespace Balder.Core.Execution
 			objectProperty.CallFromProperty = false;
 		}
 
+		private readonly PassiveRenderingSignal _renderSignal = new PassiveRenderingSignal();
+
 		private void HandleNotification(T obj, TP newValue, TP oldValue)
 		{
 			if( _canNotify )
@@ -135,7 +138,7 @@ namespace Balder.Core.Execution
 				((ICanNotifyChanges)obj).Notify(_propertyInfo.Name,oldValue,newValue);
 				
 			}
-			Runtime.Instance.SignalRenderingForObject(this);
+			Messenger.DefaultContext.Send(_renderSignal);
 		}
 
 		public TP GetValue(T obj)
@@ -153,7 +156,8 @@ namespace Balder.Core.Execution
 			var objectProperty = GetObjectProperty((T)obj);
 			var oldValue = objectProperty.Value;
 			var newValue = (TP) e.NewValue;
-			if( objectProperty.DoesValueCauseChange(newValue))
+			if( objectProperty.DoesValueCauseChange(newValue) &&
+				!objectProperty.CallFromProperty)
 			{
 				HandleNotification((T)obj,newValue,oldValue);
 			}

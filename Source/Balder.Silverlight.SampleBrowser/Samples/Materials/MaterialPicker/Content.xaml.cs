@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Balder.Core;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
@@ -8,7 +9,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 {
 	public partial class Content
 	{
-		private Geometry _selectedNode;
+		private RenderableNode _selectedNode;
 		private Material _selectedMaterial;
 
 		private Material _flatMaterial;
@@ -145,7 +146,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 					break;
 			}
 
-			_selectedNode.Material = _selectedMaterial;
+			if (_selectedNode is Mesh)
+			{
+				((Mesh)_selectedNode).Material = _selectedMaterial;
+			} else if( _selectedNode is Geometry )
+			{
+				((Geometry)_selectedNode).Material = _selectedMaterial;
+			}
 
 			HandleTextureSelection();
 		}

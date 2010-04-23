@@ -18,6 +18,8 @@
 //
 
 #endregion
+
+using System;
 using Balder.Core.Content;
 using Balder.Core.Display;
 using Balder.Core.Imaging;
@@ -35,8 +37,9 @@ namespace Balder.Core.Execution
 {
 	public class PlatformKernel : AutoKernel
 	{
-		public PlatformKernel(IPlatform platform)
+		public PlatformKernel(Type platformType)
 		{
+			var platform = Activator.CreateInstance(platformType) as IPlatform;
 			var runtimeModule = GetRuntimeModule(platform);
 			Load(runtimeModule);
 			

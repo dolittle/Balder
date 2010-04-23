@@ -20,6 +20,7 @@
 #endregion
 
 using System;
+using Balder.Core.Assets;
 using Balder.Core.Content;
 using NUnit.Framework;
 
@@ -28,28 +29,55 @@ namespace Balder.Core.Tests.Content
 	[TestFixture]
 	public class ContentCacheTests
 	{
+		public class MyAssetPart : IAssetPart
+		{
+			public string Name { get; set; }
+		}
+
+		public class MyAsset : IAsset
+		{
+			public MyAssetPart[] AssetParts { get; set; }
+
+			public Uri AssetName { get; set; }
+
+			public IAssetPart[] GetAssetParts()
+			{
+				return AssetParts;
+			}
+
+			public void SetAssetParts(IAssetPart[] assetParts)
+			{
+				AssetParts = (MyAssetPart[]) assetParts;
+			}
+		}
+
 		[Test]
 		public void PuttingContentInCacheShouldReturnSameWhenGetting()
 		{
 			var contentCache = new ContentCache();
-			var cacheable = new object();
+			var asset = new MyAsset();
+			var assetParts = new[] {new MyAssetPart()};
+			asset.AssetParts = assetParts;
+			
 			var key = Guid.NewGuid().ToString();
-			contentCache.Put<object>(key,cacheable);
-			var actual = contentCache.Get<object>(key);
+			contentCache.Put<MyAsset>(key,assetParts);
+			var actualParts = contentCache.Get<MyAsset>(key);
 
-			Assert.That(actual,Is.Not.Null);
-			Assert.That(actual,Is.EqualTo(cacheable));
+			Assert.That(actualParts,Is.Not.Null);
+			Assert.That(actualParts.Length,Is.EqualTo(assetParts.Length));
 		}
 
 		[Test]
 		public void PuttingContentInCacheShouldReturnTrueWhenAskingIfItExists()
 		{
 			var contentCache = new ContentCache();
-			var cacheable = new object();
+			var asset = new MyAsset();
+			var assetParts = new[] { new MyAssetPart() };
+			asset.AssetParts = assetParts;
 			var key = Guid.NewGuid().ToString();
-			contentCache.Put<object>(key, cacheable);
+			contentCache.Put<MyAsset>(key, assetParts);
 
-			var exists = contentCache.Exists<object>(key);
+			var exists = contentCache.Exists<MyAsset>(key);
 			Assert.That(exists,Is.True);
 		}
 	}

@@ -1,5 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
+using Balder.Core;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Balder.Core.Lighting;
@@ -19,7 +20,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 		private Cylinder _cylinder;
 		private Ring _ring;
 
-		private Geometry _selectedNode;
+		private RenderableNode _selectedNode;
 		private Material _selectedMaterial;
 
 		private Material _flatMaterial;
@@ -241,7 +242,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 					break;
 			}
 
-			_selectedNode.Material = _selectedMaterial;
+			if (_selectedNode is Mesh)
+			{
+				((Mesh)_selectedNode).Material = _selectedMaterial;
+			}
+			else if (_selectedNode is Geometry)
+			{
+				((Geometry)_selectedNode).Material = _selectedMaterial;
+			}
 
 			HandleTextureSelection();
 		}

@@ -45,25 +45,12 @@ namespace Balder.Core.Content
 			where T : IAsset
 		{
 			var asset = _objectFactory.Get<T>();
+			/*
 			asset.Load(assetName);
+			 * */
 			return asset;
 		}
 
-		public T LoadPart<T>(string assetPartName)
-			where T : IAssetPart
-		{
-			T assetPart;
-			if( _contentCache.Exists<T>(assetPartName) )
-			{
-				assetPart = CreateAssetPart<T>();	
-			} else
-			{
-				var loader = _assetLoaderService.GetLoader<T>(assetPartName);
-				assetPart = default(T);
-			}
-			
-			return assetPart;
-		}
 
 		public T CreateAssetPart<T>() where T : IAssetPart
 		{

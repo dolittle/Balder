@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
+using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -102,6 +105,19 @@ namespace Balder.Core.Objects.Flat
 		{
 			var loader = AssetLoaderService.GetLoader<Image>(assetName);
 			_frames = loader.Load(assetName);
+		}
+
+		public IAssetPart[] GetAssetParts()
+		{
+			return _frames;
+		}
+
+		public void SetAssetParts(IAssetPart[] assetParts)
+		{
+			var query = from a in assetParts
+			            where a is Image
+			            select a as Image;
+			_frames = query.ToArray();
 		}
 	}
 }

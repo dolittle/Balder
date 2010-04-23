@@ -18,28 +18,33 @@
 #endregion
 
 using System.Collections.Generic;
+using Balder.Core.Assets;
 
 namespace Balder.Core.Content
 {
+#pragma warning disable 1591
 	public class ContentCache : IContentCache
 	{
 		public static class TypeCache<T>
+			where T : IAsset
 		{
-			public static Dictionary<object, object> Cache { get; private set; }
+			public static Dictionary<object, IAssetPart[]> Cache { get; private set; }
 
 			static TypeCache()
 			{
-				Cache = new Dictionary<object, object>();
+				Cache = new Dictionary<object, IAssetPart[]>();
 			}
 			
 		}
 
 		public bool Exists<T>(object key)
+			where T:IAsset
 		{
 			return TypeCache<T>.Cache.ContainsKey(key);
 		}
 
-		public object Get<T>(object key)
+		public IAssetPart[] Get<T>(object key)
+			where T : IAsset
 		{
 			if( Exists<T>(key))
 			{
@@ -48,9 +53,11 @@ namespace Balder.Core.Content
 			return null;
 		}
 
-		public void Put<T>(object key, object content)
+		public void Put<T>(object key, IAssetPart[] content)
+			where T : IAsset
 		{
 			TypeCache<T>.Cache[key] = content;
 		}
 	}
+#pragma warning restore 1591
 }

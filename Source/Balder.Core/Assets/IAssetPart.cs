@@ -21,9 +21,5 @@ namespace Balder.Core.Assets
 	public interface IAssetPart
 	{
 		string Name { get; set; }
-
-		object CacheKey { get; set; }
-		object GetContext();
-		void SetContext(object obj);
 	}
 }

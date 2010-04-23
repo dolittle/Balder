@@ -51,7 +51,7 @@ namespace Balder.Core.Collections
 			base.Add(node);
 		}
 
-		public void AddMany(IEnumerable<INode> nodes)
+		public void AddRange(IEnumerable<INode> nodes)
 		{
 			foreach( var node in nodes )
 			{

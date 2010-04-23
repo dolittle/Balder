@@ -73,8 +73,9 @@ namespace Balder.Core.Execution
 
 		private static IRuntime GetRuntime()
 		{
-			var runtimeImports = new RuntimeImports();
-			var kernel = new PlatformKernel(runtimeImports.Platform);
+			var typeDiscoverer = new TypeDiscoverer();
+			var platformType = typeDiscoverer.FindSingle<IPlatform>();
+			var kernel = new PlatformKernel(platformType);
 			return kernel.Get<IRuntime>();
 		}
 
@@ -155,23 +156,8 @@ namespace Balder.Core.Execution
 			_objectFactory.WireUpDependencies(objectToWire);
 		}
 
-		private PassiveRenderingSignal	_renderSignal = new PassiveRenderingSignal();
+		
 
-		public void SignalRenderingForObject(object objectToSignalFor)
-		{
-			lock (_gamesPerDisplay)
-			{
-				/*
-				if (_gamesPerDisplay.Keys.Count == 1)
-				{
-					var enumerator = _gamesPerDisplay.Keys.GetEnumerator();
-					enumerator.MoveNext();
-					var display = enumerator.Current;
-				}*/
-
-				Messenger.DefaultContext.Send(_renderSignal);
-			}
-		}
 
 		private void WireUpGame(IDisplay display, Game objectToWire)
 		{

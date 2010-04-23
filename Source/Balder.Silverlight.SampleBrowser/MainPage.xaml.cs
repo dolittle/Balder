@@ -1,12 +1,7 @@
-﻿using System.Reflection;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Balder.Core.Display;
 using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.View;
-using Matrix=Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.SampleBrowser
 {
@@ -16,40 +11,8 @@ namespace Balder.Silverlight.SampleBrowser
 		{
 			InitializeComponent();
 
-			/*
-			var camera = new Camera();
-			var viewport = new Viewport {Width = 640, Height = 480, View = camera};
-			camera.Position = new Coordinate(0,0,-480);
-
-			camera.Update(viewport);
-
-			var world = Matrix.Identity;
-			var matrix = (world*camera.ViewMatrix); // *camera.ProjectionMatrix;
-
-			var vector = new Vector(-10, 0, 0);
-			var result = Vector.Transform(vector, matrix);
-
-			var translated = Vector.Translate(result, camera.ProjectionMatrix, viewport.Width, viewport.Height);
-			*/
-
-			/*
-			var translated = result;
-			translated.X = (translated.X * viewport.Width) + (viewport.Width / 2f);
-			translated.Y = ((-translated.Y) * viewport.Height) + (viewport.Height / 2f);
-			 * */
-			//translated.Z = 0;
-
-			/*
-			var source = translated;
-			source.X = (translated.X - (viewport.Width/2))/viewport.Width;
-			source.Y = -((translated.Y - (viewport.Height/2))/viewport.Height);
-			source.W = 1f;
-
-			var unprojected = viewport.Unproject(translated, camera.ProjectionMatrix, camera.ViewMatrix, world);
-
-			var ray = viewport.GetPickRay((int)translated.X, (int)translated.Y);
-			*/
-
+			Application.Current.Host.Settings.EnableFrameRateCounter = true;
+			Application.Current.Host.Settings.MaxFrameRate = 60;
 		}
 
 		private void HandleGameInVisualTree(UIElement element, bool reload)

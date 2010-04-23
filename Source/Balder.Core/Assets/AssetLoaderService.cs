@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Balder.Core.Execution;
 using Balder.Core.Utils;
 using Ninject.Core;
 
@@ -30,12 +29,12 @@ namespace Balder.Core.Assets
 	[Singleton]
 	public class AssetLoaderService : IAssetLoaderService
 	{
-		private readonly IObjectFactory _objectFactory;
+		private readonly IKernel _objectFactory;
 		private readonly Dictionary<string, IAssetLoader> _assetLoaders;
 
-		public AssetLoaderService(IObjectFactory objectFactory)
+		public AssetLoaderService(IKernel kernel)
 		{
-			_objectFactory = objectFactory;
+			_objectFactory = kernel;
 			_assetLoaders = new Dictionary<string, IAssetLoader>();
 		}
 

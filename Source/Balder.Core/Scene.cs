@@ -78,6 +78,7 @@ namespace Balder.Core
 			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
 
+		private readonly PassiveRenderingSignal _renderSignal = new PassiveRenderingSignal();
 
 		/// <summary>
 		/// Add a node to the scene
@@ -120,7 +121,7 @@ namespace Balder.Core
 				_allNodes.Add(node);
 			}
 
-			Runtime.Instance.SignalRenderingForObject(this);
+			Messenger.DefaultContext.Send(_renderSignal);
 		}
 
 

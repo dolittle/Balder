@@ -35,18 +35,7 @@ namespace Balder.Core.Tests
 		{
 			var eventCalled = false;
 			var stateChanged = false;
-			var platform = new FakePlatform();
 			var objectFactoryMock = new Mock<IObjectFactory>();
-
-			platform.StateChanged +=
-				(p, s) =>
-				{
-					if (s == state)
-					{
-						stateChanged = true;
-					}
-				};
-
 
 			var gameMock = new Mock<Game>();
 			gameMock.Expect(g => g.OnInitialize());
@@ -65,7 +54,18 @@ namespace Balder.Core.Tests
 				});
 
 			var assetLoaderServiceMock = new Mock<IAssetLoaderService>();
-			var kernel = new PlatformKernel(platform);
+			var kernel = new PlatformKernel(typeof(FakePlatform));
+
+			var platform = kernel.Get<IPlatform>() as FakePlatform;
+			platform.StateChanged +=
+				(p, s) =>
+				{
+					if (s == state)
+					{
+						stateChanged = true;
+					}
+				};
+
 			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
 
 			if (changeStateFirst)

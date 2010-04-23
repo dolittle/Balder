@@ -16,10 +16,15 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
+
 namespace Balder.Core.Assets
 {
 	public interface IAsset
 	{
-		void Load(string assetName);
+		Uri AssetName { get; set; }
+		IAssetPart[] GetAssetParts();
+		void SetAssetParts(IAssetPart[] assetParts);
 	}
 }

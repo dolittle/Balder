@@ -133,16 +133,5 @@ namespace Balder.Core.Objects.Geometries
 #if(!SILVERLIGHT)
 		public string Name { get; set; }
 #endif
-		public object CacheKey { get; set; }
-
-		public object GetContext()
-		{
-			return GeometryContext;
-		}
-
-		public void SetContext(object obj)
-		{
-			GeometryContext = obj as IGeometryContext;
-		}
 	}
 }

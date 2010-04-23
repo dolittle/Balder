@@ -17,17 +17,21 @@
 //
 #endregion
 
+using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Content;
+using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
-	public partial class Mesh : Geometry, IAsset, ICanHandleCloning
+	public partial class Mesh : RenderableNode, IAsset, ICanHandleCloning
 	{
 		private readonly IAssetLoaderService _assetLoaderService;
 		private readonly IContentManager _contentManager;
+		private bool _materialSet = false;
 
 		public Mesh()
 			: this(Runtime.Instance.Kernel.Get<IAssetLoaderService>(),
@@ -62,6 +66,23 @@ namespace Balder.Core.Objects.Geometries
 			SetColorForChildren();
 		}
 
+		public IAssetPart[] GetAssetParts()
+		{
+			var query = from c in Children
+						where c is IAssetPart
+			            select c as IAssetPart;
+			return query.ToArray();
+		}
+
+		public void SetAssetParts(IAssetPart[] assetParts)
+		{
+			Children.Clear();
+			var nodes = (from a in assetParts
+			            where a is INode
+			            select a as INode).ToArray();
+			Children.AddRange(nodes);
+		}
+
 		public void PreClone()
 		{
 
@@ -76,5 +97,34 @@ namespace Balder.Core.Objects.Geometries
 		{
 			get { return true; }
 		}
+
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			if (null != Material && !_materialSet)
+			{
+				foreach (var child in Children)
+				{
+					if (child is Geometry)
+					{
+						((Geometry)child).Material = Material;
+					}
+				}
+				_materialSet = false;
+			}
+			base.BeforeRendering(viewport, view, projection, world);
+		}
+
+
+		public Property<Mesh, Material> MaterialProperty = Property<Mesh, Material>.Register(g => g.Material);
+		public Material Material
+		{
+			get { return MaterialProperty.GetValue(this); }
+			set
+			{
+				MaterialProperty.SetValue(this, value);
+				_materialSet = false;
+			}
+		}
+
 	}
 }

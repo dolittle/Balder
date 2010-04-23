@@ -17,7 +17,6 @@
 //
 #endregion
 
-using System;
 using System.ComponentModel;
 using Balder.Core.Assets;
 using Balder.Core.Silverlight.TypeConverters;
@@ -28,11 +27,8 @@ namespace Balder.Core.Imaging
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(UriToImageTypeConverter))]
 #endif
-	public class Image : IAsset, IAssetPart
+	public class Image : IAssetPart
 	{
-		[Inject]
-		public IAssetLoaderService AssetLoaderService { get; set; }
-
 		[Inject]
 		public IImageContext ImageContext { get; set; }
 
@@ -90,23 +86,6 @@ namespace Balder.Core.Imaging
 			}
 		}
 
-		
-
 		public string Name { get; set; }
-		public object CacheKey { get; set; }
-
-		public object GetContext()
-		{
-			return ImageContext;
-		}
-
-		public void SetContext(object obj)
-		{
-			ImageContext = obj as IImageContext;
-		}
-
-		public void Load(string assetName)
-		{
-		}
 	}
 }

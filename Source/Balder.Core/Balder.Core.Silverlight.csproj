@@ -72,10 +72,6 @@
       <HintPath>..\..\Components\Siilverlight\Ninject.Core.dll</HintPath>
     </Reference>
     <Reference Include="system" />
-    <Reference Include="System.ComponentModel.Composition, Version=2009.7.8.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\System.ComponentModel.Composition.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Net" />
     <Reference Include="System.Windows" />
@@ -100,6 +96,8 @@
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Execution\ITypeDiscoverer.cs" />
+    <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Objects\Geometries\RenderFace.cs" />
     <Compile Include="Objects\Geometries\RenderVertex.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
@@ -142,12 +140,8 @@
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
     <Compile Include="Execution\ActorState.cs" />
-    <Compile Include="Composition\Composer.cs" />
-    <Compile Include="Composition\Container.cs" />
-    <Compile Include="Composition\Exporter.cs" />
     <Compile Include="Execution\Game.Silverlight.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
-    <Compile Include="Composition\IComposer.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
     <Compile Include="Math\Interpolator.cs" />
@@ -222,7 +216,6 @@
     <Compile Include="Execution\IObjectFactory.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
-    <Compile Include="Execution\RuntimeImports.cs" />
     <Compile Include="Silverlight\Input\NodeMouseEventHelper.cs" />
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
