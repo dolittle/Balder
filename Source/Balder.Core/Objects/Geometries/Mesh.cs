@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System.Collections.Generic;
 using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Content;
@@ -72,7 +73,7 @@ namespace Balder.Core.Objects.Geometries
 			return query.ToArray();
 		}
 
-		public void SetAssetParts(IAssetPart[] assetParts)
+		public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 		{
 			Children.Clear();
 			var nodes = (from a in assetParts

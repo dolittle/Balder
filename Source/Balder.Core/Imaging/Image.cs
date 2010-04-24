@@ -18,7 +18,9 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Silverlight.TypeConverters;
 using Ninject.Core;
@@ -88,6 +90,16 @@ namespace Balder.Core.Imaging
 		}
 
 		public string Name { get; set; }
+		public object GetContext()
+		{
+			return ImageContext;
+		}
+
+		public void SetContext(object context)
+		{
+			ImageContext = context as IImageContext;
+		}
+
 		public Uri AssetName { get; set; }
 
 		public IAssetPart[] GetAssetParts()
@@ -95,13 +107,14 @@ namespace Balder.Core.Imaging
 			return new[] {this};
 		}
 
-		public void SetAssetParts(IAssetPart[] assetParts)
+		public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 		{
-			if( assetParts.Length > 1 )
+			var parts = assetParts.ToArray();
+			if( parts.Length > 1 )
 			{
 				throw new ArgumentException("An image can't have more than one assetpart");
 			}
-			var image = ((Image) assetParts[0]);
+			var image = ((Image) parts[0]);
 			ImageContext = image.ImageContext;
 			Width = image.Width;
 			Height = image.Height;

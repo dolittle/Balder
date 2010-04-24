@@ -28,11 +28,11 @@ namespace Balder.Core.Content
 		public static class TypeCache<T>
 			where T : IAsset
 		{
-			public static Dictionary<object, IAssetPart[]> Cache { get; private set; }
+			public static Dictionary<object, IEnumerable<IAssetPart>> Cache { get; private set; }
 
 			static TypeCache()
 			{
-				Cache = new Dictionary<object, IAssetPart[]>();
+				Cache = new Dictionary<object, IEnumerable<IAssetPart>>();
 			}
 			
 		}
@@ -43,7 +43,7 @@ namespace Balder.Core.Content
 			return TypeCache<T>.Cache.ContainsKey(key);
 		}
 
-		public IAssetPart[] Get<T>(object key)
+		public IEnumerable<IAssetPart> Get<T>(object key)
 			where T : IAsset
 		{
 			if( Exists<T>(key))
@@ -53,7 +53,7 @@ namespace Balder.Core.Content
 			return null;
 		}
 
-		public void Put<T>(object key, IAssetPart[] content)
+		public void Put<T>(object key, IEnumerable<IAssetPart> content)
 			where T : IAsset
 		{
 			TypeCache<T>.Cache[key] = content;

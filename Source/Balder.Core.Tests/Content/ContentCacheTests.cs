@@ -20,6 +20,8 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Content;
 using NUnit.Framework;
@@ -32,6 +34,17 @@ namespace Balder.Core.Tests.Content
 		public class MyAssetPart : IAssetPart
 		{
 			public string Name { get; set; }
+
+			private object _context;
+			public object GetContext()
+			{
+				return _context;
+			}
+
+			public void SetContext(object context)
+			{
+				_context = context;
+			}
 		}
 
 		public class MyAsset : IAsset
@@ -45,7 +58,7 @@ namespace Balder.Core.Tests.Content
 				return AssetParts;
 			}
 
-			public void SetAssetParts(IAssetPart[] assetParts)
+			public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 			{
 				AssetParts = (MyAssetPart[]) assetParts;
 			}
@@ -64,7 +77,7 @@ namespace Balder.Core.Tests.Content
 			var actualParts = contentCache.Get<MyAsset>(key);
 
 			Assert.That(actualParts,Is.Not.Null);
-			Assert.That(actualParts.Length,Is.EqualTo(assetParts.Length));
+			Assert.That(actualParts.ToArray().Length,Is.EqualTo(assetParts.Length));
 		}
 
 		[Test]

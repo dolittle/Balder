@@ -20,6 +20,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using Balder.Core.Assets;
 using Balder.Core.Content;
 using Balder.Core.Tests.Stubs;
@@ -34,6 +35,17 @@ namespace Balder.Core.Tests.Content
 		public class MyAssetPart : IAssetPart
 		{
 			public string Name { get; set; }
+
+			private object _context;
+			public object GetContext()
+			{
+				return _context;
+			}
+
+			public void SetContext(object context)
+			{
+				_context = context;
+			}
 		}
 
 		public class MyAsset : IAsset
@@ -47,7 +59,7 @@ namespace Balder.Core.Tests.Content
 				return AssetParts;
 			}
 
-			public void SetAssetParts(IAssetPart[] assetParts)
+			public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 			{
 				AssetParts = (MyAssetPart[])assetParts;
 			}

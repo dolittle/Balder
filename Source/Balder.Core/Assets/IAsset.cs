@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 
 namespace Balder.Core.Assets
 {
@@ -25,6 +26,6 @@ namespace Balder.Core.Assets
 	{
 		Uri AssetName { get; set; }
 		IAssetPart[] GetAssetParts();
-		void SetAssetParts(IAssetPart[] assetParts);
+		void SetAssetParts(IEnumerable<IAssetPart> assetParts);
 	}
 }

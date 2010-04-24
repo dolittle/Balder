@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Balder.Core.Assets;
 
 namespace Balder.Core.Content
@@ -21,7 +22,7 @@ namespace Balder.Core.Content
 		/// <typeparam name="T">Type of asset the content belongs to</typeparam>
 		/// <param name="key">Key of the content</param>
 		/// <returns>The asset parts in the cache</returns>
-		IAssetPart[] Get<T>(object key) where T : IAsset;
+		IEnumerable<IAssetPart> Get<T>(object key) where T : IAsset;
 
 
 		/// <summary>
@@ -30,6 +31,6 @@ namespace Balder.Core.Content
 		/// <typeparam name="T">Type of asset the content belongs to</typeparam>
 		/// <param name="key">Key of the content</param>
 		/// <param name="parts">AssetParts to put in the cache</param>
-		void Put<T>(object key, IAssetPart[] parts) where T : IAsset;
+		void Put<T>(object key, IEnumerable<IAssetPart> parts) where T : IAsset;
 	}
 }

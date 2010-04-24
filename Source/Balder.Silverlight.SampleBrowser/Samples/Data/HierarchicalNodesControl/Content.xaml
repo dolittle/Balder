@@ -37,15 +37,15 @@
 									<Controls:NodesControl ItemsSource="{Binding Columns}">
 										<Controls:NodesControl.NodeTemplate>
 											<DataTemplate>
-												<!--
+												
 												<Geometries:Mesh 
 													Color="{Binding Color}" 
 													Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
 													AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Data/HierarchicalNodesControl/Assets/box.ASE"/>
-												-->
+												<!--
 												<Geometries:Box Color="{Binding Color}" 
 																Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-																Dimension="10,10,10"/>
+																Dimension="10,10,10"/>-->
 											</DataTemplate>
 										</Controls:NodesControl.NodeTemplate>
 									</Controls:NodesControl>

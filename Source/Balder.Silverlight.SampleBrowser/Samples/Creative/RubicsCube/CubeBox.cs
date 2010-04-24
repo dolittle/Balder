@@ -57,7 +57,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var images = loader.Load(uri);
 			if (images.Length == 1)
 			{
-				return images[0];
+				return images[0] as Image;
 			}
 			return null;
 		}

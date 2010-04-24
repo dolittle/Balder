@@ -54,7 +54,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 			var images = loader.Load(uri);
 			if( images.Length == 1 )
 			{
-				return images[0];	
+				return images[0] as Core.Imaging.Image;	
 			}
 			return null;
 		}

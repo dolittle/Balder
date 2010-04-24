@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System.Collections.Generic;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Ninject.Core;
@@ -53,7 +54,27 @@ namespace Balder.Core.Content
 			where T : IAsset
 		{
 			var loader = _assetLoaderService.GetLoader<T>(assetName);
-			var assetParts = loader.Load(assetName);
+
+			IEnumerable<IAssetPart> assetParts;
+			if( _contentCache.Exists<T>(assetName) )
+			{
+				var newAssetParts = new List<IAssetPart>();
+				assetParts = _contentCache.Get<T>(assetName);
+				foreach( var assetPart in assetParts )
+				{
+					var type = assetPart.GetType();
+					var context = assetPart.GetContext();
+					var newPart = _objectFactory.Get(type) as IAssetPart;
+					newPart.SetContext(context);
+					newAssetParts.Add(newPart);
+				}
+				assetParts = newAssetParts;
+			} else
+			{
+				assetParts = loader.Load(assetName);
+				_contentCache.Put<T>(assetName,assetParts);
+			}
+			
 			asset.SetAssetParts(assetParts);
 		}
 

@@ -21,5 +21,8 @@ namespace Balder.Core.Assets
 	public interface IAssetPart
 	{
 		string Name { get; set; }
+
+		object GetContext();
+		void SetContext(object context);
 	}
 }

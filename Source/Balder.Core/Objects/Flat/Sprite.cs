@@ -18,6 +18,7 @@
 #endregion
 
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Display;
@@ -112,7 +113,7 @@ namespace Balder.Core.Objects.Flat
 			return _frames;
 		}
 
-		public void SetAssetParts(IAssetPart[] assetParts)
+		public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 		{
 			var query = from a in assetParts
 			            where a is Image

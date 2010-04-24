@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -133,5 +134,14 @@ namespace Balder.Core.Objects.Geometries
 #if(!SILVERLIGHT)
 		public string Name { get; set; }
 #endif
+		public object GetContext()
+		{
+			return GeometryContext;
+		}
+
+		public void SetContext(object context)
+		{
+			GeometryContext = context as IGeometryContext;
+		}
 	}
 }
