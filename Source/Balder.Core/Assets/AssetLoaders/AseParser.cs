@@ -373,7 +373,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 						var loader = globals.AssetLoaderService.GetLoader<Image>(actualFile);
 						var frames = loader.Load(actualFile);
-						material.DiffuseMap = frames[0];
+						material.DiffuseMap = frames[0] as Image;
 					}
 					break;
 			}

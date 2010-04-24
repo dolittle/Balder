@@ -108,14 +108,5 @@ namespace Balder.Silverlight.Execution
 			CurrentState = platformState;
 			StateChanged(this, platformState);
 		}
-
-		public void RegisterAssetLoaders(IAssetLoaderService assetLoaderService)
-		{
-			var type = GetType();
-			var assembly = type.Assembly;
-
-			// Todo: Look into the literal below - my enemy number one: Literals
-			assetLoaderService.RegisterNamespace(assembly, "Balder.Silverlight.AssetLoaders");
-		}
 	}
 }

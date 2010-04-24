@@ -16,12 +16,12 @@
 // limitations under the License.
 //
 #endregion
+
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Reflection;
-using Balder.Core.Utils;
+using Balder.Core.Execution;
 using Ninject.Core;
 
 namespace Balder.Core.Assets
@@ -29,82 +29,28 @@ namespace Balder.Core.Assets
 	[Singleton]
 	public class AssetLoaderService : IAssetLoaderService
 	{
-		private readonly IKernel _objectFactory;
+		private readonly ITypeDiscoverer _typeDiscoverer;
+		private readonly IKernel _kernel;
 		private readonly Dictionary<string, IAssetLoader> _assetLoaders;
 
-		public AssetLoaderService(IKernel kernel)
+		public AssetLoaderService(ITypeDiscoverer typeDiscoverer, IKernel kernel)
 		{
-			_objectFactory = kernel;
+			_typeDiscoverer = typeDiscoverer;
+			_kernel = kernel;
 			_assetLoaders = new Dictionary<string, IAssetLoader>();
 		}
 
 		public void Initialize()
 		{
-			var assembly = typeof(AssetLoaderService).Assembly;
-			var shortName = AssemblyHelper.GetAssemblyShortName(assembly.FullName);
-
-			// Todo: Bad bad bad - the name of the assembly should be discovered automatically!
-			var loaderNamespace = string.Format("Balder.Core.Assets.AssetLoaders");
-
-			RegisterNamespace(typeof(AssetLoaderService).Assembly, loaderNamespace);
-		}
-
-		public void RegisterAssembly(string fullyQualifiedName)
-		{
-			var asm = Assembly.Load(fullyQualifiedName);
-			RegisterAssembly(asm);
-		}
-
-
-		public void RegisterAssembly(Assembly assembly)
-		{
-			var types = assembly.GetTypes();
-			var baseType = typeof(AssetLoader<>);
-
-			var query = from t in types
-			            where	null != t.BaseType &&
-								t.BaseType.Name.Equals(baseType.Name)
-			            select t;
-
-			foreach (var type in query)
+			var loaders = _typeDiscoverer.FindMultiple<IAssetLoader>();
+			foreach( var loaderType in loaders )
 			{
-				var loader = _objectFactory.Get(type) as IAssetLoader;
-				RegisterLoader(type, loader);
+				var loader = _kernel.Get(loaderType) as IAssetLoader;
+				RegisterLoader(loader);
 			}
 		}
 
-		public void RegisterNamespace(Assembly assembly, string ns)
-		{
-			RegisterNamespace(assembly,ns,false);
-		}
-
-		public void RegisterNamespace(Assembly assembly, string ns, bool recursive)
-		{
-			var types = assembly.GetTypes();
-			var baseType = typeof(AssetLoader<>);
-
-			Func<Type,bool>   nsCheck;
-			
-			if( recursive )
-			{
-				nsCheck = (t) => t.Namespace.StartsWith(ns);
-			} else
-			{
-				nsCheck = (t) => t.Namespace.Equals(ns);
-			}
-
-			var query = from t in types
-			            where null != t.Namespace && nsCheck(t) && t.BaseType.Name.Equals(baseType.Name)
-			            select t;
-
-			foreach (var type in query)
-			{
-				var loader = _objectFactory.Get(type) as IAssetLoader;
-				RegisterLoader(type, loader);
-			}
-		}
-
-		private void RegisterLoader(Type type, IAssetLoader loader)
+		private void RegisterLoader(IAssetLoader loader)
 		{
 			foreach (var extension in loader.FileExtensions)
 			{
@@ -112,24 +58,18 @@ namespace Balder.Core.Assets
 			}
 		}
 
-		public void RegisterLoader<T>(AssetLoader<T> loader)
-			where T:IAssetPart
-		{
-			RegisterLoader(typeof(T),loader);
-		}
-
-		public AssetLoader<T> GetLoader<T>(string assetName)
-			where T:IAssetPart
+		public IAssetLoader GetLoader<T>(string assetName)
+			where T : IAsset
 		{
 			var extension = Path.GetExtension(assetName).ToLower();
 			extension = extension.Substring(1);
 
-			if( !_assetLoaders.ContainsKey(extension))
+			if (!_assetLoaders.ContainsKey(extension))
 			{
-				throw new ArgumentException("There is no loader for the specified file type '"+extension+"'");
+				throw new ArgumentException("There is no loader for the specified file type '" + extension + "'");
 			}
 
-			return _assetLoaders[extension] as AssetLoader<T>;
+			return _assetLoaders[extension];
 		}
 
 

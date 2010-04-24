@@ -57,6 +57,17 @@ namespace Balder.Core.Tests.Execution
 			
 		}
 
+		public interface IInterfaceImplementedByAbstractClass
+		{
+			
+		}
+
+		public abstract class AbstractClass : IInterfaceImplementedByAbstractClass
+		{
+			
+		}
+
+
 		[TestMethod]
 		public void GettingSingleWithOnlyOnePresentShouldReturnSingle()
 		{
@@ -89,7 +100,13 @@ namespace Balder.Core.Tests.Execution
 			Assert.AreEqual(types.Length,2);
 		}
 
-		
+		[TestMethod]
+		public void GettingInterfaceImplementedByAnAbstractClassShouldNotReturnTheAbstractClass()
+		{
+			var typeDiscoverer = new TypeDiscoverer();
+			var type = typeDiscoverer.FindSingle<IInterfaceImplementedByAbstractClass>();
+			Assert.IsNull(type);
+		}
 	}
 }
 

@@ -25,7 +25,7 @@ using Balder.Core.Imaging;
 
 namespace Balder.Silverlight.AssetLoaders
 {
-	public class ImageLoader : AssetLoader<Image>
+	public class ImageLoader : AssetLoader
 	{
 		public ImageLoader(IFileLoader fileLoader, IContentManager contentManager)
 			: base(fileLoader, contentManager)
@@ -33,7 +33,9 @@ namespace Balder.Silverlight.AssetLoaders
 		}
 
 
-		public override Image[] Load(string assetName)
+		public override Type SupportedAssetType { get { return typeof(Image); } }
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			var stream = FileLoader.GetStream(assetName);
 
@@ -50,7 +52,7 @@ namespace Balder.Silverlight.AssetLoaders
 
 			var imageAsBytes = new byte[width * height * 4];
 
-			Buffer.BlockCopy(writeableBitmap.Pixels,0,imageAsBytes,0,imageAsBytes.Length);
+			Buffer.BlockCopy(writeableBitmap.Pixels, 0, imageAsBytes, 0, imageAsBytes.Length);
 
 			frame.ImageContext.SetFrame(imageAsBytes);
 

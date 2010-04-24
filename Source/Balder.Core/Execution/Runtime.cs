@@ -23,7 +23,6 @@ using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Debug;
 using Balder.Core.Display;
-using Balder.Core.Rendering;
 using Ninject.Core;
 
 namespace Balder.Core.Execution
@@ -50,10 +49,9 @@ namespace Balder.Core.Execution
 			_gamesPerDisplay = new Dictionary<IDisplay, ActorCollection>();
 			_objectFactory = objectFactory;
 			_assetLoaderService = assetLoaderService;
+			assetLoaderService.Initialize();
 			ContentManager = contentManager;
 			InitializePlatformEventHandlers();
-			_assetLoaderService.RegisterAssembly(GetType().Assembly);
-			platform.RegisterAssetLoaders(_assetLoaderService);
 		}
 
 		public static IRuntime Instance

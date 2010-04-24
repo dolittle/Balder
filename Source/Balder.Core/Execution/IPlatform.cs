@@ -55,6 +55,5 @@ namespace Balder.Core.Execution
 		Type ShapeContextType { get; }
 
 		PlatformState CurrentState { get; }
-		void RegisterAssetLoaders(IAssetLoaderService assetLoaderService);
 	}
 }

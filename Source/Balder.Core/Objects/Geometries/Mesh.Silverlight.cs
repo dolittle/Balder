@@ -18,7 +18,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 			if (null != AssetName && !IsClone)
 			{
-				Load(AssetName.ToString());
+				_contentManager.LoadInto(this, AssetName.OriginalString);
 			}
 			base.Prepare(viewport);
 		}

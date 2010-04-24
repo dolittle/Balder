@@ -22,7 +22,7 @@ using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Tests.Fakes.AssetLoaders.Nested
 {
-	public class NestedAssetLoader : AssetLoader<Geometry>
+	public class NestedAssetLoader : AssetLoader
 	{
 		public NestedAssetLoader()
 			: base(null,null)
@@ -36,7 +36,12 @@ namespace Balder.Core.Tests.Fakes.AssetLoaders.Nested
 			get { return new[] {"fakeNested"}; }
 		}
 
-		public override Geometry[] Load(string assetName)
+		public override Type SupportedAssetType
+		{
+			get { return typeof (Mesh); }
+		}
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			throw new NotImplementedException();
 		}

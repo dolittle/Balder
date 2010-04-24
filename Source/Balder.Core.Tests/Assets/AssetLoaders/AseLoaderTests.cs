@@ -34,7 +34,7 @@ using NUnit.Framework;
 
 namespace Balder.Core.Tests.Assets.AssetLoaders
 {
-	public class FakeImageLoader : AssetLoader<Image>
+	public class FakeImageLoader : AssetLoader
 	{
 		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager)
 			: base(fileLoader, contentManager)
@@ -46,7 +46,12 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			get { return new[] { "jpg", "png" }; }
 		}
 
-		public override Image[] Load(string assetName)
+		public override Type SupportedAssetType
+		{
+			get { return typeof (Image); }
+		}
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			var images = new[] { new Image() };
 			return images;
@@ -86,7 +91,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			fileLoader.StringToRead = GetResourceString(fileBytes);
 			var aseLoader = new AseLoader(mockAssetLoaderService.Object, fileLoader, mockContentManager.Object);
 			var geometries = aseLoader.Load(resourceName + ".ASE");
-			return geometries;
+			return geometries as Geometry[];
 		}
 
 

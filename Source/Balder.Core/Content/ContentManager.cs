@@ -45,10 +45,16 @@ namespace Balder.Core.Content
 			where T : IAsset
 		{
 			var asset = _objectFactory.Get<T>();
-			/*
-			asset.Load(assetName);
-			 * */
+			LoadInto(asset,assetName);
 			return asset;
+		}
+
+		public void LoadInto<T>(T asset, string assetName)
+			where T : IAsset
+		{
+			var loader = _assetLoaderService.GetLoader<T>(assetName);
+			var assetParts = loader.Load(assetName);
+			asset.SetAssetParts(assetParts);
 		}
 
 

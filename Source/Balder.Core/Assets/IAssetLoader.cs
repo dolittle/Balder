@@ -16,10 +16,15 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
+
 namespace Balder.Core.Assets
 {
 	public interface IAssetLoader
 	{
 		string[] FileExtensions { get; }
+		Type SupportedAssetType { get; }
+		IAssetPart[] Load(string assetName);
 	}
 }

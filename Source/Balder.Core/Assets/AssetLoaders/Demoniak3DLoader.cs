@@ -36,11 +36,12 @@ namespace Balder.Core.Assets.AssetLoaders
 	/// Notes:
 	/// 3dsmax plugin can be found at: http://www.ozone3d.net/wak/
 	/// </summary>
-	public class Demoniak3DLoader : AssetLoader<Geometry>
+	public class Demoniak3DLoader : AssetLoader
 	{
 		private readonly IAssetLoaderService _assetLoaderService;
 
 		public override string[] FileExtensions { get { return new[] {"xml"}; } }
+		public override Type SupportedAssetType { get { return typeof (Mesh); } }
 
 		public Demoniak3DLoader(IAssetLoaderService assetLoaderService, IFileLoader fileLoader, IContentManager contentManager)
 			: base(fileLoader,contentManager)
@@ -49,7 +50,7 @@ namespace Balder.Core.Assets.AssetLoaders
 			
 		}
 
-		public override Geometry[] Load(string assetName)
+		public override IAssetPart[] Load(string assetName)
 		{
 			var stream = FileLoader.GetStream(assetName);
 			if( null == stream )
@@ -85,7 +86,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var filename = filenameAttribute.Value;
 						var loader = _assetLoaderService.GetLoader<Image>(filename);
 						var frames = loader.Load(filename);
-						material.DiffuseMap = frames[0];
+						material.DiffuseMap = frames[0] as Image;
 						break;
 					}
 				}

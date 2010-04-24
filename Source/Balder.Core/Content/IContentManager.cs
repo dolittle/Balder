@@ -34,6 +34,14 @@ namespace Balder.Core.Content
 		T Load<T>(string assetName) where T : IAsset;
 
 		/// <summary>
+		/// Load content into an asset
+		/// </summary>
+		/// <typeparam name="T">Type of asset to load into</typeparam>
+		/// <param name="asset">Asset to load into</param>
+		/// <param name="assetName">Name of asset - usually a file reference</param>
+		void LoadInto<T>(T asset, string assetName) where T : IAsset;
+
+		/// <summary>
 		/// Create an asset part - assets can have many parts
 		/// </summary>
 		/// <typeparam name="T">Type of assetpart to create</typeparam>

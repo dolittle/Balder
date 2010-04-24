@@ -22,7 +22,7 @@ using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Tests.Fakes.AssetLoaders
 {
-	public class RootAssetLoader : AssetLoader<Geometry>
+	public class RootAssetLoader : AssetLoader
 	{
 		public RootAssetLoader()
 			: base(null,null)
@@ -35,7 +35,12 @@ namespace Balder.Core.Tests.Fakes.AssetLoaders
 			get { return new[] {"fake"}; }
 		}
 
-		public override Geometry[] Load(string assetName)
+		public override Type SupportedAssetType
+		{
+			get { return typeof (Mesh); }
+		}
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			throw new NotImplementedException();
 		}

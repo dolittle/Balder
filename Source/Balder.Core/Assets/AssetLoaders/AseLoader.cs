@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.IO;
 using Balder.Core.Content;
@@ -30,7 +31,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 	public delegate void AddPropertyHandler(AseGlobals globals, object scopeObject, string propertyName, string content);
 
-	public class AseLoader : AssetLoader<Geometry>
+	public class AseLoader : AssetLoader
 	{
 		private readonly IAssetLoaderService _assetLoaderService;
 
@@ -42,7 +43,9 @@ namespace Balder.Core.Assets.AssetLoaders
 		}
 
 
-		public override Geometry[] Load(string assetName)
+		public override Type SupportedAssetType { get { return typeof (Mesh); } }
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			var stream = FileLoader.GetStream(assetName);
 			if (null == stream)

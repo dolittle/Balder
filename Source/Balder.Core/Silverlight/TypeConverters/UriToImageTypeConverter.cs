@@ -2,6 +2,7 @@ using System;
 using System.ComponentModel;
 using System.Globalization;
 using Balder.Core.Assets;
+using Balder.Core.Content;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Ninject.Core;
@@ -10,14 +11,17 @@ namespace Balder.Core.Silverlight.TypeConverters
 {
 	public class UriToImageTypeConverter : TypeConverter
 	{
+		private readonly IContentManager _contentManager;
+
 		public UriToImageTypeConverter()
+			: this(Runtime.Instance.Kernel.Get<IContentManager>())
 		{
-			Runtime.Instance.WireUpDependencies(this);
 		}
 
-		[Inject]
-		public IAssetLoaderService AssetLoaderService { get; set; }
-
+		public UriToImageTypeConverter(IContentManager contentManager)
+		{
+			_contentManager = contentManager;
+		}
 
 		public override bool CanConvertFrom(ITypeDescriptorContext context, Type sourceType)
 		{
@@ -29,12 +33,8 @@ namespace Balder.Core.Silverlight.TypeConverters
 			if( value is string )
 			{
 				var uri = value as string;
-				var loader = AssetLoaderService.GetLoader<Image>(uri);
-				var images = loader.Load(uri);
-				if( images.Length == 1 )
-				{
-					return images[0];
-				}
+				var images = _contentManager.Load<Image>(uri);
+				return images;
 			}
 			return null;
 		}

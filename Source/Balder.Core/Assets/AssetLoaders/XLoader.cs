@@ -22,14 +22,16 @@ using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Assets.AssetLoaders
 {
-	public class XLoader : AssetLoader<Geometry>
+	public class XLoader : AssetLoader
 	{
 		public XLoader(IFileLoader fileLoader, IContentManager contentManager)
 			: base(fileLoader, contentManager)
 		{
 		}
 
-		public override Geometry[] Load(string assetName)
+		public override Type SupportedAssetType { get { return typeof (Mesh);}}
+
+		public override IAssetPart[] Load(string assetName)
 		{
 			throw new NotImplementedException();
 		}

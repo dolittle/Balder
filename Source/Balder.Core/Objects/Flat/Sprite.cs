@@ -104,7 +104,7 @@ namespace Balder.Core.Objects.Flat
 		public void Load(string assetName)
 		{
 			var loader = AssetLoaderService.GetLoader<Image>(assetName);
-			_frames = loader.Load(assetName);
+			_frames = loader.Load(assetName) as Image[];
 		}
 
 		public IAssetPart[] GetAssetParts()

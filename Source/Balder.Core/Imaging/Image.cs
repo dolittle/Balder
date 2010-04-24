@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.ComponentModel;
 using Balder.Core.Assets;
 using Balder.Core.Silverlight.TypeConverters;
@@ -27,7 +28,7 @@ namespace Balder.Core.Imaging
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(UriToImageTypeConverter))]
 #endif
-	public class Image : IAssetPart
+	public class Image : IAsset, IAssetPart
 	{
 		[Inject]
 		public IImageContext ImageContext { get; set; }
@@ -87,5 +88,23 @@ namespace Balder.Core.Imaging
 		}
 
 		public string Name { get; set; }
+		public Uri AssetName { get; set; }
+
+		public IAssetPart[] GetAssetParts()
+		{
+			return new[] {this};
+		}
+
+		public void SetAssetParts(IAssetPart[] assetParts)
+		{
+			if( assetParts.Length > 1 )
+			{
+				throw new ArgumentException("An image can't have more than one assetpart");
+			}
+			var image = ((Image) assetParts[0]);
+			ImageContext = image.ImageContext;
+			Width = image.Width;
+			Height = image.Height;
+		}
 	}
 }

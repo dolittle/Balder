@@ -32,6 +32,11 @@ namespace Balder.Core.Tests.Fakes
 			throw new NotImplementedException();
 		}
 
+		public void LoadInto<T>(T asset, string assetName) where T : IAsset
+		{
+			throw new NotImplementedException();
+		}
+
 		public T CreateAssetPart<T>() where T : IAssetPart
 		{
 			var part = Activator.CreateInstance(typeof (T));

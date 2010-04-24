@@ -23,9 +23,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
+using Ninject.Core;
 
 namespace Balder.Core.Execution
 {
+	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer
 	{
 		private readonly List<Type> _types;
@@ -36,7 +38,6 @@ namespace Balder.Core.Execution
 			var parts = Deployment.Current.Parts;
 			foreach (var part in parts)
 			{
-				
 				var info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative));
 				var assembly = part.Load(info.Stream);
 				var types = assembly.GetTypes();
@@ -48,7 +49,7 @@ namespace Balder.Core.Execution
 		{
 			var type = typeof(T);
 			var query = from t in _types
-						where type.IsAssignableFrom(t) && !t.IsInterface
+						where type.IsAssignableFrom(t) && !t.IsInterface && !t.IsAbstract
 						select t;
 			var typesFound = query.ToArray();
 			return typesFound;

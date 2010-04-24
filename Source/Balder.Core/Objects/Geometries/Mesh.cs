@@ -29,24 +29,22 @@ namespace Balder.Core.Objects.Geometries
 {
 	public partial class Mesh : RenderableNode, IAsset, ICanHandleCloning
 	{
-		private readonly IAssetLoaderService _assetLoaderService;
 		private readonly IContentManager _contentManager;
 		private bool _materialSet = false;
 
 		public Mesh()
-			: this(Runtime.Instance.Kernel.Get<IAssetLoaderService>(),
-					Runtime.Instance.Kernel.Get<IContentManager>())
+			: this(Runtime.Instance.Kernel.Get<IContentManager>())
 		{
 
 		}
 
-		public Mesh(IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		public Mesh(IContentManager contentManager)
 		{
-			_assetLoaderService = assetLoaderService;
 			_contentManager = contentManager;
 		}
 
 
+		/*
 		public void Load(string assetName)
 		{
 
@@ -64,7 +62,7 @@ namespace Balder.Core.Objects.Geometries
 
 			// Todo: This has to be done since Loading of the node is done after Xaml has been bound - but we will get color from the File loaded
 			SetColorForChildren();
-		}
+		}*/
 
 		public IAssetPart[] GetAssetParts()
 		{
@@ -81,6 +79,8 @@ namespace Balder.Core.Objects.Geometries
 			            where a is INode
 			            select a as INode).ToArray();
 			Children.AddRange(nodes);
+			// Todo: This has to be done since Loading of the node is done after Xaml has been bound - but we will get color from the File loaded
+			SetColorForChildren();
 		}
 
 		public void PreClone()

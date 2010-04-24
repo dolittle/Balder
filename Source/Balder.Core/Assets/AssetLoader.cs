@@ -16,12 +16,13 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using Balder.Core.Content;
 
 namespace Balder.Core.Assets
 {
-	public abstract class AssetLoader<T> : IAssetLoader
-		where T:IAssetPart
+	public abstract class AssetLoader : IAssetLoader
 	{
 		protected AssetLoader(IFileLoader fileLoader, IContentManager contentManager)
 		{
@@ -33,6 +34,7 @@ namespace Balder.Core.Assets
 		protected IContentManager ContentManager { get; private set; }
 
 		public abstract string[] FileExtensions { get; }
-		public abstract T[] Load(string assetName);
+		public abstract Type SupportedAssetType { get; }
+		public abstract IAssetPart[] Load(string assetName);
 	}
 }
