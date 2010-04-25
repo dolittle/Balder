@@ -1,3 +1,4 @@
+using System;
 using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Display;
@@ -23,6 +24,7 @@ namespace Balder.Silverlight.Rendering
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
+		private Vertex[] _normals;
 		private TextureCoordinate[] _textureCoordinates;
 		private Line[] _lines;
 
@@ -113,7 +115,31 @@ namespace Balder.Silverlight.Rendering
 			return _vertices;
 		}
 
+		#endregion
+
+		#region Normal related
 		public void InvalidateVertex(int index)
+		{
+
+		}
+
+		public void AllocateNormals(int count)
+		{
+			_normals = new Vertex[count];
+
+		}
+
+		public void SetNormal(int index, Vertex normal)
+		{
+			_normals[index] = normal;
+		}
+
+		public Vertex[] GetNormals()
+		{
+			return _normals;
+		}
+
+		public void InvalidateNormal(int index)
 		{
 
 		}

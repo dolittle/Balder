@@ -20,6 +20,11 @@ namespace Balder.Core.Objects.Geometries
 		Vertex[] GetVertices();
 		void InvalidateVertex(int index);
 
+		void AllocateNormals(int count);
+		void SetNormal(int index, Vertex normal);
+		Vertex[] GetNormals();
+		void InvalidateNormal(int index);
+
 		void AllocateLines(int count);
 		void SetLine(int index, Line line);
 		Line[] GetLines();
