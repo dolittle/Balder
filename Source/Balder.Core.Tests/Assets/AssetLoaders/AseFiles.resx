@@ -124,6 +124,9 @@
   <data name="SingleBoxWithDiffuseMaterial" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>SingleBoxWithDiffuseMaterial.ASE;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>
+  <data name="SplitSphere" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>SplitSphere.ASE;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </data>
   <data name="TwoBoxes" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>TwoBoxes.ASE;System.Byte[], mscorlib, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </data>

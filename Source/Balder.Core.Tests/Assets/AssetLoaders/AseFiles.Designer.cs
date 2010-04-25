@@ -74,6 +74,13 @@ namespace Balder.Core.Tests.Assets.AssetLoaders {
             }
         }
         
+        internal static byte[] SplitSphere {
+            get {
+                object obj = ResourceManager.GetObject("SplitSphere", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
         internal static byte[] TwoBoxes {
             get {
                 object obj = ResourceManager.GetObject("TwoBoxes", resourceCulture);

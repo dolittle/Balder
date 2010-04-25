@@ -9,6 +9,7 @@ namespace Balder.Core.Objects.Geometries
 		int VertexCount { get; }
 		int TextureCoordinateCount { get; }
 		int LineCount { get; }
+		int NormalCount { get; }
 
 		void AllocateFaces(int count);
 		void SetFace(int index, Face face);

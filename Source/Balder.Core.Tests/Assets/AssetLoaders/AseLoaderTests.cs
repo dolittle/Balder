@@ -192,5 +192,16 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries[1].Scale.Y, Is.EqualTo(3d));
 			Assert.That(geometries[1].Scale.Z, Is.EqualTo(2d));
 		}
+
+		[Test, SilverlightUnitTest]
+		public void FileWithNormalsShouldLoadFaceNormals()
+		{
+			var geometries = LoadGeometries("SplitSphere");
+			var detailLevel = geometries[0].GeometryContext.GetDetailLevel(DetailLevel.Full);
+			Assert.That(detailLevel.NormalCount, Is.EqualTo(482));
+			var normals = detailLevel.GetNormals();
+
+			
+		}
 	}
 }

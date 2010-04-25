@@ -34,13 +34,20 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
 		public const string MESH_TVERTLIST = "MESH_TVERTLIST";
 		public const string MESH_TFACELIST = "MESH_TFACELIST";
+		public const string MESH_NORMALS = "MESH_NORMALS";
 
 		public const string MESH_VERTEX = "MESH_VERTEX";
 		public const string MESH_FACE = "MESH_FACE";
 		public const string MESH_TVERT = "MESH_TVERT";
 		public const string MESH_TFACE = "MESH_TFACE";
+		public const string MESH_FACENORMAL = "MESH_FACENORMAL";
+		public const string MESH_VERTEXNORMAL = "MESH_VERTEXNORMAL";
 
 		public const string MATERIAL_REF = "MATERIAL_REF";
+		public const string NUMSUBMTLS = "NUMSUBMTLS";
+		public const string SUBMATERIAL = "SUBMATERIAL";
+		public const string MATERIAL_NAME = "MATERIAL_NAME";
+
 
 		public const string NODE_TM = "NODE_TM";
 		public const string TM_POS = "TM_POS";
