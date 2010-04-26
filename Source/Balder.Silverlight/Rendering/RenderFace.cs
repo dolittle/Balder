@@ -20,8 +20,9 @@
 #endregion
 
 using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Silverlight.Rendering
 {
 	public class RenderFace : Face
 	{
@@ -52,12 +53,7 @@ namespace Balder.Core.Objects.Geometries
 			DiffuseA = face.DiffuseA;
 			DiffuseB = face.DiffuseB;
 			DiffuseC = face.DiffuseC;
-			SmoothingGroupA = face.SmoothingGroupA;
-			SmoothingGroupB = face.SmoothingGroupB;
-			SmoothingGroupC = face.SmoothingGroupC;
-			VertexNormalA = face.VertexNormalA;
-			VertexNormalB = face.VertexNormalB;
-			VertexNormalC = face.VertexNormalC;
+			SmoothingGroup = face.SmoothingGroup;
 			Normal = face.Normal;
 		}
 

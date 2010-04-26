@@ -43,6 +43,8 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string MESH_FACENORMAL = "MESH_FACENORMAL";
 		public const string MESH_VERTEXNORMAL = "MESH_VERTEXNORMAL";
 
+		public const string MESH_SMOOTHING = "MESH_SMOOTHING";
+
 		public const string MATERIAL_REF = "MATERIAL_REF";
 		public const string NUMSUBMTLS = "NUMSUBMTLS";
 		public const string SUBMATERIAL = "SUBMATERIAL";
@@ -298,6 +300,13 @@ namespace Balder.Core.Assets.AssetLoaders
 
 				case MESH_FACE:
 					{
+						var smoothingGroup = 1;
+						var meshSmoothingIndex = content.IndexOf(MESH_SMOOTHING);
+						if (meshSmoothingIndex > 0)
+						{
+							var meshSmoothing = content.Substring(meshSmoothingIndex + MESH_SMOOTHING.Length + 1, 2).Trim();
+							smoothingGroup = Convert.ToInt32(meshSmoothing);
+						}
 						content = content.Replace(" ", string.Empty);
 						var elements = content.Split(':');
 
@@ -306,6 +315,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var b = Convert.ToInt32(elements[3].Substring(0, elements[3].Length - 1));
 						var c = Convert.ToInt32(elements[4].Substring(0, elements[4].Length - 2));
 						var face = new Face(a, b, c);
+						face.SmoothingGroup = smoothingGroup;
 						geometryDetailLevel.SetFace(faceIndex, face);
 					}
 					break;

@@ -98,8 +98,6 @@
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
-    <Compile Include="Objects\Geometries\RenderFace.cs" />
-    <Compile Include="Objects\Geometries\RenderVertex.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />

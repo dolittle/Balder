@@ -19,7 +19,6 @@
 
 #endregion
 using System;
-using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.Rendering.Drawing
 {

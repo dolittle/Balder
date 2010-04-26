@@ -134,12 +134,15 @@
     <Compile Include="Rendering\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\INodesPixelBuffer.cs" />
     <Compile Include="Rendering\NodesPixelBuffer.cs" />
+    <Compile Include="Rendering\RenderFace.cs" />
+    <Compile Include="Rendering\RenderVertex.cs" />
     <Compile Include="Rendering\ShapeContext.cs" />
     <Compile Include="Rendering\Drawing\TextureTriangle.cs" />
     <Compile Include="Rendering\Drawing\Triangle.cs" />
     <Compile Include="Rendering\GeometryContext.cs" />
     <Compile Include="Rendering\ImageContext.cs" />
     <Compile Include="Rendering\Shapes.cs" />
+    <Compile Include="Rendering\SmoothingGroupVertex.cs" />
     <Compile Include="Rendering\SpriteContext.cs" />
     <Compile Include="Rendering\RenderingManager.cs" />
     <Compile Include="ValueConverters\VectorToCoordinateValueConverter.cs" />

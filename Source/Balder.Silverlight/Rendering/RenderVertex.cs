@@ -18,9 +18,13 @@
 //
 
 #endregion
-using Balder.Core.Math;
 
-namespace Balder.Core.Objects.Geometries
+using System.Collections.Generic;
+using Balder.Core;
+using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
+
+namespace Balder.Silverlight.Rendering
 {
 	public class RenderVertex : Vertex
 	{
@@ -49,6 +53,7 @@ namespace Balder.Core.Objects.Geometries
 			TranslatedVector = new Vector(x, y, z);
 			TranslatedScreenCoordinates = Vector.Zero;
 			IsColorCalculated = false;
+			SmoothingGroups = new Dictionary<int, SmoothingGroupVertex>();
 		}
 
 		public void Transform(Matrix matrix)
@@ -78,6 +83,8 @@ namespace Balder.Core.Objects.Geometries
 		public float DepthBufferAdjustedZ;
 		public ColorAsFloats CalculatedColor;
 		public bool IsColorCalculated;
+
+		public Dictionary<int, SmoothingGroupVertex> SmoothingGroups { get; private set; }
 
 		public float U;
 		public float V;

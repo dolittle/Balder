@@ -1,4 +1,5 @@
-﻿#region License
+#region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,38 +16,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-using Balder.Core.Materials;
+
+using Balder.Core;
 using Balder.Core.Math;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Silverlight.Rendering
 {
-	public class Face
+	public class SmoothingGroupVertex
 	{
-		public Material Material;
-		public Color Color;
-
-		public int A;
-		public int B;
-		public int C;
-
-		public int DiffuseA;
-		public int DiffuseB;
-		public int DiffuseC;
-
-		public int SmoothingGroup;
-
-		public Vector Normal;
-
-		public int NormalA;
-		public int NormalB;
-		public int NormalC;
-
-		public Face(int a, int b, int c)
-		{
-			A = a;
-			B = b;
-			C = c;
-		}
+		public int Number { get; set; }
+		public Vector Normal { get; set; }
+		public ColorAsFloats CalculatedColor { get; set; }
+		public bool IsColorCalculated { get; set; }
 	}
 }

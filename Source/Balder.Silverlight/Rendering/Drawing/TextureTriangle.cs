@@ -22,7 +22,6 @@
 using System;
 using Balder.Core.Imaging;
 using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.Rendering.Drawing
 {

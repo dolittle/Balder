@@ -8,9 +8,7 @@
 			</Execution:Game.Camera>
 			<Geometries:Mesh AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Geometries/SubMaterials/Assets/SplitSphere.ASE"/>
 
-			<Lighting:OmniLight Ambient="Gray" Diffuse="Gray" Specular="White"/>
-
-
+			<Lighting:DirectionalLight Ambient="Gray" Diffuse="Gray" Specular="White" Direction="0,-1,0"/>
 		</Execution:Game>
 
 	</Grid>
