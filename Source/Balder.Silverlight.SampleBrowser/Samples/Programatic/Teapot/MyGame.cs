@@ -28,7 +28,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 			Camera.Position.X = 0;
 			Camera.Position.Y = 0;
-			Camera.Position.Z = -500;
+			Camera.Position.Z = -100;
 
 			Camera.Target.Y = 0;
 
@@ -37,7 +37,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 		public override void OnLoadContent()
 		{
-			_teapot = ContentManager.Load<Mesh>("stage2.ase");
+			_teapot = ContentManager.Load<Mesh>("teapot.ASE");
 
 			var material = new Material
 			               	{
@@ -52,6 +52,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 			base.OnLoadContent();
 		}
+
+		private float _yRotation;
 
 		public override void OnUpdate()
 		{

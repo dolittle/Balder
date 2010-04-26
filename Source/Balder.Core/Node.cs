@@ -201,14 +201,16 @@ namespace Balder.Core
 
 		private void PrepareActualWorld()
 		{
-			if (!_isWorldInvalidated)
+			var isWorldIdentity = World.IsIdentity;
+
+			if (!_isWorldInvalidated && isWorldIdentity )
 			{
 				return;
 			}
 
 			var matrix = Matrix.Identity;
 
-			if (!World.IsIdentity)
+			if (!isWorldIdentity)
 			{
 				matrix = matrix * World;
 			}

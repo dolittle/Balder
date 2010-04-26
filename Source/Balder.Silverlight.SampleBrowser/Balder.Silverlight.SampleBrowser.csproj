@@ -487,14 +487,11 @@
     <None Include="Samples\Geometries\Mesh\Assets\Thumbs.db" />
     <Resource Include="Samples\Geometries\SubMaterials\Assets\SplitSphere.ASE" />
     <Resource Include="Samples\Data\HierarchicalNodesControl\Assets\box.ASE" />
-    <Resource Include="Samples\Programatic\Teapot\Assets\stage2_3dsmax.ASE" />
-    <Resource Include="Samples\Programatic\Teapot\Assets\stage2.ase" />
     <Resource Include="Samples\Programatic\Materials\Assets\teapot.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Earth.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Hello.ASE" />
     <Resource Include="Samples\Materials\MaterialPicker\Assets\teapot.ASE" />
     <Resource Include="Samples\Data\NodesStack\Assets\box.ASE" />
-    <Resource Include="Samples\Programatic\Teapot\Assets\box.ASE" />
     <Resource Include="Samples\Programatic\Teapot\Assets\teapot.ASE" />
     <Resource Include="Samples\View\CameraManipulation\Assets\box.ASE" />
     <Resource Include="Samples\View\CameraManipulation\Assets\plane.ASE" />
