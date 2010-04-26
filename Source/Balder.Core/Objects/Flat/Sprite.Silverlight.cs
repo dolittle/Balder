@@ -18,7 +18,7 @@ namespace Balder.Core.Objects.Flat
 		{
 			if (null != AssetName)
 			{
-				Load(AssetName.ToString());
+				_contentManager.LoadInto(this,AssetName.OriginalString);
 			}
 			base.Prepare(viewport);
 		}

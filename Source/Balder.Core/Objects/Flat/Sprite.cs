@@ -17,28 +17,32 @@
 //
 #endregion
 
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Balder.Core.Assets;
+using Balder.Core.Content;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
-using Ninject.Core;
 
 namespace Balder.Core.Objects.Flat
 {
 	public partial class Sprite : RenderableNode, IAsset
 	{
-		private ISpriteContext _spriteContext;
+		private readonly IContentManager _contentManager;
+		private readonly ISpriteContext _spriteContext;
 
-		[Inject]
-		public IAssetLoaderService AssetLoaderService { get; set; }
 
 		public Sprite()
+			: this(Runtime.Instance.Kernel.Get<IContentManager>())
 		{
+		}
+
+		public Sprite(IContentManager contentManager)
+		{
+			_contentManager = contentManager;
 			_spriteContext = Runtime.Instance.Kernel.Get<ISpriteContext>();
 		}
 
@@ -102,11 +106,6 @@ namespace Balder.Core.Objects.Flat
 			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
 		}
 
-		public void Load(string assetName)
-		{
-			var loader = AssetLoaderService.GetLoader<Image>(assetName);
-			_frames = loader.Load(assetName) as Image[];
-		}
 
 		public IAssetPart[] GetAssetParts()
 		{

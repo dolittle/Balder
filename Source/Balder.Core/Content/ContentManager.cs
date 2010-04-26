@@ -67,6 +67,13 @@ namespace Balder.Core.Content
 					var newPart = _objectFactory.Get(type) as IAssetPart;
 					newPart.SetContext(context);
 					newAssetParts.Add(newPart);
+
+					// Todo: Image needs to have ImageFrame - divide the Asset from its AssetParts
+					if( newPart is IAsset )
+					{
+						((IAsset)newPart).SetAssetParts(new[] { assetPart });
+						
+					}
 				}
 				assetParts = newAssetParts;
 			} else
