@@ -20,6 +20,7 @@
 #endregion
 
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Ninject.Core;
 
 namespace Balder.Core.Rendering
@@ -27,7 +28,20 @@ namespace Balder.Core.Rendering
 	[Singleton]
 	public class RuntimeContext
 	{
-		public bool PassiveRendering { get; set; }
+		private bool _passiveRendering;
+		public bool PassiveRendering
+		{
+			get
+			{
+				if (Runtime.Instance.Platform.IsInDesignMode)
+				{
+					return true;
+				}
+				return _passiveRendering;
+			}
+			set { _passiveRendering = value; }
+		}
+
 		public PassiveRenderingMode PassiveRenderingMode { get; set; }
 	}
 }

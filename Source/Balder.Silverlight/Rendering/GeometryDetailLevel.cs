@@ -42,6 +42,7 @@ namespace Balder.Silverlight.Rendering
 		public int VertexCount { get { return null == _vertices ? 0 : _vertices.Length; } }
 		public int TextureCoordinateCount { get { return null == _textureCoordinates ? 0 : _textureCoordinates.Length; } }
 		public int LineCount { get { return null == _lines ? 0 : _lines.Length; } }
+		public int NormalCount { get { return null == _normals ? 0 : _normals.Length; } }
 
 		#region Face related
 		public void AllocateFaces(int count)
