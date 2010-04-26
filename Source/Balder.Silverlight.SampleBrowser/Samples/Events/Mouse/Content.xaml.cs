@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Math;
-using Color=Balder.Core.Color;
+using Color = Balder.Core.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 {
@@ -16,11 +17,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 			_originalNodeColors = new Dictionary<object, Color>();
 
+			/*
 			Box1.MouseMove += Mesh_MouseMove;
 			Box1.MouseEnter += Mesh_MouseEnter;
 			Box1.MouseLeave += Mesh_MouseLeave;
 			Box1.MouseLeftButtonUp += Mesh_MouseLeftButtonUp;
 			Box1.MouseLeftButtonDown += Mesh_MouseLeftButtonDown;
+			 * */
 
 			Box2.MouseMove += Mesh_MouseMove;
 			Box2.MouseEnter += Mesh_MouseEnter;
@@ -47,10 +50,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			_mouseEnter.Text = "true";
 			_mouseEnterCounter = 0;
 			var node = sender as RenderableNode;
-			if( null != node )
+			if (null != node)
 			{
 				node.Color = Colors.White;
-				if( !string.IsNullOrEmpty(node.Name) )
+				if (!string.IsNullOrEmpty(node.Name))
 				{
 					_object.Text = node.Name;
 				}
@@ -62,7 +65,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			var node = sender as RenderableNode;
 			if (null != node)
 			{
-				if( _originalNodeColors.ContainsKey(node))
+				if (_originalNodeColors.ContainsKey(node))
 				{
 					node.Color = _originalNodeColors[node];
 				}
@@ -88,7 +91,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private string FormatCoordinate(Coordinate coordinate)
 		{
-			if( null == coordinate )
+			if (null == coordinate)
 			{
 				return "Not Set";
 			}
@@ -109,7 +112,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private void Mesh_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
-			if( ++_mouseEnterCounter > 2 )
+			if (++_mouseEnterCounter > 2)
 			{
 				_mouseEnter.Text = "false";
 			}

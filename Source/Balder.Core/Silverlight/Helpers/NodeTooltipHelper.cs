@@ -1,5 +1,5 @@
 using System;
-using System.Reflection;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -9,12 +9,14 @@ namespace Balder.Core.Silverlight.Helpers
 {
 	public class NodeTooltipHelper
 	{
-		private static ToolTip _currentToolTip;
+		private static readonly Stack<ToolTip> _openToolTips = new Stack<ToolTip>();
+
+
 		private static Node _lastEnterSource;
 		private static DispatcherTimer _openTimer;
 		private static DispatcherTimer _closeTimer;
 		private static DateTime _lastToolTipOpenedTime;
-		private static object _rootVisual;
+		private static UIElement _rootVisual;
 
 
 		public static void Register(Node node)
@@ -39,8 +41,11 @@ namespace Balder.Core.Silverlight.Helpers
 				ToolTipService.SetToolTip(node, null);
 
 				_rootVisual = Application.Current.RootVisual;
+
+				_rootVisual.MouseLeave += (s, e) => CloseOpenToolTips();
 			}
 		}
+
 
 		private static void MouseMove(object sender, MouseEventArgs e)
 		{
@@ -66,13 +71,24 @@ namespace Balder.Core.Silverlight.Helpers
 			}
 		}
 
+		private static void AddOpenToolTip(ToolTip toolTip)
+		{
+			_openToolTips.Push(toolTip);
+		}
+
+		private static void CloseOpenToolTips()
+		{
+			while( _openToolTips.Count > 0 )
+			{
+				var toolTip = _openToolTips.Pop();
+				toolTip.IsOpen = false;
+			}
+		}
+
+
 		private static void OpenAutomaticToolTip(object sender, EventArgs e)
 		{
-			if( null != _currentToolTip )
-			{
-				_currentToolTip.IsOpen = false;
-				_currentToolTip = null;
-			}
+			CloseOpenToolTips();
 
 			_openTimer.Stop();
 			var source = _lastEnterSource;
@@ -81,7 +97,7 @@ namespace Balder.Core.Silverlight.Helpers
 				var toolTip = source.ToolTip;
 				if (null != toolTip)
 				{
-					_currentToolTip = toolTip;
+					AddOpenToolTip(toolTip);
 					toolTip.IsOpen = true;
 					toolTip.Visibility = Visibility.Visible;
 
@@ -99,7 +115,7 @@ namespace Balder.Core.Silverlight.Helpers
 
 		private static void CloseAutomaticToolTip(object sender, EventArgs e)
 		{
-			_currentToolTip = null;
+			CloseOpenToolTips();
 			if( null != _closeTimer )
 			{
 				_closeTimer.Stop();	

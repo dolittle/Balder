@@ -27,7 +27,7 @@
 			</EventTrigger>
 		</Grid.Triggers>
 
-		<Execution:Game x:Name="Game" Width="640" Height="480">
+		<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="True">
 			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
 				<Controls:NodesControl.NodeTemplate>
 					<DataTemplate>
@@ -38,14 +38,10 @@
 										<Controls:NodesControl.NodeTemplate>
 											<DataTemplate>
 												
-												<Geometries:Mesh 
-													Color="{Binding Color}" 
-													Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-													AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Data/HierarchicalNodesControl/Assets/box.ASE"/>
-												<!--
 												<Geometries:Box Color="{Binding Color}" 
 																Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-																Dimension="10,10,10"/>-->
+																ToolTip="Tooltip"
+																Dimension="10,10,10"/>
 											</DataTemplate>
 										</Controls:NodesControl.NodeTemplate>
 									</Controls:NodesControl>
@@ -63,6 +59,6 @@
 
 		</Execution:Game>
 
-		<TextBlock x:Name="NodeCounter"/>
+		
 	</Grid>
 </UserControl>
