@@ -35,27 +35,27 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ra = vertexA.CalculatedColor.Red;
-			var ga = vertexA.CalculatedColor.Green;
-			var ba = vertexA.CalculatedColor.Blue;
-			var aa = vertexA.CalculatedColor.Alpha;
+			var ra = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
+			var ga = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
+			var ba = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
+			var aa = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var rb = vertexB.CalculatedColor.Red;
-			var gb = vertexB.CalculatedColor.Green;
-			var bb = vertexB.CalculatedColor.Blue;
-			var ab = vertexB.CalculatedColor.Alpha;
+			var rb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
+			var gb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
+			var bb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
+			var ab = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var rc = vertexC.CalculatedColor.Red;
-			var gc = vertexC.CalculatedColor.Green;
-			var bc = vertexC.CalculatedColor.Blue;
-			var ac = vertexC.CalculatedColor.Alpha;
+			var rc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
+			var gc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
+			var bc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
+			var ac = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
 
 
 			var deltaX1 = xb - xa;

@@ -52,7 +52,7 @@ namespace Balder.Silverlight.Rendering
 			TransformedVector = new Vector(x, y, z);
 			TranslatedVector = new Vector(x, y, z);
 			TranslatedScreenCoordinates = Vector.Zero;
-			IsColorCalculated = false;
+			//IsColorCalculated = false;
 			SmoothingGroups = new Dictionary<int, SmoothingGroupVertex>();
 		}
 
@@ -60,6 +60,11 @@ namespace Balder.Silverlight.Rendering
 		{
 			TransformedVector = Vector.Transform(X, Y, Z, matrix);
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, matrix);
+
+			foreach( var smoothingGroup in SmoothingGroups.Values )
+			{
+				smoothingGroup.TransformedNormal = Vector.TransformNormal(smoothingGroup.Normal, matrix);
+			}
 		}
 
 
@@ -81,8 +86,8 @@ namespace Balder.Silverlight.Rendering
 		public Vector TransformedVectorNormalized;
 		public Vector TranslatedScreenCoordinates;
 		public float DepthBufferAdjustedZ;
-		public ColorAsFloats CalculatedColor;
-		public bool IsColorCalculated;
+		//public ColorAsFloats CalculatedColor;
+		//public bool IsColorCalculated;
 
 		public Dictionary<int, SmoothingGroupVertex> SmoothingGroups { get; private set; }
 
