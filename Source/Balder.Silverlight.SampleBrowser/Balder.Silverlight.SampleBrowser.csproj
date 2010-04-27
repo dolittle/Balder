@@ -492,6 +492,7 @@
     <None Include="Properties\AppManifest.xml" />
     <Resource Include="Samples\Geometries\Mesh\Assets\EiffelTower.ASE" />
     <None Include="Samples\Geometries\Mesh\Assets\Thumbs.db" />
+    <Resource Include="Samples\Geometries\SmoothingGroups\Assets\L.ASE" />
     <Resource Include="Samples\Geometries\SmoothingGroups\Assets\Sphere.ASE" />
     <Resource Include="Samples\Geometries\SubMaterials\Assets\SplitSphere.ASE" />
     <Resource Include="Samples\Data\HierarchicalNodesControl\Assets\box.ASE" />

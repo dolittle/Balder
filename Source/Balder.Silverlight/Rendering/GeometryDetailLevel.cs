@@ -202,7 +202,11 @@ namespace Balder.Silverlight.Rendering
 					_faces[index].DiffuseTextureCoordinateC = _textureCoordinates[_faces[index].DiffuseC];
 				}
 			}
-			GenerateSmoothingInformation();
+
+			if (null != _faces)
+			{
+				GenerateSmoothingInformation();
+			}
 		}
 
 		private void GenerateSmoothingInformation()
