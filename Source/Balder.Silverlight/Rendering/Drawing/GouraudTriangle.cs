@@ -30,32 +30,32 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
 
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
+			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ra = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
-			var ga = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
-			var ba = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
-			var aa = vertexA.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
+			var ra = face.CalculatedColorA.Red;
+			var ga = face.CalculatedColorA.Green;
+			var ba = face.CalculatedColorA.Blue;
+			var aa = face.CalculatedColorA.Alpha;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var rb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
-			var gb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
-			var bb = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
-			var ab = vertexB.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
+			var rb = face.CalculatedColorB.Red;
+			var gb = face.CalculatedColorB.Green;
+			var bb = face.CalculatedColorB.Blue;
+			var ab = face.CalculatedColorB.Alpha;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var rc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Red;
-			var gc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Green;
-			var bc = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Blue;
-			var ac = vertexC.SmoothingGroups[face.SmoothingGroup].CalculatedColor.Alpha;
+			var rc = face.CalculatedColorC.Red;
+			var gc = face.CalculatedColorC.Green;
+			var bc = face.CalculatedColorC.Blue;
+			var ac = face.CalculatedColorC.Alpha;
 
 
 			var deltaX1 = xb - xa;

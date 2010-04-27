@@ -349,19 +349,43 @@ namespace Balder.Silverlight.Rendering
 		}
 
 
-		private void CalculateColorForVertex(RenderVertex vertex, Viewport viewport, INode node, int smoothingGroup)
+		private Color CalculateColorForVertex(RenderVertex vertex, Viewport viewport, INode node, int smoothingGroup)
 		{
-			var smoothingGroupVertex = vertex.SmoothingGroups[smoothingGroup];
-			var lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
-
-			var color = (Color)Colors.Red;
-			if( smoothingGroup == 2 )
+			ColorAsFloats lightColor;
+			if( null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
 			{
-				color = (Color)Colors.Blue;
+				var smoothingGroupVertex = vertex.SmoothingGroups[smoothingGroup];
+				
+				if (smoothingGroupVertex.IsColorCalculated)
+				{
+					lightColor = smoothingGroupVertex.CalculatedColor;
+				}
+				else
+				{
+					lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
+					smoothingGroupVertex.CalculatedColor = lightColor;
+				}
+			} else
+			{
+				lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal);
 			}
 
-			//smoothingGroupVertex.CalculatedColor = color.Additive(lightColor);
-			smoothingGroupVertex.CalculatedColor = vertex.Color.Additive(lightColor);
+
+			return lightColor; // vertex.Color.Additive(lightColor);
+		}
+
+
+		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, INode node)
+		{
+			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
+			{
+				var vertexA = _vertices[face.A];
+				var vertexB = _vertices[face.B];
+				var vertexC = _vertices[face.C];
+				face.CalculatedColorA = CalculateColorForVertex(vertexA, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorB = CalculateColorForVertex(vertexB, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorC = CalculateColorForVertex(vertexC, viewport, node, face.SmoothingGroup);
+			}
 		}
 
 		private void RenderVertices(INode node, Viewport viewport)
@@ -373,31 +397,6 @@ namespace Balder.Silverlight.Rendering
 								   (int)vertex.TranslatedScreenCoordinates.Y,
 								   viewport.DebugInfo.Color,
 								   4);
-			}
-		}
-
-		private void CalculateVertexColorsForFace(Face face, Viewport viewport, INode node)
-		{
-			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
-			{
-				var vertexA = _vertices[face.A];
-				var vertexB = _vertices[face.B];
-				var vertexC = _vertices[face.C];
-				if (!vertexA.SmoothingGroups[face.SmoothingGroup].IsColorCalculated)
-				{
-					CalculateColorForVertex(vertexA, viewport, node, face.SmoothingGroup);
-					vertexA.SmoothingGroups[face.SmoothingGroup].IsColorCalculated = true;
-				}
-				if (!vertexB.SmoothingGroups[face.SmoothingGroup].IsColorCalculated)
-				{
-					CalculateColorForVertex(vertexB, viewport, node, face.SmoothingGroup);
-					vertexB.SmoothingGroups[face.SmoothingGroup].IsColorCalculated = true;
-				}
-				if (!vertexC.SmoothingGroups[face.SmoothingGroup].IsColorCalculated)
-				{
-					CalculateColorForVertex(vertexC, viewport, node, face.SmoothingGroup);
-					vertexC.SmoothingGroups[face.SmoothingGroup].IsColorCalculated = true;
-				}
 			}
 		}
 
@@ -492,9 +491,9 @@ namespace Balder.Silverlight.Rendering
 						case MaterialShade.Gouraud:
 							{
 								var color = face.Material.Diffuse;
-								_vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor = color.Additive(_vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor);
-								_vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor = color.Additive(_vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor);
-								_vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor = color.Additive(_vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor);
+								face.CalculatedColorA = face.CalculatedColorA.Additive(color);
+								face.CalculatedColorB = face.CalculatedColorB.Additive(color);
+								face.CalculatedColorC = face.CalculatedColorC.Additive(color);
 
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
@@ -512,16 +511,10 @@ namespace Balder.Silverlight.Rendering
 				else
 				{
 					var color = GetColorFromNode(node);
-					var aColor = _vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor;
-					var bColor = _vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor;
-					var cColor = _vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor;
-					_vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor = _vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor.Additive(color);
-					_vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor = _vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor.Additive(color);
-					_vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor = _vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor.Additive(color);
+					face.CalculatedColorA = face.CalculatedColorA.Additive(color);
+					face.CalculatedColorB = face.CalculatedColorB.Additive(color);
+					face.CalculatedColorC = face.CalculatedColorC.Additive(color);
 					GouraudTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-					_vertices[face.A].SmoothingGroups[face.SmoothingGroup].CalculatedColor = aColor;
-					_vertices[face.B].SmoothingGroups[face.SmoothingGroup].CalculatedColor = bColor;
-					_vertices[face.C].SmoothingGroups[face.SmoothingGroup].CalculatedColor = cColor;
 				}
 			}
 		}

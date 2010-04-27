@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Core;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
@@ -38,6 +39,10 @@ namespace Balder.Silverlight.Rendering
 		public TextureCoordinate DiffuseTextureCoordinateB;
 		public TextureCoordinate DiffuseTextureCoordinateC;
 
+		public ColorAsFloats CalculatedColorA;
+		public ColorAsFloats CalculatedColorB;
+		public ColorAsFloats CalculatedColorC;
+
 
 		public RenderFace(int a, int b, int c)
 			: base(a,b,c)
@@ -55,6 +60,10 @@ namespace Balder.Silverlight.Rendering
 			DiffuseC = face.DiffuseC;
 			SmoothingGroup = face.SmoothingGroup;
 			Normal = face.Normal;
+
+			CalculatedColorA = new ColorAsFloats(0, 0, 0, 1);
+			CalculatedColorB = new ColorAsFloats(0, 0, 0, 1);
+			CalculatedColorC = new ColorAsFloats(0, 0, 0, 1);
 		}
 
 		public void Transform(Matrix matrix)

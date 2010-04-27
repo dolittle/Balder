@@ -305,7 +305,14 @@ namespace Balder.Core.Assets.AssetLoaders
 						if (meshSmoothingIndex > 0)
 						{
 							var meshSmoothing = content.Substring(meshSmoothingIndex + MESH_SMOOTHING.Length + 1, 2).Trim();
-							smoothingGroup = Convert.ToInt32(meshSmoothing);
+							if (string.IsNullOrEmpty(meshSmoothing) || meshSmoothing.Contains("*"))
+							{
+								smoothingGroup = 0;
+							}
+							else
+							{
+								smoothingGroup = Convert.ToInt32(meshSmoothing);
+							}
 						}
 						content = content.Replace(" ", string.Empty);
 						var elements = content.Split(':');
