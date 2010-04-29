@@ -212,7 +212,11 @@ namespace Balder.Core
 		{
 			lock( _renderableNodes )
 			{
-				_nodeRenderingService.PrepareForRendering(viewport, _renderableNodes);
+				lock(_allNodes)
+				{
+					_nodeRenderingService.PrepareForRendering(viewport, _allNodes);	
+				}
+				
 				_nodeRenderingService.Render(viewport, _renderableNodes);
 			}
 		}

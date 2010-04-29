@@ -54,7 +54,7 @@
 				<RowDefinition Height="30"/>
 				<RowDefinition Height="30"/>
 				<RowDefinition Height="30"/>
-			      </Grid.RowDefinitions>
+			    </Grid.RowDefinitions>
 
 
 			<TextBlock Text="Start Angle" Grid.Column="0" Grid.Row="0"/>

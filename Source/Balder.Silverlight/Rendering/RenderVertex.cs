@@ -20,7 +20,6 @@
 #endregion
 
 using System.Collections.Generic;
-using Balder.Core;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
@@ -52,13 +51,14 @@ namespace Balder.Silverlight.Rendering
 			TransformedVector = new Vector(x, y, z);
 			TranslatedVector = new Vector(x, y, z);
 			TranslatedScreenCoordinates = Vector.Zero;
-			//IsColorCalculated = false;
 			SmoothingGroups = new Dictionary<int, SmoothingGroupVertex>();
 		}
 
 		public void Transform(Matrix matrix)
 		{
 			TransformedVector = Vector.Transform(X, Y, Z, matrix);
+
+			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, matrix);
 
 			foreach( var smoothingGroup in SmoothingGroups.Values )
@@ -86,8 +86,6 @@ namespace Balder.Silverlight.Rendering
 		public Vector TransformedVectorNormalized;
 		public Vector TranslatedScreenCoordinates;
 		public float DepthBufferAdjustedZ;
-		//public ColorAsFloats CalculatedColor;
-		//public bool IsColorCalculated;
 
 		public Dictionary<int, SmoothingGroupVertex> SmoothingGroups { get; private set; }
 
