@@ -26,7 +26,7 @@ using Balder.Core.View;
 
 namespace Balder.Core.Lighting
 {
-	public class CameraLight : DirectionalLight
+	public class ViewLight : DirectionalLight
 	{
 		private Vector _direction;
 		private Vector _viewDirection;
@@ -34,14 +34,14 @@ namespace Balder.Core.Lighting
 		private ColorAsFloats _actualDiffuse;
 		private Matrix _angleMatrix;
 
-		public CameraLight()
+		public ViewLight()
 		{
 			PrepareAngleMatrix();
 		}
 
 
-		public static readonly Property<CameraLight, double> XAngleOffsetProperty =
-			Property<CameraLight, double>.Register(c => c.XAngleOffset);
+		public static readonly Property<ViewLight, double> XAngleOffsetProperty =
+			Property<ViewLight, double>.Register(c => c.XAngleOffset);
 		public double XAngleOffset
 		{
 			get { return XAngleOffsetProperty.GetValue(this); }
@@ -52,8 +52,8 @@ namespace Balder.Core.Lighting
 			}
 		}
 
-		public static readonly Property<CameraLight, double> YAngleOffsetProperty =
-			Property<CameraLight, double>.Register(c => c.YAngleOffset);
+		public static readonly Property<ViewLight, double> YAngleOffsetProperty =
+			Property<ViewLight, double>.Register(c => c.YAngleOffset);
 		public double YAngleOffset
 		{
 			get { return YAngleOffsetProperty.GetValue(this); }
@@ -64,8 +64,8 @@ namespace Balder.Core.Lighting
 			}
 		}
 
-		public static readonly Property<CameraLight, double> ZAngleOffsetProperty =
-			Property<CameraLight, double>.Register(c => c.ZAngleOffset);
+		public static readonly Property<ViewLight, double> ZAngleOffsetProperty =
+			Property<ViewLight, double>.Register(c => c.ZAngleOffset);
 		public double ZAngleOffset
 		{
 			get { return ZAngleOffsetProperty.GetValue(this); }
