@@ -19,7 +19,9 @@
 
 #endregion
 
+using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Windows;
 using System.Windows.Controls;
@@ -34,11 +36,19 @@ namespace Balder.Silverlight.Controls
 {
 	public class NodesControl : Container
 	{
+		public static BubbledEvent<NodesControl, BubbledEventHandler> ItemsPreparedEvent =
+			BubbledEvent<NodesControl, BubbledEventHandler>.Register(n => n.ItemsPrepared);
+
+		public event BubbledEventHandler ItemsPrepared = (s, e) => { };
+		private readonly List<ContentPresenter> _contentPresenters;
+
 		public NodesControl()
 		{
 			var binding = new Binding {Source = this, Path = new PropertyPath("ItemsSource")};
 			SetBinding(ItemsSourceChangedProperty, binding);
+			_contentPresenters = new List<ContentPresenter>();
 		}
+
 
 		public static readonly DependencyProperty ItemsSourceChangedProperty =
 			DependencyProperty.Register("ItemsSourceChanged",
@@ -82,40 +92,61 @@ namespace Balder.Silverlight.Controls
 		private new DataTemplate ItemTemplate { get; set; }
 		#endregion
 
+
+
 		private void PrepareChildren()
 		{
 			Children.Clear();
-			var count = VisualTreeHelper.GetChildrenCount(this);
-			if( count == 1 )
+
+			foreach( var contentPresenter in _contentPresenters )
 			{
-				var itemsPresenter = VisualTreeHelper.GetChild(this, 0) as ItemsPresenter;
-				if( null != itemsPresenter )
+				var child = VisualTreeHelper.GetChild(contentPresenter, 0);
+				if (null != child &&
+					child is INode)
 				{
-					count = VisualTreeHelper.GetChildrenCount(itemsPresenter);
-					if( count == 1 )
-					{
-						var panel = VisualTreeHelper.GetChild(itemsPresenter,0) as StackPanel;
-						if( null != panel )
-						{
-							foreach( ContentPresenter contentPresenter in panel.Children )
-							{
-								var child = VisualTreeHelper.GetChild(contentPresenter,0);
-								if( null != child &&
-									child is INode )
-								{
-									Children.Add(child as INode);
-								}
-							}
-						}
-					}
+					Children.Add(child as INode);
 				}
 			}
 
 			OnContentPrepared();
 		}
 
+
+		private int _expectedCount;
+		private int _childCount;
+
+		protected override void OnItemsChanged(NotifyCollectionChangedEventArgs e)
+		{
+			_childCount = 0;
+			_expectedCount = -1;
+
+			if( null != ItemsSource && ItemsSource is ICollection )
+			{
+				_expectedCount = ((ICollection) ItemsSource).Count;
+			}
+			
+			base.OnItemsChanged(e);
+		}
+
+
+		protected override void PrepareContainerForItemOverride(DependencyObject element, object item)
+		{
+			if (element is ContentPresenter)
+			{
+				_contentPresenters.Add(element as ContentPresenter);
+			}
+
+			_childCount++;
+			if( _childCount == _expectedCount )
+			{
+				ItemsPreparedEvent.Raise(this, this, BubbledEventArgs.Empty);
+			}
+			base.PrepareContainerForItemOverride(element, item);
+		}
+
 		private void HandleItemsSource()
 		{
+			_contentPresenters.Clear();
 			if( null != ItemsSource &&
 				ItemsSource is INotifyCollectionChanged )
 			{
@@ -128,6 +159,7 @@ namespace Balder.Silverlight.Controls
 		{
 			InvalidatePrepare();
 		}
+
 
 
 		private void HandleModifier()
