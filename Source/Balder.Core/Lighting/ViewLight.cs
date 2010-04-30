@@ -114,7 +114,7 @@ namespace Balder.Core.Lighting
 
 				var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), SpecularPower);
 
-				var color = diffuseLight * specular;
+				var color = diffuseLight * (float)specular;
 				return color;
 			}
 			return new ColorAsFloats();

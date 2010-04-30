@@ -31,7 +31,7 @@
 		<Execution:Game Width="640" Height="480">
 			<Geometries:Box x:Name="Box" Dimension="10,10,10"/>
 			
-			<Lighting:ViewLight Ambient="Gray" Diffuse="Gray" Specular="White" XAngleOffset="25" />
+			<Lighting:ViewLight Ambient="Gray" Diffuse="Gray" Specular="White" XAngleOffset="25" SpecularIntensity="1" SpecularPower="0"/>
 			
 			<Execution:Game.Camera>
 				<View:Camera x:Name="Camera" Position="0,20,-50"/>

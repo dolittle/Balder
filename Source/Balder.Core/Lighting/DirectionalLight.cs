@@ -30,15 +30,26 @@ namespace Balder.Core.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
+		public DirectionalLight()
+		{
+			SpecularIntensity = 1d;
+		}
+
 		/// <summary>
 		/// Gets or sets the specular intensity
 		/// </summary>
-		public float SpecularIntensity = 1f;
+		public double SpecularIntensity
+		{
+			get; set;
+		}
 
 		/// <summary>
 		/// Gets or sets the specular power
 		/// </summary>
-		public float SpecularPower = 0f;
+		public double SpecularPower
+		{
+			get; set;
+		}
 
 		/// <summary>
 		/// Direction Property
@@ -77,7 +88,7 @@ namespace Balder.Core.Lighting
 
 			var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(viewDirection)), SpecularPower);
 
-			var color = diffuseLight*specular;
+			var color = diffuseLight*(float)specular;
 			return color;
 		}
 	}
