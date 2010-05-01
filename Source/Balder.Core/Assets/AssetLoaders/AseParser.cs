@@ -13,7 +13,7 @@ namespace Balder.Core.Assets.AssetLoaders
 {
 	public class AseParser
 	{
-// ReSharper disable InconsistentNaming
+		// ReSharper disable InconsistentNaming
 		public const string GEOMOBJECT = "GEOMOBJECT";
 
 		public const string NODE_NAME = "NODE_NAME";
@@ -56,7 +56,7 @@ namespace Balder.Core.Assets.AssetLoaders
 		public const string TM_ROTAXIS = "TM_ROTAXIS";
 		public const string TM_ROTANGLE = "TM_ROTANGLE";
 		public const string TM_SCALE = "TM_SCALE";
-// ReSharper restore InconsistentNaming
+		// ReSharper restore InconsistentNaming
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
 		                                                                                     	{
@@ -105,10 +105,10 @@ namespace Balder.Core.Assets.AssetLoaders
 						var endIndex = trimmedLine.IndexOf("{");
 						var scope = trimmedLine.Substring(startIndex, endIndex - startIndex).Trim();
 
-						
+
 						var scopeParameter = string.Empty;
 						var elements = scope.Split(' ');
-						if( elements.Length == 2 )
+						if (elements.Length == 2)
 						{
 							scope = elements[0];
 							scopeParameter = elements[1];
@@ -120,8 +120,8 @@ namespace Balder.Core.Assets.AssetLoaders
 						scopeObjectStack.Push(currentScopeObject);
 
 						if (null != currentScopeObject &&
-						    currentScopeObject is Geometry &&
-						    !geometries.Contains(currentScopeObject as Geometry))
+							currentScopeObject is Geometry &&
+							!geometries.Contains(currentScopeObject as Geometry))
 						{
 							geometries.Add(currentScopeObject as Geometry);
 						}
@@ -140,7 +140,7 @@ namespace Balder.Core.Assets.AssetLoaders
 								var contentIndex = 0;
 
 								if ((firstTab < firstSpace || firstSpace < 0) &&
-								    firstTab > 0)
+									firstTab > 0)
 								{
 									contentIndex = firstTab;
 								}
@@ -208,34 +208,34 @@ namespace Balder.Core.Assets.AssetLoaders
 				case MATERIAL_REF:
 					{
 						var materialRef = Convert.ToInt32(content);
-						if( null != globals.Materials && materialRef < globals.Materials.Length )
+						if (null != globals.Materials && materialRef < globals.Materials.Length)
 						{
-							geometry.Material = globals.Materials[materialRef];	
+							geometry.Material = globals.Materials[materialRef];
 						}
 					}
 					break;
 				case TM_POS:
 					{
-						var elements = content.Split('\t',' ');
+						var elements = content.Split('\t', ' ');
 						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
 						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
 						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
 						var coordinate = new Coordinate();
-						coordinate.Set(x,y,z);
+						coordinate.Set(x, y, z);
 						var translation = Matrix.CreateTranslation(coordinate);
 						geometry.World = translation;
 					}
 					break;
 				case TM_SCALE:
 					{
-						var elements = content.Split('\t',' ');
+						var elements = content.Split('\t', ' ');
 						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
 						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
 						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
 						var coordinate = new Coordinate();
 						coordinate.Set(x, y, z);
 						var scale = Matrix.CreateScale(coordinate);
-						geometry.World = geometry.World*scale;
+						geometry.World = geometry.World * scale;
 					}
 					break;
 
@@ -277,7 +277,7 @@ namespace Balder.Core.Assets.AssetLoaders
 			{
 				case MESH_VERTEX:
 					{
-						var elements = content.Split('\t',' ');
+						var elements = content.Split('\t', ' ');
 						var vertexIndex = Convert.ToInt32(elements[0]);
 						var x = float.Parse(elements[1], CultureInfo.InvariantCulture);
 						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
@@ -337,11 +337,11 @@ namespace Balder.Core.Assets.AssetLoaders
 			{
 				case MESH_TVERT:
 					{
-						var elements = content.Split('\t',' ');
+						var elements = content.Split('\t', ' ');
 
 						var tvertIndex = Convert.ToInt32(elements[0]);
-						var u = float.Parse(elements[1]);
-						var v = float.Parse(elements[2]);
+						var u = float.Parse(elements[1], CultureInfo.InvariantCulture);
+						var v = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						v = 1f - v;
 						var textureCoordinate = new TextureCoordinate(u, v);
 						geometryDetailLevel.SetTextureCoordinate(tvertIndex, textureCoordinate);
@@ -350,7 +350,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 				case MESH_TFACE:
 					{
-						var elements = content.Split('\t',' ');
+						var elements = content.Split('\t', ' ');
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[1]);
 						var b = Convert.ToInt32(elements[2]);
@@ -364,7 +364,7 @@ namespace Balder.Core.Assets.AssetLoaders
 
 		private static void MaterialListScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
-			switch( propertyName )
+			switch (propertyName)
 			{
 				case MATERIAL_COUNT:
 					{
@@ -377,14 +377,14 @@ namespace Balder.Core.Assets.AssetLoaders
 
 		private static void MaterialScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
-			
+
 		}
 
 		private static void DiffuseScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
 			var material = scopeObject as Material;
 
-			switch( propertyName )
+			switch (propertyName)
 			{
 				case BITMAP:
 					{
@@ -392,8 +392,8 @@ namespace Balder.Core.Assets.AssetLoaders
 						var relativeFile = Path.GetFileName(file);
 						var rootPath = globals.RootPath;
 						var actualFile = string.IsNullOrEmpty(rootPath)
-						                 	? relativeFile
-						                 	: string.Format("{0}//{1}", rootPath, relativeFile);
+											? relativeFile
+											: string.Format("{0}//{1}", rootPath, relativeFile);
 
 						var loader = globals.AssetLoaderService.GetLoader<Image>(actualFile);
 						var frames = loader.Load(actualFile);
