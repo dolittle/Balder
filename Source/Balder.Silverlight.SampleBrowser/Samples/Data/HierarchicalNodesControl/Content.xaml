@@ -7,7 +7,8 @@
     xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
     xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
-    xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder.Silverlight">
+    xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder.Silverlight" 
+    xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>
@@ -34,17 +35,23 @@
 						<Controls:NodesControl ItemsSource="{Binding Rows}">
 							<Controls:NodesControl.NodeTemplate>
 								<DataTemplate>
-									<Controls:NodesControl ItemsSource="{Binding Columns}">
-										<Controls:NodesControl.NodeTemplate>
-											<DataTemplate>
-												
-												<Geometries:Box Color="{Binding Color}" 
-																Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-																ToolTip="Tooltip"
-																Dimension="10,10,10"/>
-											</DataTemplate>
-										</Controls:NodesControl.NodeTemplate>
-									</Controls:NodesControl>
+									<Core:Container>
+										
+										<Controls:NodesControl ItemsSource="{Binding Columns}">
+											<Controls:NodesControl.NodeTemplate>
+												<DataTemplate>
+
+
+													<Geometries:Box Color="{Binding Color}" 
+																	Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
+																	ToolTip="Tooltip"
+																	Dimension="10,10,10"
+																	/>
+
+												</DataTemplate>
+											</Controls:NodesControl.NodeTemplate>
+										</Controls:NodesControl>
+									</Core:Container>
 								</DataTemplate>
 							</Controls:NodesControl.NodeTemplate>
 						</Controls:NodesControl>
@@ -59,6 +66,6 @@
 
 		</Execution:Game>
 
-		
+
 	</Grid>
 </UserControl>

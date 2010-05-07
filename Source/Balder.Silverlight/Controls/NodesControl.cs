@@ -124,6 +124,8 @@ namespace Balder.Silverlight.Controls
 			{
 				_expectedCount = ((ICollection) ItemsSource).Count;
 			}
+
+			InvalidatePrepare();
 			
 			base.OnItemsChanged(e);
 		}

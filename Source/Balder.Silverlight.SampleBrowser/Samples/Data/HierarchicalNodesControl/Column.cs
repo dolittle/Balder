@@ -29,7 +29,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		public Vector Position { get; set; }
 		public Color Color { get; set; }
 
-
 		public override string ToString()
 		{
 			return string.Format("Column : {0}",Position.ToString());

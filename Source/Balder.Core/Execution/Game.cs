@@ -109,6 +109,25 @@ namespace Balder.Core.Execution
 			}
 		}
 
+		public static readonly Property<Game, bool> IsPausedProperty =
+			Property<Game, bool>.Register(g => g.IsPaused);
+		public bool IsPaused
+		{
+			get { return IsPausedProperty.GetValue(this); }
+			set
+			{
+				IsPausedProperty.SetValue(this, value);
+
+				// Todo: Figure out a better way to pause/halt everything - hate to have this value floating around everywhere
+				Scene.IsPaused = value;
+				RuntimeContext.Paused = value;
+				if( null != Display )
+				{
+					Display.Halted = value;
+				}
+			}
+		}
+
 
 		public override void OnLoadContent()
 		{

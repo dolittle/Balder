@@ -43,5 +43,8 @@ namespace Balder.Core.Rendering
 		}
 
 		public PassiveRenderingMode PassiveRenderingMode { get; set; }
+
+
+		public bool Paused { get; set; }
 	}
 }

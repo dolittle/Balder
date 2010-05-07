@@ -43,6 +43,12 @@ namespace Balder.Core.Display
 		bool Paused { get; set; }
 
 		/// <summary>
+		/// Get or set wether or not the entire display + rendering events
+		/// should be halted
+		/// </summary>
+		bool Halted { get; set; }
+
+		/// <summary>
 		/// Initialize the display
 		/// </summary>
 		/// <param name="width">Width of the display</param>

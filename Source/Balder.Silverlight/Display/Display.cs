@@ -55,6 +55,7 @@ namespace Balder.Silverlight.Display
 
 		public bool ClearEnabled { get; set; }
 		public bool Paused { get; set; }
+		public bool Halted { get; set; }
 
 		public void Initialize(int width, int height)
 		{
@@ -153,7 +154,7 @@ namespace Balder.Silverlight.Display
 
 		public void PrepareRender()
 		{
-			if (_initialized)
+			if (_initialized )
 			{
 				_currentRenderBitmap = _bitmapQueue.CurrentRenderBitmap;
 					
@@ -161,7 +162,7 @@ namespace Balder.Silverlight.Display
 				{
 					BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
 					BufferContainer.DepthBuffer = _frontDepthBuffer;
-					if( _initialized && ClearEnabled && !Paused || _forceClear)
+					if( ShouldClear() )
 					{
 						NodesPixelBuffer.NewFrame();
 						BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
@@ -173,9 +174,14 @@ namespace Balder.Silverlight.Display
 			}
 		}
 
+		private bool ShouldClear()
+		{
+			return (_initialized && ClearEnabled && !Paused || _forceClear) && !Halted;
+		}
+
 		public void AfterRender()
 		{
-			if (_initialized)
+			if (_initialized && !Halted )
 			{
 				_bitmapQueue.RenderDone();
 			}
@@ -184,7 +190,7 @@ namespace Balder.Silverlight.Display
 
 		public void Render()
 		{
-			if (_initialized)
+			if (_initialized && !Halted)
 			{
 				PrepareRender();
 				Messenger.DefaultContext.Send(_renderMessage);
@@ -195,14 +201,14 @@ namespace Balder.Silverlight.Display
 
 		public void Swap()
 		{
-			if (_initialized)
+			if (_initialized && !Halted)
 			{
 			}
 		}
 
 		public void Clear()
 		{
-			if (_initialized && ClearEnabled && !Paused || _forceClear)
+			if (ShouldClear())
 			{
 				var clearBitmap = _bitmapQueue.CurrentRenderBitmap;
 				if (null != clearBitmap)
@@ -216,7 +222,7 @@ namespace Balder.Silverlight.Display
 
 		public void Show()
 		{
-			if (_initialized && !Paused || _forceShow)
+			if ((_initialized && !Paused || _forceShow) && !Halted)
 			{
 				if (null != _image)
 				{
@@ -239,7 +245,7 @@ namespace Balder.Silverlight.Display
 
 		public void Update()
 		{
-			if (_initialized)
+			if (_initialized && !Halted)
 			{
 				Messenger.DefaultContext.Send(_updateMessage);
 			}

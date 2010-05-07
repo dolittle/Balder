@@ -154,6 +154,12 @@ namespace Balder.Silverlight.Tests.Notification
 				set { throw new NotImplementedException(); }
 			}
 
+			public bool Halted
+			{
+				get { throw new NotImplementedException(); }
+				set { throw new NotImplementedException(); }
+			}
+
 			public virtual Color VirtualBackgroundColor { get; set; }
 
 			public void Initialize(int width, int height)

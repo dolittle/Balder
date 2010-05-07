@@ -37,6 +37,12 @@ namespace Balder.Core.Silverlight.Helpers
 			if (null == _rootVisual)
 			{
 				// Todo: If at all there is a better way than this, do fix it.. :)
+				// the reason we need to do this, is that we're using existing ToolTipService and Tooltip and it must 
+				// initialized with the RootVisual, which it discovers during SetToolTip.
+				// I consider this a bug, or at least bad practice in the code by Microsoft.
+				// Looking at the code, there is a bad dependency between Tooltip and ToolTipService, were ToolTipService
+				// exposes an internal property saying what layoutroot it should be relative to. Since we're displaying
+				// the tooltip ourselves, this does not make sense.
 				ToolTipService.SetToolTip(node, node.ToolTip);
 				ToolTipService.SetToolTip(node, null);
 
@@ -98,6 +104,9 @@ namespace Balder.Core.Silverlight.Helpers
 				if (null != toolTip)
 				{
 					AddOpenToolTip(toolTip);
+					// Set the DataContext so we can databind - this should possibly be databound instead, to make it
+					// dynamic, in case the datacontext changes during showing of the tooltip
+					toolTip.DataContext = source.DataContext;
 					toolTip.IsOpen = true;
 					toolTip.Visibility = Visibility.Visible;
 

@@ -49,6 +49,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 				Columns.Add(column);
 				position += ColumnSpace;
 			}
+			
 		}
 
 		public ObservableCollection<Column> Columns { get; private set; }

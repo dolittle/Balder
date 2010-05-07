@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Lighting.Camera
+namespace Balder.Silverlight.SampleBrowser.Samples.Rendering.Pausing
 {
 	public partial class Content : UserControl
 	{

@@ -59,7 +59,7 @@ namespace Balder.Core
 		public Scene()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
-			
+			IsPaused = false;
 		}
 
 		/// <summary>
@@ -207,9 +207,17 @@ namespace Balder.Core
 		/// </summary>
 		public NodeCollection Lights { get { return _lights; } }
 
+		public bool IsPaused { get; set; }
 
 		public void Render(Viewport viewport)
 		{
+			if( IsPaused )
+			{
+				// Todo: Figure out a better way to pause/halt everything - hate to have this value floating around everywhere
+				// besides - its altering the state of an object within Viewport - not really its concern!
+				viewport.Display.Halted = true;
+				return;
+			} 
 			lock( _renderableNodes )
 			{
 				lock(_allNodes)
@@ -223,6 +231,10 @@ namespace Balder.Core
 
 		public void Prepare(Viewport viewport)
 		{
+			if (IsPaused)
+			{
+				return;
+			}
 			lock (_allNodes)
 			{
 				_nodeRenderingService.Prepare(viewport, _allNodes);

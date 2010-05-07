@@ -244,7 +244,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Lighting\Camera\Content.xaml.cs">
+    <Compile Include="Samples\Lighting\View\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Lighting\Directional\Content.xaml.cs">
@@ -317,6 +317,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Rendering\Passive\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Rendering\Pausing\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\View\CameraManipulation\Content.xaml.cs">
@@ -424,7 +427,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
-    <Page Include="Samples\Lighting\Camera\Content.xaml">
+    <Page Include="Samples\Lighting\View\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
@@ -473,6 +476,10 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
     <Page Include="Samples\Rendering\Passive\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:MarkupCompilePass1</Generator>
+    </Page>
+    <Page Include="Samples\Rendering\Pausing\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
     </Page>
