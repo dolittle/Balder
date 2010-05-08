@@ -35,7 +35,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			var position = -(DepthSpace*(DepthCount/2d));
 			for( var depthIndex=0; depthIndex<DepthCount; depthIndex++)
 			{
-				var row = new Depth(position);
+				var row = new Depth(position, depthIndex);
 				Depths.Add(row);
 				position += DepthSpace;
 			}

@@ -8,7 +8,8 @@
     xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
     xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder.Silverlight" 
-    xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core">
+    xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core" 
+    xmlns:Math="clr-namespace:Balder.Core.Math;assembly=Balder.Core">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>
@@ -16,6 +17,7 @@
 		<ValueConverters:VectorToCoordinateValueConverter x:Key="VectorToCoordinateConverter"/>
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
+		<!--
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -26,45 +28,60 @@
 					</Storyboard>
 				</BeginStoryboard>
 			</EventTrigger>
-		</Grid.Triggers>
+		</Grid.Triggers>-->
 
-		<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="True">
-			<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
-				<Controls:NodesControl.NodeTemplate>
-					<DataTemplate>
-						<Controls:NodesControl ItemsSource="{Binding Rows}">
-							<Controls:NodesControl.NodeTemplate>
-								<DataTemplate>
-									<Core:Container>
-										
-										<Controls:NodesControl ItemsSource="{Binding Columns}">
-											<Controls:NodesControl.NodeTemplate>
-												<DataTemplate>
+		<StackPanel Orientation="Vertical" >
+			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="True">
+				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
+					<Controls:NodesControl.NodeTemplate>
+						<DataTemplate>
+							<Controls:NodesControl ItemsSource="{Binding Rows}">
+								<Controls:NodesControl.NodeTemplate>
+									<DataTemplate>
+										<Core:Container>
+
+											<Controls:NodesControl ItemsSource="{Binding Columns}">
+												<Controls:NodesControl.NodeTemplate>
+													<DataTemplate>
 
 
-													<Geometries:Box Color="{Binding Color}" 
+														<Geometries:Box Color="{Binding Color}" 
 																	Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-																	ToolTip="Tooltip"
 																	Dimension="10,10,10"
-																	/>
+																	>
+															<Geometries:Box.ToolTip>
+																<ToolTip>
+																	<StackPanel Orientation="Vertical">
+																		<TextBlock Text="Box"/>
+																		<TextBlock Text="{Binding Color}"/>
+																		<TextBlock Text="{Binding Position}"/>
+																		<TextBlock Text="{Binding Name}"/>
+																	</StackPanel>
+																</ToolTip>
+															</Geometries:Box.ToolTip>
+														</Geometries:Box>
 
-												</DataTemplate>
-											</Controls:NodesControl.NodeTemplate>
-										</Controls:NodesControl>
-									</Core:Container>
-								</DataTemplate>
-							</Controls:NodesControl.NodeTemplate>
-						</Controls:NodesControl>
-					</DataTemplate>
-				</Controls:NodesControl.NodeTemplate>
-			</Controls:NodesControl>
+													</DataTemplate>
+												</Controls:NodesControl.NodeTemplate>
+											</Controls:NodesControl>
+										</Core:Container>
+									</DataTemplate>
+								</Controls:NodesControl.NodeTemplate>
+							</Controls:NodesControl>
+						</DataTemplate>
+					</Controls:NodesControl.NodeTemplate>
+				</Controls:NodesControl>
 
 
-			<Execution:Game.Camera>
-				<View:Camera Position="30,250,-1000"/>
-			</Execution:Game.Camera>
+				<Execution:Game.Camera>
+					<View:Camera x:Name="Camera" Position="30,250,-1000"/>
+				</Execution:Game.Camera>
 
-		</Execution:Game>
+			</Execution:Game>
+
+			<Slider x:Name="RotationSlider" Width="640" Minimum="0" Maximum="360"  ValueChanged="RotationSlider_ValueChanged"/>
+		</StackPanel>
+
 
 
 	</Grid>

@@ -30,7 +30,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		public const double RowSpace = 12;
 
 
-		public Depth(double zPosition)
+		public Depth(double zPosition, int depth)
 		{
 			_zPosition = zPosition;
 			Rows = new ObservableCollection<Row>();
@@ -38,7 +38,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			var position = -(RowSpace*(RowCount/2d));
 			for( var rowIndex=0; rowIndex<RowCount; rowIndex++ )
 			{
-				var row = new Row(position, zPosition);
+				var row = new Row(position, zPosition, depth, rowIndex);
 				Rows.Add(row);
 				position += RowSpace;
 			}

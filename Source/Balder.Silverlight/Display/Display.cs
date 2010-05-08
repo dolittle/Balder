@@ -45,6 +45,7 @@ namespace Balder.Silverlight.Display
 		private PrepareMessage _prepareMessage;
 		private bool _forceShow;
 		private bool _forceClear;
+		private bool _previousFramePaused;
 
 		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
 		{
@@ -99,10 +100,12 @@ namespace Balder.Silverlight.Display
 			RenderingManager.Instance.Start();
 
 			Messenger.DefaultContext.SubscriptionsFor<ShowMessage>().AddListener(this,ShowMessage);
+			Messenger.DefaultContext.SubscriptionsFor<PrepareFrameMessage>().AddListener(this,PrepareFrame);
 
 			_renderMessage = new RenderMessage();
 			_prepareMessage = new PrepareMessage();
 		}
+
 
 		private void ShowMessage(ShowMessage message)
 		{
@@ -162,16 +165,15 @@ namespace Balder.Silverlight.Display
 				{
 					BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
 					BufferContainer.DepthBuffer = _frontDepthBuffer;
-					if( ShouldClear() )
-					{
-						NodesPixelBuffer.NewFrame();
-						BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
-					}
-					
 					Array.Clear(_frontDepthBuffer, 0, _frontDepthBuffer.Length);
-					
 				}
 			}
+		}
+
+		private void PrepareFrame(PrepareFrameMessage obj)
+		{
+			NodesPixelBuffer.NewFrame();
+			BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
 		}
 
 		private bool ShouldClear()

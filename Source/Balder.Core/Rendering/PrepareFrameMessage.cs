@@ -19,26 +19,10 @@
 
 #endregion
 
-using Balder.Core;
-using Balder.Core.Math;
-
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Core.Rendering
 {
-	public class Column
+	public class PrepareFrameMessage
 	{
-		public Vector Position { get; set; }
-		public Color Color { get; set; }
-
-		public string Name { get; set; }
-
-		public Column(int depth, int row, int column)
-		{
-			Name = string.Format("Node : {0}, {1}, {2}", depth, row, column);
-		}
-
-		public override string ToString()
-		{
-			return string.Format("Column : {0}",Position.ToString());
-		}
+		
 	}
 }

@@ -12,7 +12,7 @@ namespace Balder.Core.Rendering
 		private int _frameCounter;
 		private bool _render;
 		private readonly ShowMessage _showMessage;
-
+		private readonly PrepareFrameMessage _prepareFrameMessage;
 
 		public NodeRenderingService(RuntimeContext runtimeContext)
 		{
@@ -20,6 +20,7 @@ namespace Balder.Core.Rendering
 			Messenger.DefaultContext.SubscriptionsFor<PassiveRenderingSignal>().AddListener(this, PassiveRenderingSignaled);
 			_render = true;
 			_showMessage = new ShowMessage();
+			_prepareFrameMessage = new PrepareFrameMessage();
 		}
 
 		private void PassiveRenderingSignaled(PassiveRenderingSignal signal)
@@ -41,13 +42,17 @@ namespace Balder.Core.Rendering
 
 		public void PrepareForRendering(Viewport viewport, NodeCollection nodes)
 		{
-			if( _runtimeContext.PassiveRendering )
+			if( _runtimeContext.PassiveRendering && !_render )
 			{
 				viewport.Display.Paused = true;
+			} else
+			{
+				viewport.Display.Paused = false;
 			}
 
 			if (_render)
 			{
+				Messenger.DefaultContext.Send(_prepareFrameMessage);
 				foreach (var node in nodes)
 				{
 					var world = Matrix.Identity;

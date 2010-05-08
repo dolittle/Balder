@@ -32,7 +32,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		public const int ColumnCount = 10;
 		public const double ColumnSpace = 12;
 
-		public Row(double yPosition, double zPosition)
+		public Row(double yPosition, double zPosition, int depth, int row)
 		{
 			_yPosition = yPosition;
 			_zPosition = zPosition;
@@ -41,7 +41,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			var position = -(ColumnSpace*(ColumnCount/2d));
 			for( var columnIndex=0; columnIndex<ColumnCount; columnIndex++ )
 			{
-				var column = new Column
+				var column = new Column(depth, row, columnIndex)
 				             	{
 				             		Position = new Coordinate(position, yPosition, zPosition),
 									Color = Color.Random()
