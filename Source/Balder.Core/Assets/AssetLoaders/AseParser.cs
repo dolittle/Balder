@@ -288,8 +288,9 @@ namespace Balder.Core.Assets.AssetLoaders
 					break;
 
 			}
-
 		}
+
+        
 
 		private static void FaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
@@ -305,6 +306,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						if (meshSmoothingIndex > 0)
 						{
 							var meshSmoothing = content.Substring(meshSmoothingIndex + MESH_SMOOTHING.Length + 1, 2).Trim();
+                            meshSmoothing = meshSmoothing.Replace(",", string.Empty);
 							if (string.IsNullOrEmpty(meshSmoothing) || meshSmoothing.Contains("*"))
 							{
 								smoothingGroup = 0;
@@ -315,7 +317,7 @@ namespace Balder.Core.Assets.AssetLoaders
 							}
 						}
 						content = content.Replace(" ", string.Empty);
-						var elements = content.Split(':');
+                        var elements = content.Split(':');
 
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[2].Substring(0, elements[2].Length - 1));
