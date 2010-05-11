@@ -35,7 +35,6 @@ namespace Balder.Silverlight.Rendering
 		public event RenderEventHandler Show = () => { };
 		public event RenderEventHandler Prepare = () => { };
 
-		private bool _renderFrame;
 		private Thread _renderingThread;
 		private bool _active;
 
@@ -67,7 +66,6 @@ namespace Balder.Silverlight.Rendering
 
 		public void SignalRendering()
 		{
-			_renderFrame = true;
 		}
 
 		private void RenderingThread()

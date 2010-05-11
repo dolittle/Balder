@@ -206,7 +206,6 @@ namespace Balder.Core.Objects.Geometries
 		private void BuildFaces(int actualSegments, int actualStacks, int vertexCount)
 		{
 			var faceCount = 0;
-			var faceOffset = 0;
 			var verticesPerStack = actualSegments * 2;
 
 			var openRing = false;
@@ -215,7 +214,6 @@ namespace Balder.Core.Objects.Geometries
 				actualSegments--;
 				openRing = true;
 
-				faceOffset = 2;
 				if (Spokes)
 				{
 					faceCount += (4 * Stacks);

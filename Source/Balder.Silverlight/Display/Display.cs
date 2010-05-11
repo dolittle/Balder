@@ -45,7 +45,6 @@ namespace Balder.Silverlight.Display
 		private PrepareMessage _prepareMessage;
 		private bool _forceShow;
 		private bool _forceClear;
-		private bool _previousFramePaused;
 
 		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
 		{
@@ -104,6 +103,7 @@ namespace Balder.Silverlight.Display
 
 			_renderMessage = new RenderMessage();
 			_prepareMessage = new PrepareMessage();
+            _updateMessage = new UpdateMessage();
 		}
 
 

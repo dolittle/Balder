@@ -194,7 +194,11 @@ namespace Balder.Core
 		}
 
 		public Matrix World { get; set; }
+#if(SILVERLIGHT)
+        public new INode Parent { get; internal set; }
+#else
 		public INode Parent { get; internal set; }
+#endif
 
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }

@@ -81,12 +81,20 @@ namespace Balder.Core.Display
 		/// <summary>
 		/// Get or set the width in pixels of the viewport within the display
 		/// </summary>
+#if(SILVERLIGHT)
+        public new int Width { get; set; }
+#else
 		public int Width { get; set; }
+#endif
 
 		/// <summary>
 		/// Get or set the height in pixels of the viewport within the display
 		/// </summary>
+#if(SILVERLIGHT)
+        public new int Height { get; set; }
+#else
 		public int Height { get; set; }
+#endif
 
 		/// <summary>
 		/// Get or set the scene to use during rendering

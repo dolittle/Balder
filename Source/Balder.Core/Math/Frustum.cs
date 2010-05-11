@@ -82,7 +82,7 @@ namespace Balder.Core.Math
 
 		public void SetCameraDefinition(Viewport viewport, Camera camera)
 		{
-			Vector dir, nc, fc, X, Y, Z;
+			Vector nc, fc, X, Y, Z;
 
 			SetCameraInternals(camera.FieldOfView, viewport.AspectRatio, camera.Near, camera.Far);
 

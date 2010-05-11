@@ -34,7 +34,6 @@ namespace Balder.Core.Silverlight.Extensions
 	{
 		public T Element { get; private set; }
 		public DependencyProperty DependencyProperty { get; private set; }
-		private DependencyProperty _hiddenAttachedProperty;
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 
 		public DependencyPropertySubscription(T element, DependencyProperty dependencyProperty)

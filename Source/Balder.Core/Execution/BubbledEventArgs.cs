@@ -27,7 +27,7 @@ namespace Balder.Core.Execution
 	/// </summary>
 	public class BubbledEventArgs : EventArgs
 	{
-		public static readonly BubbledEventArgs	Empty = new BubbledEventArgs();
+		public static new readonly BubbledEventArgs	Empty = new BubbledEventArgs();
 
 		public INode OriginalSource { get; internal set; }
 		public bool Handled { get; set; }

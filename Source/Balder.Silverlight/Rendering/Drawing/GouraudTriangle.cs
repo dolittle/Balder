@@ -228,9 +228,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var aEnd = 0f;
 			var aAdd = 0f;
 
-			var rgbaStart = 0L;
-			var rgbaAdd = 0L;
-
 
 			for (var y = yStart; y <= yEnd; y++)
 			{
