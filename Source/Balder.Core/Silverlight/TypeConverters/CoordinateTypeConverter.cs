@@ -18,7 +18,7 @@ namespace Balder.Core.Silverlight.TypeConverters
 			return destinationType.Equals(typeof(Coordinate));
 		}
 
-		public override object ConvertFrom(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value)
+		public override object ConvertFrom(ITypeDescriptorContext context, CultureInfo culture, object value)
 		{
 			var stringValue = value as string;
 			var trimmedStringValue = stringValue.Replace(" ", string.Empty);
@@ -36,7 +36,7 @@ namespace Balder.Core.Silverlight.TypeConverters
 			return vector;
 		}
 
-		public override object ConvertTo(ITypeDescriptorContext context, System.Globalization.CultureInfo culture, object value, Type destinationType)
+		public override object ConvertTo(ITypeDescriptorContext context, CultureInfo culture, object value, Type destinationType)
 		{
 			var vector = value as Coordinate;
 			var vectorAsString = string.Format(CultureInfo.InvariantCulture, "{0},{1},{2}", vector.X, vector.Y, vector.Z);

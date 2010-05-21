@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
@@ -12,6 +13,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		private void RotationSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
 			Nodes.Rotation.Y = e.NewValue;
+
+		}
+
+		private void Box_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		{
+			var box = sender as Box;
+			if( null != box )
+			{
+				if( null != box.DataContext && box.DataContext is Column )
+				{
+					var column = box.DataContext as Column;
+					column.Box = box;
+				}
+			}
 
 		}
 	}

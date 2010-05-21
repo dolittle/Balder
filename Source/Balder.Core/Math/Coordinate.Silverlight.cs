@@ -29,7 +29,7 @@ namespace Balder.Core.Math
 	{
 		public event PropertyChangedEventHandler PropertyChanged;
 
-		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X);
+		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X, 0d);
 		public double X
 		{
 			get { return XProp.GetValue(this); }
@@ -40,7 +40,7 @@ namespace Balder.Core.Math
 			}
 		}
 
-		public static readonly Property<Coordinate, double> YProp = Property<Coordinate, double>.Register(c => c.Y);
+		public static readonly Property<Coordinate, double> YProp = Property<Coordinate, double>.Register(c => c.Y, 0d);
 		public double Y
 		{
 			get { return YProp.GetValue(this); }
@@ -51,7 +51,7 @@ namespace Balder.Core.Math
 			}
 		}
 
-		public static readonly Property<Coordinate, double> ZProp = Property<Coordinate, double>.Register(c => c.Z);
+		public static readonly Property<Coordinate, double> ZProp = Property<Coordinate, double>.Register(c => c.Z, 0d);
 		public double Z
 		{
 			get { return ZProp.GetValue(this); }

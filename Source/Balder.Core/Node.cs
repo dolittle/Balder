@@ -49,6 +49,7 @@ namespace Balder.Core
 		private bool _isPrepared = false;
 		private bool _isInitialized = false;
 		private bool _isWorldInvalidated = false;
+		private bool _isForcePrepareMatrices = true;
 
 		protected Node()
 		{
@@ -195,7 +196,7 @@ namespace Balder.Core
 
 		public Matrix World { get; set; }
 #if(SILVERLIGHT)
-        public new INode Parent { get; internal set; }
+		public new INode Parent { get; internal set; }
 #else
 		public INode Parent { get; internal set; }
 #endif
@@ -207,7 +208,7 @@ namespace Balder.Core
 		{
 			var isWorldIdentity = World.IsIdentity;
 
-			if (!_isWorldInvalidated && isWorldIdentity )
+			if (!_isWorldInvalidated && isWorldIdentity)
 			{
 				return;
 			}
@@ -219,26 +220,26 @@ namespace Balder.Core
 				matrix = matrix * World;
 			}
 
-			if (PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
+			if (_isForcePrepareMatrices || PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
 			{
 				var negativePivot = PivotPoint.ToVector().Negative();
 				var pivotMatrix = Matrix.CreateTranslation(negativePivot);
 				matrix = matrix * pivotMatrix;
 			}
 
-			if (Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f)
+			if (_isForcePrepareMatrices || Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f)
 			{
 				var scaleMatrix = Matrix.CreateScale(Scale);
 				matrix = matrix * scaleMatrix;
 			}
 
-			if (Rotation.X != 0f || Rotation.Y != 0f || Rotation.Z != 0f)
+			if (_isForcePrepareMatrices || Rotation.X != 0f || Rotation.Y != 0f || Rotation.Z != 0f)
 			{
 				var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 				matrix = matrix * rotationMatrix;
 			}
 
-			if (Position.X != 0f || Position.Y != 0f || Position.Z != 0f)
+			if (_isForcePrepareMatrices || Position.X != 0f || Position.Y != 0f || Position.Z != 0f)
 			{
 				var translationMatrix = Matrix.CreateTranslation(Position);
 				matrix = matrix * translationMatrix;
@@ -246,6 +247,7 @@ namespace Balder.Core
 
 			ActualWorld = matrix;
 
+			_isForcePrepareMatrices = false;
 			_isWorldInvalidated = false;
 		}
 

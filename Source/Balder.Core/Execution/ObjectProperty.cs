@@ -11,8 +11,9 @@ namespace Balder.Core.Execution
         public bool CallFromProperty;
         private bool _isValueType;
 
-        internal ObjectProperty(DependencyObject obj, bool isValueType)
+        internal ObjectProperty(DependencyObject obj, bool isValueType, T defaultValue)
         {
+        	Value = defaultValue;
             Object = new WeakReference(obj);
             CallFromExternal = false;
             CallFromProperty = false;

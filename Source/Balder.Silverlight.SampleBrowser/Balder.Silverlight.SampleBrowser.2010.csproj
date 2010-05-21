@@ -182,6 +182,7 @@
       <DependentUpon>Cube.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Creative\RubicsCube\CubeBox.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\CubeBoxGroup.cs" />
     <Compile Include="Samples\Creative\Water\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -212,6 +213,7 @@
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\Data\HierarchicalNodesControl\Depth.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\MatrixToStringValueConverter.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\Row.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\ViewModel.cs" />
     <Compile Include="Samples\Data\NodesControl\BusinessObject.cs" />

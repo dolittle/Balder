@@ -19,17 +19,29 @@
 
 #endregion
 
+using System.ComponentModel;
 using Balder.Core;
 using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
-	public class Column
+	public class Column : INotifyPropertyChanged
 	{
 		public Vector Position { get; set; }
 		public Color Color { get; set; }
 
 		public string Name { get; set; }
+		private Box _box;
+		public Box Box
+		{
+			get { return _box; }
+			set
+			{
+				_box = value;
+				OnPropertyChanged("Box");
+			}
+		}
 
 		public Column(int depth, int row, int column)
 		{
@@ -40,5 +52,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		{
 			return string.Format("Column : {0}",Position.ToString());
 		}
+
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+ 		private void OnPropertyChanged(string propertyName)
+ 		{
+ 			PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+ 		}
 	}
 }

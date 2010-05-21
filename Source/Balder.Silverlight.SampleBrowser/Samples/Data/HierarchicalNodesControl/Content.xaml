@@ -15,6 +15,7 @@
 	</UserControl.DataContext>
 	<UserControl.Resources>
 		<ValueConverters:VectorToCoordinateValueConverter x:Key="VectorToCoordinateConverter"/>
+        <local:MatrixToStringValueConverter x:Key="MatrixToStringConverter"/>
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
 		<!--
@@ -46,17 +47,25 @@
 
 
 														<Geometries:Box Color="{Binding Color}" 
-																	Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}" 
-																	Dimension="10,10,10"
-																	>
+                                                                        PivotPoint="0,0,0"
+																	    Position="{Binding Position, Converter={StaticResource VectorToCoordinateConverter}}"
+                                                                        MouseEnter="Box_MouseEnter"
+																	    Dimension="9,10,10">
 															<Geometries:Box.ToolTip>
 																<ToolTip>
+                                                                    
 																	<StackPanel Orientation="Vertical">
 																		<TextBlock Text="Box"/>
 																		<TextBlock Text="{Binding Color}"/>
 																		<TextBlock Text="{Binding Position}"/>
 																		<TextBlock Text="{Binding Name}"/>
-																	</StackPanel>
+                                                                        <TextBlock Text="{Binding Path=Box.World, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                        <TextBlock Text="{Binding Path=Box.ActualWorld, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                        <TextBlock Text="{Binding Path=Box.Position, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                        <TextBlock Text="{Binding Path=Box.Scale, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                        <TextBlock Text="{Binding Path=Box.Rotation, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                        <TextBlock Text="{Binding Path=Box.PivotPoint, Converter={StaticResource MatrixToStringConverter}}"/>
+                                                                    </StackPanel>
 																</ToolTip>
 															</Geometries:Box.ToolTip>
 														</Geometries:Box>

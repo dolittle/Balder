@@ -21,8 +21,11 @@ using Balder.Core.Execution;
 
 namespace Balder.Core.Math
 {
-	public partial class Coordinate : ICloneable, ICopyable
+	public partial class Coordinate : ICloneable, ICopyable, IAmUnique
 	{
+		private readonly Guid _identifier = Guid.NewGuid();
+
+
 		public Coordinate()
 		{
 		}
@@ -49,6 +52,7 @@ namespace Balder.Core.Math
 				Z = z;
 			}
 		}
+
 
 		public void Set(double x, double y, double z)
 		{
@@ -194,6 +198,11 @@ namespace Balder.Core.Math
 					   Z == coordinate.Z;
 			}
 			return false;
+		}
+
+		public object GetIdentifier()
+		{
+			return _identifier;
 		}
 
 		public void CopyTo(object destination)

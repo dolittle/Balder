@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
+using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.Silverlight.Extensions;
 
@@ -15,7 +16,7 @@ namespace Balder.Core.Execution
 	{
 		private readonly bool _canNotify;
 		private readonly PropertyInfo _propertyInfo;
-		private readonly Dictionary<int, ObjectProperty<TP>> _objectPropertyBag;
+		private readonly Dictionary<object, ObjectProperty<TP>> _objectPropertyBag;
 		private readonly string _ownerTypeName;
 		private readonly TP _defaultValue;
 		private readonly Type _ownerType;
@@ -24,7 +25,7 @@ namespace Balder.Core.Execution
 		private Property(Expression<Func<T, TP>> expression, TP defaultValue)
 		{
 			_ownerType = typeof (T);
-			_objectPropertyBag = new Dictionary<int, ObjectProperty<TP>>();
+			_objectPropertyBag = new Dictionary<object, ObjectProperty<TP>>();
 			_ownerTypeName = _ownerType.Name;
 			_propertyInfo = expression.GetPropertyInfo();
 			_defaultValue = defaultValue;
@@ -32,7 +33,6 @@ namespace Balder.Core.Execution
 
 			Initialize();
 			
-
 			if ( null != _ownerType.GetInterface(typeof(ICanNotifyChanges).Name,false))
 			{
 				_canNotify = true;
@@ -40,19 +40,32 @@ namespace Balder.Core.Execution
 			{
 				_canNotify = false;
 			}
-			
+		}
+
+		private object GetObjectIdentifier(T obj)
+		{
+			object key;
+			if (obj is IAmUnique)
+			{
+				key = ((IAmUnique)obj).GetIdentifier();
+			}
+			else
+			{
+				key = obj.GetHashCode();
+			}
+			return key;
 		}
 
 		private ObjectProperty<TP>	GetObjectProperty(T obj)
 		{
-			var key = obj.GetHashCode();
+			var key = GetObjectIdentifier(obj);
 			ObjectProperty<TP> objectProperty;
 			if( _objectPropertyBag.ContainsKey(key))
 			{
 				objectProperty = _objectPropertyBag[key];
 			} else
 			{
-				objectProperty = new ObjectProperty<TP>(obj, _isValueType);
+				objectProperty = new ObjectProperty<TP>(obj, _isValueType, _defaultValue);
 				objectProperty.Value = _defaultValue;
 				_objectPropertyBag[key] = objectProperty;
 			}
@@ -116,6 +129,21 @@ namespace Balder.Core.Execution
 
 		private void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
+			if (e.NewValue is Coordinate)
+			{
+				var coordinate = ((Coordinate) e.NewValue);
+				if (_propertyInfo.Name.Equals("Scale") && coordinate.X != 1d)
+				{
+					var i = 0;
+					i++;
+				}
+				if (_propertyInfo.Name.Equals("PivotPoint") && coordinate.X != 0d)
+				{
+					var i = 0;
+					i++;
+				}
+			}
+
 			var objectProperty = GetObjectProperty((T)obj);
 			var oldValue = objectProperty.Value;
 			var newValue = (TP) e.NewValue;
