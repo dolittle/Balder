@@ -97,6 +97,7 @@
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
+    <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
@@ -232,14 +233,6 @@
     <Compile Include="Lighting\Light.cs" />
     <Compile Include="Lighting\OmniLight.cs" />
     <Compile Include="Materials\Material.cs" />
-    <Compile Include="ReadableRex\Alternation.cs" />
-    <Compile Include="ReadableRex\LazyQuantifier.cs" />
-    <Compile Include="ReadableRex\LinqToRegex\PatternVisitor.cs" />
-    <Compile Include="ReadableRex\LinqToRegex\RegexQuery.cs" />
-    <Compile Include="ReadableRex\LinqToRegex\RegexUser.cs" />
-    <Compile Include="ReadableRex\Pattern.cs" />
-    <Compile Include="ReadableRex\Quantifier.cs" />
-    <Compile Include="ReadableRex\Range.cs" />
     <Compile Include="Execution\Actor.cs" />
     <Compile Include="Execution\AutoKernel.cs" />
     <Compile Include="Debug\DebugInfo.cs" />
@@ -278,9 +271,6 @@
     <Compile Include="Execution\StateMachineManager.cs" />
     <Compile Include="Utils\AssemblyHelper.cs" />
     <Compile Include="View\IView.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="ReadableRex\Notes.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">

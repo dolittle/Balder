@@ -19,6 +19,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const float BoxYAlignment = (((BoxAdd * Cube.Height)/2) - BoxAligment);
 		public const float BoxZAlignment = (((BoxAdd * Cube.Depth)/2) - BoxAligment);
 
+
 		#region Static Content
 		private static Material _black;
 		private static readonly Dictionary<CubeSide, Material> Materials;
@@ -62,7 +63,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			return null;
 		}
 		#endregion
-
 
 		public CubeBox(int x, int y, int z)
 		{

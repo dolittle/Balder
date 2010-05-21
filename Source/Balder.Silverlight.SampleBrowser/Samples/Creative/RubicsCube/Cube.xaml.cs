@@ -1,4 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
+using System.Windows.Input;
 using Balder.Core.Display;
 using Balder.Core.Math;
 
@@ -24,48 +28,144 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		Bottom
 	}
 
+	public enum DragDirection
+	{
+		None = 1,
+		Left,
+		Right,
+		Up,
+		Down
+	}
+
 	public partial class Cube
 	{
 		public const int Depth = 3;
 		public const int Width = 3;
 		public const int Height = 3;
 
+		private Dictionary<CubeSide, CubeBoxGroup> _groups;
+		private bool _isDragging = false;
+		private DragDirection _dragDirection;
+		private Point _previousPosition;
+
 		public Cube()
 		{
 			InitializeComponent();
 			PrepareCubeBoxGroups();
+			SetupEvents();
 		}
 
-		public class CubeBoxGroup
+		private void SetupEvents()
 		{
-			public CubeBoxGroup()
-			{
-				Boxes = new List<CubeBox>();
-			}
+			MouseLeftButtonDown += Cube_MouseLeftButtonDown;
+			MouseLeftButtonUp += Cube_MouseLeftButtonUp;
+			MouseLeave += Cube_MouseLeave;
+			MouseMove += Cube_MouseMove;
+		}
 
-			public List<CubeBox> Boxes { get; private set; }
+		void Cube_MouseLeave(object sender, MouseEventArgs e)
+		{
+			_isDragging = false;
+		}
 
-			public void Clear()
+		void Cube_MouseMove(object sender, MouseEventArgs e)
+		{
+			if (_isDragging)
 			{
-				Boxes.Clear();
-			}
+				var position = e.GetPosition(this);
+				var deltaX = position.X - _previousPosition.X;
+				var deltaY = position.Y - _previousPosition.Y;
 
-			public void Add(CubeBox box)
-			{
-				Boxes.Add(box);
-			}
+				InitializeDragDirection(deltaX, deltaY);
 
-			public void Rotate(double x, double y, double z)
-			{
-				foreach (var box in Boxes)
+				var cubeBox = e.OriginalSource as CubeBox;
+
+				if( _dragDirection == DragDirection.Left || 
+					_dragDirection == DragDirection.Right )
 				{
-					box.Rotation.Set(x, y, z);
+					_groups[CubeSide.Top].AddRotation(0, -deltaX, 0);
+
+					/*
+					var group = _groups[CubeSide.Left];
+					foreach( var box in group.Boxes )
+					{
+						if( box.Equals(cubeBox))
+						{
+							group.AddRotation(0, -deltaX, 0);
+							break;
+						}
+					}
+
+					group = _groups[CubeSide.Right];
+					foreach (var box in group.Boxes)
+					{
+						if (box.Equals(cubeBox))
+						{
+							group.AddRotation(0, -deltaX, 0);
+							break;
+						}
+					}*/
+					
+				}
+
+
+				if (_dragDirection == DragDirection.Up ||
+					_dragDirection == DragDirection.Down)
+				{
+					_groups[CubeSide.Right].AddRotation(-deltaY, 0, 0);
+				}
+
+				_previousPosition = position;
+			}
+		}
+
+		private void InitializeDragDirection(double deltaX, double deltaY)
+		{
+			if (_dragDirection == DragDirection.None)
+			{
+				var absoluteDeltaX = Math.Abs(deltaX);
+				var absoluteDeltaY = Math.Abs(deltaY);
+
+				if (absoluteDeltaX > absoluteDeltaY)
+				{
+					if (deltaX <= 0)
+					{
+						_dragDirection = DragDirection.Left;
+					}
+					else
+					{
+						_dragDirection = DragDirection.Right;
+					}
+				}
+				else
+				{
+					if (deltaY <= 0)
+					{
+						_dragDirection = DragDirection.Up;
+					}
+					else
+					{
+						_dragDirection = DragDirection.Down;
+					}
 				}
 			}
 		}
 
+		void Cube_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+		{
+			_isDragging = false;
+		}
 
-		private Dictionary<CubeSide, CubeBoxGroup> _groups;
+		void Cube_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+		{
+			_isDragging = true;
+			_dragDirection = DragDirection.None;
+
+			_previousPosition = e.GetPosition(this);
+		}
+
+
+
 
 		private void PrepareCubeBoxGroups()
 		{
@@ -82,8 +182,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			GenerateCubeBoxes();
 			OrganizeCubeBoxesInGroups();
-
-			_groups[CubeSide.Top].Rotate(0, 12, 0);
 			base.Prepare(viewport);
 		}
 

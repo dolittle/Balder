@@ -7,6 +7,7 @@
     xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core">
     <Grid x:Name="LayoutRoot">
+		<!--
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -17,7 +18,7 @@
 					</Storyboard>
 				</BeginStoryboard>
 			</EventTrigger>
-		</Grid.Triggers>
+		</Grid.Triggers>-->
 		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 			<Execution:Game.Camera>
@@ -26,7 +27,7 @@
 			
 			<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>
 			
-			<RubicsCube:Cube x:Name="Cube"/>
+			<RubicsCube:Cube x:Name="Cube" Rotation="0,45,0"/>
 		</Execution:Game>
     </Grid>
 </UserControl>
