@@ -96,8 +96,6 @@ namespace Balder.Silverlight.Controls
 
 		private void PrepareChildren()
 		{
-			Children.Clear();
-
 			foreach( var contentPresenter in _contentPresenters )
 			{
 				var child = VisualTreeHelper.GetChild(contentPresenter, 0);
