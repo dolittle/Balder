@@ -19,9 +19,14 @@
 
 #endregion
 
+using System.Reflection;
+using System.Windows;
 using System.Windows.Media;
+using CThru;
 using CThru.Silverlight;
 using NUnit.Framework;
+using TypeMock;
+using Typemock.Isolator.VisualBasic;
 
 namespace Balder.Core.Tests
 {
@@ -38,6 +43,32 @@ namespace Balder.Core.Tests
 			var node = new SomeNode();
 			return node;
 		}
+
+		[SetUp]
+		public void Setup()
+		{
+			CThruEngine.AddAspectsInAssembly(Assembly.GetExecutingAssembly());
+
+			using( var recorder = RecorderManager.StartRecording())
+			{
+				VisualStateManager.GoToState(null, string.Empty, false);
+				recorder.Return(true);
+			}
+
+			using( TheseCalls.WillReturn(true))
+			{
+				VisualStateManager.GoToState(null, string.Empty, false);
+			}
+
+			CThruEngine.StartListening();
+		}
+
+		[TearDown]
+		public void TearDown()
+		{
+			CThruEngine.StopListening();
+		}
+
 
 		[Test, SilverlightUnitTest]
 		public void SettingColorOnNodeShouldSetColorOnChildren()
