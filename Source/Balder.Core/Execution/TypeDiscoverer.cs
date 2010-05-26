@@ -35,14 +35,27 @@ namespace Balder.Core.Execution
 		public TypeDiscoverer()
 		{
 			_types = new List<Type>();
-			var parts = Deployment.Current.Parts;
-			foreach (var part in parts)
+			CollectTypes();
+		}
+
+		private void CollectTypes()
+		{
+			if (null != Deployment.Current)
 			{
-				var info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative));
-				var assembly = part.Load(info.Stream);
-				var types = assembly.GetTypes();
-				_types.AddRange(types);
+				var parts = Deployment.Current.Parts;
+				foreach (var part in parts)
+				{
+					AddTypesFromPart(part);
+				}
 			}
+		}
+
+		private void AddTypesFromPart(AssemblyPart part)
+		{
+			var info = Application.GetResourceStream(new Uri(part.Source, UriKind.Relative));
+			var assembly = part.Load(info.Stream);
+			var types = assembly.GetTypes();
+			_types.AddRange(types);
 		}
 
 		private Type[] Find<T>()
