@@ -20,6 +20,7 @@
 #endregion
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Balder.Core.Execution
 {
@@ -56,37 +57,32 @@ namespace Balder.Core.Execution
 
 		private void InternalRaise(T instance, T originalSource, params object[] arguments)
 		{
-			if (null != _eventHandlerFunc)
+			if (null == _eventHandlerFunc)
 			{
-				arguments = GetArguments(instance, originalSource, arguments);
-				var eventHandler = _eventHandlerFunc((T)instance) as Delegate;
-				if (null != eventHandler)
+				return;
+			}
+
+			arguments = GetArguments(instance, originalSource, arguments);
+			var eventHandler = _eventHandlerFunc((T)instance) as Delegate;
+			if (null != eventHandler)
+			{
+				foreach (var del in eventHandler.GetInvocationList())
 				{
-					foreach (var del in eventHandler.GetInvocationList())
-					{
-						del.DynamicInvoke(arguments);
-					}
+					del.DynamicInvoke(arguments);
 				}
-				if (null != instance.Parent && !IsEventHandled(arguments))
-				{
-					InternalRaise((T)instance.Parent, originalSource, arguments);
-				}
+			}
+			if (null != instance.Parent && !IsEventHandled(arguments))
+			{
+				InternalRaise((T)instance.Parent, originalSource, arguments);
 			}
 		}
 
-		private bool IsEventHandled(params object[] arguments)
+		private static bool IsEventHandled(params object[] arguments)
 		{
-			foreach (var arg in arguments)
-			{
-				if( arg is BubbledEventArgs )
-				{
-					return ((BubbledEventArgs) arg).Handled;
-				}
-			}
-			return false;
+			return arguments.OfType<BubbledEventArgs>().Select(arg => (arg).Handled).FirstOrDefault();
 		}
 
-		private object[] GetArguments(T instance, T originalSource, params object[] arguments)
+		private static object[] GetArguments(T instance, T originalSource, params object[] arguments)
 		{
 			var modifiedArguments = new List<object>();
 
@@ -99,14 +95,18 @@ namespace Balder.Core.Execution
 				{
 					modifiedArguments.Add(arg);
 				}
-				if( arg is BubbledEventArgs )
-				{
-					((BubbledEventArgs) arg).OriginalSource = originalSource;
-					
-				}
+				HandleOriginalSourceForArgument(arg, originalSource);
 			}
 
 			return modifiedArguments.ToArray();
+		}
+
+		private static void HandleOriginalSourceForArgument(object arg, T originalSource)
+		{
+			if( arg is BubbledEventArgs )
+			{
+				((BubbledEventArgs) arg).OriginalSource = originalSource;
+			} 
 		}
 
 

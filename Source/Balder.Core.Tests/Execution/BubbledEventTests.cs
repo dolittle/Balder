@@ -18,6 +18,10 @@
 //
 
 #endregion
+
+using System;
+using System.Reflection;
+using System.Windows.Input;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
@@ -32,6 +36,23 @@ namespace Balder.Core.Tests.Execution
 
 		public event BubbledEventHandler Event;
 
+
+		public INode Parent { get; set; }
+		public Matrix ActualWorld { get; private set; }
+		public Matrix RenderingWorld { get; set; }
+		public Scene Scene { get; set; }
+		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+
+		}
+	}
+
+	public class SimpleClassWithMouseEvents : INode
+	{
+		public static readonly BubbledEvent<SimpleClassWithMouseEvents, MouseEventHandler> MouseEvent =
+			BubbledEvent<SimpleClassWithMouseEvents, MouseEventHandler>.Register(s => s.Mouse);
+
+		public event MouseEventHandler Mouse;
 
 		public INode Parent { get; set; }
 		public Matrix ActualWorld { get; private set; }
@@ -76,6 +97,19 @@ namespace Balder.Core.Tests.Execution
 		}
 
 		[Test]
+		public void RaisingBubbledEventShouldHaveOriginalSourceSetToOriginator()
+		{
+			var simpleClass = new SimpleClassWithBubbledEvent();
+			object originalSource = null;
+			simpleClass.Event += (s, e) => originalSource = e.OriginalSource;
+			SimpleClassWithBubbledEvent.SimpleEvent.Raise(simpleClass, null, new BubbledEventArgs());
+
+			Assert.That(originalSource, Is.Not.Null);
+			Assert.That(originalSource, Is.EqualTo(simpleClass));
+		}
+
+
+		[Test]
 		public void RaisingBubbledEventOnChildShouldRaiseItOnParent()
 		{
 			var parent = new HierarchicalClass();
@@ -116,28 +150,28 @@ namespace Balder.Core.Tests.Execution
 			INode source = null;
 			simpleClass.Event += (s, e) => source = e.OriginalSource;
 
-			SimpleClassWithBubbledEvent.SimpleEvent.Raise(simpleClass,simpleClass,new BubbledEventArgs());
-			Assert.That(source,Is.EqualTo(simpleClass));
+			SimpleClassWithBubbledEvent.SimpleEvent.Raise(simpleClass, simpleClass, new BubbledEventArgs());
+			Assert.That(source, Is.EqualTo(simpleClass));
 		}
 
 		[Test]
 		public void RaisingBubbledEventWithBubbledEventArgsShouldSetOriginalSourceToChildAndSenderToParent()
 		{
 			var parent = new HierarchicalClass();
-			var child = new HierarchicalClass {Parent = parent};
+			var child = new HierarchicalClass { Parent = parent };
 
 			INode sender = null;
 			INode originalSource = null;
 
 			parent.SomeEvent += (s, e) =>
-			                    	{
-			                    		sender = s;
-			                    		originalSource = e.OriginalSource;
-			                    	};
-			
-			HierarchicalClass.SomeEventBubbledEvent.Raise(child,child,new BubbledEventArgs());
+									{
+										sender = s;
+										originalSource = e.OriginalSource;
+									};
 
-			Assert.That(sender,Is.EqualTo(parent));
+			HierarchicalClass.SomeEventBubbledEvent.Raise(child, child, new BubbledEventArgs());
+
+			Assert.That(sender, Is.EqualTo(parent));
 			Assert.That(originalSource, Is.EqualTo(child));
 		}
 
@@ -153,7 +187,7 @@ namespace Balder.Core.Tests.Execution
 
 			HierarchicalClass.SomeEventBubbledEvent.Raise(child, child, new BubbledEventArgs());
 
-			Assert.That(called,Is.False);
+			Assert.That(called, Is.False);
 		}
 	}
 }
