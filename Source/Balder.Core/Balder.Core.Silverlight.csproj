@@ -104,6 +104,10 @@
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Input\MouseButtonEventArgs.cs" />
+    <Compile Include="Input\MouseButtonEventHandler.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
+    <Compile Include="Input\MouseEventHandler.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />

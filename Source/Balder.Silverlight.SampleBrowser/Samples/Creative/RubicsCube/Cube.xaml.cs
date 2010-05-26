@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
-using System.Windows.Input;
 using Balder.Core.Display;
+using Balder.Core.Input;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
@@ -80,39 +79,43 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 				var cubeBox = e.OriginalSource as CubeBox;
 
-				if( _dragDirection == DragDirection.Left || 
-					_dragDirection == DragDirection.Right )
+				if (_dragDirection == DragDirection.Left ||
+					_dragDirection == DragDirection.Right)
 				{
-					_groups[CubeSide.Top].AddRotation(0, -deltaX, 0);
+					var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
 
-					/*
-					var group = _groups[CubeSide.Left];
-					foreach( var box in group.Boxes )
+					foreach (var cubeSide in cubeSides)
 					{
-						if( box.Equals(cubeBox))
+						var group = _groups[cubeSide];
+						foreach (var box in group.Boxes)
 						{
-							group.AddRotation(0, -deltaX, 0);
-							break;
+							if (box.Equals(cubeBox))
+							{
+								group.AddRotation(0, -deltaX, 0);
+								break;
+							}
 						}
 					}
-
-					group = _groups[CubeSide.Right];
-					foreach (var box in group.Boxes)
-					{
-						if (box.Equals(cubeBox))
-						{
-							group.AddRotation(0, -deltaX, 0);
-							break;
-						}
-					}*/
-					
 				}
 
 
 				if (_dragDirection == DragDirection.Up ||
 					_dragDirection == DragDirection.Down)
 				{
-					_groups[CubeSide.Right].AddRotation(-deltaY, 0, 0);
+					var cubeSides = new[] { CubeSide.Left, CubeSide.Right };
+
+					foreach (var cubeSide in cubeSides)
+					{
+						var group = _groups[cubeSide];
+						foreach (var box in group.Boxes)
+						{
+							if (box.Equals(cubeBox))
+							{
+								group.AddRotation(-deltaY, 0, 0);
+								break;
+							}
+						}
+					}
 				}
 
 				_previousPosition = position;

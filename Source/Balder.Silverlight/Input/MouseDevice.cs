@@ -17,8 +17,9 @@
 //
 #endregion
 using System.Windows;
-using System.Windows.Input;
 using Balder.Core.Input;
+using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Balder.Silverlight.Input
 {

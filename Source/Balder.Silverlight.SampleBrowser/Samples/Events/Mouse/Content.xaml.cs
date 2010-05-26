@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Media;
 using Balder.Core;
+using Balder.Core.Input;
 using Balder.Core.Math;
 using Color = Balder.Core.Color;
 
@@ -45,7 +45,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 
 		private int _mouseEnterCounter;
 
-		private void Mesh_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		private void Mesh_MouseEnter(object sender, MouseEventArgs e)
 		{
 			_mouseEnter.Text = "true";
 			_mouseEnterCounter = 0;
@@ -60,7 +60,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			}
 		}
 
-		private void Mesh_MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
+		private void Mesh_MouseLeave(object sender, MouseEventArgs e)
 		{
 			var node = sender as RenderableNode;
 			if (null != node)
@@ -76,13 +76,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 			_object.Text = "None";
 		}
 
-		private void Mesh_MouseLeftButtonUp(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private void Mesh_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			_mouseLButtonUp.Text = "true";
 			_mouseLButtonDown.Text = "false";
 		}
 
-		private void Mesh_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+		private void Mesh_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
 		{
 			_mouseLButtonUp.Text = "false";
 			_mouseLButtonDown.Text = "true";
@@ -103,14 +103,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 		}
 
 
-		private void LayoutRoot_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
 		{
 			var position = e.GetPosition(LayoutRoot);
 			_xpos.Text = position.X.ToString();
 			_ypos.Text = position.Y.ToString();
 		}
 
-		private void Mesh_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
+		private void Mesh_MouseMove(object sender, MouseEventArgs e)
 		{
 			if (++_mouseEnterCounter > 2)
 			{

@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Threading;
+using Balder.Core.Input;
 
 namespace Balder.Core.Silverlight.Helpers
 {
@@ -11,13 +11,11 @@ namespace Balder.Core.Silverlight.Helpers
 	{
 		private static readonly Stack<ToolTip> _openToolTips = new Stack<ToolTip>();
 
-
 		private static Node _lastEnterSource;
 		private static DispatcherTimer _openTimer;
 		private static DispatcherTimer _closeTimer;
 		private static DateTime _lastToolTipOpenedTime;
 		private static UIElement _rootVisual;
-
 
 		public static void Register(Node node)
 		{

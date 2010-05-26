@@ -23,6 +23,8 @@ using System.Windows.Input;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using System.Windows;
+using MouseEventHandler = Balder.Core.Input.MouseEventHandler;
+using MouseButtonEventHandler = Balder.Core.Input.MouseButtonEventHandler;
 
 namespace Balder.Core.Silverlight.Input
 {
@@ -63,17 +65,28 @@ namespace Balder.Core.Silverlight.Input
 			RemoveEvents(_game);
 		}
 
+		private static void RaiseEvent(BubbledEvent<Node, MouseEventHandler> bubbledEvent, Node node, MouseEventArgs args)
+		{
+			bubbledEvent.Raise(node, node, new Core.Input.MouseEventArgs(args));
+		}
+
+		private static void RaiseEvent(BubbledEvent<Node, MouseButtonEventHandler> bubbledEvent, Node node, MouseButtonEventArgs args)
+		{
+			bubbledEvent.Raise(node, node, new Core.Input.MouseButtonEventArgs(args));
+		}
+
+
 		public void HandleMouseMove(int xPosition, int yPosition, MouseEventArgs e)
 		{
 			var hitNode = _viewport.GetNodeAtScreenCoordinate(xPosition, yPosition);
 			if (null != hitNode)
 			{
-				Node.MouseMoveEvent.Raise(hitNode, hitNode, e);
+				RaiseEvent(Node.MouseMoveEvent,hitNode,e);
 
 				if (null == _previousNode ||
 					!hitNode.Equals(_previousNode))
 				{
-					Node.MouseEnterEvent.Raise(hitNode, hitNode, e);
+					RaiseEvent(Node.MouseEnterEvent, hitNode, e);
 				}
 				_previousNode = hitNode;
 			}
@@ -92,7 +105,7 @@ namespace Balder.Core.Silverlight.Input
 				if (null == _previousNode ||
 					!hitNode.Equals(_previousNode))
 				{
-					Node.MouseEnterEvent.Raise(hitNode, hitNode, e);
+					RaiseEvent(Node.MouseEnterEvent, hitNode, e);
 				}
 			}
 			_previousNode = hitNode;
@@ -102,7 +115,7 @@ namespace Balder.Core.Silverlight.Input
 		{
 			if (null != _previousNode)
 			{
-				Node.MouseLeaveEvent.Raise(_previousNode, _previousNode, e);
+				RaiseEvent(Node.MouseLeaveEvent,_previousNode,e);
 				_previousNode = null;
 			}
 		}
@@ -132,9 +145,10 @@ namespace Balder.Core.Silverlight.Input
 			var hitNode = _viewport.GetNodeAtScreenCoordinate((int)position.X, (int)position.Y);
 			if (null != hitNode)
 			{
-				Node.MouseLeftButtonDownEvent.Raise(hitNode, hitNode, e);
+				RaiseEvent(Node.MouseLeftButtonDownEvent,hitNode,e);
 			}
 		}
+
 
 		private void MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
@@ -142,7 +156,7 @@ namespace Balder.Core.Silverlight.Input
 			var hitNode = _viewport.GetNodeAtScreenCoordinate((int)position.X, (int)position.Y);
 			if (null != hitNode)
 			{
-				Node.MouseLeftButtonUpEvent.Raise(hitNode, hitNode, e);
+				RaiseEvent(Node.MouseLeftButtonUpEvent, hitNode, e);
 			}
 		}
 	}

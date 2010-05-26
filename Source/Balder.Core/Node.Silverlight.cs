@@ -24,6 +24,8 @@ using System.Windows.Input;
 using Balder.Core.Execution;
 using Balder.Core.Silverlight.Helpers;
 using Balder.Core.Silverlight.TypeConverters;
+using MouseEventHandler = Balder.Core.Input.MouseEventHandler;
+using MouseButtonEventHandler = Balder.Core.Input.MouseButtonEventHandler;
 
 namespace Balder.Core
 {
@@ -59,6 +61,8 @@ namespace Balder.Core
 		private void NodeLoaded(object sender, RoutedEventArgs e)
 		{
 			OnInitialize();
+
+			
 		}
 
 
