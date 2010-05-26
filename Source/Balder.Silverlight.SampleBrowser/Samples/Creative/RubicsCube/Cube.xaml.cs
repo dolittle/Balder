@@ -83,19 +83,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					_dragDirection == DragDirection.Right)
 				{
 					var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
-
-					foreach (var cubeSide in cubeSides)
-					{
-						var group = _groups[cubeSide];
-						foreach (var box in group.Boxes)
-						{
-							if (box.Equals(cubeBox))
-							{
-								group.AddRotation(0, -deltaX, 0);
-								break;
-							}
-						}
-					}
+					FindBoxInGroupAndRotate(deltaX, 0, cubeSides, cubeBox);
 				}
 
 
@@ -103,22 +91,26 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					_dragDirection == DragDirection.Down)
 				{
 					var cubeSides = new[] { CubeSide.Left, CubeSide.Right };
-
-					foreach (var cubeSide in cubeSides)
-					{
-						var group = _groups[cubeSide];
-						foreach (var box in group.Boxes)
-						{
-							if (box.Equals(cubeBox))
-							{
-								group.AddRotation(-deltaY, 0, 0);
-								break;
-							}
-						}
-					}
+					FindBoxInGroupAndRotate(0, deltaY, cubeSides, cubeBox);
 				}
 
 				_previousPosition = position;
+			}
+		}
+
+		private void FindBoxInGroupAndRotate(double deltaX, double deltaY, IEnumerable<CubeSide> cubeSides, CubeBox cubeBox)
+		{
+			foreach (var cubeSide in cubeSides)
+			{
+				var group = _groups[cubeSide];
+				foreach (var box in group.Boxes)
+				{
+					if (box.Equals(cubeBox))
+					{
+						group.AddRotation(-deltaY, -deltaX, 0);
+						break;
+					}
+				}
 			}
 		}
 
@@ -157,6 +149,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		void Cube_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
 		{
 			_isDragging = false;
+			SnapGroups();
+			OrganizeCubeBoxesInGroups();
 		}
 
 		void Cube_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -206,10 +200,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void OrganizeCubeBoxesInGroups()
 		{
+			ClearGroups();
 			foreach (CubeBox box in Children)
 			{
-				box.UpdateNormals();
-
 				if (box.CalculatedFrontNormal.Equals(Vector.Backward))
 				{
 					_groups[CubeSide.Front].Add(box);
@@ -238,5 +231,22 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				}
 			}
 		}
+
+		private void ClearGroups()
+		{
+			foreach( var group in _groups.Values )
+			{
+				group.Clear();
+			}
+		}
+
+		private void SnapGroups()
+		{
+			foreach( var group in _groups.Values )
+			{
+				group.Snap();
+			}
+		}
 	}
+
 }

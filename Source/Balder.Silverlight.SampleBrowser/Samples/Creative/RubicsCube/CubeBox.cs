@@ -1,24 +1,28 @@
 ﻿using System.Collections.Generic;
+using System.ComponentModel;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
-using Balder.Core.Imaging;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Silverlight.Extensions;
+using Image = Balder.Core.Imaging.Image;
+using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public class CubeBox : Box
+	public class CubeBox : Box, INotifyPropertyChanged
 	{
-		public const float BoxSize = 5f;
-		public const float BoxSpace = 0.3f;
-		public const float BoxAdd = BoxSize + BoxSpace;
-		public const float BoxAligment = BoxAdd / 2;
-		public const float BoxXAlignment = -(((BoxAdd * Cube.Width)/2) - BoxAligment);
-		public const float BoxYAlignment = (((BoxAdd * Cube.Height)/2) - BoxAligment);
-		public const float BoxZAlignment = (((BoxAdd * Cube.Depth)/2) - BoxAligment);
-
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { }; 
+		public const double BoxSize = 5f;
+		public const double BoxSpace = 0.3f;
+		public const double BoxAdd = BoxSize + BoxSpace;
+		public const double BoxAligment = BoxAdd / 2;
+		public const double BoxXAlignment = -(((BoxAdd * Cube.Width)/2) - BoxAligment);
+		public const double BoxYAlignment = (((BoxAdd * Cube.Height)/2) - BoxAligment);
+		public const double BoxZAlignment = (((BoxAdd * Cube.Depth)/2) - BoxAligment);
 
 		#region Static Content
 		private static Material _black;
@@ -76,8 +80,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			PivotPoint = new Coordinate(actualX, actualY, actualZ);
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
-
+			
 			CreateNormals();
+			UpdateNormals(Matrix.Identity);
+
+			var toolTip = new ToolTip();
+			var cubeToolTip = new CubeToolTip();
+			cubeToolTip.DataContext = this;
+			toolTip.Content = cubeToolTip;
+			ToolTip = toolTip;
 		}
 
 		public int X { get; private set; }
@@ -88,9 +99,38 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public Vector SideNormal { get; private set; }
 		public Vector UpNormal { get; private set; }
 
-		public Vector CalculatedFrontNormal { get; private set; }
-		public Vector CalculatedSideNormal { get; private set; }
-		public Vector CalculatedUpNormal { get; private set; }
+		private Vector _calculatedFrontNormal;
+		public Vector CalculatedFrontNormal
+		{
+			get { return _calculatedFrontNormal; }
+			private set
+			{
+				_calculatedFrontNormal = value;
+				PropertyChanged.Notify(() => CalculatedFrontNormal);
+			}
+		}
+
+		private Vector _calculatedSideNormal;
+		public Vector CalculatedSideNormal
+		{
+			get { return _calculatedSideNormal; }
+			private set
+			{
+				_calculatedSideNormal = value;
+				PropertyChanged.Notify(() => CalculatedSideNormal);
+			}
+		}
+
+		private Vector _calculatedUpNormal;
+		public Vector CalculatedUpNormal
+		{
+			get { return _calculatedUpNormal; }
+			private set
+			{
+				_calculatedUpNormal = value;
+				PropertyChanged.Notify(() => CalculatedUpNormal);
+			}
+		}
 
 		private void CreateNormals()
 		{
@@ -124,11 +164,19 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-		public void UpdateNormals()
+		public void UpdateNormals(Matrix world)
 		{
-			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, ActualWorld);
-			CalculatedSideNormal = Vector.TransformNormal(SideNormal, ActualWorld);
-			CalculatedUpNormal = Vector.TransformNormal(UpNormal, ActualWorld);
+			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, world);
+			CalculatedFrontNormal.Normalize();
+			PropertyChanged.Notify(() => CalculatedFrontNormal);
+
+			CalculatedSideNormal = Vector.TransformNormal(SideNormal, world);
+			CalculatedSideNormal.Normalize();
+			PropertyChanged.Notify(() => CalculatedSideNormal);
+
+			CalculatedUpNormal = Vector.TransformNormal(UpNormal, world);
+			CalculatedUpNormal.Normalize();
+			PropertyChanged.Notify(() => CalculatedUpNormal);
 		}
 		
 		private void SetMaterial(int x, int y, int z)
@@ -174,5 +222,30 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			SetMaterialOnSide(BoxSide.Top, top);
 			SetMaterialOnSide(BoxSide.Bottom, bottom);
 		}
+
+		private void Rotate()
+		{
+			var rotation = Matrix.CreateRotation(
+				(float)Rotation.X, 
+				(float)Rotation.Y, 
+				(float)Rotation.Z);
+			UpdateNormals(rotation);
+		}
+
+		public void Rotate(double x, double y, double z)
+		{
+			Rotation.Set(x, y, z);
+			Rotate();
+		}
+
+		public void AddRotation(double x, double y, double z)
+		{
+			Rotation.X += x;
+			Rotation.Y += y;
+			Rotation.Z += z;
+			Rotate();
+		}
+
+		
 	}
 }
