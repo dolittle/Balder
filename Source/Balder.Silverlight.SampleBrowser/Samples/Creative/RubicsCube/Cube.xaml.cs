@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows;
+﻿using System.Collections.Generic;
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
@@ -44,15 +42,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void SetupEvents()
 		{
-			ManipulationStarted += Cube_ManipulationStarted;
 			ManipulationDelta += Cube_ManipulationDelta;
 			ManipulationStopped += Cube_ManipulationStopped;
 		}
 
-
-		void Cube_ManipulationStarted(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
-		{
-		}
 
 		void Cube_ManipulationDelta(object sender, ManipulationDeltaEventArgs args)
 		{
