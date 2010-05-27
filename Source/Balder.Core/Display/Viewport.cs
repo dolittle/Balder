@@ -196,12 +196,12 @@ namespace Balder.Core.Display
 
 
 		/// <summary>
-		/// Get a node at a specified screen coordinate relative to a specific viewport
+		/// Get a node at a specified position relative to a specific viewport
 		/// </summary>
 		/// <param name="x">X position</param>
 		/// <param name="y">Y position</param>
 		/// <returns>A RenderableNode - null if it didn't find any node at the position</returns>
-		public virtual RenderableNode GetNodeAtScreenCoordinate(int x, int y)
+		public virtual RenderableNode GetNodeAtPosition(int x, int y)
 		{
 			var node = Display.GetNodeAtPosition(x, y);
 			if( node is RenderableNode )

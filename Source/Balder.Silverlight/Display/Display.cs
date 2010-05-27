@@ -25,6 +25,7 @@ using System.Windows.Media.Imaging;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Rendering;
 using Balder.Silverlight.Rendering;
 using Color = Balder.Core.Color;
@@ -135,6 +136,12 @@ namespace Balder.Silverlight.Display
 		{
 			var node = NodesPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
 			return node;
+		}
+
+		public Material GetMaterialAtPosition(int xPosition, int yPosition)
+		{
+			var material = NodesPixelBuffer.GetMaterialAtPosition(xPosition, yPosition);
+			return material;
 		}
 
 		public int[] GetCurrentFrame()

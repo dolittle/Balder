@@ -99,6 +99,7 @@ namespace Balder.Silverlight.Rendering
 
 			_nodeMaterialsByKey.Clear();
 			_nodeIdentifiersByIdentifier.Clear();
+			_materialIdentifiersByIdentifier.Clear();
 		}
 
 

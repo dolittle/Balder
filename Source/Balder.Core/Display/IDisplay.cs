@@ -17,6 +17,7 @@
 //
 #endregion
 
+using Balder.Core.Materials;
 using Balder.Core.Rendering;
 
 namespace Balder.Core.Display
@@ -73,6 +74,14 @@ namespace Balder.Core.Display
 		/// <param name="yPosition">Y position</param>
 		/// <returns>The node at the position, null if no node is at the position</returns>
 		INode GetNodeAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Get the material at a specific position within the display
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>The material at the position, null if no material is at the position</returns>
+		Material GetMaterialAtPosition(int xPosition, int yPosition);
 
 		/// <summary>
 		/// Gets the current frames pixeldata

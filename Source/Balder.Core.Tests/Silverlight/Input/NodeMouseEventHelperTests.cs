@@ -34,7 +34,7 @@ namespace Balder.Core.Tests.Silverlight.Input
 		private class FakeViewport : Viewport
 		{
 			public RenderableNode NodeToReturn;
-			public override RenderableNode GetNodeAtScreenCoordinate(int x, int y)
+			public override RenderableNode GetNodeAtPosition(int x, int y)
 			{
 				return NodeToReturn;
 			}
