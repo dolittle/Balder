@@ -20,6 +20,7 @@ using System;
 using System.ComponentModel;
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Matrix = Balder.Core.Math.Matrix;
@@ -39,8 +40,20 @@ namespace Balder.Core
 		public static readonly BubbledEvent<Node, BubbledEventHandler> ContentPreparedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ContentPrepared);
 
+		public static readonly BubbledEvent<Node, BubbledEventHandler> ManipulationStartedEvent =
+			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ManipulationStarted);
+
+		public static readonly BubbledEvent<Node, BubbledEventHandler> ManipulationStoppedEvent =
+			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ManipulationStopped);
+
+		public static readonly BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationDeltaEvent =
+			BubbledEvent<Node, ManipulationDeltaEventHandler>.Register(n => n.ManipulationDelta);
+
 		public event BubbledEventHandler Prepared = (s, e) => { };
 		public event BubbledEventHandler ContentPrepared = (s, e) => { };
+		public event BubbledEventHandler ManipulationStarted = (s, e) => { };
+		public event BubbledEventHandler ManipulationStopped = (s, e) => { };
+		public event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { }; 
 
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };

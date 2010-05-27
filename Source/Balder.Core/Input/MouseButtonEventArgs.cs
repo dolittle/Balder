@@ -7,6 +7,17 @@ namespace Balder.Core.Input
 	public class MouseButtonEventArgs : BubbledEventArgs
 	{
 		private readonly System.Windows.Input.MouseButtonEventArgs _originalMouseEventArgs;
+		private bool _positionSet;
+
+		public MouseButtonEventArgs()
+		{
+			
+		}
+
+		internal MouseButtonEventArgs(System.Windows.Input.MouseButtonEventArgs originalMouseEventArgs, Point position)
+		{
+			Position = position;
+		}
 
 		internal MouseButtonEventArgs(System.Windows.Input.MouseButtonEventArgs originalMouseEventArgs)
 		{
@@ -14,13 +25,30 @@ namespace Balder.Core.Input
 			StylusDevice = originalMouseEventArgs.StylusDevice;
 		}
 
-		public MouseButtonEventArgs()
+
+		internal MouseButtonEventArgs(Point position)
 		{
-			
+			Position = position;
 		}
+
+		private Point _position;
+		public Point Position
+		{
+			get { return _position; }
+			private set
+			{
+				_position = value;
+				_positionSet = true;
+			}
+		}
+
 
 		public Point	GetPosition(UIElement relativeTo)
 		{
+			if( _positionSet )
+			{
+				return Position;
+			}
 			if( null == _originalMouseEventArgs )
 			{
 				return new Point();

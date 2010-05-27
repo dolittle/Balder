@@ -18,11 +18,11 @@
 //
 
 #endregion
+
 using Balder.Core.Execution;
 using Balder.Core.Materials;
-using Balder.Core.Math;
 
-namespace Balder.Core.Manipulation
+namespace Balder.Core.Input
 {
 	public class ManipulationDeltaEventArgs : BubbledEventArgs
 	{
@@ -30,21 +30,18 @@ namespace Balder.Core.Manipulation
 			Material material,
 			int deltaX,
 			int deltaY,
-			Vector direction,
-			Vector delta)
+			ManipulationDirection direction)
 		{
 			Material = material;
 			DeltaX = deltaX;
 			DeltaY = deltaY;
 			Direction = direction;
-			Delta = delta;
 		}
 
 		public Material Material { get; private set; }
 		public int DeltaX { get; private set; }
 		public int DeltaY { get; private set; }
 
-		public Vector Direction { get; private set; }
-		public Vector Delta { get; private set; }
+		public ManipulationDirection Direction { get; private set; }
 	}
 }

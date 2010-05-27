@@ -21,5 +21,12 @@
 
 namespace Balder.Core.Input
 {
-	public delegate void MouseEventHandler(object sender, MouseEventArgs args);
+	public enum ManipulationDirection
+	{
+		None = 1,
+		Left,
+		Right,
+		Up,
+		Down
+	}
 }

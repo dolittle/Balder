@@ -27,15 +27,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		Bottom
 	}
 
-	public enum DragDirection
-	{
-		None = 1,
-		Left,
-		Right,
-		Up,
-		Down
-	}
-
 	public partial class Cube
 	{
 		public const int Depth = 3;
@@ -43,9 +34,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const int Height = 3;
 
 		private Dictionary<CubeSide, CubeBoxGroup> _groups;
-		private bool _isDragging = false;
-		private DragDirection _dragDirection;
-		private Point _previousPosition;
 
 		public Cube()
 		{
@@ -56,46 +44,40 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void SetupEvents()
 		{
-			MouseLeftButtonDown += Cube_MouseLeftButtonDown;
-			MouseLeftButtonUp += Cube_MouseLeftButtonUp;
-			MouseLeave += Cube_MouseLeave;
-			MouseMove += Cube_MouseMove;
+			ManipulationStarted += Cube_ManipulationStarted;
+			ManipulationDelta += Cube_ManipulationDelta;
+			ManipulationStopped += Cube_ManipulationStopped;
 		}
 
-		void Cube_MouseLeave(object sender, MouseEventArgs e)
+
+		void Cube_ManipulationStarted(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
 		{
-			_isDragging = false;
 		}
 
-		void Cube_MouseMove(object sender, MouseEventArgs e)
+		void Cube_ManipulationDelta(object sender, ManipulationDeltaEventArgs args)
 		{
-			if (_isDragging)
+			var cubeBox = args.OriginalSource as CubeBox;
+			if (null == cubeBox)
 			{
-				var position = e.GetPosition(this);
-				var deltaX = position.X - _previousPosition.X;
-				var deltaY = position.Y - _previousPosition.Y;
-
-				InitializeDragDirection(deltaX, deltaY);
-
-				var cubeBox = e.OriginalSource as CubeBox;
-
-				if (_dragDirection == DragDirection.Left ||
-					_dragDirection == DragDirection.Right)
-				{
-					var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
-					FindBoxInGroupAndRotate(deltaX, 0, cubeSides, cubeBox);
-				}
-
-
-				if (_dragDirection == DragDirection.Up ||
-					_dragDirection == DragDirection.Down)
-				{
-					var cubeSides = new[] { CubeSide.Left, CubeSide.Right };
-					FindBoxInGroupAndRotate(0, deltaY, cubeSides, cubeBox);
-				}
-
-				_previousPosition = position;
+				return;
 			}
+			if (args.Direction == ManipulationDirection.Left || 
+				args.Direction == ManipulationDirection.Right)
+			{
+				var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
+				FindBoxInGroupAndRotate(args.DeltaX, 0, cubeSides, cubeBox);
+			} else if (	args.Direction == ManipulationDirection.Up || 
+						args.Direction == ManipulationDirection.Down)
+			{
+				var cubeSides = new[] { CubeSide.Left, CubeSide.Right };
+				FindBoxInGroupAndRotate(0, args.DeltaY, cubeSides, cubeBox);
+			}
+		}
+
+		void Cube_ManipulationStopped(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
+		{
+			SnapGroups();
+			OrganizeCubeBoxesInGroups();
 		}
 
 		private void FindBoxInGroupAndRotate(double deltaX, double deltaY, IEnumerable<CubeSide> cubeSides, CubeBox cubeBox)
@@ -113,54 +95,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				}
 			}
 		}
-
-		private void InitializeDragDirection(double deltaX, double deltaY)
-		{
-			if (_dragDirection == DragDirection.None)
-			{
-				var absoluteDeltaX = Math.Abs(deltaX);
-				var absoluteDeltaY = Math.Abs(deltaY);
-
-				if (absoluteDeltaX > absoluteDeltaY)
-				{
-					if (deltaX <= 0)
-					{
-						_dragDirection = DragDirection.Left;
-					}
-					else
-					{
-						_dragDirection = DragDirection.Right;
-					}
-				}
-				else
-				{
-					if (deltaY <= 0)
-					{
-						_dragDirection = DragDirection.Up;
-					}
-					else
-					{
-						_dragDirection = DragDirection.Down;
-					}
-				}
-			}
-		}
-
-		void Cube_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
-		{
-			_isDragging = false;
-			SnapGroups();
-			OrganizeCubeBoxesInGroups();
-		}
-
-		void Cube_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-		{
-			_isDragging = true;
-			_dragDirection = DragDirection.None;
-
-			_previousPosition = e.GetPosition(this);
-		}
-
 
 
 

@@ -104,6 +104,8 @@
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
+    <Compile Include="Input\ManipulationDirection.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />
     <Compile Include="Input\MouseButtonEventHandler.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
@@ -140,9 +142,7 @@
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
-    <Compile Include="Manipulation\IManipulationService.cs" />
-    <Compile Include="Manipulation\ManipulationDeltaEventArgs.cs" />
-    <Compile Include="Manipulation\ManipulationEventArgs.cs" />
+    <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
     <Compile Include="Math\Dimension.cs" />
     <Compile Include="Execution\DisplayActivationContext.cs" />
     <Compile Include="Display\IDisplayDevice.cs" />
@@ -304,6 +304,7 @@
   <ItemGroup>
     <None Include="Balder.Core.dxc" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

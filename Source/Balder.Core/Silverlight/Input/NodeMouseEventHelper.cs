@@ -19,12 +19,14 @@
 
 #endregion
 using System;
-using System.Windows.Input;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using System.Windows;
+using Balder.Core.Input;
+using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;
 using MouseEventHandler = Balder.Core.Input.MouseEventHandler;
 using MouseButtonEventHandler = Balder.Core.Input.MouseButtonEventHandler;
+using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
 namespace Balder.Core.Silverlight.Input
 {
@@ -33,12 +35,17 @@ namespace Balder.Core.Silverlight.Input
 		private readonly Game _game;
 		private readonly Viewport _viewport;
 		private Node _previousNode;
+		private Point _previousPosition;
+		private ManipulationDirection _manipulationDirection;
+		private bool _manipulating;
+		private Node _nodeBeingManipulated;
 
 		public NodeMouseEventHelper(Game game, Viewport viewport)
 		{
 			_game = game;
 			_viewport = viewport;
 			_previousNode = null;
+			ResetManipulation();
 			AddEvents(_game);
 		}
 
@@ -65,14 +72,90 @@ namespace Balder.Core.Silverlight.Input
 			RemoveEvents(_game);
 		}
 
+		
+
 		private static void RaiseEvent(BubbledEvent<Node, MouseEventHandler> bubbledEvent, Node node, MouseEventArgs args)
 		{
-			bubbledEvent.Raise(node, node, new Core.Input.MouseEventArgs(args));
+			var position = args.GetPosition(args.OriginalSource as FrameworkElement);
+			bubbledEvent.Raise(node, node, new Core.Input.MouseEventArgs(args,position));
 		}
 
 		private static void RaiseEvent(BubbledEvent<Node, MouseButtonEventHandler> bubbledEvent, Node node, MouseButtonEventArgs args)
 		{
-			bubbledEvent.Raise(node, node, new Core.Input.MouseButtonEventArgs(args));
+			var position = args.GetPosition(args.OriginalSource as FrameworkElement);
+			bubbledEvent.Raise(node, node, new Core.Input.MouseButtonEventArgs(args,position));
+		}
+
+		private void RaiseManipulationEvent(BubbledEvent<Node, ManipulationDeltaEventHandler> bubbledEvent, Node node, Point position)
+		{
+			var deltaX = position.X - _previousPosition.X;
+			var deltaY = position.Y - _previousPosition.Y;
+			HandleManipulationDirection(deltaX,deltaY);
+
+			var material = _viewport.Display.GetMaterialAtPosition((int) position.X, (int) position.Y);
+			bubbledEvent.Raise(node, node, new ManipulationDeltaEventArgs(material,(int)deltaX,(int)deltaY,_manipulationDirection));
+		}
+
+		private void ResetManipulation()
+		{
+			_manipulating = false;
+			_manipulationDirection = ManipulationDirection.None;
+		}
+
+		private void StartManipulation(Node node, Point position)
+		{
+			_manipulating = true;
+			_nodeBeingManipulated = node;
+
+			Node.ManipulationStartedEvent.Raise(node, node, BubbledEventArgs.Empty);
+		}
+
+		private void HandleManipulation(Point position)
+		{
+			if( _manipulating )
+			{
+				RaiseManipulationEvent(Node.ManipulationDeltaEvent,_nodeBeingManipulated,position);
+			}
+			_previousPosition = position;
+		}
+
+		private void StopManipulation()
+		{
+			ResetManipulation();
+			Node.ManipulationStoppedEvent.Raise(_nodeBeingManipulated, _nodeBeingManipulated, BubbledEventArgs.Empty);
+		}
+
+
+		private void HandleManipulationDirection(double deltaX, double deltaY)
+		{
+			if (_manipulationDirection == ManipulationDirection.None)
+			{
+				var absoluteDeltaX = System.Math.Abs(deltaX);
+				var absoluteDeltaY = System.Math.Abs(deltaY);
+
+				if (absoluteDeltaX > absoluteDeltaY)
+				{
+					if (deltaX <= 0)
+					{
+						_manipulationDirection = ManipulationDirection.Left;
+					}
+					else
+					{
+						_manipulationDirection = ManipulationDirection.Right;
+					}
+				}
+				else
+				{
+					if (deltaY <= 0)
+					{
+						_manipulationDirection = ManipulationDirection.Up;
+					}
+					else
+					{
+						_manipulationDirection = ManipulationDirection.Down;
+					}
+				}
+			}
 		}
 
 
@@ -125,6 +208,7 @@ namespace Balder.Core.Silverlight.Input
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
 			HandleMouseMove((int)position.X, (int)position.Y, e);
+			HandleManipulation(position);
 		}
 
 		private void MouseEnter(object sender, MouseEventArgs e)
@@ -146,6 +230,7 @@ namespace Balder.Core.Silverlight.Input
 			if (null != hitNode)
 			{
 				RaiseEvent(Node.MouseLeftButtonDownEvent,hitNode,e);
+				StartManipulation(hitNode, position);
 			}
 		}
 
@@ -157,6 +242,7 @@ namespace Balder.Core.Silverlight.Input
 			if (null != hitNode)
 			{
 				RaiseEvent(Node.MouseLeftButtonUpEvent, hitNode, e);
+				StopManipulation();
 			}
 		}
 	}

@@ -15,14 +15,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public class CubeBox : Box, INotifyPropertyChanged
 	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { }; 
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 		public const double BoxSize = 5f;
 		public const double BoxSpace = 0.3f;
 		public const double BoxAdd = BoxSize + BoxSpace;
 		public const double BoxAligment = BoxAdd / 2;
-		public const double BoxXAlignment = -(((BoxAdd * Cube.Width)/2) - BoxAligment);
-		public const double BoxYAlignment = (((BoxAdd * Cube.Height)/2) - BoxAligment);
-		public const double BoxZAlignment = (((BoxAdd * Cube.Depth)/2) - BoxAligment);
+		public const double BoxXAlignment = -(((BoxAdd * Cube.Width) / 2) - BoxAligment);
+		public const double BoxYAlignment = (((BoxAdd * Cube.Height) / 2) - BoxAligment);
+		public const double BoxZAlignment = (((BoxAdd * Cube.Depth) / 2) - BoxAligment);
 
 		#region Static Content
 		private static Material _black;
@@ -80,15 +80,31 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			PivotPoint = new Coordinate(actualX, actualY, actualZ);
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
-			
+
 			CreateNormals();
 			UpdateNormals(Matrix.Identity);
+
+			MouseMove += CubeBox_MouseMove;
 
 			var toolTip = new ToolTip();
 			var cubeToolTip = new CubeToolTip();
 			cubeToolTip.DataContext = this;
 			toolTip.Content = cubeToolTip;
 			ToolTip = toolTip;
+		}
+
+		private void CubeBox_MouseMove(object sender, Core.Input.MouseEventArgs args)
+		{
+			if (null != Content.Display)
+			{
+				var material = Content.Display.GetMaterialAtPosition((int)args.Position.X, (int)args.Position.Y);
+				if (null != material && null != material.DiffuseMap)
+				{
+					//MaterialName = material.DiffuseMap.AssetName.AbsolutePath;
+				}
+			}
+			
+			
 		}
 
 		public int X { get; private set; }
@@ -98,6 +114,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public Vector FrontNormal { get; private set; }
 		public Vector SideNormal { get; private set; }
 		public Vector UpNormal { get; private set; }
+
+		private string _materialName;
+		public string MaterialName
+		{
+			get { return _materialName; }
+			set
+			{
+				_materialName = value;
+				PropertyChanged.Notify(() => MaterialName);
+			}
+		}
 
 		private Vector _calculatedFrontNormal;
 		public Vector CalculatedFrontNormal
@@ -138,23 +165,25 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			SideNormal = Vector.Zero;
 			UpNormal = Vector.Zero;
 
-			if( X == 0 )
+			if (X == 0)
 			{
 				SideNormal = Vector.Left;
-			} else if( X == Cube.Width-1 )
+			}
+			else if (X == Cube.Width - 1)
 			{
 				SideNormal = Vector.Right;
 			}
 
-			if( Y == 0 )
+			if (Y == 0)
 			{
 				UpNormal = Vector.Up;
-			} else if( Y == Cube.Height-1 )
+			}
+			else if (Y == Cube.Height - 1)
 			{
 				UpNormal = Vector.Down;
 			}
 
-			if( Z == 0 )
+			if (Z == 0)
 			{
 				FrontNormal = Vector.Forward;
 			}
@@ -178,7 +207,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			CalculatedUpNormal.Normalize();
 			PropertyChanged.Notify(() => CalculatedUpNormal);
 		}
-		
+
 		private void SetMaterial(int x, int y, int z)
 		{
 			var front = _black;
@@ -226,8 +255,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private void Rotate()
 		{
 			var rotation = Matrix.CreateRotation(
-				(float)Rotation.X, 
-				(float)Rotation.Y, 
+				(float)Rotation.X,
+				(float)Rotation.Y,
 				(float)Rotation.Z);
 			UpdateNormals(rotation);
 		}
@@ -246,6 +275,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Rotate();
 		}
 
-		
+
 	}
 }
