@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Windows;
-using System.Windows.Media;
 using Balder.Core.Display;
 using Balder.Core.Silverlight.Input;
 using Balder.Core.View;
@@ -62,6 +61,7 @@ namespace Balder.Core.Execution
 			RegisterGame();
 			AddNodesToScene();
 			InitializeViewport();
+			
 			_nodeMouseEventHelper = new NodeMouseEventHelper(this, Viewport);
 		}
 

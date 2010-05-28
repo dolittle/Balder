@@ -16,10 +16,14 @@
     <AssemblyName>Balder.Core</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
-    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
-    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
-    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
-    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <FileUpgradeFlags>
@@ -226,6 +230,7 @@
     <Compile Include="Execution\IObjectFactory.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
+    <Compile Include="Silverlight\Input\ManipulationEventHelper.cs" />
     <Compile Include="Silverlight\Input\NodeMouseEventHelper.cs" />
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />

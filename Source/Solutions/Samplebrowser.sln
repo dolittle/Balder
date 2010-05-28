@@ -18,10 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.IntegrationTests.Silverlight", "..\Balder.Core.IntegrationTests.Silverlight\Balder.Core.IntegrationTests.Silverlight.csproj", "{3D8B2602-717B-4A34-AB33-4C9B27181315}"
 EndProject
 Global
-	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
-		SolutionIsControlled = True
-		SolutionBindings = <Solution Location In Database>
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -62,5 +58,9 @@ Global
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{492069AA-09BC-4B9C-B474-5E71E300755C} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{79F4643E-C5B1-4527-86AC-03695FC8EBA4} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
+	EndGlobalSection
+	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
+		SolutionIsControlled = True
+		SolutionBindings = <Solution Location In Database>
 	EndGlobalSection
 EndGlobal
