@@ -30,7 +30,7 @@ namespace Balder.Core
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode, ICloneable, ICanPrepare
+	public abstract partial class Node : INode, ICloneable, ICanPrepare, IHaveIdentity
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
@@ -65,9 +65,14 @@ namespace Balder.Core
 		private bool _isForcePrepareMatrices = true;
 
 		protected Node()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
-			InitializeTransform();
+		}
 
+		protected Node(IIdentityManager identityManager)
+		{
+			Id = identityManager.AllocateIdentity<Node>();
+			InitializeTransform();
 			Construct();
 		}
 
@@ -357,5 +362,7 @@ namespace Balder.Core
 			Prepare(viewport);
 		}
 		#endregion
+
+		public UInt16 Id { get; private set; }
 	}
 }

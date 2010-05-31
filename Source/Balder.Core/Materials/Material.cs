@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.ComponentModel;
 #if(SILVERLIGHT)
 using System.Windows;
@@ -31,9 +32,9 @@ namespace Balder.Core.Materials
 	/// Represents a material
 	/// </summary>
 #if(SILVERLIGHT)
-	public class Material : FrameworkElement
+	public class Material : FrameworkElement, IHaveIdentity
 #else
-	public class Material
+	public class Material : IHaveIdentity
 #endif
 
 	{
@@ -41,9 +42,19 @@ namespace Balder.Core.Materials
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>
 		public Material()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+		}
+
+
+		/// <summary>
+		/// Creates an instance of <see cref="Material"/>
+		/// </summary>
+		public Material(IIdentityManager identityManager)
 		{
 			Shade = MaterialShade.None;
 			Diffuse = Color.Random();
+			Id = identityManager.AllocateIdentity<Material>();
 		}
 
 		/// <summary>
@@ -123,5 +134,7 @@ namespace Balder.Core.Materials
 			get { return ReflectionMapProperty.GetValue(this); }
 			set { ReflectionMapProperty.SetValue(this, value); }
 		}
+
+		public UInt16 Id { get; private set; }
 	}
 }
