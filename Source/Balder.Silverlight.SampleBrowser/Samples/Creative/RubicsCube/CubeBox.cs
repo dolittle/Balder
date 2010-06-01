@@ -24,6 +24,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const double BoxYAlignment = (((BoxAdd * Cube.Height) / 2) - BoxAligment);
 		public const double BoxZAlignment = (((BoxAdd * Cube.Depth) / 2) - BoxAligment);
 
+		private Matrix _rotationMatrix;
+
 		#region Static Content
 		private static Material _black;
 		private static readonly Dictionary<CubeSide, Material> Materials;
@@ -81,8 +83,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
 
+			_rotationMatrix = Matrix.Identity;
 			CreateNormals();
 			UpdateNormals(Matrix.Identity);
+			CalculateNormalState();
 
 			MouseMove += CubeBox_MouseMove;
 
@@ -103,8 +107,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					//MaterialName = material.DiffuseMap.AssetName.AbsolutePath;
 				}
 			}
-			
-			
+
+
 		}
 
 		public int X { get; private set; }
@@ -287,11 +291,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void Rotate()
 		{
-			var rotation = Matrix.CreateRotation(
+			_rotationMatrix = Matrix.CreateRotation(
 				(float)Rotation.X,
 				(float)Rotation.Y,
 				(float)Rotation.Z);
-			UpdateNormals(rotation);
+
+			UpdateNormals(_rotationMatrix);
+			CalculateNormalState();
 		}
 
 		public void Rotate(double x, double y, double z)
@@ -309,5 +315,30 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		}
 
 
+		private void CalculateNormalState()
+		{
+			IsFront = IsNormal(FrontNormal, Vector.Backward);
+			IsBack = IsNormal(FrontNormal, Vector.Forward);
+			IsLeft = IsNormal(SideNormal, Vector.Left);
+			IsRight = IsNormal(SideNormal, Vector.Right);
+			IsTop = IsNormal(UpNormal, Vector.Up);
+			IsBottom = IsNormal(UpNormal, Vector.Down);
+		}
+
+		private bool IsNormal(Vector normal, Vector desiredNormal)
+		{
+			var rotated = normal * _rotationMatrix;
+			rotated.Normalize();
+			var length = (desiredNormal - rotated).Length;
+			return length < 0.1;
+
+		}
+
+		public bool IsFront { get; private set; }
+		public bool IsBack { get; private set; }
+		public bool IsTop { get; private set; }
+		public bool IsBottom { get; private set; }
+		public bool IsLeft { get; private set; }
+		public bool IsRight { get; private set; }
 	}
 }

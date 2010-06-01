@@ -146,6 +146,7 @@ namespace Balder.Core.Silverlight.Input
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
 			HandleMouseLeave((int)position.X, (int)position.Y, e);
+			_manipulationEventHelper.StopManipulation();
 		}
 
 		private void MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -167,8 +168,8 @@ namespace Balder.Core.Silverlight.Input
 			if (null != hitNode)
 			{
 				RaiseEvent(Node.MouseLeftButtonUpEvent, hitNode, e);
-				_manipulationEventHelper.StopManipulation();
 			}
+			_manipulationEventHelper.StopManipulation();
 		}
 	}
 }

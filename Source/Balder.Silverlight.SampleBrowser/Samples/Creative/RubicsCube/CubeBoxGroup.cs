@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using Balder.Core.Math;
 
@@ -23,41 +24,39 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public void Snap()
 		{
-			if( _rotation.X < 45 )
-			{
-				_rotation.X = 0;
-			} else if( _rotation.X < 135)
-			{
-				_rotation.X = 90;
-			} else if( _rotation.X < 225)
-			{
-				_rotation.X = 180;
-			} else if( _rotation.X < 315 )
-			{
-				_rotation.X = 270;
-			}
-
-			if (_rotation.Y < 45)
-			{
-				_rotation.Y = 0;
-			}
-			else if (_rotation.Y < 135)
-			{
-				_rotation.Y = 90;
-			}
-			else if (_rotation.Y < 225)
-			{
-				_rotation.Y = 180;
-			}
-			else if (_rotation.Y < 315)
-			{
-				_rotation.Y = 270;
-			}
-	
-			Rotate(_rotation.X,_rotation.Y,_rotation.Z);
+			_rotation.X = SnapAxis(_rotation.X);
+			_rotation.Y = SnapAxis(_rotation.Y);
+			_rotation.Z = SnapAxis(_rotation.Z);
+			Rotate(_rotation.X, _rotation.Y, _rotation.Z);
 		}
 
-		
+		private static double SnapAxis(double axisValue)
+		{
+			axisValue = (axisValue + 360d)%360d;
+
+			if (axisValue < 45)
+			{
+				axisValue = 0;
+			}
+			else if (axisValue < 135)
+			{
+				axisValue = 90;
+			}
+			else if (axisValue < 225)
+			{
+				axisValue = 180;
+			}
+			else if (axisValue < 315)
+			{
+				axisValue = 270;
+			} else
+			{
+				axisValue = 0;
+			}
+			return axisValue;
+		}
+
+
 
 		public void Add(CubeBox box)
 		{
@@ -68,16 +67,16 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			foreach (var box in Boxes)
 			{
-				box.Rotate(x,y,z);
+				box.Rotate(x, y, z);
 			}
-			_rotation.Set(x,y,z);
+			_rotation.Set(x, y, z);
 		}
 
 		public void AddRotation(double x, double y, double z)
 		{
 			foreach (var box in Boxes)
 			{
-				box.AddRotation(x,y,z);
+				box.AddRotation(x, y, z);
 			}
 			_rotation.X += x;
 			_rotation.Y += y;

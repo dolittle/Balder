@@ -2,7 +2,6 @@
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
-using Balder.Core.Rendering;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -151,6 +150,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			SnapGroups();
 			OrganizeCubeBoxesInGroups();
+			
 			_manipulatingGroup = null;
 			_manipulateGroupHandler = null;
 		}
@@ -170,16 +170,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 			return null;
 		}
-
-		private void FindBoxInGroupAndRotate(double deltaX, double deltaY, double deltaZ, IEnumerable<CubeSide> cubeSides, CubeBox cubeBox)
-		{
-			var group = FindBoxInGroup(cubeSides, cubeBox);
-			if (null != group)
-			{
-				group.AddRotation(-deltaY, -deltaX, -deltaZ);
-			}
-		}
-
 
 
 		private void PrepareCubeBoxGroups()
@@ -221,29 +211,29 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			ClearGroups();
 			foreach (CubeBox box in Children)
 			{
-				if (box.CalculatedFrontNormal.Equals(Vector.Backward))
+				if (box.IsFront)
 				{
 					_groups[CubeSide.Front].Add(box);
 				}
-				else if (box.CalculatedFrontNormal.Equals(Vector.Forward))
+				else if (box.IsBack)
 				{
 					_groups[CubeSide.Back].Add(box);
 				}
 
-				if (box.CalculatedSideNormal.Equals(Vector.Left))
+				if (box.IsLeft)
 				{
 					_groups[CubeSide.Left].Add(box);
 				}
-				else if (box.CalculatedSideNormal.Equals(Vector.Right))
+				else if (box.IsRight)
 				{
 					_groups[CubeSide.Right].Add(box);
 				}
 
-				if (box.CalculatedUpNormal.Equals(Vector.Up))
+				if (box.IsTop)
 				{
 					_groups[CubeSide.Top].Add(box);
 				}
-				else if (box.CalculatedUpNormal.Equals(Vector.Down))
+				else if (box.IsBottom)
 				{
 					_groups[CubeSide.Bottom].Add(box);
 				}
