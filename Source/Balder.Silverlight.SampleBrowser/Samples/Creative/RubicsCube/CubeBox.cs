@@ -88,27 +88,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			UpdateNormals(Matrix.Identity);
 			CalculateNormalState();
 
-			MouseMove += CubeBox_MouseMove;
-
 			var toolTip = new ToolTip();
 			var cubeToolTip = new CubeToolTip();
 			cubeToolTip.DataContext = this;
 			toolTip.Content = cubeToolTip;
-			ToolTip = toolTip;
-		}
-
-		private void CubeBox_MouseMove(object sender, Core.Input.MouseEventArgs args)
-		{
-			if (null != Content.Display)
-			{
-				var material = Content.Display.GetMaterialAtPosition((int)args.Position.X, (int)args.Position.Y);
-				if (null != material && null != material.DiffuseMap)
-				{
-					//MaterialName = material.DiffuseMap.AssetName.AbsolutePath;
-				}
-			}
-
-
+			//ToolTip = toolTip;
 		}
 
 		public int X { get; private set; }
@@ -317,19 +301,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void CalculateNormalState()
 		{
-			IsFront = IsNormal(FrontNormal, Vector.Backward);
-			IsBack = IsNormal(FrontNormal, Vector.Forward);
-			IsLeft = IsNormal(SideNormal, Vector.Left);
-			IsRight = IsNormal(SideNormal, Vector.Right);
-			IsTop = IsNormal(UpNormal, Vector.Up);
-			IsBottom = IsNormal(UpNormal, Vector.Down);
+			IsFront = IsNormal(CalculatedFrontNormal, Vector.Backward);
+			IsBack = IsNormal(CalculatedFrontNormal, Vector.Forward);
+			IsLeft = IsNormal(CalculatedSideNormal, Vector.Left);
+			IsRight = IsNormal(CalculatedSideNormal, Vector.Right);
+			IsTop = IsNormal(CalculatedUpNormal, Vector.Up);
+			IsBottom = IsNormal(CalculatedUpNormal, Vector.Down);
 		}
 
-		private bool IsNormal(Vector normal, Vector desiredNormal)
+		private static bool IsNormal(Vector normal, Vector desiredNormal)
 		{
-			var rotated = normal * _rotationMatrix;
-			rotated.Normalize();
-			var length = (desiredNormal - rotated).Length;
+			var length = (desiredNormal - normal).Length;
 			return length < 0.1;
 
 		}

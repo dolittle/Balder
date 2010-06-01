@@ -5,33 +5,18 @@ using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public enum CubeColor
-	{
-		White = 0,
-		Blue,
-		Red,
-		Green,
-		Yellow,
-		Orange
-	}
-
-	public enum CubeSide
-	{
-		Front = 0,
-		Back,
-		Left,
-		Right,
-		Top,
-		Bottom
-	}
-
 	public partial class Cube
 	{
+		public delegate void ManipulateGroupEventHandler(CubeBoxGroup group, ManipulationDeltaEventArgs args);
+
 		public const int Depth = 3;
 		public const int Width = 3;
 		public const int Height = 3;
 
 		private Dictionary<CubeSide, CubeBoxGroup> _groups;
+		private CubeBoxGroup _manipulatingGroup;
+		private ManipulateGroupEventHandler _manipulateGroupHandler;
+
 
 		public Cube()
 		{
@@ -46,12 +31,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			ManipulationDelta += Cube_ManipulationDelta;
 			ManipulationStopped += Cube_ManipulationStopped;
 		}
-
-		private CubeBoxGroup _manipulatingGroup;
-
-		public delegate void ManipulateGroupEventHandler(CubeBoxGroup group, ManipulationDeltaEventArgs args);
-
-		private ManipulateGroupEventHandler _manipulateGroupHandler;
 
 
 		void Cube_ManipulationStarted(object sender, ManipulationDeltaEventArgs args)
@@ -148,7 +127,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		void Cube_ManipulationStopped(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
 		{
-			SnapGroups();
+			if( null != _manipulatingGroup )
+			{
+				_manipulatingGroup.Snap();
+			}
 			OrganizeCubeBoxesInGroups();
 			
 			_manipulatingGroup = null;
@@ -247,14 +229,5 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				group.Clear();
 			}
 		}
-
-		private void SnapGroups()
-		{
-			foreach (var group in _groups.Values)
-			{
-				group.Snap();
-			}
-		}
 	}
-
 }
