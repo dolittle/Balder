@@ -8,7 +8,7 @@ namespace Balder.Silverlight.Rendering
 	/// Represents a manager for maintaining unique identifiers for Nodes
 	/// during rendering per frame
 	/// </summary>
-	public interface INodesPixelBuffer
+	public interface IMetaDataPixelBuffer
 	{
 		/// <summary>
 		/// Gets the actual rendering buffer for "drawing" Nodes identifiers to
@@ -38,19 +38,36 @@ namespace Balder.Silverlight.Rendering
 		void NewFrame();
 
 		/// <summary>
-		/// Get identifier for a Node
+		/// Get identifier to be used during rendering
 		/// </summary>
 		/// <param name="node">Node to get identifier for</param>
 		/// <returns>A unique identifier for the node for the current frame</returns>
-		UInt32 GetNodeIdentifier(INode node);
+		UInt32 GetIdentifier(INode node);
 
 		/// <summary>
-		/// Get identifier for a Node
+		/// Get identifier to be used during rendering
 		/// </summary>
 		/// <param name="node">Node to get identifier for</param>
-		/// <param name="material">Material to combine with node identifier</param>
+		/// <param name="material">Material associated with node</param>
 		/// <returns>A unique identifier for the node for the current frame</returns>
-		UInt32 GetNodeIdentifier(INode node, Material material);
+		UInt32 GetIdentifier(INode node, Material material);
+
+		/// <summary>
+		/// Get identifier to be used during rendering
+		/// </summary>
+		/// <param name="node">Node to get identifier for</param>
+		/// <param name="renderFace">RenderFace associated with the node</param>
+		/// <returns>A unique identifier for the node for the current frame</returns>
+		UInt32 GetIdentifier(INode node, RenderFace renderFace);
+
+		/// <summary>
+		/// Get identifier to be used during rendering
+		/// </summary>
+		/// <param name="node">Node to get identifier for</param>
+		/// <param name="renderFace">RenderFace associated with the node</param>
+		/// <param name="material">Material associated with node</param>
+		/// <returns>A unique identifier for the node for the current frame</returns>
+		UInt32 GetIdentifier(INode node, RenderFace renderFace, Material material);
 
 		/// <summary>
 		/// Set a specific node at a specific pixel position
@@ -70,6 +87,25 @@ namespace Balder.Silverlight.Rendering
 		void SetNodeAtPosition(INode node, Material material, int xPosition, int yPosition);
 
 		/// <summary>
+		/// Set a specific node associated with a material at a specific pixel position
+		/// </summary>
+		/// <param name="node">Node to set</param>
+		/// <param name="face">Face to associate at position</param>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		void SetNodeAtPosition(INode node, RenderFace face, int xPosition, int yPosition);
+
+		/// <summary>
+		/// Set a specific node associated with a material at a specific pixel position
+		/// </summary>
+		/// <param name="node">Node to set</param>
+		/// <param name="face">Face to associate at position</param>
+		/// <param name="material">Material to associate at position</param>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		void SetNodeAtPosition(INode node, RenderFace face, Material material, int xPosition, int yPosition);
+
+		/// <summary>
 		/// Get node that is at a specific position, if any
 		/// </summary>
 		/// <param name="xPosition">X position</param>
@@ -84,5 +120,13 @@ namespace Balder.Silverlight.Rendering
 		/// <param name="yPosition">Y position</param>
 		/// <returns>Material at position, null if there is no material</returns>
 		Material GetMaterialAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Get RenderFace that is at a specific position, if any
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>RenderFace at position, null if there is no RenderFace</returns>
+		RenderFace GetRenderFaceAtPosition(int xPosition, int yPosition);
 	}
 }

@@ -19,6 +19,7 @@
 
 #endregion
 
+using System;
 using Balder.Core;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
@@ -28,7 +29,9 @@ namespace Balder.Silverlight.Rendering
 	public class RenderFace : Face
 	{
 		public static readonly float DebugNormalLength = 5f;
-		
+
+		public UInt16 Index;
+
 		public Vector TransformedNormal;
 		public Vector Position;
 		public Vector TransformedPosition;

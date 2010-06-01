@@ -136,8 +136,8 @@
     <Compile Include="Rendering\Drawing\GouraudTriangle.cs" />
     <Compile Include="Rendering\Drawing\Point.cs" />
     <Compile Include="Rendering\GeometryDetailLevel.cs" />
-    <Compile Include="Rendering\INodesPixelBuffer.cs" />
-    <Compile Include="Rendering\NodesPixelBuffer.cs" />
+    <Compile Include="Rendering\IMetaDataPixelBuffer.cs" />
+    <Compile Include="Rendering\MetaDataPixelBuffer.cs" />
     <Compile Include="Rendering\RenderFace.cs" />
     <Compile Include="Rendering\RenderVertex.cs" />
     <Compile Include="Rendering\ShapeContext.cs" />

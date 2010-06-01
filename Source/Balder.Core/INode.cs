@@ -1,9 +1,10 @@
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 
 namespace Balder.Core
 {
-	public interface INode
+	public interface INode : IHaveIdentity
 	{
 		INode Parent { get; }
 

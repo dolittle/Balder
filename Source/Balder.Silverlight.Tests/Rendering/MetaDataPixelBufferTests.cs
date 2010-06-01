@@ -29,17 +29,17 @@ using NUnit.Framework;
 namespace Balder.Silverlight.Tests.Rendering
 {
 	[TestFixture]
-	public class NodesPixelBufferTests
+	public class MetaDataPixelBufferTests
 	{
 		[Test, SilverlightUnitTest]
 		public void GettingNodeIdentifierForTheFirstTimeShouldReturnOneAsIdentifier()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
-			var nodeMock = new Mock<Node>();
+			var nodeMock = new Mock<INode>();
 			manager.Reset();
 
-			var identifier = manager.GetNodeIdentifier(nodeMock.Object);
+			var identifier = manager.GetIdentifier(nodeMock.Object);
 
 			Assert.That(identifier, Is.EqualTo(1));
 		}
@@ -47,13 +47,13 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void GettingNodeIdentifierMultipleTimesForSameNodeShouldReturnSameIdentifier()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
-			var nodeMock = new Mock<Node>();
+			var nodeMock = new Mock<INode>();
 			manager.Reset();
 
-			var identifier = manager.GetNodeIdentifier(nodeMock.Object);
-			var secondIdentifier = manager.GetNodeIdentifier(nodeMock.Object);
+			var identifier = manager.GetIdentifier(nodeMock.Object);
+			var secondIdentifier = manager.GetIdentifier(nodeMock.Object);
 
 			Assert.That(secondIdentifier, Is.EqualTo(identifier));
 		}
@@ -61,14 +61,16 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void GettingNodeIdentifierForMultipleNodesShouldReturnUniqueIdentifiers()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
-			var firstNodeMock = new Mock<Node>();
-			var secondNodeMock = new Mock<Node>();
+			var firstNodeMock = new Mock<INode>();
+			firstNodeMock.Expect(n => n.Id).Returns(1);
+			var secondNodeMock = new Mock<INode>();
+			secondNodeMock.Expect(n => n.Id).Returns(2);
 			manager.Reset();
 
-			var firstIdentifier = manager.GetNodeIdentifier(firstNodeMock.Object);
-			var secondIdentifier = manager.GetNodeIdentifier(secondNodeMock.Object);
+			var firstIdentifier = manager.GetIdentifier(firstNodeMock.Object);
+			var secondIdentifier = manager.GetIdentifier(secondNodeMock.Object);
 
 			Assert.That(secondIdentifier, Is.Not.EqualTo(firstIdentifier));
 		}
@@ -76,30 +78,30 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void ResettingShouldRestartIdentifierCounter()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
-			var firstNodeMock = new Mock<Node>();
-			var secondNodeMock = new Mock<Node>();
-			var thirdNodeMock = new Mock<Node>();
+			var firstNodeMock = new Mock<INode>();
+			var secondNodeMock = new Mock<INode>();
+			var thirdNodeMock = new Mock<INode>();
 			manager.Reset();
 
-			manager.GetNodeIdentifier(firstNodeMock.Object);
-			manager.GetNodeIdentifier(secondNodeMock.Object);
+			manager.GetIdentifier(firstNodeMock.Object);
+			manager.GetIdentifier(secondNodeMock.Object);
 
 			manager.Reset();
 
-			var identifier = manager.GetNodeIdentifier(thirdNodeMock.Object);
+			var identifier = manager.GetIdentifier(thirdNodeMock.Object);
 			Assert.That(identifier, Is.EqualTo(1));
 		}
 
 		[Test, SilverlightUnitTest]
 		public void SettingNodeAtPositionShouldReturnSameNodeWhenGetting()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
 
-			var firstNodeMock = new Mock<Node>();
-			var secondNodeMock = new Mock<Node>();
+			var firstNodeMock = new Mock<INode>();
+			var secondNodeMock = new Mock<INode>();
 
 			manager.SetNodeAtPosition(firstNodeMock.Object, 0, 0);
 			manager.SetNodeAtPosition(secondNodeMock.Object, 0, 1);
@@ -112,10 +114,10 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void GettingNodeAtPositionAfterNewFrameAndNodeNotInFrameShouldReturnNull()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
 
-			var nodeMock = new Mock<Node>();
+			var nodeMock = new Mock<INode>();
 			manager.SetNodeAtPosition(nodeMock.Object, 0, 0);
 			manager.NewFrame();
 
@@ -127,10 +129,10 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void GettingNodeAtPositionOutsideTheScreenShouldReturnNull()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
 
-			var nodeMock = new Mock<Node>();
+			var nodeMock = new Mock<INode>();
 			manager.SetNodeAtPosition(nodeMock.Object, 0, 0);
 
 			var node = manager.GetNodeAtPosition(-1, -1);
@@ -144,12 +146,9 @@ namespace Balder.Silverlight.Tests.Rendering
 		{
 			try
 			{
-				var manager = new NodesPixelBuffer();
+				var manager = new MetaDataPixelBuffer();
 				manager.Initialize(640, 480);
-
-				var nodeMock = new Mock<Node>();
-
-				var hashCode = nodeMock.Object.GetHashCode();
+				var nodeMock = new Mock<INode>();
 
 				manager.SetNodeAtPosition(nodeMock.Object, -1, -1);
 				manager.SetNodeAtPosition(nodeMock.Object, 641, 481);
@@ -163,37 +162,70 @@ namespace Balder.Silverlight.Tests.Rendering
 		[Test, SilverlightUnitTest]
 		public void SettingNodeWithMaterialShouldReturnSameMaterialWhenGetting()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
-			var material = new Material();
+			var materialMock = new Mock<Material>();
 
-			var firstNodeMock = new Mock<Node>();
-			var secondNodeMock = new Mock<Node>();
+			var firstNodeMock = new Mock<INode>();
+			var secondNodeMock = new Mock<INode>();
 
-			manager.SetNodeAtPosition(firstNodeMock.Object, material, 0, 0);
+			manager.SetNodeAtPosition(firstNodeMock.Object, materialMock.Object, 0, 0);
 			manager.SetNodeAtPosition(secondNodeMock.Object, 0, 1);
 
 			var actualMaterial = manager.GetMaterialAtPosition(0, 0);
 
-			Assert.That(actualMaterial, Is.EqualTo(material));
+			Assert.That(actualMaterial, Is.EqualTo(materialMock.Object));
 		}
 
 		[Test, SilverlightUnitTest]
 		public void GettingMaterialAtPositionOutsideTheScreenShouldReturnNull()
 		{
-			var manager = new NodesPixelBuffer();
+			var manager = new MetaDataPixelBuffer();
 			manager.Initialize(640, 480);
 
-			var material = new Material();
-			var nodeMock = new Mock<Node>();
-			manager.SetNodeAtPosition(nodeMock.Object, material, 0, 0);
+			var materialMock = new Mock<Material>();
+			var nodeMock = new Mock<INode>();
+			manager.SetNodeAtPosition(nodeMock.Object, materialMock.Object, 0, 0);
 
 			var actualMaterial = manager.GetMaterialAtPosition(-1, -1);
 			Assert.That(actualMaterial, Is.Null);
-			material = manager.GetMaterialAtPosition(641, 481);
+			actualMaterial = manager.GetMaterialAtPosition(641, 481);
 			Assert.That(actualMaterial, Is.Null);
 		}
 
+		[Test,SilverlightUnitTest]
+		public void SettingNodeWithFaceShouldReturnSameFaceWhenGetting()
+		{
+			var manager = new MetaDataPixelBuffer();
+			manager.Initialize(640, 480);
+
+			var face = new RenderFace(0, 1, 2) { Index = 1 };
+
+			var firstNodeMock = new Mock<INode>();
+			var secondNodeMock = new Mock<INode>();
+
+			manager.SetNodeAtPosition(firstNodeMock.Object, face, 0, 0);
+			manager.SetNodeAtPosition(secondNodeMock.Object, 0, 1);
+
+			var actualFace = manager.GetRenderFaceAtPosition(0, 0);
+
+			Assert.That(actualFace, Is.EqualTo(face));
+		}
+
+		[Test, SilverlightUnitTest]
+		public void GettingRenderFaceAtPositionOutsideTheScreenShouldReturnNull()
+		{
+			var manager = new MetaDataPixelBuffer();
+			manager.Initialize(640, 480);
+
+			var face = new RenderFace(0, 1, 2) { Index = 1 };
+			var nodeMock = new Mock<INode>();
+			manager.SetNodeAtPosition(nodeMock.Object, face, 0, 0);
+			var actualFace = manager.GetRenderFaceAtPosition(-1, -1);
+			Assert.That(actualFace, Is.Null);
+			actualFace = manager.GetRenderFaceAtPosition(641, 481);
+			Assert.That(actualFace, Is.Null);
+		}
 	}
 }
 

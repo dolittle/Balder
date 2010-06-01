@@ -17,7 +17,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.SampleBr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.IntegrationTests.Silverlight", "..\Balder.Core.IntegrationTests.Silverlight\Balder.Core.IntegrationTests.Silverlight.csproj", "{3D8B2602-717B-4A34-AB33-4C9B27181315}"
 EndProject
+Project("{00000000-0000-0000-0000-000000000000}") = "Balder.Silverlight.Tests", "..\Balder.Silverlight.Tests\Balder.Silverlight.Tests.csproj", "{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E974FF26-421A-483F-AF33-A86326597A5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Testing.Silverlight", "..\Balder.Testing\Balder.Testing.Silverlight.csproj", "{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}"
+EndProject
 Global
+	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
+		SolutionIsControlled = True
+		SolutionBindings = <Solution Location In Database>
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -47,6 +57,14 @@ Global
 		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -58,9 +76,7 @@ Global
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{492069AA-09BC-4B9C-B474-5E71E300755C} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{79F4643E-C5B1-4527-86AC-03695FC8EBA4} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
-	EndGlobalSection
-	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
-		SolutionIsControlled = True
-		SolutionBindings = <Solution Location In Database>
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
+		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C} = {E974FF26-421A-483F-AF33-A86326597A5C}
 	EndGlobalSection
 EndGlobal

@@ -45,6 +45,8 @@ namespace Balder.Core.Tests.Execution
 		{
 
 		}
+
+		public ushort Id { get { return 0; }}
 	}
 
 	public class SimpleClassWithMouseEvents : INode
@@ -62,6 +64,9 @@ namespace Balder.Core.Tests.Execution
 		{
 
 		}
+
+		public ushort Id { get { return 0; } }
+
 	}
 
 	public class HierarchicalClass : INode
@@ -79,6 +84,9 @@ namespace Balder.Core.Tests.Execution
 		{
 
 		}
+
+		public ushort Id { get { return 0; } }
+
 	}
 
 	[TestFixture]

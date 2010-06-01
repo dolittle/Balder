@@ -22,7 +22,7 @@ namespace Balder.Silverlight.Rendering
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
-		private readonly INodesPixelBuffer _nodesPixelBuffer;
+		private readonly IMetaDataPixelBuffer _metaDataPixelBuffer;
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
@@ -32,10 +32,10 @@ namespace Balder.Silverlight.Rendering
 
 		private bool _hasPrepared;
 
-		public GeometryDetailLevel(ILightCalculator lightCalculator, INodesPixelBuffer nodesPixelBuffer)
+		public GeometryDetailLevel(ILightCalculator lightCalculator, IMetaDataPixelBuffer metaDataPixelBuffer)
 		{
 			_lightCalculator = lightCalculator;
-			_nodesPixelBuffer = nodesPixelBuffer;
+			_metaDataPixelBuffer = metaDataPixelBuffer;
 		}
 
 
@@ -54,7 +54,8 @@ namespace Balder.Silverlight.Rendering
 
 		public void SetFace(int index, Face face)
 		{
-			var renderFace = new RenderFace(face);
+			var renderFace = new RenderFace(face) {Index = (UInt16)index};
+
 			var aVector = _vertices[renderFace.A].ToVector();
 			var bVector = _vertices[renderFace.A].ToVector();
 			var cVector = _vertices[renderFace.A].ToVector();
@@ -435,7 +436,7 @@ namespace Balder.Silverlight.Rendering
 			{
 				var face = _faces[faceIndex];
 
-				var nodeIdentifier = _nodesPixelBuffer.GetNodeIdentifier(node, face.Material);
+				var nodeIdentifier = _metaDataPixelBuffer.GetIdentifier(node, face.Material);
 
 				var a = _vertices[face.A];
 				var b = _vertices[face.B];

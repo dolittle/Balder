@@ -47,10 +47,10 @@ namespace Balder.Silverlight.Display
 		private bool _forceShow;
 		private bool _forceClear;
 
-		public Display(IPlatform platform, INodesPixelBuffer nodesPixelBuffer)
+		public Display(IPlatform platform, IMetaDataPixelBuffer metaDataPixelBuffer)
 		{
 			_platform = platform;
-			NodesPixelBuffer = nodesPixelBuffer;
+			MetaDataPixelBuffer = metaDataPixelBuffer;
 			ClearEnabled = true;
 		}
 
@@ -63,7 +63,7 @@ namespace Balder.Silverlight.Display
 			_bitmapQueue = new WriteableBitmapQueue(width,height);
 			_frontDepthBuffer = new UInt32[width*height];
 
-			NodesPixelBuffer.Initialize(width,height);
+			MetaDataPixelBuffer.Initialize(width,height);
 
 			BufferContainer.Width = width;
 			BufferContainer.Height = height;
@@ -134,13 +134,13 @@ namespace Balder.Silverlight.Display
 
 		public INode GetNodeAtPosition(int xPosition, int yPosition)
 		{
-			var node = NodesPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
+			var node = MetaDataPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
 			return node;
 		}
 
 		public Material GetMaterialAtPosition(int xPosition, int yPosition)
 		{
-			var material = NodesPixelBuffer.GetMaterialAtPosition(xPosition, yPosition);
+			var material = MetaDataPixelBuffer.GetMaterialAtPosition(xPosition, yPosition);
 			return material;
 		}
 
@@ -159,7 +159,7 @@ namespace Balder.Silverlight.Display
 		private UInt32[] _frontDepthBuffer;
 
 		
-		public INodesPixelBuffer NodesPixelBuffer { get; private set; }
+		public IMetaDataPixelBuffer MetaDataPixelBuffer { get; private set; }
 		
 
 		public void PrepareRender()
@@ -179,8 +179,8 @@ namespace Balder.Silverlight.Display
 
 		private void PrepareFrame(PrepareFrameMessage obj)
 		{
-			NodesPixelBuffer.NewFrame();
-			BufferContainer.NodeBuffer = NodesPixelBuffer.RenderingBuffer;
+			MetaDataPixelBuffer.NewFrame();
+			BufferContainer.NodeBuffer = MetaDataPixelBuffer.RenderingBuffer;
 		}
 
 		private bool ShouldClear()

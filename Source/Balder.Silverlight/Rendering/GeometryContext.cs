@@ -31,12 +31,12 @@ namespace Balder.Silverlight.Rendering
 	{
 		private readonly Dictionary<DetailLevel, IGeometryDetailLevel> _detailLevels;
 		private readonly ILightCalculator _lightCalculator;
-		private readonly INodesPixelBuffer _nodesPixelBuffer;
+		private readonly IMetaDataPixelBuffer _metaDataPixelBuffer;
 
-		public GeometryContext(ILightCalculator lightCalculator, INodesPixelBuffer nodesPixelBuffer)
+		public GeometryContext(ILightCalculator lightCalculator, IMetaDataPixelBuffer metaDataPixelBuffer)
 		{
 			_lightCalculator = lightCalculator;
-			_nodesPixelBuffer = nodesPixelBuffer;
+			_metaDataPixelBuffer = metaDataPixelBuffer;
 			_detailLevels = new Dictionary<DetailLevel, IGeometryDetailLevel>();
 		}
 
@@ -66,7 +66,7 @@ namespace Balder.Silverlight.Rendering
 			}
 			else
 			{
-				detailLevel = new GeometryDetailLevel(_lightCalculator, _nodesPixelBuffer);
+				detailLevel = new GeometryDetailLevel(_lightCalculator, _metaDataPixelBuffer);
 				_detailLevels[level] = detailLevel;
 			}
 			return detailLevel;
@@ -124,7 +124,7 @@ namespace Balder.Silverlight.Rendering
 					}
 				}
 
-				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _nodesPixelBuffer);
+				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _metaDataPixelBuffer);
 				_detailLevels[DetailLevel.BoundingBox] = boundingBoxDetailLevel;
 			}
 		}

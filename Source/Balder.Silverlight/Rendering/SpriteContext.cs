@@ -47,7 +47,7 @@ namespace Balder.Silverlight.Rendering
 
 			var nodeBuffer = BufferContainer.NodeBuffer;
 			var nodeIdentifier =
-				((Balder.Silverlight.Display.Display) viewport.Display).NodesPixelBuffer.GetNodeIdentifier(sprite);
+				((Balder.Silverlight.Display.Display) viewport.Display).MetaDataPixelBuffer.GetIdentifier(sprite);
 
 			var position = new Vector(0, 0, 0);
 			var transformedPosition = Vector.Transform(position, world, view);

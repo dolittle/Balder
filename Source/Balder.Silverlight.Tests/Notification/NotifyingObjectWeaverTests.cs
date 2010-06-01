@@ -20,13 +20,11 @@
 #endregion
 
 using System;
-using System.Collections;
 using System.ComponentModel;
-using System.Reflection;
 using System.Xml.Serialization;
 using Balder.Core;
 using Balder.Core.Display;
-using Balder.Core.Rendering;
+using Balder.Core.Materials;
 using Balder.Silverlight.Notification;
 using CThru.Silverlight;
 using Moq;
@@ -178,6 +176,11 @@ namespace Balder.Silverlight.Tests.Notification
 			public INode GetNodeAtPosition(int xPosition, int yPosition)
 			{
 				return null;
+			}
+
+			public Material GetMaterialAtPosition(int xPosition, int yPosition)
+			{
+				throw new NotImplementedException();
 			}
 
 			public int[] GetCurrentFrame()
