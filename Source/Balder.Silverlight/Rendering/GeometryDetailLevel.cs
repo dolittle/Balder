@@ -101,6 +101,19 @@ namespace Balder.Silverlight.Rendering
 		{
 
 		}
+
+		public Face GetFace(int index)
+		{
+			var face = _faces[index];
+			return face;
+		}
+
+		public Vector GetFaceNormal(int index)
+		{
+			var face = _faces[index];
+			return face.TransformedNormal;
+		}
+
 		#endregion
 
 		#region Vertex related
@@ -164,6 +177,8 @@ namespace Balder.Silverlight.Rendering
 		{
 			return _lines;
 		}
+
+
 		#endregion
 
 		#region TextureCoordinate related
@@ -436,7 +451,7 @@ namespace Balder.Silverlight.Rendering
 			{
 				var face = _faces[faceIndex];
 
-				var nodeIdentifier = _metaDataPixelBuffer.GetIdentifier(node, face.Material);
+				var nodeIdentifier = _metaDataPixelBuffer.GetIdentifier(node, face, face.Material);
 
 				var a = _vertices[face.A];
 				var b = _vertices[face.B];
@@ -457,6 +472,7 @@ namespace Balder.Silverlight.Rendering
 					continue;
 				}
 
+				face.TransformNormal(matrix);
 				CalculateVertexColorsForFace(face, viewport, node);
 				if (null != face.Material)
 				{

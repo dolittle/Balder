@@ -18,6 +18,7 @@
 #endregion
 
 using Balder.Core.Materials;
+using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 
 namespace Balder.Core.Display
@@ -82,6 +83,22 @@ namespace Balder.Core.Display
 		/// <param name="yPosition">Y position</param>
 		/// <returns>The material at the position, null if no material is at the position</returns>
 		Material GetMaterialAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Get the face at a specific position within the display
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>The face at the position, null if no face was at the position</returns>
+		Face GetFaceAtPosition(int xPosition, int yPosition);
+
+		/// <summary>
+		/// Get the index of a face within a geometry of a node at a specific position within the display
+		/// </summary>
+		/// <param name="xPosition">X position</param>
+		/// <param name="yPosition">Y position</param>
+		/// <returns>The face index at the position, -1 if no face was at the position</returns>
+		int GetFaceIndexAtPosition(int xPosition, int yPosition);
 
 		/// <summary>
 		/// Gets the current frames pixeldata

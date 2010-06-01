@@ -159,6 +159,39 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		private Vector _faceNormal;
+		public Vector FaceNormal
+		{
+			get { return _faceNormal; }
+			set
+			{
+				_faceNormal = value;
+				PropertyChanged.Notify(() => FaceNormal);
+			}
+		}
+
+		private Vector _currentFaceNormal;
+		public Vector CurrentFaceNormal
+		{
+			get { return _currentFaceNormal; }
+			set
+			{
+				_currentFaceNormal = value;
+				PropertyChanged.Notify(() => CurrentFaceNormal);
+			}
+		}
+
+		private string _normalLengths;
+		public string NormalLengths
+		{
+			get { return _normalLengths; }
+			set
+			{
+				_normalLengths = value;
+				PropertyChanged.Notify(() => NormalLengths);
+			}
+		}
+
 		private void CreateNormals()
 		{
 			FrontNormal = Vector.Zero;

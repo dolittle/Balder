@@ -40,8 +40,8 @@ namespace Balder.Core
 		public static readonly BubbledEvent<Node, BubbledEventHandler> ContentPreparedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ContentPrepared);
 
-		public static readonly BubbledEvent<Node, BubbledEventHandler> ManipulationStartedEvent =
-			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ManipulationStarted);
+		public static readonly BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationStartedEvent =
+			BubbledEvent<Node, ManipulationDeltaEventHandler>.Register(n => n.ManipulationStarted);
 
 		public static readonly BubbledEvent<Node, BubbledEventHandler> ManipulationStoppedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ManipulationStopped);
@@ -51,7 +51,7 @@ namespace Balder.Core
 
 		public event BubbledEventHandler Prepared = (s, e) => { };
 		public event BubbledEventHandler ContentPrepared = (s, e) => { };
-		public event BubbledEventHandler ManipulationStarted = (s, e) => { };
+		public event ManipulationDeltaEventHandler ManipulationStarted = (s, e) => { };
 		public event BubbledEventHandler ManipulationStopped = (s, e) => { };
 		public event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { }; 
 

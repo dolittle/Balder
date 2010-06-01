@@ -25,6 +25,7 @@ using System.Xml.Serialization;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Materials;
+using Balder.Core.Objects.Geometries;
 using Balder.Silverlight.Notification;
 using CThru.Silverlight;
 using Moq;
@@ -179,6 +180,16 @@ namespace Balder.Silverlight.Tests.Notification
 			}
 
 			public Material GetMaterialAtPosition(int xPosition, int yPosition)
+			{
+				throw new NotImplementedException();
+			}
+
+			public Face GetFaceAtPosition(int xPosition, int yPosition)
+			{
+				throw new NotImplementedException();
+			}
+
+			public int GetFaceIndexAtPosition(int xPosition, int yPosition)
 			{
 				throw new NotImplementedException();
 			}

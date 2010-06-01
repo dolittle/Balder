@@ -26,6 +26,7 @@ using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
+using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Silverlight.Rendering;
 using Color = Balder.Core.Color;
@@ -142,6 +143,22 @@ namespace Balder.Silverlight.Display
 		{
 			var material = MetaDataPixelBuffer.GetMaterialAtPosition(xPosition, yPosition);
 			return material;
+		}
+
+		public Face GetFaceAtPosition(int xPosition, int yPosition)
+		{
+			var renderFace = MetaDataPixelBuffer.GetRenderFaceAtPosition(xPosition, yPosition);
+			return renderFace;
+		}
+
+		public int GetFaceIndexAtPosition(int xPosition, int yPosition)
+		{
+			var renderFace = MetaDataPixelBuffer.GetRenderFaceAtPosition(xPosition, yPosition);
+			if( null == renderFace )
+			{
+				return -1;
+			}
+			return renderFace.Index;
 		}
 
 		public int[] GetCurrentFrame()

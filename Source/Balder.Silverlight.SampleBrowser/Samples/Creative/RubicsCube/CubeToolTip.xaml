@@ -17,6 +17,9 @@
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
                 <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
             </Grid.RowDefinitions>
             <TextBlock Text="FrontNormal" Grid.Column="0" Grid.Row="0"/>
             <TextBlock Text="{Binding CalculatedFrontNormal}" Grid.Column="1" Grid.Row="0"/>
@@ -24,8 +27,14 @@
             <TextBlock Text="{Binding CalculatedSideNormal}" Grid.Column="1" Grid.Row="1"/>
             <TextBlock Text="UpNormal" Grid.Column="0" Grid.Row="2"/>
             <TextBlock Text="{Binding CalculatedUpNormal}" Grid.Column="1" Grid.Row="2"/>
-            <TextBlock Text="Material" Grid.Column="0" Grid.Row="3"/>
-            <TextBlock Text="{Binding MaterialName}" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock Text="FaceNormal" Grid.Column="0" Grid.Row="3"/>
+            <TextBlock Text="{Binding FaceNormal}" Grid.Column="1" Grid.Row="3"/>
+            <TextBlock Text="Current FaceNormal" Grid.Column="0" Grid.Row="4"/>
+            <TextBlock Text="{Binding CurrentFaceNormal}" Grid.Column="1" Grid.Row="4"/>
+            <TextBlock Text="NormalLengths" Grid.Column="0" Grid.Row="5"/>
+            <TextBlock Text="{Binding NormalLengths}" Grid.Column="1" Grid.Row="5"/>
+            <TextBlock Text="Material" Grid.Column="0" Grid.Row="6"/>
+            <TextBlock Text="{Binding MaterialName}" Grid.Column="1" Grid.Row="6"/>
         </Grid>
 
     </Grid>

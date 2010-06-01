@@ -1,5 +1,6 @@
 using Balder.Core.Display;
 using Balder.Core.Materials;
+using Balder.Core.Math;
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -29,6 +30,9 @@ namespace Balder.Core.Objects.Geometries
 		void AllocateLines(int count);
 		void SetLine(int index, Line line);
 		Line[] GetLines();
+
+		Face GetFace(int index);
+		Vector GetFaceNormal(int index);
 
 		void AllocateTextureCoordinates(int count);
 		void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate);

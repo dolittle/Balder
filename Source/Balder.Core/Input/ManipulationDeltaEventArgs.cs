@@ -21,6 +21,7 @@
 
 using Balder.Core.Execution;
 using Balder.Core.Materials;
+using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Input
 {
@@ -28,11 +29,15 @@ namespace Balder.Core.Input
 	{
 		public ManipulationDeltaEventArgs(
 			Material material,
+			Face face,
+			int faceIndex,
 			int deltaX,
 			int deltaY,
 			ManipulationDirection direction)
 		{
 			Material = material;
+			Face = face;
+			FaceIndex = faceIndex;
 			DeltaX = deltaX;
 			DeltaY = deltaY;
 			Direction = direction;
@@ -41,6 +46,9 @@ namespace Balder.Core.Input
 		public Material Material { get; private set; }
 		public int DeltaX { get; private set; }
 		public int DeltaY { get; private set; }
+
+		public Face Face { get; private set; }
+		public int FaceIndex { get; private set; }
 
 		public ManipulationDirection Direction { get; private set; }
 	}

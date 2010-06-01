@@ -69,9 +69,13 @@ namespace Balder.Silverlight.Rendering
 			CalculatedColorC = new ColorAsFloats(0, 0, 0, 1);
 		}
 
-		public void Transform(Matrix matrix)
+		public void TransformNormal(Matrix matrix)
 		{
 			TransformedNormal = Vector.TransformNormal(Normal, matrix);
+		}
+
+		public void Transform(Matrix matrix)
+		{
 			TransformedPosition = Vector.Transform(Position, matrix);
 		}
 

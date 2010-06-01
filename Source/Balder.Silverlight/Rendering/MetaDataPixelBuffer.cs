@@ -148,8 +148,14 @@ namespace Balder.Silverlight.Rendering
 				var association = new PixelIdentifier(node, material, renderFace, identifier);
 				_identifiersByKey[associationKey] = association;
 				_nodeIdentifiersByIdentifier[identifier] = node;
-				_materialIdentifiersByIdentifier[identifier] = material;
-				_renderFacesByIdentifier[identifier] = renderFace;
+				if (null != material)
+				{
+					_materialIdentifiersByIdentifier[identifier] = material;
+				}
+				if (null != renderFace)
+				{
+					_renderFacesByIdentifier[identifier] = renderFace;
+				}
 			}
 			return identifier;
 		}
