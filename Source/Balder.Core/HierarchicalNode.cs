@@ -26,7 +26,9 @@ using Balder.Core.Rendering;
 
 namespace Balder.Core
 {
+#if(SILVERLIGHT)
 	[ContentProperty("Children")]
+#endif
 	public class HierarchicalNode : Node, IHaveChildren
 	{
 		protected HierarchicalNode()

@@ -1,22 +1,23 @@
-﻿using Balder.Core.Display;
+﻿using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public partial class Content
 	{
-		public static IDisplay Display;
-
-
 		public Content()
 		{
 			InitializeComponent();
 
-			Loaded += Content_Loaded;
-		}
+			var normal = Vector.Left;
+			var desired = Vector.Forward;
+			var rotation = Matrix.CreateRotation(0, 90, 0);
+			var rotated = Vector.TransformNormal(normal, rotation);
+				
+			rotated.Normalize();
 
-		void Content_Loaded(object sender, System.Windows.RoutedEventArgs e)
-		{
-			Display = Game.Display;
+			var length = (desired - rotated).Length;
+
+
 		}
 	}
 }

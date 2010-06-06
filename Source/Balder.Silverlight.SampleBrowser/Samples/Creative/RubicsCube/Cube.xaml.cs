@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics;
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
@@ -63,6 +64,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 				cubeBox.NormalLengths = string.Format("{0}, {1}, {2}, {3}, {4}, {5}", upLength, downLength, leftLength, rightLength, frontLength, backLength);
 
+				_manipulatingGroup = null;
 				if (upLength < 0.1)
 				{
 					if (args.Direction == ManipulationDirection.Up ||
@@ -105,6 +107,27 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 						var cubeSides = new[] { CubeSide.Front, CubeSide.Back };
 						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.AddRotation(0, 0, -a.DeltaY);
+					}
+				}
+
+				if( null != _manipulatingGroup )
+				{
+					Debug.WriteLine("Found group :");
+					foreach( var box in _manipulatingGroup.Boxes )
+					{
+						Debug.WriteLine("{0},{1},{2} - F:{3}, B:{4}, L:{5}, R:{6}, T:{7}, B:{8}",
+							box.X,
+							box.Y,
+							box.Z,
+							GetBoolString(box.IsFront),
+							GetBoolString(box.IsBack),
+							GetBoolString(box.IsLeft),
+							GetBoolString(box.IsRight),
+							GetBoolString(box.IsTop),
+							GetBoolString(box.IsBottom)
+
+							);
+						
 					}
 				}
 			}
@@ -188,11 +211,31 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		private string GetBoolString(bool b)
+		{
+			return b ? "1" : "0";
+		}
+
 		private void OrganizeCubeBoxesInGroups()
 		{
 			ClearGroups();
+			Debug.WriteLine("-------------");
+			Debug.WriteLine("OrganizeBoxes");
 			foreach (CubeBox box in Children)
 			{
+				Debug.WriteLine("{0},{1},{2} - F:{3}, B:{4}, L:{5}, R:{6}, T:{7}, B:{8}",
+					box.X,
+					box.Y,
+					box.Z,
+					GetBoolString(box.IsFront),
+					GetBoolString(box.IsBack),
+					GetBoolString(box.IsLeft),
+					GetBoolString(box.IsRight),
+					GetBoolString(box.IsTop),
+					GetBoolString(box.IsBottom)
+					
+					);
+
 				if (box.IsFront)
 				{
 					_groups[CubeSide.Front].Add(box);
@@ -220,6 +263,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					_groups[CubeSide.Bottom].Add(box);
 				}
 			}
+			Debug.WriteLine("-------------\n");
 		}
 
 		private void ClearGroups()

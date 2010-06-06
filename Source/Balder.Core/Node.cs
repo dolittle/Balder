@@ -233,16 +233,17 @@ namespace Balder.Core
 
 			var matrix = Matrix.Identity;
 
-			if (!isWorldIdentity)
-			{
-				matrix = matrix * World;
-			}
 
 			if (_isForcePrepareMatrices || PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
 			{
 				var negativePivot = PivotPoint.ToVector().Negative();
 				var pivotMatrix = Matrix.CreateTranslation(negativePivot);
 				matrix = matrix * pivotMatrix;
+			}
+
+			if (!isWorldIdentity)
+			{
+				matrix = matrix * World;
 			}
 
 			if (_isForcePrepareMatrices || Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f)

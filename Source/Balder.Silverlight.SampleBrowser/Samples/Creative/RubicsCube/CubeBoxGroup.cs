@@ -67,7 +67,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			foreach (var box in Boxes)
 			{
-				box.Rotate(x, y, z);
+				//box.Rotate(x, y, z);
 			}
 			_rotation.Set(x, y, z);
 		}

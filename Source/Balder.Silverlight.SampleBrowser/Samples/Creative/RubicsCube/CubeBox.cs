@@ -85,14 +85,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			_rotationMatrix = Matrix.Identity;
 			CreateNormals();
-			UpdateNormals(Matrix.Identity);
+			UpdateNormals();
 			CalculateNormalState();
 
 			var toolTip = new ToolTip();
 			var cubeToolTip = new CubeToolTip();
 			cubeToolTip.DataContext = this;
 			toolTip.Content = cubeToolTip;
-			//ToolTip = toolTip;
+			ToolTip = toolTip;
 		}
 
 		public int X { get; private set; }
@@ -214,8 +214,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-		public void UpdateNormals(Matrix world)
+		public void UpdateNormals()
 		{
+			var world = World; // GetMatrix((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, world);
 			CalculatedFrontNormal.Normalize();
 			PropertyChanged.Notify(() => CalculatedFrontNormal);
@@ -273,47 +274,53 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			SetMaterialOnSide(BoxSide.Bottom, bottom);
 		}
 
-		private void Rotate()
+		private Matrix GetMatrix(double x, double y, double z)
 		{
-			_rotationMatrix = Matrix.CreateRotation(
-				(float)Rotation.X,
-				(float)Rotation.Y,
-				(float)Rotation.Z);
-
-			UpdateNormals(_rotationMatrix);
-			CalculateNormalState();
+			var matrix = Matrix.CreateRotation((float)x, (float)y, (float)z);
+			return matrix;
 		}
 
+		/*
 		public void Rotate(double x, double y, double z)
 		{
-			Rotation.Set(x, y, z);
-			Rotate();
-		}
+			var matrix = GetMatrix(x, y, z);
+			World = matrix;
+			//Rotation.Set(x,y,z);
+			UpdateNormals();
+			CalculateNormalState();
+		}*/
 
 		public void AddRotation(double x, double y, double z)
 		{
+			var matrix = GetMatrix(x, y, z);
+			World = World * matrix;
+			/*
 			Rotation.X += x;
 			Rotation.Y += y;
-			Rotation.Z += z;
-			Rotate();
+			Rotation.Z += z;*/
+			UpdateNormals();
+			CalculateNormalState();
 		}
 
 
 		private void CalculateNormalState()
 		{
-			IsFront = IsNormal(CalculatedFrontNormal, Vector.Backward);
-			IsBack = IsNormal(CalculatedFrontNormal, Vector.Forward);
-			IsLeft = IsNormal(CalculatedSideNormal, Vector.Left);
-			IsRight = IsNormal(CalculatedSideNormal, Vector.Right);
-			IsTop = IsNormal(CalculatedUpNormal, Vector.Up);
-			IsBottom = IsNormal(CalculatedUpNormal, Vector.Down);
+			IsFront = IsNormal(Vector.Backward);
+			IsBack = IsNormal(Vector.Forward);
+			IsLeft = IsNormal(Vector.Left);
+			IsRight = IsNormal(Vector.Right);
+			IsTop = IsNormal(Vector.Up);
+			IsBottom = IsNormal(Vector.Down);
 		}
 
-		private static bool IsNormal(Vector normal, Vector desiredNormal)
+		private bool IsNormal(Vector desiredNormal)
 		{
-			var length = (desiredNormal - normal).Length;
-			return length < 0.1;
-
+			var frontLength = (desiredNormal - CalculatedFrontNormal).Length;
+			var sideLength = (desiredNormal - CalculatedSideNormal).Length;
+			var upLength = (desiredNormal - CalculatedUpNormal).Length;
+			return (frontLength < 0.1) ||
+			       (sideLength < 0.1) ||
+			       (upLength < 0.1);
 		}
 
 		public bool IsFront { get; private set; }

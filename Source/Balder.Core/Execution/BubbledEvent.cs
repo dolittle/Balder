@@ -57,7 +57,7 @@ namespace Balder.Core.Execution
 
 		private void InternalRaise(T instance, T originalSource, params object[] arguments)
 		{
-			if (null == _eventHandlerFunc)
+			if (null == _eventHandlerFunc || null == instance )
 			{
 				return;
 			}
