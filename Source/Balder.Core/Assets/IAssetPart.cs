@@ -24,5 +24,6 @@ namespace Balder.Core.Assets
 
 		object GetContext();
 		void SetContext(object context);
+		void InitializeFromAssetPart(IAssetPart assetPart);
 	}
 }
