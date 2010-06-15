@@ -22,7 +22,7 @@
 		</Grid.Triggers>
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,150,-200"/>
+				<View:Camera Position="0,0.3,-0.2" Target="0,0.05,0"/>
 			</Execution:Game.Camera>
 			<Geometries:Mesh x:Name="Tower"
 				AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Geometries/Mesh/Assets/EiffelTower.ASE"
