@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using Balder.Core.Math;
 
@@ -6,13 +5,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public class CubeBoxGroup
 	{
-		private Coordinate _rotation;
+		private readonly CubeSide _side;
+		private double _angle;
 
-
-		public CubeBoxGroup()
+		public CubeBoxGroup(CubeSide side)
 		{
+			_side = side;
 			Boxes = new List<CubeBox>();
-			_rotation = new Coordinate();
 		}
 
 		public List<CubeBox> Boxes { get; private set; }
@@ -24,63 +23,57 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public void Snap()
 		{
-			_rotation.X = SnapAxis(_rotation.X);
-			_rotation.Y = SnapAxis(_rotation.Y);
-			_rotation.Z = SnapAxis(_rotation.Z);
-			Rotate(_rotation.X, _rotation.Y, _rotation.Z);
+			foreach (var box in Boxes)
+			{
+				box.Reset();
+			}
 		}
-
-		private static double SnapAxis(double axisValue)
-		{
-			axisValue = (axisValue + 360d)%360d;
-
-			if (axisValue < 45)
-			{
-				axisValue = 0;
-			}
-			else if (axisValue < 135)
-			{
-				axisValue = 90;
-			}
-			else if (axisValue < 225)
-			{
-				axisValue = 180;
-			}
-			else if (axisValue < 315)
-			{
-				axisValue = 270;
-			} else
-			{
-				axisValue = 0;
-			}
-			return axisValue;
-		}
-
-
 
 		public void Add(CubeBox box)
 		{
 			Boxes.Add(box);
 		}
 
-		public void Rotate(double x, double y, double z)
+		private Coordinate GetRotation(double angle)
 		{
-			foreach (var box in Boxes)
+			var rotationVector = new Coordinate();
+			switch( _side )
 			{
-				//box.Rotate(x, y, z);
+				case CubeSide.Front:
+				case CubeSide.Back:
+					{
+						rotationVector = new Coordinate(0,0,angle);
+					}
+					break;
+				case CubeSide.Left:
+				case CubeSide.Right:
+					{
+						rotationVector = new Coordinate(angle, 0, 0);
+					}
+					break;
+				case CubeSide.Top:
+				case CubeSide.Bottom:
+					{
+						rotationVector = new Coordinate(0, angle, 0);
+					}
+					break;
+
+
 			}
-			_rotation.Set(x, y, z);
+			return rotationVector;
+			
 		}
 
-		public void AddRotation(double x, double y, double z)
+		public void Rotate(double angle)
 		{
+			_angle += angle;
+			var rotation = GetRotation(angle);
 			foreach (var box in Boxes)
 			{
-				box.AddRotation(x, y, z);
+				box.Rotate(rotation);
 			}
-			_rotation.X += x;
-			_rotation.Y += y;
-			_rotation.Z += z;
 		}
+
+		
 	}
 }

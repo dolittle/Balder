@@ -214,9 +214,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		private static Matrix GetMatrix(double x, double y, double z)
+		{
+			var matrix = Matrix.CreateRotation((float)x, (float)y, (float)z);
+			return matrix;
+		}
+
 		public void UpdateNormals()
 		{
-			var world = World; // GetMatrix((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
+			var world = GetMatrix((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, world);
 			CalculatedFrontNormal.Normalize();
 			PropertyChanged.Notify(() => CalculatedFrontNormal);
@@ -274,30 +280,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			SetMaterialOnSide(BoxSide.Bottom, bottom);
 		}
 
-		private Matrix GetMatrix(double x, double y, double z)
+		public void Reset()
 		{
-			var matrix = Matrix.CreateRotation((float)x, (float)y, (float)z);
-			return matrix;
+			Rotation.Set(0,0,0);
 		}
 
-		/*
-		public void Rotate(double x, double y, double z)
+		
+		public void Rotate(Coordinate rotation)
 		{
-			var matrix = GetMatrix(x, y, z);
-			World = matrix;
-			//Rotation.Set(x,y,z);
-			UpdateNormals();
-			CalculateNormalState();
-		}*/
-
-		public void AddRotation(double x, double y, double z)
-		{
-			var matrix = GetMatrix(x, y, z);
-			World = World * matrix;
-			/*
-			Rotation.X += x;
-			Rotation.Y += y;
-			Rotation.Z += z;*/
+			Rotation += rotation;
 			UpdateNormals();
 			CalculateNormalState();
 		}
