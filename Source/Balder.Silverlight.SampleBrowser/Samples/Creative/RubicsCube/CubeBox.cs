@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Media;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
@@ -17,15 +18,19 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const double BoxAligment = BoxAdd / 2;
 		public const double BoxXAlignment = -(((BoxAdd * Cube.Width) / 2) - BoxAligment);
 		public const double BoxYAlignment = (((BoxAdd * Cube.Height) / 2) - BoxAligment);
-		public const double BoxZAlignment = (((BoxAdd * Cube.Depth) / 2) - BoxAligment);
+		public const double BoxZAlignment = -(((BoxAdd * Cube.Depth) / 2) - BoxAligment);
+
+		public const double BoxXAdd = BoxAdd;
+		public const double BoxYAdd = -BoxAdd;
+		public const double BoxZAdd = BoxAdd;
 
 		#region Static Content
 		private static Material _black;
-		private static readonly Dictionary<BoxSide, Material> Materials;
+		private static readonly Dictionary<CubeColor, Material> Materials;
 
 		static CubeBox()
 		{
-			Materials = new Dictionary<BoxSide, Material>();
+			Materials = new Dictionary<CubeColor, Material>();
 
 			GenerateMaterials();
 		}
@@ -33,12 +38,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private static void GenerateMaterials()
 		{
 			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
-			Materials[BoxSide.Front] = LoadMaterial("White.png");
-			Materials[BoxSide.Back] = LoadMaterial("Yellow.png");
-			Materials[BoxSide.Left] = LoadMaterial("Orange.png");
-			Materials[BoxSide.Right] = LoadMaterial("Red.png");
-			Materials[BoxSide.Top] = LoadMaterial("Blue.png");
-			Materials[BoxSide.Bottom] = LoadMaterial("Green.png");
+			Materials[CubeColor.White] = LoadMaterial("White.png"); 
+			Materials[CubeColor.Yellow] = LoadMaterial("Yellow.png");
+			Materials[CubeColor.Orange] = LoadMaterial("Orange.png");
+			Materials[CubeColor.Red] = LoadMaterial("Red.png");
+			Materials[CubeColor.Blue] = LoadMaterial("Blue.png");
+			Materials[CubeColor.Green] = LoadMaterial("Green.png");
 		}
 
 		private static Material LoadMaterial(string file)
@@ -55,9 +60,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
 			var loader = assetLoaderService.GetLoader<Image>(uri);
 			var images = loader.Load(uri);
+
 			if (images.Length == 1)
 			{
-				return images[0] as Image;
+				var image = images[0] as Image;
+				image.AssetName = new Uri(uri, UriKind.Relative);
+				return image;
 			}
 			return null;
 		}
@@ -68,9 +76,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			X = x;
 			Y = y;
 			Z = z;
-			var actualX = BoxXAlignment + (BoxAdd * x);
-			var actualY = BoxXAlignment + (BoxAdd * y);
-			var actualZ = BoxXAlignment + (BoxAdd * z);
+			var actualX = BoxXAlignment + (BoxXAdd * x);
+			var actualY = BoxYAlignment + (BoxYAdd * y);
+			var actualZ = BoxZAlignment + (BoxZAdd * z);
 
 			PivotPoint = new Coordinate(actualX, actualY, actualZ);
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
@@ -93,29 +101,29 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			if (x == 0)
 			{
-				left = Materials[BoxSide.Left];
+				left = Materials[CubeColor.Orange];
 			}
 			else if (x == Cube.Width - 1)
 			{
-				right = Materials[BoxSide.Right];
+				right = Materials[CubeColor.Red];
 			}
 
 			if (y == 0)
 			{
-				top = Materials[BoxSide.Top];
+				top = Materials[CubeColor.Blue];
 			}
 			else if (y == Cube.Height - 1)
 			{
-				bottom = Materials[BoxSide.Bottom];
+				bottom = Materials[CubeColor.Green];
 			}
 
 			if (z == 0)
 			{
-				back = Materials[BoxSide.Back];
+				back = Materials[CubeColor.White];
 			}
 			else if (z == Cube.Depth - 1)
 			{
-				front = Materials[BoxSide.Front];
+				front = Materials[CubeColor.Yellow];
 			}
 
 			SetMaterialOnSide(BoxSide.Front, front);
