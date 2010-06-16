@@ -2,6 +2,7 @@
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -13,7 +14,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const int Width = 3;
 		public const int Height = 3;
 
-		private Dictionary<CubeSide, CubeBoxGroup> _groups;
+		private Dictionary<BoxSide, CubeBoxGroup> _groups;
 		private CubeBoxGroup _manipulatingGroup;
 		private ManipulateGroupEventHandler _manipulateGroupHandler;
 
@@ -61,8 +62,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					if (args.Direction == ManipulationDirection.Up ||
 						args.Direction == ManipulationDirection.Down)
 					{
-						var cubeSides = new[] { CubeSide.Front, CubeSide.Back };
-						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
+						var BoxSides = new[] { BoxSide.Front, BoxSide.Back };
+						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.Rotate(a.DeltaY);
 					}
 				}
@@ -71,15 +72,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					if (args.Direction == ManipulationDirection.Left ||
 						args.Direction == ManipulationDirection.Right)
 					{
-						var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
-						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
+						var BoxSides = new[] { BoxSide.Top, BoxSide.Bottom };
+						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaX);
 					}
 					else if (args.Direction == ManipulationDirection.Up ||
 							  args.Direction == ManipulationDirection.Down)
 					{
-						var cubeSides = new[] { CubeSide.Left, CubeSide.Right };
-						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
+						var BoxSides = new[] { BoxSide.Left, BoxSide.Right };
+						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaY);
 					}
 				}
@@ -88,15 +89,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					if (args.Direction == ManipulationDirection.Left ||
 						args.Direction == ManipulationDirection.Right)
 					{
-						var cubeSides = new[] { CubeSide.Top, CubeSide.Bottom };
-						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
+						var BoxSides = new[] { BoxSide.Top, BoxSide.Bottom };
+						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaX);
 					}
 					else if (args.Direction == ManipulationDirection.Up ||
 							  args.Direction == ManipulationDirection.Down)
 					{
-						var cubeSides = new[] { CubeSide.Front, CubeSide.Back };
-						_manipulatingGroup = FindBoxInGroup(cubeSides, cubeBox);
+						var BoxSides = new[] { BoxSide.Front, BoxSide.Back };
+						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
 						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaY);
 					}
 				}
@@ -130,11 +131,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_manipulateGroupHandler = null;
 		}
 
-		private CubeBoxGroup FindBoxInGroup(IEnumerable<CubeSide> cubeSides, CubeBox cubeBox)
+		private CubeBoxGroup FindBoxInGroup(IEnumerable<BoxSide> BoxSides, CubeBox cubeBox)
 		{
-			foreach (var cubeSide in cubeSides)
+			foreach (var BoxSide in BoxSides)
 			{
-				var group = _groups[cubeSide];
+				var group = _groups[BoxSide];
 				foreach (var box in group.Boxes)
 				{
 					if (box.Equals(cubeBox))
@@ -157,13 +158,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void PrepareCubeBoxGroups()
 		{
-			_groups = new Dictionary<CubeSide, CubeBoxGroup>();
-			_groups[CubeSide.Front] = new CubeBoxGroup(CubeSide.Front);
-			_groups[CubeSide.Back] = new CubeBoxGroup(CubeSide.Back);
-			_groups[CubeSide.Left] = new CubeBoxGroup(CubeSide.Left);
-			_groups[CubeSide.Right] = new CubeBoxGroup(CubeSide.Right);
-			_groups[CubeSide.Top] = new CubeBoxGroup(CubeSide.Top);
-			_groups[CubeSide.Bottom] = new CubeBoxGroup(CubeSide.Bottom);
+			_groups = new Dictionary<BoxSide, CubeBoxGroup>();
+			_groups[BoxSide.Front] = new CubeBoxGroup(BoxSide.Front);
+			_groups[BoxSide.Back] = new CubeBoxGroup(BoxSide.Back);
+			_groups[BoxSide.Left] = new CubeBoxGroup(BoxSide.Left);
+			_groups[BoxSide.Right] = new CubeBoxGroup(BoxSide.Right);
+			_groups[BoxSide.Top] = new CubeBoxGroup(BoxSide.Top);
+			_groups[BoxSide.Bottom] = new CubeBoxGroup(BoxSide.Bottom);
 		}
 
 		private void GenerateCubeBoxes()
@@ -186,27 +187,27 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			if (x == 0)
 			{
-				_groups[CubeSide.Left].Add(box);
+				_groups[BoxSide.Left].Add(box);
 			}
 			if (x == Width - 1)
 			{
-				_groups[CubeSide.Right].Add(box);
+				_groups[BoxSide.Right].Add(box);
 			}
 			if (y == 0)
 			{
-				_groups[CubeSide.Top].Add(box);
+				_groups[BoxSide.Top].Add(box);
 			}
 			if (y == Height - 1)
 			{
-				_groups[CubeSide.Bottom].Add(box);
+				_groups[BoxSide.Bottom].Add(box);
 			}
 			if (z == 0)
 			{
-				_groups[CubeSide.Front].Add(box);
+				_groups[BoxSide.Front].Add(box);
 			}
 			if (z == Depth - 1)
 			{
-				_groups[CubeSide.Back].Add(box);
+				_groups[BoxSide.Back].Add(box);
 			}
 		}
 	}

@@ -5,7 +5,8 @@
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
-    xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core">
+    xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
+             xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core">
     <Grid x:Name="LayoutRoot">
 		<!--
 		<Grid.Triggers>
@@ -13,7 +14,11 @@
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Cube" TargetProperty="(Node.Rotation)"/>
+							<Animation:CoordinateAnimation From="0,0,0" 
+                                                           To="0,359,0" 
+                                                           Duration="00:00:05" 
+                                                           TargetName="Cube" 
+                                                           TargetProperty="(Node.Rotation)"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 					</Storyboard>
 				</BeginStoryboard>
@@ -27,6 +32,8 @@
 			
 			<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>
 			
+            
+            
 			<RubicsCube:Cube x:Name="Cube" Rotation="0,45,0"/>
 		</Execution:Game>
     </Grid>

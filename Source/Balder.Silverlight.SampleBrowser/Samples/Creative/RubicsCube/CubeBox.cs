@@ -21,11 +21,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		#region Static Content
 		private static Material _black;
-		private static readonly Dictionary<CubeSide, Material> Materials;
+		private static readonly Dictionary<BoxSide, Material> Materials;
 
 		static CubeBox()
 		{
-			Materials = new Dictionary<CubeSide, Material>();
+			Materials = new Dictionary<BoxSide, Material>();
 
 			GenerateMaterials();
 		}
@@ -33,12 +33,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private static void GenerateMaterials()
 		{
 			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
-			Materials[CubeSide.Front] = LoadMaterial("White.png");
-			Materials[CubeSide.Back] = LoadMaterial("Yellow.png");
-			Materials[CubeSide.Left] = LoadMaterial("Orange.png");
-			Materials[CubeSide.Right] = LoadMaterial("Red.png");
-			Materials[CubeSide.Top] = LoadMaterial("Blue.png");
-			Materials[CubeSide.Bottom] = LoadMaterial("Green.png");
+			Materials[BoxSide.Front] = LoadMaterial("White.png");
+			Materials[BoxSide.Back] = LoadMaterial("Yellow.png");
+			Materials[BoxSide.Left] = LoadMaterial("Orange.png");
+			Materials[BoxSide.Right] = LoadMaterial("Red.png");
+			Materials[BoxSide.Top] = LoadMaterial("Blue.png");
+			Materials[BoxSide.Bottom] = LoadMaterial("Green.png");
 		}
 
 		private static Material LoadMaterial(string file)
@@ -93,29 +93,29 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			if (x == 0)
 			{
-				left = Materials[CubeSide.Left];
+				left = Materials[BoxSide.Left];
 			}
 			else if (x == Cube.Width - 1)
 			{
-				right = Materials[CubeSide.Right];
+				right = Materials[BoxSide.Right];
 			}
 
 			if (y == 0)
 			{
-				top = Materials[CubeSide.Top];
+				top = Materials[BoxSide.Top];
 			}
 			else if (y == Cube.Height - 1)
 			{
-				bottom = Materials[CubeSide.Bottom];
+				bottom = Materials[BoxSide.Bottom];
 			}
 
 			if (z == 0)
 			{
-				back = Materials[CubeSide.Back];
+				back = Materials[BoxSide.Back];
 			}
 			else if (z == Cube.Depth - 1)
 			{
-				front = Materials[CubeSide.Front];
+				front = Materials[BoxSide.Front];
 			}
 
 			SetMaterialOnSide(BoxSide.Front, front);

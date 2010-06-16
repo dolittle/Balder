@@ -1,14 +1,15 @@
 using System.Collections.Generic;
 using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public class CubeBoxGroup
 	{
-		private readonly CubeSide _side;
+		private readonly BoxSide _side;
 		private double _angle;
 
-		public CubeBoxGroup(CubeSide side)
+		public CubeBoxGroup(BoxSide side)
 		{
 			_side = side;
 			Boxes = new List<CubeBox>();
@@ -39,20 +40,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var rotationVector = new Coordinate();
 			switch( _side )
 			{
-				case CubeSide.Front:
-				case CubeSide.Back:
+				case BoxSide.Front:
+				case BoxSide.Back:
 					{
 						rotationVector = new Coordinate(0,0,angle);
 					}
 					break;
-				case CubeSide.Left:
-				case CubeSide.Right:
+				case BoxSide.Left:
+				case BoxSide.Right:
 					{
 						rotationVector = new Coordinate(angle, 0, 0);
 					}
 					break;
-				case CubeSide.Top:
-				case CubeSide.Bottom:
+				case BoxSide.Top:
+				case BoxSide.Bottom:
 					{
 						rotationVector = new Coordinate(0, angle, 0);
 					}
