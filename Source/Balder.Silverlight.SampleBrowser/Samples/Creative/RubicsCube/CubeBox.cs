@@ -80,9 +80,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var actualY = BoxYAlignment + (BoxYAdd * y);
 			var actualZ = BoxZAlignment + (BoxZAdd * z);
 
-			PivotPoint = new Coordinate(actualX, actualY, actualZ);
+			PivotPoint = new Coordinate(-actualX, -actualY, -actualZ);
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
+			Reset();
 		}
 
 		public int X { get; private set; }
@@ -119,11 +120,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			if (z == 0)
 			{
-				back = Materials[CubeColor.White];
+				front = Materials[CubeColor.White];
 			}
 			else if (z == Cube.Depth - 1)
 			{
-				front = Materials[CubeColor.Yellow];
+				back = Materials[CubeColor.Yellow];
 			}
 
 			SetMaterialOnSide(BoxSide.Front, front);
