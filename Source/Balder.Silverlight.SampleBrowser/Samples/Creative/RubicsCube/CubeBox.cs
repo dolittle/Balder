@@ -1,21 +1,17 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel;
-using System.Windows.Controls;
 using System.Windows.Media;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
-using Balder.Core.Silverlight.Extensions;
 using Image = Balder.Core.Imaging.Image;
 using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public class CubeBox : Box, INotifyPropertyChanged
+	public class CubeBox : Box
 	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 		public const double BoxSize = 5f;
 		public const double BoxSpace = 0.3f;
 		public const double BoxAdd = BoxSize + BoxSpace;
@@ -23,8 +19,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public const double BoxXAlignment = -(((BoxAdd * Cube.Width) / 2) - BoxAligment);
 		public const double BoxYAlignment = (((BoxAdd * Cube.Height) / 2) - BoxAligment);
 		public const double BoxZAlignment = (((BoxAdd * Cube.Depth) / 2) - BoxAligment);
-
-		private Matrix _rotationMatrix;
 
 		#region Static Content
 		private static Material _black;
@@ -83,16 +77,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
 
-			_rotationMatrix = Matrix.Identity;
 			CreateNormals();
 			UpdateNormals();
 			CalculateNormalState();
-
-			var toolTip = new ToolTip();
-			var cubeToolTip = new CubeToolTip();
-			cubeToolTip.DataContext = this;
-			toolTip.Content = cubeToolTip;
-			ToolTip = toolTip;
 		}
 
 		public int X { get; private set; }
@@ -102,83 +89,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public Vector FrontNormal { get; private set; }
 		public Vector SideNormal { get; private set; }
 		public Vector UpNormal { get; private set; }
+		public Vector CalculatedFrontNormal { get; private set; }
+		public Vector CalculatedSideNormal { get; private set; }
+		public Vector CalculatedUpNormal { get; private set; }
 
-		private string _materialName;
-		public string MaterialName
-		{
-			get { return _materialName; }
-			set
-			{
-				_materialName = value;
-				PropertyChanged.Notify(() => MaterialName);
-			}
-		}
-
-		private Vector _calculatedFrontNormal;
-		public Vector CalculatedFrontNormal
-		{
-			get { return _calculatedFrontNormal; }
-			private set
-			{
-				_calculatedFrontNormal = value;
-				PropertyChanged.Notify(() => CalculatedFrontNormal);
-			}
-		}
-
-		private Vector _calculatedSideNormal;
-		public Vector CalculatedSideNormal
-		{
-			get { return _calculatedSideNormal; }
-			private set
-			{
-				_calculatedSideNormal = value;
-				PropertyChanged.Notify(() => CalculatedSideNormal);
-			}
-		}
-
-		private Vector _calculatedUpNormal;
-		public Vector CalculatedUpNormal
-		{
-			get { return _calculatedUpNormal; }
-			private set
-			{
-				_calculatedUpNormal = value;
-				PropertyChanged.Notify(() => CalculatedUpNormal);
-			}
-		}
-
-		private Vector _faceNormal;
-		public Vector FaceNormal
-		{
-			get { return _faceNormal; }
-			set
-			{
-				_faceNormal = value;
-				PropertyChanged.Notify(() => FaceNormal);
-			}
-		}
-
-		private Vector _currentFaceNormal;
-		public Vector CurrentFaceNormal
-		{
-			get { return _currentFaceNormal; }
-			set
-			{
-				_currentFaceNormal = value;
-				PropertyChanged.Notify(() => CurrentFaceNormal);
-			}
-		}
-
-		private string _normalLengths;
-		public string NormalLengths
-		{
-			get { return _normalLengths; }
-			set
-			{
-				_normalLengths = value;
-				PropertyChanged.Notify(() => NormalLengths);
-			}
-		}
 
 		private void CreateNormals()
 		{
@@ -225,15 +139,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var world = GetMatrix((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
 			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, world);
 			CalculatedFrontNormal.Normalize();
-			PropertyChanged.Notify(() => CalculatedFrontNormal);
 
 			CalculatedSideNormal = Vector.TransformNormal(SideNormal, world);
 			CalculatedSideNormal.Normalize();
-			PropertyChanged.Notify(() => CalculatedSideNormal);
 
 			CalculatedUpNormal = Vector.TransformNormal(UpNormal, world);
 			CalculatedUpNormal.Normalize();
-			PropertyChanged.Notify(() => CalculatedUpNormal);
 		}
 
 		private void SetMaterial(int x, int y, int z)

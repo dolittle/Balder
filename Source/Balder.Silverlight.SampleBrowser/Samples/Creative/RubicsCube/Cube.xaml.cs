@@ -21,7 +21,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public Cube()
 		{
 			InitializeComponent();
-			PrepareCubeBoxGroups();
+			
 			SetupEvents();
 		}
 
@@ -43,8 +43,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			if (null != args.Face)
 			{
-				cubeBox.FaceNormal = args.Face.Normal;
-
 				var rotation = Matrix.CreateRotation(
 					(float)cubeBox.Rotation.X,
 					(float)cubeBox.Rotation.Y,
@@ -52,16 +50,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 				var normal = Vector.TransformNormal(args.Face.Normal, rotation);
 				normal.Normalize();
-				cubeBox.CurrentFaceNormal = normal;
 
 				var upLength = (Vector.Up - normal).Length;
 				var frontLength = (Vector.Backward - normal).Length;
-				var downLength = (Vector.Down - normal).Length;
-				var leftLength = (Vector.Left - normal).Length;
 				var rightLength = (Vector.Right - normal).Length;
-				var backLength = (Vector.Forward - normal).Length;
-
-				cubeBox.NormalLengths = string.Format("{0}, {1}, {2}, {3}, {4}, {5}", upLength, downLength, leftLength, rightLength, frontLength, backLength);
 
 				_manipulatingGroup = null;
 				if (upLength < 0.1)
@@ -155,6 +147,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		}
 
 
+		public override void Prepare(Viewport viewport)
+		{
+			PrepareCubeBoxGroups();
+			GenerateCubeBoxes();
+			base.Prepare(viewport);
+		}
+
+
 		private void PrepareCubeBoxGroups()
 		{
 			_groups = new Dictionary<CubeSide, CubeBoxGroup>();
@@ -165,13 +165,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_groups[CubeSide.Top] = new CubeBoxGroup(CubeSide.Top);
 			_groups[CubeSide.Bottom] = new CubeBoxGroup(CubeSide.Bottom);
 		}
-
-		public override void Prepare(Viewport viewport)
-		{
-			GenerateCubeBoxes();
-			base.Prepare(viewport);
-		}
-
 
 		private void GenerateCubeBoxes()
 		{
