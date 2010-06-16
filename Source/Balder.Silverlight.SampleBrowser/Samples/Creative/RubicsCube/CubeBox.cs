@@ -6,7 +6,6 @@ using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Image = Balder.Core.Imaging.Image;
-using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -76,76 +75,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			PivotPoint = new Coordinate(actualX, actualY, actualZ);
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
 			SetMaterial(x, y, z);
-
-			CreateNormals();
-			UpdateNormals();
-			CalculateNormalState();
 		}
 
 		public int X { get; private set; }
 		public int Y { get; private set; }
 		public int Z { get; private set; }
 
-		public Vector FrontNormal { get; private set; }
-		public Vector SideNormal { get; private set; }
-		public Vector UpNormal { get; private set; }
-		public Vector CalculatedFrontNormal { get; private set; }
-		public Vector CalculatedSideNormal { get; private set; }
-		public Vector CalculatedUpNormal { get; private set; }
-
-
-		private void CreateNormals()
-		{
-			FrontNormal = Vector.Zero;
-			SideNormal = Vector.Zero;
-			UpNormal = Vector.Zero;
-
-			if (X == 0)
-			{
-				SideNormal = Vector.Left;
-			}
-			else if (X == Cube.Width - 1)
-			{
-				SideNormal = Vector.Right;
-			}
-
-			if (Y == 0)
-			{
-				UpNormal = Vector.Up;
-			}
-			else if (Y == Cube.Height - 1)
-			{
-				UpNormal = Vector.Down;
-			}
-
-			if (Z == 0)
-			{
-				FrontNormal = Vector.Forward;
-			}
-			else if (Z == Cube.Depth - 1)
-			{
-				FrontNormal = Vector.Backward;
-			}
-		}
-
-		private static Matrix GetMatrix(double x, double y, double z)
-		{
-			var matrix = Matrix.CreateRotation((float)x, (float)y, (float)z);
-			return matrix;
-		}
-
-		public void UpdateNormals()
-		{
-			var world = GetMatrix((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
-			CalculatedFrontNormal = Vector.TransformNormal(FrontNormal, world);
-			CalculatedFrontNormal.Normalize();
-
-			CalculatedSideNormal = Vector.TransformNormal(SideNormal, world);
-			CalculatedSideNormal.Normalize();
-
-			CalculatedUpNormal = Vector.TransformNormal(UpNormal, world);
-			CalculatedUpNormal.Normalize();
-		}
 
 		private void SetMaterial(int x, int y, int z)
 		{
@@ -200,36 +135,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public void Rotate(Coordinate rotation)
 		{
 			Rotation += rotation;
-			UpdateNormals();
-			CalculateNormalState();
 		}
-
-
-		private void CalculateNormalState()
-		{
-			IsFront = IsNormal(Vector.Backward);
-			IsBack = IsNormal(Vector.Forward);
-			IsLeft = IsNormal(Vector.Left);
-			IsRight = IsNormal(Vector.Right);
-			IsTop = IsNormal(Vector.Up);
-			IsBottom = IsNormal(Vector.Down);
-		}
-
-		private bool IsNormal(Vector desiredNormal)
-		{
-			var frontLength = (desiredNormal - CalculatedFrontNormal).Length;
-			var sideLength = (desiredNormal - CalculatedSideNormal).Length;
-			var upLength = (desiredNormal - CalculatedUpNormal).Length;
-			return (frontLength < 0.1) ||
-			       (sideLength < 0.1) ||
-			       (upLength < 0.1);
-		}
-
-		public bool IsFront { get; private set; }
-		public bool IsBack { get; private set; }
-		public bool IsTop { get; private set; }
-		public bool IsBottom { get; private set; }
-		public bool IsLeft { get; private set; }
-		public bool IsRight { get; private set; }
 	}
 }
