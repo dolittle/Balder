@@ -45,6 +45,11 @@ namespace Balder.Core.Tests.Content
 			{
 				_context = context;
 			}
+
+			public void InitializeFromAssetPart(IAssetPart assetPart)
+			{
+				
+			}
 		}
 
 		public class MyAsset : IAsset

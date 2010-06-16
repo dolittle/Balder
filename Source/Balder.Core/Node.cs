@@ -212,7 +212,13 @@ namespace Balder.Core
 			}
 		}
 
-		public Matrix World { get; set; }
+		private Matrix _world;
+		public Matrix World
+		{
+			get { return _world; }
+			set { _world = value; }
+		}
+
 #if(SILVERLIGHT)
 		public new INode Parent { get; internal set; }
 #else

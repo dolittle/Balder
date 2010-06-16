@@ -100,6 +100,11 @@ namespace Balder.Core.Imaging
 			ImageContext = context as IImageContext;
 		}
 
+		public void InitializeFromAssetPart(IAssetPart assetPart)
+		{
+			
+		}
+
 		public Uri AssetName { get; set; }
 
 		public IAssetPart[] GetAssetParts()

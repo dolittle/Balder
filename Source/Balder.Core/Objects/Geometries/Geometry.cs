@@ -143,5 +143,14 @@ namespace Balder.Core.Objects.Geometries
 		{
 			GeometryContext = context as IGeometryContext;
 		}
+
+		public void InitializeFromAssetPart(IAssetPart assetPart)
+		{
+			if( assetPart is Geometry )
+			{
+				var geometry = assetPart as Geometry;
+				World = geometry.World;
+			}
+		}
 	}
 }
