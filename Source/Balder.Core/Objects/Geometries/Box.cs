@@ -82,26 +82,26 @@ namespace Balder.Core.Objects.Geometries
 			var dimensionAsVector = (Vector)Dimension;
 			var halfDimension = dimensionAsVector / 2f;
 
-			var frontUpperRight = new Vertex(-halfDimension.X, halfDimension.Y, -halfDimension.Z);
-			var frontUpperLeft = new Vertex(halfDimension.X, halfDimension.Y, -halfDimension.Z);
-			var frontLowerRight = new Vertex(-halfDimension.X, -halfDimension.Y, -halfDimension.Z);
-			var frontLowerLeft = new Vertex(halfDimension.X, -halfDimension.Y, -halfDimension.Z);
+			var frontUpperLeft = new Vertex(-halfDimension.X, halfDimension.Y, -halfDimension.Z);
+			var frontUpperRight = new Vertex(halfDimension.X, halfDimension.Y, -halfDimension.Z);
+			var frontLowerLeft = new Vertex(-halfDimension.X, -halfDimension.Y, -halfDimension.Z);
+			var frontLowerRight = new Vertex(halfDimension.X, -halfDimension.Y, -halfDimension.Z);
 
-			var backUpperRight = new Vertex(-halfDimension.X, halfDimension.Y, halfDimension.Z);
-			var backUpperLeft = new Vertex(halfDimension.X, halfDimension.Y, halfDimension.Z);
-			var backLowerRight = new Vertex(-halfDimension.X, -halfDimension.Y, halfDimension.Z);
-			var backLowerLeft = new Vertex(halfDimension.X, -halfDimension.Y, halfDimension.Z);
+			var backUpperLeft = new Vertex(-halfDimension.X, halfDimension.Y, halfDimension.Z);
+			var backUpperRight = new Vertex(halfDimension.X, halfDimension.Y, halfDimension.Z);
+			var backLowerLeft = new Vertex(-halfDimension.X, -halfDimension.Y, halfDimension.Z);
+			var backLowerRight = new Vertex(halfDimension.X, -halfDimension.Y, halfDimension.Z);
 
 			FullDetailLevel.AllocateVertices(8);
-			FullDetailLevel.SetVertex(0, frontUpperRight);
-			FullDetailLevel.SetVertex(1, frontUpperLeft);
-			FullDetailLevel.SetVertex(2, frontLowerRight);
-			FullDetailLevel.SetVertex(3, frontLowerLeft);
+			FullDetailLevel.SetVertex(0, frontUpperLeft);
+			FullDetailLevel.SetVertex(1, frontUpperRight);
+			FullDetailLevel.SetVertex(2, frontLowerLeft);
+			FullDetailLevel.SetVertex(3, frontLowerRight);
 
-			FullDetailLevel.SetVertex(4, backUpperRight);
-			FullDetailLevel.SetVertex(5, backUpperLeft);
-			FullDetailLevel.SetVertex(6, backLowerRight);
-			FullDetailLevel.SetVertex(7, backLowerLeft);
+			FullDetailLevel.SetVertex(4, backUpperLeft);
+			FullDetailLevel.SetVertex(5, backUpperRight);
+			FullDetailLevel.SetVertex(6, backLowerLeft);
+			FullDetailLevel.SetVertex(7, backLowerRight);
 		}
 
 		private void GenereateTextureCoordinate()
@@ -124,11 +124,11 @@ namespace Balder.Core.Objects.Geometries
 			{
 				return BoxSide.Back;
 			}
-			if (normal.Equals(Vector.Right))
+			if (normal.Equals(Vector.Left))
 			{
 				return BoxSide.Left;
 			}
-			if (normal.Equals(Vector.Left))
+			if (normal.Equals(Vector.Right))
 			{
 				return BoxSide.Right;
 			}
