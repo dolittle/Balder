@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.Diagnostics;
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
@@ -110,26 +109,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					}
 				}
 
-				if( null != _manipulatingGroup )
-				{
-					Debug.WriteLine("Found group :");
-					foreach( var box in _manipulatingGroup.Boxes )
-					{
-						Debug.WriteLine("{0},{1},{2} - F:{3}, B:{4}, L:{5}, R:{6}, T:{7}, B:{8}",
-							box.X,
-							box.Y,
-							box.Z,
-							GetBoolString(box.IsFront),
-							GetBoolString(box.IsBack),
-							GetBoolString(box.IsLeft),
-							GetBoolString(box.IsRight),
-							GetBoolString(box.IsTop),
-							GetBoolString(box.IsBottom)
-
-							);
-						
-					}
-				}
 			}
 		}
 
@@ -142,7 +121,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
-			if( null != _manipulatingGroup && null != _manipulateGroupHandler )
+			if (null != _manipulatingGroup && null != _manipulateGroupHandler)
 			{
 				_manipulateGroupHandler(_manipulatingGroup, args);
 			}
@@ -150,11 +129,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		void Cube_ManipulationStopped(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
 		{
-			if( null != _manipulatingGroup )
+			if (null != _manipulatingGroup)
 			{
 				_manipulatingGroup.Snap();
 			}
-			
+
 			_manipulatingGroup = null;
 			_manipulateGroupHandler = null;
 		}
@@ -190,7 +169,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public override void Prepare(Viewport viewport)
 		{
 			GenerateCubeBoxes();
-			OrganizeCubeBoxesInGroups();
 			base.Prepare(viewport);
 		}
 
@@ -205,71 +183,37 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					{
 						var box = new CubeBox(x, y, z);
 						Children.Add(box);
+						AddBoxToGroups(box, x, y, z);
 					}
 				}
 			}
 		}
 
-		private string GetBoolString(bool b)
+		private void AddBoxToGroups(CubeBox box, int x, int y, int z)
 		{
-			return b ? "1" : "0";
-		}
-
-		private void OrganizeCubeBoxesInGroups()
-		{
-			ClearGroups();
-			Debug.WriteLine("-------------");
-			Debug.WriteLine("OrganizeBoxes");
-			foreach (CubeBox box in Children)
+			if (x == 0)
 			{
-				Debug.WriteLine("{0},{1},{2} - F:{3}, B:{4}, L:{5}, R:{6}, T:{7}, B:{8}",
-					box.X,
-					box.Y,
-					box.Z,
-					GetBoolString(box.IsFront),
-					GetBoolString(box.IsBack),
-					GetBoolString(box.IsLeft),
-					GetBoolString(box.IsRight),
-					GetBoolString(box.IsTop),
-					GetBoolString(box.IsBottom)
-					
-					);
-
-				if (box.IsFront)
-				{
-					_groups[CubeSide.Front].Add(box);
-				}
-				else if (box.IsBack)
-				{
-					_groups[CubeSide.Back].Add(box);
-				}
-
-				if (box.IsLeft)
-				{
-					_groups[CubeSide.Left].Add(box);
-				}
-				else if (box.IsRight)
-				{
-					_groups[CubeSide.Right].Add(box);
-				}
-
-				if (box.IsTop)
-				{
-					_groups[CubeSide.Top].Add(box);
-				}
-				else if (box.IsBottom)
-				{
-					_groups[CubeSide.Bottom].Add(box);
-				}
+				_groups[CubeSide.Left].Add(box);
 			}
-			Debug.WriteLine("-------------\n");
-		}
-
-		private void ClearGroups()
-		{
-			foreach (var group in _groups.Values)
+			if (x == Width - 1)
 			{
-				group.Clear();
+				_groups[CubeSide.Right].Add(box);
+			}
+			if (y == 0)
+			{
+				_groups[CubeSide.Top].Add(box);
+			}
+			if (y == Height - 1)
+			{
+				_groups[CubeSide.Bottom].Add(box);
+			}
+			if (z == 0)
+			{
+				_groups[CubeSide.Front].Add(box);
+			}
+			if (z == Depth - 1)
+			{
+				_groups[CubeSide.Back].Add(box);
 			}
 		}
 	}
