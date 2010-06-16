@@ -102,7 +102,7 @@ namespace Balder.Core.Imaging
 
 		public void InitializeFromAssetPart(IAssetPart assetPart)
 		{
-			
+			AssetName = ((Image)assetPart).AssetName;
 		}
 
 		public Uri AssetName { get; set; }
