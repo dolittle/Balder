@@ -10,7 +10,7 @@ using Image = Balder.Core.Imaging.Image;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public class CubeBox : Box
+	public class CubeBox : ChamferBox
 	{
 		public const double BoxSize = 5f;
 		public const double BoxSpace = 0.3f;
@@ -39,7 +39,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
 			Materials[CubeColor.White] = LoadMaterial("White.png"); 
-			Materials[CubeColor.Yellow] = LoadMaterial("Yellow.png");
+			Materials[CubeColor.Yellow] =LoadMaterial("Yellow.png");
 			Materials[CubeColor.Orange] = LoadMaterial("Orange.png");
 			Materials[CubeColor.Red] = LoadMaterial("Red.png");
 			Materials[CubeColor.Blue] = LoadMaterial("Blue.png");
@@ -76,6 +76,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			X = x;
 			Y = y;
 			Z = z;
+
+			Fillet = 0.5f;
 
 			InitializePivot();
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);

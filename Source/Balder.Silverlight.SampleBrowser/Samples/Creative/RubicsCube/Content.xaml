@@ -30,7 +30,8 @@
 				<View:Camera Position="0,25,-100"/>
 			</Execution:Game.Camera>
 			
-			<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>
+			<!--<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>-->
+            <Lighting:OmniLight Ambient="Black" Diffuse="Gray" Specular="White" Position="0,5,-50"/>
 			
             
             

@@ -37,6 +37,7 @@ namespace Balder.Core.Silverlight.Input
 			_manipulating = false;
 			_manipulationDirection = ManipulationDirection.None;
 			_manipulationStarted = false;
+			_nodeBeingManipulated = null;
 		}
 
 		public void StartManipulation(Node node, Point position)
@@ -62,8 +63,8 @@ namespace Balder.Core.Silverlight.Input
 
 		public void StopManipulation()
 		{
-			ResetManipulation();
 			Node.ManipulationStoppedEvent.Raise(_nodeBeingManipulated, _nodeBeingManipulated, BubbledEventArgs.Empty);
+			ResetManipulation();
 		}
 
 

@@ -40,7 +40,6 @@ namespace Balder.Core.Objects.Geometries
 	public class Box : Geometry
 	{
 		private readonly Dictionary<BoxSide, Material> _materials;
-
 		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
 
 		public Box()
@@ -85,7 +84,7 @@ namespace Balder.Core.Objects.Geometries
 		public override void  Prepare(Viewport viewport)
 		{
 			GenerateVertices();
-			GenereateTextureCoordinate();
+			GenerateTextureCoordinates();
 			GenerateFaces();
 
 			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
@@ -93,6 +92,21 @@ namespace Balder.Core.Objects.Geometries
 			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
+		}
+
+		protected void AddFaceToSidesInfo(int face, BoxSide side)
+		{
+			List<int> faces;
+			if (_facesBySide.ContainsKey(side))
+			{
+				faces = _facesBySide[side];
+			}
+			else
+			{
+				faces = new List<int>();
+				_facesBySide[side] = faces;
+			}
+			faces.Add(face);
 		}
 
 		private void GenerateVertices()
@@ -122,7 +136,7 @@ namespace Balder.Core.Objects.Geometries
 			FullDetailLevel.SetVertex(7, backLowerRight);
 		}
 
-		private void GenereateTextureCoordinate()
+		private void GenerateTextureCoordinates()
 		{
 			FullDetailLevel.AllocateTextureCoordinates(4);
 			FullDetailLevel.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
@@ -161,7 +175,7 @@ namespace Balder.Core.Objects.Geometries
 			return BoxSide.Front;
 		}
 
-		private void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC)
+		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC)
 		{
 			var face = new Face(a, b, c) { Normal = normal, DiffuseA = diffuseA, DiffuseB = diffuseB, DiffuseC = diffuseC };
 			var boxSide = GetBoxSideFromNormal(normal);
@@ -179,19 +193,6 @@ namespace Balder.Core.Objects.Geometries
 			FullDetailLevel.SetFace(faceIndex, face);
 		}
 
-		private void AddFaceToSidesInfo(int face, BoxSide side)
-		{
-			List<int> faces;
-			if( _facesBySide.ContainsKey(side))
-			{
-				faces = _facesBySide[side];
-			} else
-			{
-				faces = new List<int>();
-				_facesBySide[side] = faces;
-			}
-			faces.Add(face);
-		}
 
 		private void GenerateFaces()
 		{
