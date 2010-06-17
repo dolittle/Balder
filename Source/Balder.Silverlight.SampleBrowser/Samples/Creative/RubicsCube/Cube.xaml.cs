@@ -215,14 +215,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			var group = _groups[BoxSide.Back];
 
-			group.Add(_boxesGrid[2, 0, 2], BoxSide.Right, BoxSide.Top);
+			group.Add(_boxesGrid[0, 0, 2], BoxSide.Left, BoxSide.Top);
 			group.Add(_boxesGrid[1, 0, 2], BoxSide.Top);
-			group.Add(_boxesGrid[0, 0, 2], BoxSide.Top, BoxSide.Left);
-			group.Add(_boxesGrid[0, 1, 2], BoxSide.Left);
-			group.Add(_boxesGrid[0, 2, 2], BoxSide.Left, BoxSide.Bottom);
-			group.Add(_boxesGrid[1, 2, 2], BoxSide.Bottom);
-			group.Add(_boxesGrid[2, 2, 2], BoxSide.Bottom, BoxSide.Right);
+			group.Add(_boxesGrid[2, 0, 2], BoxSide.Top, BoxSide.Right);
 			group.Add(_boxesGrid[2, 1, 2], BoxSide.Right);
+			group.Add(_boxesGrid[2, 2, 2], BoxSide.Right, BoxSide.Bottom);
+			group.Add(_boxesGrid[1, 2, 2], BoxSide.Bottom);
+			group.Add(_boxesGrid[0, 2, 2], BoxSide.Bottom, BoxSide.Left);
+			group.Add(_boxesGrid[0, 1, 2], BoxSide.Left);
 			group.Add(_boxesGrid[1, 1, 2]);
 		}
 
@@ -260,14 +260,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			var group = _groups[BoxSide.Top];
 
-			group.Add(_boxesGrid[0, 0, 2], BoxSide.Left, BoxSide.Back);
+			group.Add(_boxesGrid[2, 0, 2], BoxSide.Right, BoxSide.Back);
 			group.Add(_boxesGrid[1, 0, 2], BoxSide.Back);
-			group.Add(_boxesGrid[2, 0, 2], BoxSide.Back, BoxSide.Right);
-			group.Add(_boxesGrid[2, 0, 1], BoxSide.Right);
-			group.Add(_boxesGrid[2, 0, 0], BoxSide.Right, BoxSide.Front);
-			group.Add(_boxesGrid[1, 0, 0], BoxSide.Front);
-			group.Add(_boxesGrid[0, 0, 0], BoxSide.Front, BoxSide.Left);
+			group.Add(_boxesGrid[0, 0, 2], BoxSide.Back, BoxSide.Left);
 			group.Add(_boxesGrid[0, 0, 1], BoxSide.Left);
+			group.Add(_boxesGrid[0, 0, 0], BoxSide.Left, BoxSide.Front);
+			group.Add(_boxesGrid[1, 0, 0], BoxSide.Front);
+			group.Add(_boxesGrid[2, 0, 0], BoxSide.Front, BoxSide.Right);
+			group.Add(_boxesGrid[2, 0, 1], BoxSide.Right);
 			group.Add(_boxesGrid[1, 0, 1]);
 		}
 
