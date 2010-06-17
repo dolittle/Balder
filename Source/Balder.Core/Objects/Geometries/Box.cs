@@ -41,16 +41,34 @@ namespace Balder.Core.Objects.Geometries
 	{
 		private readonly Dictionary<BoxSide, Material> _materials;
 
+		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
+
 		public Box()
 		{
 			_materials = new Dictionary<BoxSide, Material>();
+			_facesBySide = new Dictionary<BoxSide, List<int>>();
 		}
 
+		public Material GetMaterialOnSide(BoxSide side)
+		{
+			if( !_materials.ContainsKey(side))
+			{
+				return null;
+			}
+			return _materials[side];
+		}
 
 		public void SetMaterialOnSide(BoxSide side, Material material)
 		{
 			_materials[side] = material;
-			InvalidatePrepare();
+			if( _facesBySide.ContainsKey(side))
+			{
+				var faces = _facesBySide[side];
+				foreach( var face in faces )
+				{
+					FullDetailLevel.SetMaterial(face,material);
+				}
+			}
 		}
 
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);
@@ -155,7 +173,24 @@ namespace Balder.Core.Objects.Geometries
 					face.Material = material;
 				}
 			}
+
+			AddFaceToSidesInfo(faceIndex, boxSide);
+
 			FullDetailLevel.SetFace(faceIndex, face);
+		}
+
+		private void AddFaceToSidesInfo(int face, BoxSide side)
+		{
+			List<int> faces;
+			if( _facesBySide.ContainsKey(side))
+			{
+				faces = _facesBySide[side];
+			} else
+			{
+				faces = new List<int>();
+				_facesBySide[side] = faces;
+			}
+			faces.Add(face);
 		}
 
 		private void GenerateFaces()
