@@ -76,22 +76,47 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			X = x;
 			Y = y;
 			Z = z;
-			var actualX = BoxXAlignment + (BoxXAdd * x);
-			var actualY = BoxYAlignment + (BoxYAdd * y);
-			var actualZ = BoxZAlignment + (BoxZAdd * z);
 
-			PivotPoint = new Coordinate(-actualX, -actualY, -actualZ);
+			InitializePivot();
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
-			SetMaterial(x, y, z);
+			SetMaterialsByGridPosition(x, y, z);
 			Reset();
+		}
+
+		private void InitializePivot()
+		{
+			var actualX = BoxXAlignment + (BoxXAdd * X);
+			var actualY = BoxYAlignment + (BoxYAdd * Y);
+			var actualZ = BoxZAlignment + (BoxZAdd * Z);
+			PivotPoint = new Coordinate(-actualX, -actualY, -actualZ);
 		}
 
 		public int X { get; private set; }
 		public int Y { get; private set; }
 		public int Z { get; private set; }
 
+		public CubeColor	GetColorForSide(BoxSide side)
+		{
+			var material = GetMaterialOnSide(side);
+			foreach( var key in Materials.Keys )
+			{
+				var materialByColor = Materials[key];
+				if( materialByColor.Equals(material))
+				{
+					return key;
+				}
+			}
+			return CubeColor.White;
+		}
 
-		private void SetMaterial(int x, int y, int z)
+		public void SetColorForSide(BoxSide side, CubeColor color)
+		{
+			var material = Materials[color];
+			SetMaterialOnSide(side, material);
+		}
+
+
+		private void SetMaterialsByGridPosition(int x, int y, int z)
 		{
 			var front = _black;
 			var back = _black;

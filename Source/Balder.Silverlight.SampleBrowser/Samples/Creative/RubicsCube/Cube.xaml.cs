@@ -17,12 +17,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private Dictionary<BoxSide, CubeBoxGroup> _groups;
 		private CubeBoxGroup _manipulatingGroup;
 		private ManipulateGroupEventHandler _manipulateGroupHandler;
+		private CubeBox[, ,] _boxesGrid;
 
 
 		public Cube()
 		{
 			InitializeComponent();
-			
+
 			SetupEvents();
 		}
 
@@ -152,6 +153,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			PrepareCubeBoxGroups();
 			GenerateCubeBoxes();
+			OrganizeBoxes();
 			base.Prepare(viewport);
 		}
 
@@ -169,6 +171,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void GenerateCubeBoxes()
 		{
+			_boxesGrid = new CubeBox[Width, Height, Depth];
 			for (var z = 0; z < Depth; z++)
 			{
 				for (var y = 0; y < Height; y++)
@@ -177,10 +180,60 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					{
 						var box = new CubeBox(x, y, z);
 						Children.Add(box);
-						AddBoxToGroups(box, x, y, z);
+						_boxesGrid[x, y, z] = box;
 					}
 				}
 			}
+		}
+
+		private void OrganizeBoxes()
+		{
+			OrganizeFrontBoxes();
+			OrganizeBackBoxes();
+			OrganizeLeftBoxes();
+			OrganizeRightBoxes();
+			OrganizeTopBoxes();
+			OrganizeBottomBoxes();
+		}
+
+		private void OrganizeFrontBoxes()
+		{
+			var group = _groups[BoxSide.Front];
+
+			group.Add(_boxesGrid[0, 0, 0], BoxSide.Left, BoxSide.Top);
+			group.Add(_boxesGrid[1, 0, 0], BoxSide.Top);
+			group.Add(_boxesGrid[2, 0, 0], BoxSide.Top, BoxSide.Right);
+			group.Add(_boxesGrid[2, 1, 0], BoxSide.Right);
+			group.Add(_boxesGrid[2, 2, 0], BoxSide.Right, BoxSide.Bottom);
+			group.Add(_boxesGrid[1, 2, 0], BoxSide.Bottom);
+			group.Add(_boxesGrid[0, 2, 0], BoxSide.Bottom, BoxSide.Left);
+			group.Add(_boxesGrid[0, 1, 0], BoxSide.Left);
+			group.Add(_boxesGrid[1, 1, 0]);
+		}
+
+		private void OrganizeBackBoxes()
+		{
+
+		}
+
+		private void OrganizeLeftBoxes()
+		{
+
+		}
+
+		private void OrganizeRightBoxes()
+		{
+
+		}
+
+		private void OrganizeTopBoxes()
+		{
+
+		}
+
+		private void OrganizeBottomBoxes()
+		{
+
 		}
 
 		private void AddBoxToGroups(CubeBox box, int x, int y, int z)
