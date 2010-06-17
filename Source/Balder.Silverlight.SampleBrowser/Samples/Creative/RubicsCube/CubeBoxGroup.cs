@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
@@ -39,12 +40,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void RotateColors()
 		{
+			var query = from b in _sideBoxes select new { X = b.X, Y = b.Y, Z = b.Z };
 			var c1 = _sideBoxes[10].GetColorForSide(_sideDefinitions[10]);
 			var c2 = _sideBoxes[11].GetColorForSide(_sideDefinitions[11]);
 			var c3 = _sideBoxes[0].GetColorForSide(_sideDefinitions[0]);
 
-			_sideBoxes[11].SetColorForSide(_sideDefinitions[10], _sideBoxes[7].GetColorForSide(_sideDefinitions[7]));
-			_sideBoxes[10].SetColorForSide(_sideDefinitions[11], _sideBoxes[8].GetColorForSide(_sideDefinitions[8]));
+			_sideBoxes[10].SetColorForSide(_sideDefinitions[10], _sideBoxes[7].GetColorForSide(_sideDefinitions[7]));
+			_sideBoxes[11].SetColorForSide(_sideDefinitions[11], _sideBoxes[8].GetColorForSide(_sideDefinitions[8]));
 			_sideBoxes[0].SetColorForSide(_sideDefinitions[0], _sideBoxes[9].GetColorForSide(_sideDefinitions[9]));
 
 			_sideBoxes[7].SetColorForSide(_sideDefinitions[7], _sideBoxes[4].GetColorForSide(_sideDefinitions[4]));
@@ -59,7 +61,21 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_sideBoxes[2].SetColorForSide(_sideDefinitions[2], c2);
 			_sideBoxes[3].SetColorForSide(_sideDefinitions[3], c3);
 
-			// 123 456 789  10 11 0
+			
+			var fc1 = _sideBoxes[10].GetColorForSide(_side);
+			var fc2 = _sideBoxes[11].GetColorForSide(_side);
+
+			_sideBoxes[10].SetColorForSide(_side, _sideBoxes[7].GetColorForSide(_side));
+			_sideBoxes[11].SetColorForSide(_side, _sideBoxes[8].GetColorForSide(_side));
+
+			_sideBoxes[7].SetColorForSide(_side, _sideBoxes[4].GetColorForSide(_side));
+			_sideBoxes[8].SetColorForSide(_side, _sideBoxes[5].GetColorForSide(_side));
+
+			_sideBoxes[4].SetColorForSide(_side, _sideBoxes[1].GetColorForSide(_side));
+			_sideBoxes[5].SetColorForSide(_side, _sideBoxes[2].GetColorForSide(_side));
+
+			_sideBoxes[1].SetColorForSide(_side, fc1);
+			_sideBoxes[2].SetColorForSide(_side, fc2);
 		}
 
 		public void Add(CubeBox box, params BoxSide[] sides)
