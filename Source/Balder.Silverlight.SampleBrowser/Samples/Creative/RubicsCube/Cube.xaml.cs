@@ -245,14 +245,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			var group = _groups[BoxSide.Right];
 
-			group.Add(_boxesGrid[2, 0, 0], BoxSide.Front, BoxSide.Top);
+			group.Add(_boxesGrid[2, 0, 2], BoxSide.Back, BoxSide.Top);
 			group.Add(_boxesGrid[2, 0, 1], BoxSide.Top);
-			group.Add(_boxesGrid[2, 0, 2], BoxSide.Top, BoxSide.Back);
-			group.Add(_boxesGrid[2, 1, 2], BoxSide.Back);
-			group.Add(_boxesGrid[2, 2, 2], BoxSide.Back, BoxSide.Bottom);
-			group.Add(_boxesGrid[2, 2, 1], BoxSide.Bottom);
-			group.Add(_boxesGrid[2, 2, 0], BoxSide.Bottom, BoxSide.Front);
+			group.Add(_boxesGrid[2, 0, 0], BoxSide.Top, BoxSide.Front);
 			group.Add(_boxesGrid[2, 1, 0], BoxSide.Front);
+			group.Add(_boxesGrid[2, 2, 0], BoxSide.Front, BoxSide.Bottom);
+			group.Add(_boxesGrid[2, 2, 1], BoxSide.Bottom);
+			group.Add(_boxesGrid[2, 2, 2], BoxSide.Bottom, BoxSide.Back);
+			group.Add(_boxesGrid[2, 1, 2], BoxSide.Back);
 			group.Add(_boxesGrid[2, 1, 1]);
 		}
 

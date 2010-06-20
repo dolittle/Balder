@@ -6,7 +6,7 @@
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
-             xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core">
+             xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" xmlns:Debug="clr-namespace:Balder.Core.Debug;assembly=Balder.Core">
     <Grid x:Name="LayoutRoot">
 		<!--
 		<Grid.Triggers>
@@ -26,6 +26,9 @@
 		</Grid.Triggers>-->
 		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
+            <Execution:Game.DebugInfo>
+                <Debug:DebugInfo ShowVertices="True"/>
+            </Execution:Game.DebugInfo>
 			<Execution:Game.Camera>
 				<View:Camera Position="0,25,-100"/>
 			</Execution:Game.Camera>
