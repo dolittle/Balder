@@ -8,7 +8,11 @@
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
              xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" xmlns:Debug="clr-namespace:Balder.Core.Debug;assembly=Balder.Core">
     <Grid x:Name="LayoutRoot">
-		<!--
+        <Grid.Resources>
+            <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
+        </Grid.Resources>
+
+        <!--
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -24,21 +28,34 @@
 				</BeginStoryboard>
 			</EventTrigger>
 		</Grid.Triggers>-->
-		
-		<Execution:Game x:Name="Game" Width="640" Height="480">
+
+        <Execution:Game x:Name="Game" Width="640" Height="480">
+            <!--
             <Execution:Game.DebugInfo>
                 <Debug:DebugInfo ShowVertices="True"/>
-            </Execution:Game.DebugInfo>
-			<Execution:Game.Camera>
-				<View:Camera Position="0,25,-100"/>
-			</Execution:Game.Camera>
-			
-			<!--<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>-->
+            </Execution:Game.DebugInfo>-->
+            <Execution:Game.Camera>
+                <View:Camera Position="0,25,-100"/>
+            </Execution:Game.Camera>
+
+            <!--<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>-->
             <Lighting:OmniLight Ambient="Black" Diffuse="Gray" Specular="White" Position="0,5,-50"/>
-			
-            
-            
-			<RubicsCube:Cube x:Name="Cube" Rotation="0,45,0"/>
-		</Execution:Game>
+
+            <RubicsCube:Cube x:Name="Cube" 
+                             Rotation="0,45,0" 
+                             MoveRecorder="{StaticResource MoveRecorder}"/>
+        </Execution:Game>
+
+        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <Button Content="Solve" Width="100" Height="30" Click="SolveClicked"/>
+            <Button Content="Reset" Width="100" Height="30"/>
+        </StackPanel>
+
+        <ListBox ItemsSource="{Binding Source={StaticResource MoveRecorder}, Path=Moves}" 
+                 HorizontalAlignment="Right"
+                 VerticalAlignment="Top"
+                 Width="220"
+                 Height="200"/>
+
     </Grid>
 </UserControl>

@@ -3,6 +3,7 @@ using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -20,10 +21,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private CubeBox[, ,] _boxesGrid;
 
 
+
 		public Cube()
 		{
 			InitializeComponent();
-
 			SetupEvents();
 		}
 
@@ -34,6 +35,39 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			ManipulationStopped += Cube_ManipulationStopped;
 		}
 
+
+		public DependencyProperty<Cube, MoveRecorder> MoveRecorderProperty =
+			DependencyProperty<Cube, MoveRecorder>.Register(c => c.MoveRecorder);
+		
+		public MoveRecorder MoveRecorder
+		{
+			get { return MoveRecorderProperty.GetValue(this); }
+			set 
+			{ 
+				MoveRecorderProperty.SetValue(this,value);
+				InitializeMoveRecorder();
+			}
+		}
+
+		public void Solve()
+		{
+			if( null != MoveRecorder )
+			{
+				MoveRecorder.Solve();
+			}
+		}
+
+
+		private void InitializeMoveRecorder()
+		{
+			if( null != _groups && _groups.Count > 0 )
+			{
+				foreach( var group in _groups.Values )
+				{
+					MoveRecorder.AddGroup(group);
+				}
+			}
+		}
 
 		void Cube_ManipulationStarted(object sender, ManipulationDeltaEventArgs args)
 		{
@@ -161,12 +195,22 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private void PrepareCubeBoxGroups()
 		{
 			_groups = new Dictionary<BoxSide, CubeBoxGroup>();
-			_groups[BoxSide.Front] = new CubeBoxGroup(BoxSide.Front);
-			_groups[BoxSide.Back] = new CubeBoxGroup(BoxSide.Back);
-			_groups[BoxSide.Left] = new CubeBoxGroup(BoxSide.Left);
-			_groups[BoxSide.Right] = new CubeBoxGroup(BoxSide.Right);
-			_groups[BoxSide.Top] = new CubeBoxGroup(BoxSide.Top);
-			_groups[BoxSide.Bottom] = new CubeBoxGroup(BoxSide.Bottom);
+			_groups[BoxSide.Front] = CreateCubeBoxGroup(BoxSide.Front);
+			_groups[BoxSide.Back] = CreateCubeBoxGroup(BoxSide.Back);
+			_groups[BoxSide.Left] = CreateCubeBoxGroup(BoxSide.Left);
+			_groups[BoxSide.Right] = CreateCubeBoxGroup(BoxSide.Right);
+			_groups[BoxSide.Top] = CreateCubeBoxGroup(BoxSide.Top);
+			_groups[BoxSide.Bottom] = CreateCubeBoxGroup(BoxSide.Bottom);
+		}
+
+		private CubeBoxGroup CreateCubeBoxGroup(BoxSide side)
+		{
+			var group = new CubeBoxGroup(side);
+			if (null != MoveRecorder)
+			{
+				MoveRecorder.AddGroup(group);
+			}
+			return group;
 		}
 
 		private void GenerateCubeBoxes()

@@ -1,29 +1,30 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
+	public delegate void CubeBoxGroupSnappedEventHandler(CubeBoxGroup group, bool clockWize, int rotationCount);
+
 	public class CubeBoxGroup
 	{
-		private readonly BoxSide _side;
+		public event CubeBoxGroupSnappedEventHandler Snapped = (g, a, c) => { };
+
 		private double _angle;
+		private readonly List<BoxSide> _sideDefinitions;
+		private readonly List<CubeBox> _sideBoxes;
 
 		public CubeBoxGroup(BoxSide side)
 		{
-			_side = side;
+			Side = side;
 			Boxes = new List<CubeBox>();
 			_sideDefinitions = new List<BoxSide>();
 			_sideBoxes = new List<CubeBox>();
 		}
 
 		public List<CubeBox> Boxes { get; private set; }
-
-		private List<BoxSide> _sideDefinitions;
-		private List<CubeBox> _sideBoxes;
-
+		public BoxSide Side { get; private set; }
 
 		public void Clear()
 		{
@@ -32,18 +33,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public void Snap()
 		{
-			Action rotationAction;
+			Action<int> rotationAction;
 			double positiveAngle;
+			bool clockWize;
 			
 			if( _angle < 0 )
 			{
 				rotationAction = RotateColors;
 				positiveAngle = Math.Abs(_angle);
+				clockWize = true;
 			} else
 			{
 				rotationAction = RotateColorsCounterClockWize;
-				
 				positiveAngle = _angle;
+				clockWize = false;
 			}
 
 			var rotationCount = (int)((positiveAngle / 90d) + 0.5d);
@@ -53,11 +56,26 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				box.Reset();
 			}
 
-			for (var rotation = 0; rotation < rotationCount; rotation++ )
-			{
-				rotationAction();
-			}
+			rotationAction(rotationCount);
+
+			Snapped(this, clockWize, rotationCount);
 			_angle = 0;
+		}
+
+		private void RotateColors(int times)
+		{
+			for (var rotation = 0; rotation < times; rotation++)
+			{
+				RotateColors();
+			}
+		}
+
+		private void RotateColorsCounterClockWize(int times)
+		{
+			for (var rotation = 0; rotation < times; rotation++)
+			{
+				RotateColorsCounterClockWize();
+			}
 		}
 
 		private void RotateColors()
@@ -74,20 +92,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void RotateFront()
 		{
-			var c1 = _sideBoxes[10].GetColorForSide(_side);
-			var c2 = _sideBoxes[11].GetColorForSide(_side);
+			var c1 = _sideBoxes[10].GetColorForSide(Side);
+			var c2 = _sideBoxes[11].GetColorForSide(Side);
 
-			_sideBoxes[10].SetColorForSide(_side, _sideBoxes[7].GetColorForSide(_side));
-			_sideBoxes[11].SetColorForSide(_side, _sideBoxes[8].GetColorForSide(_side));
+			_sideBoxes[10].SetColorForSide(Side, _sideBoxes[7].GetColorForSide(Side));
+			_sideBoxes[11].SetColorForSide(Side, _sideBoxes[8].GetColorForSide(Side));
 
-			_sideBoxes[7].SetColorForSide(_side, _sideBoxes[4].GetColorForSide(_side));
-			_sideBoxes[8].SetColorForSide(_side, _sideBoxes[5].GetColorForSide(_side));
+			_sideBoxes[7].SetColorForSide(Side, _sideBoxes[4].GetColorForSide(Side));
+			_sideBoxes[8].SetColorForSide(Side, _sideBoxes[5].GetColorForSide(Side));
 
-			_sideBoxes[4].SetColorForSide(_side, _sideBoxes[1].GetColorForSide(_side));
-			_sideBoxes[5].SetColorForSide(_side, _sideBoxes[2].GetColorForSide(_side));
+			_sideBoxes[4].SetColorForSide(Side, _sideBoxes[1].GetColorForSide(Side));
+			_sideBoxes[5].SetColorForSide(Side, _sideBoxes[2].GetColorForSide(Side));
 
-			_sideBoxes[1].SetColorForSide(_side, c1);
-			_sideBoxes[2].SetColorForSide(_side, c2);
+			_sideBoxes[1].SetColorForSide(Side, c1);
+			_sideBoxes[2].SetColorForSide(Side, c2);
 		}
 
 		private void RotateSides()
@@ -115,20 +133,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void RotateFrontCounterClockWize()
 		{
-			var c1 = _sideBoxes[1].GetColorForSide(_side);
-			var c2 = _sideBoxes[2].GetColorForSide(_side);
+			var c1 = _sideBoxes[1].GetColorForSide(Side);
+			var c2 = _sideBoxes[2].GetColorForSide(Side);
 
-			_sideBoxes[1].SetColorForSide(_side, _sideBoxes[4].GetColorForSide(_side));
-			_sideBoxes[2].SetColorForSide(_side, _sideBoxes[5].GetColorForSide(_side));
+			_sideBoxes[1].SetColorForSide(Side, _sideBoxes[4].GetColorForSide(Side));
+			_sideBoxes[2].SetColorForSide(Side, _sideBoxes[5].GetColorForSide(Side));
 
-			_sideBoxes[4].SetColorForSide(_side, _sideBoxes[7].GetColorForSide(_side));
-			_sideBoxes[5].SetColorForSide(_side, _sideBoxes[8].GetColorForSide(_side));
+			_sideBoxes[4].SetColorForSide(Side, _sideBoxes[7].GetColorForSide(Side));
+			_sideBoxes[5].SetColorForSide(Side, _sideBoxes[8].GetColorForSide(Side));
 
-			_sideBoxes[7].SetColorForSide(_side, _sideBoxes[10].GetColorForSide(_side));
-			_sideBoxes[8].SetColorForSide(_side, _sideBoxes[11].GetColorForSide(_side));
+			_sideBoxes[7].SetColorForSide(Side, _sideBoxes[10].GetColorForSide(Side));
+			_sideBoxes[8].SetColorForSide(Side, _sideBoxes[11].GetColorForSide(Side));
 
-			_sideBoxes[10].SetColorForSide(_side, c1);
-			_sideBoxes[11].SetColorForSide(_side, c2);
+			_sideBoxes[10].SetColorForSide(Side, c1);
+			_sideBoxes[11].SetColorForSide(Side, c2);
 		}
 
 
@@ -170,7 +188,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private Coordinate GetRotation(double angle)
 		{
 			var rotationVector = new Coordinate();
-			switch (_side)
+			switch (Side)
 			{
 				case BoxSide.Front:
 				case BoxSide.Back:
@@ -207,6 +225,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		public void Rotate(int times, bool animate)
+		{
+			RotateColors(times);
+		}
 
+		public void RotateCounterClockWize(int times, bool animate)
+		{
+			RotateColorsCounterClockWize(times);
+		}
 	}
 }

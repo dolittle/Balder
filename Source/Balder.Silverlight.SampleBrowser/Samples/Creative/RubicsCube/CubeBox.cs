@@ -10,7 +10,7 @@ using Image = Balder.Core.Imaging.Image;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public class CubeBox : ChamferBox
+	public class CubeBox : Box
 	{
 		public const double BoxSize = 5f;
 		public const double BoxSpace = 0.3f;
@@ -77,7 +77,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Y = y;
 			Z = z;
 
-			Fillet = 0.5f;
+			//Fillet = 0.5f;
 
 			InitializePivot();
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
