@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -18,6 +19,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private void ResetClicked(object sender, RoutedEventArgs e)
 		{
 			Cube.Reset();
+		}
+
+		private void CubeRotate(int deltaX, int deltaY)
+		{
+			var matrix = CubeContainer.World;
+
+			var rotationMatrix = Matrix.CreateRotation((float)-deltaY, (float)-deltaX, 0);
+
+			CubeContainer.World = matrix*rotationMatrix;
 		}
 	}
 }

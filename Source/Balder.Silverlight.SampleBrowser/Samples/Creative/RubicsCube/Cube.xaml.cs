@@ -11,17 +11,18 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 	public partial class Cube
 	{
 		public delegate void ManipulateGroupEventHandler(CubeBoxGroup group, ManipulationDeltaEventArgs args);
+		public delegate void RotateEventHandler(int deltaX, int deltaY);
 
 		public const int Depth = 3;
 		public const int Width = 3;
 		public const int Height = 3;
 
+		public event RotateEventHandler Rotate = (x, y) => { }; 
+
 		private Dictionary<BoxSide, CubeBoxGroup> _groups;
 		private CubeBoxGroup _manipulatingGroup;
 		private ManipulateGroupEventHandler _manipulateGroupHandler;
 		private CubeBox[, ,] _boxesGrid;
-
-
 
 		public Cube()
 		{
@@ -181,8 +182,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				(cubeBox.Y == 1 && cubeBox.Z == 1) ||
 				(cubeBox.X == 1 && cubeBox.Z == 1))
 			{
-				Rotation.Y -= args.DeltaX;
-				Rotation.X -= args.DeltaY;
+				Rotate(args.DeltaX, args.DeltaY);
 			}
 			else
 			{

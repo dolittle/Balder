@@ -46,7 +46,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-
 		public bool ContainsBox(CubeBox box)
 		{
 			var query = from b in Boxes
@@ -54,7 +53,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			            select b;
 			return null != query.SingleOrDefault();
 		}
-
 
 		private void Snap(bool callSnapped)
 		{
