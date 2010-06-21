@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using Balder.Core.Display;
 using Balder.Core.Input;
 using Balder.Core.Math;
@@ -89,6 +90,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
+			var groups = GetGroupsForBox(cubeBox);
+			foreach( var group in groups )
+			{
+				
+				
+			}
+
 			if (null != args.Face)
 			{
 				var rotation = Matrix.CreateRotation(
@@ -148,9 +156,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaY);
 					}
 				}
-
 			}
 		}
+
+		private CubeBoxGroup[]	GetGroupsForBox(CubeBox box)
+		{
+			var query = from g in _groups.Values
+						where g.ContainsBox(box)
+			            select g;
+			return query.ToArray();
+		}
+
 
 
 		void Cube_ManipulationDelta(object sender, ManipulationDeltaEventArgs args)

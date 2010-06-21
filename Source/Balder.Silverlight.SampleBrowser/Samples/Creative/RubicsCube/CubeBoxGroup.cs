@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Media.Animation;
+using System.Linq;
 using System.Windows.Threading;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
@@ -44,6 +44,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				box.Reset();
 			}
+		}
+
+
+		public bool ContainsBox(CubeBox box)
+		{
+			var query = from b in Boxes
+						where b.Equals(box)
+			            select b;
+			return null != query.SingleOrDefault();
 		}
 
 
@@ -312,8 +321,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				RotateColorsCounterClockWize(times);
 			}
-
-
 		}
 	}
 }

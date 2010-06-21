@@ -70,16 +70,36 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
-			
-
 			if (Moves.Count > 0 &&
 				Moves[Moves.Count - 1].Group.Equals(group) &&
 				Moves[Moves.Count - 1].ClockWize == clockWize)
 			{
 				var move = Moves[Moves.Count - 1];
 				move.RotationCount += rotationCount;
+				move.RotationCount = move.RotationCount%4;
+
+				if( move.RotationCount == 0 )
+				{
+					Moves.Remove(move);
+				}
 			}
-			else
+			else if (Moves.Count > 0 && 
+					 Moves[Moves.Count - 1].Group.Equals(group))
+			{
+				var move = Moves[Moves.Count - 1];
+				move.RotationCount -= rotationCount;
+				if( move.RotationCount < 0 )
+				{
+					move.RotationCount = Math.Abs(move.RotationCount);
+					move.ClockWize ^= true;
+				}
+
+				if (move.RotationCount == 0)
+				{
+					Moves.Remove(move);
+				}
+			} 
+			else 
 			{
 				var move = new Move {Group = group, ClockWize = clockWize, RotationCount = rotationCount};
 				Moves.Add(move);

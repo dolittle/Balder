@@ -97,6 +97,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public int Y { get; private set; }
 		public int Z { get; private set; }
 
+
 		public CubeColor GetColorForSide(BoxSide side)
 		{
 			var material = GetMaterialOnSide(side);
