@@ -48,7 +48,7 @@
 
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
             <Button Content="Solve" Width="100" Height="30" Click="SolveClicked"/>
-            <Button Content="Reset" Width="100" Height="30"/>
+            <Button Content="Reset" Width="100" Height="30" Click="ResetClicked"/>
         </StackPanel>
 
         <ListBox ItemsSource="{Binding Source={StaticResource MoveRecorder}, Path=Moves}" 

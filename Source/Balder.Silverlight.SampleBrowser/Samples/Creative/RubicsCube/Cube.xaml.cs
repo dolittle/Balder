@@ -57,6 +57,18 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		public void Reset()
+		{
+			foreach( var group in _groups.Values )
+			{
+				group.Reset();
+			}
+			if (null != MoveRecorder)
+			{
+				MoveRecorder.Reset();
+			}
+		}
+
 
 		private void InitializeMoveRecorder()
 		{

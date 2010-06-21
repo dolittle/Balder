@@ -38,8 +38,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private static void GenerateMaterials()
 		{
 			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
-			Materials[CubeColor.White] = LoadMaterial("White.png"); 
-			Materials[CubeColor.Yellow] =LoadMaterial("Yellow.png");
+			Materials[CubeColor.White] = LoadMaterial("White.png");
+			Materials[CubeColor.Yellow] = LoadMaterial("Yellow.png");
 			Materials[CubeColor.Orange] = LoadMaterial("Orange.png");
 			Materials[CubeColor.Red] = LoadMaterial("Red.png");
 			Materials[CubeColor.Blue] = LoadMaterial("Blue.png");
@@ -97,13 +97,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public int Y { get; private set; }
 		public int Z { get; private set; }
 
-		public CubeColor	GetColorForSide(BoxSide side)
+		public CubeColor GetColorForSide(BoxSide side)
 		{
 			var material = GetMaterialOnSide(side);
-			foreach( var key in Materials.Keys )
+			foreach (var key in Materials.Keys)
 			{
 				var materialByColor = Materials[key];
-				if( materialByColor.Equals(material))
+				if (materialByColor.Equals(material))
 				{
 					return key;
 				}
@@ -164,10 +164,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public void Reset()
 		{
-			Rotation.Set(0,0,0);
+			SetMaterialsByGridPosition(X, Y, Z);
 		}
 
-		
+		public void ResetRotation()
+		{
+			Rotation.Set(0, 0, 0);
+		}
+
+
 		public void Rotate(Coordinate rotation)
 		{
 			Rotation += rotation;

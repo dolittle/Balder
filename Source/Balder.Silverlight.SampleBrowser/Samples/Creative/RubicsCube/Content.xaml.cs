@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -12,6 +13,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private void SolveClicked(object sender, RoutedEventArgs e)
 		{
 			Cube.Solve();
+		}
+
+		private void ResetClicked(object sender, RoutedEventArgs e)
+		{
+			Cube.Reset();
 		}
 	}
 }

@@ -38,6 +38,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Snap(true);
 		}
 
+		public void Reset()
+		{
+			foreach( var box in Boxes )
+			{
+				box.Reset();
+			}
+		}
+
 
 		private void Snap(bool callSnapped)
 		{
@@ -62,7 +70,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			foreach (var box in Boxes)
 			{
-				box.Reset();
+				box.ResetRotation();
 			}
 
 			rotationAction(rotationCount);
