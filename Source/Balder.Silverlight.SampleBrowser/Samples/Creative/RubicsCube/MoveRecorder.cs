@@ -26,9 +26,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Move move = null;
 
 			if (Moves.LastMoveIsGroup(group) &&
-				Moves.LastGroupClockWize())
+				Moves.IsLastMoveSameDirectionAs(clockWize))
 			{
-				move = Moves[Moves.Count - 1];
+				move = Moves.LastMove;
 				move.AddRotation(rotationCount);
 			}
 			else if (Moves.LastMoveIsGroup(group))

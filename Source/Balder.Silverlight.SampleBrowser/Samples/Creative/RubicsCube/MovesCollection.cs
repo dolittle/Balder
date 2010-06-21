@@ -15,17 +15,27 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				return false;
 			}
-			return this[Count - 1].Group.Equals(group);
+			return LastMove.Group.Equals(group);
 		}
 
-		public bool LastGroupClockWize()
+		public bool IsLastMoveClockWize()
 		{
 			if( IsEmpty )
 			{
 				return false;
 			}
 
-			return this[Count - 1].ClockWize;
+			return LastMove.ClockWize;
+		}
+
+		public bool IsLastMoveSameDirectionAs(bool clockWize)
+		{
+			if( IsEmpty )
+			{
+				return false;
+			}
+
+			return LastMove.ClockWize == clockWize;
 		}
 
 		public Move LastMove
