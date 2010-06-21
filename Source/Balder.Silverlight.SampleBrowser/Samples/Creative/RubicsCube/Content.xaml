@@ -55,7 +55,19 @@
                  HorizontalAlignment="Right"
                  VerticalAlignment="Top"
                  Width="220"
-                 Height="200"/>
+                 Height="200">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="{Binding Group.Side}"/>
+                        <TextBlock Text=" rotated "/>
+                        <TextBlock Text="{Binding RotationCount}"/>
+                        <TextBlock Text=" - Clockwize : "/>
+                        <TextBlock Text="{Binding ClockWize}"/>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
 
     </Grid>
 </UserControl>

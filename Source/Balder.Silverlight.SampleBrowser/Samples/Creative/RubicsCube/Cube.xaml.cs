@@ -161,9 +161,19 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
-			if (null != _manipulatingGroup && null != _manipulateGroupHandler)
+			if ((cubeBox.X == 1 && cubeBox.Y == 1) ||
+				(cubeBox.Y == 1 && cubeBox.Z == 1) ||
+				(cubeBox.X == 1 && cubeBox.Z == 1))
 			{
-				_manipulateGroupHandler(_manipulatingGroup, args);
+				Rotation.Y -= args.DeltaX;
+				Rotation.X -= args.DeltaY;
+			}
+			else
+			{
+				if (null != _manipulatingGroup && null != _manipulateGroupHandler)
+				{
+					_manipulateGroupHandler(_manipulatingGroup, args);
+				}
 			}
 		}
 
