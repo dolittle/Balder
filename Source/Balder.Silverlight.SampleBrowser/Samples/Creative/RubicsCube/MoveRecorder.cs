@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System;
+using System.Collections.ObjectModel;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -44,23 +45,37 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Moves.Add(move);
 		}
 
-		public void Solve()
-		{
-			for (var moveIndex = Moves.Count - 1; moveIndex >= 0; moveIndex--)
-			{
-				var move = Moves[moveIndex];
 
-				if (move.ClockWize)
-				{
-					move.Group.RotateCounterClockWize(move.RotationCount, true);
-				}
-				else
-				{
-					move.Group.Rotate(move.RotationCount, true);
-				}
+		private int _currentMove;
+
+		private void NextMove(object sender, EventArgs e)
+		{
+			if( _currentMove < 0 )
+			{
+				Moves.Clear();
+				return;
+			}
+			var move = Moves[_currentMove];
+
+			if (move.ClockWize)
+			{
+				move.Group.RotateCounterClockWize(move.RotationCount, true, NextMove);
+			}
+			else
+			{
+				move.Group.Rotate(move.RotationCount, true, NextMove);
 			}
 
-			Moves.Clear();
+			_currentMove--;
+		}
+
+		public void Solve()
+		{
+			_currentMove = Moves.Count - 1;
+			if( _currentMove >= 0 )
+			{
+				NextMove(this,EventArgs.Empty);	
+			}
 		}
 	}
 }

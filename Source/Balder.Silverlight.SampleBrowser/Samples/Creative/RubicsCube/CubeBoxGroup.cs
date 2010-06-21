@@ -1,5 +1,7 @@
 using System;
 using System.Collections.Generic;
+using System.Windows.Media.Animation;
+using System.Windows.Threading;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
@@ -33,16 +35,23 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public void Snap()
 		{
+			Snap(true);
+		}
+
+
+		private void Snap(bool callSnapped)
+		{
 			Action<int> rotationAction;
 			double positiveAngle;
 			bool clockWize;
-			
-			if( _angle < 0 )
+
+			if (_angle < 0)
 			{
 				rotationAction = RotateColors;
 				positiveAngle = Math.Abs(_angle);
 				clockWize = true;
-			} else
+			}
+			else
 			{
 				rotationAction = RotateColorsCounterClockWize;
 				positiveAngle = _angle;
@@ -58,7 +67,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			rotationAction(rotationCount);
 
-			Snapped(this, clockWize, rotationCount);
+			if( callSnapped )
+			{
+				Snapped(this, clockWize, rotationCount);	
+			}
 			_angle = 0;
 		}
 
@@ -225,14 +237,75 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-		public void Rotate(int times, bool animate)
+
+		private const int RotationFrames = 10;
+		private int _framesToRate;
+		private double _anglesPerFrame;
+		private EventHandler _rotationDone;
+
+		private void RotationTimer(object sender, EventArgs e)
 		{
-			RotateColors(times);
+			Rotate(_anglesPerFrame);
+			if (--_framesToRate <= 0)
+			{
+				Snap(false);
+
+				if( null != _rotationDone )
+				{
+					_rotationDone(this, EventArgs.Empty);
+				}
+
+				if (sender is DispatcherTimer)
+				{
+					var timer = sender as DispatcherTimer;
+					timer.Stop();
+				}
+			}
 		}
 
-		public void RotateCounterClockWize(int times, bool animate)
+		private void StartRotationAnimation(int times, bool clockWize, EventHandler rotationDone)
 		{
-			RotateColorsCounterClockWize(times);
+			_framesToRate = RotationFrames;
+			if (clockWize)
+			{
+				_anglesPerFrame = -(((double)(90 * times)) / (double)RotationFrames);
+			}
+			else
+			{
+				_anglesPerFrame = ((double)(90 * times)) / (double)RotationFrames;
+			}
+			_rotationDone = rotationDone;
+
+			var timer = new DispatcherTimer();
+			timer.Interval = TimeSpan.FromMilliseconds(20);
+			timer.Tick += RotationTimer;
+			timer.Start();
+		}
+
+		public void Rotate(int times, bool animate, EventHandler rotationDone)
+		{
+			if (animate)
+			{
+				StartRotationAnimation(times, true, rotationDone);
+			}
+			else
+			{
+				RotateColors(times);
+			}
+		}
+
+		public void RotateCounterClockWize(int times, bool animate, EventHandler rotationDone)
+		{
+			if (animate)
+			{
+				StartRotationAnimation(times, false, rotationDone);
+			}
+			else
+			{
+				RotateColorsCounterClockWize(times);
+			}
+
+
 		}
 	}
 }
