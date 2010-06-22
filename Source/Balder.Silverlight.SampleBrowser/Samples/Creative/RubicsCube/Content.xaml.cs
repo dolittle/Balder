@@ -1,5 +1,4 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
@@ -10,19 +9,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		{
 			InitializeComponent();
 
-			//Chamfer.ManipulationDelta += Chamfer_ManipulationDelta;
+			Loaded += new RoutedEventHandler(Content_Loaded);
 		}
 
-		/*
-		void Chamfer_ManipulationDelta(object sender, Core.Input.ManipulationDeltaEventArgs args)
+		void Content_Loaded(object sender, RoutedEventArgs e)
 		{
-			var matrix = Chamfer.World;
-
-			var rotationMatrix = Matrix.CreateRotation((float)-args.DeltaY, (float)-args.DeltaX, 0);
-
-			Chamfer.World = matrix * rotationMatrix;
-			
-		}*/
+			Game.Camera.Update(Game.Viewport);
+			CubeRotate(0, 0);
+		}
 
 		
 		private void SolveClicked(object sender, RoutedEventArgs e)
@@ -43,6 +37,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var rotationMatrix = Matrix.CreateRotation((float)-deltaY, (float)-deltaX, 0);
 
 			CubeContainer.World = matrix*rotationMatrix;
+
+			Cube.ActualViewMatrix = CubeContainer.World*Game.Camera.ViewMatrix;
 		}
 	}
 }

@@ -60,6 +60,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 			var move = Moves[_currentMove];
+			if (_currentMove >= 0 && Moves.Count > 0)
+			{
+				Moves.RemoveAt(_currentMove);
+			}
 
 			if (move.ClockWize)
 			{

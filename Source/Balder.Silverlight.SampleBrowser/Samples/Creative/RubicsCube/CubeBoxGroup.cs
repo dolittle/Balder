@@ -13,9 +13,21 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 	{
 		public event CubeBoxGroupSnappedEventHandler Snapped = (g, a, c) => { };
 
+		private static readonly Dictionary<BoxSide, Vector> SideNormals = new Dictionary<BoxSide, Vector>
+		                                                                  	{
+		                                                                  		{BoxSide.Top, Vector.Up},
+																				{BoxSide.Bottom, Vector.Down},
+																				{BoxSide.Left, Vector.Left},
+																				{BoxSide.Right, Vector.Right},
+																				{BoxSide.Front, Vector.Backward},
+																				{BoxSide.Back, Vector.Forward},
+																				{BoxSide.None, Vector.Zero}
+		                                                                  	};
+
 		private double _angle;
 		private readonly List<BoxSide> _sideDefinitions;
 		private readonly List<CubeBox> _sideBoxes;
+		private readonly Dictionary<BoxSide, Vector> _normals;
 
 		public CubeBoxGroup(BoxSide side)
 		{
@@ -23,10 +35,52 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Boxes = new List<CubeBox>();
 			_sideDefinitions = new List<BoxSide>();
 			_sideBoxes = new List<CubeBox>();
+			_normals = new Dictionary<BoxSide, Vector>();
 		}
 
 		public List<CubeBox> Boxes { get; private set; }
 		public BoxSide Side { get; private set; }
+
+
+		public Vector[] GetManipulationNormals()
+		{
+			var keys = (from k in _normals.Keys
+						  where !k.Equals(Side)
+			              select k).ToArray();
+
+			var normals = new List<Vector>();
+
+			foreach( var key in keys )
+			{
+				normals.Add(_normals[key]);
+			}
+
+			return normals.ToArray();
+		}
+
+		public bool IsBoxManipulatedInGroup(CubeBox cubeBox, Vector direction, Matrix viewMatrix)
+		{
+			for (var boxIndex = 0; boxIndex < _sideBoxes.Count; boxIndex++ )
+			{
+				var box = _sideBoxes[boxIndex];
+				var side = _sideDefinitions[boxIndex];
+
+				if( box.Equals(cubeBox))
+				{
+					var normal = _normals[side];
+					var rotatedNormal = Vector.TransformNormal(normal, viewMatrix);
+
+					var distance = Vector.Distance(direction, rotatedNormal);
+					if( distance < 1f )
+					{
+						return true;
+					}
+				}
+			}
+			return false;
+			
+		}
+
 
 		public void Clear()
 		{
@@ -209,6 +263,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				_sideDefinitions.Add(side);
 				_sideBoxes.Add(box);
+
+				_normals[side] = SideNormals[side];
 			}
 		}
 

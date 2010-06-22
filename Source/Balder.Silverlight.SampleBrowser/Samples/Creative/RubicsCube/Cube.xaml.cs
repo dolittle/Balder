@@ -37,6 +37,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			ManipulationStopped += Cube_ManipulationStopped;
 		}
 
+		public Matrix ActualViewMatrix { get; set; }
 
 		public DependencyProperty<Cube, MoveRecorder> MoveRecorderProperty =
 			DependencyProperty<Cube, MoveRecorder>.Register(c => c.MoveRecorder);
@@ -91,13 +92,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
-			var groups = GetGroupsForBox(cubeBox);
-			foreach( var group in groups )
-			{
-				
-				
-			}
+			var manipulationNormal = new Vector(args.DeltaX, -args.DeltaY, 0);
+			manipulationNormal.Normalize();
 
+			var group = GetGroupForBoxFromManipulationDirection(cubeBox, manipulationNormal);
+			_manipulatingGroup = group;
+			return;
 			if (null != args.Face)
 			{
 				var rotation = Matrix.CreateRotation(
@@ -160,6 +160,44 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
+		private CubeBoxGroup GetGroupForBoxFromManipulationDirection(CubeBox box, Vector direction)
+		{
+			var groups = GetGroupsForBox(box);
+			var rotatedDirection = Vector.TransformNormal(direction, ActualViewMatrix);
+
+			var nearestDistance = float.MaxValue;
+			CubeBoxGroup nearestGroup = null;
+
+			foreach( var group in groups )
+			{
+				var manipulated = group.IsBoxManipulatedInGroup(box, rotatedDirection, ActualViewMatrix);
+				if( manipulated )
+				{
+					//nearestGroup = group;	
+				}
+				
+
+				
+				foreach( var normal in group.GetManipulationNormals())
+				{
+					var rotatedNormal = Vector.TransformNormal(normal, ActualViewMatrix);
+
+					var distance = Vector.Distance(rotatedDirection, rotatedNormal);
+					if( distance <= nearestDistance )
+					{
+						nearestDistance = distance;
+						nearestGroup = group;
+					}
+				}
+				
+			}
+
+			return nearestGroup;
+		}
+
+
+
+
 		private CubeBoxGroup[]	GetGroupsForBox(CubeBox box)
 		{
 			var query = from g in _groups.Values
@@ -178,6 +216,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				return;
 			}
 
+			
+
 			if ((cubeBox.X == 1 && cubeBox.Y == 1) ||
 				(cubeBox.Y == 1 && cubeBox.Z == 1) ||
 				(cubeBox.X == 1 && cubeBox.Z == 1))
@@ -186,9 +226,25 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 			else
 			{
-				if (null != _manipulatingGroup && null != _manipulateGroupHandler)
+				if (null != _manipulatingGroup ) //&& null != _manipulateGroupHandler)
 				{
-					_manipulateGroupHandler(_manipulatingGroup, args);
+					var angle = 0;
+					if( args.Direction == ManipulationDirection.Down || 
+						args.Direction == ManipulationDirection.Up )
+					{
+						angle = args.DeltaY;
+					} else
+					{
+						angle = args.DeltaX;
+					}
+					_manipulatingGroup.Rotate(-angle);
+
+					
+					//var vector = new Vector(args.DeltaX, args.DeltaY, 0);
+					//var length = vector.Length;
+					//_manipulatingGroup.Rotate(length);
+
+					//_manipulateGroupHandler(_manipulatingGroup, args);
 				}
 			}
 		}
@@ -199,7 +255,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				_manipulatingGroup.Snap();
 			}
-
 			_manipulatingGroup = null;
 			_manipulateGroupHandler = null;
 		}

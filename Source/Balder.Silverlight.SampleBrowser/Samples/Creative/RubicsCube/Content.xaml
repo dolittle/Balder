@@ -4,9 +4,9 @@
     xmlns:Execution="clr-namespace:Balder.Core.Execution;assembly=Balder.Core" 
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
-             xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core" xmlns:Debug="clr-namespace:Balder.Core.Debug;assembly=Balder.Core" xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core">
+    xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core">
+    
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
             <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
@@ -17,18 +17,14 @@
                 <View:Camera Position="-50,25,-100"/>
             </Execution:Game.Camera>
 
-            <!--<Lighting:DirectionalLight Ambient="Black" Diffuse="Black" Specular="White" SpecularIntensity="1" SpecularPower="0" Direction="0,0,1"/>-->
             <Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
-            <!--<Lighting:ViewLight Ambient="Black" Diffuse="DarkGray" Specular="White" SpecularIntensity="1" SpecularPower="0.1"/>-->
             
             <Core:Container x:Name="CubeContainer">
                 <RubicsCube:Cube x:Name="Cube"                                  
                                  MoveRecorder="{StaticResource MoveRecorder}"
                                  Rotate="CubeRotate"/>
             </Core:Container>
-                        
         </Execution:Game>
-
         
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
             <Button Content="Solve" Width="100" Height="30" Click="SolveClicked"/>
