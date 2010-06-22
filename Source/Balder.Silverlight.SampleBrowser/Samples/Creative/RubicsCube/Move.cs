@@ -61,6 +61,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		public void Optimize()
 		{
 			RotationCount = RotationCount % 4;
+			if( RotationCount == 3 )
+			{
+				ClockWize ^= true;
+				RotationCount = 1;
+			}
 		}
 	}
 }
