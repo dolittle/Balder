@@ -29,12 +29,12 @@ namespace Balder.Core.Lighting
 		/// <summary>
 		/// Gets or sets the strength of the light
 		/// </summary>
-		public float Strength;
+		public double Strength { get; set; }
 
 		/// <summary>
 		/// Gets or sets the range of the light
 		/// </summary>
-        public float Range;
+		public float Range { get; set; }
 
 
 		/// <summary>
@@ -52,10 +52,11 @@ namespace Balder.Core.Lighting
 			var actualDiffuse = Diffuse.ToColorAsFloats();
 			var actualSpecular = Specular.ToColorAsFloats();
 
+			var strengthAsFloat = (float)Strength;
 
             // Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
             // Ambient light
-            var ambient = actualAmbient  * Strength;
+            var ambient = actualAmbient  * strengthAsFloat;
 
             // Diffuse light
             var lightDir = Position-point;
@@ -63,7 +64,7 @@ namespace Balder.Core.Lighting
             normal.Normalize();
             var dfDot = lightDir.Dot(normal);
             dfDot = MathHelper.Saturate(dfDot);
-            var diffuse = actualDiffuse * dfDot * Strength;
+			var diffuse = actualDiffuse * dfDot * strengthAsFloat;
 
             // Specular highlight
             var reflection = 2f * dfDot * normal - lightDir;
@@ -72,7 +73,7 @@ namespace Balder.Core.Lighting
             view.Normalize();
             var spDot = reflection.Dot(view);
             spDot = MathHelper.Saturate(spDot);
-            var specular = actualSpecular * spDot * Strength;
+			var specular = actualSpecular * spDot * strengthAsFloat;
 
             // Compute self shadowing
             var shadow = 4.0f * lightDir.Dot(normal);

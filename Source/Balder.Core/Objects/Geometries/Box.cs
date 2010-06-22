@@ -29,6 +29,7 @@ namespace Balder.Core.Objects.Geometries
 {
 	public enum BoxSide
 	{
+		None = -1,
 		Front = 0,
 		Back,
 		Left,
@@ -172,7 +173,7 @@ namespace Balder.Core.Objects.Geometries
 			{
 				return BoxSide.Bottom;
 			}
-			return BoxSide.Front;
+			return BoxSide.None;
 		}
 
 		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC, int smoothingGroup)

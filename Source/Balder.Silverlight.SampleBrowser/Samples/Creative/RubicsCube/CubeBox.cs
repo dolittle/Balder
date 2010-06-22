@@ -6,14 +6,15 @@ using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Color = Balder.Core.Color;
 using Image = Balder.Core.Imaging.Image;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
-	public class CubeBox : Box
+	public class CubeBox : ChamferBox
 	{
 		public const double BoxSize = 5f;
-		public const double BoxSpace = 0.3f;
+		public const double BoxSpace = 0.05f;
 		public const double BoxAdd = BoxSize + BoxSpace;
 		public const double BoxAligment = BoxAdd / 2;
 		public const double BoxXAlignment = -(((BoxAdd * Cube.Width) / 2) - BoxAligment);
@@ -37,13 +38,19 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private static void GenerateMaterials()
 		{
-			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White };
-			Materials[CubeColor.White] = LoadMaterial("White.png");
-			Materials[CubeColor.Yellow] = LoadMaterial("Yellow.png");
-			Materials[CubeColor.Orange] = LoadMaterial("Orange.png");
-			Materials[CubeColor.Red] = LoadMaterial("Red.png");
-			Materials[CubeColor.Blue] = LoadMaterial("Blue.png");
-			Materials[CubeColor.Green] = LoadMaterial("Green.png");
+			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.Black, Shade=MaterialShade.Gouraud };
+			Materials[CubeColor.White] = GetMaterial(Colors.Gray);  //LoadMaterial("White.png");
+			Materials[CubeColor.Yellow] = GetMaterial(Colors.Yellow); //LoadMaterial("Yellow.png");
+			Materials[CubeColor.Orange] = GetMaterial(Colors.Orange); //LoadMaterial("Orange.png");
+			Materials[CubeColor.Red] = GetMaterial(Colors.Red); //LoadMaterial("Red.png");
+			Materials[CubeColor.Blue] = GetMaterial(Colors.Blue); //LoadMaterial("Blue.png");
+			Materials[CubeColor.Green] = GetMaterial(Colors.Green); //LoadMaterial("Green.png");
+		}
+
+		private static Material GetMaterial(Color color)
+		{
+			var material = new Material { Ambient = Colors.Black, Diffuse = color, Specular = Colors.Gray, Shade = MaterialShade.Gouraud };
+			return material;
 		}
 
 		private static Material LoadMaterial(string file)
@@ -77,13 +84,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			Y = y;
 			Z = z;
 
-			//Fillet = 0.5f;
+			Fillet = 0.5f;
 
 			InitializePivot();
 			Dimension = new Coordinate(BoxSize, BoxSize, BoxSize);
+
+			SetMaterialOnSide(BoxSide.None, _black);
 			SetMaterialsByGridPosition(x, y, z);
 			Reset();
 		}
+
+		
 
 		private void InitializePivot()
 		{

@@ -12,26 +12,24 @@
             <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
         </Grid.Resources>
 
-        <Execution:Game x:Name="Game" Width="640" Height="480">
-            <!--
-            <Execution:Game.DebugInfo>
-                <Debug:DebugInfo ShowVertices="True"/>
-            </Execution:Game.DebugInfo>-->
+        <Execution:Game x:Name="Game" Width="800" Height="600">
             <Execution:Game.Camera>
-                <View:Camera Position="0,25,-100"/>
+                <View:Camera Position="-50,25,-100"/>
             </Execution:Game.Camera>
 
-            <!--<Lighting:DirectionalLight Ambient="Green" Diffuse="Green" Specular="White" Direction="0,-1,0"/>-->
-            <!--<Lighting:OmniLight Ambient="Black" Diffuse="Gray" Specular="White" Position="0,5,-50"/>-->
-
+            <!--<Lighting:DirectionalLight Ambient="Black" Diffuse="Black" Specular="White" SpecularIntensity="1" SpecularPower="0" Direction="0,0,1"/>-->
+            <Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
+            <!--<Lighting:ViewLight Ambient="Black" Diffuse="DarkGray" Specular="White" SpecularIntensity="1" SpecularPower="0.1"/>-->
+            
             <Core:Container x:Name="CubeContainer">
-                <RubicsCube:Cube x:Name="Cube" 
-                                 Rotation="0,45,0" 
+                <RubicsCube:Cube x:Name="Cube"                                  
                                  MoveRecorder="{StaticResource MoveRecorder}"
                                  Rotate="CubeRotate"/>
             </Core:Container>
+                        
         </Execution:Game>
 
+        
         <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
             <Button Content="Solve" Width="100" Height="30" Click="SolveClicked"/>
             <Button Content="Reset" Width="100" Height="30" Click="ResetClicked"/>

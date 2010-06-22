@@ -39,7 +39,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		public static readonly Property<ChamferBox, int> FilletSegmentsProperty = Property<ChamferBox, int>.Register(c => c.FilletSegments, 2);
+		public static readonly Property<ChamferBox, int> FilletSegmentsProperty = Property<ChamferBox, int>.Register(c => c.FilletSegments, 1);
 		public int FilletSegments
 		{
 			get { return FilletSegmentsProperty.GetValue(this); }
