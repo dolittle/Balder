@@ -10,7 +10,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public partial class Cube
 	{
-		public delegate void ManipulateGroupEventHandler(CubeBoxGroup group, ManipulationDeltaEventArgs args);
 		public delegate void RotateEventHandler(int deltaX, int deltaY);
 
 		public const int Depth = 3;
@@ -21,7 +20,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private Dictionary<BoxSide, CubeBoxGroup> _groups;
 		private CubeBoxGroup _manipulatingGroup;
-		private ManipulateGroupEventHandler _manipulateGroupHandler;
 		private CubeBox[, ,] _boxesGrid;
 
 		public Cube()
@@ -32,8 +30,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void SetupEvents()
 		{
-			ManipulationStarted += Cube_ManipulationStarted;
-			ManipulationDelta += Cube_ManipulationDelta;
+			ManipulationStarted += CubeManipulationStarted;
+			ManipulationDelta += CubeManipulationDelta;
 			ManipulationStopped += Cube_ManipulationStopped;
 		}
 
@@ -84,7 +82,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-		void Cube_ManipulationStarted(object sender, ManipulationDeltaEventArgs args)
+		private void CubeManipulationStarted(object sender, ManipulationDeltaEventArgs args)
 		{
 			var cubeBox = args.OriginalSource as CubeBox;
 			if (null == cubeBox)
@@ -95,72 +93,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			var manipulationNormal = new Vector(args.DeltaX, -args.DeltaY, 0);
 			manipulationNormal.Normalize();
 
-			var group = GetGroupForBoxFromManipulationDirection(cubeBox, manipulationNormal);
-			_manipulatingGroup = group;
-			return;
-			if (null != args.Face)
+			if( null != args.Face )
 			{
-				var rotation = Matrix.CreateRotation(
-					(float)cubeBox.Rotation.X,
-					(float)cubeBox.Rotation.Y,
-					(float)cubeBox.Rotation.Z);
-
-				var normal = Vector.TransformNormal(args.Face.Normal, rotation);
-				normal.Normalize();
-
-				var upLength = (Vector.Up - normal).Length;
-				var frontLength = (Vector.Backward - normal).Length;
-				var rightLength = (Vector.Right - normal).Length;
-
-				_manipulatingGroup = null;
-				if (upLength < 0.1)
-				{
-					if (args.Direction == ManipulationDirection.Up ||
-						args.Direction == ManipulationDirection.Down)
-					{
-						var BoxSides = new[] { BoxSide.Front, BoxSide.Back };
-						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
-						_manipulateGroupHandler = (g, a) => g.Rotate(a.DeltaY);
-					}
-				}
-				else if (frontLength < 0.1)
-				{
-					if (args.Direction == ManipulationDirection.Left ||
-						args.Direction == ManipulationDirection.Right)
-					{
-						var BoxSides = new[] { BoxSide.Top, BoxSide.Bottom };
-						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
-						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaX);
-					}
-					else if (args.Direction == ManipulationDirection.Up ||
-							  args.Direction == ManipulationDirection.Down)
-					{
-						var BoxSides = new[] { BoxSide.Left, BoxSide.Right };
-						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
-						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaY);
-					}
-				}
-				else if (rightLength < 0.1)
-				{
-					if (args.Direction == ManipulationDirection.Left ||
-						args.Direction == ManipulationDirection.Right)
-					{
-						var BoxSides = new[] { BoxSide.Top, BoxSide.Bottom };
-						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
-						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaX);
-					}
-					else if (args.Direction == ManipulationDirection.Up ||
-							  args.Direction == ManipulationDirection.Down)
-					{
-						var BoxSides = new[] { BoxSide.Front, BoxSide.Back };
-						_manipulatingGroup = FindBoxInGroup(BoxSides, cubeBox);
-						_manipulateGroupHandler = (g, a) => g.Rotate(-a.DeltaY);
-					}
-				}
+				var group = GetGroupForBoxFromManipulationDirection(cubeBox, manipulationNormal, args.Face.Normal);
+				_manipulatingGroup = group;
+				
 			}
 		}
 
-		private CubeBoxGroup GetGroupForBoxFromManipulationDirection(CubeBox box, Vector direction)
+		private CubeBoxGroup GetGroupForBoxFromManipulationDirection(CubeBox box, Vector direction, Vector faceNormal)
 		{
 			var groups = GetGroupsForBox(box);
 			var rotatedDirection = Vector.TransformNormal(direction, ActualViewMatrix);
@@ -170,26 +111,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 			foreach( var group in groups )
 			{
-				var manipulated = group.IsBoxManipulatedInGroup(box, rotatedDirection, ActualViewMatrix);
-				if( manipulated )
+				var distance = group.GetNearestDistanceForBoxManipulatedInGroup(box, rotatedDirection, faceNormal, ActualViewMatrix);
+				if (distance < nearestDistance)
 				{
-					//nearestGroup = group;	
+					nearestDistance = distance;
+					nearestGroup = group;
 				}
-				
-
-				
-				foreach( var normal in group.GetManipulationNormals())
-				{
-					var rotatedNormal = Vector.TransformNormal(normal, ActualViewMatrix);
-
-					var distance = Vector.Distance(rotatedDirection, rotatedNormal);
-					if( distance <= nearestDistance )
-					{
-						nearestDistance = distance;
-						nearestGroup = group;
-					}
-				}
-				
 			}
 
 			return nearestGroup;
@@ -208,7 +135,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 
 
-		void Cube_ManipulationDelta(object sender, ManipulationDeltaEventArgs args)
+		private void CubeManipulationDelta(object sender, ManipulationDeltaEventArgs args)
 		{
 			var cubeBox = args.OriginalSource as CubeBox;
 			if (null == cubeBox)
@@ -226,7 +153,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 			else
 			{
-				if (null != _manipulatingGroup ) //&& null != _manipulateGroupHandler)
+				if (null != _manipulatingGroup ) 
 				{
 					var angle = 0;
 					if( args.Direction == ManipulationDirection.Down || 
@@ -240,8 +167,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 					_manipulatingGroup.Rotate(-angle);
 
 					
-					//var vector = new Vector(args.DeltaX, args.DeltaY, 0);
-					//var length = vector.Length;
+					var vector = new Vector(args.DeltaX, args.DeltaY, 0);
+					var length = vector.Length;
 					//_manipulatingGroup.Rotate(length);
 
 					//_manipulateGroupHandler(_manipulatingGroup, args);
@@ -256,23 +183,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				_manipulatingGroup.Snap();
 			}
 			_manipulatingGroup = null;
-			_manipulateGroupHandler = null;
-		}
-
-		private CubeBoxGroup FindBoxInGroup(IEnumerable<BoxSide> BoxSides, CubeBox cubeBox)
-		{
-			foreach (var BoxSide in BoxSides)
-			{
-				var group = _groups[BoxSide];
-				foreach (var box in group.Boxes)
-				{
-					if (box.Equals(cubeBox))
-					{
-						return group;
-					}
-				}
-			}
-			return null;
 		}
 
 

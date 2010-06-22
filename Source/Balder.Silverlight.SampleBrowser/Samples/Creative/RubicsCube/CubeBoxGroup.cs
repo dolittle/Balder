@@ -29,6 +29,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private readonly List<CubeBox> _sideBoxes;
 		private readonly Dictionary<BoxSide, Vector> _normals;
 
+
 		public CubeBoxGroup(BoxSide side)
 		{
 			Side = side;
@@ -58,27 +59,112 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			return normals.ToArray();
 		}
 
-		public bool IsBoxManipulatedInGroup(CubeBox cubeBox, Vector direction, Matrix viewMatrix)
+		public float GetNearestDistanceForBoxManipulatedInGroup(CubeBox cubeBox, Vector direction, Vector faceNormal, Matrix viewMatrix)
 		{
+			var faceSide = GetSideFromNormal(faceNormal);
+			var nearestDistance = float.MaxValue;
+
+			var normals = GetManipulationNormalsFromSide(Side);
+
 			for (var boxIndex = 0; boxIndex < _sideBoxes.Count; boxIndex++ )
 			{
 				var box = _sideBoxes[boxIndex];
 				var side = _sideDefinitions[boxIndex];
 
-				if( box.Equals(cubeBox))
+				if( box.Equals(cubeBox) &&
+					side.Equals(faceSide))
 				{
-					var normal = _normals[side];
-					var rotatedNormal = Vector.TransformNormal(normal, viewMatrix);
-
-					var distance = Vector.Distance(direction, rotatedNormal);
-					if( distance < 1f )
+					
+					foreach (var normal in normals)
 					{
-						return true;
+						var rotatedNormal = Vector.TransformNormal(normal, viewMatrix);
+						rotatedNormal.Normalize();
+
+						var distance = Vector.Distance(direction, rotatedNormal);
+						if( distance < nearestDistance )
+						{
+							nearestDistance = distance;
+						}
 					}
 				}
 			}
-			return false;
-			
+			return nearestDistance;
+		}
+
+		private Vector[] GetManipulationNormalsFromSide(BoxSide side)
+		{
+			var normals = new List<Vector>();
+			switch (side)
+			{
+				case BoxSide.Front:
+				case BoxSide.Back:
+					{
+						normals.Add(Vector.Up);
+						normals.Add(Vector.Down);
+					}
+					break;
+
+				case BoxSide.Left:
+				case BoxSide.Right:
+					{
+						normals.Add(Vector.Up);
+						normals.Add(Vector.Down);
+					}
+					break;
+
+				case BoxSide.Top:
+				case BoxSide.Bottom:
+					{
+						normals.Add(Vector.Left);
+						normals.Add(Vector.Right);
+					}
+					break;
+
+
+			}
+			return normals.ToArray();
+		}
+
+
+		private Vector[] GetRotationDirections()
+		{
+			var directions = new List<Vector>();
+			switch (Side)
+			{
+				case BoxSide.Front:
+				case BoxSide.Back:
+					{
+						directions.Add(Vector.Left);
+						directions.Add(Vector.Right);
+					}
+					break;
+
+				case BoxSide.Left:
+				case BoxSide.Right:
+					{
+						directions.Add(Vector.Up);
+						directions.Add(Vector.Down);
+					}
+					break;
+
+				case BoxSide.Top:
+				case BoxSide.Bottom:
+					{
+						directions.Add(Vector.Left);
+						directions.Add(Vector.Right);
+					}
+					break;
+			}
+			return directions.ToArray();
+		}
+
+		private BoxSide GetSideFromNormal(Vector normal)
+		{
+			var query = from c in SideNormals
+						where c.Value.Equals(normal)
+			            select c.Key;
+			var side = query.SingleOrDefault();
+			return side;
 		}
 
 
