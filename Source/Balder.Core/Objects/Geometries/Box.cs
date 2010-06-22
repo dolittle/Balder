@@ -50,7 +50,7 @@ namespace Balder.Core.Objects.Geometries
 
 		public Material GetMaterialOnSide(BoxSide side)
 		{
-			if( !_materials.ContainsKey(side))
+			if (!_materials.ContainsKey(side))
 			{
 				return null;
 			}
@@ -60,12 +60,12 @@ namespace Balder.Core.Objects.Geometries
 		public void SetMaterialOnSide(BoxSide side, Material material)
 		{
 			_materials[side] = material;
-			if( _facesBySide.ContainsKey(side))
+			if (_facesBySide.ContainsKey(side))
 			{
 				var faces = _facesBySide[side];
-				foreach( var face in faces )
+				foreach (var face in faces)
 				{
-					FullDetailLevel.SetMaterial(face,material);
+					FullDetailLevel.SetMaterial(face, material);
 				}
 			}
 		}
@@ -81,7 +81,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-		public override void  Prepare(Viewport viewport)
+		public override void Prepare(Viewport viewport)
 		{
 			GenerateVertices();
 			GenerateTextureCoordinates();
@@ -175,7 +175,7 @@ namespace Balder.Core.Objects.Geometries
 			return BoxSide.Front;
 		}
 
-		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC)
+		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC, int smoothingGroup)
 		{
 			var face = new Face(a, b, c) { Normal = normal, DiffuseA = diffuseA, DiffuseB = diffuseB, DiffuseC = diffuseC };
 			var boxSide = GetBoxSideFromNormal(normal);
@@ -187,6 +187,7 @@ namespace Balder.Core.Objects.Geometries
 					face.Material = material;
 				}
 			}
+			face.SmoothingGroup = smoothingGroup;
 
 			AddFaceToSidesInfo(faceIndex, boxSide);
 
@@ -198,26 +199,26 @@ namespace Balder.Core.Objects.Geometries
 		{
 			FullDetailLevel.AllocateFaces(12);
 
-			SetFace(0, 2, 1, 0, Vector.Backward, 2, 1, 0);
-			SetFace(1, 1, 2, 3, Vector.Backward, 1, 2, 3);
+			SetFace(0, 2, 1, 0, Vector.Backward, 2, 1, 0, 0);
+			SetFace(1, 1, 2, 3, Vector.Backward, 1, 2, 3, 0);
 
-			SetFace(2, 4, 5, 6, Vector.Forward, 1, 0, 3);
-			SetFace(3, 7, 6, 5, Vector.Forward, 2, 3, 0);
+			SetFace(2, 4, 5, 6, Vector.Forward, 1, 0, 3, 1);
+			SetFace(3, 7, 6, 5, Vector.Forward, 2, 3, 0, 1);
 
-			SetFace(4, 0, 4, 2, Vector.Left, 1, 0, 3);
-			SetFace(5, 6, 2, 4, Vector.Left, 2, 3, 0);
-
-
-			SetFace(6, 3, 5, 1, Vector.Right, 2, 1, 0);
-			SetFace(7, 5, 3, 7, Vector.Right, 1, 2, 3);
+			SetFace(4, 0, 4, 2, Vector.Left, 1, 0, 3, 2);
+			SetFace(5, 6, 2, 4, Vector.Left, 2, 3, 0, 2);
 
 
-			SetFace(8, 0, 1, 4, Vector.Up, 2, 3, 0);
-			SetFace(9, 5, 4, 1, Vector.Up, 1, 0, 3);
+			SetFace(6, 3, 5, 1, Vector.Right, 2, 1, 0, 3);
+			SetFace(7, 5, 3, 7, Vector.Right, 1, 2, 3, 3);
 
 
-			SetFace(10, 6, 3, 2, Vector.Down, 2, 1, 0);
-			SetFace(11, 3, 6, 7, Vector.Down, 1, 2, 3);
+			SetFace(8, 0, 1, 4, Vector.Up, 2, 3, 0, 4);
+			SetFace(9, 5, 4, 1, Vector.Up, 1, 0, 3, 4);
+
+
+			SetFace(10, 6, 3, 2, Vector.Down, 2, 1, 0, 5);
+			SetFace(11, 3, 6, 7, Vector.Down, 1, 2, 3, 5);
 		}
 	}
 }
