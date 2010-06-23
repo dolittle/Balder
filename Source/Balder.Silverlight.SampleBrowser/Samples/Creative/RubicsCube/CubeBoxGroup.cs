@@ -126,38 +126,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		}
 
 
-		private Vector[] GetRotationDirections()
-		{
-			var directions = new List<Vector>();
-			switch (Side)
-			{
-				case BoxSide.Front:
-				case BoxSide.Back:
-					{
-						directions.Add(Vector.Left);
-						directions.Add(Vector.Right);
-					}
-					break;
-
-				case BoxSide.Left:
-				case BoxSide.Right:
-					{
-						directions.Add(Vector.Up);
-						directions.Add(Vector.Down);
-					}
-					break;
-
-				case BoxSide.Top:
-				case BoxSide.Bottom:
-					{
-						directions.Add(Vector.Left);
-						directions.Add(Vector.Right);
-					}
-					break;
-			}
-			return directions.ToArray();
-		}
-
 		private BoxSide GetSideFromNormal(Vector normal)
 		{
 			var query = from c in SideNormals

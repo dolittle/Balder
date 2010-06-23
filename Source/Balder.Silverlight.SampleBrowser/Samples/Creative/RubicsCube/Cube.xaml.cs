@@ -155,23 +155,33 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			{
 				if (null != _manipulatingGroup ) 
 				{
-					var angle = 0;
-					if( args.Direction == ManipulationDirection.Down || 
-						args.Direction == ManipulationDirection.Up )
+					var positive = true;
+
+					if( args.Direction == ManipulationDirection.Left || 
+						args.Direction == ManipulationDirection.Right )
 					{
-						angle = args.DeltaY;
+						if( args.DeltaX < 0 )
+						{
+							positive = false;
+						}
 					} else
 					{
-						angle = args.DeltaX;
+						if( args.DeltaY < 0 )
+						{
+							positive = false;
+						}
 					}
-					_manipulatingGroup.Rotate(-angle);
 
-					
+
 					var vector = new Vector(args.DeltaX, args.DeltaY, 0);
 					var length = vector.Length;
-					//_manipulatingGroup.Rotate(length);
+					if( ! positive )
+					{
+						length = -length;
+					}
+					
 
-					//_manipulateGroupHandler(_manipulatingGroup, args);
+					_manipulatingGroup.Rotate(-length);
 				}
 			}
 		}
