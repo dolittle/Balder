@@ -178,18 +178,15 @@
     <Compile Include="Samples\Creative\RubicsCube\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Creative\RubicsCube\Cube.xaml.cs">
-      <DependentUpon>Cube.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\Cube.cs" />
     <Compile Include="Samples\Creative\RubicsCube\CubeBox.cs" />
     <Compile Include="Samples\Creative\RubicsCube\CubeBoxGroup.cs" />
     <Compile Include="Samples\Creative\RubicsCube\CubeColor.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\CubeToolTip.xaml.cs">
-      <DependentUpon>CubeToolTip.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\ImageButton.cs" />
     <Compile Include="Samples\Creative\RubicsCube\Move.cs" />
     <Compile Include="Samples\Creative\RubicsCube\MoveRecorder.cs" />
     <Compile Include="Samples\Creative\RubicsCube\MovesCollection.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\RotateEventHandler.xaml.cs" />
     <Compile Include="Samples\Creative\Water\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -419,16 +416,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Samples\Creative\RubicsCube\Cube.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Samples\Creative\RubicsCube\CubeToolTip.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Samples\Creative\Water\Content.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -614,6 +601,14 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\ImageButton.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -822,6 +817,21 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Images\Solve.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Images\RotationHint.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Images\Reset.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Images\Shuffle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Images\CheatListToggle.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

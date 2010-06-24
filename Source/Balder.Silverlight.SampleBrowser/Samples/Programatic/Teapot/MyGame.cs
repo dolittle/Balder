@@ -4,6 +4,7 @@ using Balder.Core.Execution;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
+using Balder.Core.Rendering;
 using Color=Balder.Core.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
@@ -49,14 +50,22 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 			_teapot.Color = Colors.Black;
 			Scene.AddNode(_teapot);
-
+			
 			base.OnLoadContent();
 		}
 
 		private float _yRotation;
 
+		private bool _hasDoneStuff;
+
 		public override void OnUpdate()
 		{
+			if( !_hasDoneStuff)
+			{
+
+
+				//_hasDoneStuff = true;
+			}
 			_teapot.Rotation.Y += 1;
 			base.OnUpdate();
 		}

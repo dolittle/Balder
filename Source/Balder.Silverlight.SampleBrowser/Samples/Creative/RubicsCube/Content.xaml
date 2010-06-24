@@ -6,36 +6,67 @@
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
     xmlns:Core="clr-namespace:Balder.Core;assembly=Balder.Core">
-    
+
     <Grid x:Name="LayoutRoot">
         <Grid.Resources>
+            <!-- The recorder that records all moves -->
             <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
         </Grid.Resources>
 
+        <!-- Balder Game control, starting point for Balder -->
         <Execution:Game x:Name="Game" Width="800" Height="600">
+
+            <!-- Set the camera a bit to the left and above and away from the box -->
             <Execution:Game.Camera>
                 <View:Camera Position="-50,25,-100"/>
             </Execution:Game.Camera>
 
+            <!-- Add a all-direct, emitting light, in front of the cube -->
             <Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
             
+            <!-- Add a container that we can rotate that will contain the cube -->
             <Core:Container x:Name="CubeContainer">
+
+                <!-- Our Rubiks Cube control / Balder node -->
                 <RubicsCube:Cube x:Name="Cube"                                  
                                  MoveRecorder="{StaticResource MoveRecorder}"
                                  Rotate="CubeRotate"/>
             </Core:Container>
         </Execution:Game>
-        
-        <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
-            <Button Content="Solve" Width="100" Height="30" Click="SolveClicked"/>
-            <Button Content="Reset" Width="100" Height="30" Click="ResetClicked"/>
+
+
+        <!-- Buttons + Info -->
+        <StackPanel Orientation="Vertical">
+            <StackPanel.Effect>
+                <DropShadowEffect Opacity="0.7"/>
+            </StackPanel.Effect>
+            
+            <!-- Our buttons -->
+            <StackPanel Margin="16,16,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+                <RubicsCube:ImageButton Image="Images/Solve.png" Click="SolveClicked" ToolTip="Solve cube"/>
+                <RubicsCube:ImageButton Image="Images/Shuffle.png" Click="ShuffleClicked" ToolTip="Shuffle cube"/>
+                <RubicsCube:ImageButton Image="Images/Reset.png" Click="ResetClicked" ToolTip="Reset cube"/>
+                <RubicsCube:ImageButton Image="Images/CheatListToggle.png" Click="CheatListToggleClicked" ToolTip="Toggle cheat list"/>
+            </StackPanel>
+            
+            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+                <Image Source="Images/RotationHint.png"/>
+                <TextBlock Text=" = Rotate cube"
+                           VerticalAlignment="Center"
+                           FontFamily="Verdana"
+                           FontSize="24"/>
+            </StackPanel>
         </StackPanel>
 
-        <ListBox ItemsSource="{Binding Source={StaticResource MoveRecorder}, Path=Moves}" 
+        <!-- Cheat list - debugging purposes -->
+        <ListBox x:Name="CheatList" 
+                 ItemsSource="{Binding Source={StaticResource MoveRecorder}, Path=Moves}" 
                  HorizontalAlignment="Right"
                  VerticalAlignment="Top"
                  Width="220"
-                 Height="200">
+                 Height="200"
+                 Visibility="Collapsed"
+                 >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Horizontal">
