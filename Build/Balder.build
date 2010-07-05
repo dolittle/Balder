@@ -11,6 +11,10 @@
 	<property name="GlobalKeyFile" value="${Path.Keys}/Balder.snk"/>
 
 	<target name="All">
+		<GetVersion/>
+		<echo>Building version : ${Build.Version}</echo>
+		<IncreaseVersion/>
+	
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
 	</target>
@@ -45,12 +49,13 @@
 	</target>
 
 	<target name="SilverlightPlatform">
+
+		
 		<if test="${framework::exists('silverlight-3.0')}">
 			<property name="nant.settings.currentframework" value="silverlight-3.0"/>
 			<property name="Build.Platform" value="silverlight-3.0"/>
 			<call target="ConfigureSilverlightPlatform"/>
 			<call target="Core"/>
-			<call target="SoftwareRendering"/>
 			<call target="Silverlight"/>
 			<call target="SilverlightDependencyDrops"/>
 			<!--<call target="Test"/>-->
@@ -87,7 +92,6 @@
 				<include name="System.Net.dll"/>
 				<include name="System.Windows.dll"/>
 				<include name="System.Xml.dll"/>
-				<include name="${Current.Path.Components}/System.ComponentModel.Composition.dll"/>
 				<include name="${Current.Path.Components}/System.Xml.Linq.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
 				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
 			</references>
@@ -134,7 +138,6 @@
 				<include name="PresentationCore.dll"/>
 				<include name="${Current.Path.Components}/System.Xml.Linq.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
 				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="${Current.Path.Components}/System.ComponentModel.Composition.dll"/>
 				<include name="Balder.Core.dll"/>
 				<include name="nunit.framework.dll"/>
 				<include name="moq.dll"/>
@@ -142,39 +145,7 @@
 		</csc>
 	</target>
 
-
-
-	<target name="SoftwareRendering" depends="Core">
-		<mkdir dir="${Current.Path.Drop}"/>
-		<!-- keyfile="${GlobalKeyFile}" -->
-		<csc 
-				 noconfig="true"
-				 warnaserror="false"
-				 target="library"
-				 debug="${Build.Debug}"
-				 optimize="${Build.Optimize}"
-				 define="${Build.Defines}"
-				 output="${Current.Path.Drop}/Balder.Core.SoftwareRendering.dll"
-				 >
-			<sources basedir="${Path.Source}">
-				<include name="${Build.AssemblyInfo}"/>
-				<include name="Balder.Core.SoftwareRendering/**/*.cs"/>
-			</sources>
-			<references basedir="${Current.Path.Drop}">
-				<include name="mscorlib.dll"/>
-				<include name="System.dll"/>
-				<include name="System.Core.dll"/>
-				<include name="System.Net.dll"/>
-				<include name="System.Windows.dll"/>
-				<include name="${Current.Path.Components}/System.Windows.Browser.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
-				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="${Current.Path.Components}/System.ComponentModel.Composition.dll"/>
-				<include name="Balder.Core.dll"/>
-			</references>
-		</csc>
-	</target>
-
-	<target name="Silverlight" depends="SoftwareRendering">
+	<target name="Silverlight" depends="Core">
 		<mkdir dir="${Current.Path.Drop}"/>
 		<!-- keyfile="${GlobalKeyFile}" -->
 		<csc 
@@ -199,7 +170,6 @@
 				<include name="System.Xml.dll"/>
 				<include name="${Current.Path.Components}/System.Windows.Browser.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
 				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="${Current.Path.Components}/System.ComponentModel.Composition.dll"/>
 				<include name="Balder.Core.dll"/>
 				<include name="Balder.Core.SoftwareRendering.dll"/>
 			</references>
@@ -210,7 +180,6 @@
 		<copy todir="${Current.Path.Drop}">
 			<fileset basedir="${Path.Components}\Siilverlight">
 				<include name="ninject.core.dll"/>
-				<include name="System.ComponentModel.Composition.dll"/>
 			</fileset>
 		</copy>
 
