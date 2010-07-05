@@ -60,6 +60,7 @@
 
 	<target name="ConfigureSilverlightPlatform">
 		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,SILVERLIGHT_30,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+		<property name="Current.Platform" value="Silverlight"/>
 		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight"/>
 		<property name="Current.Path.Components" value="${Path.Components}/Siilverlight"/>
 		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
@@ -251,7 +252,7 @@
 
 			<mkdir dir="${DropBoxDrop}" unless="${directory::exists(DropBoxDrop)}"/>
 			
-			<zip zipfile="${DropBoxDrop}\Balder_${Build.Config}.zip">
+			<zip zipfile="${DropBoxDrop}\Balder_${Current.Platform}.zip">
 				<fileset basedir="${Current.Path.Drop}">
 					<include name="**\*"/>
 				</fileset>
