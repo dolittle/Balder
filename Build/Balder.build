@@ -8,7 +8,7 @@
 	<property name="Path.Typemock" value="${Path.Root}/Tools/Typemock"/>
 	<property name="Path.Drop" value="${Path.Root}/Drop" unless="${environment::variable-exists('BUILD_ID')}"/>
 	<!-- Overriding if we are running inside of Hudson, that way we get our binaries in the right place -->
-	<property name="Path.Drop" value="${environment::get-variable('WORKSPACE')}/builds/${environment::get-variable('BUILD_ID')}" if="${environment::variable-exists('BUILD_ID')}"/>
+	<property name="Path.Drop" value="${environment::get-variable('WORKSPACE')}/../builds/${environment::get-variable('BUILD_ID')}" if="${environment::variable-exists('BUILD_ID')}"/>
 	<property name="Path.Components" value="${Path.Root}/Components"/>
 	<property name="Path.Source" value="${Path.Root}/Source"/>
 	<property name="Path.Tests" value="${Path.Root}/Tests"/>
