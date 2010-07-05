@@ -249,12 +249,11 @@
 		<if test="${directory::exists(DropBoxPath)}">
 			<property name="DropBoxDrop" value="${DropBoxPath}\${Build.Version}"/>
 
-			<copy todir="${DropBoxDrop}">
+			<zip zipfile="${DropBoxDrop}\Balder_${Build.Config}.zip">
 				<fileset basedir="${Current.Path.Drop}">
-					<include name="**\*.*"/>
+					<include name="**\*"/>
 				</fileset>
-			</copy>
-
+			</zip>
 		</if>
 	</target>
 	
