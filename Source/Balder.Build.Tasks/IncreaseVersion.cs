@@ -13,6 +13,7 @@ namespace Balder.Build.Tasks
 			if( File.Exists(Constants.VersionFile))
 			{
 				var version = File.ReadAllText(Constants.VersionFile);
+
 				Console.WriteLine("Current : "+version);
 				var numbers = version.Split('.');
 

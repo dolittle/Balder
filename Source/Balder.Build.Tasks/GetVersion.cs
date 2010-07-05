@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using NAnt.Core;
 using NAnt.Core.Attributes;
 
@@ -9,7 +10,7 @@ namespace Balder.Build.Tasks
 	{
 		protected override void ExecuteTask()
 		{
-			string version = "0.0.0.0";
+			var version = "0.0.0.0";
 			if( File.Exists(Constants.VersionFile) )
 			{
 				version = File.ReadAllText(Constants.VersionFile);
@@ -17,6 +18,16 @@ namespace Balder.Build.Tasks
 			{
 				File.WriteAllText(Constants.VersionFile, version);
 			}
+
+			var v = new Version(version);
+			if( v.Revision == 0 )
+			{
+				Project.Properties[Constants.ShouldDeployVariable] = true.ToString();
+			} else
+			{
+				Project.Properties[Constants.ShouldDeployVariable] = false.ToString();
+			}
+
 			Project.Properties[Constants.VersionVariable] = version;
 		}
 	}
