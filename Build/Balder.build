@@ -3,7 +3,8 @@
 	<description>Main build file for Balder</description>
 
 	<property name="Path.Root" value="${project::get-base-directory()}"/>
-	<property name="Path.NAnt" value="${Path.Root}/Tools/NAnt"/>
+	<property name="Path.Tools" value="${Path.Root}/Tools"/>
+	<property name="Path.NAnt" value="${Path.Tools}/NAnt"/>
 	<property name="Path.Typemock" value="${Path.Root}/Tools/Typemock"/>
 	<property name="Path.Drop" value="${Path.Root}/Drop" unless="${environment::variable-exists('BUILD_ID')}"/>
 	<!-- Overriding if we are running inside of Hudson, that way we get our binaries in the right place -->
@@ -15,6 +16,8 @@
 	<property name="GlobalKeyFile" value="${Path.Keys}/Balder.snk"/>
 
 	<target name="All">
+		<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
+
 		<GetVersion/>
 		<echo>Building version : ${Build.Version}</echo>
 
