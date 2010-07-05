@@ -5,7 +5,9 @@
 	<property name="Path.Root" value="${project::get-base-directory()}"/>
 	<property name="Path.NAnt" value="${Path.Root}/Tools/NAnt"/>
 	<property name="Path.Typemock" value="${Path.Root}/Tools/Typemock"/>
-	<property name="Path.Drop" value="${Path.Root}/Drop"/>
+	<property name="Path.Drop" value="${Path.Root}/Drop" unless="${environment::variable-exists('BUILD_ID')}"/>
+	<!-- Overriding if we are running inside of Hudson, that way we get our binaries in the right place -->
+	<property name="Path.Drop" value="${environment::get-variable('WORKSPACE')}/builds/${environment::get-variable('BUILD_ID')}" if="${environment::variable-exists('BUILD_ID')}"/>
 	<property name="Path.Components" value="${Path.Root}/Components"/>
 	<property name="Path.Source" value="${Path.Root}/Source"/>
 	<property name="Path.Tests" value="${Path.Root}/Tests"/>
@@ -16,6 +18,10 @@
 		<GetVersion/>
 		<echo>Building version : ${Build.Version}</echo>
 
+
+		<echo>Drop path = ${Path.Drop}</echo>
+		<echo>Test path = ${Path.Tests}</echo>
+		
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
 		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
@@ -52,11 +58,11 @@
 		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
 		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\3"/>
 		<assemblyfileset id="Current.SystemAssemblies">
-			<include name="${Current.Path.Components}/Framework/3/System.dll"/>
-			<include name="${Current.Path.Components}/Framework/3/System.Core.dll"/>
-			<include name="${Current.Path.Components}/Framework/3/System.Windows.dll"/>
-			<include name="${Current.Path.Components}/Framework/3/System.Windows.Browser.dll"/>
-			<include name="${Current.Path.Components}/Framework/3/System.Xml.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Core.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Windows.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Windows.Browser.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Xml.dll"/>
 		</assemblyfileset>
 		<assemblyfileset id="Current.TestAssemblies">
 			
@@ -132,7 +138,7 @@
 
 	<target name="CompileCoreTests">
 		<call target="ConfigureDebug"/>
-		<mkdir dir="${Path.Tests}"/>
+		<mkdir dir="${Current.Path.Tests}"/>
 
 		<fileset id="ProjectAssemblies">
 			<include name="${Current.Path.Components}/Ninject.Core.dll"/>
