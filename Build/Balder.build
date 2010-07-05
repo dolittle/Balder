@@ -3,6 +3,8 @@
 	<description>Main build file for Balder</description>
 
 	<property name="Path.Root" value="${project::get-base-directory()}"/>
+	<property name="Path.NAnt" value="${Path.Root}/Tools/NAnt"/>
+	<property name="Path.Typemock" value="${Path.Root}/Tools/Typemock"/>
 	<property name="Path.Drop" value="${Path.Root}/Drop"/>
 	<property name="Path.Components" value="${Path.Root}/Components"/>
 	<property name="Path.Source" value="${Path.Root}/Source"/>
@@ -13,11 +15,11 @@
 	<target name="All">
 		<GetVersion/>
 		<echo>Building version : ${Build.Version}</echo>
-		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
-		<IncreaseVersion/>
 
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
+		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
+		<IncreaseVersion/>
 	</target>
 
 	<target name="Clean">
@@ -47,6 +49,34 @@
 		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,SILVERLIGHT_30,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
 		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight"/>
 		<property name="Current.Path.Components" value="${Path.Components}/Siilverlight"/>
+		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
+		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\3"/>
+		<assemblyfileset id="Current.SystemAssemblies">
+			<include name="${Current.Path.Components}/Framework/3/System.dll"/>
+			<include name="${Current.Path.Components}/Framework/3/System.Core.dll"/>
+			<include name="${Current.Path.Components}/Framework/3/System.Windows.dll"/>
+			<include name="${Current.Path.Components}/Framework/3/System.Windows.Browser.dll"/>
+			<include name="${Current.Path.Components}/Framework/3/System.Xml.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.TestAssemblies">
+			
+			<include name="${Current.Path.Components}/nunit.framework.dll"/>
+			<include name="${Current.Path.Components}/nunit.silverlight.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.ArrangeActAssert.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.Isolator.VisualBasic.dll"/>
+			<include name="${Current.Path.Components}/CThru.dll"/>
+			<include name="${Current.Path.Components}/CThru.Silverlight.dll"/>
+			<include name="${Current.Path.Components}/Castle.Core_SL.dll"/>
+			<include name="${Current.Path.Components}/Castle.DynamicProxy_SL.dll"/>
+			<include name="${Current.Path.Components}/FlawlessCode.MissingTypes.dll"/>
+			<include name="${Current.Path.Components}/moq_sl.dll"/>
+		</assemblyfileset>
+		<MergedFileSet id="Current.TestRunnerAssemblies">
+			<fileset refid="Current.SystemAssemblies"/>
+			<fileset refid="Current.TestAssemblies"/>
+			<include name="${Current.Path.Components}/Framework/3/agcore.dll"/>
+		</MergedFileSet>
 	</target>
 
 	<target name="SilverlightPlatform">
@@ -103,19 +133,19 @@
 	<target name="CompileCoreTests">
 		<call target="ConfigureDebug"/>
 		<mkdir dir="${Path.Tests}"/>
-		<copy todir="${Path.Tests}">
-			<fileset basedir="${Current.Path.Drop}">
-				<include name="*.dll"/>
-			</fileset>
-		</copy>
-		<copy todir="${Path.Tests}">
-			<fileset basedir="${Path.Components}">
-				<include name="nunit.framework.dll"/>
-				<include name="moq.dll"/>
-			</fileset>
-		</copy>
 
+		<fileset id="ProjectAssemblies">
+			<include name="${Current.Path.Components}/Ninject.Core.dll"/>
+			<include name="${Current.Path.Drop}/Balder.Core.dll"/>
+		</fileset>
 		
+		<MergedFileSet id="Assemblies">
+			<fileset refid="Current.SystemAssemblies"/>
+			<fileset refid="Current.TestAssemblies"/>
+			<fileset refid="ProjectAssemblies"/>
+		</MergedFileSet>
+
+
 		<property name="nant.settings.currentframework" value="net-3.5"/>
 		<property name="Build.Platform" value="net-3.5"/>
 		<!-- keyfile="${GlobalKeyFile}" -->
@@ -126,33 +156,41 @@
 				 debug="${Build.Debug}"
 				 optimize="${Build.Optimize}"
 				 define="${Build.Defines}"
-				 output="${Current.Path.Drop}/Balder.Core.Tests.dll"
+				 output="${Current.Path.Tests}/Balder.Core.Tests.dll"
 				 >
-			<sources basedir="${Path.Source}">
+			<sources basedir="${Path.Source}/Balder.Core.Tests">
 				<include name="${Build.AssemblyInfo}"/>
-				<include name="Balder.Core.Tests/**/*.cs"/>
+				<include name="**/*.cs"/>
 			</sources>
-			<references basedir="${Path.Tests}">
-				<!--<include name="${Current.Path.Components}/Framework/3/mscorlib.dll"/>-->
-				<include name="${Current.Path.Components}/Framework/3/System.dll"/>
-				<include name="${Current.Path.Components}/Framework/3/System.Core.dll"/>
-				<include name="${Current.Path.Components}/Framework/3/System.Windows.dll"/>
-				<include name="${Current.Path.Components}/Framework/3/System.Windows.Browser.dll"/>
-				<include name="${Current.Path.Components}/Framework/3/System.Xml.dll"/>
-				<include name="${Current.Path.Components}/System.Xml.Linq.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
-				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="${Path.Components}/TypeMock/TypeMock.dll"/> <!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Path.Components}/TypeMock/TypeMock.ArrangeActAssert.dll"/> <!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Path.Components}/TypeMock/TypeMock.Isolator.VisualBasic.dll"/><!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Current.Path.Components}/CThru.dll"/><!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Current.Path.Components}/CThru.Silverlight.dll"/><!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Current.Path.Components}/Microsoft.Silverlight.Testing.dll"/><!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="${Current.Path.Components}/Microsoft.VisualStudio.QualityTools.UnitTesting.Silverlight.dll"/><!-- if="${Build.Platform == 'silverlight-3.0'}"/>-->
-				<include name="Balder.Core.dll"/>
-				<include name="${Current.Path.Components}/nunit.framework.dll"/>
-				<include name="${Current.Path.Components}/moq_sl.dll"/>
-			</references>
+			<resources basedir="${Path.Source}/Balder.Core.Tests" prefix="Balder.Core.Tests" dynamicprefix="true">
+				<include name="**/*.resx"/>
+			</resources>
+			<references refid="Assemblies"/>
 		</csc>
+
+		<loadtasks assembly="${Path.Typemock}/TypeMock.NAntBuild.dll" />
+
+		
+		<typemockstart/>
+
+		<MergedFileSet id="TestRunnerAssemblies">
+			<fileset refid="Current.TestRunnerAssemblies"/>
+			<fileset refid="ProjectAssemblies"/>
+			
+		</MergedFileSet>
+
+		<nunit2>
+			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Tests}/results"/>
+			<test>
+				<assemblies>
+					<include name="${Current.Path.Tests}/Balder.Core.Tests.dll"/>
+				</assemblies>
+				
+				<references refid="TestRunnerAssemblies"/>
+			</test>
+		</nunit2>
+		
+		<typemockstop/>
 	</target>
 
 	<target name="Silverlight" depends="Core">
