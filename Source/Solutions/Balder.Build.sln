@@ -10,6 +10,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Build.Tasks", "..\Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Build.Viewer", "..\Balder.Build.Viewer\Balder.Build.Viewer.csproj", "{08B673F8-333B-4EE3-BB12-DFA7B711038F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Build.Tasks.Tests", "..\Balder.Build.Tasks.Tests\Balder.Build.Tasks.Tests.csproj", "{57FF87F5-5DD6-4DBB-AD78-0F205823372B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,6 +26,10 @@ Global
 		{08B673F8-333B-4EE3-BB12-DFA7B711038F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{08B673F8-333B-4EE3-BB12-DFA7B711038F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{08B673F8-333B-4EE3-BB12-DFA7B711038F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57FF87F5-5DD6-4DBB-AD78-0F205823372B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57FF87F5-5DD6-4DBB-AD78-0F205823372B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57FF87F5-5DD6-4DBB-AD78-0F205823372B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57FF87F5-5DD6-4DBB-AD78-0F205823372B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

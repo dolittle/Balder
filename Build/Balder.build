@@ -14,6 +14,7 @@
 	<property name="Path.Tests" value="${Path.Root}/Tests"/>
 	<property name="Path.Keys" value="${Path.Root}/Keys"/>
 	<property name="GlobalKeyFile" value="${Path.Keys}/Balder.snk"/>
+	<property name="DropBoxPath" value="c:\DropBox\My DropBox\Public\Balder\Builds"/>
 
 	<target name="All">
 		<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
@@ -28,7 +29,10 @@
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
 		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
+		<call target="DropToDropBox"/>
+		
 		<IncreaseVersion/>
+		
 	</target>
 
 	<target name="Clean">
@@ -232,18 +236,31 @@
 			</references>
 		</csc>
 	</target>
-
+	
 	<target name="SilverlightDependencyDrops" depends="Silverlight">
 		<copy todir="${Current.Path.Drop}">
 			<fileset basedir="${Path.Components}\Siilverlight">
 				<include name="ninject.core.dll"/>
 			</fileset>
 		</copy>
-
 	</target>
 
+	<target name="DropToDropBox">
+		<if test="${directory::exists(DropBoxPath)}">
+			<property name="DropBoxDrop" value="${DropBoxPath}\${Build.Version}"/>
+
+			<copy todir="${DropBoxDrop}">
+				<fileset basedir="${Current.Path.Drop}">
+					<include name="**\*.*"/>
+				</fileset>
+			</copy>
+
+		</if>
+	</target>
+	
 	<target name="Test">
-		<call target="CompileCoreTests"/>
+		
+		<!--<call target="CompileCoreTests"/>-->
 	</target>
 
 </project>
