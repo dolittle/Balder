@@ -2,6 +2,8 @@
 <project name="Balder" default="All" basedir="..">
 	<description>Main build file for Balder</description>
 
+	
+	
 	<property name="Path.Root" value="${project::get-base-directory()}"/>
 	<property name="Path.Tools" value="${Path.Root}/Tools"/>
 	<property name="Path.NAnt" value="${Path.Tools}/NAnt"/>
@@ -15,10 +17,11 @@
 	<property name="Path.Keys" value="${Path.Root}/Keys"/>
 	<property name="GlobalKeyFile" value="${Path.Keys}/Balder.snk"/>
 	<property name="DropBoxPath" value="c:\DropBox\My DropBox\Public\Balder\Builds"/>
-	
+
+	<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
 
 	<target name="All">
-		<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
+		
 
 		<ReadLastBuildDate/>
 		<GetCurrentDate/>
@@ -26,13 +29,15 @@
 		<GetVersion/>
 		<echo>Building version : ${Build.Version}</echo>
 		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
-		
+
+		<setenv name="BalderVersion" value="${Build.Version}"/>
 		
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
-		
-		<call target="DropToDropBox"/>
+
 		<call target="CreateChangesReport"/>
+		<call target="DropToDropBox"/>
+		
 		<IncreaseVersion/>
 		<WriteCurrentBuildDate/>
 	</target>
