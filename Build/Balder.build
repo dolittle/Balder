@@ -1,8 +1,6 @@
 <?xml version="1.0"?>
 <project name="Balder" default="All" basedir="..">
 	<description>Main build file for Balder</description>
-
-	
 	
 	<property name="Path.Root" value="${project::get-base-directory()}"/>
 	<property name="Path.Tools" value="${Path.Root}/Tools"/>
@@ -287,6 +285,6 @@
 	</target>
 	
 	<target name="Test">
-		<!--<call target="CompileCoreTests"/>-->
+		<call target="CompileCoreTests"/>
 	</target>
 </project>
