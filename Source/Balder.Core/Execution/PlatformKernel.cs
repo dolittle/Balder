@@ -42,8 +42,16 @@ namespace Balder.Core.Execution
 			var platform = Activator.CreateInstance(platformType) as IPlatform;
 			var runtimeModule = GetRuntimeModule(platform);
 			Load(runtimeModule);
+
 			
+			
+			AddBindingResolver<IPlatform>(PlatformBindingResolver);
 			AddBindingResolver<IDisplay>(DisplayBindingResolver);
+		}
+
+		private IBinding PlatformBindingResolver(IContext context)
+		{
+			throw new NotImplementedException();
 		}
 
 		private IBinding DisplayBindingResolver(IContext context)

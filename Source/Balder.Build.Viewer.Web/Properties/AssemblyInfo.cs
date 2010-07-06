@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Balder.Build.Viewer")]
+[assembly: AssemblyTitle("Balder.Build.Viewer.Web")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("Microsoft")]
-[assembly: AssemblyProduct("Balder.Build.Viewer")]
+[assembly: AssemblyProduct("Balder.Build.Viewer.Web")]
 [assembly: AssemblyCopyright("Copyright © Microsoft 2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("8e44b302-4d29-4379-b8c6-d2526d50f989")]
+[assembly: Guid("b0eabba3-d0ba-436e-8111-58419d440404")]
 
 // Version information for an assembly consists of the following four values:
 //

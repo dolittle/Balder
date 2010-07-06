@@ -9,17 +9,14 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
-using RestSharp;
 
-namespace Balder.BuildViewer
+namespace Balder.Build.Viewer
 {
 	public partial class MainPage : UserControl
 	{
 		public MainPage()
 		{
 			InitializeComponent();
-
-			
 		}
 	}
 }

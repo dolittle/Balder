@@ -5,7 +5,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.50727</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{08B673F8-333B-4EE3-BB12-DFA7B711038F}</ProjectGuid>
+    <ProjectGuid>{C69A0DF5-009D-43D3-AFF7-D91F165F23AC}</ProjectGuid>
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
@@ -61,12 +61,6 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Newtonsoft.Json.Silverlight">
-      <HintPath>..\..\Components\Siilverlight\RestSharp\Newtonsoft.Json.Silverlight.dll</HintPath>
-    </Reference>
-    <Reference Include="RestSharp.Silverlight">
-      <HintPath>..\..\Components\Siilverlight\RestSharp\RestSharp.Silverlight.dll</HintPath>
-    </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -95,9 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Properties\OutOfBrowserSettings.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

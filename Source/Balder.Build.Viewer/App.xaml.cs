@@ -10,7 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Shapes;
 
-namespace Balder.BuildViewer
+namespace Balder.Build.Viewer
 {
 	public partial class App : Application
 	{
