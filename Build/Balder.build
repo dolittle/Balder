@@ -192,11 +192,10 @@
 		<MergedFileSet id="TestRunnerAssemblies">
 			<fileset refid="Current.TestRunnerAssemblies"/>
 			<fileset refid="ProjectAssemblies"/>
-			
 		</MergedFileSet>
 
 		<nunit2>
-			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Drop}/results"/>
+			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Tests}/results"/>
 			<test>
 				<assemblies>
 					<include name="${Current.Path.Tests}/Balder.Core.Tests.dll"/>
