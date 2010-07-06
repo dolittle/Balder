@@ -258,6 +258,14 @@
 					<include name="**\*"/>
 				</fileset>
 			</zip>
+
+			<property name="ChangeLogFile" value="${Path.Drop}\changelog.xml"/>
+
+			<copy todir="${DropBoxDrop}" if="${file::exists(${ChangeLogFile}}">
+				<fileset>
+					<include name="${ChangeLogFile}"/>
+				</fileset>
+			</copy>
 		</if>
 	</target>
 
@@ -271,6 +279,6 @@
 	</target>
 	
 	<target name="Test">
-		<call target="CompileCoreTests"/>
+		<!--<call target="CompileCoreTests"/>-->
 	</target>
 </project>
