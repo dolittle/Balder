@@ -15,24 +15,26 @@
 	<property name="Path.Keys" value="${Path.Root}/Keys"/>
 	<property name="GlobalKeyFile" value="${Path.Keys}/Balder.snk"/>
 	<property name="DropBoxPath" value="c:\DropBox\My DropBox\Public\Balder\Builds"/>
+	
 
 	<target name="All">
 		<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
 
+		<ReadLastBuildDate/>
+		<GetCurrentDate/>
+		
 		<GetVersion/>
 		<echo>Building version : ${Build.Version}</echo>
-
-
-		<echo>Drop path = ${Path.Drop}</echo>
-		<echo>Test path = ${Path.Tests}</echo>
+		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
+		
 		
 		<call target="Configure"/>
 		<call target="SilverlightPlatform"/>
-		<echo>Will deploy to CodePlex : ${Build.ShouldDeploy}</echo>
+		
 		<call target="DropToDropBox"/>
-		
+		<call target="CreateChangesReport"/>
 		<IncreaseVersion/>
-		
+		<WriteCurrentBuildDate/>
 	</target>
 
 	<target name="Clean">
@@ -194,7 +196,7 @@
 		</MergedFileSet>
 
 		<nunit2>
-			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Tests}/results"/>
+			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Drop}/results"/>
 			<test>
 				<assemblies>
 					<include name="${Current.Path.Tests}/Balder.Core.Tests.dll"/>
@@ -259,10 +261,17 @@
 			</zip>
 		</if>
 	</target>
+
+	<target name="CreateChangesReport">
+		<property name="ChangesFile" value="${Current.Path.Drop}\changes.txt"/>
+		<delete file="${ChangesFile}"/>
+		
+		<exec program="hg.exe" output="${ChangesFile}"
+					workingdir="${Path.Root}" commandline="log -d &quot;${Build.LastBuild} to ${Build.CurrentDate}&quot;"/>
+		
+	</target>
 	
 	<target name="Test">
-		
-		<!--<call target="CompileCoreTests"/>-->
+		<call target="CompileCoreTests"/>
 	</target>
-
 </project>
