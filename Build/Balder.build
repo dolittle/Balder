@@ -261,6 +261,9 @@
 
 			<property name="ChangeLogFile" value="${Path.Drop}\changelog.xml"/>
 
+			<echo>ChangeLogFile : ${ChangeLogFile}</echo>
+			<echo>Exists : ${file::exists('${ChangeLogFile}')}</echo>
+			
 			<copy todir="${DropBoxDrop}" if="${file::exists('${ChangeLogFile}')}">
 				<fileset>
 					<include name="${ChangeLogFile}"/>
