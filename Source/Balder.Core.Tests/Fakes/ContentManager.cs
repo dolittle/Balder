@@ -43,7 +43,7 @@ namespace Balder.Core.Tests.Fakes
 			return (T)part;
 		}
 
-		public ContentCreator Creator
+		public IContentCreator Creator
 		{
 			get { throw new NotImplementedException(); }
 		}

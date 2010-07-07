@@ -22,9 +22,6 @@
 using System;
 using System.Collections.Generic;
 using Balder.Core.Assets;
-using Balder.Core.Content;
-using Balder.Core.Tests.Stubs;
-using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Content
