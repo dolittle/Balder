@@ -1,0 +1,7 @@
+C:\Projects\Balder\Source\Balder.Build.PostBuild\bin\Debug\Balder.Build.PostBuild.exe
+C:\Projects\Balder\Source\Balder.Build.PostBuild\bin\Debug\Balder.Build.PostBuild.pdb
+C:\Projects\Balder\Source\Balder.Build.PostBuild\obj\x86\Debug\ResolveAssemblyReference.cache
+C:\Projects\Balder\Source\Balder.Build.PostBuild\obj\x86\Debug\Balder.Build.PostBuild.exe
+C:\Projects\Balder\Source\Balder.Build.PostBuild\obj\x86\Debug\Balder.Build.PostBuild.pdb
+C:\Projects\Balder\Tools\Balder.Build.PostBuild.exe
+C:\Projects\Balder\Tools\Balder.Build.PostBuild.pdb

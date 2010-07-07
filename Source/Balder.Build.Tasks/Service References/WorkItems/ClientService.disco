@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<discovery xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://schemas.xmlsoap.org/disco/">
+  <contractRef ref="https://tfs03.codeplex.com/WorkItemTracking/v1.0/ClientService.asmx?wsdl" docRef="https://tfs03.codeplex.com/WorkItemTracking/v1.0/ClientService.asmx" xmlns="http://schemas.xmlsoap.org/disco/scl/" />
+  <soap address="https://tfs03.codeplex.com/WorkItemTracking/v1.0/ClientService.asmx" xmlns:q1="http://schemas.microsoft.com/TeamFoundation/2005/06/WorkItemTracking/ClientServices/03" binding="q1:ClientServiceSoap" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+  <soap address="https://tfs03.codeplex.com/WorkItemTracking/v1.0/ClientService.asmx" xmlns:q2="http://schemas.microsoft.com/TeamFoundation/2005/06/WorkItemTracking/ClientServices/03" binding="q2:ClientServiceSoap12" xmlns="http://schemas.xmlsoap.org/disco/soap/" />
+</discovery>
