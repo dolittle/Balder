@@ -121,20 +121,6 @@ namespace Balder.Core.Math
 		public static float Sqrt(float value)
 		{
 			return (float)System.Math.Sqrt(value);
-			var result = 1f/InvSqrt(value);
-			return result;
-		}
-
-
-		private static IntFloat InvSqrtCalc;
-		public static float InvSqrt(float value)
-		{
-			var xhalf = 0.5f*value;
-			InvSqrtCalc.FloatValue = value;
-			InvSqrtCalc.IntValue = 0x5f3759df - (InvSqrtCalc.IntValue >> 1);
-			value = InvSqrtCalc.FloatValue;
-			value = value*(1.5f - xhalf*value*value);
-			return value;
 		}
 	}
 }

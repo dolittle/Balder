@@ -79,4 +79,7 @@ Global
 		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C} = {E974FF26-421A-483F-AF33-A86326597A5C}
 	EndGlobalSection
+	GlobalSection(NDepend) = preSolution
+		Project = "..\Balder_Code_Quality\BalderNDepend.ndproj"
+	EndGlobalSection
 EndGlobal
