@@ -135,6 +135,9 @@ namespace Balder.Core.Materials
 			set { ReflectionMapProperty.SetValue(this, value); }
 		}
 
+		/// <summary>
+		/// Gets the Id of the Material
+		/// </summary>
 		public UInt16 Id { get; private set; }
 	}
 }
