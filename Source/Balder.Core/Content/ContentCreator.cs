@@ -19,43 +19,32 @@
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
+using Ninject.Core;
 
 namespace Balder.Core.Content
 {
-	/// <summary>
-	/// Handles the creation of content programatically
-	/// </summary>
-	public class ContentCreator
+	public class ContentCreator : IContentCreator
 	{
-		private readonly IObjectFactory _objectFactory;
+		private readonly IKernel _kernel;
 		private readonly IIdentityManager _identityManager;
 
 		/// <summary>
 		/// Creates a new ContentCreator and provides functionality for creating content
 		/// </summary>
-		/// <param name="objectFactory">The IObjectFactory that the ContentCreator will use for creating content</param>
+		/// <param name="kernel">Kernel that the ContentCreator will use for creating content</param>
 		/// <param name="identityManager">IdentityManager used during creation of certain content</param>
-		public ContentCreator(IObjectFactory objectFactory, IIdentityManager identityManager)
+		public ContentCreator(IKernel kernel, IIdentityManager identityManager)
 		{
-			_objectFactory = objectFactory;
+			_kernel = kernel;
 			_identityManager = identityManager;
 		}
 
-		/// <summary>
-		/// Creates a geometry based on the geometry type
-		/// </summary>
-		/// <typeparam name="T">Type of geometry to create</typeparam>
-		/// <returns>An instance of the geometry created</returns>
 		public T CreateGeometry<T>() where T : Geometry
 		{
-			var geometry = _objectFactory.Get<T>();
+			var geometry = _kernel.Get<T>();
 			return geometry;
 		}
 
-		/// <summary>
-		/// Creates a material
-		/// </summary>
-		/// <returns>An instance of a Material</returns>
 		public Material CreateMaterial()
 		{
 			var material = new Material(_identityManager);

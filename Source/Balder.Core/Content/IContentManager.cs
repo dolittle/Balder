@@ -51,7 +51,7 @@ namespace Balder.Core.Content
 		/// <summary>
 		/// Get the ContentCreator
 		/// </summary>
-		ContentCreator Creator { get; }
+		IContentCreator Creator { get; }
 
 		/// <summary>
 		/// Get or set root of assets - typically a folder relative to current directory or a specific folder

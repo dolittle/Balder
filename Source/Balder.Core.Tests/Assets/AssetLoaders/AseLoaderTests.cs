@@ -26,6 +26,7 @@ using Balder.Core.Assets.AssetLoaders;
 using Balder.Core.Content;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
+using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.Tests.Fakes;
@@ -80,9 +81,9 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 																						geometry.GeometryContext = geometryContext;
 																						return geometry;
 																					});
-			var objectFactory = new ObjectFactoryStub();
-			var identityManagerMock = new Mock<IIdentityManager>();
-			mockContentManager.Expect(c => c.Creator).Returns(new ContentCreator(objectFactory, identityManagerMock.Object));
+			var contentCreatorMock = new Mock<IContentCreator>();
+			contentCreatorMock.Expect(c => c.CreateMaterial()).Returns(new Material());
+			mockContentManager.Expect(c => c.Creator).Returns(contentCreatorMock.Object);
 
 			var fileLoader = new StringFileLoader();
 

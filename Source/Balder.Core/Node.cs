@@ -58,7 +58,6 @@ namespace Balder.Core
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
 
-		private bool _isWired = false;
 		private bool _isPrepared = false;
 		private bool _isInitialized = false;
 		private bool _isWorldInvalidated = false;
@@ -329,12 +328,6 @@ namespace Balder.Core
 			if (_isInitialized)
 			{
 				return;
-			}
-
-			if (!_isWired)
-			{
-				Runtime.Instance.WireUpDependencies(this);
-				_isWired = true;
 			}
 
 			Initialize();

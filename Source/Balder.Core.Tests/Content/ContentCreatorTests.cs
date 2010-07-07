@@ -19,10 +19,6 @@
 
 #endregion
 using System;
-using Balder.Core.Content;
-using Balder.Core.Execution;
-using Balder.Core.Tests.Stubs;
-using CThru.Silverlight;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Content
@@ -43,13 +39,6 @@ namespace Balder.Core.Tests.Content
 
 
 		}
-
-		private static IObjectFactory GetObjectFactory()
-		{
-			var objectFactory = new ObjectFactoryStub();
-			return objectFactory;
-		}
-
 
 	}
 }

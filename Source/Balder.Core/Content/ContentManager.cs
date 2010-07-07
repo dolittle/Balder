@@ -19,7 +19,6 @@
 
 using System.Collections.Generic;
 using Balder.Core.Assets;
-using Balder.Core.Execution;
 using Ninject.Core;
 
 #pragma warning disable 1591
@@ -29,23 +28,27 @@ namespace Balder.Core.Content
 	public class ContentManager : IContentManager
 	{
 		public const string DefaultAssetsRoot = "Assets";
-		private readonly IObjectFactory _objectFactory;
+		private readonly IKernel _kernel;
 		private readonly IContentCache _contentCache;
 		private readonly IAssetLoaderService _assetLoaderService;
 
-		public ContentManager(IObjectFactory objectFactory, IContentCache contentCache, IAssetLoaderService assetLoaderService)
+		public ContentManager(
+			IKernel kernel, 
+			IContentCache contentCache, 
+			IAssetLoaderService assetLoaderService, 
+			IContentCreator contentCreator)
 		{
-			_objectFactory = objectFactory;
+			_kernel = kernel;
 			_contentCache = contentCache;
 			_assetLoaderService = assetLoaderService;
 			AssetsRoot = DefaultAssetsRoot;
-			Creator = objectFactory.Get<ContentCreator>();
+			Creator = contentCreator;
 		}
 
 		public T Load<T>(string assetName)
 			where T : IAsset
 		{
-			var asset = _objectFactory.Get<T>();
+			var asset = _kernel.Get<T>();
 			LoadInto(asset,assetName);
 			return asset;
 		}
@@ -64,7 +67,7 @@ namespace Balder.Core.Content
 				{
 					var type = assetPart.GetType();
 					var context = assetPart.GetContext();
-					var newPart = _objectFactory.Get(type) as IAssetPart;
+					var newPart = _kernel.Get(type) as IAssetPart;
 					newPart.SetContext(context);
 					newPart.InitializeFromAssetPart(assetPart);
 					newAssetParts.Add(newPart);
@@ -89,11 +92,11 @@ namespace Balder.Core.Content
 
 		public T CreateAssetPart<T>() where T : IAssetPart
 		{
-			var part = _objectFactory.Get<T>();
+			var part = _kernel.Get<T>();
 			return part;
 		}
 
-		public ContentCreator Creator { get; private set; }
+		public IContentCreator Creator { get; private set; }
 
 		public string AssetsRoot { get; set; }
 	}

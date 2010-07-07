@@ -103,6 +103,7 @@
     <Compile Include="ColorOperations.cs" />
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\IContentCache.cs" />
+    <Compile Include="Content\IContentCreator.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
     <Compile Include="Execution\IdentityManager.cs" />
@@ -231,7 +232,6 @@
     <Compile Include="Objects\Geometries\Sphere.cs" />
     <Compile Include="Rendering\IShapeContext.cs" />
     <Compile Include="Execution\ConstructorArgument.cs" />
-    <Compile Include="Execution\IObjectFactory.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Silverlight\Input\ManipulationEventHelper.cs" />
@@ -243,7 +243,6 @@
     <Compile Include="Silverlight\TypeConverters\UriToImageTypeConverter.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\NInjectExtensions.cs" />
-    <Compile Include="Execution\ObjectFactory.cs" />
     <Compile Include="PixelFormat.cs" />
     <Compile Include="Content\ContentManager.cs" />
     <Compile Include="Assets\IAssetPart.cs" />

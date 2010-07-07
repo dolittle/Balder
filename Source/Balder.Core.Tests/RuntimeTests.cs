@@ -35,7 +35,6 @@ namespace Balder.Core.Tests
 		{
 			var eventCalled = false;
 			var stateChanged = false;
-			var objectFactoryMock = new Mock<IObjectFactory>();
 
 			var gameMock = new Mock<Game>();
 			gameMock.Expect(g => g.OnInitialize());
@@ -66,7 +65,7 @@ namespace Balder.Core.Tests
 					}
 				};
 
-			var runtime = new Runtime(kernel, platform, objectFactoryMock.Object, assetLoaderServiceMock.Object, null);
+			var runtime = new Runtime(kernel, platform, assetLoaderServiceMock.Object, null);
 
 			if (changeStateFirst)
 			{

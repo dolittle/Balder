@@ -28,7 +28,6 @@ namespace Balder.Core.Execution
 		Game CreateGame(Type type);
 		void RegisterGame(IDisplay display, Game game);
 		void UnregisterGame(Game game);
-		void WireUpDependencies(object objectToWire);
 		IPlatform Platform { get; }
 		IKernel Kernel { get; }
 	}

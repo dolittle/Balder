@@ -28,14 +28,13 @@ namespace Balder.Core.Debug
 	[Singleton]
 	public class DebugRenderer : IDebugRenderer
 	{
-		private readonly IObjectFactory _objectFactory;
-
+		private readonly IKernel _kernel;
 		private DebugShape _boundingSphereDebugShape;
 		private RayDebugShape _rayDebugShape;
 
-		public DebugRenderer(IObjectFactory objectFactory)
+		public DebugRenderer(IKernel kernel)
 		{
-			_objectFactory = objectFactory;
+			_kernel = kernel;
 			CreateShapes();
 		}
 
@@ -60,9 +59,9 @@ namespace Balder.Core.Debug
 
 		private void CreateShapes()
 		{
-			_boundingSphereDebugShape = _objectFactory.Get<BoundingSphereDebugShape>();
+			_boundingSphereDebugShape = _kernel.Get<BoundingSphereDebugShape>();
 			_boundingSphereDebugShape.OnInitialize();
-			_rayDebugShape = _objectFactory.Get<RayDebugShape>();
+			_rayDebugShape = _kernel.Get<RayDebugShape>();
 			_rayDebugShape.OnInitialize();
 		}
 

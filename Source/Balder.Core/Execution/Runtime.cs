@@ -33,22 +33,20 @@ namespace Balder.Core.Execution
 		private static IRuntime _instance;
 		private static readonly object InstanceLockObject = new object();
 
-		private readonly IObjectFactory _objectFactory;
-		private readonly IAssetLoaderService _assetLoaderService;
-
 		private readonly Dictionary<IDisplay, ActorCollection> _gamesPerDisplay;
 
 		private bool _hasPlatformInitialized;
 		private bool _hasPlatformLoaded;
 		private bool _hasPlatformRun;
 
-		public Runtime(IKernel kernel, IPlatform platform, IObjectFactory objectFactory, IAssetLoaderService assetLoaderService, IContentManager contentManager)
+		public Runtime(IKernel kernel, 
+					   IPlatform platform, 
+					   IAssetLoaderService assetLoaderService, 
+					   IContentManager contentManager)
 		{
 			Kernel = kernel;
 			Platform = platform;
 			_gamesPerDisplay = new Dictionary<IDisplay, ActorCollection>();
-			_objectFactory = objectFactory;
-			_assetLoaderService = assetLoaderService;
 			assetLoaderService.Initialize();
 			ContentManager = contentManager;
 			InitializePlatformEventHandlers();
@@ -88,13 +86,13 @@ namespace Balder.Core.Execution
 
 		public T CreateGame<T>() where T : Game
 		{
-			var game = _objectFactory.Get<T>();
+			var game = Kernel.Get<T>();
 			return game;
 		}
 
 		public Game CreateGame(Type type)
 		{
-			var game = _objectFactory.Get(type) as Game;
+			var game = Kernel.Get(type) as Game;
 			return game;
 		}
 
@@ -150,26 +148,11 @@ namespace Balder.Core.Execution
 		}
 
 
-		public void WireUpDependencies(object objectToWire)
-		{
-			_objectFactory.WireUpDependencies(objectToWire);
-		}
-
-		
-
-
 		private void WireUpGame(IDisplay display, Game objectToWire)
 		{
-			if (null != Kernel)
-			{
-				var scope = Kernel.CreateScope();
-				var displayActivationContext = new DisplayActivationContext(display, objectToWire.GetType(), scope);
-				Kernel.Inject(objectToWire, displayActivationContext);
-			}
-			else
-			{
-				_objectFactory.WireUpDependencies(objectToWire);
-			}
+			var scope = Kernel.CreateScope();
+			var displayActivationContext = new DisplayActivationContext(display, objectToWire.GetType(), scope);
+			Kernel.Inject(objectToWire, displayActivationContext);
 		}
 
 		private ActorCollection GetGameCollectionForDisplay(IDisplay display)
