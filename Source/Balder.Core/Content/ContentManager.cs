@@ -39,7 +39,7 @@ namespace Balder.Core.Content
 			_contentCache = contentCache;
 			_assetLoaderService = assetLoaderService;
 			AssetsRoot = DefaultAssetsRoot;
-			Creator = new ContentCreator(objectFactory);
+			Creator = objectFactory.Get<ContentCreator>();
 		}
 
 		public T Load<T>(string assetName)

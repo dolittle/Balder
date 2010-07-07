@@ -190,7 +190,7 @@ namespace Balder.Core.Assets.AssetLoaders
 				case MATERIAL:
 					{
 						var materialIndex = Convert.ToInt32(scopeParameter);
-						var material = new Material();
+						var material = contentManager.Creator.CreateMaterial();
 						globals.Materials[materialIndex] = material;
 						return material;
 					}

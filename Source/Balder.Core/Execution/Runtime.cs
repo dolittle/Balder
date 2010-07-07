@@ -109,7 +109,8 @@ namespace Balder.Core.Execution
 
 		public void UnregisterGame(Game game)
 		{
-			// Todo : This should be handled by removing runtime context when it is a fully qualified member of the system
+			// Todo : This should be handled by removing runtime context when it is a 
+			// fully qualified member of the system
 			game.Viewport.Uninitialize();
 			game.Uninitialize();
 

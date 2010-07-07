@@ -24,10 +24,12 @@ using System.Text;
 using Balder.Core.Assets;
 using Balder.Core.Assets.AssetLoaders;
 using Balder.Core.Content;
+using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.Tests.Fakes;
+using Balder.Core.Tests.Stubs;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
@@ -78,6 +80,9 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 																						geometry.GeometryContext = geometryContext;
 																						return geometry;
 																					});
+			var objectFactory = new ObjectFactoryStub();
+			var identityManagerMock = new Mock<IIdentityManager>();
+			mockContentManager.Expect(c => c.Creator).Returns(new ContentCreator(objectFactory, identityManagerMock.Object));
 
 			var fileLoader = new StringFileLoader();
 

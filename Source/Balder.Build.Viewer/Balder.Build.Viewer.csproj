@@ -12,7 +12,7 @@
     <RootNamespace>Balder.Build.Viewer</RootNamespace>
     <AssemblyName>Balder.Build.Viewer</AssemblyName>
     <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
@@ -31,6 +31,8 @@
     <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
     <LinkedServerProject>
     </LinkedServerProject>
+    <SignManifests>false</SignManifests>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <!-- This property group is only here to support building this project using the 
        MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
@@ -89,6 +91,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Images\builds.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

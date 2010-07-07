@@ -17,6 +17,7 @@
 //
 #endregion
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Core.Content
@@ -27,14 +28,17 @@ namespace Balder.Core.Content
 	public class ContentCreator
 	{
 		private readonly IObjectFactory _objectFactory;
+		private readonly IIdentityManager _identityManager;
 
 		/// <summary>
 		/// Creates a new ContentCreator and provides functionality for creating content
 		/// </summary>
-		/// <param name="objectFactory">the IObjectFactory that the ContentCreator will use for creating content</param>
-		public ContentCreator(IObjectFactory objectFactory)
+		/// <param name="objectFactory">The IObjectFactory that the ContentCreator will use for creating content</param>
+		/// <param name="identityManager">IdentityManager used during creation of certain content</param>
+		public ContentCreator(IObjectFactory objectFactory, IIdentityManager identityManager)
 		{
 			_objectFactory = objectFactory;
+			_identityManager = identityManager;
 		}
 
 		/// <summary>
@@ -46,6 +50,16 @@ namespace Balder.Core.Content
 		{
 			var geometry = _objectFactory.Get<T>();
 			return geometry;
+		}
+
+		/// <summary>
+		/// Creates a material
+		/// </summary>
+		/// <returns>An instance of a Material</returns>
+		public Material CreateMaterial()
+		{
+			var material = new Material(_identityManager);
+			return material;
 		}
 	}
 }
