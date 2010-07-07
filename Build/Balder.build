@@ -67,7 +67,7 @@
 		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,SILVERLIGHT_30,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
 		<property name="Current.Platform" value="Silverlight"/>
 		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight"/>
-		<property name="Current.Path.Components" value="${Path.Components}/Siilverlight"/>
+		<property name="Current.Path.Components" value="${Path.Components}/Silverlight"/>
 		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
 		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\3"/>
 		<assemblyfileset id="Current.SystemAssemblies">
@@ -244,7 +244,7 @@
 	
 	<target name="SilverlightDependencyDrops" depends="Silverlight">
 		<copy todir="${Current.Path.Drop}">
-			<fileset basedir="${Path.Components}\Siilverlight">
+			<fileset basedir="${Path.Components}\Silverlight">
 				<include name="ninject.core.dll"/>
 			</fileset>
 		</copy>

@@ -84,39 +84,39 @@
   <ItemGroup>
     <Reference Include="Castle.Core_SL, Version=1.0.3.0, Culture=neutral, PublicKeyToken=407dd0808d44fbdc, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\Castle.Core_SL.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\Castle.Core_SL.dll</HintPath>
     </Reference>
     <Reference Include="Castle.DynamicProxy_SL, Version=2.0.3.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\Castle.DynamicProxy_SL.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\Castle.DynamicProxy_SL.dll</HintPath>
     </Reference>
     <Reference Include="CThru, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\CThru.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\CThru.dll</HintPath>
     </Reference>
     <Reference Include="CThru.Silverlight, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\CThru.Silverlight.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\CThru.Silverlight.dll</HintPath>
     </Reference>
     <Reference Include="EventsHelper, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\EventsHelper.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\EventsHelper.dll</HintPath>
     </Reference>
     <Reference Include="FluentAOP, Version=1.1.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\FluentAOP.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\FluentAOP.dll</HintPath>
     </Reference>
     <Reference Include="Moq_SL, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\Moq_SL.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\Moq_SL.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework, Version=2.5.1.0, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\nunit.framework.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="nunit.silverlight, Version=1.0.0.0, Culture=neutral, PublicKeyToken=e574a56a91ab7b53, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Siilverlight\nunit.silverlight.dll</HintPath>
+      <HintPath>..\..\Components\Silverlight\nunit.silverlight.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows">
       <Private>True</Private>
