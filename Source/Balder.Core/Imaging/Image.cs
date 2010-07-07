@@ -22,8 +22,8 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using Balder.Core.Assets;
+using Balder.Core.Execution;
 using Balder.Core.Silverlight.TypeConverters;
-using Ninject.Core;
 
 namespace Balder.Core.Imaging
 {
@@ -32,7 +32,18 @@ namespace Balder.Core.Imaging
 #endif
 	public class Image : IAsset, IAssetPart
 	{
-		[Inject]
+		public Image()
+			: this(Runtime.Instance.Kernel.Get<IImageContext>())
+		{
+			
+		}
+
+		public Image(IImageContext imageContext)
+		{
+			ImageContext = imageContext;
+		}
+
+		
 		public IImageContext ImageContext { get; set; }
 
 		private int _width;
