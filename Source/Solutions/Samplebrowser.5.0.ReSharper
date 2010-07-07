@@ -1,0 +1,36 @@
+<Configuration>
+  <SharedSolutionTemplateManager>
+    <FileTemplates>
+      <Template uid="141dfef5-5126-49ec-b6b6-48bfc580587a" shortcut="" description="Balder Class" text="#region License&#xD;&#xA;//&#xD;&#xA;// Author: Einar Ingebrigtsen &lt;einar@dolittle.com&gt;&#xD;&#xA;// Copyright (c) 2007-2010, DoLittle Studios&#xD;&#xA;//&#xD;&#xA;// Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the &quot;License&quot;)&#xD;&#xA;// you may not use this file except in compliance with the License.&#xD;&#xA;// You may obtain a copy of the license at &#xD;&#xA;//&#xD;&#xA;//   http://balder.codeplex.com/license&#xD;&#xA;//&#xD;&#xA;// Unless required by applicable law or agreed to in writing, software&#xD;&#xA;// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xD;&#xA;// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xD;&#xA;// See the License for the specific language governing permissions and&#xD;&#xA;// limitations under the License.&#xD;&#xA;//&#xD;&#xA;#endregion&#xD;&#xA;&#xD;&#xA;namespace $NAMESPACE$&#xD;&#xA;{&#xD;&#xA;  public class $CLASS$ {$END$}&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <ProjectLanguageContext language="CSharp" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="NAMESPACE" expression="fileDefaultNamespace()" initialRange="-1" />
+          <Variable name="CLASS" expression="getFileNameWithoutExtension()" initialRange="-1" />
+        </Variables>
+        <CustomProperties>
+          <Property key="FileName" value="Class" />
+          <Property key="Extension" value="cs" />
+          <Property key="ValidateFileName" value="False" />
+        </CustomProperties>
+      </Template>
+      <Template uid="9d07ac0f-0c6c-4439-8f24-ffcae21f46bd" shortcut="" description="Balder Interface" text="#region License&#xD;&#xA;//&#xD;&#xA;// Author: Einar Ingebrigtsen &lt;einar@dolittle.com&gt;&#xD;&#xA;// Copyright (c) 2007-2010, DoLittle Studios&#xD;&#xA;//&#xD;&#xA;// Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the &quot;License&quot;)&#xD;&#xA;// you may not use this file except in compliance with the License.&#xD;&#xA;// You may obtain a copy of the license at &#xD;&#xA;//&#xD;&#xA;//   http://balder.codeplex.com/license&#xD;&#xA;//&#xD;&#xA;// Unless required by applicable law or agreed to in writing, software&#xD;&#xA;// distributed under the License is distributed on an &quot;AS IS&quot; BASIS,&#xD;&#xA;// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.&#xD;&#xA;// See the License for the specific language governing permissions and&#xD;&#xA;// limitations under the License.&#xD;&#xA;//&#xD;&#xA;#endregion&#xD;&#xA;&#xD;&#xA;namespace $NAMESPACE$&#xD;&#xA;{&#xD;&#xA;  public interface $INTERFACE$ {$END$}&#xD;&#xA;}" reformat="True" shortenQualifiedReferences="True">
+        <Context>
+          <ProjectLanguageContext language="CSharp" />
+        </Context>
+        <Categories />
+        <Variables>
+          <Variable name="NAMESPACE" expression="fileDefaultNamespace()" initialRange="-1" />
+          <Variable name="INTERFACE" expression="getFileNameWithoutExtension()" initialRange="-1" />
+        </Variables>
+        <CustomProperties>
+          <Property key="FileName" value="Class" />
+          <Property key="Extension" value="cs" />
+          <Property key="ValidateFileName" value="False" />
+        </CustomProperties>
+      </Template>
+    </FileTemplates>
+  </SharedSolutionTemplateManager>
+</Configuration>
