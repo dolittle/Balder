@@ -19,55 +19,77 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Balder.Core.Utils
 {
+	/// <summary>
+	/// Helper class for getting values out of Enums
+	/// </summary>
 	public static class EnumHelper
 	{
+		/// <summary>
+		/// Get all values in an enum specified as a generic parameter
+		/// </summary>
+		/// <typeparam name="T">Type of enum to get values from</typeparam>
+		/// <returns>Array of values in the enum</returns>
+		/// <exception cref="ArgumentException">If the type is not an enum type</exception>
 		public static T[] GetValues<T>()
 		{
 			var enumType = typeof(T);
+			var values = GetValues(enumType);
+			var typesafeValues = GetTypesafeValues<T>(values);
+			return typesafeValues;
+		}
 
-			if (!enumType.IsEnum)
-			{
-				throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
-			}
-
-			var values = new List<T>();
-
-			var fields = from field in enumType.GetFields()
-			             where field.IsLiteral
-			             select field;
-
-			foreach (var field in fields)
-			{
-				var value = field.GetValue(enumType);
-				values.Add((T)value);
-			}
-
+		/// <summary>
+		/// Get all values in an enum specified as a parameter
+		/// </summary>
+		/// <param name="enumType">Type of enum to get values from</param>
+		/// <returns>Array of values in the enum</returns>
+		/// <exception cref="ArgumentException">If the type is not an enum type</exception>
+		public static object[] GetValues(Type enumType)
+		{
+			ValidateEnumType(enumType);
+			var fields = GetFields(enumType);
+			var values = GetValues(enumType, fields);
 			return values.ToArray();
 		}
 
-		public static object[] GetValues(Type enumType)
+		private static void ValidateEnumType(Type enumType)
 		{
 			if (!enumType.IsEnum)
 			{
 				throw new ArgumentException("Type '" + enumType.Name + "' is not an enum");
 			}
+		}
 
+		private static T[] GetTypesafeValues<T>(object[] values)
+		{
+			var typesafeValues = new T[values.Length];
+			for (var valueIndex = 0; valueIndex < values.Length; valueIndex++)
+			{
+				typesafeValues[valueIndex] = (T)values[valueIndex];
+			}
+			return typesafeValues;
+		}
+
+		private static List<object> GetValues(Type enumType, IEnumerable<FieldInfo> fields)
+		{
 			var values = new List<object>();
-
-			var fields = from field in enumType.GetFields()
-			             where field.IsLiteral
-			             select field;
-
 			foreach (var field in fields)
 			{
 				var value = field.GetValue(enumType);
 				values.Add(value);
 			}
+			return values;
+		}
 
-			return values.ToArray();
+		private static IEnumerable<FieldInfo> GetFields(Type enumType)
+		{
+			return from field in enumType.GetFields()
+			       where field.IsLiteral
+			       select field;
 		}
 	}
 }

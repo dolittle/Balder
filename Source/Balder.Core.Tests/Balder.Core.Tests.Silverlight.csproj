@@ -181,6 +181,7 @@
     <Compile Include="SceneTests.cs" />
     <Compile Include="Silverlight\Input\NodeMouseEventHelperTests.cs" />
     <Compile Include="Utils\ClonerTests.cs" />
+    <Compile Include="Utils\EnumHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Assets\AssetLoaders\AseFiles.resx">
