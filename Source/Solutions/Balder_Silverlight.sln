@@ -1,31 +1,19 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Silverlight", "..\Balder.Core\Balder.Core.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.SoftwareRendering.Silverlight", "..\Balder.Core.SoftwareRendering\Balder.Core.SoftwareRendering.Silverlight.csproj", "{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder.Silverlight\Balder.Silverlight.csproj", "{E39B101E-9447-49EE-B849-BA2A9E4664D0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.TestApp", "..\Balder.Silverlight.TestApp\Balder.Silverlight.TestApp.csproj", "{BCCA5043-E7BD-4487-AC0C-24C418855645}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.TestApp.Web", "..\Balder.Silverlight.TestApp.Web\Balder.Silverlight.TestApp.Web.csproj", "{3029D496-26FD-423A-800B-862168511004}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Silverlight", "..\Balder.Core.Tests\Balder.Core.Tests.Silverlight.csproj", "{14C4473E-12FB-4D78-A607-A84E3FB09322}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{67FF2401-5E46-474C-A0AE-02D1A6B9ED2C}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Tests", "..\Balder.Silverlight.Tests\Balder.Silverlight.Tests.csproj", "{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}"
-EndProject
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2AC081A1-6E83-40C1-9632-127AF77F0065}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Silverlight", "Silverlight", "{4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TestApp", "TestApp", "{69D3D9BA-47F2-4105-B642-F744DDBB1DDE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Silverlight", "..\Balder.Core\Balder.Core.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Design", "..\Balder.Silverlight.Design\Balder.Silverlight.Design.csproj", "{0BD29989-92B0-4EDC-805B-F5078EF89C89}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder.Silverlight\Balder.Silverlight.csproj", "{E39B101E-9447-49EE-B849-BA2A9E4664D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Design.Controls", "..\Balder.Silverlight.Design.Controls\Balder.Silverlight.Design.Controls.csproj", "{7B865962-03B3-4BE4-8C33-F9611F94270A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Silverlight", "..\Balder.Core.Tests\Balder.Core.Tests.Silverlight.csproj", "{14C4473E-12FB-4D78-A607-A84E3FB09322}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Tests", "..\Balder.Silverlight.Tests\Balder.Silverlight.Tests.csproj", "{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.IntegrationTests.Silverlight", "..\Balder.Core.IntegrationTests.Silverlight\Balder.Core.IntegrationTests.Silverlight.csproj", "{3D8B2602-717B-4A34-AB33-4C9B27181315}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,22 +25,10 @@ Global
 		{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BCCA5043-E7BD-4487-AC0C-24C418855645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BCCA5043-E7BD-4487-AC0C-24C418855645}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BCCA5043-E7BD-4487-AC0C-24C418855645}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BCCA5043-E7BD-4487-AC0C-24C418855645}.Release|Any CPU.Build.0 = Release|Any CPU
-		{3029D496-26FD-423A-800B-862168511004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3029D496-26FD-423A-800B-862168511004}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3029D496-26FD-423A-800B-862168511004}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{3029D496-26FD-423A-800B-862168511004}.Release|Any CPU.Build.0 = Release|Any CPU
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14C4473E-12FB-4D78-A607-A84E3FB09322}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -61,27 +37,19 @@ Global
 		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}.Release|Any CPU.Build.0 = Release|Any CPU
-		{0BD29989-92B0-4EDC-805B-F5078EF89C89}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{0BD29989-92B0-4EDC-805B-F5078EF89C89}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{0BD29989-92B0-4EDC-805B-F5078EF89C89}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{0BD29989-92B0-4EDC-805B-F5078EF89C89}.Release|Any CPU.Build.0 = Release|Any CPU
-		{7B865962-03B3-4BE4-8C33-F9611F94270A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7B865962-03B3-4BE4-8C33-F9611F94270A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7B865962-03B3-4BE4-8C33-F9611F94270A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7B865962-03B3-4BE4-8C33-F9611F94270A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3D8B2602-717B-4A34-AB33-4C9B27181315}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{CE1475DE-91CC-45BE-9FA3-6B233D3223D8} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
-		{14C4473E-12FB-4D78-A607-A84E3FB09322} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
 		{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
-		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
+		{14C4473E-12FB-4D78-A607-A84E3FB09322} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
+		{3D8B2602-717B-4A34-AB33-4C9B27181315} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
 		{E39B101E-9447-49EE-B849-BA2A9E4664D0} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
-		{0BD29989-92B0-4EDC-805B-F5078EF89C89} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
-		{7B865962-03B3-4BE4-8C33-F9611F94270A} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
-		{3029D496-26FD-423A-800B-862168511004} = {69D3D9BA-47F2-4105-B642-F744DDBB1DDE}
-		{BCCA5043-E7BD-4487-AC0C-24C418855645} = {69D3D9BA-47F2-4105-B642-F744DDBB1DDE}
+		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 	EndGlobalSection
 EndGlobal
