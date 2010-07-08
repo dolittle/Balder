@@ -53,7 +53,7 @@
 				<View:Camera x:Name="Camera" Position="0,20,-200"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
+			<Lighting:OmniLight Position="0,100,0" Ambient="Black" Diffuse="Black" Specular="Gray"/>
 
 			<Geometries:Box x:Name="RedBox" Color="Red" Dimension="20,20,20" Position="-30,0,0"/>
 			<Geometries:Box x:Name="GreenBox" Color="Green" Dimension="20,20,20" Position="0,40,60"/>

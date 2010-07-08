@@ -103,7 +103,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 		}
 
 
-		private void LayoutRoot_MouseMove(object sender, MouseEventArgs e)
+		private void LayoutRoot_MouseMove(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			var position = e.GetPosition(LayoutRoot);
 			_xpos.Text = position.X.ToString();
