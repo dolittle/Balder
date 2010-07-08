@@ -29,7 +29,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 	{
 		private readonly double _yPosition;
 		private readonly double _zPosition;
-		public const int ColumnCount = 10;
+		public const int ColumnCount = 5;
 		public const double ColumnSpace = 12;
 
 		public Row(double yPosition, double zPosition, int depth, int row)

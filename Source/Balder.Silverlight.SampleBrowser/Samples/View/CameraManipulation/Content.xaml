@@ -10,8 +10,8 @@
 		<StackPanel Orientation="Vertical" HorizontalAlignment="Center">
 			<Execution:Game x:Name="_game" Width="800" Height="600">
 				<Lighting:OmniLight Position="0,4020,0" Ambient="Brown" Diffuse="Brown" Specular="Brown"/>
-				<Geometries:Mesh AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/View/CameraManipulation/Assets/plane.ase"/>
-				<Geometries:Mesh AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/View/CameraManipulation/Assets/box.ase"/>
+				<Geometries:Mesh AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/plane.ase"/>
+				<Geometries:Box Dimension="30,30,30"/>
 				<Execution:Game.Camera>
 					<View:Camera x:Name="Camera" Position="0,100,-340"/>
 				</Execution:Game.Camera>

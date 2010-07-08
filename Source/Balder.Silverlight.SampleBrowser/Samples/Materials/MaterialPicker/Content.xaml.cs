@@ -37,11 +37,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 
 		void Content_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
-			_reflectionMapTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Materials/MaterialPicker/Assets/ReflectionMap.jpg");
-			_visualStudioTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Materials/MaterialPicker/Assets/VisualStudio.png");
-			_balderLogoTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Materials/MaterialPicker/Assets/BalderLogo.png");
-
-			
+			_reflectionMapTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg");
+			_visualStudioTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/VisualStudio.png");
+			_balderLogoTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png");
 
 			HandleSelection();
 		}

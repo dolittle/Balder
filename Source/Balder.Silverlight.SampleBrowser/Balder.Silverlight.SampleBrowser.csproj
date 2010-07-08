@@ -64,7 +64,7 @@
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>BasicCorrectnessRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -175,18 +175,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Sample.resx</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Creative\RubicsCube\Content.xaml.cs">
-      <DependentUpon>Content.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Samples\Creative\RubicsCube\Cube.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\CubeBox.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\CubeBoxGroup.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\CubeColor.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\ImageButton.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\Move.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\MoveRecorder.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\MovesCollection.cs" />
-    <Compile Include="Samples\Creative\RubicsCube\RotateEventHandler.xaml.cs" />
     <Compile Include="Samples\Creative\Water\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -218,6 +206,11 @@
     </Compile>
     <Compile Include="Samples\Data\HierarchicalNodesControl\Depth.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\MatrixToStringValueConverter.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Data\HierarchicalNodesControl\Row.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\ViewModel.cs" />
     <Compile Include="Samples\Data\NodesControl\BusinessObject.cs" />
@@ -263,16 +256,20 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Geometries\Mesh\Content.xaml.cs">
-      <DependentUpon>Content.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Samples\Geometries\SmoothingGroups\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Geometries\SubMaterials\Content.xaml.cs">
-      <DependentUpon>Content.xaml</DependentUpon>
+    <Compile Include="Samples\Geometries\SmoothingGroups\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\GettingStarted\HelloWorld\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Lighting\Directional\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
@@ -282,6 +279,11 @@
     </Compile>
     <Compile Include="Samples\Lighting\Directional\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Lighting\View\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Materials\MaterialPicker\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
@@ -293,6 +295,11 @@
     </Compile>
     <Compile Include="Samples\Primitives\AribtraryHeightmap\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Primitives\AribtraryHeightmap\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Primitives\Box\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
@@ -321,8 +328,18 @@
     <Compile Include="Samples\Primitives\MoreCylinders\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Primitives\MoreCylinders\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Primitives\Ring\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Primitives\Ring\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Primitives\Sprites\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
@@ -352,8 +369,18 @@
     <Compile Include="Samples\Rendering\Passive\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Rendering\Passive\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Rendering\Pausing\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Rendering\Pausing\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\View\CameraManipulation\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
@@ -405,12 +432,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="MainPage.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Samples\Creative\RubicsCube\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -476,19 +497,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Samples\Geometries\Mesh\Content.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Samples\Geometries\SmoothingGroups\Content.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:MarkupCompilePass1</Generator>
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Include="Samples\Geometries\SubMaterials\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -615,21 +624,11 @@
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\EiffelTower.ASE" />
-    <None Include="Samples\Geometries\Mesh\Assets\Thumbs.db" />
     <Resource Include="Samples\Geometries\SmoothingGroups\Assets\L.ASE" />
-    <Resource Include="Samples\Geometries\SmoothingGroups\Assets\Sphere.ASE" />
-    <Resource Include="Samples\Geometries\SubMaterials\Assets\SplitSphere.ASE" />
-    <Resource Include="Samples\Data\HierarchicalNodesControl\Assets\box.ASE" />
-    <Resource Include="Samples\Programatic\Materials\Assets\teapot.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Earth.ASE" />
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Hello.ASE" />
-    <Resource Include="Samples\Materials\MaterialPicker\Assets\teapot.ASE" />
-    <Resource Include="Samples\Data\NodesStack\Assets\box.ASE" />
-    <Resource Include="Samples\Programatic\Teapot\Assets\teapot.ASE" />
-    <Resource Include="Samples\View\CameraManipulation\Assets\box.ASE" />
-    <Resource Include="Samples\View\CameraManipulation\Assets\plane.ASE" />
-    <Resource Include="Samples\Events\Mouse\Assets\box.ASE" />
+    <Resource Include="Assets\teapot.ASE" />
+    <Resource Include="Assets\plane.ASE" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Balder.Core\Balder.Core.Silverlight.csproj">
@@ -661,6 +660,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Data\HierarchicalNodesControl\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Samples\Data\NodesControl\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -677,11 +680,27 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Geometries\SmoothingGroups\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Samples\GettingStarted\HelloWorld\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Lighting\Directional\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Lighting\View\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Samples\Materials\MaterialPicker\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Primitives\AribtraryHeightmap\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -697,6 +716,14 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Primitives\MoreCylinders\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Primitives\Ring\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="Samples\Primitives\Sprites\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -706,6 +733,14 @@
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
     <EmbeddedResource Include="Samples\Programatic\Teapot\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Rendering\Passive\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Samples\Rendering\Pausing\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
@@ -723,14 +758,14 @@
     <Resource Include="Features\Resources\Images\code_csharp.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Samples\Primitives\Sprites\Assets\sun.png" />
+    <Resource Include="Assets\sun.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Samples\Materials\MaterialPicker\Assets\ReflectionMap.jpg" />
+    <Resource Include="Assets\ReflectionMap.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="Samples\Materials\MaterialPicker\Assets\BalderLogo.png" />
-    <Resource Include="Samples\Materials\MaterialPicker\Assets\VisualStudio.png" />
+    <Resource Include="Assets\BalderLogo.png" />
+    <Resource Include="Assets\VisualStudio.png" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Samples\Creative\Water\sky.jpg" />
@@ -743,63 +778,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Samples\GettingStarted\HelloWorld\Assets\Star.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Programatic\Materials\Assets\BalderLogo.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Programatic\Materials\Assets\ReflectionMap.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Programatic\Materials\Assets\VisualStudio.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Geometries\Mesh\Assets\1.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\2.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\3.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\4.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\401.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\402.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\403.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\404.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\405.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\406.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\407.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\408.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\409.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\6.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\arch.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\baseston.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\entrance.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame01.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame02.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame03.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame2.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame201.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame202.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame203.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\frame204.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\Google01.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\Google_E.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\internal.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\middle.png" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\profile.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\top.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\top_midd.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\window.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\_Charcoa.jpg" />
-    <Resource Include="Samples\Geometries\Mesh\Assets\_Gray6_.jpg" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Assets\Blue.png" />
-    <Resource Include="Samples\Creative\RubicsCube\Assets\Green.png" />
-    <Resource Include="Samples\Creative\RubicsCube\Assets\Orange.png" />
-    <Resource Include="Samples\Creative\RubicsCube\Assets\Red.png" />
-    <Resource Include="Samples\Creative\RubicsCube\Assets\Yellow.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Assets\White.png" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
@@ -818,21 +796,7 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Images\Solve.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Images\RotationHint.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Images\Reset.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Images\Shuffle.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Samples\Creative\RubicsCube\Images\CheatListToggle.png" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -1,4 +1,5 @@
 ﻿using System.Windows.Controls;
+using Balder.Core.Input;
 using Balder.Core.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
@@ -16,7 +17,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 
 		}
 
-		private void Box_MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
+		private void Box_MouseEnter(object sender, MouseEventArgs e)
 		{
 			var box = sender as Box;
 			if( null != box )

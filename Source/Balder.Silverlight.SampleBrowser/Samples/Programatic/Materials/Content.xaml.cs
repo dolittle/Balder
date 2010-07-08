@@ -66,9 +66,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 			_ring.Position.Set(0, 10, 0);
 			_container.Children.Add(_ring);
 
-			_reflectionMapTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Programatic/Materials/Assets/ReflectionMap.jpg");
-			_visualStudioTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Programatic/Materials/Assets/VisualStudio.png");
-			_balderLogoTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Samples/Programatic/Materials/Assets/BalderLogo.png");
+			_reflectionMapTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg");
+			_visualStudioTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/VisualStudio.png");
+			_balderLogoTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png");
 
 			_flatMaterial = new Material
 			{
@@ -109,7 +109,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 
 		private void Game_Initialize(Game game)
 		{
-			game.ContentManager.AssetsRoot = "Samples/Programatic/Materials/Assets";
+			game.ContentManager.AssetsRoot = "Assets";
 
 			var light = new OmniLight
 			            	{
@@ -135,7 +135,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 			_container.Rotation.Y += 1;
 		}
 
-		private void ObjectTypeChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void ObjectTypeChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (null != ObjectComboBox)
 			{
@@ -144,7 +144,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
 		}
 
 
-		private void MaterialTypeChanged(object sender, System.Windows.Controls.SelectionChangedEventArgs e)
+		private void MaterialTypeChanged(object sender, SelectionChangedEventArgs e)
 		{
 			if (null != MaterialComboBox)
 			{

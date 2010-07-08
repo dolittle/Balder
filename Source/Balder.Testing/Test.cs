@@ -19,36 +19,34 @@
 
 #endregion
 
-using System.Collections.ObjectModel;
+using System.Reflection;
+using System.Windows;
+using CThru;
+using TypeMock;
+using Typemock.Isolator.VisualBasic;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Testing
 {
-	public class Depth
+	public class Test
 	{
-		private readonly double _zPosition;
-		public const int RowCount = 5;
-		public const double RowSpace = 12;
-
-
-		public Depth(double zPosition, int depth)
+#if(SILVERLIGHT)
+		static Test()
 		{
-			_zPosition = zPosition;
-			Rows = new ObservableCollection<Row>();
-
-			var position = -(RowSpace*(RowCount/2d));
-			for( var rowIndex=0; rowIndex<RowCount; rowIndex++ )
+			CThruEngine.AddAspectsInAssembly(Assembly.GetExecutingAssembly());
+			/*
+			using( var recorder = RecorderManager.StartRecording())
 			{
-				var row = new Row(position, zPosition, depth, rowIndex);
-				Rows.Add(row);
-				position += RowSpace;
+				VisualStateManager.GoToState(null, "", false);
+				recorder.Return(true);
 			}
-		}
+			using( TheseCalls.WillReturn(true))
+			{
+				VisualStateManager.GoToState(null, "", false);
+			}*/
 
-		public ObservableCollection<Row> Rows { get; private set; }
-
-		public override string ToString()
-		{
-			return string.Format("Depth : {0}", _zPosition);
+			CThruEngine.StartListening();
 		}
+#endif
+		
 	}
 }

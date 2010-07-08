@@ -15,7 +15,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 		public override void OnInitialize()
 		{
-			ContentManager.AssetsRoot = "Samples/Programatic/Teapot/Assets";
+			ContentManager.AssetsRoot = "Assets";
 
 			var light = new OmniLight();
 			light.Diffuse = Color.FromArgb(0xff, 255, 121, 32);

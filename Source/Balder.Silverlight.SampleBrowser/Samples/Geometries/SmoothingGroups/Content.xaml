@@ -13,7 +13,7 @@
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation Duration="00:00:05" From="0,0,0" To="0,360,0" TargetName="Sphere" TargetProperty="(Node.Rotation)"/>
+							<Animation:CoordinateAnimation Duration="00:00:05" From="0,0,0" To="0,360,0" TargetName="Geometry" TargetProperty="(Node.Rotation)"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 					</Storyboard>
 				</BeginStoryboard>
@@ -23,7 +23,7 @@
 			<Execution:Game.Camera>
 				<View:Camera Position="0,20,-500"/>
 			</Execution:Game.Camera>
-			<Geometries:Mesh x:Name="Sphere" AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Geometries/SmoothingGroups/Assets/L.ASE"/>
+			<Geometries:Mesh x:Name="Geometry" AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Geometries/SmoothingGroups/Assets/L.ASE"/>
 
 			<Lighting:DirectionalLight Ambient="Gray" Diffuse="Gray" Specular="White" Direction="0,-1,0"/>
 		</Execution:Game>

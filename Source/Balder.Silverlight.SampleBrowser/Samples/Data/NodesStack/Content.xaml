@@ -17,12 +17,10 @@
 				
 				<Controls:NodesStack.NodeTemplate>
 					<DataTemplate>
-						<Geometries:Mesh AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/Programatic/Teapot/Assets/teapot.ASE"
-										 Color="{Binding Color}" /> 
+						<Geometries:Box Dimension="100,100,100" Color="{Binding Color}"/>
 					</DataTemplate>
 				</Controls:NodesStack.NodeTemplate>
 			</Controls:NodesStack>
-				<!--Data/NodesStack/Assets/box.ase" -->
 
 			<Execution:Game.Camera>
 				<View:Camera Position="0,250,-1000"/>
