@@ -117,6 +117,7 @@ namespace Balder.Silverlight.Controls
 		{
 			_childCount = 0;
 			_expectedCount = -1;
+			Children.Clear();
 
 			if( null != ItemsSource && ItemsSource is ICollection )
 			{
