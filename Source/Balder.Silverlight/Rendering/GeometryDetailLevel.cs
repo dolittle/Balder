@@ -19,7 +19,9 @@ namespace Balder.Silverlight.Rendering
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
 		private static readonly FlatTriangleAdditive FlatTriangleAdditiveRenderer = new FlatTriangleAdditive();
 		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
+		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
+		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 		private readonly IMetaDataPixelBuffer _metaDataPixelBuffer;
@@ -500,7 +502,7 @@ namespace Balder.Silverlight.Rendering
 								face.Color = color.Additive(_lightCalculator.Calculate(viewport, face.TransformedPosition, face.TransformedNormal));
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
-									TextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+									FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
 								}
 								else
 								{
@@ -518,7 +520,7 @@ namespace Balder.Silverlight.Rendering
 
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
-									TextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+									GouraudTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
 								}
 								else
 								{
