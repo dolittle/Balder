@@ -70,7 +70,7 @@ namespace Balder.Core.Silverlight.Helpers
 					_openTimer = new DispatcherTimer();
 					_openTimer.Tick += OpenAutomaticToolTip;
 				}
-				_openTimer.Interval = new TimeSpan(0, 0, 0, 0, 400);
+				_openTimer.Interval = new TimeSpan(0, 0, 0, 0, _lastEnterSource.ToolTipStartDelay);
 				_openTimer.Start();
 			}
 		}
@@ -114,7 +114,7 @@ namespace Balder.Core.Silverlight.Helpers
 						_closeTimer.Tick += CloseAutomaticToolTip;
 					}
 
-					_closeTimer.Interval = new TimeSpan(0, 0, 0, 0, 0x1388);
+					_closeTimer.Interval = new TimeSpan(0, 0, 0, 0, source.ToolTipShowPeriod);
 					_closeTimer.Start();
 				}
 			}

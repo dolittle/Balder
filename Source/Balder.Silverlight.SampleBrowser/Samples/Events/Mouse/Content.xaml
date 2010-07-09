@@ -18,7 +18,8 @@
 				MouseEnter="Mesh_MouseEnter"
 				MouseLeave="Mesh_MouseLeave"
 				MouseLeftButtonDown="Mesh_MouseLeftButtonDown"
-				MouseLeftButtonUp="Mesh_MouseLeftButtonUp">
+				MouseLeftButtonUp="Mesh_MouseLeftButtonUp"
+				>
 				<Geometries:Box.ToolTip>
 					<ToolTip>
 						<ToolTip.Content>

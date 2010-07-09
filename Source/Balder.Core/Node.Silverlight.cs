@@ -85,6 +85,14 @@ namespace Balder.Core
 		public static readonly Property<Node, ToolTip> ToolTipProperty =
 			Property<Node, ToolTip>.Register(o => o.ToolTip);
 
+		/// <summary>
+		/// Tooltip to use on node
+		/// </summary>
+		/// <remarks>
+		/// The property has a TypeConverter which enables one to enter
+		/// anything in the Xaml and it will be converted to a ToolTip
+		/// object.
+		/// </remarks>
 		[TypeConverter(typeof(ToolTipTypeConverter))]
 		public ToolTip ToolTip
 		{
@@ -94,6 +102,38 @@ namespace Balder.Core
 				ToolTipProperty.SetValue(this, value);
 				NodeTooltipHelper.Register(this);
 			}
+		}
+
+		public static readonly Property<Node, int> ToolTipStartDelayProperty =
+			Property<Node, int>.Register(o => o.ToolTipStartDelay, 400);
+		
+		/// <summary>
+		/// Gets or sets the delay when a node has the mouse over till the tooltip shows up 
+		/// in milliseconds.
+		/// </summary>
+		/// <remarks>
+		/// Default value is 400. Almost half a second.
+		/// </remarks>
+		public int ToolTipStartDelay
+		{
+			get { return ToolTipStartDelayProperty.GetValue(this); }
+			set { ToolTipStartDelayProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Node, int> ToolTipShowPeriodProperty =
+			Property<Node, int>.Register(o => o.ToolTipShowPeriod, 5000);
+
+		/// <summary>
+		/// Gets or sets the period a tooltip should be visible while mouse is hovering over,
+		/// in milliseconds
+		/// </summary>
+		/// <remarks>
+		/// Default value is 5000 - 5 seconds.
+		/// </remarks>
+		public int ToolTipShowPeriod
+		{
+			get { return ToolTipShowPeriodProperty.GetValue(this); }
+			set { ToolTipShowPeriodProperty.SetValue(this, value); }
 		}
 
 
