@@ -3,6 +3,7 @@ using System.Windows.Media;
 using Balder.Core.Execution;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
+using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Color=Balder.Core.Color;
@@ -11,7 +12,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 {
 	public class MyGame : Game
 	{
-		private Mesh _teapot;
+		private Box _teapot;
 
 		public override void OnInitialize()
 		{
@@ -38,7 +39,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 
 		public override void OnLoadContent()
 		{
-			_teapot = ContentManager.Load<Mesh>("teapot.ASE");
+
+			_teapot = new Box();
+			_teapot.Dimension = new Coordinate(20,20,20);
+				//ContentManager.Load<Mesh>("teapot.ASE");
 
 			var material = new Material
 			               	{

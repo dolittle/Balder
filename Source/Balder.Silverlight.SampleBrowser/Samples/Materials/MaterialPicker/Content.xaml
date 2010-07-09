@@ -10,8 +10,8 @@
 	<UserControl.Resources>
 		<Materials:Material x:Key="FlatMaterial" Diffuse="Red" Shade="Flat"/>
 		<Materials:Material x:Key="GouraudMaterial"  Diffuse="Red" Shade="Gouraud"/>
-		<Materials:Material x:Key="TexturedMaterial" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
-		<Materials:Material x:Key="ReflectionMaterial" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="TexturedMaterial" Shade="Flat" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="ReflectionMaterial" Shade="Flat" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
 	</UserControl.Resources>
 	
 	<Grid x:Name="LayoutRoot">
@@ -19,6 +19,7 @@
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
+						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(X)" From="0" To="359" Duration="00:00:03"/>
 						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(Y)" From="0" To="359" Duration="00:00:05"/>
 					</Storyboard>
 				</BeginStoryboard>
@@ -31,7 +32,7 @@
 				<View:Camera x:Name="Camera" Position="0,80,-150" Target="0,10,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,400,0" Ambient="Gray" Diffuse="Gray" Specular="White"/>
+			<Lighting:OmniLight Position="0,400,0" Ambient="Black" Diffuse="Black" Specular="White"/>
 			
 			<Geometries:Geometry x:Name="GeometryContainer">
 				<Geometries:Mesh x:Name="Teapot" AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ase" IsVisible="True"/>
