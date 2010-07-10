@@ -155,6 +155,7 @@
     <Compile Include="Execution\MessengerContextTests.cs" />
     <Compile Include="Execution\MessengerSubscriptionTests.cs" />
     <Compile Include="Execution\MessengerTests.cs" />
+    <Compile Include="Execution\PropertyTests.cs" />
     <Compile Include="Extensions\ViewportExtensionsTests.cs" />
     <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />
     <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs" />
@@ -163,7 +164,6 @@
     <Compile Include="Fakes\FakeGeometryContext.cs" />
     <Compile Include="Fakes\FakeGeometryDetailLevel.cs" />
     <Compile Include="Fakes\StringFileLoader.cs" />
-    <Compile Include="Helpers\DependencyPropertyTests.cs" />
     <Compile Include="Input\MouseButtonStateTests.cs" />
     <Compile Include="Input\MouseManagerTests.cs" />
     <Compile Include="Math\BoundingSphereTests.cs" />

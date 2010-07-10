@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using System.Windows;
-using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.Silverlight.Extensions;
 
@@ -129,21 +128,6 @@ namespace Balder.Core.Execution
 
 		private void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
-			if (e.NewValue is Coordinate)
-			{
-				var coordinate = ((Coordinate) e.NewValue);
-				if (_propertyInfo.Name.Equals("Scale") && coordinate.X != 1d)
-				{
-					var i = 0;
-					i++;
-				}
-				if (_propertyInfo.Name.Equals("PivotPoint") && coordinate.X != 0d)
-				{
-					var i = 0;
-					i++;
-				}
-			}
-
 			var objectProperty = GetObjectProperty((T)obj);
 			var oldValue = objectProperty.Value;
 			var newValue = (TP) e.NewValue;
@@ -186,7 +170,7 @@ namespace Balder.Core.Execution
 		}
 
 #else
-		private void Initialize(PropertyInfo propertyInfo)
+		private void Initialize()
 		{
 			
 		}
