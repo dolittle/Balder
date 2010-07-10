@@ -22,6 +22,7 @@
 using System.Collections.Specialized;
 using System.Windows.Markup;
 using Balder.Core.Collections;
+using Balder.Core.Execution;
 using Balder.Core.Rendering;
 
 namespace Balder.Core
@@ -37,6 +38,12 @@ namespace Balder.Core
 #if(SILVERLIGHT)
 			Children.CollectionChanged += ChildrenChanged;
 #endif
+		}
+
+		protected HierarchicalNode(IIdentityManager identityManager)
+			: base(identityManager)
+		{
+			
 		}
 
 		public NodeCollection Children { get; private set; }

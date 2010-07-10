@@ -175,7 +175,7 @@ namespace Balder.Core.Execution
 
 		private void OnSet(T obj, TP value, ObjectProperty<TP> objectProperty)
 		{
-			if( Deployment.Current.Dispatcher.CheckAccess())
+			if( null == Deployment.Current || Deployment.Current.Dispatcher.CheckAccess())
 			{
 				obj.SetValue(ActualDependencyProperty, value);
 			} else

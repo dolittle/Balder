@@ -39,10 +39,22 @@ namespace Balder.Core.Objects.Geometries
 			MakeUnique();
 		}
 
+		public Geometry(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(identityManager)
+		{
+			GeometryContext = geometryContext;
+			InitializeProperties();
+		}
+
 
 		public void MakeUnique()
 		{
 			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
+			InitializeProperties();
+		}
+
+		private void InitializeProperties()
+		{
 			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 
@@ -119,7 +131,7 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
-		public Property<Geometry, Material> MaterialProperty = Property<Geometry, Material>.Register(g => g.Material);
+		public static readonly Property<Geometry, Material> MaterialProperty = Property<Geometry, Material>.Register(g => g.Material);
 		public Material Material
 		{
 			get { return MaterialProperty.GetValue(this); }

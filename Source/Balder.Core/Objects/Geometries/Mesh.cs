@@ -34,12 +34,15 @@ namespace Balder.Core.Objects.Geometries
 		private bool _materialSet = false;
 
 		public Mesh()
-			: this(Runtime.Instance.Kernel.Get<IContentManager>())
+			: this(
+				Runtime.Instance.Kernel.Get<IContentManager>(),
+				Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 
 		}
 
-		public Mesh(IContentManager contentManager)
+		public Mesh(IContentManager contentManager, IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			_contentManager = contentManager;
 		}

@@ -75,14 +75,15 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		{
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
+			var identityManagerMock = new Mock<IIdentityManager>();
 			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
 																					{
-																						var geometry = new Geometry();
+																						var geometry = new Geometry(geometryContext, identityManagerMock.Object);
 																						geometry.GeometryContext = geometryContext;
 																						return geometry;
 																					});
 			var contentCreatorMock = new Mock<IContentCreator>();
-			var identityManagerMock = new Mock<IIdentityManager>();
+			
 			contentCreatorMock.Expect(c => c.CreateMaterial()).Returns(new Material(identityManagerMock.Object));
 			mockContentManager.Expect(c => c.Creator).Returns(contentCreatorMock.Object);
 

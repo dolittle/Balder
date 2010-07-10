@@ -161,6 +161,7 @@
     <Compile Include="Fakes\ContentManager.cs" />
     <Compile Include="Fakes\FakeDisplayDevice.cs" />
     <Compile Include="Fakes\FakeGeometryContext.cs" />
+    <Compile Include="Fakes\FakeGeometryDetailLevel.cs" />
     <Compile Include="Fakes\StringFileLoader.cs" />
     <Compile Include="Helpers\DependencyPropertyTests.cs" />
     <Compile Include="Input\MouseButtonStateTests.cs" />

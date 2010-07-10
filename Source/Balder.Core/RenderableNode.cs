@@ -33,6 +33,11 @@ namespace Balder.Core
 			InitializeColor();
 		}
 
+		protected RenderableNode(IIdentityManager identityManager)
+			: base(identityManager)
+		{
+			
+		}
 
 		private void InitializeColor()
 		{
