@@ -33,17 +33,18 @@ namespace Balder.Core
 	public class HierarchicalNode : Node, IHaveChildren
 	{
 		protected HierarchicalNode()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
-			Children = new NodeCollection(this);
-#if(SILVERLIGHT)
-			Children.CollectionChanged += ChildrenChanged;
-#endif
 		}
 
 		protected HierarchicalNode(IIdentityManager identityManager)
 			: base(identityManager)
 		{
-			
+			Children = new NodeCollection(this);
+#if(SILVERLIGHT)
+			Children.CollectionChanged += ChildrenChanged;
+#endif
+		
 		}
 
 		public NodeCollection Children { get; private set; }
