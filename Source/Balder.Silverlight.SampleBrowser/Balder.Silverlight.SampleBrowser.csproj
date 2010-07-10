@@ -621,6 +621,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\bird spaceship lp.ASE" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
@@ -796,7 +797,9 @@
       <Install>true</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\spaceship lp.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

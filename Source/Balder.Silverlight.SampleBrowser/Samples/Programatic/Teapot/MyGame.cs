@@ -12,7 +12,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 {
 	public class MyGame : Game
 	{
-		private Box _teapot;
+		private Mesh _teapot;
 
 		public override void OnInitialize()
 		{
@@ -40,8 +40,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 		public override void OnLoadContent()
 		{
 
-			_teapot = new Box();
-			_teapot.Dimension = new Coordinate(20,20,20);
+			_teapot = ContentManager.Load<Mesh>("teapot.ASE");
+				//new Box();
+			//_teapot.Dimension = new Coordinate(20,20,20);
 				//ContentManager.Load<Mesh>("teapot.ASE");
 
 			var material = new Material

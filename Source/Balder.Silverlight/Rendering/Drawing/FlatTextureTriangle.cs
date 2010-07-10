@@ -27,82 +27,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 {
 	public class FlatTextureTriangle : Triangle
 	{
-		private static uint[,] _addedComponent;
-		private static uint[,] _multipliedRedComponent;
-		private static uint[,] _multipliedGreenComponent;
-		private static uint[,] _multipliedBlueComponent;
-		private static uint[,] _multipliedAlphaComponent;
-
-		static FlatTextureTriangle()
-		{
-			CalculateAddedComponent();
-			CalculateMultipliedComponent();
-		}
-
-		private static void CalculateAddedComponent()
-		{
-			_addedComponent = new uint[256, 256];
-			for( var a=0; a<256; a++)
-			{
-				for( var b=0; b<256; b++)
-				{
-					var component = a + b;
-					if( component > 255 )
-					{
-						component = 255;
-					}
-					_addedComponent[a, b] = (uint)component;
-				}
-			}
-		}
-
-		private static void CalculateMultipliedComponent()
-		{
-			_multipliedRedComponent = new uint[256, 256];
-			_multipliedGreenComponent = new uint[256, 256];
-			_multipliedBlueComponent = new uint[256, 256];
-			_multipliedAlphaComponent = new uint[256, 256];
-			for (var a = 0; a < 256; a++)
-			{
-				for (var b = 0; b < 256; b++)
-				{
-					var floatA = ((float) a)/256f;
-					var floatB = ((float)b) / 256f;
-
-					var multiplied = floatA*floatB;
-					var component = (int)(multiplied*256f);
-					if (component > 255)
-					{
-						component = 255;
-					}
-					_multipliedRedComponent[a, b] = ((uint)component) << 16;
-					_multipliedGreenComponent[a, b] = ((uint)component) << 8;
-					_multipliedBlueComponent[a, b] = ((uint)component);
-					_multipliedAlphaComponent[a, b] = ((uint)component) << 24;
-				}
-			}
-			
-		}
-
-		private static int AddColors(int a, int b)
-		{
-			var alphaA = ((a >> 24) & 0xff);
-			var redA = ((a >> 16) & 0xff);
-			var greenA = ((a >> 8) & 0xff);
-			var blueA = ((a) & 0xff);
-
-			var alphaB = ((b >> 24) & 0xff);
-			var redB = ((b >> 16) & 0xff);
-			var greenB = ((b >> 8) & 0xff);
-			var blueB = ((b) & 0xff);
-
-			var addedPixel =
-				_multipliedAlphaComponent[alphaA, alphaB] |
-				_multipliedRedComponent[redA, redB] |
-				_multipliedGreenComponent[greenA, greenB] |
-				_multipliedBlueComponent[blueA, blueB];
-			return (int)addedPixel;
-		}
 
 		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
@@ -448,7 +372,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			ImageContext imageContext,
 			UInt32[] nodeBuffer,
 			UInt32 nodeIdentifier,
-			int colorToAdd)
+			int faceColor)
 		{
 
 			for (var x = 0; x <= length; x++)
@@ -464,7 +388,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 
-					framebuffer[offset] = AddColors(imageContext.Pixels[texel],colorToAdd);
+					framebuffer[offset] = Clut.MultiplyColors(imageContext.Pixels[texel],faceColor);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}

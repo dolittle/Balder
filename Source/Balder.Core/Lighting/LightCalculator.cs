@@ -14,6 +14,7 @@ namespace Balder.Core.Lighting
 			{
 				var lightColor = light.Calculate(viewport, vector, normal);
 				color = color.Additive(lightColor);
+				return color;
 			}
 
 			return color;

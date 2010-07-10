@@ -87,19 +87,27 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 
 
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
+			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
 			var ua = vertexA.U * image.Width;
 			var va = vertexA.V * image.Height;
+			var ra = face.CalculatedColorA.Red;
+			var ga = face.CalculatedColorA.Green;
+			var ba = face.CalculatedColorA.Blue;
+			var aa = face.CalculatedColorA.Alpha;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
 			var ub = vertexB.U * image.Width;
 			var vb = vertexB.V * image.Height;
+			var rb = face.CalculatedColorB.Red;
+			var gb = face.CalculatedColorB.Green;
+			var bb = face.CalculatedColorB.Blue;
+			var ab = face.CalculatedColorB.Alpha;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
@@ -107,6 +115,10 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var zc = vertexC.DepthBufferAdjustedZ;
 			var uc = vertexC.U * image.Width;
 			var vc = vertexC.V * image.Height;
+			var rc = face.CalculatedColorC.Red;
+			var gc = face.CalculatedColorC.Green;
+			var bc = face.CalculatedColorC.Blue;
+			var ac = face.CalculatedColorC.Alpha;
 
 
 			var deltaX1 = xb - xa;
@@ -129,6 +141,22 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var deltaV2 = vc - vb;
 			var deltaV3 = vc - va;
 
+			var deltaR1 = rb - ra;
+			var deltaR2 = rc - rb;
+			var deltaR3 = rc - ra;
+
+			var deltaG1 = gb - ga;
+			var deltaG2 = gc - gb;
+			var deltaG3 = gc - ga;
+
+			var deltaB1 = bb - ba;
+			var deltaB2 = bc - bb;
+			var deltaB3 = bc - ba;
+
+			var deltaA1 = ab - aa;
+			var deltaA2 = ac - ab;
+			var deltaA3 = ac - aa;
+
 			var x1 = xa;
 			var x2 = xa;
 
@@ -140,6 +168,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 			var v1 = va;
 			var v2 = va;
+
+			var r1 = ra;
+			var r2 = ra;
+
+			var g1 = ga;
+			var g2 = ga;
+
+			var b1 = ba;
+			var b2 = ba;
+
+			var a1 = aa;
+			var a2 = aa;
 
 			var xInterpolate1 = deltaX3 / deltaY3;
 			var xInterpolate2 = deltaX1 / deltaY1;
@@ -156,6 +196,22 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var vInterpolate1 = deltaV3 / deltaY3;
 			var vInterpolate2 = deltaV1 / deltaY1;
 			var vInterpolate3 = deltaV2 / deltaY2;
+
+			var rInterpolate1 = deltaR3 / deltaY3;
+			var rInterpolate2 = deltaR1 / deltaY1;
+			var rInterpolate3 = deltaR2 / deltaY2;
+
+			var gInterpolate1 = deltaG3 / deltaY3;
+			var gInterpolate2 = deltaG1 / deltaY1;
+			var gInterpolate3 = deltaG2 / deltaY2;
+
+			var bInterpolate1 = deltaB3 / deltaY3;
+			var bInterpolate2 = deltaB1 / deltaY1;
+			var bInterpolate3 = deltaB2 / deltaY2;
+
+			var aInterpolate1 = deltaA3 / deltaY3;
+			var aInterpolate2 = deltaA1 / deltaY1;
+			var aInterpolate3 = deltaA2 / deltaY2;
 
 			var framebuffer = BufferContainer.Framebuffer;
 			var depthBuffer = BufferContainer.DepthBuffer;
@@ -191,6 +247,10 @@ namespace Balder.Silverlight.Rendering.Drawing
 				z1 = za + zInterpolate1 * yClipTopAsFloat;
 				u1 = ua + uInterpolate1 * yClipTopAsFloat;
 				v1 = va + vInterpolate1 * yClipTopAsFloat;
+				r1 = ra + rInterpolate1 * yClipTopAsFloat;
+				g1 = ga + gInterpolate1 * yClipTopAsFloat;
+				b1 = ba + bInterpolate1 * yClipTopAsFloat;
+				a1 = aa + aInterpolate1 * yClipTopAsFloat;
 
 				if (yb < 0)
 				{
@@ -208,6 +268,17 @@ namespace Balder.Silverlight.Rendering.Drawing
 					v2 = vb + (vInterpolate3 * ySecondClipTop);
 					vInterpolate2 = vInterpolate3;
 
+					r2 = rb + (rInterpolate3 * ySecondClipTop);
+					rInterpolate2 = rInterpolate3;
+
+					g2 = gb + (gInterpolate3 * ySecondClipTop);
+					gInterpolate2 = gInterpolate3;
+
+					b2 = bb + (bInterpolate3 * ySecondClipTop);
+					bInterpolate2 = bInterpolate3;
+
+					a2 = ab + (aInterpolate3 * ySecondClipTop);
+					aInterpolate2 = aInterpolate3;
 				}
 				else
 				{
@@ -215,6 +286,10 @@ namespace Balder.Silverlight.Rendering.Drawing
 					z2 = za + zInterpolate2 * yClipTopAsFloat;
 					u2 = ua + uInterpolate2 * yClipTopAsFloat;
 					v2 = va + vInterpolate2 * yClipTopAsFloat;
+					r2 = ra + rInterpolate2 * yClipTopAsFloat;
+					g2 = ga + gInterpolate2 * yClipTopAsFloat;
+					b2 = ba + bInterpolate2 * yClipTopAsFloat;
+					a2 = aa + aInterpolate2 * yClipTopAsFloat;
 				}
 			}
 
@@ -241,6 +316,19 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var vEnd = 0f;
 			var vAdd = 0f;
 
+			var rStart = 0f;
+			var rEnd = 0f;
+			var rAdd = 0f;
+			var gStart = 0f;
+			var gEnd = 0f;
+			var gAdd = 0f;
+			var bStart = 0f;
+			var bEnd = 0f;
+			var bAdd = 0f;
+			var aStart = 0f;
+			var aEnd = 0f;
+			var aAdd = 0f;
+
 
 			for (var y = yStart; y <= yEnd; y++)
 			{
@@ -257,6 +345,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					vStart = v2;
 					vEnd = v1;
+
+					rStart = r2;
+					rEnd = r1;
+
+					gStart = g2;
+					gEnd = g1;
+
+					bStart = b2;
+					bEnd = b1;
+
+					aStart = a2;
+					aEnd = a1;
 				}
 				else
 				{
@@ -273,6 +373,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					vStart = v1;
 					vEnd = v2;
+
+					rStart = r1;
+					rEnd = r2;
+
+					gStart = g1;
+					gEnd = g2;
+
+					bStart = b1;
+					bEnd = b2;
+
+					aStart = a1;
+					aEnd = a2;
 				}
 				originalLength = xEnd - xStart;
 
@@ -296,13 +408,33 @@ namespace Balder.Silverlight.Rendering.Drawing
 					zAdd = (zEnd - zStart) / lengthAsFloat;
 					uAdd = (uEnd - uStart) / lengthAsFloat;
 					vAdd = (vEnd - vStart) / lengthAsFloat;
+					rAdd = (rEnd - rStart) / lengthAsFloat;
+					gAdd = (gEnd - gStart) / lengthAsFloat;
+					bAdd = (bEnd - bStart) / lengthAsFloat;
+					aAdd = (aEnd - aStart) / lengthAsFloat;
 
 					if (xClipStartAsFloat > 0)
 					{
 						zStart += (zAdd * xClipStartAsFloat);
 						uStart += (uAdd * xClipStartAsFloat);
 						vStart += (vAdd * xClipStartAsFloat);
+						rStart += (rAdd * xClipStartAsFloat);
+						gStart += (gAdd * xClipStartAsFloat);
+						bStart += (bAdd * xClipStartAsFloat);
+						aStart += (aAdd * xClipStartAsFloat);
 					}
+
+					var rStartInt = ((int)(rStart * 255f)) << 8;
+					var rAddInt = (int)(rAdd * 65535f);
+
+					var gStartInt = ((int)(gStart * 255f)) << 8;
+					var gAddInt = (int)(gAdd * 65535f);
+
+					var bStartInt = ((int)(bStart * 255f)) << 8;
+					var bAddInt = (int)(bAdd * 65535f);
+
+					var aStartInt = ((int)(aStart * 255f)) << 8;
+					var aAddInt = (int)(aAdd * 65535f);
 
 					offset = yoffset + xStart;
 					DrawSpan(length,
@@ -312,6 +444,14 @@ namespace Balder.Silverlight.Rendering.Drawing
 							 uAdd,
 							 vStart,
 							 vAdd,
+							 rStartInt,
+							 rAddInt,
+							 gStartInt,
+							 gAddInt,
+							 bStartInt,
+							 bAddInt,
+							 aStartInt,
+							 aAddInt,
 							 depthBuffer,
 							 offset,
 							 framebuffer,
@@ -334,6 +474,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					v2 = vb;
 					vInterpolate2 = vInterpolate3;
+
+					r2 = rb;
+					rInterpolate2 = rInterpolate3;
+
+					g2 = gb;
+					gInterpolate2 = gInterpolate3;
+
+					b2 = bb;
+					bInterpolate2 = bInterpolate3;
+
+					a2 = ab;
+					aInterpolate2 = aInterpolate3;
 				}
 
 
@@ -349,12 +501,22 @@ namespace Balder.Silverlight.Rendering.Drawing
 				v1 += vInterpolate1;
 				v2 += vInterpolate2;
 
+				r1 += rInterpolate1;
+				r2 += rInterpolate2;
+
+				g1 += gInterpolate1;
+				g2 += gInterpolate2;
+
+				b1 += bInterpolate1;
+				b2 += bInterpolate2;
+
+				a1 += aInterpolate1;
+				a2 += aInterpolate2;
+
 				yoffset += BufferContainer.Width;
 			}
 
 		}
-
-		static int ColorToAdd = (int)Color.FromArgb(0, 0, 0, 0x80).ToUInt32();
 
 
 		protected virtual void DrawSpan(
@@ -365,6 +527,14 @@ namespace Balder.Silverlight.Rendering.Drawing
 			float uAdd,
 			float vStart,
 			float vAdd,
+			int rStart,
+			int rAdd,
+			int gStart,
+			int gAdd,
+			int bStart,
+			int bAdd,
+			int aStart,
+			int aAdd,
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
@@ -388,7 +558,18 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 
-					framebuffer[offset] = imageContext.Pixels[texel];
+					var red = (uint)(rStart >> 8) & 0xff;
+					var green = (uint)(gStart >> 8) & 0xff;
+					var blue = (uint)(bStart >> 8) & 0xff;
+					//var alpha = (uint)(aStart >> 8) & 0xff;
+
+					uint colorAsInt = 0xff000000 |
+									  (red << 16) |
+									  (green << 8) |
+									  blue;
+
+
+					framebuffer[offset] = Clut.MultiplyColors(imageContext.Pixels[texel],(int)colorAsInt);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}
@@ -397,6 +578,10 @@ namespace Balder.Silverlight.Rendering.Drawing
 				zStart += zAdd;
 				uStart += uAdd;
 				vStart += vAdd;
+				rStart += rAdd;
+				gStart += gAdd;
+				bStart += bAdd;
+				aStart += aAdd;
 			}
 		}
 
