@@ -18,8 +18,10 @@
 #endregion
 using Balder.Core.Display;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
 using Balder.Core.View;
 using CThru.Silverlight;
+using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Math
@@ -33,7 +35,8 @@ namespace Balder.Core.Tests.Math
 		[TestFixtureSetUp, SilverlightSetUp]
 		public void Setup()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+				var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
 			_camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			viewport.View = _camera;
 			
