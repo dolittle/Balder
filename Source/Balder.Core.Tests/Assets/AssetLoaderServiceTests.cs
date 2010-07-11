@@ -17,12 +17,13 @@
 //
 #endregion
 
+using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests
+namespace Balder.Core.Tests.Assets
 {
 	[TestFixture]
-	public class AssetLoaderServiceTests
+	public class AssetLoaderServiceTests : TestFixture
 	{
 	}
 }

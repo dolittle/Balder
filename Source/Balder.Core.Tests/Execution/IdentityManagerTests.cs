@@ -20,12 +20,13 @@
 #endregion
 
 using Balder.Core.Execution;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Execution
 {
 	[TestFixture]
-	public class IdentityManagerTests
+	public class IdentityManagerTests : TestFixture
 	{
 		[Test]
 		public void GettingFirstIdentityForTypeShouldReturnOne()

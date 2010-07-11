@@ -29,14 +29,14 @@ using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.Tests.Fakes;
-using CThru.Silverlight;
+using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Assets.AssetLoaders
 {
 	[TestFixture]
-	public class AseLoaderTests
+	public class AseLoaderTests : TestFixture
 	{
 		private static string GetResourceString(byte[] bytes)
 		{
@@ -76,7 +76,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		}
 
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		[TestCase("SingleBox")]
 		public void SingleObjectFileShouldReturnOneGeometry(string aseFile)
 		{
@@ -85,7 +85,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		}
 
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SingleObjectFileShouldHaveVerticesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBox");
@@ -103,7 +103,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(vertices[2].Z, Is.EqualTo(10f));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SingleObjectFileShouldHaveFacesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBox");
@@ -116,7 +116,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(faces[0].C, Is.EqualTo(3));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SingleObjectFileWithTextureInfoShouldHaveTextureCoordinatesLoadedCorrectly()
 		{
 			var geometries = LoadGeometries("SingleBoxWithDiffuseMaterial");
@@ -133,7 +133,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(faces[0].DiffuseC, Is.EqualTo(10));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SingleObjectFileWithDiffuseTextureShouldLoadMaterialAndImage()
 		{
 			var geometries = LoadGeometries("SingleBoxWithDiffuseMaterial");
@@ -141,14 +141,14 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries[0].Material.DiffuseMap, Is.Not.Null);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void TwoObjectFileShouldReturnTwoGeometries()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
 			Assert.That(geometries.Length, Is.EqualTo(2));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void TwoObjectFileShouldHavePositionForObjectsReadCorrectly()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
@@ -161,7 +161,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries[1].Position.Z, Is.EqualTo(40d));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void TwoObjectFileShouldHaveScaleForObjectsReadCorrectly()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
@@ -174,7 +174,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			Assert.That(geometries[1].Scale.Z, Is.EqualTo(2d));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void FileWithNormalsShouldLoadFaceNormals()
 		{
 			var geometries = LoadGeometries("SplitSphere");

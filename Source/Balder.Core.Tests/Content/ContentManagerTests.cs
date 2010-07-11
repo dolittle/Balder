@@ -22,12 +22,13 @@
 using System;
 using System.Collections.Generic;
 using Balder.Core.Assets;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Content
 {
 	[TestFixture]
-	public class ContentManagerTests
+	public class ContentManagerTests : TestFixture
 	{
 		public class MyAssetPart : IAssetPart
 		{

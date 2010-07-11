@@ -19,12 +19,8 @@
 
 #endregion
 
-using System;
 using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using CThru.Silverlight;
+using Balder.Testing;
 using NUnit.Framework;
 #if(SILVERLIGHT)
 using System.Windows;
@@ -33,7 +29,7 @@ using System.Windows;
 namespace Balder.Core.Tests.Execution
 {
 	[TestFixture]
-	public class PropertyTests
+	public class PropertyTests : TestFixture
 	{
 		public class SomeOtherClass
 		{
@@ -46,7 +42,7 @@ namespace Balder.Core.Tests.Execution
 #else
 		public class SomeClass : 
 #endif
- ICanNotifyChanges
+			 ICanNotifyChanges
 		{
 			public const int IntDefault = 42;
 			public const float FloatDefault = 42.42f;
@@ -120,7 +116,7 @@ namespace Balder.Core.Tests.Execution
 		}
 
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingIntValueShouldReturnSameValue()
 		{
 			var instance = new SomeClass();
@@ -132,7 +128,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingFloatValueShouldReturnSameValue()
 		{
 			var instance = new SomeClass();
@@ -144,7 +140,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingStringValueShouldReturnSameValue()
 		{
 			var instance = new SomeClass();
@@ -156,28 +152,28 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(actual, Is.EqualTo(expected));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void IntPropertyWithDefaultValueShouldHaveItsDefaultValueSetWhenObjectIsInstantiated()
 		{
 			var instance = new SomeClass();
 			Assert.That(instance.IntWithDefault, Is.EqualTo(SomeClass.IntDefault));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void FloatPropertyWithDefaultValueShouldHaveItsDefaultValueSetWhenObjectIsInstantiated()
 		{
 			var instance = new SomeClass();
 			Assert.That(instance.FloatWithDefault, Is.EqualTo(SomeClass.FloatDefault));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void StringPropertyWithDefaultValueShouldHaveItsDefaultValueSetWhenObjectIsInstantiated()
 		{
 			var instance = new SomeClass();
 			Assert.That(instance.StringWithDefault, Is.EqualTo(SomeClass.StringDefault));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingValueShouldCallNotifyIfNotificationInterfaceIsImplemented()
 		{
 			var instance = new SomeClass();
@@ -185,7 +181,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(instance.WasNotified, Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingValueWhenNoValueHasBeenSetOrDefaultValueExistForStringShouldHaveOldValueBeNullDuringNotify()
 		{
 			var instance = new SomeClass();
@@ -193,7 +189,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(instance.OldValue, Is.Null);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingValueShouldCallNotifyWithCorrectNameOfProperty()
 		{
 			var instance = new SomeClass();
@@ -201,7 +197,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(instance.PropertyName, Is.EqualTo("String"));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingValueShouldCallNotifyWithNewValue()
 		{
 			var instance = new SomeClass();
@@ -210,7 +206,7 @@ namespace Balder.Core.Tests.Execution
 			Assert.That(instance.NewValue, Is.EqualTo(expected));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingCustomRefTypeShouldReturnSameInstanceWhenGetting()
 		{
 			var instance = new SomeClass();

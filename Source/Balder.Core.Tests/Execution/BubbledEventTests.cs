@@ -23,6 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Input;
 using Balder.Core.Math;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Execution
@@ -88,7 +89,7 @@ namespace Balder.Core.Tests.Execution
 	}
 
 	[TestFixture]
-	public class BubbledEventTests
+	public class BubbledEventTests : TestFixture
 	{
 		[Test]
 		public void RaisingBubbledEventShouldCallHandlersAdded()

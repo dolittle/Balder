@@ -19,16 +19,16 @@
 using Balder.Core.Display;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
-using CThru.Silverlight;
+using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Extensions
 {
 	[TestFixture]
-	public class ViewportExtensionsTests
+	public class ViewportExtensionsTests : TestFixture
 	{
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void UnprojectingCenterOfViewportWithIdentityViewShouldGenerateAVectorAtCenter()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
@@ -43,7 +43,7 @@ namespace Balder.Core.Tests.Extensions
 			Assert.That(result, Is.EqualTo(Vector.Forward));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void UnprojectingCenterOfViewportWithViewRotated90DegreesAroundYAxisShouldGenerateAVectorRotated90DegreesInOpositeDirection()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();

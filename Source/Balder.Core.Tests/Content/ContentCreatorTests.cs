@@ -19,12 +19,13 @@
 
 #endregion
 using System;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Content
 {
 	[TestFixture]
-	public class ContentCreatorTests
+	public class ContentCreatorTests : TestFixture
 	{
 		public class DeviceContextNode : Node
 		{

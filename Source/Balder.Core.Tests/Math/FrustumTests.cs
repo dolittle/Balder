@@ -20,13 +20,14 @@ using Balder.Core.Display;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.View;
+using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Math
 {
 	[TestFixture]
-	public class FrustumTests
+	public class FrustumTests : TestFixture
 	{
 		private Frustum _frustum;
 		private Camera _camera;

@@ -21,7 +21,7 @@ using System.Linq.Expressions;
 using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Tests.Fakes;
-using CThru.Silverlight;
+using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 using Balder.Core.Execution;
@@ -29,7 +29,7 @@ using Balder.Core.Execution;
 namespace Balder.Core.Tests
 {
 	[TestFixture]
-	public class RuntimeTests
+	public class RuntimeTests : TestFixture
 	{
 		private static void EventShouldBeCalledForStateDuringRegistration(Expression<Action<Game>> eventExpression, PlatformState state, bool changeStateFirst)
 		{
@@ -83,25 +83,25 @@ namespace Balder.Core.Tests
 			Assert.That(eventCalled, Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void RegisteredGameShouldHaveItsInitializeCalledAfterInitializeStateChangeOccursOnPlatform()
 		{
 			EventShouldBeCalledForStateDuringRegistration(g => g.OnInitialize(), PlatformState.Initialize, false);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void GameRegisteredAfterInitializeStateChangeOccuredOnPlatformShouldHaveItsInitializeEventCalledDirectly()
 		{
 			EventShouldBeCalledForStateDuringRegistration(g => g.OnInitialize(), PlatformState.Initialize, true);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void RegisteredGameShouldHaveItsLoadCalledAfterLoadStateChangeOccursOnPlatform()
 		{
 			EventShouldBeCalledForStateDuringRegistration(g => g.OnLoadContent(), PlatformState.Load, false);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void GameRegisteredAfterLoadStateChangeOccuredOnPlatformShouldHaveItsLoadEventCalledDirectly()
 		{
 			EventShouldBeCalledForStateDuringRegistration(g => g.OnLoadContent(), PlatformState.Load, true);

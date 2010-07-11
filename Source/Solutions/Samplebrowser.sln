@@ -27,6 +27,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Desktop", "..\B
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Desktop", "..\Balder.Core.Tests\Balder.Core.Tests.Desktop.csproj", "{DF5C98AD-64D5-42FE-986E-C076DA46CF63}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Testing.Desktop", "..\Balder.Testing\Balder.Testing.Desktop.csproj", "{59861862-8084-41F2-A7FB-54440E1FE8B2}"
+EndProject
 Global
 	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
 		SolutionIsControlled = True
@@ -70,6 +72,10 @@ Global
 		{DF5C98AD-64D5-42FE-986E-C076DA46CF63}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DF5C98AD-64D5-42FE-986E-C076DA46CF63}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DF5C98AD-64D5-42FE-986E-C076DA46CF63}.Release|Any CPU.Build.0 = Release|Any CPU
+		{59861862-8084-41F2-A7FB-54440E1FE8B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{59861862-8084-41F2-A7FB-54440E1FE8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{59861862-8084-41F2-A7FB-54440E1FE8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{59861862-8084-41F2-A7FB-54440E1FE8B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -85,6 +91,7 @@ Global
 		{79F4643E-C5B1-4527-86AC-03695FC8EBA4} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866} = {4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}
 		{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C} = {E974FF26-421A-483F-AF33-A86326597A5C}
+		{59861862-8084-41F2-A7FB-54440E1FE8B2} = {E974FF26-421A-483F-AF33-A86326597A5C}
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
 		Project = ""

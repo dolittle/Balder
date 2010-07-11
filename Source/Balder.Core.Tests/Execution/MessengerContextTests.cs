@@ -19,12 +19,13 @@
 
 #endregion
 using Balder.Core.Execution;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Execution
 {
 	[TestFixture]
-	public class MessengerContextTests
+	public class MessengerContextTests : TestFixture
 	{
 	}
 }

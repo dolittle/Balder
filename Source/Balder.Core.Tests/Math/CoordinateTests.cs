@@ -1,14 +1,14 @@
 ﻿using Balder.Core.Math;
-using CThru.Silverlight;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Math
 {
 	[TestFixture]
-	public class CoordinateTests
+	public class CoordinateTests : TestFixture
 	{
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void ConvertingToVectorShouldReturnSameValuesInVector()
 		{
 			var coordinate = new Coordinate { X = 5, Y = 6, Z = 7 };
@@ -18,7 +18,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(coordinate.Z));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void ImplicitlySettingAVectorAsCoordinateShouldReturnSameValuesAsInVector()
 		{
 			var vector = new Vector(5f, 6f, 7f);
@@ -28,7 +28,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(coordinate.Z, Is.EqualTo(vector.Z));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void ImplicitlySettingACoordinateAsVectorShouldReturnSameValuesAsInCoordinate()
 		{
 			var coordinate = new Coordinate { X = 5f, Y = 6f, Z = 7f };
@@ -38,7 +38,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(coordinate.Z));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void SubtractingTwoCoordinatesShouldReturnAVectorWithCorrectResult()
 		{
 			var c1 = new Coordinate { X = 2f, Y = 4f, Z = 6f };
@@ -49,7 +49,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(3f));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void AddingTwoCoordinatesShouldReturnAVectorWithCorrectResult()
 		{
 			var c1 = new Coordinate { X = 2f, Y = 4f, Z = 6f };
@@ -60,7 +60,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(9f));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void SubtractingAVectorFromACoordinateShouldReturnAVectorWithCorrectResult()
 		{
 			var c1 = new Coordinate { X = 2f, Y = 4f, Z = 6f };
@@ -71,7 +71,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(3f));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void SubtractingACoordinateFromAVectorShouldReturnAVectorWithCorrectResult()
 		{
 			var v1 = new Vector(2f, 4f, 6f);
@@ -82,7 +82,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(3f));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void AddingAVectorToACoordinateShouldReturnAVectorWithCorrectResult()
 		{
 			var c1 = new Coordinate { X = 2f, Y = 4f, Z = 6f };
@@ -93,7 +93,7 @@ namespace Balder.Core.Tests.Math
 			Assert.That(vector.Z, Is.EqualTo(9f));
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void AddingACoordinateToAVectorShouldReturnAVectorWithCorrectResult()
 		{
 			var v1 = new Vector(2f, 4f, 6f);

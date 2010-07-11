@@ -54,6 +54,13 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\AssetLoaderServiceTests.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFiles.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AseFiles.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
     <Compile Include="ColorAsFloatsTests.cs" />
     <Compile Include="ColorOperationsTests.cs" />
     <Compile Include="ColorTests.cs" />
@@ -65,6 +72,8 @@
     <Compile Include="Execution\MessengerContextTests.cs" />
     <Compile Include="Execution\MessengerSubscriptionTests.cs" />
     <Compile Include="Execution\MessengerTests.cs" />
+    <Compile Include="Execution\PropertyTests.cs" />
+    <Compile Include="Extensions\ViewportExtensionsTests.cs" />
     <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />
     <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs" />
     <Compile Include="Fakes\ContentManager.cs" />
@@ -78,9 +87,11 @@
     <Compile Include="Input\MouseButtonStateTests.cs" />
     <Compile Include="Input\MouseManagerTests.cs" />
     <Compile Include="Math\BoundingSphereTests.cs" />
+    <Compile Include="Math\CoordinateTests.cs" />
     <Compile Include="Math\FrustumTests.cs" />
     <Compile Include="Math\PlaneTests.cs" />
     <Compile Include="Math\RayTests.cs" />
+    <Compile Include="NodeTests.cs" />
     <Compile Include="Utils\ClonerTests.cs" />
     <Compile Include="Utils\EnumHelperTests.cs" />
   </ItemGroup>
@@ -89,6 +100,22 @@
       <Project>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</Project>
       <Name>Balder.Core.Desktop</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Balder.Testing\Balder.Testing.Desktop.csproj">
+      <Project>{59861862-8084-41F2-A7FB-54440E1FE8B2}</Project>
+      <Name>Balder.Testing.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Assets\AssetLoaders\AseFiles.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>AseFiles.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\AssetLoaders\SingleBox.ASE" />
+    <None Include="Assets\AssetLoaders\SingleBoxWithDiffuseMaterial.ASE" />
+    <None Include="Assets\AssetLoaders\SplitSphere.ASE" />
+    <None Include="Assets\AssetLoaders\TwoBoxes.ASE" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

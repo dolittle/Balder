@@ -22,13 +22,13 @@ using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.View;
-using CThru.Silverlight;
+using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests
 {
 	[TestFixture]
-	public class SceneTests
+	public class SceneTests : TestFixture
 	{
 		public class MyRenderableNode : RenderableNode
 		{
@@ -71,7 +71,7 @@ namespace Balder.Core.Tests
 		}
 
 	
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void GettingObjectAtCenterOfScreenWithSingleObjectAtCenterOfSceneShouldReturnTheObject()
 		{
 			var viewport = new Viewport {Width = 640, Height = 480};
@@ -92,7 +92,7 @@ namespace Balder.Core.Tests
 			Assert.That(nodeAtCoordinate, Is.EqualTo(node));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void GettingObjectAtTopLeftOfScreenWithSingleObjectAtCenterOfSceneShouldReturnTheObject()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };
@@ -114,7 +114,7 @@ namespace Balder.Core.Tests
 		}
 
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void AddedNodeShouldGetRendered()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };
@@ -134,7 +134,7 @@ namespace Balder.Core.Tests
 			Assert.That(renderableNode.RenderCalled,Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void AddingNodeWithChildShouldCallRenderOnChild()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };
@@ -154,7 +154,7 @@ namespace Balder.Core.Tests
 			Assert.That(childNode.RenderCalled,Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void ChildNodeShouldHaveParentNodesWorldAppliedToWorldMatrix()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };
@@ -181,7 +181,7 @@ namespace Balder.Core.Tests
 		}
 
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void AddingChildProgramaticallyShouldCallPrepareOnNodeBeforeRendering()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };
@@ -200,7 +200,7 @@ namespace Balder.Core.Tests
 			Assert.That(node.PrepareCalled,Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void AddingChildProgramaticallyShouldCallPrepareOnNodeBeforeRenderingOnlyFirstTime()
 		{
 			var viewport = new Viewport { Width = 640, Height = 480 };

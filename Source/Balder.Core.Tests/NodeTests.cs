@@ -19,19 +19,19 @@
 
 #endregion
 
-using System.Reflection;
+#if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Media;
-using CThru;
-using CThru.Silverlight;
+#else
+using Colors = System.Drawing.Color;
+#endif
+using Balder.Testing;
 using NUnit.Framework;
-using TypeMock;
-using Typemock.Isolator.VisualBasic;
 
 namespace Balder.Core.Tests
 {
 	[TestFixture]
-	public class NodeTests
+	public class NodeTests : TestFixture
 	{
 		public class SomeNode : RenderableNode
 		{
@@ -44,33 +44,8 @@ namespace Balder.Core.Tests
 			return node;
 		}
 
-		[SetUp]
-		public void Setup()
-		{
-			CThruEngine.AddAspectsInAssembly(Assembly.GetExecutingAssembly());
 
-			using( var recorder = RecorderManager.StartRecording())
-			{
-				VisualStateManager.GoToState(null, string.Empty, false);
-				recorder.Return(true);
-			}
-
-			using( TheseCalls.WillReturn(true))
-			{
-				VisualStateManager.GoToState(null, string.Empty, false);
-			}
-
-			CThruEngine.StartListening();
-		}
-
-		[TearDown]
-		public void TearDown()
-		{
-			CThruEngine.StopListening();
-		}
-
-
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingColorOnNodeShouldSetColorOnChildren()
 		{
 			var parent = CreateNode();
@@ -82,7 +57,7 @@ namespace Balder.Core.Tests
 			Assert.That(child.Color, Is.EqualTo(parent.Color));
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void SettingColorOnNodeShouldSetColorOnEntireHierarchy()
 		{
 			var parent = CreateNode();
@@ -97,7 +72,8 @@ namespace Balder.Core.Tests
 			Assert.That(childOfChild.Color, Is.EqualTo(parent.Color));
 		}
 
-		[Test, SilverlightUnitTest]
+#if(SILVERLIGHT)
+		[Test]
 		public void AddingAChildShouldAddToItems()
 		{
 			var parent = CreateNode();
@@ -109,7 +85,7 @@ namespace Balder.Core.Tests
 			Assert.That(contains, Is.True);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void RemovingAChildShouldRemoveItFromItems()
 		{
 			var parent = CreateNode();
@@ -122,7 +98,7 @@ namespace Balder.Core.Tests
 			Assert.That(contains, Is.False);
 		}
 
-		[Test, SilverlightUnitTest]
+		[Test]
 		public void ClearingChildrenShouldClearItems()
 		{
 			var parent = CreateNode();
@@ -133,6 +109,7 @@ namespace Balder.Core.Tests
 
 			Assert.That(parent.Items.Count, Is.EqualTo(0));
 		}
+#endif
 	}
 }
 
