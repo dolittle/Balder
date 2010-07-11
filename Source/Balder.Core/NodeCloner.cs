@@ -3,6 +3,7 @@ using System.Collections.Generic;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
+
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
 
@@ -90,9 +91,9 @@ namespace Balder.Core
 			{
 				foreach (var child in ((IHaveChildren)source).Children)
 				{
-					if (child is ICloneable)
+					if (child is ICanBeCloned)
 					{
-						var clonedChild = ((ICloneable)child).Clone(unique) as INode;
+						var clonedChild = ((ICanBeCloned)child).Clone(unique) as INode;
 						((IHaveChildren)clone).Children.Add(clonedChild);
 					}
 				}
@@ -119,7 +120,7 @@ namespace Balder.Core
 						if (property.IsCloneable &&
 						    null != value)
 						{
-							value = ((Execution.ICloneable) value).Clone();
+							value = ((ICanBeCloned) value).Clone();
 						}
 
 						if (null != value)

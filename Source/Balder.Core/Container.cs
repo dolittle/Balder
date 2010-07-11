@@ -38,7 +38,7 @@ namespace Balder.Core
 
 		public override void Prepare(Viewport viewport)
 		{
-			var query = from i in Items
+			var query = from i in Children
 						where i is INode
 						select i as INode;
 

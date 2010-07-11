@@ -18,7 +18,7 @@
 #endregion
 namespace Balder.Core.Execution
 {
-	public interface ICloneable
+	public interface ICanBeCloned
 	{
 		object Clone();
 		object Clone(bool unique);

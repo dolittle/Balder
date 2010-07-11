@@ -22,6 +22,8 @@
 using System;
 #if(SILVERLIGHT)
 using System.Windows.Media;
+#else
+using Colors = System.Drawing.Color;
 #endif
 using Balder.Core.Display;
 using Balder.Core.Execution;

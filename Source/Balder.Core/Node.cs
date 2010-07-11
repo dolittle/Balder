@@ -24,16 +24,13 @@ using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Matrix = Balder.Core.Math.Matrix;
-#if(!SILVERLIGHT)
-using ICloneable = System.ICloneable;
-#endif
 
 namespace Balder.Core
 {
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode, ICloneable, ICanPrepare, IHaveIdentity
+	public abstract partial class Node : INode, ICanBeCloned, ICanPrepare, IHaveIdentity
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
@@ -111,17 +108,21 @@ namespace Balder.Core
 			get { return PivotPointProperty.GetValue(this); }
 			set
 			{
+#if(SILVERLIGHT)
 				if (null != _pivotPoint)
 				{
 					_pivotPoint.PropertyChanged -= TransformChanged;
 				}
+#endif
 				if (null == value)
 				{
 					value = new Coordinate();
 				}
 				PivotPointProperty.SetValue(this, value);
 				_pivotPoint = value;
+#if(SILVERLIGHT)
 				_pivotPoint.PropertyChanged += TransformChanged;
+#endif
 				InvalidateWorld();
 			}
 		}
@@ -139,17 +140,21 @@ namespace Balder.Core
 			get { return PositionProp.GetValue(this); }
 			set
 			{
+#if(SILVERLIGHT)
 				if (null != _position)
 				{
 					_position.PropertyChanged -= TransformChanged;
 				}
+#endif
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				PositionProp.SetValue(this, value);
 				_position = value;
+#if(SILVERLIGHT)
 				_position.PropertyChanged += TransformChanged;
+#endif
 				InvalidateWorld();
 			}
 		}
@@ -171,17 +176,21 @@ namespace Balder.Core
 			get { return ScaleProp.GetValue(this); }
 			set
 			{
+#if(SILVERLIGHT)
 				if (null != _scale)
 				{
 					_scale.PropertyChanged -= TransformChanged;
 				}
+#endif
 				if (null == value)
 				{
 					value = new Coordinate(1, 1, 1);
 				}
 				ScaleProp.SetValue(this, value);
 				_scale = value;
+#if(SILVERLIGHT)
 				_scale.PropertyChanged += TransformChanged;
+#endif
 				InvalidateWorld();
 			}
 		}
@@ -199,17 +208,21 @@ namespace Balder.Core
 			get { return RotationProp.GetValue(this); }
 			set
 			{
+#if(SILVERLIGHT)
 				if (null != _rotation)
 				{
 					_rotation.PropertyChanged -= TransformChanged;
 				}
+#endif
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				RotationProp.SetValue(this, value);
 				_rotation = value;
+#if(SILVERLIGHT)
 				_rotation.PropertyChanged += TransformChanged;
+#endif
 				InvalidateWorld();
 			}
 		}

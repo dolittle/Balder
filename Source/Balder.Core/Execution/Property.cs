@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
 using Balder.Core.Rendering;
+using Balder.Core.Extensions;
 #if(SILVERLIGHT)
 using System.Windows;
 using Balder.Core.Silverlight.Extensions;

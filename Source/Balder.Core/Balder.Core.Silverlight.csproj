@@ -280,7 +280,7 @@
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RenderableNode.cs" />
-    <Compile Include="Execution\ICloneable.cs" />
+    <Compile Include="Execution\ICanBeCloned.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
     <Compile Include="Execution\StateMachine.cs" />
     <Compile Include="Execution\StateMachineManager.cs" />

@@ -29,11 +29,11 @@ namespace Balder.Core.Math
 {
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(CoordinateTypeConverter))]
-	public partial class Coordinate : DependencyObject, INotifyPropertyChanged, ICloneable, 
+	public partial class Coordinate : DependencyObject, INotifyPropertyChanged 
 #else
 	public class Coordinate : 
 #endif
-		ICopyable, IAmUnique
+		ICanBeCloned, ICopyable, IAmUnique
 	{
 		private readonly Guid _identifier = Guid.NewGuid();
 

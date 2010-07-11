@@ -38,7 +38,7 @@ namespace Balder.Core
 			{
 				if (!ShouldPropertyBeIgnored(property))
 				{
-					var cloneableInterface = property.PropertyType.GetInterface(typeof (ICloneable).Name, false);
+					var cloneableInterface = property.PropertyType.GetInterface(typeof (ICanBeCloned).Name, false);
 					var isCloneable = null != cloneableInterface;
 					var copyableInterface = property.PropertyType.GetInterface(typeof (ICopyable).Name, false);
 					var isCopyable = null != copyableInterface;
