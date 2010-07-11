@@ -16,13 +16,11 @@ namespace Balder.Core.Execution
 #if(SILVERLIGHT)
         internal ObjectProperty(DependencyObject obj, bool isValueType, T defaultValue)
 #else
-		internal ObjectProperty(bool isValueType, T defaultValue)
+		internal ObjectProperty(object obj, bool isValueType, T defaultValue)
 #endif
 		{
         	Value = defaultValue;
-#if(SILVERLIGHT)
             Object = new WeakReference(obj);
-#endif
             CallFromExternal = false;
             CallFromProperty = false;
             _isValueType = isValueType;

@@ -65,6 +65,7 @@ namespace Balder.Core.Objects.Geometries
 		public override void Prepare(Viewport viewport)
 		{
 			var nodes = new NodeCollection(this);
+#if(SILVERLIGHT)
 			foreach (var item in Items)
 			{
 				if (item is INode)
@@ -72,6 +73,7 @@ namespace Balder.Core.Objects.Geometries
 					nodes.Add(item as INode);
 				}
 			}
+#endif
 
 			_renderingService.Prepare(viewport, nodes);
 			_renderingService.PrepareForRendering(viewport, nodes);

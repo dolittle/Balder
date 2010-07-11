@@ -41,11 +41,11 @@ namespace Balder.Core.Execution
 		}
 #endif
 
-		public Game(IRuntimeContext runtimeContext)
+		public Game(IRuntimeContext runtimeContext, INodeRenderingService renderingService)
 		{
 			RuntimeContext = runtimeContext;
 			Viewport = new Viewport(runtimeContext) { Width = 800, Height = 600 };
-			Scene = new Scene();
+			Scene = new Scene(renderingService);
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();
 			PassiveRenderingMode = PassiveRenderingMode.FullDetail;
@@ -59,6 +59,32 @@ namespace Balder.Core.Execution
 		}
 
 		partial void Constructed();
+
+		public static readonly Property<Game, Camera> CameraProp = Property<Game, Camera>.Register(g => g.Camera);
+		public Camera Camera
+		{
+			get { return CameraProp.GetValue(this); }
+			set
+			{
+				var previousCamera = Camera;
+#if(SILVERLIGHT)
+				if (null != previousCamera)
+				{
+					if (Children.Contains(previousCamera))
+					{
+						Children.Remove(previousCamera);
+					}
+				}
+				Children.Add(value);
+				value.Width = 0;
+				value.Height = 0;
+				value.Visibility = Visibility.Collapsed;
+#endif
+				CameraProp.SetValue(this, value);
+				Viewport.View = value;
+
+			}
+		}
 
 		private Scene _scene;
 		public Scene Scene
