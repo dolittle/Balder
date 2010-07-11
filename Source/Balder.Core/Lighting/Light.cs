@@ -19,15 +19,17 @@
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
+using Balder.Core.Silverlight.TypeConverters;
 #endif
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 
+
 namespace Balder.Core.Lighting
 {
 #pragma warning disable 1591 // Xml Comments
-	public abstract partial class Light : EnvironmentalNode, ILight
+	public abstract class Light : EnvironmentalNode, ILight
 	{
 		public abstract ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
 

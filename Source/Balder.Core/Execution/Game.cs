@@ -22,6 +22,10 @@ using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.View;
 
+#if(SILVERLIGHT)
+using System.Windows;
+#endif
+
 namespace Balder.Core.Execution
 {
 	public delegate void GameEventHandler(Game game);
@@ -36,7 +40,10 @@ namespace Balder.Core.Execution
 
 #if(SILVERLIGHT)
 		public Game()
-			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>())
+			: this(
+				Runtime.Instance.Kernel.Get<IRuntimeContext>(),
+				Runtime.Instance.Kernel.Get<INodeRenderingService>()
+			)
 		{
 		}
 #endif

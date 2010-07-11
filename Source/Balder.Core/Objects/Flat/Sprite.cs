@@ -27,6 +27,9 @@ using Balder.Core.Execution;
 using Balder.Core.Imaging;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using Balder.Core.Silverlight.Helpers;
+#endif
 
 namespace Balder.Core.Objects.Flat
 {
@@ -107,8 +110,26 @@ namespace Balder.Core.Objects.Flat
 			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
 		}
 
+#if(SILVERLIGHT)
+		public static DependencyProperty<Sprite, Uri> AssetNameProperty =
+			DependencyProperty<Sprite, Uri>.Register(o => o.AssetName);
+		public Uri AssetName
+		{
+			get { return AssetNameProperty.GetValue(this); }
+			set { AssetNameProperty.SetValue(this, value); }
+		}
 
+		public override void Prepare(Viewport viewport)
+		{
+			if (null != AssetName)
+			{
+				_contentManager.LoadInto(this, AssetName.OriginalString);
+			}
+			base.Prepare(viewport);
+		}
+#else
 		public Uri AssetName { get; set; }
+#endif
 
 		public IAssetPart[] GetAssetParts()
 		{
@@ -122,5 +143,7 @@ namespace Balder.Core.Objects.Flat
 			            select a as Image;
 			_frames = query.ToArray();
 		}
+
+
 	}
 }

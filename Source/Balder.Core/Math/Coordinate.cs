@@ -20,6 +20,7 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Windows;
+using Balder.Core.Silverlight.Extensions;
 using Balder.Core.Silverlight.TypeConverters;
 #endif
 using Balder.Core.Execution;
@@ -29,7 +30,7 @@ namespace Balder.Core.Math
 {
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(CoordinateTypeConverter))]
-	public partial class Coordinate : DependencyObject, INotifyPropertyChanged 
+	public class Coordinate : DependencyObject, INotifyPropertyChanged,
 #else
 	public class Coordinate : 
 #endif
