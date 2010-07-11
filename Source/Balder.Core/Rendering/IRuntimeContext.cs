@@ -4,5 +4,6 @@
 	{
 		bool PassiveRendering { get; set; }
 		PassiveRenderingMode PassiveRenderingMode { get; set; }
+		bool Paused { get; set; }
 	}
 }

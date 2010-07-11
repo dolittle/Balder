@@ -28,21 +28,23 @@ namespace Balder.Core.Execution
 
 	public partial class Game : Actor
 	{
-		public RuntimeContext RuntimeContext { get; private set; }
+		public IRuntimeContext RuntimeContext { get; private set; }
 
 		public event GameEventHandler Update = (s) => { };
 		public event GameEventHandler Initialize = (s) => { };
 		public event GameEventHandler LoadContent = (s) => { };
 
+#if(SILVERLIGHT)
 		public Game()
-			: this(Runtime.Instance.Kernel.Get<RuntimeContext>())
+			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>())
 		{
 		}
+#endif
 
-		public Game(RuntimeContext runtimeContext)
+		public Game(IRuntimeContext runtimeContext)
 		{
 			RuntimeContext = runtimeContext;
-			Viewport = new Viewport { Width = 800, Height = 600 };
+			Viewport = new Viewport(runtimeContext) { Width = 800, Height = 600 };
 			Scene = new Scene();
 			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			Constructed();

@@ -44,14 +44,20 @@ namespace Balder.Core.Display
 
 		private Ray _mousePickRay;
 
+#if(SILVERLIGHT)
 		/// <summary>
 		/// Creates a viewport
 		/// </summary>
 		public Viewport()
-			: this(Runtime.Instance.Kernel.Get<RuntimeContext>())
+			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>())
 		{
 		}
+#endif
 
+		/// <summary>
+		/// Creates a viewport
+		/// </summary>
+		/// <param name="runtimeContext">RuntimeContext that the viewport belongs to</param>
 		public Viewport(IRuntimeContext runtimeContext)
 		{
 			DebugInfo = new DebugInfo();

@@ -53,6 +53,7 @@ namespace Balder.Core
 		/// </summary>
 		public Color AmbientColor;
 
+#if(SILVERLIGHT)
 		/// <summary>
 		/// Construct a scene
 		/// </summary>
@@ -61,6 +62,7 @@ namespace Balder.Core
 		{
 			IsPaused = false;
 		}
+#endif
 
 		/// <summary>
 		/// Construct a scene - specifying the rendering service
@@ -74,6 +76,7 @@ namespace Balder.Core
 			_environmentalNodes = new NodeCollection(this);
 			_lights = new NodeCollection(this);
 			_allNodes = new NodeCollection(this);
+			IsPaused = false;
 
 			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
