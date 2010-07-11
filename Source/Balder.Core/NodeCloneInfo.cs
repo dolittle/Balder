@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Windows;
 using Balder.Core.Execution;
+#if(SILVERLIGHT)
+using System.Windows;
 using Balder.Core.Silverlight.Helpers;
+#endif
 
 namespace Balder.Core
 {
@@ -12,15 +14,20 @@ namespace Balder.Core
 	{
 		public Type Type { get; private set; }
 		public Dictionary<PropertyInfo,NodeClonePropertyInfo> Properties { get; private set; }
-		public DependencyProperty[] DependencyProperties { get; private set; }
 
+#if(SILVERLIGHT)
+		public DependencyProperty[] DependencyProperties { get; private set; }
 		private FieldInfo[] _dependencyPropertyFields;
+#endif
+
 
 		public NodeCloneInfo(Type type)
 		{
 			Type = type;
 			Properties = new Dictionary<PropertyInfo, NodeClonePropertyInfo>();
+#if(SILVERLIGHT)
 			PrepareDependencyProperties();
+#endif
 			PrepareProperties();
 		}
 
@@ -59,16 +66,6 @@ namespace Balder.Core
 			return false;
 		}
 
-		private bool IsPropertyDependencyProperty(PropertyInfo property)
-		{
-			var propName = string.Format("{0}Prop", property.Name);
-			var propertyName = string.Format("{0}Property", property.Name);
-			var query = from f in _dependencyPropertyFields
-						where f.Name.Equals(propName) || f.Name.Equals(propertyName)
-						select f;
-			var field = query.SingleOrDefault();
-			return null != field;
-		}
 
 		public bool IsPropertyCloneable(PropertyInfo property)
 		{
@@ -80,6 +77,20 @@ namespace Balder.Core
 		{
 			var properties = Properties.Values.ToArray();
 			return properties;
+		}
+
+
+
+#if(SILVERLIGHT)
+		private bool IsPropertyDependencyProperty(PropertyInfo property)
+		{
+			var propName = string.Format("{0}Prop", property.Name);
+			var propertyName = string.Format("{0}Property", property.Name);
+			var query = from f in _dependencyPropertyFields
+						where f.Name.Equals(propName) || f.Name.Equals(propertyName)
+						select f;
+			var field = query.SingleOrDefault();
+			return null != field;
 		}
 
 		private void PrepareDependencyProperties()
@@ -112,6 +123,7 @@ namespace Balder.Core
 			DependencyProperties = dependencyProperties.ToArray();
 			_dependencyPropertyFields = dependencyPropertyFields.ToArray();
 		}
+#endif
 
 	}
 }

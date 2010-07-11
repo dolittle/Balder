@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
+#if(SILVERLIGHT)
 using System.Windows;
+#endif
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
 

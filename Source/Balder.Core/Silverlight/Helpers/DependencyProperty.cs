@@ -19,6 +19,7 @@
 using System;
 using System.Linq.Expressions;
 using System.Windows;
+using Balder.Core.Extensions;
 using Balder.Core.Silverlight.Extensions;
 
 

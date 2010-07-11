@@ -17,7 +17,9 @@
 //
 #endregion
 using System;
+#if(SILVERLIGHT)
 using System.Windows.Controls;
+#endif
 using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Display;

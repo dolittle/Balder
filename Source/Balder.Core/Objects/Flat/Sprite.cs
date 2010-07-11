@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Balder.Core.Assets;
@@ -29,7 +30,7 @@ using Balder.Core.Rendering;
 
 namespace Balder.Core.Objects.Flat
 {
-	public partial class Sprite : RenderableNode, IAsset
+	public class Sprite : RenderableNode, IAsset
 	{
 		private readonly IContentManager _contentManager;
 		private readonly ISpriteContext _spriteContext;
@@ -106,6 +107,8 @@ namespace Balder.Core.Objects.Flat
 			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
 		}
 
+
+		public Uri AssetName { get; set; }
 
 		public IAssetPart[] GetAssetParts()
 		{

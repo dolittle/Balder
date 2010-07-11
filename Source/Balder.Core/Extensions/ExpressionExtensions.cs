@@ -16,10 +16,11 @@
 // limitations under the License.
 //
 #endregion
+
 using System.Linq.Expressions;
 using System.Reflection;
 
-namespace Balder.Core.Silverlight.Extensions
+namespace Balder.Core.Extensions
 {
 	public static class ExpressionExtensions
 	{

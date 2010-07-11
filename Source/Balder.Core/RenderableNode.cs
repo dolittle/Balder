@@ -16,12 +16,14 @@
 // limitations under the License.
 //
 #endregion
-using System.ComponentModel;
 using Balder.Core.Debug;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
 
 namespace Balder.Core
 {

@@ -24,6 +24,9 @@ using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Matrix = Balder.Core.Math.Matrix;
+#if(!SILVERLIGHT)
+using ICloneable = System.ICloneable;
+#endif
 
 namespace Balder.Core
 {

@@ -48,7 +48,7 @@ namespace Balder.Core.Tests.Silverlight.Input
 			}
 		}
 
-		[Test,SilverlightUnitTest]
+		[Test]
 		public void MouseOverNodeShouldFireMouseMoveEvent()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();

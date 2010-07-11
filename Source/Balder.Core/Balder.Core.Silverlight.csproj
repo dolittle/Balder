@@ -178,7 +178,7 @@
     <Compile Include="Rendering\UpdateMessage.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
     <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
-    <Compile Include="Silverlight\Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
@@ -196,13 +196,11 @@
     <Compile Include="Input\MouseButtonState.cs" />
     <Compile Include="Input\MouseManager.cs" />
     <Compile Include="Lighting\DirectionalLight.cs" />
-    <Compile Include="Lighting\Light.Silverlight.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
     <Compile Include="Math\BoundingBox.cs" />
     <Compile Include="Math\BoundingSphere.cs" />
     <Compile Include="Math\ContainmentType.cs" />
     <Compile Include="Math\Coordinate.cs" />
-    <Compile Include="Math\Coordinate.Silverlight.cs" />
     <Compile Include="Math\PlaneIntersectionType.cs" />
     <Compile Include="Math\Ray.cs" />
     <Compile Include="Node.Silverlight.cs">

@@ -17,7 +17,11 @@
 //
 #endregion
 
+#if(SILVERLIGHT)
 using System.Windows.Media;
+#else
+using Colors = System.Drawing.Color;
+#endif
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -32,6 +36,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 			A = a;
 			B = b;
+			
 			Color = Colors.White;
 		}
 	}

@@ -2,9 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using System.Windows;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using System.Windows;
 using Balder.Core.Silverlight.Extensions;
+#endif
 
 namespace Balder.Core.Execution
 {

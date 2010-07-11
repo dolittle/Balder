@@ -18,8 +18,8 @@
 //
 
 #endregion
-#if(SILVERLIGHT)
 using System;
+#if(SILVERLIGHT)
 using SysColor = System.Windows.Media.Color;
 #else
 using SysColor = System.Drawing.Color;

@@ -20,7 +20,9 @@
 #endregion
 
 using System;
+#if(SILVERLIGHT)
 using System.Windows.Media;
+#endif
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;

@@ -17,13 +17,15 @@
 //
 #endregion
 
-using System.Windows;
 using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Lighting;
 using Balder.Core.Objects.Flat;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using System.Windows;
+#endif
 
 namespace Balder.Core
 {

@@ -17,9 +17,11 @@
 //
 #endregion
 using System;
+
+
+#if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
-#if(SILVERLIGHT)
 using SysColor = System.Windows.Media.Color;
 #else
 using SysColor = System.Drawing.Color;

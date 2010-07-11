@@ -19,11 +19,13 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
+#if(SILVERLIGHT)
+using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
 
 namespace Balder.Core.Imaging
 {

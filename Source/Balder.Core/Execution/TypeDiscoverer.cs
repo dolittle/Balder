@@ -22,7 +22,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+#if(SILVERLIGHT)
 using System.Windows;
+#endif
 using Ninject.Core;
 
 namespace Balder.Core.Execution
@@ -38,8 +40,10 @@ namespace Balder.Core.Execution
 			CollectTypes();
 		}
 
+#if(SILVERLIHGT)
 		private void CollectTypes()
 		{
+
 			if (null != Deployment.Current)
 			{
 				var parts = Deployment.Current.Parts;
@@ -57,6 +61,12 @@ namespace Balder.Core.Execution
 			var types = assembly.GetTypes();
 			_types.AddRange(types);
 		}
+#else
+		private void CollectTypes()
+		{
+			
+		}
+#endif
 
 		private Type[] Find<T>()
 		{

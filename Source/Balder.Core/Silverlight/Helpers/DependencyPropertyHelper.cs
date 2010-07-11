@@ -21,6 +21,7 @@ using System.Reflection;
 using System.Reflection.Emit;
 using System.Windows;
 using System.Linq.Expressions;
+using Balder.Core.Extensions;
 using Balder.Core.Silverlight.Extensions;
 using Expression = System.Linq.Expressions.Expression;
 

@@ -16,7 +16,12 @@
 // limitations under the License.
 //
 #endregion
+
+#if(SILVERLIGHT)
+using System.ComponentModel;
+#endif
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
@@ -25,6 +30,40 @@ namespace Balder.Core.Lighting
 	public abstract partial class Light : EnvironmentalNode, ILight
 	{
 		public abstract ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
+
+		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color Diffuse
+		{
+			get { return DiffuseProp.GetValue(this); }
+			set { DiffuseProp.SetValue(this, value); }
+		}
+
+		public static readonly Property<Light, Color> SpecularProp = Property<Light, Color>.Register(l => l.Specular);
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color Specular
+		{
+			get { return SpecularProp.GetValue(this); }
+			set { SpecularProp.SetValue(this, value); }
+		}
+
+		public static readonly Property<Light, Color> AmbientProp = Property<Light, Color>.Register(l => l.Ambient);
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color Ambient
+		{
+			get { return AmbientProp.GetValue(this); }
+			set { AmbientProp.SetValue(this, value); }
+		}
+
 	}
 #pragma warning restore 1591
 }

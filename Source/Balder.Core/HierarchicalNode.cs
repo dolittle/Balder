@@ -19,8 +19,10 @@
 
 #endregion
 
+#if(SILVERLIGHT)
 using System.Collections.Specialized;
 using System.Windows.Markup;
+#endif
 using Balder.Core.Collections;
 using Balder.Core.Execution;
 using Balder.Core.Rendering;

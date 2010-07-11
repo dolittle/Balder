@@ -1,5 +1,7 @@
 ﻿using System;
+#if(SILVERLIGHT)
 using System.Windows;
+#endif
 
 namespace Balder.Core.Execution
 {
@@ -11,10 +13,16 @@ namespace Balder.Core.Execution
         public bool CallFromProperty;
         private bool _isValueType;
 
+#if(SILVERLIGHT)
         internal ObjectProperty(DependencyObject obj, bool isValueType, T defaultValue)
-        {
+#else
+		internal ObjectProperty(bool isValueType, T defaultValue)
+#endif
+		{
         	Value = defaultValue;
+#if(SILVERLIGHT)
             Object = new WeakReference(obj);
+#endif
             CallFromExternal = false;
             CallFromProperty = false;
             _isValueType = isValueType;

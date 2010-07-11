@@ -17,8 +17,10 @@
 //
 #endregion
 
+#if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
 
 namespace Balder.Core.Math
 {

@@ -22,6 +22,7 @@ using System.Reflection;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Windows;
+using Balder.Core.Extensions;
 
 namespace Balder.Core.Silverlight.Extensions
 {

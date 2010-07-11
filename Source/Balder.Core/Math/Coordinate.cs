@@ -17,11 +17,23 @@
 //
 #endregion
 using System;
+#if(SILVERLIGHT)
+using System.ComponentModel;
+using System.Windows;
+using Balder.Core.Silverlight.TypeConverters;
+#endif
 using Balder.Core.Execution;
+
 
 namespace Balder.Core.Math
 {
-	public partial class Coordinate : ICloneable, ICopyable, IAmUnique
+#if(SILVERLIGHT)
+	[TypeConverter(typeof(CoordinateTypeConverter))]
+	public partial class Coordinate : DependencyObject, INotifyPropertyChanged, ICloneable, 
+#else
+	public class Coordinate : 
+#endif
+		ICopyable, IAmUnique
 	{
 		private readonly Guid _identifier = Guid.NewGuid();
 
@@ -50,6 +62,49 @@ namespace Balder.Core.Math
 			if (z != 0d)
 			{
 				Z = z;
+			}
+		}
+
+#if(SILVERLIGHT)
+		public event PropertyChangedEventHandler PropertyChanged;
+#endif
+
+		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X, 0d);
+		public double X
+		{
+			get { return XProp.GetValue(this); }
+			set
+			{
+				XProp.SetValue(this, value);
+#if(SILVERLIGHT)
+				PropertyChanged.Notify(() => X);
+#endif
+			}
+		}
+
+		public static readonly Property<Coordinate, double> YProp = Property<Coordinate, double>.Register(c => c.Y, 0d);
+		public double Y
+		{
+			get { return YProp.GetValue(this); }
+			set
+			{
+				YProp.SetValue(this, value);
+#if(SILVERLIGHT)
+				PropertyChanged.Notify(() => Y);
+#endif
+			}
+		}
+
+		public static readonly Property<Coordinate, double> ZProp = Property<Coordinate, double>.Register(c => c.Z, 0d);
+		public double Z
+		{
+			get { return ZProp.GetValue(this); }
+			set
+			{
+				ZProp.SetValue(this, value);
+#if(SILVERLIGHT)
+				PropertyChanged.Notify(() => Z);
+#endif
 			}
 		}
 

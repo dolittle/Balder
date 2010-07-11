@@ -18,13 +18,13 @@
 #endregion
 
 using System;
-using System.ComponentModel;
 #if(SILVERLIGHT)
+using System.ComponentModel;
 using System.Windows;
+using Balder.Core.Silverlight.TypeConverters;
 #endif
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
-using Balder.Core.Silverlight.TypeConverters;
 
 namespace Balder.Core.Materials
 {

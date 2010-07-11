@@ -1,12 +1,15 @@
-﻿using System.Windows;
+﻿#if(SILVERLIGHT)
+using System.Windows;
 using System.Windows.Input;
+#else
+using System.Drawing;
+#endif
 using Balder.Core.Execution;
 
 namespace Balder.Core.Input
 {
 	public class MouseButtonEventArgs : BubbledEventArgs
 	{
-		private readonly System.Windows.Input.MouseButtonEventArgs _originalMouseEventArgs;
 		private bool _positionSet;
 
 		public MouseButtonEventArgs()
@@ -14,6 +17,8 @@ namespace Balder.Core.Input
 			
 		}
 
+#if(SILVERLIGHT)
+		private readonly System.Windows.Input.MouseButtonEventArgs _originalMouseEventArgs;
 		internal MouseButtonEventArgs(System.Windows.Input.MouseButtonEventArgs originalMouseEventArgs, Point position)
 		{
 			Position = position;
@@ -25,6 +30,21 @@ namespace Balder.Core.Input
 			StylusDevice = originalMouseEventArgs.StylusDevice;
 		}
 
+		public Point GetPosition(UIElement relativeTo)
+		{
+			if (_positionSet)
+			{
+				return Position;
+			}
+			if (null == _originalMouseEventArgs)
+			{
+				return new Point();
+			}
+			return _originalMouseEventArgs.GetPosition(relativeTo);
+		}
+
+		public StylusDevice StylusDevice { get; private set; }
+#endif
 
 		internal MouseButtonEventArgs(Point position)
 		{
@@ -43,19 +63,5 @@ namespace Balder.Core.Input
 		}
 
 
-		public Point	GetPosition(UIElement relativeTo)
-		{
-			if( _positionSet )
-			{
-				return Position;
-			}
-			if( null == _originalMouseEventArgs )
-			{
-				return new Point();
-			}
-			return _originalMouseEventArgs.GetPosition(relativeTo);
-		}
-
-		public StylusDevice StylusDevice { get; private set; }
 	}
 }

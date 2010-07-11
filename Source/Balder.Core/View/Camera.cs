@@ -16,10 +16,13 @@
 // limitations under the License.
 //
 #endregion
-using System.Windows;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+#if(SILVERLIGHT)
+using System.Windows;
+#endif
+
 
 namespace Balder.Core.View
 {
