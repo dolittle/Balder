@@ -19,11 +19,9 @@
 
 #endregion
 
-using System;
-using System.Reflection;
-using System.Windows.Input;
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Input;
 using Balder.Core.Math;
 using NUnit.Framework;
 

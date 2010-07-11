@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{DF5C98AD-64D5-42FE-986E-C076DA46CF63}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Balder.Core.Tests</RootNamespace>
+    <AssemblyName>Balder.Core.Tests.Desktop</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
+    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
+    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
+    <SccProvider>Mercurial Source Control Package</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Moq">
+      <HintPath>..\..\Components\Moq.dll</HintPath>
+    </Reference>
+    <Reference Include="nunit.framework, Version=2.5.2.9222, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="ColorAsFloatsTests.cs" />
+    <Compile Include="ColorOperationsTests.cs" />
+    <Compile Include="ColorTests.cs" />
+    <Compile Include="Content\ContentCacheTests.cs" />
+    <Compile Include="Content\ContentCreatorTests.cs" />
+    <Compile Include="Content\ContentManagerTests.cs" />
+    <Compile Include="Execution\BubbledEventTests.cs" />
+    <Compile Include="Execution\IdentityManagerTests.cs" />
+    <Compile Include="Execution\MessengerContextTests.cs" />
+    <Compile Include="Execution\MessengerSubscriptionTests.cs" />
+    <Compile Include="Execution\MessengerTests.cs" />
+    <Compile Include="Fakes\AssetLoaders\Nested\NestedAssetLoader.cs" />
+    <Compile Include="Fakes\AssetLoaders\RootAssetLoader.cs" />
+    <Compile Include="Fakes\ContentManager.cs" />
+    <Compile Include="Fakes\FakeDisplayDevice.cs" />
+    <Compile Include="Fakes\FakeGeometryContext.cs" />
+    <Compile Include="Fakes\FakeGeometryDetailLevel.cs" />
+    <Compile Include="Fakes\FakeImageContext.cs" />
+    <Compile Include="Fakes\FakeImageLoader.cs" />
+    <Compile Include="Fakes\FakePlatform.cs" />
+    <Compile Include="Fakes\StringFileLoader.cs" />
+    <Compile Include="Input\MouseButtonStateTests.cs" />
+    <Compile Include="Input\MouseManagerTests.cs" />
+    <Compile Include="Math\BoundingSphereTests.cs" />
+    <Compile Include="Math\FrustumTests.cs" />
+    <Compile Include="Math\PlaneTests.cs" />
+    <Compile Include="Math\RayTests.cs" />
+    <Compile Include="Utils\ClonerTests.cs" />
+    <Compile Include="Utils\EnumHelperTests.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balder.Core\Balder.Core.Desktop.csproj">
+      <Project>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</Project>
+      <Name>Balder.Core.Desktop</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

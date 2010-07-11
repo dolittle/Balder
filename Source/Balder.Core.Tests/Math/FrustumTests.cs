@@ -20,7 +20,6 @@ using Balder.Core.Display;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
 using Balder.Core.View;
-using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
@@ -32,7 +31,7 @@ namespace Balder.Core.Tests.Math
 		private Frustum _frustum;
 		private Camera _camera;
 
-		[TestFixtureSetUp, SilverlightSetUp]
+		[TestFixtureSetUp]
 		public void Setup()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
