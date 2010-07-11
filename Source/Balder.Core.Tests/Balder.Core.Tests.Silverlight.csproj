@@ -144,6 +144,8 @@
       <DependentUpon>AseFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
+    <Compile Include="Fakes\FakeImageContext.cs" />
+    <Compile Include="Fakes\FakeImageLoader.cs" />
     <Compile Include="ColorAsFloatsTests.cs" />
     <Compile Include="ColorOperationsTests.cs" />
     <Compile Include="ColorTests.cs" />

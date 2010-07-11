@@ -120,6 +120,7 @@
     <Compile Include="Input\MouseEventHandler.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
+    <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />

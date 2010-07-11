@@ -18,6 +18,9 @@
 #endregion
 using Balder.Core.Display;
 using Balder.Core.Math;
+using Balder.Core.Rendering;
+using CThru.Silverlight;
+using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Extensions
@@ -25,24 +28,26 @@ namespace Balder.Core.Tests.Extensions
 	[TestFixture]
 	public class ViewportExtensionsTests
 	{
-		[Test]
+		[Test, SilverlightUnitTest]
 		public void UnprojectingCenterOfViewportWithIdentityViewShouldGenerateAVectorAtCenter()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
 
-			var aspect = (float) viewport.Height/(float) viewport.Width;
+			var aspect = (float)viewport.Height / (float)viewport.Width;
 			var projection = Matrix.CreatePerspectiveFieldOfView(40f, aspect, 1, 4000f);
 			var view = Matrix.Identity;
 			var world = Matrix.Identity;
-			var position = new Vector((float)viewport.Width/2, (float)viewport.Height/2,0);
+			var position = new Vector((float)viewport.Width / 2, (float)viewport.Height / 2, 0);
 			var result = viewport.Unproject(position, projection, view, world);
-			Assert.That(result,Is.EqualTo(Vector.Forward));
+			Assert.That(result, Is.EqualTo(Vector.Forward));
 		}
 
-		[Test]
+		[Test, SilverlightUnitTest]
 		public void UnprojectingCenterOfViewportWithViewRotated90DegreesAroundYAxisShouldGenerateAVectorRotated90DegreesInOpositeDirection()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
 			var aspect = (float)viewport.Height / (float)viewport.Width;
 			var projection = Matrix.CreatePerspectiveFieldOfView(40f, aspect, 1, 4000f);
 			var view = Matrix.CreateRotationY(90);
@@ -52,7 +57,7 @@ namespace Balder.Core.Tests.Extensions
 
 			var negativeView = Matrix.CreateRotationY(-90);
 			var expected = Vector.Forward;
-			var rotatedExpected = expected*negativeView;
+			var rotatedExpected = expected * negativeView;
 
 			Assert.That(result, Is.EqualTo(rotatedExpected));
 		}

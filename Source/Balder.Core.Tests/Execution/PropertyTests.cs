@@ -21,6 +21,9 @@
 
 using System;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
+using Balder.Core.Math;
+using Balder.Core.Objects.Geometries;
 using CThru.Silverlight;
 using NUnit.Framework;
 #if(SILVERLIGHT)
@@ -32,6 +35,10 @@ namespace Balder.Core.Tests.Execution
 	[TestFixture]
 	public class PropertyTests
 	{
+		public class SomeOtherClass
+		{
+
+		}
 
 
 #if(SILVERLIGHT)
@@ -39,7 +46,7 @@ namespace Balder.Core.Tests.Execution
 #else
 		public class SomeClass : 
 #endif
-			ICanNotifyChanges
+ ICanNotifyChanges
 		{
 			public const int IntDefault = 42;
 			public const float FloatDefault = 42.42f;
@@ -87,6 +94,16 @@ namespace Balder.Core.Tests.Execution
 				set { StringWithDefaultProperty.SetValue(this, value); }
 			}
 
+			public static readonly Property<SomeClass, SomeOtherClass> SomeOtherClassProperty =
+				Property<SomeClass, SomeOtherClass>.Register(s => s.SomeOtherClass);
+
+			public SomeOtherClass SomeOtherClass
+			{
+				get { return SomeOtherClassProperty.GetValue(this); }
+				set { SomeOtherClassProperty.SetValue(this, value); }
+			}
+
+
 
 			public object OldValue;
 			public object NewValue;
@@ -112,7 +129,7 @@ namespace Balder.Core.Tests.Execution
 			instance.Int = expected;
 			var actual = instance.Int;
 
-			Assert.That(actual,Is.EqualTo(expected));
+			Assert.That(actual, Is.EqualTo(expected));
 		}
 
 		[Test, SilverlightUnitTest]
@@ -165,7 +182,7 @@ namespace Balder.Core.Tests.Execution
 		{
 			var instance = new SomeClass();
 			instance.Int = 42;
-			Assert.That(instance.WasNotified,Is.True);
+			Assert.That(instance.WasNotified, Is.True);
 		}
 
 		[Test, SilverlightUnitTest]
@@ -173,7 +190,7 @@ namespace Balder.Core.Tests.Execution
 		{
 			var instance = new SomeClass();
 			instance.String = "Something";
-			Assert.That(instance.OldValue,Is.Null);
+			Assert.That(instance.OldValue, Is.Null);
 		}
 
 		[Test, SilverlightUnitTest]
@@ -181,7 +198,7 @@ namespace Balder.Core.Tests.Execution
 		{
 			var instance = new SomeClass();
 			instance.String = "Something";
-			Assert.That(instance.PropertyName,Is.EqualTo("String"));
+			Assert.That(instance.PropertyName, Is.EqualTo("String"));
 		}
 
 		[Test, SilverlightUnitTest]
@@ -190,9 +207,17 @@ namespace Balder.Core.Tests.Execution
 			var instance = new SomeClass();
 			var expected = "Something";
 			instance.String = expected;
-			Assert.That(instance.NewValue,Is.EqualTo(expected));
+			Assert.That(instance.NewValue, Is.EqualTo(expected));
 		}
 
-
+		[Test, SilverlightUnitTest]
+		public void SettingCustomRefTypeShouldReturnSameInstanceWhenGetting()
+		{
+			var instance = new SomeClass();
+			var expected = new SomeOtherClass();
+			instance.SomeOtherClass = expected;
+			var actual = instance.SomeOtherClass;
+			Assert.That(actual,Is.EqualTo(expected));
+		}
 	}
 }

@@ -19,7 +19,6 @@
 
 #endregion
 
-using System;
 using System.Text;
 using Balder.Core.Assets;
 using Balder.Core.Assets.AssetLoaders;
@@ -30,38 +29,12 @@ using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.Tests.Fakes;
-using Balder.Testing;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests.Assets.AssetLoaders
 {
-	public class FakeImageLoader : AssetLoader
-	{
-		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager)
-			: base(fileLoader, contentManager)
-		{
-		}
-
-		public override string[] FileExtensions
-		{
-			get { return new[] { "jpg", "png" }; }
-		}
-
-		public override Type SupportedAssetType
-		{
-			get { return typeof (Image); }
-		}
-
-		public override IAssetPart[] Load(string assetName)
-		{
-			var images = new[] { new Image() };
-			return images;
-		}
-	}
-
-
 	[TestFixture]
 	public class AseLoaderTests
 	{
@@ -83,7 +56,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 																						return geometry;
 																					});
 			var contentCreatorMock = new Mock<IContentCreator>();
-			
+
 			contentCreatorMock.Expect(c => c.CreateMaterial()).Returns(new Material(identityManagerMock.Object));
 			mockContentManager.Expect(c => c.Creator).Returns(contentCreatorMock.Object);
 
@@ -207,9 +180,6 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 			var geometries = LoadGeometries("SplitSphere");
 			var detailLevel = geometries[0].GeometryContext.GetDetailLevel(DetailLevel.Full);
 			Assert.That(detailLevel.NormalCount, Is.EqualTo(482));
-			var normals = detailLevel.GetNormals();
-
-			
 		}
 	}
 }

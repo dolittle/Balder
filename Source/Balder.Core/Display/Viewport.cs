@@ -52,7 +52,7 @@ namespace Balder.Core.Display
 		{
 		}
 
-		public Viewport(RuntimeContext runtimeContext)
+		public Viewport(IRuntimeContext runtimeContext)
 		{
 			DebugInfo = new DebugInfo();
 

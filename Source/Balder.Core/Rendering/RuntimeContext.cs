@@ -26,7 +26,7 @@ using Ninject.Core;
 namespace Balder.Core.Rendering
 {
 	[Singleton]
-	public class RuntimeContext
+	public class RuntimeContext : IRuntimeContext
 	{
 		private bool _passiveRendering;
 		public bool PassiveRendering
