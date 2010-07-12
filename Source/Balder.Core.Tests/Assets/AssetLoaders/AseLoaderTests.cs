@@ -152,29 +152,29 @@ namespace Balder.Core.Tests.Assets.AssetLoaders
 		public void TwoObjectFileShouldHavePositionForObjectsReadCorrectly()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
-			Assert.That(geometries[0].Position.X, Is.EqualTo(0d));
-			Assert.That(geometries[0].Position.Y, Is.EqualTo(-10d));
-			Assert.That(geometries[0].Position.Z, Is.EqualTo(0d));
+			Assert.That(geometries[0].World[3, 0], Is.EqualTo(0f));
+			Assert.That(geometries[0].World[3, 1], Is.EqualTo(-10f));
+			Assert.That(geometries[0].World[3, 2], Is.EqualTo(0d));
 
-			Assert.That(geometries[1].Position.X, Is.EqualTo(0.4756d));
-			Assert.That(geometries[1].Position.Y, Is.EqualTo(-10d));
-			Assert.That(geometries[1].Position.Z, Is.EqualTo(40d));
+			Assert.That(geometries[1].World[3, 0], Is.EqualTo(0.4756f));
+			Assert.That(geometries[1].World[3, 1], Is.EqualTo(-10f));
+			Assert.That(geometries[1].World[3, 2], Is.EqualTo(40f));
 		}
 
 		[Test]
 		public void TwoObjectFileShouldHaveScaleForObjectsReadCorrectly()
 		{
 			var geometries = LoadGeometries("TwoBoxes");
-			Assert.That(geometries[0].Scale.X, Is.EqualTo(3d));
-			Assert.That(geometries[0].Scale.Y, Is.EqualTo(1d));
-			Assert.That(geometries[0].Scale.Z, Is.EqualTo(2d));
+			Assert.That(geometries[0].World[0, 0], Is.EqualTo(3f));
+			Assert.That(geometries[0].World[1, 1], Is.EqualTo(1f));
+			Assert.That(geometries[0].World[2, 2], Is.EqualTo(2f));
 
-			Assert.That(geometries[1].Scale.X, Is.EqualTo(1d));
-			Assert.That(geometries[1].Scale.Y, Is.EqualTo(3d));
-			Assert.That(geometries[1].Scale.Z, Is.EqualTo(2d));
+			Assert.That(geometries[1].World[0, 0], Is.EqualTo(1f));
+			Assert.That(geometries[1].World[1, 1], Is.EqualTo(3f));
+			Assert.That(geometries[1].World[2, 2], Is.EqualTo(2f));
 		}
 
-		[Test]
+		[Test, Ignore("Not implemented yet")]
 		public void FileWithNormalsShouldLoadFaceNormals()
 		{
 			var geometries = LoadGeometries("SplitSphere");

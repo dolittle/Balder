@@ -235,7 +235,7 @@ namespace Balder.Core.Assets.AssetLoaders
 						var coordinate = new Coordinate();
 						coordinate.Set(x, y, z);
 						var scale = Matrix.CreateScale(coordinate);
-						geometry.World = geometry.World * scale;
+						geometry.World = scale * geometry.World;
 					}
 					break;
 

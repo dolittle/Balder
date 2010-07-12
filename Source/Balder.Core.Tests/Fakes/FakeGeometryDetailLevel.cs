@@ -122,6 +122,9 @@ namespace Balder.Core.Tests.Fakes
 
 		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
 		{
+			_faces[index].DiffuseA = a;
+			_faces[index].DiffuseB = b;
+			_faces[index].DiffuseC = c;
 			
 		}
 
