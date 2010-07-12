@@ -41,9 +41,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 		{
 
 			_teapot = ContentManager.Load<Mesh>("teapot.ASE");
-				//new Box();
-			//_teapot.Dimension = new Coordinate(20,20,20);
-				//ContentManager.Load<Mesh>("teapot.ASE");
 
 			var material = new Material
 			               	{

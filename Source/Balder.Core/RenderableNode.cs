@@ -71,7 +71,7 @@ namespace Balder.Core
 			}
 		}
 
-		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible);
+		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible, true);
 		public bool IsVisible
 		{
 			get { return IsVisibleProp.GetValue(this); }

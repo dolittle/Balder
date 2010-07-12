@@ -35,7 +35,7 @@ namespace Balder.Testing
 		static TestFixture()
 		{
 			CThruEngine.AddAspectsInAssembly(Assembly.GetExecutingAssembly());
-			/*
+			
 			using( var recorder = RecorderManager.StartRecording())
 			{
 				VisualStateManager.GoToState(null, "", false);
@@ -44,7 +44,7 @@ namespace Balder.Testing
 			using( TheseCalls.WillReturn(true))
 			{
 				VisualStateManager.GoToState(null, "", false);
-			}*/
+			}
 
 			CThruEngine.StartListening();
 		}

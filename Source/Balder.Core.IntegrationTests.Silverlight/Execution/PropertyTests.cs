@@ -25,6 +25,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using Balder.Core.Execution;
+using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
 namespace Balder.Core.IntegrationTests.Silverlight.Execution
@@ -32,6 +33,25 @@ namespace Balder.Core.IntegrationTests.Silverlight.Execution
 	public class ControlStub : Control, INotifyPropertyChanged, ICanNotifyChanges
 	{
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+
+		public static bool SetSomeStringWithDefaultInConstructor = false;
+		public static string SomeStringWithValueToSet = string.Empty;
+
+		public static bool SetSomeBoolInConstructor = false;
+		public static bool SomeBoolValueToSet = false;
+
+		public ControlStub()
+		{
+			if( SetSomeStringWithDefaultInConstructor )
+			{
+				SomeStringWithDefault = SomeStringWithValueToSet;
+			}
+
+			if( SetSomeBoolInConstructor )
+			{
+				SomeBool = SomeBoolValueToSet;
+			}
+		}
 
 		public static readonly Property<ControlStub, string> SomeStringProperty =
 			Property<ControlStub, string>.Register(c => c.SomeString);
@@ -49,6 +69,14 @@ namespace Balder.Core.IntegrationTests.Silverlight.Execution
 		{
 			get { return SomeStringWithDefaultProperty.GetValue(this); }
 			set { SomeStringWithDefaultProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<ControlStub, bool> SomeBoolProperty =
+			Property<ControlStub, bool>.Register(c => c.SomeBool);
+		public bool SomeBool
+		{
+			get { return SomeBoolProperty.GetValue(this); }
+			set { SomeBoolProperty.SetValue(this,value); }
 		}
 
 		public object OldValue;
@@ -103,7 +131,7 @@ namespace Balder.Core.IntegrationTests.Silverlight.Execution
 	}
 
 	[TestClass]
-	public class PropertyTests
+	public class PropertyTests : Microsoft.Silverlight.Testing.SilverlightTest
 	{
 		[TestMethod]
 		public void SettingValueShouldSetDependencyProperty()
@@ -324,6 +352,45 @@ namespace Balder.Core.IntegrationTests.Silverlight.Execution
 			var obj = new MyPropertyObject();
 			obj.Value = 5;
 			Assert.AreEqual(1,obj.ValueSetCount);
+		}
+
+		[TestMethod,Asynchronous]
+		public void SettingValueOnPropertyWithDefaultValueShouldGetSameValueAfterLoaded()
+		{
+			var instance = new ControlStub();
+			var expected = "Not the default value";
+			instance.SomeStringWithDefault = expected;
+
+			TestPanel.Children.Add(instance);
+			
+			EnqueueConditional(()=>instance.SomeStringWithDefault.Equals(expected));
+			EnqueueTestComplete();
+		}
+
+		[TestMethod,Asynchronous]
+		public void SettingValueOnPropertyWithDefaultValueInConstructorShouldGetSameValueAfterLoaded()
+		{
+			var expected = "Not the default value";
+			ControlStub.SetSomeStringWithDefaultInConstructor = true;
+			ControlStub.SomeStringWithValueToSet = expected;
+			var instance = new ControlStub();
+			TestPanel.Children.Add(instance);
+
+			EnqueueConditional(() => instance.SomeStringWithDefault.Equals(expected));
+			EnqueueTestComplete();
+		}
+
+		[TestMethod,Asynchronous]
+		public void SettingBoolWithoutDefaultValueInConstructorShouldGetSameValueAfterLoaded()
+		{
+			var expected = true;
+			ControlStub.SetSomeBoolInConstructor = true;
+			ControlStub.SomeBoolValueToSet = expected;
+			var instance = new ControlStub();
+			TestPanel.Children.Add(instance);
+
+			EnqueueConditional(() => instance.SomeBool.Equals(expected));
+			EnqueueTestComplete();
 		}
 	}
 }

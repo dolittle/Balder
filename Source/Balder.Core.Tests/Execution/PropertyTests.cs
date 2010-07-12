@@ -215,5 +215,16 @@ namespace Balder.Core.Tests.Execution
 			var actual = instance.SomeOtherClass;
 			Assert.That(actual,Is.EqualTo(expected));
 		}
+
+		[Test]
+		public void SettingValueOnPropertyWithDefaultValueShouldGetValueBeingSet()
+		{
+			var instance = new SomeClass();
+			var expected = "Not the default value";
+			instance.StringWithDefault = expected;
+
+			var actual = instance.StringWithDefault;
+			Assert.That(actual,Is.EqualTo(expected));
+		}
 	}
 }
