@@ -23,6 +23,7 @@ using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
 using Balder.Core.View;
 using Balder.Testing;
+using Moq;
 using NUnit.Framework;
 
 namespace Balder.Core.Tests
@@ -74,8 +75,10 @@ namespace Balder.Core.Tests
 		[Test]
 		public void GettingObjectAtCenterOfScreenWithSingleObjectAtCenterOfSceneShouldReturnTheObject()
 		{
-			var viewport = new Viewport {Width = 640, Height = 480};
-			var scene = new Scene();
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) {Width = 640, Height = 480};
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera() {Position = {Z = -20}};
 			viewport.View = camera;
 			viewport.Scene = scene;
@@ -95,8 +98,10 @@ namespace Balder.Core.Tests
 		[Test]
 		public void GettingObjectAtTopLeftOfScreenWithSingleObjectAtCenterOfSceneShouldReturnTheObject()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
-			var scene = new Scene();
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
@@ -117,12 +122,14 @@ namespace Balder.Core.Tests
 		[Test]
 		public void AddedNodeShouldGetRendered()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
 			camera.Update(viewport);
-			var scene = new Scene();
 			viewport.Scene = scene;
 
 			var renderableNode = new MyRenderableNode();
@@ -137,12 +144,14 @@ namespace Balder.Core.Tests
 		[Test]
 		public void AddingNodeWithChildShouldCallRenderOnChild()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
 			camera.Update(viewport);
-			var scene = new Scene();
 			viewport.Scene = scene;
 
 			var topLevelNode = new MyRenderableNode();
@@ -157,12 +166,14 @@ namespace Balder.Core.Tests
 		[Test]
 		public void ChildNodeShouldHaveParentNodesWorldAppliedToWorldMatrix()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
 			camera.Update(viewport);
-			var scene = new Scene();
 			viewport.Scene = scene;
 
 			var topLevelNode = new MyRenderableNode();
@@ -184,12 +195,14 @@ namespace Balder.Core.Tests
 		[Test]
 		public void AddingChildProgramaticallyShouldCallPrepareOnNodeBeforeRendering()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
 			camera.Update(viewport);
-			var scene = new Scene();
 			viewport.Scene = scene;
 
 			var node = new MyRenderableNode();
@@ -203,12 +216,14 @@ namespace Balder.Core.Tests
 		[Test]
 		public void AddingChildProgramaticallyShouldCallPrepareOnNodeBeforeRenderingOnlyFirstTime()
 		{
-			var viewport = new Viewport { Width = 640, Height = 480 };
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
+			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var camera = new Camera();
 			viewport.View = camera;
 			camera.Position.Z = -100;
 			camera.Update(viewport);
-			var scene = new Scene();
 			viewport.Scene = scene;
 
 			var node = new MyRenderableNode();
