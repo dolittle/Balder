@@ -30,3 +30,6 @@ glob:Drop/**/*
 glob:Tests/*
 glob:Tests/**/*
 glob:Source/Documentation/DocumentX/*
+glob:current_version.txt
+glob:lastbuild.txt
+glob:version.txt
