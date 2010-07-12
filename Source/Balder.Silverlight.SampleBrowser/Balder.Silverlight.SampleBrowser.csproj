@@ -632,16 +632,6 @@
     <Resource Include="Assets\plane.ASE" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Balder.Core\Balder.Core.Silverlight.csproj">
-      <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
-      <Name>Balder.Core.Silverlight</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Balder.Silverlight\Balder.Silverlight.csproj">
-      <Project>{E39B101E-9447-49EE-B849-BA2A9E4664D0}</Project>
-      <Name>Balder.Silverlight</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Resource Include="Images\Logo.png" />
   </ItemGroup>
   <ItemGroup>
@@ -799,6 +789,16 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\spaceship lp.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balder.Core\Balder.Core.Silverlight.csproj">
+      <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
+      <Name>Balder.Core.Silverlight</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Balder.Silverlight\Balder.Silverlight.csproj">
+      <Project>{E39B101E-9447-49EE-B849-BA2A9E4664D0}</Project>
+      <Name>Balder.Silverlight</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

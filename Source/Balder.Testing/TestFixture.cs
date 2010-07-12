@@ -19,18 +19,20 @@
 
 #endregion
 
+#if(SILVERLIGHT)
 using System.Reflection;
 using System.Windows;
 using CThru;
 using TypeMock;
 using Typemock.Isolator.VisualBasic;
+#endif
 
 namespace Balder.Testing
 {
-	public class Test
+	public class TestFixture
 	{
 #if(SILVERLIGHT)
-		static Test()
+		static TestFixture()
 		{
 			CThruEngine.AddAspectsInAssembly(Assembly.GetExecutingAssembly());
 			/*

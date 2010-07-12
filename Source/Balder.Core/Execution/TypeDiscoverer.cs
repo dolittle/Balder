@@ -40,7 +40,7 @@ namespace Balder.Core.Execution
 			CollectTypes();
 		}
 
-#if(SILVERLIHGT)
+#if(SILVERLIGHT)
 		private void CollectTypes()
 		{
 

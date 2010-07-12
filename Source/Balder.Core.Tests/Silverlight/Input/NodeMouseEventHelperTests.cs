@@ -52,8 +52,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseOverNodeShouldFireMouseMoveEvent()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			
@@ -76,8 +76,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void FirstMouseOverShouldFireMouseEnterEvent()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;
@@ -98,8 +98,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void SubsequentMouseOverShouldNotFireMouseEnterEvent()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;
@@ -122,8 +122,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseHoveringOverAndThenNotOverShouldFireMouseLeaveEvent()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;
@@ -146,8 +146,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseNotHoveringOverAnythingShouldNotFireAnyEvents()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;
@@ -174,8 +174,8 @@ namespace Balder.Core.Tests.Silverlight.Input
 		public void MouseEnteringAndLeavingAndThenEnteringShouldFireMouseEnter()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var game = new Game(runtimeContextMock.Object);
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
+			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 			var scene = new Scene(nodeRenderingServiceMock.Object);
 			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;

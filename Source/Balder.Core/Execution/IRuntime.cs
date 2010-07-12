@@ -17,6 +17,7 @@
 //
 #endregion
 using System;
+using Balder.Core.Content;
 using Balder.Core.Display;
 using Ninject.Core;
 
@@ -30,5 +31,6 @@ namespace Balder.Core.Execution
 		void UnregisterGame(Game game);
 		IPlatform Platform { get; }
 		IKernel Kernel { get; }
+		IContentManager ContentManager { get; }
 	}
 }
