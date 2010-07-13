@@ -24,7 +24,9 @@ using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
+#if(!IOS)
 using SysColor = System.Drawing.Color;
+#endif
 #endif
 
 namespace Balder.Core
@@ -110,6 +112,7 @@ namespace Balder.Core
 			return color;
 		}
 
+#if(!IOS)
 		/// <summary>
 		/// Create a color from an existing <see cref="SysColor"/>
 		/// </summary>
@@ -126,15 +129,18 @@ namespace Balder.Core
 			};
 			return color;
 		}
+#endif
 		#endregion
 
 		#region Public Methods
 
+#if(!IOS)
 		public SysColor ToSystemColor()
 		{
 			var sysColor = SysColor.FromArgb(Alpha, Red, Green, Blue);
 			return sysColor;
 		}
+#endif
 
 		public UInt32 ToUInt32()
 		{
@@ -250,6 +256,7 @@ namespace Balder.Core
 			return newColor;
 		}
 
+#if(!IOS)
 		/// <summary>
 		/// Implicitly convert to <see cref="Color"/> from <see cref="SysColor"/>
 		/// </summary>
@@ -260,6 +267,7 @@ namespace Balder.Core
 			var newColor = FromSystemColor(color);
 			return newColor;
 		}
+#endif
 		#endregion
 
 		private static float ConvertToFloat(byte value)

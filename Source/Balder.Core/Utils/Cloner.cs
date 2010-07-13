@@ -130,7 +130,7 @@ namespace Balder.Core.Utils
 			{
 				return true;
 			}
-#if(!SILVERLIGHT)
+#if(!SILVERLIGHT && !IOS)
 			var ignoreDataMemberAttributes = memberInfo.GetCustomAttributes(typeof (IgnoreDataMemberAttribute), true);
 			if( ignoreDataMemberAttributes.Length == 1 )
 			{

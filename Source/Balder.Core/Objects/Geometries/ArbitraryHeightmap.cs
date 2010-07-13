@@ -24,7 +24,9 @@ using System;
 using System.Windows.Media;
 using Ninject;
 #else
+#if(!IOS)
 using Colors = System.Drawing.Color;
+#endif
 #endif
 using Balder.Core.Display;
 using Balder.Core.Execution;

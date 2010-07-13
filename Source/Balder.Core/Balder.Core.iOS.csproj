@@ -1,0 +1,255 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
+    <ProductVersion>10.0.0</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}</ProjectGuid>
+    <ProjectTypeGuids>{E613F3A2-FE9C-494F-B74E-F63BCB86FEA6};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <RootNamespace>Balder.Core.iOS</RootNamespace>
+    <AssemblyName>Balder_iOS</AssemblyName>
+    <MtouchSdkVersion>3.0</MtouchSdkVersion>
+    <MtouchMinimumOS>3.0</MtouchMinimumOS>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhoneSimulator' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Debug</OutputPath>
+    <DefineConstants>DEBUG, IOS</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>True</MtouchDebug>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhoneSimulator' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhoneSimulator\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>False</MtouchDebug>
+    <ConsolePause>false</ConsolePause>
+    <MtouchLink>None</MtouchLink>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|iPhone' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Debug</OutputPath>
+    <DefineConstants>DEBUG</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>True</MtouchDebug>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|iPhone' ">
+    <DebugType>none</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <MtouchDebug>False</MtouchDebug>
+    <ConsolePause>false</ConsolePause>
+    <CodesignKey>iPhone Developer</CodesignKey>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Core" />
+    <Reference Include="monotouch" />
+    <Reference Include="Ninject, Version=2.0.2.0, Culture=neutral, PublicKeyToken=null">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\iOS\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <ProjectExtensions>
+    <MonoDevelop>
+      <Properties InternalTargetFrameworkVersion="IPhone" />
+    </MonoDevelop>
+  </ProjectExtensions>
+  <ItemGroup>
+    <Compile Include="Assets\AssetLoader.cs" />
+    <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\IAsset.cs" />
+    <Compile Include="Assets\IAssetLoader.cs" />
+    <Compile Include="Assets\IAssetLoaderService.cs" />
+    <Compile Include="Assets\IAssetPart.cs" />
+    <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
+    <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\AseParser.cs" />
+    <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\XLoader.cs" />
+    <Compile Include="Collections\ActorCollection.cs" />
+    <Compile Include="Collections\NodeCollection.cs" />
+    <Compile Include="Debug\BoundingSphereDebugShape.cs" />
+    <Compile Include="Debug\DebugInfo.cs" />
+    <Compile Include="Debug\DebugRenderer.cs" />
+    <Compile Include="Debug\DebugShape.cs" />
+    <Compile Include="Debug\IDebugRenderer.cs" />
+    <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Diagnostics\Stopwatch.cs" />
+    <Compile Include="Display\IDisplay.cs" />
+    <Compile Include="Display\IDisplayDevice.cs" />
+    <Compile Include="Display\Viewport.cs" />
+    <Compile Include="Exceptions\AssetNotFoundException.cs" />
+    <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
+    <Compile Include="Execution\Actor.cs" />
+    <Compile Include="Execution\ActorState.cs" />
+    <Compile Include="Execution\AutoKernel.cs" />
+    <Compile Include="Execution\BubbledEvent.cs" />
+    <Compile Include="Execution\BubbledEventArgs.cs" />
+    <Compile Include="Execution\ConstructorArgument.cs" />
+    <Compile Include="Execution\DisplayActivationContext.cs" />
+    <Compile Include="Execution\Game.cs" />
+    <Compile Include="Execution\IActor.cs" />
+    <Compile Include="Execution\IAmUnique.cs" />
+    <Compile Include="Execution\ICanBeCloned.cs" />
+    <Compile Include="Execution\ICanBeUnique.cs" />
+    <Compile Include="Execution\ICanHandleCloning.cs" />
+    <Compile Include="Execution\ICanNotifyChanges.cs" />
+    <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\IdentityManager.cs" />
+    <Compile Include="Execution\IHaveIdentity.cs" />
+    <Compile Include="Execution\IIdentityManager.cs" />
+    <Compile Include="Execution\IPlatform.cs" />
+    <Compile Include="Execution\IRuntime.cs" />
+    <Compile Include="Execution\IStateMachine.cs" />
+    <Compile Include="Execution\ITypeDiscoverer.cs" />
+    <Compile Include="Execution\MessageAction.cs" />
+    <Compile Include="Execution\MessageSubscriptions.cs" />
+    <Compile Include="Execution\Messenger.cs" />
+    <Compile Include="Execution\MessengerContext.cs" />
+    <Compile Include="Execution\ObjectProperty.cs" />
+    <Compile Include="Execution\PlatformKernel.cs" />
+    <Compile Include="Execution\Property.cs" />
+    <Compile Include="Execution\Runtime.cs" />
+    <Compile Include="Execution\StateMachine.cs" />
+    <Compile Include="Execution\StateMachineManager.cs" />
+    <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\ICollectionExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Extensions\ImageFormatExtensions.cs" />
+    <Compile Include="Extensions\WaitHandleExtensions.cs" />
+    <Compile Include="Imaging\IImageContext.cs" />
+    <Compile Include="Imaging\Image.cs" />
+    <Compile Include="Imaging\ImageFormat.cs" />
+    <Compile Include="Imaging\ImageHelper.cs" />
+    <Compile Include="Imaging\ImagePalette.cs" />
+    <Compile Include="Input\IMouseDevice.cs" />
+    <Compile Include="Input\IMouseManager.cs" />
+    <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
+    <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
+    <Compile Include="Input\ManipulationDirection.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\MouseButtonEventArgs.cs" />
+    <Compile Include="Input\MouseButtonEventHandler.cs" />
+    <Compile Include="Input\MouseButtonState.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
+    <Compile Include="Input\MouseEventHandler.cs" />
+    <Compile Include="Input\MouseManager.cs" />
+    <Compile Include="Lighting\DirectionalLight.cs" />
+    <Compile Include="Lighting\ILight.cs" />
+    <Compile Include="Lighting\ILightCalculator.cs" />
+    <Compile Include="Lighting\Light.cs" />
+    <Compile Include="Lighting\LightCalculator.cs" />
+    <Compile Include="Lighting\OmniLight.cs" />
+    <Compile Include="Lighting\ViewLight.cs" />
+    <Compile Include="Materials\Material.cs" />
+    <Compile Include="Materials\MaterialShade.cs" />
+    <Compile Include="Math\BoundingBox.cs" />
+    <Compile Include="Math\BoundingSphere.cs" />
+    <Compile Include="Math\ContainmentType.cs" />
+    <Compile Include="Math\Coordinate.cs" />
+    <Compile Include="Math\Core.cs" />
+    <Compile Include="Math\Dimension.cs" />
+    <Compile Include="Math\Frustum.cs" />
+    <Compile Include="Math\Interpolator.cs" />
+    <Compile Include="Math\MathHelper.cs" />
+    <Compile Include="Math\Matrix.cs" />
+    <Compile Include="Math\Plane.cs" />
+    <Compile Include="Math\PlaneIntersectionType.cs" />
+    <Compile Include="Math\Quaternion.cs" />
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="Math\Vector.cs" />
+    <Compile Include="Objects\Flat\ISpriteContext.cs" />
+    <Compile Include="Objects\Flat\Sprite.cs" />
+    <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
+    <Compile Include="Objects\Geometries\Box.cs" />
+    <Compile Include="Objects\Geometries\ChamferBox.cs" />
+    <Compile Include="Objects\Geometries\Cylinder.cs" />
+    <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\Geometry.cs" />
+    <Compile Include="Objects\Geometries\GeometryHelper.cs" />
+    <Compile Include="Objects\Geometries\Heightmap.cs" />
+    <Compile Include="Objects\Geometries\HeightmapEventArgs.cs" />
+    <Compile Include="Objects\Geometries\IGeometryContext.cs" />
+    <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
+    <Compile Include="Objects\Geometries\Line.cs" />
+    <Compile Include="Objects\Geometries\MergedGeometry.cs" />
+    <Compile Include="Objects\Geometries\Mesh.cs" />
+    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
+    <Compile Include="Objects\Geometries\Ring.cs" />
+    <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
+    <Compile Include="Objects\Geometries\Vertex.cs" />
+    <Compile Include="Rendering\ICanBeVisible.cs" />
+    <Compile Include="Rendering\ICanPrepare.cs" />
+    <Compile Include="Rendering\ICanRender.cs" />
+    <Compile Include="Rendering\IHaveChildren.cs" />
+    <Compile Include="Rendering\IHaveColor.cs" />
+    <Compile Include="Rendering\INodeRenderingService.cs" />
+    <Compile Include="Rendering\IRuntimeContext.cs" />
+    <Compile Include="Rendering\IShapeContext.cs" />
+    <Compile Include="Rendering\NodeRenderingService.cs" />
+    <Compile Include="Rendering\PassiveRenderingMode.cs" />
+    <Compile Include="Rendering\PassiveRenderingSignal.cs" />
+    <Compile Include="Rendering\PrepareFrameMessage.cs" />
+    <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderingDetailLevel.cs" />
+    <Compile Include="Rendering\RenderMessage.cs" />
+    <Compile Include="Rendering\RuntimeContext.cs" />
+    <Compile Include="Rendering\ShowMessage.cs" />
+    <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Utils\AssemblyHelper.cs" />
+    <Compile Include="Utils\Cloner.cs" />
+    <Compile Include="Utils\EnumHelper.cs" />
+    <Compile Include="Utils\NInjectExtensions.cs" />
+    <Compile Include="View\Camera.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="ColorAsFloats.cs" />
+    <Compile Include="ColorOperations.cs" />
+    <Compile Include="ColorSpace.cs" />
+    <Compile Include="ColorSpaces.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="EnvironmentalNode.cs" />
+    <Compile Include="HierarchicalNode.cs" />
+    <Compile Include="IColor.cs" />
+    <Compile Include="INode.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="NodeCloneInfo.cs" />
+    <Compile Include="NodeClonePropertyInfo.cs" />
+    <Compile Include="NodeCloner.cs" />
+    <Compile Include="NodeExtensions.cs" />
+    <Compile Include="PixelFormat.cs" />
+    <Compile Include="RenderableNode.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Content\ContentCache.cs" />
+    <Compile Include="Content\ContentCreator.cs" />
+    <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Content\IContentCache.cs" />
+    <Compile Include="Content\IContentCreator.cs" />
+    <Compile Include="Content\IContentManager.cs" />
+    <Compile Include="Content\IFileLoader.cs" />
+    <Compile Include="Execution\SingletonAttribute.cs" />
+    <Compile Include="Colors.cs" />
+  </ItemGroup>
+</Project>

@@ -22,7 +22,9 @@ using System;
 #if(SILVERLIGHT)
 using SysColor = System.Windows.Media.Color;
 #else
+#if(!IOS)
 using SysColor = System.Drawing.Color;
+#endif
 #endif
 
 namespace Balder.Core
@@ -62,12 +64,14 @@ namespace Balder.Core
 		/// <returns>Average color</returns>
 		T Average(T secondColor);
 
+#if(!IOS)
 		/// <summary>
 		/// Convert to <see cref="SysColor"/>
 		/// </summary>
 		/// <returns>Converted color</returns>
 		SysColor ToSystemColor();
-
+#endif
+		
 		/// <summary>
 		/// Convert to an unsigned integer, 32 bit in length containing all the channels
 		/// </summary>

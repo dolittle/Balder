@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.iOS", "..\Balder.Core\Balder.Core.iOS.csproj", "{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|iPhoneSimulator = Debug|iPhoneSimulator
+		Release|iPhoneSimulator = Release|iPhoneSimulator
+		Debug|iPhone = Debug|iPhone
+		Release|iPhone = Release|iPhone
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Debug|iPhone.ActiveCfg = Debug|iPhone
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Debug|iPhone.Build.0 = Debug|iPhone
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Debug|iPhoneSimulator.ActiveCfg = Debug|iPhoneSimulator
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Debug|iPhoneSimulator.Build.0 = Debug|iPhoneSimulator
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Release|iPhone.ActiveCfg = Release|iPhone
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Release|iPhone.Build.0 = Release|iPhone
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Release|iPhoneSimulator.ActiveCfg = Release|iPhoneSimulator
+		{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}.Release|iPhoneSimulator.Build.0 = Release|iPhoneSimulator
+	EndGlobalSection
+	GlobalSection(MonoDevelopProperties) = preSolution
+		StartupItem = ..\Balder.Core\Balder.Core.iOS.csproj
+	EndGlobalSection
+EndGlobal

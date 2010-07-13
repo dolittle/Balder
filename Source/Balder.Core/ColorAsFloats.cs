@@ -23,7 +23,9 @@ using System;
 #if(SILVERLIGHT)
 using SysColor = System.Windows.Media.Color;
 #else
+#if(!IOS)
 using SysColor = System.Drawing.Color;
+#endif
 #endif
 
 namespace Balder.Core
@@ -62,11 +64,13 @@ namespace Balder.Core
 			return colorAsFloats;
 		}
 
+#if(!IOS)
 		public static ColorAsFloats FromSystemColor(SysColor systemColor)
 		{
 			var color = Color.FromSystemColor(systemColor).ToColorAsFloats();
 			return color;
 		}
+#endif
 
 		#endregion
 
@@ -135,11 +139,13 @@ namespace Balder.Core
 			return color;
 		}
 
+#if(!IOS)
 		public SysColor ToSystemColor()
 		{
 			var color = ToColor().ToSystemColor();
 			return color;
 		}
+#endif
 
 		public uint ToUInt32()
 		{
@@ -171,11 +177,13 @@ namespace Balder.Core
 			return newColor;
 		}
 		
+#if(!IOS)
 		public static implicit operator ColorAsFloats(SysColor color)
 		{
 			var newColor = FromSystemColor(color);
 			return newColor;
 		}
+#endif
 
 		public static implicit operator ColorAsFloats(Color color)
 		{

@@ -24,6 +24,7 @@ using Ninject.Activation.Providers;
 using Ninject.Modules;
 using Ninject.Planning.Bindings;
 
+
 namespace Balder.Core.Execution
 {
 	/// <summary>

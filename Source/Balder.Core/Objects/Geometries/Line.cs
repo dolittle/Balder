@@ -20,7 +20,9 @@
 #if(SILVERLIGHT)
 using System.Windows.Media;
 #else
+#if(!IOS)
 using Colors = System.Drawing.Color;
+#endif
 #endif
 
 namespace Balder.Core.Objects.Geometries
