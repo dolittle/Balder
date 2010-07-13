@@ -19,7 +19,8 @@
 
 using System.Collections.Generic;
 using Balder.Core.Assets;
-using Ninject.Core;
+using Balder.Core.Execution;
+using Ninject;
 
 #pragma warning disable 1591
 namespace Balder.Core.Content

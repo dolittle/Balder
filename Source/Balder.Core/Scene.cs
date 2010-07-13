@@ -25,6 +25,8 @@ using Balder.Core.Objects.Flat;
 using Balder.Core.Rendering;
 #if(SILVERLIGHT)
 using System.Windows;
+using Ninject;
+
 #endif
 
 namespace Balder.Core

@@ -20,7 +20,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
-using Ninject.Core;
+using Ninject;
 using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Core.Debug

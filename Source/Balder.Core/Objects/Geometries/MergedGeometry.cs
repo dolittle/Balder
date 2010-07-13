@@ -25,6 +25,9 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -37,11 +40,13 @@ namespace Balder.Core.Objects.Geometries
 
 		private readonly Dictionary<IGeometryDetailLevel, INode> _nodes;
 
+#if(SILVERLIGHT)
 		public MergedGeometry()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 			
 		}
+#endif
 
 		public MergedGeometry(INodeRenderingService renderingService)
 		{

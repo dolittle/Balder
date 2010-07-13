@@ -4,6 +4,7 @@ using Balder.Core.Assets;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
+using Ninject;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 {

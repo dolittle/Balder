@@ -21,7 +21,7 @@
 
 using Balder.Core.Display;
 using Balder.Core.Execution;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Rendering
 {

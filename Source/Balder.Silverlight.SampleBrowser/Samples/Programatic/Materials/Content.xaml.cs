@@ -7,6 +7,7 @@ using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
+using Ninject;
 using Geometry=Balder.Core.Objects.Geometries.Geometry;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials

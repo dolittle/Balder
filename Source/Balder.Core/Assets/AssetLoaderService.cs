@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Balder.Core.Execution;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Assets
 {

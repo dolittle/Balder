@@ -23,7 +23,7 @@ using Balder.Core.Collections;
 using Balder.Core.Content;
 using Balder.Core.Debug;
 using Balder.Core.Display;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Execution
 {
@@ -99,6 +99,9 @@ namespace Balder.Core.Execution
 
 		public void RegisterGame(IDisplay display, Game game)
 		{
+			// Todo: Display can't be singleton - in case of multiple games in one application
+			Kernel.Bind<IDisplay>().ToConstant(display);
+			Kernel.Inject(game);
 			WireUpGame(display, game);
 			var actorCollection = GetGameCollectionForDisplay(display);
 			actorCollection.Add(game);
@@ -150,9 +153,10 @@ namespace Balder.Core.Execution
 
 		private void WireUpGame(IDisplay display, Game objectToWire)
 		{
+			/*
 			var scope = Kernel.CreateScope();
 			var displayActivationContext = new DisplayActivationContext(display, objectToWire.GetType(), scope);
-			Kernel.Inject(objectToWire, displayActivationContext);
+			Kernel.Inject(objectToWire, displayActivationContext);*/
 		}
 
 		private ActorCollection GetGameCollectionForDisplay(IDisplay display)

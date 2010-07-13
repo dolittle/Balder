@@ -25,6 +25,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Math;
+using Ninject;
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -33,6 +34,7 @@ namespace Balder.Core.Objects.Geometries
 		private readonly IContentManager _contentManager;
 		private bool _materialSet = false;
 
+#if(SILVERLIGHT)
 		public Mesh()
 			: this(
 				Runtime.Instance.Kernel.Get<IContentManager>(),
@@ -40,6 +42,7 @@ namespace Balder.Core.Objects.Geometries
 		{
 
 		}
+#endif
 
 		public Mesh(IContentManager contentManager, IIdentityManager identityManager)
 			: base(identityManager)
@@ -47,26 +50,6 @@ namespace Balder.Core.Objects.Geometries
 			_contentManager = contentManager;
 		}
 
-
-		/*
-		public void Load(string assetName)
-		{
-
-			var loader = _assetLoaderService.GetLoader<Geometry>(assetName);
-			var geometries = loader.Load(assetName);
-
-			var boundingSphere = new BoundingSphere(Vector.Zero, 0);
-			foreach (var geometry in geometries)
-			{
-				//geometry.InitializeBoundingSphere();
-				//boundingSphere = BoundingSphere.CreateMerged(boundingSphere, geometry.BoundingSphere);
-				Children.Add(geometry);
-			}
-			BoundingSphere = boundingSphere;
-
-			// Todo: This has to be done since Loading of the node is done after Xaml has been bound - but we will get color from the File loaded
-			SetColorForChildren();
-		}*/
 
 		public IAssetPart[] GetAssetParts()
 		{

@@ -25,6 +25,7 @@ using Balder.Core.Execution;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+using Ninject;
 #endif
 
 namespace Balder.Core.Imaging
@@ -34,11 +35,13 @@ namespace Balder.Core.Imaging
 #endif
 	public class Image : IAsset, IAssetPart
 	{
+#if(SILVERLIGHT)
 		public Image()
 			: this(Runtime.Instance.Kernel.Get<IImageContext>())
 		{
 			
 		}
+#endif
 
 		public Image(IImageContext imageContext)
 		{

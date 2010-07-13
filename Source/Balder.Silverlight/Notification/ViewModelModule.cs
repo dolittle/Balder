@@ -19,12 +19,11 @@
 
 #endregion
 
-using System;
-using Ninject.Core;
+using Ninject.Modules;
 
 namespace Balder.Silverlight.Notification
 {
-	public class ViewModelModule : StandardModule
+	public class ViewModelModule : NinjectModule
 	{
 		public override void Load()
 		{

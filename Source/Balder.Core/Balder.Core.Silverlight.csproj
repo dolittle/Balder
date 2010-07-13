@@ -75,9 +75,8 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="mscorlib" />
-    <Reference Include="Ninject.Core, Version=1.0.0.82, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Components\Silverlight\Ninject.Core.dll</HintPath>
+    <Reference Include="Ninject">
+      <HintPath>..\..\Components\Silverlight\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="system" />
     <Reference Include="System.Core" />
@@ -111,6 +110,7 @@
     <Compile Include="Execution\IIdentityManager.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
+    <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
     <Compile Include="Input\ManipulationDirection.cs" />

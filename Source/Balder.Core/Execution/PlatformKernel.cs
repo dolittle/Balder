@@ -27,11 +27,8 @@ using Balder.Core.Input;
 using Balder.Core.Objects.Flat;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
-using Ninject.Core;
-using Ninject.Core.Activation;
-using Ninject.Core.Behavior;
-using Ninject.Core.Binding;
-using Ninject.Core.Binding.Syntax;
+using Ninject.Activation;
+using Ninject.Planning.Bindings;
 
 namespace Balder.Core.Execution
 {
@@ -40,24 +37,33 @@ namespace Balder.Core.Execution
 		public PlatformKernel(Type platformType)
 		{
 			var platform = Activator.CreateInstance(platformType) as IPlatform;
-			var runtimeModule = GetRuntimeModule(platform);
-			Load(runtimeModule);
 
+			Bind<IPlatform>().ToConstant(platform);
+			Bind<IDisplayDevice>().ToConstant(platform.DisplayDevice);
+			Bind<IMouseDevice>().ToConstant(platform.MouseDevice);
+			Bind<IFileLoader>().To(platform.FileLoaderType).InSingletonScope();
+			Bind<IGeometryContext>().To(platform.GeometryContextType);
+			Bind<ISpriteContext>().To(platform.SpriteContextType);
+			Bind<IImageContext>().To(platform.ImageContextType);
+			Bind<IShapeContext>().To(platform.ShapeContextType);
 			
 			
-			AddBindingResolver<IPlatform>(PlatformBindingResolver);
-			AddBindingResolver<IDisplay>(DisplayBindingResolver);
+			//AddBindingResolver<IPlatform>(PlatformBindingResolver);
+			//AddBindingResolver<IDisplay>(DisplayBindingResolver);
 		}
 
-		private IBinding PlatformBindingResolver(IContext context)
+		private static IBinding PlatformBindingResolver(IContext context)
 		{
 			throw new NotImplementedException();
 		}
 
-		private IBinding DisplayBindingResolver(IContext context)
+		private static IBinding DisplayBindingResolver(IContext context)
 		{
+			
+			/*
 			var binding = new StandardBinding(this, typeof(IDisplay));
 			IBindingTargetSyntax binder = new StandardBindingBuilder(binding);
+			
 
 			if (null != context.ParentContext &&
 				context.ParentContext is DisplayActivationContext)
@@ -66,23 +72,9 @@ namespace Balder.Core.Execution
 				binder.ToConstant(display);
 			}
 
-			return binding;
-		}
+			return binding;*/
 
-
-		private static InlineModule GetRuntimeModule(IPlatform platform)
-		{
-			var module = new InlineModule(
-				m => m.Bind<IPlatform>().ToConstant(platform),
-				m => m.Bind<IDisplayDevice>().ToConstant(platform.DisplayDevice),
-				m => m.Bind<IMouseDevice>().ToConstant(platform.MouseDevice),
-				m => m.Bind<IFileLoader>().To(platform.FileLoaderType).Using<SingletonBehavior>(),
-				m => m.Bind<IGeometryContext>().To(platform.GeometryContextType),
-				m => m.Bind<ISpriteContext>().To(platform.SpriteContextType),
-				m => m.Bind<IImageContext>().To(platform.ImageContextType),
-				m => m.Bind<IShapeContext>().To(platform.ShapeContextType)
-			);
-			return module;
+			return null;
 		}
 	}
 }

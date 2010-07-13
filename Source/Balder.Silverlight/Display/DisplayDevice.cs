@@ -21,7 +21,7 @@ using Balder.Core.Display;
 using System.Collections.Generic;
 using Balder.Core.Execution;
 using Balder.Silverlight.Rendering;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Silverlight.Display
 {

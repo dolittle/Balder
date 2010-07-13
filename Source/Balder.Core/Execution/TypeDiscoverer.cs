@@ -25,7 +25,7 @@ using System.Linq;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Execution
 {

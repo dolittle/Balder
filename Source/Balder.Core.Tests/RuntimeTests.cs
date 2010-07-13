@@ -23,6 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Tests.Fakes;
 using Balder.Testing;
 using Moq;
+using Ninject;
 using NUnit.Framework;
 using Balder.Core.Execution;
 

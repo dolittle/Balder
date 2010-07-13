@@ -19,7 +19,7 @@
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Objects.Geometries;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Content
 {

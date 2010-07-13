@@ -23,6 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Rendering;
+using Ninject;
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -33,11 +34,14 @@ namespace Balder.Core.Objects.Geometries
 
 		private bool _materialSet = false;
 
-
+#if(SILVERLIGHT)
 		public Geometry()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+			Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 			MakeUnique();
 		}
+#endif
 
 		public Geometry(IGeometryContext geometryContext, IIdentityManager identityManager)
 			: base(identityManager)

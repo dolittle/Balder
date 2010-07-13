@@ -20,6 +20,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
+using Ninject;
 
 namespace Balder.Core.Debug
 {

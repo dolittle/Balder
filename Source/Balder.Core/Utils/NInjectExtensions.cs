@@ -17,35 +17,36 @@
 //
 #endregion
 using System;
-using Ninject.Core;
-using Ninject.Core.Binding;
-using Ninject.Core.Binding.Syntax;
+using Ninject;
+using Ninject.Planning.Bindings;
+using Ninject.Syntax;
 
 namespace Balder.Core.Utils
 {
 	public static class NinjectExtensions
 	{
-		public static IBindingTargetSyntax Bind(this IKernel kernel, Type service)
+		/*
+		public static IBindingSyntax Bind(this IKernel kernel, Type service)
 		{
-			var binding = new StandardBinding(kernel, service);
-			IBindingTargetSyntax binder = new StandardBindingBuilder(binding);
+			var binding = new Binding(service);
+			var binder = new BindingBuilder(binding, kernel);
 			kernel.AddBinding(binding);
 			return binder;
-		}
+		}*/
 
-		public static IBindingTargetSyntax Bind<T>(this IKernel kernel)
+		public static IBindingSyntax Bind<T>(this IKernel kernel)
 		{
-			var binding = new StandardBinding(kernel, typeof(T));
-			IBindingTargetSyntax binder = new StandardBindingBuilder(binding);
+			var binding = new Binding(typeof(T));
+			var binder = new BindingBuilder<T>(binding, kernel);
 			kernel.AddBinding(binding);
 			return binder;
 		}
 
 		public static void Bind<T>(this IKernel kernel, T obj)
 		{
-			var binding = new StandardBinding(kernel, typeof(T));
-			IBindingTargetSyntax binder = new StandardBindingBuilder(binding);
-			binder.ToConstant<T>(obj);
+			var binding = new Binding(typeof(T));
+			var binder = new BindingBuilder<T>(binding, kernel);
+			binder.ToConstant(obj);
 			kernel.AddBinding(binding);
 		}
 	}

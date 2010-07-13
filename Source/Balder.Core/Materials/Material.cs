@@ -22,9 +22,11 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using Balder.Core.Silverlight.TypeConverters;
+using Ninject;
 #endif
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
+
 
 namespace Balder.Core.Materials
 {
@@ -38,6 +40,7 @@ namespace Balder.Core.Materials
 #endif
 
 	{
+#if(SILVERLIGHT)
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>
@@ -45,6 +48,7 @@ namespace Balder.Core.Materials
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 		}
+#endif
 
 
 		/// <summary>

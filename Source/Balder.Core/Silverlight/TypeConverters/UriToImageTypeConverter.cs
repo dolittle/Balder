@@ -1,11 +1,10 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using Balder.Core.Assets;
 using Balder.Core.Content;
 using Balder.Core.Execution;
 using Balder.Core.Imaging;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Silverlight.TypeConverters
 {

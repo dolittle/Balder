@@ -18,10 +18,11 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using Ninject.Core;
-using Ninject.Core.Activation;
-using Ninject.Core.Binding;
-using Ninject.Core.Creation.Providers;
+using Ninject;
+using Ninject.Activation;
+using Ninject.Activation.Providers;
+using Ninject.Modules;
+using Ninject.Planning.Bindings;
 
 namespace Balder.Core.Execution
 {
@@ -53,7 +54,7 @@ namespace Balder.Core.Execution
 		/// Creates an instance of the <see cref="AutoKernel"/>
 		/// </summary>
 		/// <param name="modules"></param>
-		public AutoKernel(params IModule[] modules)
+		public AutoKernel(params INinjectModule[] modules)
 			: base(modules)
 		{
 			_bindingResolvers = new Dictionary<Type, BindingResolver>();
@@ -80,8 +81,11 @@ namespace Balder.Core.Execution
 		}
 
 
-		protected override IBinding ResolveBinding(Type service, IContext context)
+		public override IEnumerable<object> Resolve(IRequest request)
 		{
+			var service = request.Service;
+			var context = request.ParentContext;
+
 			IBinding binding = null;
 			foreach (var resolver in _genericBindingResolvers)
 			{
@@ -94,8 +98,7 @@ namespace Balder.Core.Execution
 
 			if (null == binding)
 			{
-				binding = base.ResolveBinding(service, context);
-				if (null == binding)
+				if( !base.CanResolve(request) )
 				{
 					if (_bindingResolvers.ContainsKey(service))
 					{
@@ -114,16 +117,22 @@ namespace Balder.Core.Execution
 								{
 									return null;
 								}
-								binding = new StandardBinding(this, service);
-								var provider = new StandardProvider(serviceInstanceType);
-								binding.Provider = provider;
+
+								var attributes = serviceInstanceType.GetCustomAttributes(typeof (SingletonAttribute), false);
+								if( attributes.Length == 1 )
+								{
+									Bind(service).To(serviceInstanceType).InSingletonScope();	
+								} else
+								{
+									Bind(service).To(serviceInstanceType);	
+								}
 							}
 						}
 					}
 				}
 			}
 
-			return binding;
+			return base.Resolve(request);
 		}
 	}
 }

@@ -23,6 +23,9 @@ using Balder.Core.Execution;
 using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 using Matrix = Balder.Core.Math.Matrix;
 
 namespace Balder.Core
@@ -63,10 +66,12 @@ namespace Balder.Core
 		private bool _isWorldInvalidated = false;
 		private bool _isForcePrepareMatrices = true;
 
+#if(SILVERLIGHT)
 		protected Node()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 		}
+#endif
 
 		protected Node(IIdentityManager identityManager)
 		{

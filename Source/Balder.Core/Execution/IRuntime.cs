@@ -19,7 +19,7 @@
 using System;
 using Balder.Core.Content;
 using Balder.Core.Display;
-using Ninject.Core;
+using Ninject;
 
 namespace Balder.Core.Execution
 {

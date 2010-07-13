@@ -3,11 +3,9 @@ using System.Windows;
 using System.Windows.Navigation;
 using Balder.Core.Execution;
 using Balder.Silverlight.Notification;
-using Ninject.Core;
-using Ninject.Core.Activation;
-using Ninject.Core.Binding;
-using Ninject.Core.Binding.Syntax;
-using Ninject.Core.Creation.Providers;
+using Ninject;
+using Ninject.Activation;
+using Ninject.Planning.Bindings;
 
 namespace Balder.Silverlight.SampleBrowser
 {
@@ -31,10 +29,7 @@ namespace Balder.Silverlight.SampleBrowser
 			if( type.Name.Equals("ViewModel"))
 			{
 				var proxy = Weaver.GetProxyType(type);
-				var binding = new StandardBinding(Kernel, type);
-				
-				var provider = new StandardProvider(proxy);
-				binding.Provider = provider;
+				var binding = context.Kernel.Bind(type).To(proxy).Binding;
 				return binding;
 			}
 			return null;

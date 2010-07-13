@@ -22,10 +22,12 @@
 #if(SILVERLIGHT)
 using System.Collections.Specialized;
 using System.Windows.Markup;
+using Ninject;
 #endif
 using Balder.Core.Collections;
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
+
 
 namespace Balder.Core
 {
@@ -34,10 +36,12 @@ namespace Balder.Core
 #endif
 	public class HierarchicalNode : Node, IHaveChildren
 	{
+#if(SILVERLIGHT)
 		protected HierarchicalNode()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 		}
+#endif
 
 		protected HierarchicalNode(IIdentityManager identityManager)
 			: base(identityManager)

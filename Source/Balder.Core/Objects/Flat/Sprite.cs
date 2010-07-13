@@ -29,6 +29,7 @@ using Balder.Core.Math;
 using Balder.Core.Rendering;
 #if(SILVERLIGHT)
 using Balder.Core.Silverlight.Helpers;
+using Ninject;
 #endif
 
 namespace Balder.Core.Objects.Flat
@@ -38,16 +39,19 @@ namespace Balder.Core.Objects.Flat
 		private readonly IContentManager _contentManager;
 		private readonly ISpriteContext _spriteContext;
 
-
+#if(SILVERLIGHT)
 		public Sprite()
-			: this(Runtime.Instance.Kernel.Get<IContentManager>())
+			: this(Runtime.Instance.Kernel.Get<IContentManager>(),
+			Runtime.Instance.Kernel.Get<ISpriteContext>())
 		{
 		}
+#endif
 
-		public Sprite(IContentManager contentManager)
+		public Sprite(IContentManager contentManager, ISpriteContext spriteContext
+)
 		{
 			_contentManager = contentManager;
-			_spriteContext = Runtime.Instance.Kernel.Get<ISpriteContext>();
+			_spriteContext = spriteContext;
 		}
 
 
