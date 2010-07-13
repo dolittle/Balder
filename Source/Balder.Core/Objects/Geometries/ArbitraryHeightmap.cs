@@ -22,6 +22,7 @@
 using System;
 #if(SILVERLIGHT)
 using System.Windows.Media;
+using Ninject;
 #else
 using Colors = System.Drawing.Color;
 #endif
@@ -47,8 +48,16 @@ namespace Balder.Core.Objects.Geometries
 		private Vertex[] _vertices;
 		private Vertex[] _deviceVertices;
 
-
+#if(SILVERLIGHT)
 		public ArbitraryHeightmap()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+					Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+		}
+#endif
+
+		public ArbitraryHeightmap(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
 		{
 			LengthSegments = 1;
 			HeightSegments = 1;

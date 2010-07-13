@@ -24,6 +24,9 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Dbg = System.Diagnostics.Debug;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -130,7 +133,16 @@ namespace Balder.Core.Objects.Geometries
 		}
 
 
+#if(SILVERLIGHT)
 		public Cylinder()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+					Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+		}
+#endif
+
+		public Cylinder(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
 		{
 			StartAngle = 0;
 			EndAngle = 360;

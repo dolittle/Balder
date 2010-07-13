@@ -20,6 +20,7 @@
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+using Ninject;
 #endif
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -34,6 +35,20 @@ namespace Balder.Core.Lighting
 		public abstract ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
 
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
+
+#if(SILVERLIGHT)
+		protected Light()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+		protected Light(IIdentityManager identityManager)
+			: base(identityManager)
+		{
+			
+		}
 
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(ColorConverter))]

@@ -23,22 +23,25 @@ using Balder.Core.Rendering;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+using Ninject;
 #endif
 
 namespace Balder.Core
 {
 	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor
 	{
+#if(SILVERLIGHT)
 		protected RenderableNode()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
-			IsVisible = true;
-			InitializeColor();
 		}
+#endif
 
 		protected RenderableNode(IIdentityManager identityManager)
 			: base(identityManager)
 		{
-			
+			IsVisible = true;
+			InitializeColor();
 		}
 
 		private void InitializeColor()

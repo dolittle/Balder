@@ -20,6 +20,7 @@
 #endregion
 
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
@@ -28,6 +29,12 @@ namespace Balder.Core.Debug
 {
 	public class RayDebugShape : DebugShape
 	{
+		public RayDebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext,identityManager)
+		{
+			
+		}
+
 		protected override void Initialize()
 		{
 			GeometryDetailLevel.AllocateVertices(2);

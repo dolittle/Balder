@@ -20,7 +20,6 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
-using Ninject;
 
 namespace Balder.Core.Debug
 {
@@ -29,10 +28,10 @@ namespace Balder.Core.Debug
 		private IGeometryContext GeometryContext { get; set; }
 		protected IGeometryDetailLevel GeometryDetailLevel { get; private set; }
 		
-
-		public DebugShape()
+		public DebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(identityManager)
 		{
-			GeometryContext = Runtime.Instance.Kernel.Get<IGeometryContext>();
+			GeometryContext = geometryContext;
 			GeometryDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 

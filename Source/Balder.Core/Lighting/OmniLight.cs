@@ -17,7 +17,11 @@
 //
 #endregion
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Lighting
 {
@@ -37,14 +41,25 @@ namespace Balder.Core.Lighting
 		public float Range { get; set; }
 
 
+#if(SILVERLIGHT)
+		public OmniLight()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
 		/// <summary>
 		/// Creates an instance of OmniLight
 		/// </summary>
-		public OmniLight()
+		/// <param name="identityManager">Identitymanager to use for the light</param>
+		public OmniLight(IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			Strength = 1f;
-            Range = 10.0f;
+			Range = 10.0f;
 		}
+
 
 		public override ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal)
 		{

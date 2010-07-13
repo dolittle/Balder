@@ -22,6 +22,9 @@
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Lighting
 {
@@ -30,10 +33,20 @@ namespace Balder.Core.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
+#if(SILVERLIGHT)
 		public DirectionalLight()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+		public DirectionalLight(IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			SpecularIntensity = 1d;
 		}
+
 
 		/// <summary>
 		/// Gets or sets the specular intensity

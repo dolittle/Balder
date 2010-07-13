@@ -27,19 +27,6 @@ namespace Balder.Core.Tests.Content
 	[TestFixture]
 	public class ContentCreatorTests : TestFixture
 	{
-		public class DeviceContextNode : Node
-		{
-			public DeviceContextNode()
-			{
-				Context = Guid.NewGuid();
-			}
-
-			public Guid Context { get; set; }
-
-			public int SomeProperty { get; set; }
-
-
-		}
 
 	}
 }

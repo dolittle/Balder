@@ -23,6 +23,8 @@
 using System.Windows;
 using System.Windows.Media;
 #else
+using Balder.Core.Execution;
+using Moq;
 using Colors = System.Drawing.Color;
 #endif
 using Balder.Testing;
@@ -35,12 +37,18 @@ namespace Balder.Core.Tests
 	{
 		public class SomeNode : RenderableNode
 		{
+			public SomeNode(IIdentityManager identityManager)
+				: base(identityManager)
+			{
+				
+			}
 			
 		}
 
 		private RenderableNode CreateNode()
 		{
-			var node = new SomeNode();
+			var identityManagerMock = new Mock<IIdentityManager>();
+			var node = new SomeNode(identityManagerMock.Object);
 			return node;
 		}
 

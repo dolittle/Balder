@@ -76,7 +76,8 @@ namespace Balder.Core.Assets.AssetLoaders
 
 			foreach( var rawMaterial in rawMaterials )
 			{
-				var material = new Material();
+
+				var material = ContentManager.Creator.CreateMaterial();
 				var textures = rawMaterial.Elements("texture");
 				foreach( var texture in textures )
 				{

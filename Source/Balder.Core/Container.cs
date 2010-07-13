@@ -23,12 +23,24 @@ using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core
 {
 	public class Container : Node, IHaveChildren, ICanBeVisible
 	{
+#if(SILVERLIGHT)
 		public Container()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+		public Container(IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			Children = new NodeCollection(this);
 			IsVisible = true;

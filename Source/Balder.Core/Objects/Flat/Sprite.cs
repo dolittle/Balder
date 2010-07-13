@@ -42,13 +42,14 @@ namespace Balder.Core.Objects.Flat
 #if(SILVERLIGHT)
 		public Sprite()
 			: this(Runtime.Instance.Kernel.Get<IContentManager>(),
-			Runtime.Instance.Kernel.Get<ISpriteContext>())
+			Runtime.Instance.Kernel.Get<ISpriteContext>(),
+			Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
 		}
 #endif
 
-		public Sprite(IContentManager contentManager, ISpriteContext spriteContext
-)
+		public Sprite(IContentManager contentManager, ISpriteContext spriteContext, IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			_contentManager = contentManager;
 			_spriteContext = spriteContext;

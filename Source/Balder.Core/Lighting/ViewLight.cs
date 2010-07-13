@@ -23,6 +23,9 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.View;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Lighting
 {
@@ -34,7 +37,16 @@ namespace Balder.Core.Lighting
 		private ColorAsFloats _actualDiffuse;
 		private Matrix _angleMatrix;
 
+#if(SILVERLIGHT)
 		public ViewLight()
+			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+		public ViewLight(IIdentityManager identityManager)
+			: base(identityManager)
 		{
 			PrepareAngleMatrix();
 		}

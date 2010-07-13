@@ -23,11 +23,31 @@ using System;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
+
 
 namespace Balder.Core.Objects.Geometries
 {
 	public class ChamferBox : Box
 	{
+
+#if(SILVERLIGHT)
+		public ChamferBox()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+					Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+
+		public ChamferBox(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
+		{
+		}
+
 		public static readonly Property<ChamferBox, double> FilletProperty = Property<ChamferBox, double>.Register(c => c.Fillet, 0);
 		public double Fillet
 		{

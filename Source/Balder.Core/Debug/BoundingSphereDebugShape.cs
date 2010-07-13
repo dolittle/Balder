@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+
+using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 
@@ -24,6 +26,12 @@ namespace Balder.Core.Debug
 	public class BoundingSphereDebugShape : DebugShape
 	{
 		private const int NumberOfCirclePoints = 32;
+
+		public BoundingSphereDebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
+		{
+			
+		}
 
 		protected override void Initialize()
 		{

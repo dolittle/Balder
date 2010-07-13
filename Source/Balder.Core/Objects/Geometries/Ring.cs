@@ -23,6 +23,9 @@ using System;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
+#if(SILVERLIGHT)
+using Ninject;
+#endif
 
 namespace Balder.Core.Objects.Geometries
 {
@@ -129,8 +132,16 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-
+#if(SILVERLIGHT)
 		public Ring()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+					Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+		}
+#endif
+
+		public Ring(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
 		{
 			StartAngle = 0;
 			EndAngle = 360;

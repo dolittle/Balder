@@ -22,6 +22,7 @@
 using System;
 #if(SILVERLIGHT)
 using System.Windows.Media;
+using Ninject;
 #else
 using Colors = System.Drawing.Color;
 #endif
@@ -37,11 +38,24 @@ namespace Balder.Core.Objects.Geometries
 		private static readonly HeightmapEventArgs EventArgs = new HeightmapEventArgs();
 		public event EventHandler<HeightmapEventArgs> HeightInput;
 
+
+#if(SILVERLIGHT)
 		public Heightmap()
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
+					Runtime.Instance.Kernel.Get<IIdentityManager>())
+		{
+			
+		}
+#endif
+
+
+		public Heightmap(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
 		{
 			LengthSegments = 1;
 			HeightSegments = 1;
 		}
+
 
 		public static Property<Heightmap, int> LengthSegmentsProperty = Property<Heightmap, int>.Register(p => p.LengthSegments);
 		public int LengthSegments

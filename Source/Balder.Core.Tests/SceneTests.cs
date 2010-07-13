@@ -18,9 +18,11 @@
 #endregion
 using System;
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
+using Balder.Core.Tests.Fakes;
 using Balder.Core.View;
 using Balder.Testing;
 using Moq;
@@ -33,6 +35,11 @@ namespace Balder.Core.Tests
 	{
 		public class MyRenderableNode : RenderableNode
 		{
+			public MyRenderableNode(IIdentityManager identityManager)
+				: base(identityManager)
+			{
+
+			}
 
 			public bool PrepareCalled = false;
 			public override void Prepare(Viewport viewport)
@@ -50,12 +57,14 @@ namespace Balder.Core.Tests
 		public class RenderableNodeMock : RenderableNode
 		{
 			private readonly Action _actionToCall;
-			public RenderableNodeMock()
+			public RenderableNodeMock(IIdentityManager identityManager)
+				: base(identityManager)
 			{
-				
+
 			}
 
-			public RenderableNodeMock(Action actionToCall)
+			public RenderableNodeMock(IIdentityManager identityManager, Action actionToCall)
+				: base(identityManager)
 			{
 				_actionToCall = actionToCall;
 			}
@@ -63,7 +72,7 @@ namespace Balder.Core.Tests
 			public Matrix WorldResult;
 			public override void Render(Viewport viewport, DetailLevel detailLevel)
 			{
-				
+
 				if (null != _actionToCall)
 				{
 					_actionToCall();
@@ -71,23 +80,25 @@ namespace Balder.Core.Tests
 			}
 		}
 
-	
+
 		[Test]
 		public void GettingObjectAtCenterOfScreenWithSingleObjectAtCenterOfSceneShouldReturnTheObject()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var viewport = new Viewport(runtimeContextMock.Object) {Width = 640, Height = 480};
+			var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
 			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var camera = new Camera() {Position = {Z = -20}};
+			var camera = new Camera() { Position = { Z = -20 } };
 			viewport.View = camera;
 			viewport.Scene = scene;
 			camera.Update(viewport);
 
-			var node = new Geometry
-			           	{
-			           		BoundingSphere = new BoundingSphere(Vector.Zero, 10000f)
-			           	};
+			var fakeGeometryContext = new FakeGeometryContext();
+			var identityManagerMock = new Mock<IIdentityManager>();
+			var node = new Geometry(fakeGeometryContext, identityManagerMock.Object)
+						{
+							BoundingSphere = new BoundingSphere(Vector.Zero, 10000f)
+						};
 			scene.AddNode(node);
 
 			var nodeAtCoordinate = viewport.GetNodeAtPosition(viewport.Width / 2, viewport.Height / 2);
@@ -108,10 +119,12 @@ namespace Balder.Core.Tests
 
 			camera.Update(viewport);
 
-			var node = new Geometry
-			           	{
-			           		BoundingSphere = new BoundingSphere(Vector.Zero, 10f)
-			           	};
+			var fakeGeometryContext = new FakeGeometryContext();
+			var identityManagerMock = new Mock<IIdentityManager>();
+			var node = new Geometry(fakeGeometryContext, identityManagerMock.Object)
+			{
+				BoundingSphere = new BoundingSphere(Vector.Zero, 10f)
+			};
 			scene.AddNode(node);
 
 			var nodeAtCoordinate = viewport.GetNodeAtPosition(0, 0);
@@ -132,13 +145,14 @@ namespace Balder.Core.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var renderableNode = new MyRenderableNode();
+			var identityManagerMock = new Mock<IdentityManager>();
+			var renderableNode = new MyRenderableNode(identityManagerMock.Object);
 
 			scene.AddNode(renderableNode);
 
 			viewport.Render(null);
 
-			Assert.That(renderableNode.RenderCalled,Is.True);
+			Assert.That(renderableNode.RenderCalled, Is.True);
 		}
 
 		[Test]
@@ -154,13 +168,14 @@ namespace Balder.Core.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var topLevelNode = new MyRenderableNode();
-			var childNode = new MyRenderableNode();
+			var identityManagerMock = new Mock<IdentityManager>();
+			var topLevelNode = new MyRenderableNode(identityManagerMock.Object);
+			var childNode = new MyRenderableNode(identityManagerMock.Object);
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
 			viewport.Render(null);
-			Assert.That(childNode.RenderCalled,Is.True);
+			Assert.That(childNode.RenderCalled, Is.True);
 		}
 
 		[Test]
@@ -176,9 +191,10 @@ namespace Balder.Core.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var topLevelNode = new MyRenderableNode();
+			var identityManagerMock = new Mock<IdentityManager>();
+			var topLevelNode = new MyRenderableNode(identityManagerMock.Object);
 			topLevelNode.Position.X = 50;
-			var childNode = new RenderableNodeMock();
+			var childNode = new RenderableNodeMock(identityManagerMock.Object);
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
@@ -205,12 +221,13 @@ namespace Balder.Core.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var node = new MyRenderableNode();
+			var identityManagerMock = new Mock<IdentityManager>();
+			var node = new MyRenderableNode(identityManagerMock.Object);
 			scene.AddNode(node);
 
 			viewport.Render(null);
 
-			Assert.That(node.PrepareCalled,Is.True);
+			Assert.That(node.PrepareCalled, Is.True);
 		}
 
 		[Test]
@@ -226,7 +243,8 @@ namespace Balder.Core.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var node = new MyRenderableNode();
+			var identityManagerMock = new Mock<IdentityManager>();
+			var node = new MyRenderableNode(identityManagerMock.Object);
 			scene.AddNode(node);
 
 			viewport.Render(null);
