@@ -22,7 +22,7 @@
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -33,7 +33,7 @@ namespace Balder.Core.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public DirectionalLight()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

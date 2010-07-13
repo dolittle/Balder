@@ -22,11 +22,13 @@
 using System;
 #if(SILVERLIGHT)
 using System.Windows.Media;
-using Ninject;
 #else
 #if(!IOS)
 using Colors = System.Drawing.Color;
 #endif
+#endif
+#if(DEFAULT_CONSTRUCTOR)
+using Ninject;
 #endif
 using Balder.Core.Display;
 using Balder.Core.Execution;

@@ -25,8 +25,9 @@ using Balder.Core.Objects.Flat;
 using Balder.Core.Rendering;
 #if(SILVERLIGHT)
 using System.Windows;
+#endif
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
-
 #endif
 
 namespace Balder.Core
@@ -57,7 +58,7 @@ namespace Balder.Core
 		/// </summary>
 		public Color AmbientColor;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
 		/// Construct a scene
 		/// </summary>

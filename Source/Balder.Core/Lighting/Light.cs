@@ -20,6 +20,9 @@
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
+
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 using Balder.Core.Display;
@@ -36,7 +39,7 @@ namespace Balder.Core.Lighting
 
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		protected Light()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

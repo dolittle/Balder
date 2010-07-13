@@ -23,7 +23,7 @@ using System;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -132,7 +132,7 @@ namespace Balder.Core.Objects.Geometries
 			}
 		}
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Ring()
 			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
 					Runtime.Instance.Kernel.Get<IIdentityManager>())

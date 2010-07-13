@@ -38,7 +38,7 @@ namespace Balder.Core.Objects.Geometries
 
 		private readonly Dictionary<IGeometryDetailLevel, INode> _nodes;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public MergedGeometry()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>(),
 					Runtime.Instance.Kernel.Get<IIdentityManager>())

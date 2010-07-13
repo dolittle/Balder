@@ -24,7 +24,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Materials;
 using Balder.Core.Math;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -46,7 +46,7 @@ namespace Balder.Core.Objects.Geometries
 		private readonly Dictionary<BoxSide, Material> _materials;
 		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Box()
 			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
 					Runtime.Instance.Kernel.Get<IIdentityManager>())

@@ -23,7 +23,7 @@ using Balder.Core.Execution;
 using Balder.Core.Input;
 using Balder.Core.Math;
 using Balder.Core.Rendering;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 using Matrix = Balder.Core.Math.Matrix;
@@ -66,7 +66,7 @@ namespace Balder.Core
 		private bool _isWorldInvalidated = false;
 		private bool _isForcePrepareMatrices = true;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		protected Node()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

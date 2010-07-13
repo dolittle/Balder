@@ -23,6 +23,8 @@ using Balder.Core.Rendering;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -30,7 +32,7 @@ namespace Balder.Core
 {
 	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor
 	{
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		protected RenderableNode()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

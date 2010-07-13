@@ -17,7 +17,6 @@
 //
 #endregion
 
-using System;
 using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Execution;
@@ -34,12 +33,11 @@ namespace Balder.Core.Objects.Geometries
 
 		private bool _materialSet = false;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Geometry()
 			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
 			Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
-			MakeUnique();
 		}
 #endif
 

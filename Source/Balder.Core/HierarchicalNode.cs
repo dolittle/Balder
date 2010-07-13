@@ -22,6 +22,9 @@
 #if(SILVERLIGHT)
 using System.Collections.Specialized;
 using System.Windows.Markup;
+#endif
+
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 using Balder.Core.Collections;
@@ -36,7 +39,7 @@ namespace Balder.Core
 #endif
 	public class HierarchicalNode : Node, IHaveChildren
 	{
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		protected HierarchicalNode()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

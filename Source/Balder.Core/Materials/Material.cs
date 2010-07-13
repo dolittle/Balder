@@ -22,6 +22,8 @@ using System;
 using System.ComponentModel;
 using System.Windows;
 using Balder.Core.Silverlight.TypeConverters;
+#endif
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 using Balder.Core.Execution;
@@ -40,7 +42,7 @@ namespace Balder.Core.Materials
 #endif
 
 	{
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>

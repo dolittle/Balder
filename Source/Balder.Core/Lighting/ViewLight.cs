@@ -23,7 +23,7 @@ using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
 using Balder.Core.View;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -37,7 +37,7 @@ namespace Balder.Core.Lighting
 		private ColorAsFloats _actualDiffuse;
 		private Matrix _angleMatrix;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public ViewLight()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{

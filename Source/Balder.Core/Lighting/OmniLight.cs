@@ -19,7 +19,7 @@
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Math;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -41,7 +41,7 @@ namespace Balder.Core.Lighting
 		public float Range { get; set; }
 
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public OmniLight()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
