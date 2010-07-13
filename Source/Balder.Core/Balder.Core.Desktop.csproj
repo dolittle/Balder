@@ -69,6 +69,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColorAsFloats.cs" />
     <Compile Include="ColorOperations.cs" />
+    <Compile Include="Colors.cs" />
     <Compile Include="ColorSpace.cs" />
     <Compile Include="ColorSpaces.cs" />
     <Compile Include="Container.cs" />

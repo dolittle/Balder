@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Display;
 using Balder.Core.Lighting;

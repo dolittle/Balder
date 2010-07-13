@@ -22,10 +22,11 @@
 #if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Media;
+using SysColors = System.Windows.Media.Colors;
 #else
 using Balder.Core.Execution;
 using Moq;
-using Colors = System.Drawing.Color;
+using SysColors = System.Drawing.Color;
 #endif
 using Balder.Testing;
 using NUnit.Framework;
@@ -60,7 +61,7 @@ namespace Balder.Core.Tests
 			var child = CreateNode();
 			parent.Children.Add(child);
 
-			parent.Color = Color.FromSystemColor(Colors.Green);
+			parent.Color = Color.FromSystemColor(SysColors.Green);
 
 			Assert.That(child.Color, Is.EqualTo(parent.Color));
 		}
@@ -74,7 +75,7 @@ namespace Balder.Core.Tests
 			var childOfChild = CreateNode();
 			child.Children.Add(childOfChild);
 
-			parent.Color = Color.FromSystemColor(Colors.Green);
+			parent.Color = Color.FromSystemColor(SysColors.Green);
 
 			Assert.That(child.Color, Is.EqualTo(parent.Color));
 			Assert.That(childOfChild.Color, Is.EqualTo(parent.Color));

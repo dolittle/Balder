@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
 using Balder.Core;
 using Balder.Core.Assets;
 using Balder.Core.Execution;
