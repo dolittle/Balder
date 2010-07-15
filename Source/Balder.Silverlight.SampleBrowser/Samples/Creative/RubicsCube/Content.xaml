@@ -14,7 +14,7 @@
         </Grid.Resources>
 
         <!-- Balder Game control, starting point for Balder -->
-        <Execution:Game x:Name="Game" Width="800" Height="600">
+        <Execution:Game x:Name="Game" Width="480" Height="768">
 
             <!-- Set the camera a bit to the left and above and away from the box -->
             <Execution:Game.Camera>
@@ -37,12 +37,9 @@
 
         <!-- Buttons + Info -->
         <StackPanel Orientation="Vertical">
-            <StackPanel.Effect>
-                <DropShadowEffect Opacity="0.7"/>
-            </StackPanel.Effect>
             
             <!-- Our buttons -->
-            <StackPanel Margin="16,16,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+            <StackPanel Margin="0,16,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
                 <RubicsCube:ImageButton Image="Images/Solve.png" Click="SolveClicked" ToolTip="Solve cube"/>
                 <RubicsCube:ImageButton Image="Images/Shuffle.png" Click="ShuffleClicked" ToolTip="Shuffle cube"/>
                 <RubicsCube:ImageButton Image="Images/Reset.png" Click="ResetClicked" ToolTip="Reset cube"/>
@@ -79,6 +76,5 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-
     </Grid>
 </UserControl>

@@ -23,7 +23,7 @@ using Balder.Core.Collections;
 using Balder.Core.Display;
 using Balder.Core.Execution;
 using Balder.Core.Rendering;
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
@@ -31,7 +31,7 @@ namespace Balder.Core
 {
 	public class Container : Node, IHaveChildren, ICanBeVisible
 	{
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Container()
 			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
@@ -48,15 +48,17 @@ namespace Balder.Core
 
 		public NodeCollection Children { get; private set; }
 
+#if(SILVERLIGHT)
 		public override void Prepare(Viewport viewport)
 		{
-			var query = from i in Children
+			var query = from i in Items
 						where i is INode
 						select i as INode;
 
 			Children.Merge(query);
 			base.Prepare(viewport);
 		}
+#endif
 
 		public Property<Container, bool> IsVisibleProperty =
 			Property<Container, bool>.Register(c => c.IsVisible);

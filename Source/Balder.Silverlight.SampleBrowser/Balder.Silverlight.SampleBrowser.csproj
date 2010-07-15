@@ -170,6 +170,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Sample.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\Cube.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\CubeBox.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\CubeBoxGroup.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\CubeColor.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\CubeToolTip.xaml.cs">
+      <DependentUpon>CubeToolTip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Creative\RubicsCube\ImageButton.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\Move.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\MoveRecorder.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\MovesCollection.cs" />
+    <Compile Include="Samples\Creative\RubicsCube\RotateEventHandler.xaml.cs" />
     <Compile Include="Samples\Creative\Water\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -432,6 +447,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Samples\Creative\RubicsCube\Content.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Creative\RubicsCube\CubeToolTip.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Samples\Creative\Water\Content.xaml">
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <SubType>Designer</SubType>
@@ -616,6 +639,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Samples\Creative\RubicsCube\Assets\RubicsTextures.psd" />
     <Resource Include="Assets\bird spaceship lp.ASE" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
@@ -794,6 +818,19 @@
       <Project>{E39B101E-9447-49EE-B849-BA2A9E4664D0}</Project>
       <Name>Balder.Silverlight</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Blue.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Green.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Orange.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Red.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\White.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Assets\Yellow.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Images\CheatListToggle.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Images\Reset.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Images\RotationHint.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Images\Shuffle.png" />
+    <Resource Include="Samples\Creative\RubicsCube\Images\Solve.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

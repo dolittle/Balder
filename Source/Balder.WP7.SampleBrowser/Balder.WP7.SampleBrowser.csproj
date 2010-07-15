@@ -1,0 +1,184 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>10.0.20506</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C877A817-AC6A-4971-926F-A404D6FCEAD6}</ProjectGuid>
+    <ProjectTypeGuids>{C089C8C0-30E0-4E22-80C0-CE093F111A43};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Balder.WP7.SampleBrowser</RootNamespace>
+    <AssemblyName>Balder.WP7.SampleBrowser</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <TargetFrameworkProfile>WindowsPhone</TargetFrameworkProfile>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>Balder.WP7.SampleBrowser.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>Balder.WP7.SampleBrowser.App</SilverlightAppEntry>
+    <ValidateXaml>true</ValidateXaml>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT;WINDOWS_PHONE</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.Phone" />
+    <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Ninject, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows" />
+    <Reference Include="mscorlib" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Content.xaml.cs">
+      <Link>Samples\Creative\RubicsCube\Content.xaml.cs</Link>
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Cube.cs">
+      <Link>Samples\Creative\RubicsCube\Cube.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\CubeBox.cs">
+      <Link>Samples\Creative\RubicsCube\CubeBox.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\CubeBoxGroup.cs">
+      <Link>Samples\Creative\RubicsCube\CubeBoxGroup.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\CubeColor.cs">
+      <Link>Samples\Creative\RubicsCube\CubeColor.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\CubeToolTip.xaml.cs">
+      <Link>Samples\Creative\RubicsCube\CubeToolTip.xaml.cs</Link>
+      <DependentUpon>CubeToolTip.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\ImageButton.cs">
+      <Link>Samples\Creative\RubicsCube\ImageButton.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Move.cs">
+      <Link>Samples\Creative\RubicsCube\Move.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\MoveRecorder.cs">
+      <Link>Samples\Creative\RubicsCube\MoveRecorder.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\MovesCollection.cs">
+      <Link>Samples\Creative\RubicsCube\MovesCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\RotateEventHandler.xaml.cs">
+      <Link>Samples\Creative\RubicsCube\RotateEventHandler.xaml.cs</Link>
+    </Compile>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Content.xaml">
+      <Link>Samples\Creative\RubicsCube\Content.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\CubeToolTip.xaml">
+      <Link>Samples\Creative\RubicsCube\CubeToolTip.xaml</Link>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\Generic.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Themes\ImageButton.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Properties\AppManifest.xml" />
+    <None Include="Properties\WMAppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Images\CheatListToggle.png">
+      <Link>Samples\Creative\RubicsCube\Images\CheatListToggle.png</Link>
+    </Resource>
+    <Resource Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Images\Reset.png">
+      <Link>Samples\Creative\RubicsCube\Images\Reset.png</Link>
+    </Resource>
+    <Resource Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Images\RotationHint.png">
+      <Link>Samples\Creative\RubicsCube\Images\RotationHint.png</Link>
+    </Resource>
+    <Resource Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Images\Shuffle.png">
+      <Link>Samples\Creative\RubicsCube\Images\Shuffle.png</Link>
+    </Resource>
+    <Resource Include="..\Balder.Silverlight.SampleBrowser\Samples\Creative\RubicsCube\Images\Solve.png">
+      <Link>Samples\Creative\RubicsCube\Images\Solve.png</Link>
+    </Resource>
+    <Content Include="ApplicationIcon.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Background.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SplashScreenImage.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balder.Core\Balder.Core.WP7.csproj">
+      <Project>{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}</Project>
+      <Name>Balder.Core.WP7</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Balder.Silverlight\Balder.WP7.csproj">
+      <Project>{9E8ADFDE-B846-41F2-B525-2F5A24A1311F}</Project>
+      <Name>Balder.WP7</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Samples\Creative\RubicsCube\Assets\" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions />
+</Project>

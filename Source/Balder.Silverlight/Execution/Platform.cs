@@ -74,10 +74,12 @@ namespace Balder.Silverlight.Execution
 			get 
 			{
 				var isInDesignMode = DesignerProperties.IsInDesignTool;
-				if( !isInDesignMode )
+#if(!WINDOWS_PHONE)
+                if( !isInDesignMode )
 				{
 					try
 					{
+
 						var host = Application.Current.Host.Source;
 						isInDesignMode = false;
 					} catch
@@ -85,6 +87,7 @@ namespace Balder.Silverlight.Execution
 						isInDesignMode = true;
 					}
 				}
+#endif
 				return isInDesignMode;
 			}
 		}

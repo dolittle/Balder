@@ -26,6 +26,8 @@ using System.Linq;
 using System.Windows;
 #endif
 using Ninject;
+using System.Reflection;
+using System.IO;
 
 namespace Balder.Core.Execution
 {
@@ -39,6 +41,23 @@ namespace Balder.Core.Execution
 			_types = new List<Type>();
 			CollectTypes();
 		}
+
+#if(WINDOWS_PHONE)
+        private void CollectTypes()
+        {
+            if (null != Deployment.Current)
+            {
+                var parts = Deployment.Current.Parts;
+                foreach (var part in parts)
+                {
+                    var assemblyName = part.Source.Replace(".dll", string.Empty);
+                    var assembly = Assembly.Load(assemblyName);
+                    var types = assembly.GetTypes();
+                    _types.AddRange(types);
+                }
+            }
+        }
+#else
 
 #if(SILVERLIGHT)
 		private void CollectTypes()
@@ -66,6 +85,7 @@ namespace Balder.Core.Execution
 		{
 			
 		}
+#endif
 #endif
 
 		private Type[] Find<T>()

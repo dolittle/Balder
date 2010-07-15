@@ -18,7 +18,9 @@
 #endregion
 using System;
 using System.Reflection;
+#if(!WINDOWS_PHONE)
 using System.Reflection.Emit;
+#endif
 using System.Windows;
 using System.Linq.Expressions;
 using Balder.Core.Extensions;

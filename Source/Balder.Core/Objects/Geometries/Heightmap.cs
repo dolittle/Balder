@@ -43,7 +43,7 @@ namespace Balder.Core.Objects.Geometries
 		public event EventHandler<HeightmapEventArgs> HeightInput;
 
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Heightmap()
 			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
 					Runtime.Instance.Kernel.Get<IIdentityManager>())
