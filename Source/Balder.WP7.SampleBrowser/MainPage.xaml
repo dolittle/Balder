@@ -10,6 +10,7 @@
     xmlns:Geometries="clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core"
     xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core"
     xmlns:RC="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube"
+    xmlns:M="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -20,8 +21,10 @@
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         
+        <M:Content/>
         
-        <RC:Content/>
+        
+        <!--<RC:Content/>-->
         
     </Grid>
 
