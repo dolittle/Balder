@@ -1,4 +1,5 @@
-﻿#region License
+#region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,20 +16,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-namespace Balder.Core.Imaging
+
+namespace Balder.Core.Materials
 {
-	/// <summary>
-	/// The context image data lives in - device specific
-	/// </summary>
-	public interface IImageContext
+	public interface IMap
 	{
-		void SetFrame(byte[] frameBytes);
-		void SetFrame(ImageFormat format, byte[] frameBytes);
-		void SetFrame(ImageFormat format, byte[] frameBytes, ImagePalette palette);
-
 		int[] GetPixelsAs32BppARGB();
-
-		ImageFormat[] SupportedImageFormats { get; }
+		bool HasPixelChanges { get; }
+		int Width { get; }
+		int Height { get; }
+		int WidthBitCount { get; }
+		int HeightBitCount { get; }
 	}
 }

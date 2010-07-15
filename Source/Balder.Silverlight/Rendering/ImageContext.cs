@@ -63,6 +63,11 @@ namespace Balder.Silverlight.Rendering
 			}
 		}
 
+		public int[] GetPixelsAs32BppARGB()
+		{
+			return Pixels;
+		}
+
 		public ImageFormat[] SupportedImageFormats { get { return ImageFormats; } }
 	}
 }

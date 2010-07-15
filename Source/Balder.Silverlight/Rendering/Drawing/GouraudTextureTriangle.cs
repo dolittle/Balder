@@ -22,6 +22,7 @@
 using System;
 using Balder.Core;
 using Balder.Core.Imaging;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.Rendering.Drawing
@@ -64,7 +65,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			}
 
 
-			Image image = null;
+			IMap image = null;
 
 			if (null != face.Material.DiffuseMap)
 			{
@@ -83,7 +84,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 			{
 				return;
 			}
-			var imageContext = image.ImageContext as ImageContext;
+			var texels = image.GetPixelsAs32BppARGB();
 
 
 
@@ -456,7 +457,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 							 offset,
 							 framebuffer,
 							 image,
-							 imageContext,
+							 texels,
 							 nodeBuffer,
 							 nodeIdentifier);
 				}
@@ -538,8 +539,8 @@ namespace Balder.Silverlight.Rendering.Drawing
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			Image image,
-			ImageContext imageContext,
+			IMap image,
+			int[] texels,
 			UInt32[] nodeBuffer,
 			UInt32 nodeIdentifier)
 		{
@@ -569,7 +570,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 									  blue;
 
 
-					framebuffer[offset] = Clut.MultiplyColors(imageContext.Pixels[texel],(int)colorAsInt);
+					framebuffer[offset] = Clut.MultiplyColors(texels[texel],(int)colorAsInt);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}

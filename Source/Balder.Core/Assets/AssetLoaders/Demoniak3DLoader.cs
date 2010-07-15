@@ -87,7 +87,8 @@ namespace Balder.Core.Assets.AssetLoaders
 						var filename = filenameAttribute.Value;
 						var loader = _assetLoaderService.GetLoader<Image>(filename);
 						var frames = loader.Load(filename);
-						material.DiffuseMap = frames[0] as Image;
+						var imageMap = new ImageMap(frames[0] as Image);
+						material.DiffuseMap = imageMap;
 						break;
 					}
 				}

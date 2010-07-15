@@ -114,13 +114,16 @@ namespace Balder.Core.Materials
 		/// <summary>
 		/// DiffuseMap Property
 		/// </summary>
-		public static readonly Property<Material, Image> DiffuseMapProperty =
-			Property<Material, Image>.Register(m => m.DiffuseMap);
+		public static readonly Property<Material, IMap> DiffuseMapProperty =
+			Property<Material, IMap>.Register(m => m.DiffuseMap);
 
 		/// <summary>
 		/// Gets or sets the diffuse map <see cref="Image"/>
 		/// </summary>
-		public Image DiffuseMap
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap DiffuseMap
 		{
 			get { return DiffuseMapProperty.GetValue(this); }
 			set { DiffuseMapProperty.SetValue(this, value); }
@@ -129,13 +132,16 @@ namespace Balder.Core.Materials
 		/// <summary>
 		/// ReflectionMap Property
 		/// </summary>
-		public static readonly Property<Material, Image> ReflectionMapProperty =
-			Property<Material, Image>.Register(m => m.ReflectionMap);
+		public static readonly Property<Material, IMap> ReflectionMapProperty =
+			Property<Material, IMap>.Register(m => m.ReflectionMap);
 
 		/// <summary>
 		/// Gets or sets the reflection map <see cref="Image"/>
 		/// </summary>
-		public Image ReflectionMap
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap ReflectionMap
 		{
 			get { return ReflectionMapProperty.GetValue(this); }
 			set { ReflectionMapProperty.SetValue(this, value); }

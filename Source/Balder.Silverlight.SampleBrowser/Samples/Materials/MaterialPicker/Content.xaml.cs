@@ -18,11 +18,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 		private Material _texturedMaterial;
 		private Material _reflectionMaterial;
 
-
-		private Core.Imaging.Image _selectedTexture;
-		private Core.Imaging.Image _reflectionMapTexture;
-		private Core.Imaging.Image _visualStudioTexture;
-		private Core.Imaging.Image _balderLogoTexture;
+		private ImageMap _selectedTexture;
+		private ImageMap _reflectionMapTexture;
+		private ImageMap _visualStudioTexture;
+		private ImageMap _balderLogoTexture;
 
 
 		public Content()
@@ -45,7 +44,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 			HandleSelection();
 		}
 
-		private Core.Imaging.Image LoadTexture(string uri)
+		private ImageMap LoadTexture(string uri)
 		{
 			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
 			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
@@ -53,7 +52,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 			var images = loader.Load(uri);
 			if( images.Length == 1 )
 			{
-				return images[0] as Core.Imaging.Image;	
+				return new ImageMap(images[0] as Core.Imaging.Image);	
 			}
 			return null;
 		}

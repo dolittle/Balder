@@ -120,6 +120,8 @@
     <Compile Include="Input\MouseEventArgs.cs" />
     <Compile Include="Input\MouseEventHandler.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
+    <Compile Include="Materials\ImageMap.cs" />
+    <Compile Include="Materials\IMap.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
@@ -237,6 +239,7 @@
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\DimensionTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\ToolTipTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\UriToImageMapTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\UriToImageTypeConverter.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\NInjectExtensions.cs" />

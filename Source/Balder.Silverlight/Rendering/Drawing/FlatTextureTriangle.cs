@@ -21,6 +21,7 @@
 
 using System;
 using Balder.Core.Imaging;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.Rendering.Drawing
@@ -64,26 +65,26 @@ namespace Balder.Silverlight.Rendering.Drawing
 			}
 
 
-			Image image = null;
+			IMap map = null;
 
 			if (null != face.Material.DiffuseMap)
 			{
-				image = face.Material.DiffuseMap;
+				map = face.Material.DiffuseMap;
 
 			}
 			else if (null != face.Material.ReflectionMap)
 			{
-				image = face.Material.ReflectionMap;
+				map = face.Material.ReflectionMap;
 
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
-			if (null == image)
+			if (null == map)
 			{
 				return;
 			}
-			var imageContext = image.ImageContext as ImageContext;
+			var texels = map.GetPixelsAs32BppARGB();
 
 
 
@@ -92,21 +93,21 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * image.Width;
-			var va = vertexA.V * image.Height;
+			var ua = vertexA.U * map.Width;
+			var va = vertexA.V * map.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * image.Width;
-			var vb = vertexB.V * image.Height;
+			var ub = vertexB.U * map.Width;
+			var vb = vertexB.V * map.Height;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * image.Width;
-			var vc = vertexC.V * image.Height;
+			var uc = vertexC.U * map.Width;
+			var vc = vertexC.V * map.Height;
 
 
 			var deltaX1 = xb - xa;
@@ -317,8 +318,8 @@ namespace Balder.Silverlight.Rendering.Drawing
 							 depthBuffer,
 							 offset,
 							 framebuffer,
-							 image,
-							 imageContext,
+							 map,
+							 texels,
 							 nodeBuffer,
 							 nodeIdentifier,
 							 colorAsInt);
@@ -368,8 +369,8 @@ namespace Balder.Silverlight.Rendering.Drawing
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			Image image,
-			ImageContext imageContext,
+			IMap image,
+			int[] texels,
 			UInt32[] nodeBuffer,
 			UInt32 nodeIdentifier,
 			int faceColor)
@@ -388,7 +389,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 
-					framebuffer[offset] = Clut.MultiplyColors(imageContext.Pixels[texel],faceColor);
+					framebuffer[offset] = Clut.MultiplyColors(texels[texel],faceColor);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}
