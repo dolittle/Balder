@@ -9,6 +9,7 @@ glob:Source/**/obj/Debug/*
 glob:Source/**/obj/Release/*
 glob:Source/**/Obj/Debug/*
 glob:Source/**/Obj/Release/*
+glob:Source/**/obj/x86/**/*
 glob:*.zip
 glob:*.DS_*
 glob:*.bak
