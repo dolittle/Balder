@@ -59,6 +59,7 @@ namespace Balder.Core.Execution
 			Constructed();
 			PassiveRenderingMode = PassiveRenderingMode.FullDetail;
 
+			PassiveRendering = Runtime.Instance.Platform.IsInDesignMode;
 			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
 		}
 
