@@ -348,6 +348,18 @@ namespace Balder.Core.Math
 			return matrix;
 		}
 
+
+		public static Matrix CreateOrthographic(float width, float height, float nearPlane, float farPlane)
+		{
+			var matrix = new Matrix();
+			matrix._data[0, 0] = 2f/width;
+			matrix._data[1, 1] = 2f/height;
+			matrix._data[2, 2] = 1f/(nearPlane - farPlane);
+			matrix._data[3, 2] = nearPlane/(nearPlane - farPlane);
+			matrix._data[3, 3] = 1f;
+			return matrix;
+		}
+
 		public static Matrix CreateScale(float scale)
 		{
 			return CreateScale(new Vector(scale, scale, scale));

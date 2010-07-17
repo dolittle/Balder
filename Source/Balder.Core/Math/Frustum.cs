@@ -84,7 +84,7 @@ namespace Balder.Core.Math
 		{
 			Vector nc, fc, X, Y, Z;
 
-			SetCameraInternals(camera.FieldOfView, viewport.AspectRatio, camera.Near, camera.Far);
+			SetCameraInternals((float)camera.FieldOfView, viewport.AspectRatio, camera.Near, camera.Far);
 
 			Z = camera.Target-camera.Position;
 			Z.Normalize();

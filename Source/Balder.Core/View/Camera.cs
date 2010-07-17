@@ -55,8 +55,8 @@ namespace Balder.Core.View
 
 		#region Public Properties
 
-		public virtual Matrix ViewMatrix { get; private set; }
-		public virtual Matrix ProjectionMatrix { get; private set; }
+		public virtual Matrix ViewMatrix { get; protected set; }
+		public virtual Matrix ProjectionMatrix { get; protected set; }
 
 		public static readonly Property<Camera, Coordinate> PositionProp = Property<Camera, Coordinate>.Register(c => c.Position);
 		/// <summary>
@@ -113,7 +113,7 @@ namespace Balder.Core.View
 		/// <summary>
 		/// Gets or sets the field of view for the camera
 		/// </summary>
-		public float FieldOfView { get; set; }
+		public double FieldOfView { get; set; }
 
 		#endregion
 
@@ -122,10 +122,10 @@ namespace Balder.Core.View
 		/// <summary>
 		/// Calculates the projection matrix
 		/// </summary>
-		private void SetupProjection(Viewport viewport)
+		protected virtual void SetupProjection(Viewport viewport)
 		{
 			var projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
-				MathHelper.ToRadians(FieldOfView),
+				MathHelper.ToRadians((float)FieldOfView),
 				viewport.AspectRatio,
 				Near,
 				Far);

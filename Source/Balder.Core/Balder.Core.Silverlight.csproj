@@ -288,6 +288,7 @@
     <Compile Include="Execution\StateMachineManager.cs" />
     <Compile Include="Utils\AssemblyHelper.cs" />
     <Compile Include="View\IView.cs" />
+    <Compile Include="View\OrthographicCamera.cs" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
