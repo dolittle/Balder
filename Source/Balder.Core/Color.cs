@@ -22,6 +22,7 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Balder.Core.Math;
 using Balder.Core.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
@@ -38,7 +39,7 @@ namespace Balder.Core
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
-	[StructLayout(LayoutKind.Sequential, Pack=1, Size=4)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
 	public struct Color : IEquatable<Color>
 	{
 		private static readonly Random Rnd = new Random();
@@ -156,7 +157,7 @@ namespace Balder.Core
 
 		public int ToInt()
 		{
-			return (int) ToUInt32();
+			return (int)ToUInt32();
 		}
 
 		public Color Additive(Color secondColor)
@@ -196,6 +197,26 @@ namespace Balder.Core
 				Alpha = (byte)(alpha >> 1),
 			};
 			return result;
+		}
+
+		public static Color Scale(Color color, float scale)
+		{
+			var redAsFloat = ((float)color.Red) / 255f;
+			var greenAsFloat = ((float)color.Green) / 255f;
+			var blueAsFloat = ((float)color.Blue) / 255f;
+			var alphaAsFloat = ((float)color.Alpha) / 255f;
+
+			redAsFloat = redAsFloat * scale;
+			greenAsFloat = greenAsFloat * scale;
+			blueAsFloat = blueAsFloat * scale;
+			alphaAsFloat = alphaAsFloat * scale;
+
+			var newColor = new Color(
+				(byte)(MathHelper.Saturate(redAsFloat)*255f),
+				(byte)(MathHelper.Saturate(greenAsFloat)*255f),
+				(byte)(MathHelper.Saturate(blueAsFloat)*255f),
+				(byte)(MathHelper.Saturate(alphaAsFloat)*255f));
+			return newColor;
 		}
 
 
@@ -247,13 +268,13 @@ namespace Balder.Core
 
 		public static Color operator *(float value, Color color)
 		{
-			return Cluts.Scale(color, value);
+			return Scale(color, value);
 		}
 
 
 		public static Color operator *(Color color, float value)
 		{
-			return Cluts.Scale(color, value);
+			return Scale(color, value);
 		}
 
 #if(!IOS)

@@ -97,6 +97,14 @@ namespace Balder.Core.Math
 			return (radians * 57.29578f);
 		}
 
+
+		/// <summary>
+		/// Saturates a value to be between 0 and 1.
+		/// 
+		/// Any values below 0 will be 0, any value above 1 will be 1.
+		/// </summary>
+		/// <param name="value">Value to saturate</param>
+		/// <returns>Saturated value</returns>
 		public static float Saturate(float value)
 		{
 			if (value > 1)

@@ -65,8 +65,8 @@ namespace Balder.Core.Lighting
 		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
 			var actualAmbient = Ambient+material.Ambient;
-			var actualDiffuse = Diffuse;
-			var actualSpecular = Specular;
+			var actualDiffuse = Diffuse+material.Diffuse;
+			var actualSpecular = material.Specular;
 
 			var strengthAsFloat = (float)Strength;
 
@@ -101,7 +101,9 @@ namespace Balder.Core.Lighting
             attenuation = 1f - attenuation;
 
             // Final result
-			var colorVector = ambient + material.Diffuse + shadow * (diffuse + (specular*material.Specular)) * attenuation;
+			var colorVector = (ambient  + (shadow * diffuse) + specular) * attenuation;
+				//material.Diffuse*diffuse + material.Specular*specular;
+				//ambient + (shadow * diffuse + specular) * attenuation;
 
 			return colorVector;
 		}
