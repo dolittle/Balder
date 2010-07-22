@@ -497,8 +497,7 @@ namespace Balder.Silverlight.Rendering
 						case MaterialShade.Flat:
 							{
 								face.Transform(matrix);
-								var color = face.Material.Diffuse;
-								face.Color = color.Additive(_lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal));
+								face.Color = _lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal);
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
 									FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
@@ -512,10 +511,9 @@ namespace Balder.Silverlight.Rendering
 
 						case MaterialShade.Gouraud:
 							{
-								var color = face.Material.Diffuse;
-								face.CalculatedColorA = face.CalculatedColorA.Additive(color);
-								face.CalculatedColorB = face.CalculatedColorB.Additive(color);
-								face.CalculatedColorC = face.CalculatedColorC.Additive(color);
+								face.CalculatedColorA = face.CalculatedColorA;
+								face.CalculatedColorB = face.CalculatedColorB;
+								face.CalculatedColorC = face.CalculatedColorC;
 
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{

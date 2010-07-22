@@ -21,6 +21,7 @@
 
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
@@ -82,7 +83,7 @@ namespace Balder.Core.Lighting
 			}
 		}
 
-		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
 			var actualDiffuse = Diffuse;
 

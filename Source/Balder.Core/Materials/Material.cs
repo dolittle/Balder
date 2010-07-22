@@ -40,8 +40,17 @@ namespace Balder.Core.Materials
 #else
 	public class Material : IHaveIdentity
 #endif
-
 	{
+		public static Material Default;
+
+		static Material()
+		{
+			Default = Runtime.Instance.ContentManager.Creator.CreateMaterial();
+			Default.Ambient = Colors.Black;
+			Default.Diffuse = Colors.Blue;
+			Default.Specular = Colors.White;
+		}
+
 #if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>

@@ -18,6 +18,7 @@
 #endregion
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
@@ -61,9 +62,9 @@ namespace Balder.Core.Lighting
 		}
 
 
-		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-			var actualAmbient = Ambient;
+			var actualAmbient = Ambient+material.Ambient;
 			var actualDiffuse = Diffuse;
 			var actualSpecular = Specular;
 
@@ -100,8 +101,7 @@ namespace Balder.Core.Lighting
             attenuation = 1f - attenuation;
 
             // Final result
-            var colorVector = ambient + shadow * (diffuse + specular) * attenuation;
-            //var colorVector = ambient + diffuse;
+			var colorVector = ambient + material.Diffuse + shadow * (diffuse + (specular*material.Specular)) * attenuation;
 
 			return colorVector;
 		}

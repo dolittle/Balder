@@ -21,6 +21,7 @@
 
 using Balder.Core.Display;
 using Balder.Core.Execution;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 using Balder.Core.View;
 #if(DEFAULT_CONSTRUCTOR)
@@ -113,7 +114,7 @@ namespace Balder.Core.Lighting
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
 			var camera = viewport.View as Camera;
 			if (null != camera)

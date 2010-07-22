@@ -10,10 +10,14 @@ namespace Balder.Core.Lighting
 		public Color Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
 		{
 			var color = viewport.Scene.AmbientColor;
+			if( null == material )
+			{
+				material = Material.Default;
+			}
 
 			foreach( ILight light in viewport.Scene.Lights )
 			{
-				var lightColor = light.Calculate(viewport, vector, normal);
+				var lightColor = light.Calculate(viewport, material, vector, normal);
 				color = color.Additive(lightColor);
 				return color;
 			}

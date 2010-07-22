@@ -239,6 +239,12 @@ namespace Balder.Core
 			return newColor;
 		}
 
+		public static Color operator *(Color firstColor, Color secondColor)
+		{
+			var newColor = Cluts.Multiply(firstColor, secondColor);
+			return newColor;
+		}
+
 		public static Color operator *(float value, Color color)
 		{
 			return Cluts.Scale(color, value);
