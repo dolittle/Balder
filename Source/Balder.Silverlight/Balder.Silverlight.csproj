@@ -127,7 +127,6 @@
     <Compile Include="Display\Display.cs" />
     <Compile Include="Rendering\BoundingGeometryDetailLevel.cs" />
     <Compile Include="Rendering\BufferContainer.cs" />
-    <Compile Include="Rendering\Drawing\Clut.cs" />
     <Compile Include="Rendering\Drawing\FlatTextureTriangle.cs" />
     <Compile Include="Rendering\Drawing\GouraudTextureTriangle.cs" />
     <Compile Include="Rendering\Drawing\FlatTriangle.cs" />

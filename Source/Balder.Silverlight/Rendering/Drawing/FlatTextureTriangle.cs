@@ -20,7 +20,7 @@
 #endregion
 
 using System;
-using Balder.Core.Imaging;
+using Balder.Core;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 
@@ -389,7 +389,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 
-					framebuffer[offset] = Clut.MultiplyColors(texels[texel],faceColor);
+					framebuffer[offset] = Cluts.Multiply(texels[texel],faceColor);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}

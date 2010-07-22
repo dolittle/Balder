@@ -21,7 +21,6 @@
 
 using System;
 using Balder.Core;
-using Balder.Core.Imaging;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 
@@ -570,7 +569,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 									  blue;
 
 
-					framebuffer[offset] = Clut.MultiplyColors(texels[texel],(int)colorAsInt);
+					framebuffer[offset] = Cluts.Multiply(texels[texel],(int)colorAsInt);
 					depthBuffer[offset] = bufferZ;
 					nodeBuffer[offset] = nodeIdentifier;
 				}

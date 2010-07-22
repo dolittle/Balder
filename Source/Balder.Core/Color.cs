@@ -21,6 +21,7 @@ using System;
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
+using System.Runtime.InteropServices;
 using Balder.Core.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
@@ -37,6 +38,7 @@ namespace Balder.Core
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
+	[StructLayout(LayoutKind.Sequential, Pack=1, Size=4)]
 	public struct Color : IEquatable<Color>, IColor<Color>
 	{
 		private static readonly Random Rnd = new Random();
@@ -58,6 +60,11 @@ namespace Balder.Core
 		}
 
 		/// <summary>
+		/// Gets or sets the Alpha channel value
+		/// </summary>
+		public byte Alpha { get; set; }
+
+		/// <summary>
 		/// Gets or sets the Red channel value
 		/// </summary>
 		public byte Red { get; set; }
@@ -72,10 +79,6 @@ namespace Balder.Core
 		/// </summary>
 		public byte Blue { get; set; }
 
-		/// <summary>
-		/// Gets or sets the Alpha channel value
-		/// </summary>
-		public byte Alpha { get; set; }
 
 
 		#region Public Static Methods
@@ -276,6 +279,5 @@ namespace Balder.Core
 			var convertedValue = (float)System.Math.Round(valueAsFloat / 255f, 2);
 			return convertedValue;
 		}
-
 	}
 }

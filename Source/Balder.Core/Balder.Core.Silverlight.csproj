@@ -96,10 +96,10 @@
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
+    <Compile Include="Cluts.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="ColorAsFloats.cs" />
-    <Compile Include="ColorOperations.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\IContentCache.cs" />

@@ -1,17 +1,19 @@
-﻿namespace Balder.Silverlight.Rendering.Drawing
+﻿namespace Balder.Core
 {
-	public class Clut
+	public class Cluts
 	{
-		private static uint[,] _addedRedComponent;
+		private static byte[,] _addedComponent;
+ 		private static uint[,] _addedRedComponent;
 		private static uint[,] _addedGreenComponent;
 		private static uint[,] _addedBlueComponent;
 		private static uint[,] _addedAlphaComponent;
+		private static byte[,] _multipliedComponent;
 		private static uint[,] _multipliedRedComponent;
 		private static uint[,] _multipliedGreenComponent;
 		private static uint[,] _multipliedBlueComponent;
 		private static uint[,] _multipliedAlphaComponent;
 
-		static Clut()
+		static Cluts()
 		{
 			CalculateAddedComponent();
 			CalculateMultipliedComponent();
@@ -32,6 +34,7 @@
 					{
 						component = 255;
 					}
+					_addedComponent[a, b] = (byte)component;
 					_addedRedComponent[a, b] = ((uint)component) << 16;
 					_addedGreenComponent[a, b] = ((uint)component) << 8;
 					_addedBlueComponent[a, b] = ((uint)component);
@@ -59,16 +62,36 @@
 					{
 						component = 255;
 					}
+					_multipliedComponent[a, b] = (byte) component;
 					_multipliedRedComponent[a, b] = ((uint)component) << 16;
 					_multipliedGreenComponent[a, b] = ((uint)component) << 8;
 					_multipliedBlueComponent[a, b] = ((uint)component);
 					_multipliedAlphaComponent[a, b] = ((uint)component) << 24;
 				}
 			}
-			
 		}
 
-		public static int MultiplyColors(int a, int b)
+		public static Color Add(Color a, Color b)
+		{
+			var pixel = new Color(
+				_addedComponent[a.Red, b.Red],
+				_addedComponent[a.Green, b.Green],
+				_addedComponent[a.Blue, b.Blue],
+				_addedComponent[a.Alpha, b.Alpha]);
+			return pixel;
+		}
+
+		public static Color Multiply(Color a, Color b)
+		{
+			var pixel = new Color(
+				_multipliedComponent[a.Red, b.Red],
+				_multipliedComponent[a.Green, b.Green],
+				_multipliedComponent[a.Blue, b.Blue],
+				_multipliedComponent[a.Alpha, b.Alpha]);
+			return pixel;
+		}
+
+		public static int Add(int a, int b)
 		{
 			var alphaA = ((a >> 24) & 0xff);
 			var redA = ((a >> 16) & 0xff);
@@ -80,20 +103,32 @@
 			var greenB = ((b >> 8) & 0xff);
 			var blueB = ((b) & 0xff);
 
+			var pixel =
+				_addedAlphaComponent[alphaA, alphaB] |
+				_addedRedComponent[redA, redB] |
+				_addedGreenComponent[greenA, greenB] |
+				_addedBlueComponent[blueA, blueB];
+			return (int)pixel;
+		}
+
+		public static int Multiply(int a, int b)
+		{
+			var alphaA = ((a >> 24) & 0xff);
+			var redA = ((a >> 16) & 0xff);
+			var greenA = ((a >> 8) & 0xff);
+			var blueA = ((a) & 0xff);
+
+			var alphaB = ((b >> 24) & 0xff);
+			var redB = ((b >> 16) & 0xff);
+			var greenB = ((b >> 8) & 0xff);
+			var blueB = ((b) & 0xff);
 			
-			
-			var addedPixel =
+			var pixel =
 				_multipliedAlphaComponent[alphaA, alphaB] |
 				_multipliedRedComponent[redA, redB] |
 				_multipliedGreenComponent[greenA, greenB] |
 				_multipliedBlueComponent[blueA, blueB];
-			/*
-			var addedPixel =
-				_addedAlphaComponent[alphaA, alphaB] |
-				_addedRedComponent[redA, redB] |
-				_addedGreenComponent[greenA, greenB] |
-				_addedBlueComponent[blueA, blueB];*/
-			return (int)addedPixel;
+			return (int)pixel;
 		}
 		
 	}
