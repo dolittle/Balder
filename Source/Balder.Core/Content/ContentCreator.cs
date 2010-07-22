@@ -47,7 +47,7 @@ namespace Balder.Core.Content
 
 		public Material CreateMaterial()
 		{
-			var material = new Material(_identityManager);
+			var material = _kernel.Get<Material>();
 			return material;
 		}
 	}

@@ -122,6 +122,7 @@
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Materials\ImageMap.cs" />
     <Compile Include="Materials\IMap.cs" />
+    <Compile Include="Materials\IMaterialContext.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />

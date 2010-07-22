@@ -25,6 +25,7 @@ using Balder.Core.Input;
 using Balder.Silverlight.Content;
 using Balder.Silverlight.Display;
 using Balder.Silverlight.Input;
+using Balder.Silverlight.Materials;
 using Balder.Silverlight.Rendering;
 
 namespace Balder.Silverlight.Execution
@@ -71,18 +72,19 @@ namespace Balder.Silverlight.Execution
 
 		public bool IsInDesignMode
 		{
-			get 
+			get
 			{
 				var isInDesignMode = DesignerProperties.IsInDesignTool;
 #if(!WINDOWS_PHONE)
-                if( !isInDesignMode )
+				if (!isInDesignMode)
 				{
 					try
 					{
 
 						var host = Application.Current.Host.Source;
 						isInDesignMode = false;
-					} catch
+					}
+					catch
 					{
 						isInDesignMode = true;
 					}
@@ -99,6 +101,7 @@ namespace Balder.Silverlight.Execution
 		public Type SpriteContextType { get { return typeof(SpriteContext); } }
 		public Type ImageContextType { get { return typeof(ImageContext); } }
 		public Type ShapeContextType { get { return typeof(ShapeContext); } }
+		public Type MaterialContextType { get { return typeof(MaterialContext); } }
 
 		public PlatformState CurrentState { get; private set; }
 

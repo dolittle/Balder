@@ -23,6 +23,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E974
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Testing.Silverlight", "..\Balder.Testing\Balder.Testing.Silverlight.csproj", "{CB1C3C02-7D8B-48BA-ADE3-E2E2298E2C3C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2255825E-3EEA-4488-9C40-2BD62A046C4E}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\Build\Balder.build = ..\..\Build\Balder.build
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
 		SolutionIsControlled = True

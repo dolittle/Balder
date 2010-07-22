@@ -17,7 +17,6 @@
 //
 #endregion
 using System;
-using Balder.Core.Assets;
 using Balder.Core.Display;
 using Balder.Core.Input;
 
@@ -53,6 +52,7 @@ namespace Balder.Core.Execution
 		Type SpriteContextType { get; }
 		Type ImageContextType { get; }
 		Type ShapeContextType { get; }
+		Type MaterialContextType { get; }
 
 		PlatformState CurrentState { get; }
 	}
