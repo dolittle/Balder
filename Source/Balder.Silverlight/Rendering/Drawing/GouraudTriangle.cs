@@ -26,7 +26,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 	{
 		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
 		{
-#if(FALSE)
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
@@ -36,27 +35,27 @@ namespace Balder.Silverlight.Rendering.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ra = face.CalculatedColorA.Red;
-			var ga = face.CalculatedColorA.Green;
-			var ba = face.CalculatedColorA.Blue;
-			var aa = face.CalculatedColorA.Alpha;
+			var ra = ((float)face.CalculatedColorA.Red)/255f;
+			var ga = ((float)face.CalculatedColorA.Green)/255f;
+			var ba = ((float)face.CalculatedColorA.Blue)/255f;
+			var aa = ((float)face.CalculatedColorA.Alpha)/255f;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var rb = face.CalculatedColorB.Red;
-			var gb = face.CalculatedColorB.Green;
-			var bb = face.CalculatedColorB.Blue;
-			var ab = face.CalculatedColorB.Alpha;
+			var rb = ((float)face.CalculatedColorB.Red)/255f;
+			var gb = ((float)face.CalculatedColorB.Green)/255f;
+			var bb = ((float)face.CalculatedColorB.Blue)/255f;
+			var ab = ((float)face.CalculatedColorB.Alpha)/255f;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var rc = face.CalculatedColorC.Red;
-			var gc = face.CalculatedColorC.Green;
-			var bc = face.CalculatedColorC.Blue;
-			var ac = face.CalculatedColorC.Alpha;
+			var rc = ((float)face.CalculatedColorC.Red)/255f;
+			var gc = ((float)face.CalculatedColorC.Green)/255f;
+			var bc = ((float)face.CalculatedColorC.Blue)/255f;
+			var ac = ((float)face.CalculatedColorC.Alpha) / 255f;
 
 
 			var deltaX1 = xb - xa;
@@ -381,7 +380,6 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 				yoffset += BufferContainer.Width;
 			}
-#endif
 		}
 
 		protected virtual void DrawSpan(
