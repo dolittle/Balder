@@ -22,13 +22,15 @@
 using System;
 using Balder.Core;
 using Balder.Core.Display;
+using Balder.Core.Execution;
 using Balder.Core.Lighting;
 using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Silverlight.Materials
 {
-	public class MaterialContext : IMaterialContext
+	[Singleton]
+	public class MaterialCalculator : IMaterialCalculator
 	{
 		public Color CalculateLightingForVector(Material material, Viewport viewport, ILight light, Vector vector, Vector normal)
 		{

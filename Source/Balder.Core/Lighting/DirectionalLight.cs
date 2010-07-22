@@ -82,9 +82,9 @@ namespace Balder.Core.Lighting
 			}
 		}
 
-		public override ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
 		{
-			var actualDiffuse = Diffuse.ToColorAsFloats();
+			var actualDiffuse = Diffuse;
 
 			var lightVector = -(Vector) Direction;
 			lightVector.Normalize();

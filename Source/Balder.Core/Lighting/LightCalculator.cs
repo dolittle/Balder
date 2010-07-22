@@ -1,4 +1,5 @@
 ﻿using Balder.Core.Display;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
@@ -6,9 +7,9 @@ namespace Balder.Core.Lighting
 #pragma warning disable 1591 // Xml Comments
 	public class LightCalculator : ILightCalculator
 	{
-		public ColorAsFloats Calculate(Viewport viewport, Vector vector, Vector normal)
+		public Color Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
 		{
-			var color = viewport.Scene.AmbientColor.ToColorAsFloats();
+			var color = viewport.Scene.AmbientColor;
 
 			foreach( ILight light in viewport.Scene.Lights )
 			{

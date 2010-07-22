@@ -25,6 +25,7 @@
 			_addedGreenComponent = new uint[256, 256];
 			_addedBlueComponent = new uint[256, 256];
 			_addedAlphaComponent = new uint[256, 256];
+			_addedComponent = new byte[256,256];
 			for (var a = 0; a < 256; a++)
 			{
 				for( var b=0; b<256; b++)
@@ -49,6 +50,7 @@
 			_multipliedGreenComponent = new uint[256, 256];
 			_multipliedBlueComponent = new uint[256, 256];
 			_multipliedAlphaComponent = new uint[256, 256];
+			_multipliedComponent = new byte[256,256];
 			for (var a = 0; a < 256; a++)
 			{
 				for (var b = 0; b < 256; b++)
@@ -109,6 +111,39 @@
 				_addedGreenComponent[greenA, greenB] |
 				_addedBlueComponent[blueA, blueB];
 			return (int)pixel;
+		}
+
+		public static Color Scale(Color color, float value)
+		{
+			// Todo : This is just an approximation... Can't scale beyond 2.9999
+			if( value < 0 )
+			{
+				return Colors.Black;
+			} else if( value >= 3 )
+			{
+				return Colors.White;
+			}
+			var integer = (int) value;
+			var fraction = ((int) (value*256f)) & 0xff;
+			var red = _multipliedComponent[color.Red, fraction];
+			var green = _multipliedComponent[color.Green, fraction];
+			var blue = _multipliedComponent[color.Blue, fraction];
+			var alpha = _multipliedComponent[color.Alpha, fraction];
+			if( integer > 0 )
+			{
+				if( integer == 2 )
+				{
+					color.Red <<= 1;
+					color.Green <<= 1;
+					color.Blue <<= 1;
+					color.Alpha <<= 1;
+				}
+				red = _addedComponent[red, color.Red];
+				green = _addedComponent[green, color.Red];
+				blue = _addedComponent[blue, color.Red];
+				alpha = _addedComponent[alpha, color.Red];
+			}
+			return new Color(red,green,blue,alpha);
 		}
 
 		public static int Multiply(int a, int b)

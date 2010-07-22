@@ -24,6 +24,7 @@ using Balder.Core.Content;
 using Balder.Core.Display;
 using Balder.Core.Imaging;
 using Balder.Core.Input;
+using Balder.Core.Materials;
 using Balder.Core.Objects.Flat;
 using Balder.Core.Objects.Geometries;
 using Balder.Core.Rendering;
@@ -46,7 +47,7 @@ namespace Balder.Core.Execution
 			Bind<ISpriteContext>().To(platform.SpriteContextType);
 			Bind<IImageContext>().To(platform.ImageContextType);
 			Bind<IShapeContext>().To(platform.ShapeContextType);
-			
+			Bind<IMaterialCalculator>().To(platform.MaterialCalculatorType);
 			
 			//AddBindingResolver<IPlatform>(PlatformBindingResolver);
 			//AddBindingResolver<IDisplay>(DisplayBindingResolver);

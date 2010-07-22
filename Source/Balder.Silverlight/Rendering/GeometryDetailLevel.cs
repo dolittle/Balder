@@ -372,7 +372,7 @@ namespace Balder.Silverlight.Rendering
 
 		private Color CalculateColorForVertex(RenderVertex vertex, Viewport viewport, INode node, int smoothingGroup)
 		{
-			ColorAsFloats lightColor;
+			Color lightColor;
 			if( null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
 			{
 				var smoothingGroupVertex = vertex.SmoothingGroups[smoothingGroup];
@@ -383,12 +383,12 @@ namespace Balder.Silverlight.Rendering
 				}
 				else
 				{
-					lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
+					lightColor = _lightCalculator.Calculate(viewport, null, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
 					smoothingGroupVertex.CalculatedColor = lightColor;
 				}
 			} else
 			{
-				lightColor = _lightCalculator.Calculate(viewport, vertex.TransformedVector, vertex.TransformedNormal);
+				lightColor = _lightCalculator.Calculate(viewport, null, vertex.TransformedVector, vertex.TransformedNormal);
 			}
 
 
@@ -498,7 +498,7 @@ namespace Balder.Silverlight.Rendering
 							{
 								face.Transform(matrix);
 								var color = face.Material.Diffuse;
-								face.Color = color.Additive(_lightCalculator.Calculate(viewport, face.TransformedPosition, face.TransformedNormal));
+								face.Color = color.Additive(_lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal));
 								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
 								{
 									FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);

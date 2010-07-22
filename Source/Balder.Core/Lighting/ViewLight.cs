@@ -34,7 +34,7 @@ namespace Balder.Core.Lighting
 		private Vector _direction;
 		private Vector _viewDirection;
 		private Vector _lightVector;
-		private ColorAsFloats _actualDiffuse;
+		private Color _actualDiffuse;
 		private Matrix _angleMatrix;
 
 #if(DEFAULT_CONSTRUCTOR)
@@ -108,12 +108,12 @@ namespace Balder.Core.Lighting
 			_viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
 			_viewDirection.Normalize();
 
-			_actualDiffuse = Diffuse.ToColorAsFloats();
+			_actualDiffuse = Diffuse;
 
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		public override ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
 		{
 			var camera = viewport.View as Camera;
 			if (null != camera)
@@ -129,7 +129,7 @@ namespace Balder.Core.Lighting
 				var color = diffuseLight * (float)specular;
 				return color;
 			}
-			return new ColorAsFloats();
+			return new Color();
 		}
 	}
 }

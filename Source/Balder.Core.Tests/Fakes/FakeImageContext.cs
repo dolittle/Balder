@@ -1,4 +1,5 @@
-﻿using Balder.Core.Imaging;
+﻿using System;
+using Balder.Core.Imaging;
 
 namespace Balder.Core.Tests.Fakes
 {
@@ -22,6 +23,11 @@ namespace Balder.Core.Tests.Fakes
 		public void SetFrame(ImageFormat format, byte[] frameBytes, ImagePalette palette)
 		{
 
+		}
+
+		public int[] GetPixelsAs32BppARGB()
+		{
+			throw new NotImplementedException();
 		}
 
 		public ImageFormat[] SupportedImageFormats { get { return ImageFormats; }}

@@ -28,14 +28,14 @@ namespace Balder.Silverlight.Rendering
 	{
 		public SmoothingGroupVertex()
 		{
-			CalculatedColor = new ColorAsFloats(0,0,0,1);
+			CalculatedColor = new Color(0,0,0,0xff);
 			IsColorCalculated = false;
 		}
 
 		public int Number { get; set; }
 		public Vector Normal { get; set; }
 		public Vector TransformedNormal { get; set; }
-		public ColorAsFloats CalculatedColor { get; set; }
+		public Color CalculatedColor { get; set; }
 		public bool IsColorCalculated { get; set; }
 	}
 }

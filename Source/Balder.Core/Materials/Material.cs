@@ -48,8 +48,7 @@ namespace Balder.Core.Materials
 		/// </summary>
 		public Material()
 			: this(
-				Runtime.Instance.Kernel.Get<IIdentityManager>(),
-				Runtime.Instance.Kernel.Get<IMaterialContext>()
+				Runtime.Instance.Kernel.Get<IIdentityManager>()
 			)
 		{
 		}
@@ -59,7 +58,7 @@ namespace Balder.Core.Materials
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>
-		public Material(IIdentityManager identityManager, IMaterialContext materialContext)
+		public Material(IIdentityManager identityManager)
 		{
 			Shade = MaterialShade.None;
 			Diffuse = Color.Random();
@@ -154,11 +153,5 @@ namespace Balder.Core.Materials
 		/// Gets the Id of the Material
 		/// </summary>
 		public UInt16 Id { get; private set; }
-
-
-		/// <summary>
-		/// Gets the material context for the material
-		/// </summary>
-		public IMaterialContext MaterialContext { get; private set; }
 	}
 }

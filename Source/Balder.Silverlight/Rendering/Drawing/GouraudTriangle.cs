@@ -26,6 +26,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 	{
 		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
 		{
+#if(FALSE)
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
@@ -380,6 +381,7 @@ namespace Balder.Silverlight.Rendering.Drawing
 
 				yoffset += BufferContainer.Width;
 			}
+#endif
 		}
 
 		protected virtual void DrawSpan(

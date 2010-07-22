@@ -22,6 +22,8 @@
 #if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Media;
+using Balder.Core.Execution;
+using Moq;
 using SysColors = System.Windows.Media.Colors;
 #else
 using Balder.Core.Execution;

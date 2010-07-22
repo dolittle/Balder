@@ -49,6 +49,6 @@ namespace Balder.Core.Lighting
 		/// <param name="point">Point to calculate for - in the form of a <see cref="Vector"/></param>
 		/// <param name="normal">Normal for the point to calculate for - in the form of a <see cref="Vector"/></param>
 		/// <returns>Calculated <see cref="Color"/></returns>
-		ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
+		Color Calculate(Viewport viewport, Vector point, Vector normal);
 	}
 }

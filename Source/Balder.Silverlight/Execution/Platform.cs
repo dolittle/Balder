@@ -101,7 +101,7 @@ namespace Balder.Silverlight.Execution
 		public Type SpriteContextType { get { return typeof(SpriteContext); } }
 		public Type ImageContextType { get { return typeof(ImageContext); } }
 		public Type ShapeContextType { get { return typeof(ShapeContext); } }
-		public Type MaterialContextType { get { return typeof(MaterialContext); } }
+		public Type MaterialCalculatorType { get { return typeof(MaterialCalculator); } }
 
 		public PlatformState CurrentState { get; private set; }
 

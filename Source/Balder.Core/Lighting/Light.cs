@@ -35,7 +35,7 @@ namespace Balder.Core.Lighting
 #pragma warning disable 1591 // Xml Comments
 	public abstract class Light : EnvironmentalNode, ILight
 	{
-		public abstract ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
+		public abstract Color Calculate(Viewport viewport, Vector point, Vector normal);
 
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
 

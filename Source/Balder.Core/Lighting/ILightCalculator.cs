@@ -19,6 +19,7 @@
 
 #endregion
 using Balder.Core.Display;
+using Balder.Core.Materials;
 using Balder.Core.Math;
 
 namespace Balder.Core.Lighting
@@ -40,6 +41,6 @@ namespace Balder.Core.Lighting
 		/// inside the viewport - meaning that it will calculate using all lights
 		/// available.
 		/// </remarks>
-		ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal);
+		Color Calculate(Viewport viewport, Material material, Vector point, Vector normal);
 	}
 }

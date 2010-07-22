@@ -39,7 +39,7 @@ namespace Balder.Core
 	[TypeConverter(typeof(ColorConverter))]
 #endif
 	[StructLayout(LayoutKind.Sequential, Pack=1, Size=4)]
-	public struct Color : IEquatable<Color>, IColor<Color>
+	public struct Color : IEquatable<Color>
 	{
 		private static readonly Random Rnd = new Random();
 
@@ -154,21 +154,14 @@ namespace Balder.Core
 			return uint32Color;
 		}
 
+		public int ToInt()
+		{
+			return (int) ToUInt32();
+		}
+
 		public Color Additive(Color secondColor)
 		{
-			var red = (int)Red + (int)secondColor.Red;
-			var green = (int)Green + (int)secondColor.Green;
-			var blue = (int)Blue + (int)secondColor.Blue;
-			var alpha = (int)Alpha + (int)secondColor.Alpha;
-
-			var result = new Color
-							{
-								Red = (byte)(red > 255 ? 255 : red),
-								Green = (byte)(green > 255 ? 255 : green),
-								Blue = (byte)(blue > 255 ? 255 : blue),
-								Alpha = (byte)(alpha > 255 ? 255 : alpha),
-							};
-			return result;
+			return Cluts.Add(this, secondColor);
 		}
 
 		public Color Subtract(Color secondColor)
@@ -203,19 +196,6 @@ namespace Balder.Core
 				Alpha = (byte)(alpha >> 1),
 			};
 			return result;
-		}
-
-
-		public ColorAsFloats ToColorAsFloats()
-		{
-			var color = new ColorAsFloats
-							{
-								Red = ConvertToFloat(Red),
-								Green = ConvertToFloat(Green),
-								Blue = ConvertToFloat(Blue),
-								Alpha = ConvertToFloat(Alpha)
-							};
-			return color;
 		}
 
 
@@ -259,6 +239,17 @@ namespace Balder.Core
 			return newColor;
 		}
 
+		public static Color operator *(float value, Color color)
+		{
+			return Cluts.Scale(color, value);
+		}
+
+
+		public static Color operator *(Color color, float value)
+		{
+			return Cluts.Scale(color, value);
+		}
+
 #if(!IOS)
 		/// <summary>
 		/// Implicitly convert to <see cref="Color"/> from <see cref="SysColor"/>
@@ -273,11 +264,5 @@ namespace Balder.Core
 #endif
 		#endregion
 
-		private static float ConvertToFloat(byte value)
-		{
-			var valueAsFloat = (float)value;
-			var convertedValue = (float)System.Math.Round(valueAsFloat / 255f, 2);
-			return convertedValue;
-		}
 	}
 }

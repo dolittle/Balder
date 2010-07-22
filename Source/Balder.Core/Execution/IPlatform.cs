@@ -52,7 +52,7 @@ namespace Balder.Core.Execution
 		Type SpriteContextType { get; }
 		Type ImageContextType { get; }
 		Type ShapeContextType { get; }
-		Type MaterialContextType { get; }
+		Type MaterialCalculatorType { get; }
 
 		PlatformState CurrentState { get; }
 	}

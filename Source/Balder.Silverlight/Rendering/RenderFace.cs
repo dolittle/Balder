@@ -42,9 +42,9 @@ namespace Balder.Silverlight.Rendering
 		public TextureCoordinate DiffuseTextureCoordinateB;
 		public TextureCoordinate DiffuseTextureCoordinateC;
 
-		public ColorAsFloats CalculatedColorA;
-		public ColorAsFloats CalculatedColorB;
-		public ColorAsFloats CalculatedColorC;
+		public Color CalculatedColorA;
+		public Color CalculatedColorB;
+		public Color CalculatedColorC;
 
 
 		public RenderFace(int a, int b, int c)
@@ -64,9 +64,9 @@ namespace Balder.Silverlight.Rendering
 			SmoothingGroup = face.SmoothingGroup;
 			Normal = face.Normal;
 
-			CalculatedColorA = new ColorAsFloats(0, 0, 0, 1);
-			CalculatedColorB = new ColorAsFloats(0, 0, 0, 1);
-			CalculatedColorC = new ColorAsFloats(0, 0, 0, 1);
+			CalculatedColorA = Colors.Black;
+			CalculatedColorB = Colors.Black;
+			CalculatedColorC = Colors.Black;
 		}
 
 		public void TransformNormal(Matrix matrix)

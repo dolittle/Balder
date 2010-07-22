@@ -99,7 +99,6 @@
     <Compile Include="Cluts.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ColorAsFloats.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\IContentCache.cs" />
@@ -122,7 +121,7 @@
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Materials\ImageMap.cs" />
     <Compile Include="Materials\IMap.cs" />
-    <Compile Include="Materials\IMaterialContext.cs" />
+    <Compile Include="Materials\IMaterialCalculator.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
@@ -145,7 +144,6 @@
     <Compile Include="Rendering\ICanBeVisible.cs" />
     <Compile Include="Rendering\ICanPrepare.cs" />
     <Compile Include="Rendering\ICanRender.cs" />
-    <Compile Include="IColor.cs" />
     <Compile Include="Rendering\IHaveChildren.cs" />
     <Compile Include="Rendering\IHaveColor.cs" />
     <Compile Include="INode.cs" />

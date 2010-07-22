@@ -25,7 +25,7 @@ using Balder.Core.Math;
 
 namespace Balder.Core.Materials
 {
-	public interface IMaterialContext
+	public interface IMaterialCalculator
 	{
 		Color CalculateLightingForVector(Material material, Viewport viewport, ILight light, Vector vector, Vector normal);
 	}

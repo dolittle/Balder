@@ -61,11 +61,11 @@ namespace Balder.Core.Lighting
 		}
 
 
-		public override ColorAsFloats Calculate(Viewport viewport, Vector point, Vector normal)
+		public override Color Calculate(Viewport viewport, Vector point, Vector normal)
 		{
-			var actualAmbient = Ambient.ToColorAsFloats();
-			var actualDiffuse = Diffuse.ToColorAsFloats();
-			var actualSpecular = Specular.ToColorAsFloats();
+			var actualAmbient = Ambient;
+			var actualDiffuse = Diffuse;
+			var actualSpecular = Specular;
 
 			var strengthAsFloat = (float)Strength;
 
