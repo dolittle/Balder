@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using Balder.Silverlight.Extensions;
+using Balder.Extensions.Silverlight;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {

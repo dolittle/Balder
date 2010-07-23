@@ -7,7 +7,7 @@
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
 	xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
 	xmlns:ic="clr-namespace:Microsoft.Expression.Interactivity.Media;assembly=Microsoft.Expression.Interactions"
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight">
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
     <Grid x:Name="LayoutRoot">
 		<Grid.Resources>
 			<Storyboard x:Key="Storyboard">

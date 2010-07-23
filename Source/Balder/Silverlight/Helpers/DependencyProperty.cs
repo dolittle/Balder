@@ -20,7 +20,7 @@ using System;
 using System.Linq.Expressions;
 using System.Windows;
 using Balder.Extensions;
-using Balder.Silverlight.Extensions;
+using Balder.Extensions.Silverlight;
 
 
 namespace Balder.Silverlight.Helpers

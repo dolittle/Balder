@@ -2,11 +2,11 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
-    xmlns:Controls="clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight" 
+    xmlns:Controls="clr-namespace:Balder.Controls;assembly=Balder" 
 	xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl" 
 	xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder.Silverlight" 
+    xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder" 
     xmlns:Core="clr-namespace:Balder;assembly=Balder">
 	<UserControl.DataContext>
 		<local:ViewModel/>

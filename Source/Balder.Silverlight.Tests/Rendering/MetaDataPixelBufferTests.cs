@@ -21,7 +21,7 @@
 
 using Balder;
 using Balder.Materials;
-using Balder.Silverlight.Rendering;
+using Balder.Rendering.Silverlight;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;

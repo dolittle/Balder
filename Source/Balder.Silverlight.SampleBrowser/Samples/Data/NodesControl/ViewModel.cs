@@ -2,8 +2,7 @@
 using System.ComponentModel;
 using System.Windows.Input;
 using Balder.Math;
-using Balder.Silverlight.MVVM;
-using Color = Balder.Color;
+using Balder.MVVM;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 {

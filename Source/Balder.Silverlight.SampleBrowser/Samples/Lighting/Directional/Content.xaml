@@ -5,7 +5,7 @@
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight">
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
     <Grid x:Name="LayoutRoot">
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">

@@ -7,7 +7,7 @@
     xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.PieChart" 
     xmlns:Controls1="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit" 
     xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data" 
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight">
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>

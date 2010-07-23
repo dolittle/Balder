@@ -1,11 +1,12 @@
 ﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl.Content"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Controls="clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight" 
+    xmlns:Controls="clr-namespace:Balder.Controls;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" xmlns:MVVM="clr-namespace:Balder.Silverlight.MVVM;assembly=Balder.Silverlight">
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
+	xmlns:MVVM="clr-namespace:Balder.MVVM;assembly=Balder">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>

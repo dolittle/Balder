@@ -24,7 +24,7 @@ using System.Reflection.Emit;
 using System.Windows;
 using System.Linq.Expressions;
 using Balder.Extensions;
-using Balder.Silverlight.Extensions;
+using Balder.Extensions.Silverlight;
 using Expression = System.Linq.Expressions.Expression;
 
 namespace Balder.Silverlight.Helpers

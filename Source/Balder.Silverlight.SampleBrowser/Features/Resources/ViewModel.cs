@@ -26,7 +26,7 @@ using System.Linq;
 using System.Resources;
 using System.Windows;
 using System.Windows.Input;
-using Balder.Silverlight.MVVM;
+using Balder.MVVM;
 
 namespace Balder.Silverlight.SampleBrowser.Features.Resources
 {

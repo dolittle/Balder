@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Windows;
 using Balder.Display;
-using Balder.Silverlight.Input;
-using Balder.View;
+using Balder.Input.Silverlight;
 
 namespace Balder.Execution
 {

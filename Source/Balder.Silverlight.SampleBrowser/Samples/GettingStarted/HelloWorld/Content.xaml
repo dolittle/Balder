@@ -4,7 +4,7 @@
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Animation="clr-namespace:Balder.Silverlight.Animation;assembly=Balder.Silverlight" 
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
     xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
     xmlns:Flat="clr-namespace:Balder.Objects.Flat;assembly=Balder">

@@ -6,7 +6,7 @@ using Balder.Rendering;
 using Balder.Extensions;
 #if(SILVERLIGHT)
 using System.Windows;
-using Balder.Silverlight.Extensions;
+using Balder.Extensions.Silverlight;
 #endif
 
 namespace Balder.Execution

@@ -23,7 +23,7 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
-using Balder.Silverlight.Input;
+using Balder.Input.Silverlight;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;

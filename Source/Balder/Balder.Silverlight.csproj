@@ -89,11 +89,13 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>Properties\GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Cluts.cs" />
@@ -103,13 +105,23 @@
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Content\IContentCreator.cs" />
+    <Compile Include="Content\Silverlight\FileLoader.cs" />
+    <Compile Include="Content\Silverlight\FilePathHelper.cs" />
+    <Compile Include="Controls\INodeModifier.cs" />
+    <Compile Include="Controls\NodesControl.cs" />
+    <Compile Include="Controls\NodesStack.cs" />
+    <Compile Include="Converters\StringToTypeConverter.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Display\Silverlight\Display.cs" />
+    <Compile Include="Display\Silverlight\DisplayDevice.cs" />
+    <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
     <Compile Include="Execution\IdentityManager.cs" />
     <Compile Include="Execution\IHaveIdentity.cs" />
     <Compile Include="Execution\IIdentityManager.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
+    <Compile Include="Execution\Silverlight\Platform.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
@@ -118,10 +130,26 @@
     <Compile Include="Input\MouseButtonEventHandler.cs" />
     <Compile Include="Input\MouseEventArgs.cs" />
     <Compile Include="Input\MouseEventHandler.cs" />
+    <Compile Include="Input\Silverlight\MouseDevice.cs" />
+    <Compile Include="Interaction\ICommandSource.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Materials\ImageMap.cs" />
     <Compile Include="Materials\IMap.cs" />
     <Compile Include="Materials\IMaterialCalculator.cs" />
+    <Compile Include="Materials\Silverlight\MaterialCalculator.cs" />
+    <Compile Include="MVVM\CommandManager.cs" />
+    <Compile Include="MVVM\CommandService.cs" />
+    <Compile Include="MVVM\CommandSubscription.cs" />
+    <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\ICanBeEnabled.cs" />
+    <Compile Include="MVVM\ICanExecuteCommand.cs" />
+    <Compile Include="Notification\Dispatcher.cs" />
+    <Compile Include="Notification\DispatcherManager.cs" />
+    <Compile Include="Notification\IDispatcher.cs" />
+    <Compile Include="Notification\IgnoreChangesAttribute.cs" />
+    <Compile Include="Notification\NotifyChangesForAttribute.cs" />
+    <Compile Include="Notification\NotifyingObjectWeaver.cs" />
+    <Compile Include="Notification\ViewModelModule.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
@@ -178,16 +206,16 @@
     <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Rendering\ShowMessage.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
-    <Compile Include="Silverlight\Extensions\DependencyPropertyExtensions.cs" />
-    <Compile Include="Silverlight\Extensions\DependencyPropertySubscription.cs" />
+    <Compile Include="Extensions\Silverlight\DependencyPropertyExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\DependencyPropertySubscription.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
-    <Compile Include="Silverlight\Extensions\NotificationExtensions.cs" />
-    <Compile Include="Silverlight\Extensions\StoryboardExtensions.cs" />
-    <Compile Include="Silverlight\Extensions\VisualStateExtensions.cs" />
-    <Compile Include="Silverlight\Extensions\VisualTreeExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\NotificationExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\StoryboardExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\VisualStateExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="Silverlight\Helpers\DependencyProperty.cs" />
     <Compile Include="Silverlight\Helpers\DependencyPropertyHelper.cs" />
@@ -232,14 +260,37 @@
     <Compile Include="Execution\ConstructorArgument.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
-    <Compile Include="Silverlight\Input\ManipulationEventHelper.cs" />
-    <Compile Include="Silverlight\Input\NodeMouseEventHelper.cs" />
+    <Compile Include="Input\Silverlight\ManipulationEventHelper.cs" />
+    <Compile Include="Input\Silverlight\NodeMouseEventHelper.cs" />
+    <Compile Include="Rendering\Silverlight\BoundingGeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Silverlight\BufferContainer.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleAdditive.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\Point.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\Triangle.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Silverlight\ImageContext.cs" />
+    <Compile Include="Rendering\Silverlight\IMetaDataPixelBuffer.cs" />
+    <Compile Include="Rendering\Silverlight\MetaDataPixelBuffer.cs" />
+    <Compile Include="Rendering\Silverlight\RenderFace.cs" />
+    <Compile Include="Rendering\Silverlight\RenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\RenderVertex.cs" />
+    <Compile Include="Rendering\Silverlight\ShapeContext.cs" />
+    <Compile Include="Rendering\Silverlight\Shapes.cs" />
+    <Compile Include="Rendering\Silverlight\SmoothingGroupVertex.cs" />
+    <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\DimensionTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\ToolTipTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\UriToImageMapTypeConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\UriToImageTypeConverter.cs" />
+    <Compile Include="Silverlight\ValueConverters\VectorToCoordinateValueConverter.cs" />
     <Compile Include="Utils\Cloner.cs" />
     <Compile Include="Utils\NInjectExtensions.cs" />
     <Compile Include="PixelFormat.cs" />
@@ -308,9 +359,6 @@
   </ItemGroup>
   <ItemGroup>
     <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="Balder.Core.dxc" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

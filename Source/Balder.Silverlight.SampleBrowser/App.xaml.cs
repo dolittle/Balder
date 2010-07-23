@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Navigation;
 using Balder.Execution;
-using Balder.Silverlight.Notification;
+using Balder.Notification;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Planning.Bindings;

@@ -20,7 +20,7 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Windows;
-using Balder.Silverlight.Extensions;
+using Balder.Extensions.Silverlight;
 using Balder.Silverlight.TypeConverters;
 #endif
 using Balder.Execution;
