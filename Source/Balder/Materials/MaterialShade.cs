@@ -1,4 +1,4 @@
-namespace Balder.Core.Materials
+namespace Balder.Materials
 {
 	/// <summary>
 	/// Specifies the shading model for a material

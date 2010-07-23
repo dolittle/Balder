@@ -16,9 +16,9 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Imaging;
+using Balder.Imaging;
 
-namespace Balder.Core.Extensions
+namespace Balder.Extensions
 {
 	/// <summary>
 	/// Extension methods for <see cref="ImageFormat"/>

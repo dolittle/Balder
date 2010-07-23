@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Balder.Core.Tests.Assets.AssetLoaders {
+namespace Balder.Tests.Assets.AssetLoaders {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Balder.Core.Tests.Assets.AssetLoaders {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Balder.Core.Tests.Assets.AssetLoaders.AseFiles", typeof(AseFiles).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Balder.Tests.Assets.AssetLoaders.AseFiles", typeof(AseFiles).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

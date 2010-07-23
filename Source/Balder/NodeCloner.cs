@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.Windows;
 #endif
 
-using Balder.Core.Execution;
-using Balder.Core.Rendering;
+using Balder.Execution;
+using Balder.Rendering;
 
-namespace Balder.Core
+namespace Balder
 {
 	public class NodeCloner
 	{

@@ -20,15 +20,15 @@
 #endregion
 
 using System;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
 using Dbg = System.Diagnostics.Debug;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class Cylinder : Geometry
 	{

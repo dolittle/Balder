@@ -20,20 +20,20 @@
 #endregion
 
 using System.Text;
-using Balder.Core.Assets;
-using Balder.Core.Assets.AssetLoaders;
-using Balder.Core.Content;
-using Balder.Core.Execution;
-using Balder.Core.Imaging;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
-using Balder.Core.Tests.Fakes;
+using Balder.Assets;
+using Balder.Assets.AssetLoaders;
+using Balder.Content;
+using Balder.Execution;
+using Balder.Imaging;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
+using Balder.Tests.Fakes;
 using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Assets.AssetLoaders
+namespace Balder.Tests.Assets.AssetLoaders
 {
 	[TestFixture]
 	public class AseLoaderTests : TestFixture

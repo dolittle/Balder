@@ -17,7 +17,7 @@
 //
 #endregion
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	/// <summary>
 	/// Holds all flags for enabling or disabling certain debug information from the

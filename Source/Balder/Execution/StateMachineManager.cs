@@ -18,7 +18,7 @@
 #endregion
 using System.Collections.Generic;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public class StateMachineManager
 	{

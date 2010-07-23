@@ -17,14 +17,14 @@
 //
 #endregion
 
-using Balder.Core.Assets;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Rendering;
+using Balder.Assets;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Rendering;
 using Ninject;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
 	{

@@ -17,18 +17,18 @@
 //
 #endregion
 using System;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
-using Balder.Core.Tests.Fakes;
-using Balder.Core.View;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
+using Balder.Tests.Fakes;
+using Balder.View;
 using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests
+namespace Balder.Tests
 {
 	[TestFixture]
 	public class SceneTests : TestFixture

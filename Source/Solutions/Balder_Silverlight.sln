@@ -9,11 +9,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder.Silverlight\Balder.Silverlight.csproj", "{E39B101E-9447-49EE-B849-BA2A9E4664D0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Silverlight", "..\Balder.Core.Tests\Balder.Core.Tests.Silverlight.csproj", "{14C4473E-12FB-4D78-A607-A84E3FB09322}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Tests.Silverlight", "..\Balder.Tests\Balder.Tests.Silverlight.csproj", "{14C4473E-12FB-4D78-A607-A84E3FB09322}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight.Tests", "..\Balder.Silverlight.Tests\Balder.Silverlight.Tests.csproj", "{1C1B08C4-56B2-44DC-9E78-A18EBB1D4866}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.IntegrationTests.Silverlight", "..\Balder.Core.IntegrationTests.Silverlight\Balder.Core.IntegrationTests.Silverlight.csproj", "{3D8B2602-717B-4A34-AB33-4C9B27181315}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.IntegrationTests.Silverlight", "..\Balder.IntegrationTests.Silverlight\Balder.IntegrationTests.Silverlight.csproj", "{3D8B2602-717B-4A34-AB33-4C9B27181315}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{0C8466AE-0009-4A01-9E67-0949370B9C2A}"
 EndProject

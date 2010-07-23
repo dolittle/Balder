@@ -1,8 +1,8 @@
-﻿using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Math;
+﻿using Balder.Display;
+using Balder.Materials;
+using Balder.Math;
 
-namespace Balder.Core.Lighting
+namespace Balder.Lighting
 {
 #pragma warning disable 1591 // Xml Comments
 	public class LightCalculator : ILightCalculator

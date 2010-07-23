@@ -19,10 +19,10 @@
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Silverlight.TypeConverters;
 #endif
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(DimensionTypeConverter))]

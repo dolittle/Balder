@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public interface IHaveIdentity
 	{

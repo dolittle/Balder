@@ -1,4 +1,4 @@
-﻿namespace Balder.Core
+﻿namespace Balder
 {
 	public class Cluts
 	{

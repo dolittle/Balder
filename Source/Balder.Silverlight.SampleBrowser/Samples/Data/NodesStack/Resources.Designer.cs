@@ -61,8 +61,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using Balder.Core;
-        ///using Balder.Core.Math;
+        ///   Looks up a localized string similar to using Balder;
+        ///using Balder.Math;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack
         ///{
@@ -92,7 +92,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
         ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core&quot; 
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack&quot; 
         ///    xmlns:View= [rest of string was truncated]&quot;;.
         /// </summary>
@@ -123,8 +123,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         /// <summary>
         ///   Looks up a localized string similar to using System.Collections.ObjectModel;
         ///using System.Windows.Media;
-        ///using Balder.Core.Math;
-        ///using Color=Balder.Core.Color;
+        ///using Balder.Math;
+        ///using Color=Balder.Color;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack
         ///{

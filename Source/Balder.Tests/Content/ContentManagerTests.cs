@@ -21,11 +21,11 @@
 
 using System;
 using System.Collections.Generic;
-using Balder.Core.Assets;
+using Balder.Assets;
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Content
+namespace Balder.Tests.Content
 {
 	[TestFixture]
 	public class ContentManagerTests : TestFixture

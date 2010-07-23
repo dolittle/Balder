@@ -20,7 +20,7 @@
 #endregion
 using System;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Base class for arguments for Bubbled events

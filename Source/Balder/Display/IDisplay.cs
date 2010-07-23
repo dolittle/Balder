@@ -17,11 +17,11 @@
 //
 #endregion
 
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Display
+namespace Balder.Display
 {
 	/// <summary>
 	/// Represents a display on the device

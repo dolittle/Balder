@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Balder.Core.Execution;
+using Balder.Execution;
 
 namespace Balder.Silverlight.SampleBrowser
 {

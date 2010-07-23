@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using Balder.Core;
-using Balder.Core.Input;
-using Balder.Core.Math;
-using Color = Balder.Core.Color;
+using Balder;
+using Balder.Input;
+using Balder.Math;
+using Color = Balder.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 {

@@ -22,7 +22,7 @@ using System;
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Content
+namespace Balder.Tests.Content
 {
 	[TestFixture]
 	public class ContentCreatorTests : TestFixture

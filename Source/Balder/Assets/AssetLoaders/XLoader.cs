@@ -17,10 +17,10 @@
 //
 #endregion
 using System;
-using Balder.Core.Content;
-using Balder.Core.Objects.Geometries;
+using Balder.Content;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Assets.AssetLoaders
+namespace Balder.Assets.AssetLoaders
 {
 	public class XLoader : AssetLoader
 	{

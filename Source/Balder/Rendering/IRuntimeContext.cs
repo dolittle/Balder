@@ -1,4 +1,4 @@
-﻿namespace Balder.Core.Rendering
+﻿namespace Balder.Rendering
 {
 	public interface IRuntimeContext
 	{

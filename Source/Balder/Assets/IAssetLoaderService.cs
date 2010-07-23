@@ -17,7 +17,7 @@
 //
 #endregion
 
-namespace Balder.Core.Assets
+namespace Balder.Assets
 {
 	public interface IAssetLoaderService
 	{

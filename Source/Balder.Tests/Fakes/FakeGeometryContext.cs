@@ -1,10 +1,10 @@
 ﻿using System;
-using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakeGeometryContext : IGeometryContext
 	{

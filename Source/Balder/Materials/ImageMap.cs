@@ -20,9 +20,9 @@
 #endregion
 
 using System;
-using Balder.Core.Imaging;
+using Balder.Imaging;
 
-namespace Balder.Core.Materials
+namespace Balder.Materials
 {
 	public class ImageMap : IMap
 	{

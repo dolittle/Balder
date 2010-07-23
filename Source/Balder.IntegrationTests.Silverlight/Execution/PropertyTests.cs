@@ -24,11 +24,11 @@ using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Microsoft.Silverlight.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Balder.Core.IntegrationTests.Silverlight.Execution
+namespace Balder.IntegrationTests.Silverlight.Execution
 {
 	public class ControlStub : Control, INotifyPropertyChanged, ICanNotifyChanges
 	{

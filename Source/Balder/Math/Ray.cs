@@ -19,7 +19,7 @@
 using System;
 using System.Globalization;
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 	public struct Ray : IEquatable<Ray>
 	{

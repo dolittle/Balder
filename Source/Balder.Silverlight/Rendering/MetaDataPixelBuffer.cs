@@ -21,9 +21,9 @@
 
 using System;
 using System.Collections.Generic;
-using Balder.Core;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
+using Balder;
+using Balder.Execution;
+using Balder.Materials;
 using Ninject;
 
 namespace Balder.Silverlight.Rendering

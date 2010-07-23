@@ -17,9 +17,9 @@
 //
 #endregion
 using System.Collections.Generic;
-using Balder.Core.Execution;
+using Balder.Execution;
 
-namespace Balder.Core.Collections
+namespace Balder.Collections
 {
 	/// <summary>
 	/// Collection holding actors - actors can be Game or any other actor type.

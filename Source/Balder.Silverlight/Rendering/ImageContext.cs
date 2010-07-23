@@ -17,10 +17,10 @@
 //
 #endregion
 using System;
-using Balder.Core;
-using Balder.Core.Exceptions;
-using Balder.Core.Extensions;
-using Balder.Core.Imaging;
+using Balder;
+using Balder.Exceptions;
+using Balder.Extensions;
+using Balder.Imaging;
 
 namespace Balder.Silverlight.Rendering
 {

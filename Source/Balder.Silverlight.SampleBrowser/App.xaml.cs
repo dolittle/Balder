@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Navigation;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Balder.Silverlight.Notification;
 using Ninject;
 using Ninject.Activation;

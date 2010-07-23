@@ -16,11 +16,11 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Math;
+using Balder.Rendering;
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	public interface IDebugRenderer
 	{

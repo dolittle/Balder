@@ -22,10 +22,10 @@
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
+using Balder;
+using Balder.Display;
+using Balder.Materials;
+using Balder.Objects.Geometries;
 using Balder.Silverlight.Notification;
 using CThru.Silverlight;
 using Moq;

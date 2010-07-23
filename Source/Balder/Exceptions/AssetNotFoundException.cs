@@ -18,7 +18,7 @@
 #endregion
 using System;
 
-namespace Balder.Core.Exceptions
+namespace Balder.Exceptions
 {
 	/// <summary>
 	/// The exception that is thrown when an asset is not found during load

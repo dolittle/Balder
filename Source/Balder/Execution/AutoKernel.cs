@@ -25,7 +25,7 @@ using Ninject.Modules;
 using Ninject.Planning.Bindings;
 
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Represents the method that will handle resolving a binding

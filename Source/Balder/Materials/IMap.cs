@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Balder.Core.Materials
+namespace Balder.Materials
 {
 	public interface IMap
 	{

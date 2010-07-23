@@ -17,7 +17,7 @@
 //
 #endregion
 using System.Windows;
-using Balder.Core.Input;
+using Balder.Input;
 using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 

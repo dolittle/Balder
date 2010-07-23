@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Balder.Core.IntegrationTests.Silverlight")]
+[assembly: AssemblyTitle("Balder.IntegrationTests.Silverlight")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("Balder.Core.IntegrationTests.Silverlight")]
+[assembly: AssemblyProduct("Balder.IntegrationTests.Silverlight")]
 [assembly: AssemblyCopyright("Copyright ©  2010")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

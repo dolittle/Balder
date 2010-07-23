@@ -17,10 +17,10 @@
 //
 #endregion
 using System;
-using Balder.Core.Display;
-using Balder.Core.Input;
+using Balder.Display;
+using Balder.Input;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public enum PlatformState
 	{

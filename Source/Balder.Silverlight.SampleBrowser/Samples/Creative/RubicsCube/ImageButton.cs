@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Media;
-using Balder.Core.Silverlight.Helpers;
+using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {

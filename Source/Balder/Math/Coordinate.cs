@@ -20,13 +20,13 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Windows;
-using Balder.Core.Silverlight.Extensions;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Silverlight.Extensions;
+using Balder.Silverlight.TypeConverters;
 #endif
-using Balder.Core.Execution;
+using Balder.Execution;
 
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(CoordinateTypeConverter))]

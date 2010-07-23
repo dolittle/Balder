@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Media;
-using Balder.Core.Assets;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Color = Balder.Core.Color;
-using Image = Balder.Core.Imaging.Image;
+﻿using System.Collections.Generic;
+using Balder.Materials;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {

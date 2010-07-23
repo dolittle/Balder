@@ -1,6 +1,4 @@
-﻿using System;
-using Balder.Core;
-using Balder.Core.Objects.Geometries;
+﻿using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
 {
@@ -16,7 +14,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
 
 		private void Heightmap_HeightInput(object sender, HeightmapEventArgs e)
 		{
-			var height = Math.Sin(_sin + _movement) * 2;
+			var height = System.Math.Sin(_sin + _movement) * 2;
 
 			e.Height = (float)height;
 			var highlight = (byte)((height * 16f) + 32f);

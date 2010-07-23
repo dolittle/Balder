@@ -20,10 +20,10 @@
 #endregion
 
 using System;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
-namespace Balder.Core.Tests.Execution
+namespace Balder.Tests.Execution
 {
 	[TestClass]
 	public class TypeDiscovererTests

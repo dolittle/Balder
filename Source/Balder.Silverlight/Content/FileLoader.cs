@@ -19,7 +19,7 @@
 using System;
 using System.IO;
 using System.Windows;
-using Balder.Core.Content;
+using Balder.Content;
 
 namespace Balder.Silverlight.Content
 {

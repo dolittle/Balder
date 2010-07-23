@@ -19,7 +19,7 @@
 
 using System;
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 	public class Matrix
 	{

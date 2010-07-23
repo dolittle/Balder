@@ -18,7 +18,7 @@
 #endregion
 using System.IO;
 
-namespace Balder.Core.Content
+namespace Balder.Content
 {
 	/// <summary>
 	/// To load files in Balder, you should go through the fileloader. 

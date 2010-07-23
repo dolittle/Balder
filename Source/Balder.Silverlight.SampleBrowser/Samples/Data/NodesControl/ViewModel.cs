@@ -1,9 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
-using Balder.Core.Math;
+using Balder.Math;
 using Balder.Silverlight.MVVM;
-using Color = Balder.Core.Color;
+using Color = Balder.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 {

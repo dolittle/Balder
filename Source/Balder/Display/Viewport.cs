@@ -17,18 +17,18 @@
 //
 #endregion
 
-using Balder.Core.Debug;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
-using Balder.Core.View;
+using Balder.Debug;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Rendering;
+using Balder.View;
 #if(SILVERLIGHT)
 using System.Windows;
 using Ninject;
 
 #endif
 
-namespace Balder.Core.Display
+namespace Balder.Display
 {
 	/// <summary>
 	/// Represents a viewport within a display - the Viewport is a 2D rectangle representing a clipping region.

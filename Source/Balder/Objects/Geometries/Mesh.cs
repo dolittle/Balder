@@ -19,15 +19,15 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core.Assets;
-using Balder.Core.Content;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Assets;
+using Balder.Content;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Math;
 using Ninject;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public partial class Mesh : RenderableNode, IAsset, ICanHandleCloning
 	{

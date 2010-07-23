@@ -19,16 +19,16 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.View;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Math;
+using Balder.View;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
-namespace Balder.Core.Lighting
+namespace Balder.Lighting
 {
 	public class ViewLight : DirectionalLight
 	{

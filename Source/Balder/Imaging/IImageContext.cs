@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Imaging
+namespace Balder.Imaging
 {
 	/// <summary>
 	/// The context image data lives in - device specific

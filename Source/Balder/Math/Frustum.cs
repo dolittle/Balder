@@ -17,10 +17,10 @@
 //
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.View;
+using Balder.Display;
+using Balder.View;
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 	public enum FrustumLocation {
 		Top = 0,

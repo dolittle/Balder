@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Materials;
+using Balder.Math;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class Face
 	{

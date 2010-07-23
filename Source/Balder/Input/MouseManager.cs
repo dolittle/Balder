@@ -16,9 +16,9 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Utils;
+using Balder.Utils;
 
-namespace Balder.Core.Input
+namespace Balder.Input
 {
 	public class MouseManager : IMouseManager
 	{

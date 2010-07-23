@@ -21,7 +21,7 @@
 
 using System.Collections.Generic;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Handles decoupled messaging

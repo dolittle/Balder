@@ -22,8 +22,8 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using Balder.Core.Math;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Math;
+using Balder.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
 #if(!IOS)
@@ -31,7 +31,7 @@ using SysColor = System.Drawing.Color;
 #endif
 #endif
 
-namespace Balder.Core
+namespace Balder
 {
 	/// <summary>
 	/// Represents a color

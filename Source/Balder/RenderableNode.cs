@@ -16,19 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Debug;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Rendering;
+using Balder.Debug;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Rendering;
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Silverlight.TypeConverters;
 #endif
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
-namespace Balder.Core
+namespace Balder
 {
 	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor
 	{

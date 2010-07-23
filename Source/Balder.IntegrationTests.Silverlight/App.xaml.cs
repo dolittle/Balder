@@ -2,7 +2,7 @@
 using System.Windows;
 using Microsoft.Silverlight.Testing;
 
-namespace Balder.Core.IntegrationTests.Silverlight
+namespace Balder.IntegrationTests.Silverlight
 {
 	public partial class App
 	{

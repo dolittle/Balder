@@ -1,7 +1,7 @@
-﻿using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
+﻿using Balder.Materials;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Content
+namespace Balder.Content
 {
 	/// <summary>
 	/// Handles the creation of content programatically

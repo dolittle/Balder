@@ -7,7 +7,7 @@ using System.Xml.Serialization;
 using System.Runtime.Serialization;
 #endif
 
-namespace Balder.Core.Utils
+namespace Balder.Utils
 {
 	public class Cloner
 	{

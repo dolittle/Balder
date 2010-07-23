@@ -1,6 +1,6 @@
-using Balder.Core.Materials;
+using Balder.Materials;
 
-namespace Balder.Core.Assets.AssetLoaders
+namespace Balder.Assets.AssetLoaders
 {
 	public class AseGlobals
 	{

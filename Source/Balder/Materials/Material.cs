@@ -21,16 +21,16 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Windows;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Silverlight.TypeConverters;
 #endif
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
-using Balder.Core.Execution;
-using Balder.Core.Imaging;
+using Balder.Execution;
+using Balder.Imaging;
 
 
-namespace Balder.Core.Materials
+namespace Balder.Materials
 {
 	/// <summary>
 	/// Represents a material

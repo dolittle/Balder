@@ -17,12 +17,12 @@
 //
 #endregion
 
-using Balder.Core.Collections;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Lighting;
-using Balder.Core.Objects.Flat;
-using Balder.Core.Rendering;
+using Balder.Collections;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Lighting;
+using Balder.Objects.Flat;
+using Balder.Rendering;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
@@ -30,7 +30,7 @@ using System.Windows;
 using Ninject;
 #endif
 
-namespace Balder.Core
+namespace Balder
 {
 	/// <summary>
 	/// Scene represents the root for all elements in a 3D world.

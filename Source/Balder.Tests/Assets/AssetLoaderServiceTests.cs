@@ -20,7 +20,7 @@
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Assets
+namespace Balder.Tests.Assets
 {
 	[TestFixture]
 	public class AssetLoaderServiceTests : TestFixture

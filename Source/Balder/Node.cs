@@ -18,17 +18,17 @@
 #endregion
 using System;
 using System.ComponentModel;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Input;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
+using Balder.Math;
+using Balder.Rendering;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
-using Matrix = Balder.Core.Math.Matrix;
+using Matrix = Balder.Math.Matrix;
 
-namespace Balder.Core
+namespace Balder
 {
 	/// <summary>
 	/// Abstract class representing a node in a scene

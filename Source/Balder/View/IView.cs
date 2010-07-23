@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Math;
 
-namespace Balder.Core.View
+namespace Balder.View
 {
 	/// <summary>
 	/// Represents a view that is used to view a 3D scene

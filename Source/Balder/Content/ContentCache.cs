@@ -18,9 +18,9 @@
 #endregion
 
 using System.Collections.Generic;
-using Balder.Core.Assets;
+using Balder.Assets;
 
-namespace Balder.Core.Content
+namespace Balder.Content
 {
 #pragma warning disable 1591
 	public class ContentCache : IContentCache

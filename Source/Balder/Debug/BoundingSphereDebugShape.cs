@@ -17,11 +17,11 @@
 //
 #endregion
 
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	public class BoundingSphereDebugShape : DebugShape
 	{

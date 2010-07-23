@@ -1,6 +1,6 @@
 using System.Reflection;
 
-namespace Balder.Core
+namespace Balder
 {
 	public class NodeClonePropertyInfo
 	{

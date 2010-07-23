@@ -18,7 +18,7 @@
 #endregion
 using System.Threading;
 
-namespace Balder.Core.Extensions
+namespace Balder.Extensions
 {
 	/// <summary>
 	/// Extension methods for WaitHandles

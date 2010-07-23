@@ -19,9 +19,9 @@
 using System;
 using System.ComponentModel;
 using System.Windows;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Input;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
 using Balder.Silverlight.Content;
 using Balder.Silverlight.Display;
 using Balder.Silverlight.Input;

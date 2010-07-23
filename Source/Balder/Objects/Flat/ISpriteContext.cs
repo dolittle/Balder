@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Math;
 
-namespace Balder.Core.Objects.Flat
+namespace Balder.Objects.Flat
 {
 	public interface ISpriteContext
 	{

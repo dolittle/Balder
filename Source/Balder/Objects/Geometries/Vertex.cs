@@ -17,9 +17,9 @@
 //
 #endregion
 
-using Balder.Core.Math;
+using Balder.Math;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class Vertex
 	{

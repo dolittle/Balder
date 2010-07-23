@@ -1,6 +1,6 @@
 ﻿using System;
 using System.ComponentModel;
-using Balder.Core.Silverlight.Extensions;
+using Balder.Silverlight.Extensions;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -48,7 +48,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			RotationCount -= rotationCount;
 			if (RotationCount < 0)
 			{
-				RotationCount = Math.Abs(RotationCount);
+				RotationCount = System.Math.Abs(RotationCount);
 				ClockWize ^= true;
 			}
 		}

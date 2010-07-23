@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core
+namespace Balder
 {
 	public struct ColorSpace
 	{

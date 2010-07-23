@@ -17,9 +17,9 @@
 //
 #endregion
 using System;
-using Balder.Core.Extensions;
+using Balder.Extensions;
 
-namespace Balder.Core.Imaging
+namespace Balder.Imaging
 {
 	public static class ImageHelper
 	{

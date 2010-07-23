@@ -17,10 +17,10 @@
 //
 #endregion
 using System;
-using Balder.Core.Display;
+using Balder.Display;
 using Ninject.Activation;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/*
 	public class DisplayActivationContext : Context

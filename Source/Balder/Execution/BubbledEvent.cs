@@ -22,7 +22,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public delegate void BubbledEventHandler(INode sender, BubbledEventArgs eventArgs);
 	public delegate void BubbledEventHandler<T>(INode sender, T eventArgs) where T : BubbledEventArgs;

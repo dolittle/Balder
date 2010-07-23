@@ -19,19 +19,19 @@
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Core.Materials;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Materials;
+using Balder.Silverlight.TypeConverters;
 #endif
 
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
 
 
-namespace Balder.Core.Lighting
+namespace Balder.Lighting
 {
 #pragma warning disable 1591 // Xml Comments
 	public abstract class Light : EnvironmentalNode, ILight

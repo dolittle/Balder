@@ -1,4 +1,4 @@
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// State of an actor

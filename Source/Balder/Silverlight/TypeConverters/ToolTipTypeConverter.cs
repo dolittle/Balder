@@ -22,7 +22,7 @@
 using System.ComponentModel;
 using System.Windows.Controls;
 
-namespace Balder.Core.Silverlight.TypeConverters
+namespace Balder.Silverlight.TypeConverters
 {
 	public class ToolTipTypeConverter : TypeConverter
 	{

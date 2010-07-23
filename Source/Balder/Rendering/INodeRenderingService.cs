@@ -19,10 +19,10 @@
 
 #endregion
 
-using Balder.Core.Collections;
-using Balder.Core.Display;
+using Balder.Collections;
+using Balder.Display;
 
-namespace Balder.Core.Rendering
+namespace Balder.Rendering
 {
 	/// <summary>
 	/// Represents rendering capabilities for nodes

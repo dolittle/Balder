@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public interface ICanHandleCloning
 	{

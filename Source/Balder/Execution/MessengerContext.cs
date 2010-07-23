@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Represents a context for the messenger in which one can publish and subscribe

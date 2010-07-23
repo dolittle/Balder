@@ -19,11 +19,11 @@
 
 #endregion
 
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Input
+namespace Balder.Input
 {
 	public class ManipulationDeltaEventArgs : BubbledEventArgs
 	{

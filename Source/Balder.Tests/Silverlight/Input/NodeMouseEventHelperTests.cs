@@ -19,16 +19,16 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
-using Balder.Core.Silverlight.Input;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
+using Balder.Silverlight.Input;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Silverlight.Input
+namespace Balder.Tests.Silverlight.Input
 {
 	[TestFixture]
 	public class NodeMouseEventHelperTests

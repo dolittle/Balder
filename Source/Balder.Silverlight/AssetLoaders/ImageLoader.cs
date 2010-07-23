@@ -19,9 +19,9 @@
 using System;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Balder.Core.Assets;
-using Balder.Core.Content;
-using Balder.Core.Imaging;
+using Balder.Assets;
+using Balder.Content;
+using Balder.Imaging;
 
 namespace Balder.Silverlight.AssetLoaders
 {

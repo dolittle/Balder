@@ -64,10 +64,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Creative.Water.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Execution=&quot;clr-namespace:Balder.Core.Execution;assembly=Balder.Core&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core&quot; 
-        ///    xmlns:View=&quot;clr-namespace:Balder.Core.View;assembly=Balder.Core&quot; 
-        ///    xmlns:Materials=&quot;clr-namespace:Balder.Core.M [rest of string was truncated]&quot;;.
+        ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
+        ///    xmlns:Materials=&quot;clr-namespace:Balder.M [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -77,9 +77,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water {
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
-        ///using Balder.Core.Execution;
-        ///using Balder.Core.Objects.Geometries;
-        ///using Balder.Core.Rendering;
+        ///using Balder.Execution;
+        ///using Balder.Objects.Geometries;
+        ///using Balder.Rendering;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
         ///{

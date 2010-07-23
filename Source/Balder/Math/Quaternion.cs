@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Math
+namespace Balder.Math
 {
     public struct Quaternion
     {

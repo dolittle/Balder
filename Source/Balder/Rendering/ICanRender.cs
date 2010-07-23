@@ -1,6 +1,6 @@
-using Balder.Core.Display;
+using Balder.Display;
 
-namespace Balder.Core.Rendering
+namespace Balder.Rendering
 {
 	public interface ICanRender
 	{

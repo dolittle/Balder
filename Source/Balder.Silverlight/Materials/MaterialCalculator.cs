@@ -20,12 +20,12 @@
 #endregion
 
 using System;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Lighting;
-using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Lighting;
+using Balder.Materials;
+using Balder.Math;
 
 namespace Balder.Silverlight.Materials
 {

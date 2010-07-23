@@ -16,10 +16,10 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Math;
+using Balder.Math;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Math
+namespace Balder.Tests.Math
 {
 	[TestFixture]
 	public class PlaneTests

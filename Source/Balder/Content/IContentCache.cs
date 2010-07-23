@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Balder.Core.Assets;
+using Balder.Assets;
 
-namespace Balder.Core.Content
+namespace Balder.Content
 {
 	/// <summary>
 	/// Represents a caching mechanism for content being created or loaded

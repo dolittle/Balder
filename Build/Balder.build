@@ -133,13 +133,13 @@
 				 debug="${Build.Debug}"
 				 optimize="${Build.Optimize}"
 				 define="${Build.Defines}"
-				 output="${Current.Path.Drop}/Balder.Core.dll"
+				 output="${Current.Path.Drop}/Balder.dll"
 				 
 				 >
-			<!--doc="${Current.Path.Drop}/Balder.Core.xml"-->
+			<!--doc="${Current.Path.Drop}/Balder.xml"-->
 			<sources basedir="${Path.Source}">
 				<include name="${Build.AssemblyInfo}"/>
-				<include name="Balder.Core/**/*.cs"/>
+				<include name="Balder/**/*.cs"/>
 			</sources>
 			<references>
 				<include name="mscorlib.dll"/>
@@ -160,7 +160,7 @@
 
 		<fileset id="ProjectAssemblies">
 			<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-			<include name="${Current.Path.Drop}/Balder.Core.dll"/>
+			<include name="${Current.Path.Drop}/Balder.dll"/>
 		</fileset>
 		
 		<MergedFileSet id="Assemblies">
@@ -180,13 +180,13 @@
 				 debug="${Build.Debug}"
 				 optimize="${Build.Optimize}"
 				 define="${Build.Defines}"
-				 output="${Current.Path.Tests}/Balder.Core.Tests.dll"
+				 output="${Current.Path.Tests}/Balder.Tests.dll"
 				 >
-			<sources basedir="${Path.Source}/Balder.Core.Tests">
+			<sources basedir="${Path.Source}/Balder.Tests">
 				<include name="${Build.AssemblyInfo}"/>
 				<include name="**/*.cs"/>
 			</sources>
-			<resources basedir="${Path.Source}/Balder.Core.Tests" prefix="Balder.Core.Tests" dynamicprefix="true">
+			<resources basedir="${Path.Source}/Balder.Tests" prefix="Balder.Tests" dynamicprefix="true">
 				<include name="**/*.resx"/>
 			</resources>
 			<references refid="Assemblies"/>
@@ -206,7 +206,7 @@
 			<formatter type="Xml" usefile="true" extension=".xml" outputdir="${Current.Path.Tests}/results"/>
 			<test>
 				<assemblies>
-					<include name="${Current.Path.Tests}/Balder.Core.Tests.dll"/>
+					<include name="${Current.Path.Tests}/Balder.Tests.dll"/>
 				</assemblies>
 				
 				<references refid="TestRunnerAssemblies"/>
@@ -241,8 +241,8 @@
 				<include name="System.Xml.dll"/>
 				<include name="${Current.Path.Components}/System.Windows.Browser.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
 				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="Balder.Core.dll"/>
-				<include name="Balder.Core.SoftwareRendering.dll"/>
+				<include name="Balder.dll"/>
+				<include name="Balder.SoftwareRendering.dll"/>
 			</references>
 		</csc>
 	</target>

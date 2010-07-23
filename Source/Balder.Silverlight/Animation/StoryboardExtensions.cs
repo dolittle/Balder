@@ -22,7 +22,7 @@
 using System;
 using System.Windows;
 using System.Windows.Media.Animation;
-using Balder.Core.Math;
+using Balder.Math;
 
 namespace Balder.Silverlight.Animation
 {

@@ -19,10 +19,10 @@
 
 #endregion
 
-using Balder.Core.Utils;
+using Balder.Utils;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Utils
+namespace Balder.Tests.Utils
 {
 	[TestFixture]
 	public class EnumHelperTests

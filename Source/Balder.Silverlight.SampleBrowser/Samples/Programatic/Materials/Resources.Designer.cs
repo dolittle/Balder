@@ -64,7 +64,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Execution=&quot;clr-namespace:Balder.Core.Execution;assembly=Balder.Core&quot;&gt;
+        ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot;&gt;
         ///    &lt;Grid x:Name=&quot;LayoutRoot&quot;&gt;
         ///		&lt;Execution:Game x:Name=&quot;Game&quot; 
         ///						Width=&quot;640&quot; 
@@ -83,14 +83,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         /// <summary>
         ///   Looks up a localized string similar to using System.Windows.Controls;
         ///using System.Windows.Media;
-        ///using Balder.Core;
-        ///using Balder.Core.Assets;
-        ///using Balder.Core.Execution;
-        ///using Balder.Core.Lighting;
-        ///using Balder.Core.Materials;
-        ///using Balder.Core.Math;
-        ///using Balder.Core.Objects.Geometries;
-        ///using Geometry=Balder.Core.Objects.Geometries.Geometry;
+        ///using Balder;
+        ///using Balder.Assets;
+        ///using Balder.Execution;
+        ///using Balder.Lighting;
+        ///using Balder.Materials;
+        ///using Balder.Math;
+        ///using Balder.Objects.Geometries;
+        ///using Geometry=Balder.Objects.Geometries.Geometry;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
         ///{

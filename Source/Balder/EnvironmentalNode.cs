@@ -17,12 +17,12 @@
 //
 #endregion
 
-using Balder.Core.Execution;
+using Balder.Execution;
 #if(SILVERLIGHT)
 using Ninject;
 #endif
 
-namespace Balder.Core
+namespace Balder
 {
 	public class EnvironmentalNode : Node
 	{

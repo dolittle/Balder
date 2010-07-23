@@ -18,14 +18,14 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using Balder.Core.Assets;
-using Balder.Core.Collections;
-using Balder.Core.Content;
-using Balder.Core.Debug;
-using Balder.Core.Display;
+using Balder.Assets;
+using Balder.Collections;
+using Balder.Content;
+using Balder.Debug;
+using Balder.Display;
 using Ninject;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	[Singleton]
 	public class Runtime : IRuntime

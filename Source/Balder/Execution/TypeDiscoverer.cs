@@ -29,7 +29,7 @@ using Ninject;
 using System.Reflection;
 using System.IO;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	[Singleton]
 	public class TypeDiscoverer : ITypeDiscoverer

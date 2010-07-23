@@ -17,9 +17,9 @@
 //
 #endregion
 using System;
-using Balder.Core.Display;
+using Balder.Display;
 using System.Collections.Generic;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Balder.Silverlight.Rendering;
 using Ninject;
 

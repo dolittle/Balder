@@ -16,15 +16,15 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
-using Balder.Core.View;
+using Balder.Display;
+using Balder.Math;
+using Balder.Rendering;
+using Balder.View;
 using Balder.Testing;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Math
+namespace Balder.Tests.Math
 {
 	[TestFixture]
 	public class FrustumTests : TestFixture

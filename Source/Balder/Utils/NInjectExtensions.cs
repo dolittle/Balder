@@ -21,7 +21,7 @@ using Ninject;
 using Ninject.Planning.Bindings;
 using Ninject.Syntax;
 
-namespace Balder.Core.Utils
+namespace Balder.Utils
 {
 	public static class NinjectExtensions
 	{

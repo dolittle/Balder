@@ -20,15 +20,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core.Assets;
-using Balder.Core.Execution;
+using Balder.Assets;
+using Balder.Execution;
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Core.Silverlight.TypeConverters;
+using Balder.Silverlight.TypeConverters;
 using Ninject;
 #endif
 
-namespace Balder.Core.Imaging
+namespace Balder.Imaging
 {
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(UriToImageTypeConverter))]

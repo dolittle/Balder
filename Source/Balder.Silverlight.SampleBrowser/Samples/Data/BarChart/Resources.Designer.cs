@@ -64,7 +64,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///   Looks up a localized string similar to &lt;Geometries:Geometry x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.BarChart.Bar&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core&quot;&gt;
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot;&gt;
         ///	&lt;Geometries:Box x:Name=&quot;BarBox&quot;  Dimension=&quot;5,1,5&quot; Position=&quot;0,0,0&quot; PivotPoint=&quot;0,-0.5,0&quot; Scale=&quot;1,1,1&quot; /&gt;
         ///&lt;/Geometries:Geometry&gt;
         ///.
@@ -76,7 +76,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using Balder.Core.Silverlight.Helpers;
+        ///   Looks up a localized string similar to using Balder.Silverlight.Helpers;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart
         ///{
@@ -112,7 +112,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///   Looks up a localized string similar to &lt;Geometries:Geometry x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.BarChart.BarChart&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core&quot; 
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.BarChart&quot; 
         ///    xmlns: [rest of string was truncated]&quot;;.
@@ -128,7 +128,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///using System.Collections.Generic;
         ///using System.Collections.ObjectModel;
         ///using System.Collections.Specialized;
-        ///using Balder.Core.Silverlight.Helpers;
+        ///using Balder.Silverlight.Helpers;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart
         ///{
@@ -209,9 +209,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.BarChart.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Execution=&quot;clr-namespace:Balder.Core.Execution;assembly=Balder.Core&quot; 
-        ///    xmlns:View=&quot;clr-namespace:Balder.Core.View;assembly=Balder.Core&quot; 
-        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Core.Lighting;assembly=Balder.Core&quot; 
+        ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
+        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrows [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {

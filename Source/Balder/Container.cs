@@ -19,15 +19,15 @@
 
 #endregion
 using System.Linq;
-using Balder.Core.Collections;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Rendering;
+using Balder.Collections;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Rendering;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
-namespace Balder.Core
+namespace Balder
 {
 	public class Container : Node, IHaveChildren, ICanBeVisible
 	{

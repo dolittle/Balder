@@ -17,12 +17,12 @@
 //
 #endregion
 using System;
-using Balder.Core.Assets;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Input;
+using Balder.Assets;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakePlatform : IPlatform
 	{

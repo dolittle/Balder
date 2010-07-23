@@ -3,7 +3,7 @@
 using System.Windows;
 #endif
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
     public class ObjectProperty<T>
     {

@@ -1,6 +1,6 @@
 using System;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class HeightmapEventArgs : EventArgs
 	{

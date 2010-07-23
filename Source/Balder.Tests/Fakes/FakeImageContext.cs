@@ -1,7 +1,7 @@
 ﻿using System;
-using Balder.Core.Imaging;
+using Balder.Imaging;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakeImageContext : IImageContext
 	{

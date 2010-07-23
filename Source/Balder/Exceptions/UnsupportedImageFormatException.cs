@@ -17,9 +17,9 @@
 //
 #endregion
 using System;
-using Balder.Core.Imaging;
+using Balder.Imaging;
 
-namespace Balder.Core.Exceptions
+namespace Balder.Exceptions
 {
 	/// <summary>
 	/// The exception that is thrown when a specific <see cref="ImageFormat"/> is not supported

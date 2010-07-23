@@ -27,12 +27,12 @@ using System.Windows.Markup;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
-using Balder.Core.Collections;
-using Balder.Core.Execution;
-using Balder.Core.Rendering;
+using Balder.Collections;
+using Balder.Execution;
+using Balder.Rendering;
 
 
-namespace Balder.Core
+namespace Balder
 {
 #if(SILVERLIGHT)
 	[ContentProperty("Children")]

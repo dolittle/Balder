@@ -1,6 +1,6 @@
 using System;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Represents an action for a message

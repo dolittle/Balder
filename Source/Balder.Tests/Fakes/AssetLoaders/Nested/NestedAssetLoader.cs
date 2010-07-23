@@ -17,10 +17,10 @@
 //
 #endregion
 using System;
-using Balder.Core.Assets;
-using Balder.Core.Objects.Geometries;
+using Balder.Assets;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Tests.Fakes.AssetLoaders.Nested
+namespace Balder.Tests.Fakes.AssetLoaders.Nested
 {
 	public class NestedAssetLoader : AssetLoader
 	{

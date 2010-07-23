@@ -19,13 +19,13 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	public class RayDebugShape : DebugShape
 	{

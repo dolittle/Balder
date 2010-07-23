@@ -1,9 +1,9 @@
-using Balder.Core.Collections;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
+using Balder.Collections;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
 
-namespace Balder.Core.Rendering
+namespace Balder.Rendering
 {
 	public class NodeRenderingService : INodeRenderingService
 	{

@@ -19,8 +19,8 @@
 
 #endregion
 
-using Balder.Core;
-using Balder.Core.Materials;
+using Balder;
+using Balder.Materials;
 using Balder.Silverlight.Rendering;
 using CThru.Silverlight;
 using Moq;

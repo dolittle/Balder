@@ -19,14 +19,14 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Input;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
+using Balder.Math;
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Execution
+namespace Balder.Tests.Execution
 {
 	public class SimpleClassWithBubbledEvent : INode
 	{

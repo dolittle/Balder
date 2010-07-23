@@ -24,7 +24,7 @@ using System.Collections.ObjectModel;
 using System.Collections.Generic;
 #endif
 
-namespace Balder.Core.Collections
+namespace Balder.Collections
 {
 #if(SILVERLIGHT)
 	/// <summary>

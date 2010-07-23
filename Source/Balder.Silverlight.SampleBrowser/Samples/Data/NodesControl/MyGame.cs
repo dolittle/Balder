@@ -1,4 +1,4 @@
-﻿using Balder.Core.Execution;
+﻿using Balder.Execution;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 {

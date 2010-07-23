@@ -17,11 +17,11 @@
 //
 #endregion
 using System;
-using Balder.Core.Content;
-using Balder.Core.Display;
+using Balder.Content;
+using Balder.Display;
 using Ninject;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public interface IRuntime
 	{

@@ -1,9 +1,9 @@
 ﻿using System;
-using Balder.Core.Assets;
-using Balder.Core.Content;
-using Balder.Core.Imaging;
+using Balder.Assets;
+using Balder.Content;
+using Balder.Imaging;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakeImageLoader : AssetLoader
 	{

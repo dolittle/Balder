@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Input
+namespace Balder.Input
 {
 	public class MouseButtonState
 	{

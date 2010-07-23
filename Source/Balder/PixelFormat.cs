@@ -17,9 +17,9 @@
 //
 #endregion
 
-using Balder.Core.Imaging;
+using Balder.Imaging;
 
-namespace Balder.Core
+namespace Balder
 {
 	/// <summary>
 	/// Specifies the pixelformat used by typical <see cref="Image"/>

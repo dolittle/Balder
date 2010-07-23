@@ -19,10 +19,10 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Math;
 
-namespace Balder.Core.View
+namespace Balder.View
 {
 	public class OrthographicCamera : Camera
 	{

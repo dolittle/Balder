@@ -20,9 +20,9 @@
 #endregion
 
 using System;
-using Balder.Core;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
+using Balder;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.Rendering
 {

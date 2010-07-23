@@ -17,11 +17,11 @@
 //
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Materials;
+using Balder.Math;
 
-namespace Balder.Core.Lighting
+namespace Balder.Lighting
 {
 	/// <summary>
 	/// Represents a light

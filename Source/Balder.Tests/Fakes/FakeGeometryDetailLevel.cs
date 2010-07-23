@@ -1,9 +1,9 @@
-﻿using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
+﻿using Balder.Display;
+using Balder.Materials;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakeGeometryDetailLevel : IGeometryDetailLevel
 	{

@@ -1,6 +1,6 @@
-using Balder.Core.Collections;
+using Balder.Collections;
 
-namespace Balder.Core.Rendering
+namespace Balder.Rendering
 {
 	public interface IHaveChildren
 	{

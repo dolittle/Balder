@@ -19,7 +19,7 @@
 
 #endregion
 
-using Balder.Core;
+using Balder;
 
 namespace Balder.Silverlight.Controls
 {

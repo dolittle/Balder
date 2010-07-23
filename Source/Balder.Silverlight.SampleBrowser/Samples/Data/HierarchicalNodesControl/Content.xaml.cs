@@ -1,6 +1,6 @@
 ﻿using System.Windows.Controls;
-using Balder.Core.Input;
-using Balder.Core.Objects.Geometries;
+using Balder.Input;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {

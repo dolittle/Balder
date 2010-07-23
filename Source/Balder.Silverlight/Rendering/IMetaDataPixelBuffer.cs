@@ -1,6 +1,6 @@
 using System;
-using Balder.Core;
-using Balder.Core.Materials;
+using Balder;
+using Balder.Materials;
 
 namespace Balder.Silverlight.Rendering
 {

@@ -18,9 +18,9 @@
 #endregion
 
 using System;
-using Balder.Core.Content;
+using Balder.Content;
 
-namespace Balder.Core.Assets
+namespace Balder.Assets
 {
 	public abstract class AssetLoader : IAssetLoader
 	{

@@ -1,9 +1,9 @@
 using System.Windows.Media;
-using Balder.Core.Execution;
-using Balder.Core.Lighting;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Color=Balder.Core.Color;
+using Balder.Execution;
+using Balder.Lighting;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Color=Balder.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 {

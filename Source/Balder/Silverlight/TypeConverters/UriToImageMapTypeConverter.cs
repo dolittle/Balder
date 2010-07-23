@@ -22,13 +22,13 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using Balder.Core.Content;
-using Balder.Core.Execution;
-using Balder.Core.Imaging;
-using Balder.Core.Materials;
+using Balder.Content;
+using Balder.Execution;
+using Balder.Imaging;
+using Balder.Materials;
 using Ninject;
 
-namespace Balder.Core.Silverlight.TypeConverters
+namespace Balder.Silverlight.TypeConverters
 {
 	public class UriToImageMapTypeConverter : TypeConverter
 	{

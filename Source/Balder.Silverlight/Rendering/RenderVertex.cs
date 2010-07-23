@@ -20,8 +20,8 @@
 #endregion
 
 using System.Collections.Generic;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.Rendering
 {

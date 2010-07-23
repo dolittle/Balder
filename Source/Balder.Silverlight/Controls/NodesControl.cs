@@ -27,10 +27,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Matrix=Balder.Core.Math.Matrix;
+using Balder;
+using Balder.Display;
+using Balder.Execution;
+using Matrix=Balder.Math.Matrix;
 
 namespace Balder.Silverlight.Controls
 {

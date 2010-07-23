@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public interface IStateMachine
 	{

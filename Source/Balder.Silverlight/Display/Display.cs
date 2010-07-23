@@ -22,14 +22,14 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 using Balder.Silverlight.Rendering;
-using Color = Balder.Core.Color;
+using Color = Balder.Color;
 
 namespace Balder.Silverlight.Display
 {

@@ -1,6 +1,6 @@
 using System;
 using System.Windows;
-using Balder.Core.Silverlight.Helpers;
+using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Features.Resources
 {

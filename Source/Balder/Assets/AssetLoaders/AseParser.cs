@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using Balder.Core.Content;
-using Balder.Core.Imaging;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Content;
+using Balder.Imaging;
+using Balder.Materials;
+using Balder.Math;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Assets.AssetLoaders
+namespace Balder.Assets.AssetLoaders
 {
 	public class AseParser
 	{

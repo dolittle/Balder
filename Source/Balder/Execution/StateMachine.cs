@@ -20,9 +20,9 @@ using System;
 using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core.Utils;
+using Balder.Utils;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Represents the different phases of statechanging

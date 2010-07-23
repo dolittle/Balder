@@ -20,7 +20,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Balder.Core.Assets
+namespace Balder.Assets
 {
 	public interface IAsset
 	{

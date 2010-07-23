@@ -5,11 +5,11 @@ using System.Runtime.Serialization;
 using System.Collections;
 using System.Linq;
 using System.Xml.Serialization;
-using Balder.Core.Utils;
+using Balder.Utils;
 using NUnit.Framework;
 using System.Collections.Generic;
 
-namespace Balder.Core.Tests.Utils
+namespace Balder.Tests.Utils
 {
 	[TestFixture]
 	public class ClonerTests

@@ -21,7 +21,7 @@
 
 using System;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	[AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
 	public class SingletonAttribute : Attribute

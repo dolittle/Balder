@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Threading;
-using Balder.Core.Input;
+using Balder.Input;
 
-namespace Balder.Core.Silverlight.Helpers
+namespace Balder.Silverlight.Helpers
 {
 	public class NodeTooltipHelper
 	{

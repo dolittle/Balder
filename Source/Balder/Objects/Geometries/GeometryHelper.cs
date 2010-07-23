@@ -18,9 +18,9 @@
 #endregion
 using System;
 using System.Collections.Generic;
-using Balder.Core.Math;
+using Balder.Math;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	/// <summary>
 	/// Helper for working with geometries and its data

@@ -21,7 +21,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Represents all subscriptions for a message type

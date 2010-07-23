@@ -18,16 +18,16 @@
 #endregion
 using System;
 using System.Linq.Expressions;
-using Balder.Core.Assets;
-using Balder.Core.Display;
-using Balder.Core.Tests.Fakes;
+using Balder.Assets;
+using Balder.Display;
+using Balder.Tests.Fakes;
 using Balder.Testing;
 using Moq;
 using Ninject;
 using NUnit.Framework;
-using Balder.Core.Execution;
+using Balder.Execution;
 
-namespace Balder.Core.Tests
+namespace Balder.Tests
 {
 	[TestFixture]
 	public class RuntimeTests : TestFixture

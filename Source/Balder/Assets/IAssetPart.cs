@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Assets
+namespace Balder.Assets
 {
 	public interface IAssetPart
 	{

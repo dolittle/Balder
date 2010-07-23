@@ -19,11 +19,11 @@
 
 #endregion
 
-using Balder.Core.Display;
-using Balder.Core.Lighting;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Lighting;
+using Balder.Math;
 
-namespace Balder.Core.Materials
+namespace Balder.Materials
 {
 	public interface IMaterialCalculator
 	{

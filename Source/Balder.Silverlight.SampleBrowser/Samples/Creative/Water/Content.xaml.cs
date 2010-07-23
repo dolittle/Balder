@@ -1,7 +1,7 @@
 using System;
-using Balder.Core.Execution;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Execution;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 {
@@ -57,8 +57,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 			{
 				_rainCounter = 50;
 
-				var x = Math.Abs(rnd.Next((int)HeightMap.LengthSegments - 2) + 1);
-				var z = Math.Abs(rnd.Next((int)HeightMap.HeightSegments - 2) + 1);
+				var x = System.Math.Abs(rnd.Next((int)HeightMap.LengthSegments - 2) + 1);
+				var z = System.Math.Abs(rnd.Next((int)HeightMap.HeightSegments - 2) + 1);
 				//x = HeightMap.LengthSegments/2;
 				//z = HeightMap.HeightSegments / 2;
 

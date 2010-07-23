@@ -20,18 +20,18 @@
 #endregion
 
 using System;
-using Balder.Core.Content;
-using Balder.Core.Display;
-using Balder.Core.Imaging;
-using Balder.Core.Input;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Flat;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Content;
+using Balder.Display;
+using Balder.Imaging;
+using Balder.Input;
+using Balder.Materials;
+using Balder.Objects.Flat;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 using Ninject.Activation;
 using Ninject.Planning.Bindings;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public class PlatformKernel : AutoKernel
 	{

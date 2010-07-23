@@ -16,14 +16,14 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Rendering;
 using Ninject;
-using Matrix = Balder.Core.Math.Matrix;
+using Matrix = Balder.Math.Matrix;
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	[Singleton]
 	public class DebugRenderer : IDebugRenderer

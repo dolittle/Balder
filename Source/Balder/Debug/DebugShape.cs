@@ -16,12 +16,12 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Debug
+namespace Balder.Debug
 {
 	public class DebugShape : RenderableNode
 	{

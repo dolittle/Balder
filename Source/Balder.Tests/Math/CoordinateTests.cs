@@ -1,8 +1,8 @@
-﻿using Balder.Core.Math;
+﻿using Balder.Math;
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Math
+namespace Balder.Tests.Math
 {
 	[TestFixture]
 	public class CoordinateTests : TestFixture

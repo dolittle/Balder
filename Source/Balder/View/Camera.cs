@@ -16,15 +16,15 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
 
 
-namespace Balder.Core.View
+namespace Balder.View
 {
 #if(SILVERLIGHT)
 	public class Camera : FrameworkElement, IView

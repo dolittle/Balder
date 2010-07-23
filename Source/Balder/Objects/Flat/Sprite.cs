@@ -20,22 +20,22 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core.Assets;
-using Balder.Core.Content;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Imaging;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
+using Balder.Assets;
+using Balder.Content;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Imaging;
+using Balder.Math;
+using Balder.Rendering;
 #if(SILVERLIGHT)
-using Balder.Core.Silverlight.Helpers;
+using Balder.Silverlight.Helpers;
 #endif
 
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
 
-namespace Balder.Core.Objects.Flat
+namespace Balder.Objects.Flat
 {
 	public class Sprite : RenderableNode, IAsset
 	{

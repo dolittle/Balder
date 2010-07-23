@@ -22,18 +22,18 @@
 #if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Media;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Moq;
 using SysColors = System.Windows.Media.Colors;
 #else
-using Balder.Core.Execution;
+using Balder.Execution;
 using Moq;
 using SysColors = System.Drawing.Color;
 #endif
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests
+namespace Balder.Tests
 {
 	[TestFixture]
 	public class NodeTests : TestFixture

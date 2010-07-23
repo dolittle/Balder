@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Utils
+namespace Balder.Utils
 {
 	public static class AssemblyHelper
 	{

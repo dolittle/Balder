@@ -21,13 +21,13 @@ using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Balder.Core.Execution;
-using Balder.Core.Silverlight.Helpers;
-using Balder.Core.Silverlight.TypeConverters;
-using MouseEventHandler = Balder.Core.Input.MouseEventHandler;
-using MouseButtonEventHandler = Balder.Core.Input.MouseButtonEventHandler;
+using Balder.Execution;
+using Balder.Silverlight.Helpers;
+using Balder.Silverlight.TypeConverters;
+using MouseEventHandler = Balder.Input.MouseEventHandler;
+using MouseButtonEventHandler = Balder.Input.MouseButtonEventHandler;
 
-namespace Balder.Core
+namespace Balder
 {
 	public partial class Node : ItemsControl
 	{

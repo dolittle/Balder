@@ -2,8 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Threading;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -171,7 +171,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			if (_angle < 0)
 			{
 				rotationAction = RotateColors;
-				positiveAngle = Math.Abs(_angle);
+				positiveAngle = System.Math.Abs(_angle);
 				clockWize = true;
 			}
 			else

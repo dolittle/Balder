@@ -94,9 +94,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.PieChart.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Execution=&quot;clr-namespace:Balder.Core.Execution;assembly=Balder.Core&quot; 
-        ///    xmlns:View=&quot;clr-namespace:Balder.Core.View;assembly=Balder.Core&quot; 
-        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Core.Lighting;assembly=Balder.Core&quot; 
+        ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
+        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrows [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
@@ -142,7 +142,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart {
         ///   Looks up a localized string similar to &lt;Geometries:Geometry x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.PieChart.PieChart&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core&quot; 
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
         ///    &gt;
         ///	&lt;Controls:NodesControl x:Name=&quot;NodesControl&quot;&gt; &lt;!-- UniqueNodes=&quot;True&quot; --&gt;
@@ -161,7 +161,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart {
         ///using System.Collections.Specialized;
         ///using System.ComponentModel;
         ///using System.Globalization;
-        ///using Balder.Core.Silverlight.Helpers;
+        ///using Balder.Silverlight.Helpers;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart
         ///{

@@ -2,14 +2,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using System.Reflection;
-using Balder.Core.Rendering;
-using Balder.Core.Extensions;
+using Balder.Rendering;
+using Balder.Extensions;
 #if(SILVERLIGHT)
 using System.Windows;
-using Balder.Core.Silverlight.Extensions;
+using Balder.Silverlight.Extensions;
 #endif
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
     public class Property<T,TP>
 #if(SILVERLIGHT)

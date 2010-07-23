@@ -16,11 +16,11 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Debug;
-using Balder.Core.Display;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
-using Balder.Core.View;
+using Balder.Debug;
+using Balder.Display;
+using Balder.Math;
+using Balder.Rendering;
+using Balder.View;
 
 #if(SILVERLIGHT)
 using System.Windows;
@@ -28,7 +28,7 @@ using Ninject;
 
 #endif
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public delegate void GameEventHandler(Game game);
 

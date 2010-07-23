@@ -17,7 +17,7 @@
 //
 #endregion
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 	public static class MathHelper
 	{

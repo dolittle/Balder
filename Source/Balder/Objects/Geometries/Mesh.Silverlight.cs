@@ -1,8 +1,8 @@
 using System;
-using Balder.Core.Display;
-using Balder.Core.Execution;
+using Balder.Display;
+using Balder.Execution;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public partial class Mesh
 	{

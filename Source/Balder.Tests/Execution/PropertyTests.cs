@@ -19,14 +19,14 @@
 
 #endregion
 
-using Balder.Core.Execution;
+using Balder.Execution;
 using Balder.Testing;
 using NUnit.Framework;
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
 
-namespace Balder.Core.Tests.Execution
+namespace Balder.Tests.Execution
 {
 	[TestFixture]
 	public class PropertyTests : TestFixture

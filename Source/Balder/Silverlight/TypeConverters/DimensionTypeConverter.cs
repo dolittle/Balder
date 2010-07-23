@@ -21,9 +21,9 @@
 using System;
 using System.ComponentModel;
 using System.Globalization;
-using Balder.Core.Math;
+using Balder.Math;
 
-namespace Balder.Core.Silverlight.TypeConverters
+namespace Balder.Silverlight.TypeConverters
 {
 	public class DimensionTypeConverter : TypeConverter
 	{

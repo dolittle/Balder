@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
-using Balder.Core;
-using Balder.Core.Assets;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
+using Balder;
+using Balder.Assets;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Objects.Geometries;
 using Ninject;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
@@ -48,11 +48,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 		{
 			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
 			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
-			var loader = assetLoaderService.GetLoader<Core.Imaging.Image>(uri);
+			var loader = assetLoaderService.GetLoader<Imaging.Image>(uri);
 			var images = loader.Load(uri);
 			if( images.Length == 1 )
 			{
-				return new ImageMap(images[0] as Core.Imaging.Image);	
+				return new ImageMap(images[0] as Imaging.Image);	
 			}
 			return null;
 		}

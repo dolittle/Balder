@@ -18,10 +18,10 @@
 #endregion
 
 using System;
-using Balder.Core.Display;
+using Balder.Display;
 using Moq;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class FakeDisplayDevice : IDisplayDevice
 	{

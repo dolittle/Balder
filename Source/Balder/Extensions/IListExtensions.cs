@@ -19,7 +19,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-namespace Balder.Core.Extensions
+namespace Balder.Extensions
 {
 	/// <summary>
 	/// Extension methods for IList

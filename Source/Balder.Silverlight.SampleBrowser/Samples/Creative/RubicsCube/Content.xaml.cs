@@ -1,5 +1,5 @@
 ﻿using System.Windows;
-using Balder.Core.Math;
+using Balder.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {

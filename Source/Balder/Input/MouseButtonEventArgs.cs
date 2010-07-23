@@ -4,9 +4,9 @@ using System.Windows.Input;
 #else
 using System.Drawing;
 #endif
-using Balder.Core.Execution;
+using Balder.Execution;
 
-namespace Balder.Core.Input
+namespace Balder.Input
 {
 	public class MouseButtonEventArgs : BubbledEventArgs
 	{

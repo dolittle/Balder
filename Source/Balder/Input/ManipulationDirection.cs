@@ -19,7 +19,7 @@
 
 #endregion
 
-namespace Balder.Core.Input
+namespace Balder.Input
 {
 	public enum ManipulationDirection
 	{

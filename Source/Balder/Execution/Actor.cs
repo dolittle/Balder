@@ -20,13 +20,13 @@ using System;
 #if(SILVERLIGHT)
 using System.Windows.Controls;
 #endif
-using Balder.Core.Collections;
-using Balder.Core.Content;
-using Balder.Core.Display;
-using Balder.Core.Input;
+using Balder.Collections;
+using Balder.Content;
+using Balder.Display;
+using Balder.Input;
 using Ninject;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	/// <summary>
 	/// Base class for all actors.

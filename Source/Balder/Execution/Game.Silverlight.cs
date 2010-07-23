@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows;
-using Balder.Core.Display;
-using Balder.Core.Silverlight.Input;
-using Balder.Core.View;
+using Balder.Display;
+using Balder.Silverlight.Input;
+using Balder.View;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public partial class Game
 	{

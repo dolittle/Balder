@@ -1,5 +1,5 @@
 ﻿using System.Windows.Media;
-using Balder.Core.Input;
+using Balder.Input;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Rendering.Passive
 {

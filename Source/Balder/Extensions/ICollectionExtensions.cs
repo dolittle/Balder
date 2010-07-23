@@ -18,7 +18,7 @@
 #endregion
 using System.Collections.Generic;
 
-namespace Balder.Core.Extensions
+namespace Balder.Extensions
 {
 	/// <summary>
 	/// Extension methods for the generic version of ICollection

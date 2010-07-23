@@ -30,12 +30,12 @@ using Colors = System.Drawing.Color;
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Matrix=Balder.Core.Math.Matrix;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
+using Matrix=Balder.Math.Matrix;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	/// <summary>
 	/// Represents a heightmap were the 4 corners can be placed arbitrary in 3D space

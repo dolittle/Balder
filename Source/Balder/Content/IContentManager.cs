@@ -16,9 +16,9 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Assets;
+using Balder.Assets;
 
-namespace Balder.Core.Content
+namespace Balder.Content
 {
 	/// <summary>
 	/// Manages content

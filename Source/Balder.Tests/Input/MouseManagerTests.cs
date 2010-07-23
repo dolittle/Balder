@@ -17,11 +17,11 @@
 //
 #endregion
 using System;
-using Balder.Core.Input;
+using Balder.Input;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Input
+namespace Balder.Tests.Input
 {
 	[TestFixture]
 	public class MouseManagerTests

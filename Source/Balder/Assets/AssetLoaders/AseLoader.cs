@@ -20,13 +20,13 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using Balder.Core.Content;
-using Balder.Core.Exceptions;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Content;
+using Balder.Exceptions;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
 
-namespace Balder.Core.Assets.AssetLoaders
+namespace Balder.Assets.AssetLoaders
 {
 
 	public delegate void AddPropertyHandler(AseGlobals globals, object scopeObject, string propertyName, string content);

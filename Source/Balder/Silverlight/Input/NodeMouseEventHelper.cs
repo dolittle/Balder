@@ -19,15 +19,15 @@
 
 #endregion
 using System;
-using Balder.Core.Display;
-using Balder.Core.Execution;
+using Balder.Display;
+using Balder.Execution;
 using System.Windows;
 using MouseButtonEventArgs = System.Windows.Input.MouseButtonEventArgs;
-using MouseEventHandler = Balder.Core.Input.MouseEventHandler;
-using MouseButtonEventHandler = Balder.Core.Input.MouseButtonEventHandler;
+using MouseEventHandler = Balder.Input.MouseEventHandler;
+using MouseButtonEventHandler = Balder.Input.MouseButtonEventHandler;
 using MouseEventArgs = System.Windows.Input.MouseEventArgs;
 
-namespace Balder.Core.Silverlight.Input
+namespace Balder.Silverlight.Input
 {
 	public class NodeMouseEventHelper : IDisposable
 	{
@@ -73,13 +73,13 @@ namespace Balder.Core.Silverlight.Input
 		private static void RaiseEvent(BubbledEvent<Node, MouseEventHandler> bubbledEvent, Node node, MouseEventArgs args)
 		{
 			var position = args.GetPosition(args.OriginalSource as FrameworkElement);
-			bubbledEvent.Raise(node, node, new Core.Input.MouseEventArgs(args,position));
+			bubbledEvent.Raise(node, node, new Balder.Input.MouseEventArgs(args, position));
 		}
 
 		private static void RaiseEvent(BubbledEvent<Node, MouseButtonEventHandler> bubbledEvent, Node node, MouseButtonEventArgs args)
 		{
 			var position = args.GetPosition(args.OriginalSource as FrameworkElement);
-			bubbledEvent.Raise(node, node, new Core.Input.MouseButtonEventArgs(args,position));
+			bubbledEvent.Raise(node, node, new Balder.Input.MouseButtonEventArgs(args,position));
 		}
 
 

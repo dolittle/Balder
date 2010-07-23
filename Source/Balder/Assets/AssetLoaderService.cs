@@ -21,10 +21,10 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Balder.Core.Execution;
+using Balder.Execution;
 using Ninject;
 
-namespace Balder.Core.Assets
+namespace Balder.Assets
 {
 	[Singleton]
 	public class AssetLoaderService : IAssetLoaderService

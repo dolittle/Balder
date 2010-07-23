@@ -25,7 +25,7 @@ using Colors = System.Drawing.Color;
 #endif
 #endif
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public struct Line
 	{

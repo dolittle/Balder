@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Input;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Silverlight.Helpers;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
+using Balder.Math;
+using Balder.Objects.Geometries;
+using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
@@ -230,7 +230,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-		void Cube_ManipulationStopped(Core.INode sender, Core.Execution.BubbledEventArgs eventArgs)
+		void Cube_ManipulationStopped(INode sender, BubbledEventArgs eventArgs)
 		{
 			if (null != _manipulatingGroup)
 			{

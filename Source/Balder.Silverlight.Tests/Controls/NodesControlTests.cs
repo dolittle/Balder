@@ -23,7 +23,7 @@ using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Markup;
-using Balder.Core.Objects.Geometries;
+using Balder.Objects.Geometries;
 using Balder.Silverlight.Controls;
 using CThru.Silverlight;
 using NUnit.Framework;
@@ -37,7 +37,7 @@ namespace Balder.Silverlight.Tests.Controls
 			"<DataTemplate xmlns=\"http://schemas.microsoft.com/winfx/2006/xaml/presentation\">" + // http://schemas.microsoft.com/winfx/2006/xaml/presentation
             "<ComboBox/>"+
 			//"xmlns:x=\"http://schemas.microsoft.com/winfx/2006/xaml\" "+
-			//"xmlns:Geometries=\"clr-namespace:Balder.Core.Objects.Geometries;assembly=Balder.Core\">"+
+			//"xmlns:Geometries=\"clr-namespace:Balder.Objects.Geometries;assembly=Balder\">"+
 			"</DataTemplate>";
 
 

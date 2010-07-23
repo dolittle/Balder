@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Core.Display
+namespace Balder.Display
 {
 	/// <summary>
 	/// Represents the display device for a platform

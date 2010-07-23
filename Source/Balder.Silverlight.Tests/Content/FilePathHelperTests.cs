@@ -16,9 +16,9 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Core.Content;
-using Balder.Core.Execution;
-using Balder.Core.Utils;
+using Balder.Content;
+using Balder.Execution;
+using Balder.Utils;
 using Balder.Silverlight.Content;
 using Moq;
 using NUnit.Framework;

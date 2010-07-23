@@ -21,7 +21,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Balder.Core.Utils
+namespace Balder.Utils
 {
 	/// <summary>
 	/// Helper class for getting values out of Enums

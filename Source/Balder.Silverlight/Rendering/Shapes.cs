@@ -17,8 +17,8 @@
 //
 #endregion
 
-using Balder.Core;
-using Balder.Core.Display;
+using Balder;
+using Balder.Display;
 
 namespace Balder.Silverlight.Rendering
 {

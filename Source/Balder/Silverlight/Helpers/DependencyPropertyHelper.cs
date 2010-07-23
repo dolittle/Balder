@@ -23,11 +23,11 @@ using System.Reflection.Emit;
 #endif
 using System.Windows;
 using System.Linq.Expressions;
-using Balder.Core.Extensions;
-using Balder.Core.Silverlight.Extensions;
+using Balder.Extensions;
+using Balder.Silverlight.Extensions;
 using Expression = System.Linq.Expressions.Expression;
 
-namespace Balder.Core.Silverlight.Helpers
+namespace Balder.Silverlight.Helpers
 {
 	public static class DependencyPropertyHelper
 	{

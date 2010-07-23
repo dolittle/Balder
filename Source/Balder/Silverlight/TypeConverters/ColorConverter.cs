@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Media;
 
-namespace Balder.Core.Silverlight.TypeConverters
+namespace Balder.Silverlight.TypeConverters
 {
 	public class ColorConverter : TypeConverter
 	{

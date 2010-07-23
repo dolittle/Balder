@@ -1,9 +1,9 @@
 ﻿using System.Windows;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Input;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Input;
 
-namespace Balder.Core.Silverlight.Input
+namespace Balder.Silverlight.Input
 {
 	public class ManipulationEventHelper
 	{

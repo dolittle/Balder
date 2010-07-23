@@ -23,14 +23,14 @@ using System.IO;
 #endif
 using System.Globalization;
 using System.Xml.Linq;
-using Balder.Core.Content;
-using Balder.Core.Exceptions;
-using Balder.Core.Imaging;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder.Content;
+using Balder.Exceptions;
+using Balder.Imaging;
+using Balder.Materials;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
-namespace Balder.Core.Assets.AssetLoaders
+namespace Balder.Assets.AssetLoaders
 {
 	/// <summary>
 	/// Notes:

@@ -20,10 +20,10 @@
 #endregion
 
 using System;
-using Balder.Core.Assets;
-using Balder.Core.Content;
+using Balder.Assets;
+using Balder.Content;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class ContentManager : IContentManager
 	{

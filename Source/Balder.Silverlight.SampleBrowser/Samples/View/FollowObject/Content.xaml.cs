@@ -1,7 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Media.Animation;
-using Balder.Core.Execution;
-using Balder.Core.Math;
+using Balder.Execution;
+using Balder.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.View.FollowObject
 {

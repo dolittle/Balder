@@ -21,9 +21,9 @@
 
 using System;
 using System.IO;
-using Balder.Core.Content;
+using Balder.Content;
 
-namespace Balder.Core.Tests.Fakes
+namespace Balder.Tests.Fakes
 {
 	public class StringFileLoader : IFileLoader
 	{

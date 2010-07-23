@@ -20,14 +20,14 @@
 #endregion
 
 using System.Collections.Generic;
-using Balder.Core.Collections;
-using Balder.Core.Display;
-using Balder.Core.Execution;
-using Balder.Core.Math;
-using Balder.Core.Rendering;
+using Balder.Collections;
+using Balder.Display;
+using Balder.Execution;
+using Balder.Math;
+using Balder.Rendering;
 using Ninject;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public class MergedGeometry : Node, ICanBeVisible, ICanRender
 	{

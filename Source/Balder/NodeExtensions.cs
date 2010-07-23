@@ -1,6 +1,6 @@
-using Balder.Core.Rendering;
+using Balder.Rendering;
 
-namespace Balder.Core
+namespace Balder
 {
 	public static class NodeExtensions
 	{

@@ -18,7 +18,7 @@
 #endregion
 using NUnit.Framework;
 
-namespace Balder.Core.Tests
+namespace Balder.Tests
 {
 	[TestFixture]
 	public class ColorTests

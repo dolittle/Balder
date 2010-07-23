@@ -1,9 +1,9 @@
 ﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Data.BarChart.Content"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
-    xmlns:Execution="clr-namespace:Balder.Core.Execution;assembly=Balder.Core" 
-    xmlns:View="clr-namespace:Balder.Core.View;assembly=Balder.Core" 
-    xmlns:Lighting="clr-namespace:Balder.Core.Lighting;assembly=Balder.Core" 
+    xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
+    xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
+    xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
     xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.BarChart" 
     xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data" 
     xmlns:Controls1="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Toolkit">

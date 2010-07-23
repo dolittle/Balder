@@ -19,10 +19,10 @@
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Data;
-using Balder.Core.Silverlight.Helpers;
+using Balder.Silverlight.Helpers;
 using DependencyProperty = System.Windows.DependencyProperty;
 
-namespace Balder.Core.Silverlight.Extensions
+namespace Balder.Silverlight.Extensions
 {
 	public interface IDependencyPropertySubscription : INotifyPropertyChanged
 	{

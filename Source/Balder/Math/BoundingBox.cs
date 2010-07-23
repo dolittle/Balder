@@ -20,7 +20,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Balder.Core.Math
+namespace Balder.Math
 {
 	public class BoundingBox : IEquatable<BoundingBox>
 	{

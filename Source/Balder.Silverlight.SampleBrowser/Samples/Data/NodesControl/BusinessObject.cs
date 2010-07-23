@@ -1,5 +1,5 @@
-﻿using Balder.Core;
-using Balder.Core.Math;
+﻿using Balder;
+using Balder.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 {

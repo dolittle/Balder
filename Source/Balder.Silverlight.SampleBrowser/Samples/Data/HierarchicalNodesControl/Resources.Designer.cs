@@ -86,7 +86,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Execution=&quot;clr-namespace:Balder.Core.Execution;assembly=Balder.Core&quot; 
+        ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
         ///	xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl&quot; 
         /// [rest of string was truncated]&quot;;.
@@ -99,7 +99,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Windows.Controls;
-        ///using Balder.Core.Objects.Geometries;
+        ///using Balder.Objects.Geometries;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///{

@@ -17,13 +17,13 @@
 //
 #endregion
 using System.Collections.Generic;
-using Balder.Core;
-using Balder.Core.Display;
-using Balder.Core.Lighting;
-using Balder.Core.Materials;
-using Balder.Core.Math;
-using Balder.Core.Objects.Geometries;
-using Balder.Core.Rendering;
+using Balder;
+using Balder.Display;
+using Balder.Lighting;
+using Balder.Materials;
+using Balder.Math;
+using Balder.Objects.Geometries;
+using Balder.Rendering;
 
 namespace Balder.Silverlight.Rendering
 {

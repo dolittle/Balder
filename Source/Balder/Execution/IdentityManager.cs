@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 
-namespace Balder.Core.Execution
+namespace Balder.Execution
 {
 	public class IdentityManager : IIdentityManager
 	{

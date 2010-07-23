@@ -1,8 +1,8 @@
-using Balder.Core.Display;
-using Balder.Core.Materials;
-using Balder.Core.Math;
+using Balder.Display;
+using Balder.Materials;
+using Balder.Math;
 
-namespace Balder.Core.Objects.Geometries
+namespace Balder.Objects.Geometries
 {
 	public interface IGeometryDetailLevel
 	{

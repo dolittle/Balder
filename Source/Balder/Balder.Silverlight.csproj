@@ -12,8 +12,8 @@
     <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Balder.Core</RootNamespace>
-    <AssemblyName>Balder.Core</AssemblyName>
+    <RootNamespace>Balder</RootNamespace>
+    <AssemblyName>Balder</AssemblyName>
     <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <SccProjectName>
@@ -70,7 +70,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <LangVersion>default</LangVersion>
-    <DocumentationFile>Bin\Release\Balder.Core.XML</DocumentationFile>
+    <DocumentationFile>Bin\Release\Balder.xml</DocumentationFile>
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>

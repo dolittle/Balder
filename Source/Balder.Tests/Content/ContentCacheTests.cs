@@ -22,12 +22,12 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using Balder.Core.Assets;
-using Balder.Core.Content;
+using Balder.Assets;
+using Balder.Content;
 using Balder.Testing;
 using NUnit.Framework;
 
-namespace Balder.Core.Tests.Content
+namespace Balder.Tests.Content
 {
 	[TestFixture]
 	public class ContentCacheTests : TestFixture
