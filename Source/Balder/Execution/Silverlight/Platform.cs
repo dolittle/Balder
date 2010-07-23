@@ -26,7 +26,11 @@ using Balder.Input;
 using Balder.Display.Silverlight;
 using Balder.Input.Silverlight;
 using Balder.Materials.Silverlight;
+#if(WINDOWS_PHONE)
+using Balder.Rendering.Xna;
+#else
 using Balder.Rendering.Silverlight;
+#endif
 
 namespace Balder.Execution.Silverlight
 {
@@ -44,7 +48,14 @@ namespace Balder.Execution.Silverlight
 
 		private void InitializeObjects()
 		{
-			DisplayDevice = new DisplayDevice(this);
+            if( IsInDesignMode )
+            {
+                DisplayDevice = new DisplayDevice(this);    
+            } else
+            {
+                DisplayDevice = new Balder.Display.WP7.DisplayDevice();
+            }
+			
 			MouseDevice = new MouseDevice();
 		}
 

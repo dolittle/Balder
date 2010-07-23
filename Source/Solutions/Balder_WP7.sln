@@ -3,6 +3,8 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.WP7", "..\Balder\Balder.WP7.csproj", "{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.WP7.TestApp", "..\Balder.WP7.TestApp\Balder.WP7.TestApp.csproj", "{57666675-E8D9-44BF-AC33-A7C336DBCCB9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -13,6 +15,12 @@ Global
 		{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57666675-E8D9-44BF-AC33-A7C336DBCCB9}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
