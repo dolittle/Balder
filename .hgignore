@@ -1,5 +1,6 @@
 glob:*.user
 glob:Source/**/SLBin/**/*
+glob:Source/**/WP7Bin/**/*
 glob:Source/**/Bin/Debug/*
 glob:Source/**/bin/Debug/*
 glob:Source/**/Bin/Release/*
