@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using Balder.Content;
 using Balder.Execution;
 using Balder.Utils;
@@ -23,7 +24,7 @@ using Balder.Silverlight.Content;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Content
+namespace Balder.Tests.Content.Silverlight
 {
 	[TestFixture]
 	public class FilePathHelperTests
@@ -68,3 +69,4 @@ namespace Balder.Silverlight.Tests.Content
 	
 	}
 }
+#endif

@@ -23,6 +23,9 @@ using Balder.Collections;
 using Balder.Content;
 using Balder.Debug;
 using Balder.Display;
+#if(SILVERLIGHT)
+using Balder.Execution.Silverlight;
+#endif
 using Ninject;
 
 namespace Balder.Execution
@@ -69,9 +72,7 @@ namespace Balder.Execution
 
 		private static IRuntime GetRuntime()
 		{
-			var typeDiscoverer = new TypeDiscoverer();
-			var platformType = typeDiscoverer.FindSingle<IPlatform>();
-			var kernel = new PlatformKernel(platformType);
+			var kernel = new PlatformKernel(typeof(Platform));
 			return kernel.Get<IRuntime>();
 		}
 

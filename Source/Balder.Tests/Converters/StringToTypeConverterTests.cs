@@ -16,12 +16,13 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using System;
 using System.Globalization;
-using Balder.Silverlight.Converters;
+using Balder.Converters;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Converters
+namespace Balder.Tests.Converters
 {
 	[TestFixture]
 	public class StringToTypeConverterTests
@@ -55,3 +56,4 @@ namespace Balder.Silverlight.Tests.Converters
  		}
 	}
 }
+#endif

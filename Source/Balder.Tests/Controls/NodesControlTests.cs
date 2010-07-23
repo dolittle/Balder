@@ -18,17 +18,16 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using System.Windows;
-using System.Windows.Controls;
 using System.Windows.Markup;
 using Balder.Objects.Geometries;
-using Balder.Silverlight.Controls;
+using Balder.Controls;
 using CThru.Silverlight;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Controls
+namespace Balder.Tests.Controls
 {
 	[TestFixture]
 	public class NodesControlTests
@@ -90,3 +89,4 @@ namespace Balder.Silverlight.Tests.Controls
 	}
 }
 
+#endif

@@ -19,7 +19,7 @@
 using System;
 using System.Windows;
 
-namespace Balder.Silverlight.Tests
+namespace Balder.Tests
 {
 	public partial class App : Application
 	{

@@ -1,4 +1,5 @@
-﻿#region License
+#region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,14 +16,18 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
+#if(SILVERLIGHT)
+using Balder.Display.Silverlight;
 using CThru.Silverlight;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Display
+namespace Balder.Tests.Display.Silverlight
 {
 	[TestFixture]
-	public class DisplayTests
+	public class WriteableBitmapQueueTest
 	{
 	}
 }
+#endif

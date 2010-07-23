@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using Balder;
 using Balder.Materials;
 using Balder.Rendering.Silverlight;
@@ -26,7 +26,7 @@ using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Rendering
+namespace Balder.Tests.Rendering.Silverlight
 {
 	[TestFixture]
 	public class MetaDataPixelBufferTests
@@ -228,4 +228,4 @@ namespace Balder.Silverlight.Tests.Rendering
 		}
 	}
 }
-
+#endif

@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,18 +15,28 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
-
-using Balder.Silverlight.Display;
-using CThru.Silverlight;
+#if(SILVERLIGHT)
+using Balder.Execution.Silverlight;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Display
+namespace Balder.Silverlight.Tests.Execution
 {
 	[TestFixture]
-	public class WriteableBitmapQueueTest
+	public class PlatformTests
 	{
+
+		[Test]
+		public void BeforeStateChangeShouldFireBeforeStateChanged()
+		{
+			var platform = new Platform();
+			var stateChangedCalled = false;
+			platform.StateChanged += (p, s) => stateChangedCalled = true;
+			platform.BeforeStateChange += (p, s) => Assert.That(stateChangedCalled, Is.False);
+
+			Assert.Inconclusive();
+		}
+
 	}
 }
-
+#endif

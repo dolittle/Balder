@@ -16,25 +16,13 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Silverlight.Execution;
+
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Execution
+namespace Balder.Tests.Display.Silverlight
 {
 	[TestFixture]
-	public class PlatformTests
+	public class DisplayTests
 	{
-
-		[Test]
-		public void BeforeStateChangeShouldFireBeforeStateChanged()
-		{
-			var platform = new Platform();
-			var stateChangedCalled = false;
-			platform.StateChanged += (p, s) => stateChangedCalled = true;
-			platform.BeforeStateChange += (p, s) => Assert.That(stateChangedCalled, Is.False);
-
-			Assert.Inconclusive();
-		}
-
 	}
 }

@@ -18,20 +18,19 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using System.ComponentModel;
 using System.Xml.Serialization;
-using Balder;
 using Balder.Display;
 using Balder.Materials;
 using Balder.Objects.Geometries;
-using Balder.Silverlight.Notification;
+using Balder.Notification;
 using CThru.Silverlight;
 using Moq;
 using NUnit.Framework;
 
-namespace Balder.Silverlight.Tests.Notification
+namespace Balder.Tests.Notification
 {
 	[TestFixture]
 	public class NotifyingObjectWeaverTests
@@ -552,3 +551,4 @@ namespace Balder.Silverlight.Tests.Notification
 		}
 	}
 }
+#endif
