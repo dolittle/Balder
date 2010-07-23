@@ -39,8 +39,12 @@ namespace Balder
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
-	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
-	public struct Color : IEquatable<Color>
+#if(WINDOWS_PHONE)
+	[StructLayout(LayoutKind.Sequential, Size = 4)]
+#else
+    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
+#endif
+    public struct Color : IEquatable<Color>
 	{
 		private static readonly Random Rnd = new Random();
 

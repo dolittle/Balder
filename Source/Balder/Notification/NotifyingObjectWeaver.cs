@@ -18,7 +18,7 @@
 //
 
 #endregion
-#if(SILVERLIGHT)
+#if(SILVERLIGHT && !WINDOWS_PHONE)
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
