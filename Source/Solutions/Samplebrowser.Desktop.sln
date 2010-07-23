@@ -5,7 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2AC081A1-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Testing", "Testing", "{E974FF26-421A-483F-AF33-A86326597A5C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Desktop", "..\Balder.Core\Balder.Core.Desktop.csproj", "{2E1F0FD0-72F6-4797-A809-327DB577E3E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Desktop", "..\Balder\Balder.Desktop.csproj", "{2E1F0FD0-72F6-4797-A809-327DB577E3E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Tests.Desktop", "..\Balder.Core.Tests\Balder.Core.Tests.Desktop.csproj", "{DF5C98AD-64D5-42FE-986E-C076DA46CF63}"
 EndProject

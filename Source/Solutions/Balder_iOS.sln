@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.iOS", "..\Balder.Core\Balder.Core.iOS.csproj", "{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.iOS", "..\Balder\Balder.iOS.csproj", "{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

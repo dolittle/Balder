@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Silverlight", "..\Balder.Core\Balder.Core.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder\Balder.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder.Silverlight\Balder.Silverlight.csproj", "{E39B101E-9447-49EE-B849-BA2A9E4664D0}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.SoftwareRendering.Silverlight", "..\Balder.Core.SoftwareRendering\Balder.Core.SoftwareRendering.Silverlight.csproj", "{CE1475DE-91CC-45BE-9FA3-6B233D3223D8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documentation", "Documentation", "{B0F1CE21-9714-4585-87B2-CC2DE5261AB3}"
 EndProject

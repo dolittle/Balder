@@ -114,8 +114,13 @@
 		<if test="${not(framework::exists('silverlight-3.0'))}">
 			<echo message="Silverlight v3.0 is not available. Skipping platform."/>
 		</if>
-
 	</target>
+
+
+	<target name="Compile">
+		
+	</target>
+	
 
 	<target name="Core" depends="Configure">
 		<mkdir dir="${Current.Path.Drop}"/>

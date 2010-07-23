@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.WP7", "..\Balder.Core\Balder.Core.WP7.csproj", "{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.WP7", "..\Balder\Balder.WP7.csproj", "{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.WP7", "..\Balder.Silverlight\Balder.WP7.csproj", "{9E8ADFDE-B846-41F2-B525-2F5A24A1311F}"
 EndProject

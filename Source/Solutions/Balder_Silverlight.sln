@@ -5,7 +5,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{2AC081A1-6
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Silverlight", "Silverlight", "{4076D1C6-DE6E-47F4-85B2-C2B77920B8BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Silverlight", "..\Balder.Core\Balder.Core.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder\Balder.Silverlight.csproj", "{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Silverlight", "..\Balder.Silverlight\Balder.Silverlight.csproj", "{E39B101E-9447-49EE-B849-BA2A9E4664D0}"
 EndProject

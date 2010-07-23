@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Core.Xna", "..\Balder.Core\Balder.Core.Xna.csproj", "{2E1F0FD0-72F6-4797-A809-327DB577E3E4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Xna", "..\Balder\Balder.Xna.csproj", "{2E1F0FD0-72F6-4797-A809-327DB577E3E4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Xna", "..\Balder.Xna\Balder.Xna.csproj", "{A87A08A6-DA14-46CF-ADD4-F5BB64E2CDAE}"
 EndProject
