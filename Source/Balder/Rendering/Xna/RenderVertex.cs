@@ -17,6 +17,13 @@ namespace Balder.Rendering.Xna
             _color = Microsoft.Xna.Framework.Color.Blue;
         }
 
+        public RenderVertex(Vertex vertex, Color color)
+        {
+            _position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+            _normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
+            _color = color;
+        }
+
         public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color)
         {
             _position = position;

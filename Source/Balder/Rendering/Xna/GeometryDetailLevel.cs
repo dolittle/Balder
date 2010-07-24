@@ -61,6 +61,7 @@ namespace Balder.Rendering.Xna
         {
             var actualCount = count*3;
             _indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
+            
             _indices = new ushort[actualCount];
             _originalFaces = new Face[count];
         }
@@ -71,6 +72,7 @@ namespace Balder.Rendering.Xna
             _indices[actualIndex+2] = (ushort)face.A;
             _indices[actualIndex+1] = (ushort)face.B;
             _indices[actualIndex] = (ushort)face.C;
+
             _originalFaces[index] = face;
         }
 
@@ -175,7 +177,8 @@ namespace Balder.Rendering.Xna
 
         public void SetMaterial(int index, Material material)
         {
-            
+            _originalFaces[index].Material = material;
+            _verticesPrepared = false;
         }
 
         public void SetMaterialForAllFaces(Material material)
@@ -188,8 +191,29 @@ namespace Balder.Rendering.Xna
             
         }
 
+        private void PrepareVertexBuffer()
+        {
+            _vertices = new RenderVertex[_originalFaces.Length*3];
+            var vertexIndex = 0;
+
+            foreach( var face in _originalFaces )
+            {
+                var color = Colors.Blue;
+                if( null != face.Material )
+                {
+                    color = face.Material.Diffuse;
+                }
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C],color);
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color);
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color);
+            }
+            _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex, BufferUsage.WriteOnly);
+            _vertexBuffer.SetData(_vertices);
+        }
+
         public void Render(Viewport viewport, INode node)
         {
+            /*
             if( !_indicesPrepared )
             {
                 if (null == _indices)
@@ -207,6 +231,10 @@ namespace Balder.Rendering.Xna
                 }
                 _verticesPrepared = true;
                 _vertexBuffer.SetData(_vertices);
+            }*/
+            if (!_verticesPrepared)
+            {
+                PrepareVertexBuffer();
             }
 
             _effect.World = node.RenderingWorld;
@@ -214,14 +242,16 @@ namespace Balder.Rendering.Xna
             _effect.Projection = viewport.View.ProjectionMatrix;
 
             var graphicsDevice = Display.WP7.Display.GraphicsDevice;
-            graphicsDevice.Indices = _indexBuffer;
+            //graphicsDevice.Indices = _indexBuffer;
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
 
             foreach( var pass in _effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
 
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
+                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,_vertices.Length/3);
+
+                //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
             }
         }
     }

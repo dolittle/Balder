@@ -83,7 +83,7 @@ namespace Balder.Display.WP7
         private void CompositionTargetRendering(object sender, EventArgs e)
         {
             GraphicsDevice.SetRenderTarget(_renderTarget);
-            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CadetBlue);
+            GraphicsDevice.Clear(BackgroundColor);
             Messenger.DefaultContext.Send(PrepareMessage.Default);
             Messenger.DefaultContext.Send(RenderMessage.Default);
             GraphicsDevice.SetRenderTarget(null);

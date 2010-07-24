@@ -10,7 +10,6 @@
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -20,25 +19,14 @@
 
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Green">
-        <Grid.Triggers>
-            <EventTrigger RoutedEvent="Grid.Loaded">
-                <BeginStoryboard>
-                    <Storyboard RepeatBehavior="Forever">
-                        <Animation:StoryboardExtensions.CoordinateAnimation>
-                            <Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Box" TargetProperty="(Node.Rotation)"/>
-                        </Animation:StoryboardExtensions.CoordinateAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-            </EventTrigger>
-        </Grid.Triggers>
-
-
+        
         <Execution:Game Width="480" Height="768">
             <Execution:Game.Camera>
                 <View:Camera Position="30,30,-150"/>
             </Execution:Game.Camera>
             <Lighting:OmniLight Position="0,30,-10"/>
-            <Geometries:Box x:Name="Box" Dimension="20,20,20"/>
+            <!--<Geometries:Box x:Name="Box" Dimension="20,20,20"/>-->
+            <Geometries:Mesh x:Name="Object" AssetName="teapot.ase"/>
         </Execution:Game>
         
         
