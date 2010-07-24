@@ -53,13 +53,15 @@ namespace Balder.Rendering.Xna
         public GeometryDetailLevel()
         {
             _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
-            _effect.EnableDefaultLighting();
+            //_effect.EnableDefaultLighting();
+            _effect.VertexColorEnabled = true;
         }
 
         public void AllocateFaces(int count)
         {
-            _indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, count*3, BufferUsage.WriteOnly);
-            _indices = new ushort[count*3];
+            var actualCount = count*3;
+            _indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
+            _indices = new ushort[actualCount];
             _originalFaces = new Face[count];
         }
 
@@ -219,7 +221,7 @@ namespace Balder.Rendering.Xna
             {
                 pass.Apply();
 
-                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleStrip,0,0,_vertices.Length,0,_indices.Length/3);
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
             }
         }
     }
