@@ -19,6 +19,7 @@
 using Balder.Debug;
 using Balder.Display;
 using Balder.Math;
+using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
 
@@ -117,6 +118,12 @@ namespace Balder.Execution
 				// Todo: This should be injected - need to figure out how to do this properly!
 				Viewport.Display = Display;
 			}
+		}
+
+		public Skybox Skybox
+		{
+			get { return Viewport.Skybox;  }
+			set { Viewport.Skybox = value; }
 		}
 
 		public DebugInfo DebugInfo

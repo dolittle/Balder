@@ -26,10 +26,12 @@ using Balder;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
+using Balder.Objects;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
 using Balder.Rendering.Silverlight;
 using Color = Balder.Color;
+using Matrix = Balder.Math.Matrix;
 
 namespace Balder.Display.Silverlight
 {
@@ -54,6 +56,8 @@ namespace Balder.Display.Silverlight
 			MetaDataPixelBuffer = metaDataPixelBuffer;
 			ClearEnabled = true;
 		}
+
+		
 
 		public bool ClearEnabled { get; set; }
 		public bool Paused { get; set; }
@@ -166,6 +170,11 @@ namespace Balder.Display.Silverlight
 			var frame = new int[BufferContainer.Framebuffer.Length];
 			Buffer.BlockCopy(BufferContainer.Framebuffer,0,frame,0,frame.Length*4);
 			return frame;
+		}
+
+		public void RenderSkybox(Skybox skybox, Matrix viewMatrix, Matrix projectionMatrix)
+		{
+			SkyboxRenderer.Render(skybox, viewMatrix, projectionMatrix);
 		}
 
 		public Color BackgroundColor { get; set; }

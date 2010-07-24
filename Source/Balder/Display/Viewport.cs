@@ -20,6 +20,7 @@
 using Balder.Debug;
 using Balder.Execution;
 using Balder.Math;
+using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
 #if(SILVERLIGHT)
@@ -123,6 +124,11 @@ namespace Balder.Display
 		/// Get the display in which the viewport is rendered to
 		/// </summary>
 		public IDisplay Display { get; internal set; }
+
+		/// <summary>
+		/// Get or set the Skybox for the display
+		/// </summary>
+		public Skybox Skybox { get; set; }
 
 		/// <summary>
 		/// Get the aspect ratio for the viewport
@@ -237,10 +243,16 @@ namespace Balder.Display
 
 		public void Render(RenderMessage renderMessage)
 		{
-			if( null != View )
+			if (null != View)
 			{
-				View.Update(this);	
+				View.Update(this);
+
+				if (null != Skybox && Skybox.IsEnabled)
+				{
+					Display.RenderSkybox(Skybox, View.ViewMatrix, View.ProjectionMatrix);
+				}
 			}
+
 			Scene.Render(this);
 
 			if( DebugInfo.ShowMouseHitDetectionRay )

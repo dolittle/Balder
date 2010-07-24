@@ -143,6 +143,10 @@ namespace Balder.Math
 
 		public static implicit operator Vector(Coordinate coordinate)
 		{
+			if( null == coordinate )
+			{
+				return Vector.Zero;
+			}
 			var vector = coordinate.ToVector();
 			return vector;
 		}

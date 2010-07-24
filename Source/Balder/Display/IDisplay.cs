@@ -18,8 +18,9 @@
 #endregion
 
 using Balder.Materials;
+using Balder.Math;
+using Balder.Objects;
 using Balder.Objects.Geometries;
-using Balder.Rendering;
 
 namespace Balder.Display
 {
@@ -105,5 +106,13 @@ namespace Balder.Display
 		/// </summary>
 		/// <returns>An array of pixels, 32 bit with alpha</returns>
 		int[] GetCurrentFrame();
+
+		/// <summary>
+		/// Render a skybox
+		/// </summary>
+		/// <param name="skybox">Skybox to render</param>
+		/// <param name="viewMatrix">ViewMatrix used during rendering</param>
+		/// <param name="projectionMatrix">ProjectionMatrix used during rendering</param>
+		void RenderSkybox(Skybox skybox, Matrix viewMatrix, Matrix projectionMatrix);
 	}
 }

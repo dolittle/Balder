@@ -24,6 +24,8 @@ using System.ComponentModel;
 using System.Xml.Serialization;
 using Balder.Display;
 using Balder.Materials;
+using Balder.Math;
+using Balder.Objects;
 using Balder.Objects.Geometries;
 using Balder.Notification;
 using CThru.Silverlight;
@@ -137,63 +139,9 @@ namespace Balder.Tests.Notification
 			}
 		}
 
-		public class TypeImplementingInterfaceInOtherAssembly : IDisplay
+		public class TypeImplementingInterfaceInOtherAssembly : IComparable
 		{
-			public Color BackgroundColor { get; set; }
-			public bool ClearEnabled
-			{
-				get { throw new NotImplementedException(); }
-				set { throw new NotImplementedException(); }
-			}
-
-			public bool Paused
-			{
-				get { throw new NotImplementedException(); }
-				set { throw new NotImplementedException(); }
-			}
-
-			public bool Halted
-			{
-				get { throw new NotImplementedException(); }
-				set { throw new NotImplementedException(); }
-			}
-
-			public virtual Color VirtualBackgroundColor { get; set; }
-
-			public void Initialize(int width, int height)
-			{
-			}
-
-			public void Uninitialize()
-			{
-				throw new NotImplementedException();
-			}
-
-			public void InitializeContainer(object container)
-			{
-			}
-
-			public INode GetNodeAtPosition(int xPosition, int yPosition)
-			{
-				return null;
-			}
-
-			public Material GetMaterialAtPosition(int xPosition, int yPosition)
-			{
-				throw new NotImplementedException();
-			}
-
-			public Face GetFaceAtPosition(int xPosition, int yPosition)
-			{
-				throw new NotImplementedException();
-			}
-
-			public int GetFaceIndexAtPosition(int xPosition, int yPosition)
-			{
-				throw new NotImplementedException();
-			}
-
-			public int[] GetCurrentFrame()
+			public int CompareTo(object obj)
 			{
 				throw new NotImplementedException();
 			}
