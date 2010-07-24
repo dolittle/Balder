@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
-using Balder.Core;
-using Balder.Core.Assets;
-using Balder.Core.Execution;
-using Balder.Core.Materials;
-using Balder.Core.Objects.Geometries;
+using Balder;
+using Balder.Assets;
+using Balder.Execution;
+using Balder.Materials;
+using Balder.Objects.Geometries;
 using Ninject;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
@@ -19,10 +19,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 		private Material _reflectionMaterial;
 
 
-		private Core.Imaging.Image _selectedTexture;
-		private Core.Imaging.Image _reflectionMapTexture;
-		private Core.Imaging.Image _visualStudioTexture;
-		private Core.Imaging.Image _balderLogoTexture;
+		private Balder.Imaging.Image _selectedTexture;
+        private Balder.Imaging.Image _reflectionMapTexture;
+        private Balder.Imaging.Image _visualStudioTexture;
+        private Balder.Imaging.Image _balderLogoTexture;
 
 
 		public Content()
@@ -45,15 +45,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 			HandleSelection();
 		}
 
-		private Core.Imaging.Image LoadTexture(string uri)
+        private Balder.Imaging.Image LoadTexture(string uri)
 		{
 			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
 			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
-			var loader = assetLoaderService.GetLoader<Core.Imaging.Image>(uri);
+            var loader = assetLoaderService.GetLoader<Balder.Imaging.Image>(uri);
 			var images = loader.Load(uri);
 			if( images.Length == 1 )
 			{
-				return images[0] as Core.Imaging.Image;	
+				return images[0] as Balder.Imaging.Image;	
 			}
 			return null;
 		}
@@ -179,10 +179,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 
 			if( null != _selectedMaterial.DiffuseMap )
 			{
-				_selectedMaterial.DiffuseMap = _selectedTexture;
+				_selectedMaterial.DiffuseMap = new ImageMap(_selectedTexture);
 			} else if( null != _selectedMaterial.ReflectionMap )
 			{
-				_selectedMaterial.ReflectionMap = _selectedTexture;
+				_selectedMaterial.ReflectionMap = new ImageMap(_selectedTexture);
 			}
 		}
 

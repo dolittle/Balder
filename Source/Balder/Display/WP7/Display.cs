@@ -76,7 +76,7 @@ namespace Balder.Display.WP7
         {
             CompositionTarget.Rendering += CompositionTargetRendering;
             _writeableBitmap = new WriteableBitmap(width, height);
-            _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.None);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.Depth16);
         }
 
 

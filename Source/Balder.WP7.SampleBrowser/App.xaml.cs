@@ -21,6 +21,11 @@ namespace Balder.WP7.SampleBrowser
         // Easy access to the root frame
         public PhoneApplicationFrame RootFrame { get; private set; }
 
+        static App()
+        {
+            Balder.Display.WP7.Display.Initialize();
+        }
+
         // Constructor
         public App()
         {

@@ -50,6 +50,7 @@
   <ItemGroup>
     <Reference Include="Microsoft.Phone" />
     <Reference Include="Microsoft.Phone.Interop" />
+    <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Ninject, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
     <Reference Include="mscorlib" />
@@ -171,20 +172,16 @@
     <Content Include="SplashScreenImage.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Balder.Core\Balder.Core.WP7.csproj">
-      <Project>{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}</Project>
-      <Name>Balder.Core.WP7</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Balder.Silverlight\Balder.WP7.csproj">
-      <Project>{9E8ADFDE-B846-41F2-B525-2F5A24A1311F}</Project>
-      <Name>Balder.WP7</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <Folder Include="Samples\Creative\RubicsCube\Assets\" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Samples\Materials\MaterialPicker\Resources.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Balder\Balder.WP7.csproj">
+      <Project>{0DE7653B-D0CC-41FD-9A1D-4A9455D02CD3}</Project>
+      <Name>Balder.WP7</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.$(TargetFrameworkProfile).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight for Phone\$(TargetFrameworkVersion)\Microsoft.Silverlight.CSharp.targets" />

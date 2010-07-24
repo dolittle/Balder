@@ -53,7 +53,7 @@ namespace Balder.Rendering.Xna
         public GeometryDetailLevel()
         {
             _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
-            //_effect.EnableDefaultLighting();
+            _effect.EnableDefaultLighting();
             _effect.VertexColorEnabled = true;
         }
 
@@ -68,9 +68,9 @@ namespace Balder.Rendering.Xna
         public void SetFace(int index, Face face)
         {
             var actualIndex = index*3;
-            _indices[actualIndex] = (ushort)face.A;
+            _indices[actualIndex+2] = (ushort)face.A;
             _indices[actualIndex+1] = (ushort)face.B;
-            _indices[actualIndex+2] = (ushort)face.C;
+            _indices[actualIndex] = (ushort)face.C;
             _originalFaces[index] = face;
         }
 
@@ -81,7 +81,7 @@ namespace Balder.Rendering.Xna
 
         public void InvalidateFace(int index)
         {
-            
+            SetFace(index, _originalFaces[index]);
         }
 
         public void AllocateVertices(int count)
@@ -105,7 +105,7 @@ namespace Balder.Rendering.Xna
 
         public void InvalidateVertex(int index)
         {
-            
+            SetVertex(index, _originalVertices[index]);
         }
 
         public void AllocateNormals(int count)

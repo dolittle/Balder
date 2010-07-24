@@ -5,9 +5,22 @@
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:Core="clr-namespace:Balder;assembly=Balder">
+    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
 
     <Grid x:Name="LayoutRoot">
+        <!--
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard RepeatBehavior="Forever">
+                        <Animation:StoryboardExtensions.CoordinateAnimation>
+                            <Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="CubeContainer" TargetProperty="(Node.Rotation)"/>
+                        </Animation:StoryboardExtensions.CoordinateAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>-->
+
         <Grid.Resources>
             <!-- The recorder that records all moves -->
             <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
