@@ -16,36 +16,65 @@
 // limitations under the License.
 //
 #endregion
-
+#if(XNA)
 using System;
-using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
+using Microsoft.Xna.Framework.Graphics;
+using Viewport = Balder.Display.Viewport;
 
-#if(XNA)
+
+
 namespace Balder.Rendering.Xna
 {
     public class GeometryDetailLevel : IGeometryDetailLevel
     {
+        private BasicEffect _effect;
+
         public int FaceCount { get; private set; }
         public int VertexCount { get; private set; }
         public int TextureCoordinateCount { get; private set; }
         public int LineCount { get; private set; }
         public int NormalCount { get; private set; }
+
+        private VertexBuffer _vertexBuffer;
+        private IndexBuffer _indexBuffer;
+
+        private RenderVertex[] _vertices;
+        private ushort[] _indices;
+
+        private bool _verticesPrepared;
+        private bool _indicesPrepared;
+
+        private Vertex[] _originalVertices;
+        private Face[] _originalFaces;
+
+        public GeometryDetailLevel()
+        {
+            _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
+            _effect.EnableDefaultLighting();
+        }
+
         public void AllocateFaces(int count)
         {
-            
+            _indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, count*3, BufferUsage.WriteOnly);
+            _indices = new ushort[count*3];
+            _originalFaces = new Face[count];
         }
 
         public void SetFace(int index, Face face)
         {
-            
+            var actualIndex = index*3;
+            _indices[actualIndex] = (ushort)face.A;
+            _indices[actualIndex+1] = (ushort)face.B;
+            _indices[actualIndex+2] = (ushort)face.C;
+            _originalFaces[index] = face;
         }
 
         public Face[] GetFaces()
         {
-            throw new NotImplementedException();
+            return _originalFaces;
         }
 
         public void InvalidateFace(int index)
@@ -55,17 +84,21 @@ namespace Balder.Rendering.Xna
 
         public void AllocateVertices(int count)
         {
-            
+            _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
+            _vertices = new RenderVertex[count];
+            _originalVertices = new Vertex[count];
         }
 
         public void SetVertex(int index, Vertex vertex)
         {
-            throw new NotImplementedException();
+            var renderVertex = new RenderVertex(vertex);
+            _vertices[index] = renderVertex;
+            _originalVertices[index] = vertex;
         }
 
         public Vertex[] GetVertices()
         {
-            throw new NotImplementedException();
+            return _originalVertices;
         }
 
         public void InvalidateVertex(int index)
@@ -155,7 +188,39 @@ namespace Balder.Rendering.Xna
 
         public void Render(Viewport viewport, INode node)
         {
-            
+            if( !_indicesPrepared )
+            {
+                if (null == _indices)
+                {
+                    return;
+                }
+                _indicesPrepared = true;
+                _indexBuffer.SetData(_indices);
+            }
+            if( !_verticesPrepared )
+            {
+                if( null == _vertices )
+                {
+                    return;
+                }
+                _verticesPrepared = true;
+                _vertexBuffer.SetData(_vertices);
+            }
+
+            _effect.World = node.RenderingWorld;
+            _effect.View = viewport.View.ViewMatrix;
+            _effect.Projection = viewport.View.ProjectionMatrix;
+
+            var graphicsDevice = Display.WP7.Display.GraphicsDevice;
+            graphicsDevice.Indices = _indexBuffer;
+            graphicsDevice.SetVertexBuffer(_vertexBuffer);
+
+            foreach( var pass in _effect.CurrentTechnique.Passes )
+            {
+                pass.Apply();
+
+                graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleStrip,0,0,_vertices.Length,0,_indices.Length/3);
+            }
         }
     }
 }

@@ -23,6 +23,7 @@ namespace Balder.Rendering
 {
 	public class PrepareMessage
 	{
+        public static readonly PrepareMessage   Default = new PrepareMessage();
 		
 	}
 }

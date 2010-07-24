@@ -58,6 +58,7 @@
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
@@ -261,6 +262,7 @@
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Rendering\RuntimeContext.cs" />
@@ -291,6 +293,7 @@
     <Compile Include="Rendering\Xna\GeometryContext.cs" />
     <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\RenderVertex.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
     <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Scene.cs" />

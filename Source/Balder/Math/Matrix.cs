@@ -475,6 +475,17 @@ namespace Balder.Math
 								 row4);
 		}
 
-
+#if(XNA)
+        public static implicit operator Microsoft.Xna.Framework.Matrix(Matrix matrix)
+        {
+            var outMatrix = new Microsoft.Xna.Framework.Matrix(
+                matrix._data[0, 0], matrix._data[0, 1], matrix._data[0, 2], matrix._data[0, 3], 
+                matrix._data[1, 0], matrix._data[1, 1], matrix._data[1, 2], matrix._data[1, 3], 
+                matrix._data[2, 0], matrix._data[2, 1], matrix._data[2, 2], matrix._data[2, 3], 
+                matrix._data[3, 0], matrix._data[3, 1], matrix._data[3, 2], matrix._data[3, 3]
+            );
+            return outMatrix;
+        }
+#endif
 	}
 }

@@ -21,10 +21,14 @@ using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using Balder.Execution;
 using Balder.Materials;
 using Balder.Objects.Geometries;
+using Balder.Rendering;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Game = Microsoft.Xna.Framework.Game;
+using Matrix = Microsoft.Xna.Framework.Matrix;
 
 namespace Balder.Display.WP7
 {
@@ -34,7 +38,7 @@ namespace Balder.Display.WP7
         private static GraphicsDeviceManager _graphicsDeviceManager;
         private static GraphicsAdapter _graphicsAdapter;
         private static PresentationParameters _presentationParameters;
-        private static GraphicsDevice _graphicsDevice;
+        internal static GraphicsDevice GraphicsDevice;
         private RenderTarget2D _renderTarget;
         private Image _image;
         private WriteableBitmap _writeableBitmap;
@@ -47,8 +51,8 @@ namespace Balder.Display.WP7
 
         public static void Initialize()
         {
-
             var game = new Game();
+            
 
             _windowHandle = game.Window.Handle;
             _graphicsDeviceManager = new GraphicsDeviceManager(game);
@@ -61,23 +65,104 @@ namespace Balder.Display.WP7
             _presentationParameters.DepthStencilFormat = _graphicsDeviceManager.PreferredDepthStencilFormat;
             _presentationParameters.BackBufferFormat = _graphicsDeviceManager.PreferredBackBufferFormat;
             _presentationParameters.DeviceWindowHandle = _windowHandle;
-            _graphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
+            _presentationParameters.PresentationInterval = PresentInterval.Immediate;
+            GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
 
             game.Dispose();
         }
 
+        public struct MyVertex : IVertexType
+        {
+            private Vector3 _position;
+            private Microsoft.Xna.Framework.Color _color;
+
+            public MyVertex(Vector3 position, Microsoft.Xna.Framework.Color color)
+            {
+                _position = position;
+                _color = color;
+            }
+
+
+            public static VertexElement[] VertexElements = {
+                                                               new VertexElement(0, VertexElementFormat.Vector3,VertexElementUsage.Position, 0), 
+                                                               new VertexElement(sizeof(float)*3,VertexElementFormat.Color,VertexElementUsage.Color,0), 
+                                                           };
+
+            public static VertexDeclaration Declaration = new VertexDeclaration(VertexElements);
+
+            public VertexDeclaration VertexDeclaration
+            {
+                get { return Declaration; }
+            }
+        }
+
         public void Initialize(int width, int height)
         {
-            _renderTarget = new RenderTarget2D(_graphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.None);
+            CompositionTarget.Rendering += CompositionTargetRendering;
+            _writeableBitmap = new WriteableBitmap(width, height);
+            _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.None);
 
-            _graphicsDevice.SetRenderTarget(_renderTarget);
-            _graphicsDevice.Clear(Microsoft.Xna.Framework.Color.CadetBlue);
-            _graphicsDevice.SetRenderTarget(null);
             
-            _writeableBitmap = new WriteableBitmap(width,height);
+        }
+
+
+
+
+        private void CompositionTargetRendering(object sender, EventArgs e)
+        {
+            GraphicsDevice.SetRenderTarget(_renderTarget);
+            GraphicsDevice.Clear(Microsoft.Xna.Framework.Color.CadetBlue);
+            Messenger.DefaultContext.Send(PrepareMessage.Default);
+            Messenger.DefaultContext.Send(RenderMessage.Default);
+
+            /*
+            var pos = (float)System.Math.Sin(_sin)*5f;
+
+            var vertexBuffer = new VertexBuffer(GraphicsDevice, typeof(MyVertex), 3, BufferUsage.WriteOnly);
+            var vertices = new MyVertex[]
+                               {
+                                   new MyVertex(new Vector3(pos,0,0), new Microsoft.Xna.Framework.Color(0xff,0,0,0xff)), 
+                                   new MyVertex(new Vector3(5,0,0), new Microsoft.Xna.Framework.Color(0,0xff,0,0xff)), 
+                                   new MyVertex(new Vector3(0,5,0), new Microsoft.Xna.Framework.Color(0,0,0xff,0xff)), 
+                               };
+            vertexBuffer.SetData(vertices);
+
+            var indices = new short[]
+                              {
+                                  0,1,2
+                              };
+
+            var indexBuffer = new IndexBuffer(GraphicsDevice, IndexElementSize.SixteenBits, indices.Length,
+                                              BufferUsage.WriteOnly);
+            indexBuffer.SetData(indices);
+            _sin += 0.05f;
+
+            var effect = new BasicEffect(GraphicsDevice);
+            effect.VertexColorEnabled = true;
+            effect.World = Matrix.Identity;
+            effect.View = Matrix.CreateLookAt(new Vector3(0, 0, -10), new Vector3(0, 0, 0), Vector3.Up);
+            effect.Projection =
+                Matrix.CreatePerspectiveFieldOfView(
+                    Microsoft.Xna.Framework.MathHelper.PiOver4,
+                    GraphicsDevice.Viewport.AspectRatio, 0.1f, 4000f);
+
+            GraphicsDevice.Indices = indexBuffer;
+            GraphicsDevice.SetVertexBuffer(vertexBuffer);
+
+            foreach (var pass in effect.CurrentTechnique.Passes)
+            {
+                pass.Apply();
+                
+                //_graphicsDevice.DrawPrimitives(PrimitiveType.TriangleStrip, 0, 1);
+                
+                
+                GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, vertices.Length, 0, indices.Length/3);
+            }
+
+            */
+
+            GraphicsDevice.SetRenderTarget(null);
             CopyFromRenderTargetToWriteableBitmap();
-
-            
         }
 
         public void Uninitialize()
@@ -89,12 +174,6 @@ namespace Balder.Display.WP7
         private void CopyFromRenderTargetToWriteableBitmap()
         {
             _renderTarget.GetData(_writeableBitmap.Pixels);
-
-            /*
-            for (var pixel = 0; pixel < _writeableBitmap.Pixels.Length; pixel++)
-            {
-                _writeableBitmap.Pixels[pixel] = -1;
-            }*/
 
             _writeableBitmap.Invalidate();
         }
