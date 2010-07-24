@@ -207,6 +207,9 @@ namespace Balder.Rendering.Xna
                 _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color);
                 _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color);
             }
+            _vertexBuffer.Dispose();
+            _vertexBuffer = null;
+            GC.Collect();
             _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex, BufferUsage.WriteOnly);
             _vertexBuffer.SetData(_vertices);
         }
@@ -234,6 +237,7 @@ namespace Balder.Rendering.Xna
             }*/
             if (!_verticesPrepared)
             {
+                _verticesPrepared = true;
                 PrepareVertexBuffer();
             }
 

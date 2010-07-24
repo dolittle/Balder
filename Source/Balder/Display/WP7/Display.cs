@@ -43,6 +43,8 @@ namespace Balder.Display.WP7
         private RenderTarget2D _renderTarget;
         private Image _image;
         private WriteableBitmap _writeableBitmap;
+        private int _width;
+        private int _height;
 
         public Color BackgroundColor { get; set; }
         public bool ClearEnabled { get; set; }
@@ -67,6 +69,7 @@ namespace Balder.Display.WP7
             _presentationParameters.BackBufferFormat = _graphicsDeviceManager.PreferredBackBufferFormat;
             _presentationParameters.DeviceWindowHandle = _windowHandle;
             _presentationParameters.PresentationInterval = PresentInterval.Immediate;
+            _presentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
             GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
 
             game.Dispose();
@@ -74,6 +77,8 @@ namespace Balder.Display.WP7
 
         public void Initialize(int width, int height)
         {
+            _width = width;
+            _height = height;
             CompositionTarget.Rendering += CompositionTargetRendering;
             _writeableBitmap = new WriteableBitmap(width, height);
             _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.Depth16);
@@ -99,7 +104,6 @@ namespace Balder.Display.WP7
         private void CopyFromRenderTargetToWriteableBitmap()
         {
             _renderTarget.GetData(_writeableBitmap.Pixels);
-
             _writeableBitmap.Invalidate();
         }
 

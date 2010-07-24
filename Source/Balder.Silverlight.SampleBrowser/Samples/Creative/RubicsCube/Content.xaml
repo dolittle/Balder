@@ -31,7 +31,7 @@
 
             <!-- Set the camera a bit to the left and above and away from the box -->
             <Execution:Game.Camera>
-                <View:Camera Position="-50,25,-100"/>
+                <View:Camera Position="-50,25,-50"/>
             </Execution:Game.Camera>
 
             <!-- Add a all-direct, emitting light, in front of the cube -->
