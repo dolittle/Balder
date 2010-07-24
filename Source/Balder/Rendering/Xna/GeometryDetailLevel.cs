@@ -64,6 +64,13 @@ namespace Balder.Rendering.Xna
             
             _indices = new ushort[actualCount];
             _originalFaces = new Face[count];
+
+            if( null != _vertexBuffer )
+            {
+                _vertexBuffer.Dispose();
+                _vertexBuffer = null;
+            }
+            _vertices = null;
         }
 
         public void SetFace(int index, Face face)
@@ -88,15 +95,15 @@ namespace Balder.Rendering.Xna
 
         public void AllocateVertices(int count)
         {
-            _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
-            _vertices = new RenderVertex[count];
+            //_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
+            //_vertices = new RenderVertex[count];
             _originalVertices = new Vertex[count];
         }
 
         public void SetVertex(int index, Vertex vertex)
         {
-            var renderVertex = new RenderVertex(vertex);
-            _vertices[index] = renderVertex;
+            //var renderVertex = new RenderVertex(vertex);
+            //_vertices[index] = renderVertex;
             _originalVertices[index] = vertex;
         }
 
@@ -193,7 +200,10 @@ namespace Balder.Rendering.Xna
 
         private void PrepareVertexBuffer()
         {
-            _vertices = new RenderVertex[_originalFaces.Length*3];
+            if (null == _vertices)
+            {
+                _vertices = new RenderVertex[_originalFaces.Length*3];
+            }
             var vertexIndex = 0;
 
             foreach( var face in _originalFaces )
@@ -207,10 +217,11 @@ namespace Balder.Rendering.Xna
                 _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color);
                 _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color);
             }
-            _vertexBuffer.Dispose();
-            _vertexBuffer = null;
-            GC.Collect();
-            _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex, BufferUsage.WriteOnly);
+            if (null == _vertexBuffer)
+            {
+                _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof (RenderVertex), vertexIndex,
+                                                 BufferUsage.WriteOnly);
+            }
             _vertexBuffer.SetData(_vertices);
         }
 
