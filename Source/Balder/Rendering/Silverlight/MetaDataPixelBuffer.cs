@@ -18,13 +18,11 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using System.Collections.Generic;
-using Balder;
 using Balder.Execution;
 using Balder.Materials;
-using Ninject;
 
 namespace Balder.Rendering.Silverlight
 {
@@ -252,3 +250,4 @@ namespace Balder.Rendering.Silverlight
 		}
 	}
 }
+#endif

@@ -82,6 +82,11 @@ namespace Balder.Tests.Fakes
 			get { throw new NotImplementedException(); }
 		}
 
+		public Type SkyboxContextType
+		{
+			get { throw new NotImplementedException(); }
+		}
+
 		public PlatformState CurrentState { get; set; }
 		public void RegisterAssetLoaders(IAssetLoaderService assetLoaderService)
 		{

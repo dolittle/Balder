@@ -31,7 +31,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private static void GenerateMaterials()
 		{
-			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.Black, Shade=MaterialShade.Gouraud };
+			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White, Shade=MaterialShade.Gouraud };
 			Materials[CubeColor.White] = GetMaterial(Colors.Gray);
 			Materials[CubeColor.Yellow] = GetMaterial(Colors.Yellow);
 			Materials[CubeColor.Orange] = GetMaterial(Colors.Orange);
@@ -42,7 +42,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private static Material GetMaterial(Color color)
 		{
-			var material = new Material { Ambient = Colors.Black, Diffuse = color, Specular = Colors.Gray, Shade = MaterialShade.Gouraud };
+			var material = new Material { Ambient = Colors.Black, Diffuse = color, Specular = Colors.White, Shade = MaterialShade.Gouraud };
 			return material;
 		}
 		#endregion

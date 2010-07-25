@@ -21,6 +21,9 @@
 
 using System.Windows;
 using Balder.Execution;
+#if(DEFAULT_CONSTRUCTOR)
+using Ninject;
+#endif
 
 namespace Balder.Objects
 {
@@ -30,11 +33,28 @@ namespace Balder.Objects
 	public class SkyBox
 #endif
 	{
+
+#if(DEFAULT_CONSTRUCTOR)
+		public Skybox()
+			: this(Runtime.Instance.Kernel.Get<ISkyboxContext>())
+		{
+			
+		}
+#endif
+
+		public Skybox(ISkyboxContext skyboxContext)
+		{
+			SkyboxContext = skyboxContext;
+		}
+
 		public static readonly Property<Skybox, bool> IsEnabledProperty = Property<Skybox, bool>.Register(s => s.IsEnabled, false);
 		public bool IsEnabled
 		{
 			get { return IsEnabledProperty.GetValue(this); }
 			set { IsEnabledProperty.SetValue(this, value); }
 		}
+
+
+		public ISkyboxContext SkyboxContext { get; private set; }
 	}
 }

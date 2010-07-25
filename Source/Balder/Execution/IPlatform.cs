@@ -53,6 +53,7 @@ namespace Balder.Execution
 		Type ImageContextType { get; }
 		Type ShapeContextType { get; }
 		Type MaterialCalculatorType { get; }
+		Type SkyboxContextType { get; }
 
 		PlatformState CurrentState { get; }
 	}

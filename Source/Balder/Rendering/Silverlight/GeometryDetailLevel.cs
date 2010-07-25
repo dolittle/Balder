@@ -328,6 +328,11 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
+		public void Render(Matrix world, Matrix view, Matrix projection)
+		{
+			
+		}
+
 
 		private static Color GetColorFromNode(INode node)
 		{
@@ -370,7 +375,7 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private Color CalculateColorForVertex(RenderVertex vertex, Viewport viewport, INode node, int smoothingGroup)
+		private Color CalculateColorForVertex(RenderVertex vertex, Material material, Viewport viewport, INode node, int smoothingGroup)
 		{
 			Color lightColor;
 			if( null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
@@ -383,12 +388,12 @@ namespace Balder.Rendering.Silverlight
 				}
 				else
 				{
-					lightColor = _lightCalculator.Calculate(viewport, null, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
+					lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
 					smoothingGroupVertex.CalculatedColor = lightColor;
 				}
 			} else
 			{
-				lightColor = _lightCalculator.Calculate(viewport, null, vertex.TransformedVector, vertex.TransformedNormal);
+				lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, vertex.TransformedNormal);
 			}
 
 
@@ -403,9 +408,9 @@ namespace Balder.Rendering.Silverlight
 				var vertexA = _vertices[face.A];
 				var vertexB = _vertices[face.B];
 				var vertexC = _vertices[face.C];
-				face.CalculatedColorA = CalculateColorForVertex(vertexA, viewport, node, face.SmoothingGroup);
-				face.CalculatedColorB = CalculateColorForVertex(vertexB, viewport, node, face.SmoothingGroup);
-				face.CalculatedColorC = CalculateColorForVertex(vertexC, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorA = CalculateColorForVertex(vertexA, face.Material, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorB = CalculateColorForVertex(vertexB, face.Material, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorC = CalculateColorForVertex(vertexC, face.Material, viewport, node, face.SmoothingGroup);
 			}
 		}
 

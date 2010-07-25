@@ -151,10 +151,11 @@
     <Compile Include="Notification\NotifyingObjectWeaver.cs" />
     <Compile Include="Notification\ViewModelModule.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
     <Compile Include="Objects\Skybox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
-    <Compile Include="Rendering\Silverlight\SkyboxRenderer.cs" />
+    <Compile Include="Rendering\Silverlight\SkyboxContext.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />

@@ -22,16 +22,11 @@ using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Balder;
-using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
-using Balder.Objects;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
 using Balder.Rendering.Silverlight;
-using Color = Balder.Color;
-using Matrix = Balder.Math.Matrix;
 
 namespace Balder.Display.Silverlight
 {
@@ -77,6 +72,8 @@ namespace Balder.Display.Silverlight
 			BufferContainer.BluePosition = 1;
 			BufferContainer.AlphaPosition = 3;
 			BufferContainer.Stride = width;
+
+			PrepareFrame(null);
 			
 			BackgroundColor = Color.FromArgb(0xff, 0, 0, 0);
 			InitializeRendering();
@@ -170,11 +167,6 @@ namespace Balder.Display.Silverlight
 			var frame = new int[BufferContainer.Framebuffer.Length];
 			Buffer.BlockCopy(BufferContainer.Framebuffer,0,frame,0,frame.Length*4);
 			return frame;
-		}
-
-		public void RenderSkybox(Skybox skybox, Matrix viewMatrix, Matrix projectionMatrix)
-		{
-			SkyboxRenderer.Render(skybox, viewMatrix, projectionMatrix);
 		}
 
 		public Color BackgroundColor { get; set; }

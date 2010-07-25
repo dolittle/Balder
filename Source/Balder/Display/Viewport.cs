@@ -249,7 +249,7 @@ namespace Balder.Display
 
 				if (null != Skybox && Skybox.IsEnabled)
 				{
-					Display.RenderSkybox(Skybox, View.ViewMatrix, View.ProjectionMatrix);
+					Skybox.SkyboxContext.Render(this);
 				}
 			}
 

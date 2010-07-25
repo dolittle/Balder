@@ -19,24 +19,12 @@
 
 #endregion
 
-using Balder.Math;
-using Balder.Objects;
+using Balder.Display;
 
-namespace Balder.Rendering.Silverlight
+namespace Balder.Objects
 {
-	public class SkyboxRenderer
+	public interface ISkyboxContext
 	{
-		static SkyboxRenderer()
-		{
-			
-		}
-
-
-		public static void Render(Skybox skybox, Matrix viewMatrix, Matrix projectionMatrix)
-		{
-			int i = 0;
-			i++;
-			
-		}
+		void Render(Viewport viewport);
 	}
 }

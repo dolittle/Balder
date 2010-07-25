@@ -25,6 +25,7 @@ using Balder.Display;
 using Balder.Imaging;
 using Balder.Input;
 using Balder.Materials;
+using Balder.Objects;
 using Balder.Objects.Flat;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
@@ -48,6 +49,7 @@ namespace Balder.Execution
 			Bind<IImageContext>().To(platform.ImageContextType);
 			Bind<IShapeContext>().To(platform.ShapeContextType);
 			Bind<IMaterialCalculator>().To(platform.MaterialCalculatorType);
+			Bind<ISkyboxContext>().To(platform.SkyboxContextType);
 			
 			//AddBindingResolver<IPlatform>(PlatformBindingResolver);
 			//AddBindingResolver<IDisplay>(DisplayBindingResolver);
