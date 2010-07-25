@@ -108,8 +108,8 @@ namespace Balder.Tests.Math
 				direction.Normalize();
 				var newRay = new Ray(ray.Position, direction);
 
-				var result = ray.Intersects(boundingSphere);
-				Assert.That(result, Is.Not.Null);
+				var result = newRay.Intersects(boundingSphere);
+				Assert.That(result, Is.Not.Null, string.Format("Ray : {0}",ray));
 			}
 		}
 	}
