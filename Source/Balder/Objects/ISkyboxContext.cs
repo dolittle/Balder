@@ -25,6 +25,6 @@ namespace Balder.Objects
 {
 	public interface ISkyboxContext
 	{
-		void Render(Viewport viewport);
+		void Render(Viewport viewport, Skybox skybox);
 	}
 }

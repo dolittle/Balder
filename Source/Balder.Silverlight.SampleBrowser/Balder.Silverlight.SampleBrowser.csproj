@@ -835,6 +835,14 @@
     <Resource Include="Samples\Creative\RubicsCube\Images\Shuffle.png" />
     <Resource Include="Samples\Creative\RubicsCube\Images\Solve.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\Skybox\skybox_back.JPG" />
+    <Resource Include="Assets\Skybox\skybox_bottom.JPG" />
+    <Resource Include="Assets\Skybox\skybox_front.JPG" />
+    <Resource Include="Assets\Skybox\skybox_left.JPG" />
+    <Resource Include="Assets\Skybox\skybox_right.JPG" />
+    <Resource Include="Assets\Skybox\skybox_top.JPG" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

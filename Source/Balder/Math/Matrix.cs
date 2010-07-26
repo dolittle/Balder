@@ -58,7 +58,28 @@ namespace Balder.Math
 
 			return true;
 		}
-		
+
+		public Matrix Clone()
+		{
+			var newMatrix = new Matrix();
+			for (var i = 0; i < _data.GetLength(0); i++)
+			{
+				for (var j = 0; j < _data.GetLength(1); j++)
+				{
+					newMatrix._data[i, j] = _data[i, j];
+				}
+			}
+
+			return newMatrix;
+
+		}
+
+		public void SetTranslation(float x, float y, float z)
+		{
+			_data[3, 0] = x;
+			_data[3, 1] = y;
+			_data[3, 2] = z;
+		}
 
 
 		private static void SetIdentity(Matrix matrix)
@@ -347,6 +368,8 @@ namespace Balder.Math
 			matrix._data[3, 3] = 1f;
 			return matrix;
 		}
+
+
 
 
 		public static Matrix CreateOrthographic(float width, float height, float nearPlane, float farPlane)

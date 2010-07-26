@@ -25,7 +25,7 @@ using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class TextureTriangle : Triangle
+	public class TextureTriangleNoDepth : Triangle
 	{
 		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
@@ -90,20 +90,17 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var za = vertexA.DepthBufferAdjustedZ;
 			var ua = vertexA.U * image.Width;
 			var va = vertexA.V * image.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var zb = vertexB.DepthBufferAdjustedZ;
 			var ub = vertexB.U * image.Width;
 			var vb = vertexB.V * image.Height;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
-			var zc = vertexC.DepthBufferAdjustedZ;
 			var uc = vertexC.U * image.Width;
 			var vc = vertexC.V * image.Height;
 
@@ -116,10 +113,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var deltaY2 = yc - yb;
 			var deltaY3 = yc - ya;
 
-			var deltaZ1 = zb - za;
-			var deltaZ2 = zc - zb;
-			var deltaZ3 = zc - za;
-
 			var deltaU1 = ub - ua;
 			var deltaU2 = uc - ub;
 			var deltaU3 = uc - ua;
@@ -131,9 +124,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var x1 = xa;
 			var x2 = xa;
 
-			var z1 = za;
-			var z2 = za;
-
 			var u1 = ua;
 			var u2 = ua;
 
@@ -143,10 +133,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var xInterpolate1 = deltaX3 / deltaY3;
 			var xInterpolate2 = deltaX1 / deltaY1;
 			var xInterpolate3 = deltaX2 / deltaY2;
-
-			var zInterpolate1 = deltaZ3 / deltaY3;
-			var zInterpolate2 = deltaZ1 / deltaY1;
-			var zInterpolate3 = deltaZ2 / deltaY2;
 
 			var uInterpolate1 = deltaU3 / deltaY3;
 			var uInterpolate2 = deltaU1 / deltaY1;
@@ -187,7 +173,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			{
 				var yClipTopAsFloat = (float)yClipTop;
 				x1 = xa + xInterpolate1 * yClipTopAsFloat;
-				z1 = za + zInterpolate1 * yClipTopAsFloat;
 				u1 = ua + uInterpolate1 * yClipTopAsFloat;
 				v1 = va + vInterpolate1 * yClipTopAsFloat;
 
@@ -197,9 +182,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					x2 = xb + (xInterpolate3 * ySecondClipTop);
 					xInterpolate2 = xInterpolate3;
-
-					z2 = zb + (zInterpolate3 * ySecondClipTop);
-					zInterpolate2 = zInterpolate3;
 
 					u2 = ub + (uInterpolate3 * ySecondClipTop);
 					uInterpolate2 = uInterpolate3;
@@ -211,7 +193,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				else
 				{
 					x2 = xa + xInterpolate2 * yClipTopAsFloat;
-					z2 = za + zInterpolate2 * yClipTopAsFloat;
 					u2 = ua + uInterpolate2 * yClipTopAsFloat;
 					v2 = va + vInterpolate2 * yClipTopAsFloat;
 				}
@@ -225,10 +206,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var xStart = 0;
 			var xEnd = 0;
-
-			var zStart = 0f;
-			var zEnd = 0f;
-			var zAdd = 0f;
 
 			var xClipStart = 0;
 
@@ -248,9 +225,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 					xStart = (int)x2;
 					xEnd = (int)x1;
 
-					zStart = z2;
-					zEnd = z1;
-
 					uStart = u2;
 					uEnd = u1;
 
@@ -263,9 +237,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					xStart = (int)x1;
 					xEnd = (int)x2;
-
-					zStart = z1;
-					zEnd = z2;
 
 					uStart = u1;
 					uEnd = u2;
@@ -292,26 +263,21 @@ namespace Balder.Rendering.Silverlight.Drawing
 				{
 					var xClipStartAsFloat = (float)xClipStart;
 					var lengthAsFloat = (float)originalLength;
-					zAdd = (zEnd - zStart) / lengthAsFloat;
 					uAdd = (uEnd - uStart) / lengthAsFloat;
 					vAdd = (vEnd - vStart) / lengthAsFloat;
 
 					if (xClipStartAsFloat > 0)
 					{
-						zStart += (zAdd * xClipStartAsFloat);
 						uStart += (uAdd * xClipStartAsFloat);
 						vStart += (vAdd * xClipStartAsFloat);
 					}
 
 					offset = yoffset + xStart;
 					DrawSpan(length,
-							 zStart,
-							 zAdd,
 							 uStart,
 							 uAdd,
 							 vStart,
 							 vAdd,
-							 depthBuffer,
 							 offset,
 							 framebuffer,
 							 image,
@@ -325,9 +291,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 					x2 = xb;
 					xInterpolate2 = xInterpolate3;
 
-					z2 = zb;
-					zInterpolate2 = zInterpolate3;
-
 					u2 = ub;
 					uInterpolate2 = uInterpolate3;
 
@@ -338,9 +301,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 				x1 += xInterpolate1;
 				x2 += xInterpolate2;
-
-				z1 += zInterpolate1;
-				z2 += zInterpolate2;
 
 				u1 += uInterpolate1;
 				u2 += uInterpolate2;
@@ -355,13 +315,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected virtual void DrawSpan(
 			int length,
-			float zStart,
-			float zAdd,
 			float uStart,
 			float uAdd,
 			float vStart,
 			float vAdd,
-			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
 			IMap image,
@@ -372,24 +329,15 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = 0; x <= length; x++)
 			{
-				var bufferZ = (UInt32)((1.0f - zStart) * (float)UInt32.MaxValue);
-				if (bufferZ > depthBuffer[offset] &&
-					zStart >= 0f &&
-					zStart < 1f
-					)
-				{
-					var intu = ((int)uStart) & (image.Width - 1);
-					var intv = ((int)vStart) & (image.Height - 1);
+				var intu = ((int)uStart) & (image.Width - 1);
+				var intv = ((int)vStart) & (image.Height - 1);
 
-					var texel = ((intv << image.WidthBitCount) + intu);
+				var texel = ((intv << image.WidthBitCount) + intu);
 
-					framebuffer[offset] = texels[texel];
-					depthBuffer[offset] = bufferZ;
-					nodeBuffer[offset] = nodeIdentifier;
-				}
+				framebuffer[offset] = texels[texel];
+				nodeBuffer[offset] = nodeIdentifier;
 
 				offset++;
-				zStart += zAdd;
 				uStart += uAdd;
 				vStart += vAdd;
 			}

@@ -4,17 +4,33 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
 			 xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
-			 xmlns:Objects="clr-namespace:Balder.Objects;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" mc:Ignorable="d"
+			 xmlns:Objects="clr-namespace:Balder.Objects;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" mc:Ignorable="d"
     >
     
     <Grid x:Name="LayoutRoot" >
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Skybox>
-				<Objects:Skybox IsEnabled="true"/>
+				<Objects:Skybox IsEnabled="true"
+								Front="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"
+								Back="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_back.JPG"
+								Top="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_top.JPG"
+								Bottom="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_bottom.JPG"
+								Left="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_left.JPG"
+								Right="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_right.JPG"
+								>
+				</Objects:Skybox>
 			</Execution:Game.Skybox>
 			
+			<Lighting:OmniLight Position="0,0,-20" Diffuse="Green"/>
+			
+			<Geometries:Box Dimension="5,5,5">
+				<Geometries:Box.Material>
+					<Materials:Material Ambient="Black" Diffuse="Green" Specular="White" Shade="Gouraud"/>
+				</Geometries:Box.Material>
+			</Geometries:Box>
+			
 			<Execution:Game.Camera>
-				<View:Camera Position="0,0,-10"/>
+				<View:Camera x:Name="Camera" Position="0,0,0" Target="0,0,-1"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
     </Grid>

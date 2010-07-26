@@ -74,6 +74,7 @@ namespace Balder.Materials
 			Id = identityManager.AllocateIdentity<Material>();
 		}
 
+
 		/// <summary>
 		/// Gets or sets the ambient <see cref="Color"/> of the material
 		/// </summary>

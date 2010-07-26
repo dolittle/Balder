@@ -19,8 +19,6 @@
 	<loadtasks assembly="${Path.NAnt}/Balder.Build.Tasks.dll" />
 
 	<target name="All">
-		
-
 		<ReadLastBuildDate/>
 		<GetCurrentDate/>
 		
@@ -30,8 +28,9 @@
 
 		<setenv name="BalderVersion" value="${Build.Version}"/>
 		
+		
 		<call target="Configure"/>
-		<call target="SilverlightPlatform"/>
+		<call target="Silverlight3"/>
 
 		<call target="CreateChangesReport"/>
 		<call target="DropToDropBox"/>
@@ -98,16 +97,12 @@
 		</MergedFileSet>
 	</target>
 
-	<target name="SilverlightPlatform">
-
-
+	<target name="Silverlight3">
 		<if test="${framework::exists('silverlight-3.0')}">
 			<property name="nant.settings.currentframework" value="silverlight-3.0"/>
 			<property name="Build.Platform" value="silverlight-3.0"/>
 			<call target="ConfigureSilverlightPlatform"/>
 			<call target="Core"/>
-			<call target="Silverlight"/>
-			<call target="SilverlightDependencyDrops"/>
 			<call target="Test"/>
 		</if>
 
@@ -116,11 +111,35 @@
 		</if>
 	</target>
 
+	<target name="Silverlight4">
+		<if test="${framework::exists('silverlight-4.0')}">
+			<property name="nant.settings.currentframework" value="silverlight-4.0"/>
+			<property name="Build.Platform" value="silverlight-4.0"/>
+			<call target="ConfigureSilverlightPlatform"/>
+			<call target="Core"/>
+			<call target="Test"/>
+		</if>
 
-	<target name="Compile">
-		
+		<if test="${not(framework::exists('silverlight-4.0'))}">
+			<echo message="Silverlight v4.0 is not available. Skipping platform."/>
+		</if>
 	</target>
-	
+
+
+	<target name="WindowsPhone7">
+		<if test="${framework::exists('silverlight-4.0')}">
+			<property name="nant.settings.currentframework" value="silverlight-4.0"/>
+			<property name="Build.Platform" value="silverlight-4.0"/>
+			<call target="ConfigureSilverlightPlatform"/>
+			<call target="Core"/>
+			<call target="Test"/>
+		</if>
+
+		<if test="${not(framework::exists('silverlight-4.0'))}">
+			<echo message="Silverlight v4.0 is not available. Skipping platform."/>
+		</if>
+	</target>
+
 
 	<target name="Core" depends="Configure">
 		<mkdir dir="${Current.Path.Drop}"/>
@@ -193,7 +212,6 @@
 		</csc>
 
 		<loadtasks assembly="${Path.Typemock}/TypeMock.NAntBuild.dll" />
-
 		
 		<typemockstart/>
 
@@ -216,45 +234,7 @@
 		<typemockstop/>
 	</target>
 
-	<target name="Silverlight" depends="Core">
-		<mkdir dir="${Current.Path.Drop}"/>
-		<!-- keyfile="${GlobalKeyFile}" -->
-		<csc
-				 noconfig="true"
-				 warnaserror="false"
-				 target="library"
-				 debug="${Build.Debug}"
-				 optimize="${Build.Optimize}"
-				 define="${Build.Defines}"
-				 output="${Current.Path.Drop}/Balder.Silverlight.dll"
-				 >
-			<sources basedir="${Path.Source}">
-				<include name="${Build.AssemblyInfo}"/>
-				<include name="Balder.Silverlight/**/*.cs"/>
-			</sources>
-			<references basedir="${Current.Path.Drop}">
-				<include name="mscorlib.dll"/>
-				<include name="System.dll"/>
-				<include name="System.Core.dll"/>
-				<include name="System.Net.dll"/>
-				<include name="System.Windows.dll"/>
-				<include name="System.Xml.dll"/>
-				<include name="${Current.Path.Components}/System.Windows.Browser.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
-				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-				<include name="Balder.dll"/>
-				<include name="Balder.SoftwareRendering.dll"/>
-			</references>
-		</csc>
-	</target>
 	
-	<target name="SilverlightDependencyDrops" depends="Silverlight">
-		<copy todir="${Current.Path.Drop}">
-			<fileset basedir="${Path.Components}\Silverlight">
-				<include name="ninject.core.dll"/>
-			</fileset>
-		</copy>
-	</target>
-
 	<target name="DropToDropBox">
 		<if test="${directory::exists(DropBoxPath)}">
 			<property name="DropBoxDrop" value="${DropBoxPath}\${Build.Version}"/>

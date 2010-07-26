@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
-using Balder;
 using Balder.Display;
 using Balder.Lighting;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
-using Balder.Rendering;
 using Balder.Rendering.Silverlight.Drawing;
-using Color = Balder.Color;
 using Matrix = Balder.Math.Matrix;
 
 namespace Balder.Rendering.Silverlight
@@ -16,10 +13,13 @@ namespace Balder.Rendering.Silverlight
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
+		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
 		private static readonly FlatTriangleAdditive FlatTriangleAdditiveRenderer = new FlatTriangleAdditive();
 		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
+		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
 		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
+		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
@@ -300,13 +300,27 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-
 		public void CalculateVertices(Viewport viewport, INode node)
 		{
-			TransformAndTranslateVertices(viewport, node);
+			CalculateVertices(viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, node.RenderingWorld);
+		}
+
+		public void CalculateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			TransformAndTranslateVertices(viewport, view, projection, world);
 		}
 
 		public void Render(Viewport viewport, INode node)
+		{
+			Render(viewport, node, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, node.RenderingWorld);
+		}
+
+		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
+		{
+			Render(viewport, node, view, projection, world, true);
+		}
+
+		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world, bool depthTest)
 		{
 			if (null == _vertices)
 			{
@@ -318,19 +332,15 @@ namespace Balder.Rendering.Silverlight
 				_hasPrepared = true;
 			}
 
-			CalculateVertices(viewport, node);
-			RenderFaces(node, viewport);
-			RenderLines(node, viewport);
+			var color = GetColorFromNode(node);
+			CalculateVertices(viewport, view, projection, world);
+			RenderFaces(node, viewport, view, world, depthTest);
+			RenderLines(viewport, color);
 
 			if (viewport.DebugInfo.ShowVertices)
 			{
 				RenderVertices(node, viewport);
 			}
-		}
-
-		public void Render(Matrix world, Matrix view, Matrix projection)
-		{
-			
 		}
 
 
@@ -355,12 +365,8 @@ namespace Balder.Rendering.Silverlight
 			vertex.DepthBufferAdjustedZ = z;
 		}
 
-		private void TransformAndTranslateVertices(Viewport viewport, INode node)
+		private void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			var view = viewport.View.ViewMatrix;
-			var projection = viewport.View.ProjectionMatrix;
-			var world = node.RenderingWorld;
-
 			var localView = (world * view);
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
@@ -375,7 +381,7 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private Color CalculateColorForVertex(RenderVertex vertex, Material material, Viewport viewport, INode node, int smoothingGroup)
+		private Color CalculateColorForVertex(RenderVertex vertex, Material material, Viewport viewport, int smoothingGroup)
 		{
 			Color lightColor;
 			if( null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
@@ -396,21 +402,20 @@ namespace Balder.Rendering.Silverlight
 				lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, vertex.TransformedNormal);
 			}
 
-
-			return lightColor; // vertex.Color.Additive(lightColor);
+			return lightColor;
 		}
 
 
-		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, INode node)
+		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
 			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
 			{
 				var vertexA = _vertices[face.A];
 				var vertexB = _vertices[face.B];
 				var vertexC = _vertices[face.C];
-				face.CalculatedColorA = CalculateColorForVertex(vertexA, face.Material, viewport, node, face.SmoothingGroup);
-				face.CalculatedColorB = CalculateColorForVertex(vertexB, face.Material, viewport, node, face.SmoothingGroup);
-				face.CalculatedColorC = CalculateColorForVertex(vertexC, face.Material, viewport, node, face.SmoothingGroup);
+				face.CalculatedColorA = CalculateColorForVertex(vertexA, face.Material, viewport, face.SmoothingGroup);
+				face.CalculatedColorB = CalculateColorForVertex(vertexB, face.Material, viewport, face.SmoothingGroup);
+				face.CalculatedColorC = CalculateColorForVertex(vertexC, face.Material, viewport, face.SmoothingGroup);
 			}
 		}
 
@@ -440,16 +445,18 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private void RenderFaces(INode node, Viewport viewport)
+		private void RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
 		{
 			if (null == _faces)
 			{
 				return;
 			}
 
+			/*
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
 			var world = node.RenderingWorld;
+			*/
 
 			var matrix = world * view;
 
@@ -479,72 +486,86 @@ namespace Balder.Rendering.Silverlight
 				}
 
 				face.TransformNormal(matrix);
-				CalculateVertexColorsForFace(face, viewport, node);
-				if (null != face.Material)
-				{
-					switch (face.Material.Shade)
-					{
-						case MaterialShade.None:
-							{
-								face.Color = face.Material.Diffuse;
 
-								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
+				Material material = face.Material;
+				if( null == material )
+				{
+					material = Material.Default;
+				}
+				CalculateVertexColorsForFace(face, viewport, material);
+
+				switch (material.Shade)
+				{
+					case MaterialShade.None:
+						{
+							face.Color = material.Diffuse;
+
+							if (null != material.DiffuseMap || null != material.ReflectionMap)
+							{
+								if (depthTest)
 								{
 									TextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-								}
-								else
+								} else
 								{
-									FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+									TextureTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
 								}
 							}
-							break;
-
-						case MaterialShade.Flat:
+							else
 							{
-								face.Transform(matrix);
-								face.Color = _lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal);
-								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
-								{
-									FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-								}
-								else
-								{
-									FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-								}
+								FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
 							}
-							break;
+						}
+						break;
 
-						case MaterialShade.Gouraud:
+					case MaterialShade.Flat:
+						{
+							face.Transform(matrix);
+							face.Color = _lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal);
+							if (null != material.DiffuseMap || null != material.ReflectionMap)
 							{
-								face.CalculatedColorA = face.CalculatedColorA;
-								face.CalculatedColorB = face.CalculatedColorB;
-								face.CalculatedColorC = face.CalculatedColorC;
-
-								if (null != face.Material.DiffuseMap || null != face.Material.ReflectionMap)
-								{
-									GouraudTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-								}
-								else
-								{
-									GouraudTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
-								}
-
+								FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
 							}
-							break;
-					}
-				}
-				else
-				{
-					var color = GetColorFromNode(node);
-					face.CalculatedColorA = face.CalculatedColorA.Additive(color);
-					face.CalculatedColorB = face.CalculatedColorB.Additive(color);
-					face.CalculatedColorC = face.CalculatedColorC.Additive(color);
-					GouraudTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+							else
+							{
+								if( depthTest )
+								{
+									FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);	
+								} else
+								{
+									FlatTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
+								}
+							}
+						}
+						break;
+
+					case MaterialShade.Gouraud:
+						{
+							face.CalculatedColorA = face.CalculatedColorA;
+							face.CalculatedColorB = face.CalculatedColorB;
+							face.CalculatedColorC = face.CalculatedColorC;
+
+							if (null != material.DiffuseMap || null != material.ReflectionMap)
+							{
+								GouraudTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+							}
+							else
+							{
+								if( depthTest )
+								{
+									GouraudTriangleRenderer.Draw(face, _vertices, nodeIdentifier);	 
+								} else
+								{
+									GouraudTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
+								}
+							}
+
+						}
+						break;
 				}
 			}
 		}
 
-		private void RenderLines(INode node, Viewport viewport)
+		private void RenderLines(Viewport viewport, Color color)
 		{
 			if (null == _lines)
 			{
@@ -570,7 +591,7 @@ namespace Balder.Rendering.Silverlight
 								(int)ystart,
 								(int)xend,
 								(int)yend,
-								GetColorFromNode(node));
+								color);
 			}
 		}
 	}

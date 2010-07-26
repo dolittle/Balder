@@ -18,9 +18,13 @@
 //
 
 #endregion
-
-using System.Windows;
 using Balder.Execution;
+using Balder.Materials;
+#if(SILVERLIGHT)
+using System.ComponentModel;
+using System.Windows;
+using Balder.Silverlight.TypeConverters;
+#endif
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
 #endif
@@ -53,6 +57,36 @@ namespace Balder.Objects
 			get { return IsEnabledProperty.GetValue(this); }
 			set { IsEnabledProperty.SetValue(this, value); }
 		}
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Front { get; set; }
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Back { get; set; }
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Top { get; set; }
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Bottom { get; set; }
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Left { get; set; }
+
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap Right { get; set; }
 
 
 		public ISkyboxContext SkyboxContext { get; private set; }

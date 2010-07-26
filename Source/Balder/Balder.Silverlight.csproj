@@ -155,6 +155,9 @@
     <Compile Include="Objects\Skybox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\SkyboxContext.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />

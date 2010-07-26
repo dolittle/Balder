@@ -18,10 +18,12 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using Balder.Display;
+using Balder.Execution;
 using Balder.Lighting;
+using Balder.Materials;
 using Balder.Math;
 using Balder.Objects;
 using Balder.Objects.Geometries;
@@ -30,6 +32,14 @@ namespace Balder.Rendering.Silverlight
 {
 	public class SkyboxContext : ISkyboxContext
 	{
+		private Material _front;
+		private Material _back;
+		private Material _top;
+		private Material _bottom;
+		private Material _left;
+		private Material _right;
+
+
 		public class SkyboxNode : INode
 		{
 			public SkyboxNode()
@@ -49,22 +59,31 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-		private const float XSize = 1;
-		private const float YSize = 1;
-		private const float ZSize = 1;
+		private const float XSize = 0.5F;
+		private const float YSize = 0.5F;
+		private const float ZSize = 0.5F;
 
 
 
 		private GeometryDetailLevel _skyboxGeometry;
 		private SkyboxNode _node;
 
-		public SkyboxContext(ILightCalculator lightCalculator, IMetaDataPixelBuffer metaDataPixelBuffer)
+		public SkyboxContext(ILightCalculator lightCalculator, 
+								IMetaDataPixelBuffer metaDataPixelBuffer,
+							IIdentityManager identityManager)
 		{
+			_front = new Material(identityManager);
+			_back = new Material(identityManager);
+			_top = new Material(identityManager);
+			_bottom = new Material(identityManager);
+			_left = new Material(identityManager);
+			_right = new Material(identityManager);
 			_skyboxGeometry = new GeometryDetailLevel(lightCalculator, metaDataPixelBuffer);
 			PrepareVertices();
 			PrepareFaces();
 
 			_node = new SkyboxNode();
+
 		}
 
 		private void PrepareVertices()
@@ -83,19 +102,51 @@ namespace Balder.Rendering.Silverlight
 
 		private void PrepareFaces()
 		{
-			_skyboxGeometry.AllocateFaces(2);
+			_skyboxGeometry.AllocateTextureCoordinates(4);
+			_skyboxGeometry.SetTextureCoordinate(0, new TextureCoordinate(0, 0));
+			_skyboxGeometry.SetTextureCoordinate(1, new TextureCoordinate(0.99f, 0));
+			_skyboxGeometry.SetTextureCoordinate(2, new TextureCoordinate(0, 0.99f));
+			_skyboxGeometry.SetTextureCoordinate(3, new TextureCoordinate(0.99f, 0.99f));
 
-			_skyboxGeometry.SetFace(0, new Face(2, 1, 0));
-			_skyboxGeometry.SetFace(1, new Face(1, 2, 3));
-		}
 
-		public void Render(Viewport viewport)
-		{
-			_node.Scene = viewport.Scene;
-			var viewMatrix = viewport.View.ViewMatrix;
-			_skyboxGeometry.Render(viewport, _node);
+			_skyboxGeometry.AllocateFaces(12);
 
 			
+			_skyboxGeometry.SetFace(0, new Face(2, 1, 0) { DiffuseA = 2, DiffuseB = 1, DiffuseC = 0, Material = _front });
+			_skyboxGeometry.SetFace(1, new Face(1, 2, 3) { DiffuseA = 1, DiffuseB = 2, DiffuseC = 3, Material = _front });
+
+			_skyboxGeometry.SetFace(2, new Face(4, 5, 6) { DiffuseA = 1, DiffuseB = 0, DiffuseC = 3, Material = _back });
+			_skyboxGeometry.SetFace(3, new Face(7, 6, 5) { DiffuseA = 2, DiffuseB = 3, DiffuseC = 0, Material = _back });
+
+			_skyboxGeometry.SetFace(4, new Face(6, 0, 4) { DiffuseA = 2, DiffuseB = 1, DiffuseC = 0, Material = _left });
+			_skyboxGeometry.SetFace(5, new Face(0, 6, 2) { DiffuseA = 1, DiffuseB = 2, DiffuseC = 3, Material = _left });
+
+			_skyboxGeometry.SetFace(6, new Face(3, 5, 1) { DiffuseA = 2, DiffuseB = 1, DiffuseC = 0, Material = _right });
+			_skyboxGeometry.SetFace(7, new Face(5, 3, 7) { DiffuseA = 1, DiffuseB = 2, DiffuseC = 3, Material = _right });
+
+			_skyboxGeometry.SetFace(8, new Face(0, 5, 4) { DiffuseA = 2, DiffuseB = 1, DiffuseC = 0, Material = _top });
+			_skyboxGeometry.SetFace(9, new Face(5, 0, 1) { DiffuseA = 1, DiffuseB = 2, DiffuseC = 3, Material = _top });
+
+			_skyboxGeometry.SetFace(10, new Face(6, 3, 2) { DiffuseA = 2, DiffuseB = 1, DiffuseC = 0, Material = _bottom });
+			_skyboxGeometry.SetFace(11, new Face(3, 6, 7) { DiffuseA = 1, DiffuseB = 2, DiffuseC = 3, Material = _bottom });
+			
+		}
+
+		public void Render(Viewport viewport, Skybox skybox)
+		{
+			_front.DiffuseMap = skybox.Front;
+			_back.DiffuseMap = skybox.Back;
+			_top.DiffuseMap = skybox.Top;
+			_bottom.DiffuseMap = skybox.Bottom;
+			_left.DiffuseMap = skybox.Left;
+			_right.DiffuseMap = skybox.Right;
+
+			_node.Scene = viewport.Scene;
+			
+			var viewMatrix = viewport.View.ViewMatrix.Clone();
+			viewMatrix.SetTranslation(0,0,1);
+			_skyboxGeometry.Render(viewport, _node, viewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity, false);
 		}
 	}
 }
+#endif
