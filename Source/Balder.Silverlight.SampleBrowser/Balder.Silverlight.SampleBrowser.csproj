@@ -417,6 +417,11 @@
     <Compile Include="Samples\View\Skybox\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\View\Skybox\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="ViewModels.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -769,6 +774,10 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Samples\View\Skybox\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Features\Resources\Images\code.png" />
@@ -842,6 +851,9 @@
     <Resource Include="Assets\Skybox\skybox_left.JPG" />
     <Resource Include="Assets\Skybox\skybox_right.JPG" />
     <Resource Include="Assets\Skybox\skybox_top.JPG" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Samples\View\Skybox\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
