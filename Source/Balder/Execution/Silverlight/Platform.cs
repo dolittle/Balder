@@ -48,13 +48,18 @@ namespace Balder.Execution.Silverlight
 
 		private void InitializeObjects()
 		{
+#if(WINDOWS_PHONE)
             if( IsInDesignMode )
+#endif
             {
                 DisplayDevice = new DisplayDevice(this);    
-            } else
+            } 
+#if(WINDOWS_PHONE)
+			else
             {
                 DisplayDevice = new Balder.Display.WP7.DisplayDevice();
             }
+#endif
 			
 			MouseDevice = new MouseDevice();
 		}
