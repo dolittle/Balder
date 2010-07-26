@@ -41,6 +41,8 @@ namespace Balder.IntegrationTests.Silverlight.Stubs
 		public Type SpriteContextType { get; private set; }
 		public Type ImageContextType { get; private set; }
 		public Type ShapeContextType { get; private set; }
+		public Type MaterialCalculatorType { get; private set; }
+		public Type SkyboxContextType { get; private set; }
 		public PlatformState CurrentState { get; private set; }
 		public void RegisterAssetLoaders(IAssetLoaderService assetLoaderService)
 		{
