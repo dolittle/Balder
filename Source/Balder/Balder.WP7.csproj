@@ -247,6 +247,8 @@
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
+    <Compile Include="Objects\Skybox.cs" />
     <Compile Include="PixelFormat.cs" />
     <Compile Include="RenderableNode.cs" />
     <Compile Include="Rendering\ICanBeVisible.cs" />
@@ -272,10 +274,13 @@
     <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleAdditive.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\Point.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\Triangle.cs" />
     <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
     <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
@@ -287,6 +292,7 @@
     <Compile Include="Rendering\Silverlight\RenderVertex.cs" />
     <Compile Include="Rendering\Silverlight\ShapeContext.cs" />
     <Compile Include="Rendering\Silverlight\Shapes.cs" />
+    <Compile Include="Rendering\Silverlight\SkyboxContext.cs" />
     <Compile Include="Rendering\Silverlight\SmoothingGroupVertex.cs" />
     <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
@@ -295,6 +301,7 @@
     <Compile Include="Rendering\Xna\ImageContext.cs" />
     <Compile Include="Rendering\Xna\RenderVertex.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
+    <Compile Include="Rendering\Xna\SkyboxContext.cs" />
     <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Silverlight\Helpers\DependencyProperty.cs" />
