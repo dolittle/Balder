@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,13 +15,23 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
+#if(XNA)
+using System;
 
-namespace Balder.Rendering
+namespace Balder.Rendering.Xna
 {
-	public class RenderMessage
-	{
-        public readonly static RenderMessage    Default = new RenderMessage();
-	}
+    public class ShapeContext : IShapeContext
+    {
+        public void DrawLine(int xstart, int ystart, int xend, int yend, Color color)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void DrawLine(int xstart, int ystart, float zstart, int xend, int yend, float zend, Color color)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
+#endif

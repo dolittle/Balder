@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,13 +15,21 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
+#if(XNA)
+using System;
+using Balder.Display;
+using Balder.Math;
+using Balder.Objects.Flat;
 
-namespace Balder.Rendering
+namespace Balder.Rendering.Xna
 {
-	public class RenderMessage
-	{
-        public readonly static RenderMessage    Default = new RenderMessage();
-	}
+    public class SpriteContext : ISpriteContext
+    {
+        public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
+#endif

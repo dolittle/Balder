@@ -5,9 +5,22 @@
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:Core="clr-namespace:Balder;assembly=Balder">
+    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
 
     <Grid x:Name="LayoutRoot">
+        <!--
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard RepeatBehavior="Forever">
+                        <Animation:StoryboardExtensions.CoordinateAnimation>
+                            <Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="CubeContainer" TargetProperty="(Node.Rotation)"/>
+                        </Animation:StoryboardExtensions.CoordinateAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>-->
+
         <Grid.Resources>
             <!-- The recorder that records all moves -->
             <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
@@ -18,7 +31,7 @@
 
             <!-- Set the camera a bit to the left and above and away from the box -->
             <Execution:Game.Camera>
-                <View:Camera Position="-50,25,-100"/>
+                <View:Camera Position="-50,25,-50"/>
             </Execution:Game.Camera>
 
             <!-- Add a all-direct, emitting light, in front of the cube -->

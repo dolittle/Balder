@@ -24,7 +24,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>WP7Bin\Debug</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;DEFAULT_CONSTRUCTOR</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT;WINDOWS_PHONE;DEFAULT_CONSTRUCTOR;XNA</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -41,6 +41,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework" />
+    <Reference Include="Microsoft.Xna.Framework.Game" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics" />
     <Reference Include="mscorlib" />
     <Reference Include="Ninject, Version=0.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL" />
     <Reference Include="System.Windows" />
@@ -51,9 +54,11 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Display\Xna\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
@@ -100,6 +105,8 @@
     <Compile Include="Display\Silverlight\DisplayDevice.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
     <Compile Include="Display\Viewport.cs" />
+    <Compile Include="Display\WP7\Display.cs" />
+    <Compile Include="Display\WP7\DisplayDevice.cs" />
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
@@ -255,6 +262,7 @@
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Rendering\RuntimeContext.cs" />
@@ -282,6 +290,12 @@
     <Compile Include="Rendering\Silverlight\SmoothingGroupVertex.cs" />
     <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Rendering\Xna\GeometryContext.cs" />
+    <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\RenderVertex.cs" />
+    <Compile Include="Rendering\Xna\ShapeContext.cs" />
+    <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Silverlight\Helpers\DependencyProperty.cs" />
     <Compile Include="Silverlight\Helpers\DependencyPropertyHelper.cs" />

@@ -293,6 +293,15 @@ namespace Balder
 			return newColor;
 		}
 #endif
+
+#if(XNA)
+        public static implicit operator Microsoft.Xna.Framework.Color(Color color)
+        {
+            var newColor = new Microsoft.Xna.Framework.Color(color.Blue, color.Green, color.Red, color.Alpha);
+            return newColor;
+        }
+#endif
+
 		#endregion
 
 	}

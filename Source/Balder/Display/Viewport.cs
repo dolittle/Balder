@@ -259,6 +259,8 @@ namespace Balder.Display
 			{
 				DebugRenderer.Instance.RenderRay(_mousePickRay.Position,_mousePickRay.Direction,this);
 			}
+
+            Messenger.DefaultContext.Send(RenderDoneMessage.Default);
 		}
 
 		private void Prepare(PrepareMessage prepareMessage)

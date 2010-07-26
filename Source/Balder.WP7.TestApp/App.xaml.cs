@@ -13,7 +13,7 @@ using System.Windows.Shapes;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 
-namespace Balder.WP7.SampleBrowser
+namespace Balder.WP7.TestApp
 {
     public partial class App : Application
     {
@@ -25,6 +25,7 @@ namespace Balder.WP7.SampleBrowser
         {
             Balder.Display.WP7.Display.Initialize();
         }
+
 
         // Constructor
         public App()

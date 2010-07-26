@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,13 +15,22 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
-
-namespace Balder.Rendering
+#if(WINDOWS_PHONE)
+namespace Balder.Display.WP7
 {
-	public class RenderMessage
-	{
-        public readonly static RenderMessage    Default = new RenderMessage();
-	}
+    public class DisplayDevice : IDisplayDevice
+    {
+        public IDisplay CreateDisplay()
+        {
+            var display = new Display();
+            return display;
+        }
+
+        public void RemoveDisplay(IDisplay display)
+        {
+            
+        }
+    }
 }
+#endif

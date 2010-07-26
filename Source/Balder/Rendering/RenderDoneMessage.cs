@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
@@ -21,8 +21,9 @@
 
 namespace Balder.Rendering
 {
-	public class RenderMessage
-	{
-        public readonly static RenderMessage    Default = new RenderMessage();
-	}
+    public class RenderDoneMessage
+    {
+        public readonly static RenderDoneMessage Default = new RenderDoneMessage();
+
+    }
 }
