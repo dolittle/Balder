@@ -31,6 +31,7 @@
 		
 		<call target="Configure"/>
 		<call target="Silverlight3"/>
+		<call target="Silverlight4"/>
 
 		<call target="CreateChangesReport"/>
 		<call target="DropToDropBox"/>
@@ -63,21 +64,25 @@
 	</target>
 
 	<target name="ConfigureSilverlightPlatform">
-		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,SILVERLIGHT_30,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,${SilverlightVersionPreprocessor},NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS,DEFAULT_CONSTRUCTOR"/>
 		<property name="Current.Platform" value="Silverlight"/>
-		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight"/>
+		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight${SilverlightVersion}"/>
 		<property name="Current.Path.Components" value="${Path.Components}/Silverlight"/>
 		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
-		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\3"/>
+		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\${SilverlightVersion}"/>
 		<assemblyfileset id="Current.SystemAssemblies">
-			<include name="${SilverlightFrameworkPath}/System.dll"/>
-			<include name="${SilverlightFrameworkPath}/System.Core.dll"/>
-			<include name="${SilverlightFrameworkPath}/System.Windows.dll"/>
-			<include name="${SilverlightFrameworkPath}/System.Windows.Browser.dll"/>
-			<include name="${SilverlightFrameworkPath}/System.Xml.dll"/>
+			<include name="mscorlib.dll"/>
+			<include name="System.dll"/>
+			<include name="System.Core.dll"/>
+			<include name="System.Net.dll"/>
+			<include name="System.Windows.dll"/>
+			<include name="System.Xml.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Xml.Linq.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.ThirdPartyAssemblies">
+			<include name="${Current.Path.Components}/ninject.dll"/>
 		</assemblyfileset>
 		<assemblyfileset id="Current.TestAssemblies">
-			
 			<include name="${Current.Path.Components}/nunit.framework.dll"/>
 			<include name="${Current.Path.Components}/nunit.silverlight.dll"/>
 			<include name="${Path.Components}/TypeMock/TypeMock.dll"/>
@@ -93,11 +98,14 @@
 		<MergedFileSet id="Current.TestRunnerAssemblies">
 			<fileset refid="Current.SystemAssemblies"/>
 			<fileset refid="Current.TestAssemblies"/>
-			<include name="${Current.Path.Components}/Framework/3/agcore.dll"/>
+			<include name="${SilverlightFrameworkPath}/agcore.dll"/>
 		</MergedFileSet>
 	</target>
 
 	<target name="Silverlight3">
+		<property name="SilverlightVersion" value="3"/>
+		<property name="SilverlightVersionPreprocessor" value="SILVERLIGHT_30"/>
+		
 		<if test="${framework::exists('silverlight-3.0')}">
 			<property name="nant.settings.currentframework" value="silverlight-3.0"/>
 			<property name="Build.Platform" value="silverlight-3.0"/>
@@ -112,6 +120,9 @@
 	</target>
 
 	<target name="Silverlight4">
+		<property name="SilverlightVersion" value="4"/>
+		<property name="SilverlightVersionPreprocessor" value="SILVERLIGHT_40"/>
+		
 		<if test="${framework::exists('silverlight-4.0')}">
 			<property name="nant.settings.currentframework" value="silverlight-4.0"/>
 			<property name="Build.Platform" value="silverlight-4.0"/>
@@ -144,7 +155,12 @@
 	<target name="Core" depends="Configure">
 		<mkdir dir="${Current.Path.Drop}"/>
 
-		<!-- keyfile="${GlobalKeyFile}" -->
+		<MergedFileSet id="ReferencedAssemblies">
+			<fileset refid="Current.SystemAssemblies"/>
+			<fileset refid="Current.ThirdPartyAssemblies"/>
+		</MergedFileSet>
+
+			<!-- keyfile="${GlobalKeyFile}" -->
 		<csc
 				 noconfig="true"
 				 warnaserror="false"
@@ -153,23 +169,13 @@
 				 optimize="${Build.Optimize}"
 				 define="${Build.Defines}"
 				 output="${Current.Path.Drop}/Balder.dll"
-				 
 				 >
 			<!--doc="${Current.Path.Drop}/Balder.xml"-->
 			<sources basedir="${Path.Source}">
 				<include name="${Build.AssemblyInfo}"/>
 				<include name="Balder/**/*.cs"/>
 			</sources>
-			<references>
-				<include name="mscorlib.dll"/>
-				<include name="System.dll"/>
-				<include name="System.Core.dll"/>
-				<include name="System.Net.dll"/>
-				<include name="System.Windows.dll"/>
-				<include name="System.Xml.dll"/>
-				<include name="${Current.Path.Components}/System.Xml.Linq.dll" if="${Build.Platform == 'silverlight-3.0'}"/>
-				<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-			</references>
+			<references refid="ReferencedAssemblies"/>
 		</csc>
 	</target>
 
