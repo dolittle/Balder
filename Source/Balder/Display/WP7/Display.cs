@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-
+#if(WINDOWS_PHONE)
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -147,3 +147,4 @@ namespace Balder.Display.WP7
         }
     }
 }
+#endif
