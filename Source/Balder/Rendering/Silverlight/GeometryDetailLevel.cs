@@ -539,7 +539,7 @@ namespace Balder.Rendering.Silverlight
 					case MaterialShade.Flat:
 						{
 							face.Transform(matrix);
-							face.Color = _lightCalculator.Calculate(viewport, null, face.TransformedPosition, face.TransformedNormal);
+							face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
 							if (null != material.DiffuseMap || null != material.ReflectionMap)
 							{
 								FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);

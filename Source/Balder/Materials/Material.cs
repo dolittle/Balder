@@ -46,7 +46,7 @@ namespace Balder.Materials
 		static Material()
 		{
 			Default = Runtime.Instance.ContentManager.Creator.CreateMaterial();
-			Default.Ambient = Colors.Black;
+			Default.Ambient = Colors.Blue;
 			Default.Diffuse = Colors.Blue;
 			Default.Specular = Colors.White;
 			Default.Shade = MaterialShade.Gouraud;
@@ -55,7 +55,7 @@ namespace Balder.Materials
 		public static Material FromColor(Color color)
 		{
 			var material = Runtime.Instance.ContentManager.Creator.CreateMaterial();
-			material.Ambient = Colors.Black;
+			material.Ambient = color;
 			material.Diffuse = color;
 			material.Specular = Colors.White;
 			material.Shade = MaterialShade.Gouraud;

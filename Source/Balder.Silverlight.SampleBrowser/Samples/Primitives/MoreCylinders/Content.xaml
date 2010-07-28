@@ -25,7 +25,7 @@
 				<View:Camera Position="0,20,-100"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Ambient="Gray" Diffuse="Gray" Specular="White" Position="0,30,0"/>
+			<Lighting:OmniLight Diffuse="Gray" Position="0,130,0"/>
 
 
 			<Geometries:Geometry x:Name="Container">

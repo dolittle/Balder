@@ -25,9 +25,9 @@
 				<View:Camera Position="100,50,-100" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
+			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
-            <Geometries:Box x:Name="Box" Dimension="20,20,20"/>
+            <Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red"/>
 		</Execution:Game>
 	</Grid>
 </UserControl>
