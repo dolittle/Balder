@@ -8,8 +8,8 @@
     <ProjectGuid>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Balder.Core</RootNamespace>
-    <AssemblyName>Balder.Core</AssemblyName>
+    <RootNamespace>Balder</RootNamespace>
+    <AssemblyName>Balder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
@@ -22,9 +22,11 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>bin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DESKTOP</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -64,11 +66,10 @@
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Assets\IAssetLoaderService.cs" />
     <Compile Include="Assets\IAssetPart.cs" />
+    <Compile Include="Cluts.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Collections\NodeCollection.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ColorAsFloats.cs" />
-    <Compile Include="ColorOperations.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="ColorSpace.cs" />
     <Compile Include="ColorSpaces.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Execution\BubbledEvent.cs" />
     <Compile Include="Execution\BubbledEventArgs.cs" />
     <Compile Include="Execution\ConstructorArgument.cs" />
+    <Compile Include="Execution\Desktop\Platform.cs" />
     <Compile Include="Execution\DisplayActivationContext.cs" />
     <Compile Include="Execution\Game.cs" />
     <Compile Include="Execution\IActor.cs" />
@@ -133,7 +135,6 @@
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="HierarchicalNode.cs" />
-    <Compile Include="IColor.cs" />
     <Compile Include="Imaging\IImageContext.cs" />
     <Compile Include="Imaging\Image.cs" />
     <Compile Include="Imaging\ImageFormat.cs" />
@@ -159,6 +160,9 @@
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Lighting\OmniLight.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
+    <Compile Include="Materials\ImageMap.cs" />
+    <Compile Include="Materials\IMap.cs" />
+    <Compile Include="Materials\IMaterialCalculator.cs" />
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
     <Compile Include="Math\BoundingBox.cs" />
@@ -201,6 +205,8 @@
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
+    <Compile Include="Objects\Skybox.cs" />
     <Compile Include="PixelFormat.cs" />
     <Compile Include="RenderableNode.cs" />
     <Compile Include="Rendering\ICanBeVisible.cs" />
@@ -216,6 +222,7 @@
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Rendering\RuntimeContext.cs" />

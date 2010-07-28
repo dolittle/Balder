@@ -1,0 +1,75 @@
+<?xml version="1.0"?>
+<project>
+	<target name="ConfigureSilverlightPlatform">
+		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,${SilverlightVersionPreprocessor},NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS,DEFAULT_CONSTRUCTOR"/>
+		<property name="Current.Platform" value="Silverlight${SilverlightVersion}"/>
+		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight${SilverlightVersion}"/>
+		<property name="Current.Path.Components" value="${Path.Components}/Silverlight"/>
+		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
+		<property name="SilverlightFrameworkPath" value="${Current.Path.Components}\Framework\${SilverlightVersion}"/>
+		<assemblyfileset id="Current.SystemAssemblies">
+			<include name="mscorlib.dll"/>
+			<include name="System.dll"/>
+			<include name="System.Core.dll"/>
+			<include name="System.Net.dll"/>
+			<include name="System.Windows.dll"/>
+			<include name="System.Xml.dll"/>
+			<include name="${SilverlightFrameworkPath}/System.Xml.Linq.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.ThirdPartyAssemblies">
+			<include name="${Current.Path.Components}/ninject.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.TestAssemblies">
+			<include name="${Current.Path.Components}/nunit.framework.dll"/>
+			<include name="${Current.Path.Components}/nunit.silverlight.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.ArrangeActAssert.dll"/>
+			<include name="${Path.Components}/TypeMock/TypeMock.Isolator.VisualBasic.dll"/>
+			<include name="${Current.Path.Components}/CThru.dll"/>
+			<include name="${Current.Path.Components}/CThru.Silverlight.dll"/>
+			<include name="${Current.Path.Components}/Castle.Core_SL.dll"/>
+			<include name="${Current.Path.Components}/Castle.DynamicProxy_SL.dll"/>
+			<include name="${Current.Path.Components}/FlawlessCode.MissingTypes.dll"/>
+			<include name="${Current.Path.Components}/moq_sl.dll"/>
+		</assemblyfileset>
+		<MergedFileSet id="Current.TestRunnerAssemblies">
+			<fileset refid="Current.SystemAssemblies"/>
+			<fileset refid="Current.TestAssemblies"/>
+			<include name="${SilverlightFrameworkPath}/agcore.dll"/>
+		</MergedFileSet>
+	</target>
+
+	<target name="Silverlight3">
+		<property name="SilverlightVersion" value="3"/>
+		<property name="SilverlightVersionPreprocessor" value="SILVERLIGHT_30"/>
+		
+		<if test="${framework::exists('silverlight-3.0')}">
+			<property name="nant.settings.currentframework" value="silverlight-3.0"/>
+			<property name="Build.Platform" value="silverlight-3.0"/>
+			<call target="ConfigureSilverlightPlatform"/>
+			<call target="Core"/>
+			<!--<call target="Test"/>-->
+		</if>
+
+		<if test="${not(framework::exists('silverlight-3.0'))}">
+			<echo message="Silverlight v3.0 is not available. Skipping platform."/>
+		</if>
+	</target>
+
+	<target name="Silverlight4">
+		<property name="SilverlightVersion" value="4"/>
+		<property name="SilverlightVersionPreprocessor" value="SILVERLIGHT_40"/>
+		
+		<if test="${framework::exists('silverlight-4.0')}">
+			<property name="nant.settings.currentframework" value="silverlight-4.0"/>
+			<property name="Build.Platform" value="silverlight-4.0"/>
+			<call target="ConfigureSilverlightPlatform"/>
+			<call target="Core"/>
+			<!--<call target="Test"/>-->
+		</if>
+
+		<if test="${not(framework::exists('silverlight-4.0'))}">
+			<echo message="Silverlight v4.0 is not available. Skipping platform."/>
+		</if>
+	</target>
+</project>

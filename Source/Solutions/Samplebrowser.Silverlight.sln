@@ -22,6 +22,9 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{2255825E-3EEA-4488-9C40-2BD62A046C4E}"
 	ProjectSection(SolutionItems) = preProject
 		..\..\Build\Balder.build = ..\..\Build\Balder.build
+		..\..\Build\Balder.Desktop.include = ..\..\Build\Balder.Desktop.include
+		..\..\Build\Balder.Silverlight.include = ..\..\Build\Balder.Silverlight.include
+		..\..\Build\Balder.WindowsPhone7.include = ..\..\Build\Balder.WindowsPhone7.include
 	EndProjectSection
 EndProject
 Global

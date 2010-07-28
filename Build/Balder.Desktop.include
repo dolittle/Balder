@@ -1,0 +1,45 @@
+<?xml version="1.0"?>
+<project>
+	<target name="ConfigureDesktop">
+		<property name="Build.Defines" value="${Global.Build.Defines},,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+		<property name="Current.Platform" value="Desktop"/>
+		<property name="Current.Path.Drop" value="${Path.Drop}/Desktop"/>
+		<property name="Current.Path.Components" value="${Path.Components}"/>
+		<property name="Current.Path.Tests" value="${Path.Tests}/Desktop"/>
+		<assemblyfileset id="Current.SystemAssemblies">
+			<include name="mscorlib.dll"/>
+			<include name="System.dll"/>
+			<include name="System.Core.dll"/>
+			<include name="System.Net.dll"/>
+			<include name="System.Windows.dll"/>
+			<include name="System.Xml.dll"/>
+			<include name="System.Xml.Linq.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.ThirdPartyAssemblies">
+			<include name="${Current.Path.Components}/ninject.dll"/>
+		</assemblyfileset>
+		<assemblyfileset id="Current.TestAssemblies">
+			<include name="${Current.Path.Components}/nunit.framework.dll"/>
+			<include name="${Current.Path.Components}/moq.dll"/>
+		</assemblyfileset>
+		<MergedFileSet id="Current.TestRunnerAssemblies">
+			<fileset refid="Current.SystemAssemblies"/>
+			<fileset refid="Current.TestAssemblies"/>
+		</MergedFileSet>
+	</target>
+
+	<target name="Desktop">
+		<if test="${framework::exists('net-3.5')}">
+			<property name="nant.settings.currentframework" value="net-3.5"/>
+			<property name="Build.Platform" value="net-3.5"/>
+			<call target="ConfigureDesktop"/>
+			<call target="Core"/>
+			<!--<call target="Test"/>-->
+		</if>
+
+		<if test="${not(framework::exists('net-3.5'))}">
+			<echo message=".net 3.5 is not available. Skipping platform."/>
+		</if>
+	</target>
+
+</project>

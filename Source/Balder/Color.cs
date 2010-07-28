@@ -22,14 +22,15 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
-using Balder.Math;
 using Balder.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
 #if(!IOS)
+using System.Runtime.InteropServices;
 using SysColor = System.Drawing.Color;
 #endif
 #endif
+using Balder.Math;
 
 namespace Balder
 {

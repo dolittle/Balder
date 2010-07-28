@@ -52,10 +52,9 @@ namespace Balder.Materials
 			Default.Shade = MaterialShade.Gouraud;
 		}
 
-#if(DEFAULT_CONSTRUCTOR)
-		public static Material	FromColor(Color color)
+		public static Material FromColor(Color color)
 		{
-			var material = new Material();
+			var material = Runtime.Instance.ContentManager.Creator.CreateMaterial();
 			material.Ambient = Colors.Black;
 			material.Diffuse = color;
 			material.Specular = Colors.White;
@@ -63,7 +62,7 @@ namespace Balder.Materials
 			return material;
 		}
 
-
+#if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>

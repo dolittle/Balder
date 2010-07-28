@@ -64,8 +64,6 @@
       <DependentUpon>AseFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
-    <Compile Include="ColorAsFloatsTests.cs" />
-    <Compile Include="ColorOperationsTests.cs" />
     <Compile Include="ColorTests.cs" />
     <Compile Include="Content\ContentCacheTests.cs" />
     <Compile Include="Content\ContentCreatorTests.cs" />
@@ -105,13 +103,13 @@
     <Compile Include="Utils\EnumHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Balder.Core\Balder.Core.Desktop.csproj">
-      <Project>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</Project>
-      <Name>Balder.Core.Desktop</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Balder.Testing\Balder.Testing.Desktop.csproj">
       <Project>{59861862-8084-41F2-A7FB-54440E1FE8B2}</Project>
       <Name>Balder.Testing.Desktop</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Balder\Balder.Desktop.csproj">
+      <Project>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</Project>
+      <Name>Balder.Desktop</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

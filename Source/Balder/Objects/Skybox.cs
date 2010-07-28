@@ -34,7 +34,7 @@ namespace Balder.Objects
 #if(SILVERLIGHT)
 	public class Skybox : FrameworkElement
 #else
-	public class SkyBox
+	public class Skybox
 #endif
 	{
 

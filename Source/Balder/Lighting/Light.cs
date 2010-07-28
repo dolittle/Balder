@@ -19,7 +19,6 @@
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Materials;
 using Balder.Silverlight.TypeConverters;
 #endif
 
@@ -29,7 +28,7 @@ using Ninject;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
-
+using Balder.Materials;
 
 namespace Balder.Lighting
 {

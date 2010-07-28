@@ -26,6 +26,9 @@ using Balder.Display;
 #if(SILVERLIGHT)
 using Balder.Execution.Silverlight;
 #endif
+#if(DESKTOP)
+using Balder.Execution.Desktop;
+#endif
 using Ninject;
 
 namespace Balder.Execution
