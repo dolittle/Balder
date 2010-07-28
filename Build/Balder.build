@@ -28,10 +28,12 @@
 
 		<setenv name="BalderVersion" value="${Build.Version}"/>
 		
-		
 		<call target="Configure"/>
 		<call target="Silverlight3"/>
+		
 		<call target="Silverlight4"/>
+
+		<call target="Drop"/>
 
 		<call target="CreateChangesReport"/>
 		<call target="DropToDropBox"/>
@@ -65,7 +67,7 @@
 
 	<target name="ConfigureSilverlightPlatform">
 		<property name="Build.Defines" value="${Global.Build.Defines},SILVERLIGHT,${SilverlightVersionPreprocessor},NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS,DEFAULT_CONSTRUCTOR"/>
-		<property name="Current.Platform" value="Silverlight"/>
+		<property name="Current.Platform" value="Silverlight${SilverlightVersion}"/>
 		<property name="Current.Path.Drop" value="${Path.Drop}/Silverlight${SilverlightVersion}"/>
 		<property name="Current.Path.Components" value="${Path.Components}/Silverlight"/>
 		<property name="Current.Path.Tests" value="${Path.Tests}/Silverlight"/>
@@ -177,7 +179,23 @@
 			</sources>
 			<references refid="ReferencedAssemblies"/>
 		</csc>
+		<copy todir="${Current.Path.Drop}" flatten="true">
+			<fileset refid="Current.ThirdPartyAssemblies"/>
+		</copy>
+
+		
 	</target>
+
+	<target name="Drop">
+
+
+		<copy todir="${Path.Drop}" flatten="true">
+			<fileset basedir="${Path.Root}">
+				<include name="license.txt"/>
+				<include name="WhatsNew.txt"/>
+			</fileset>
+		</copy>
+ 	</target>
 
 	<target name="CoreTests">
 		<call target="ConfigureDebug"/>
@@ -269,16 +287,13 @@
 
 			<mkdir dir="${DropBoxDrop}" unless="${directory::exists(DropBoxDrop)}"/>
 			
-			<zip zipfile="${DropBoxDrop}\Balder_${Current.Platform}.zip">
-				<fileset basedir="${Current.Path.Drop}">
+			<zip zipfile="${DropBoxDrop}\${Current.Platform}\Balder_${Build.Version}.zip">
+				<fileset basedir="${Path.Drop}">
 					<include name="**\*"/>
 				</fileset>
 			</zip>
 
 			<property name="ChangeLogFile" value="${Path.Drop}\changelog.xml"/>
-
-			<echo>ChangeLogFile : ${ChangeLogFile}</echo>
-			<echo>Exists : ${file::exists('${ChangeLogFile}')}</echo>
 			
 			<copy todir="${DropBoxDrop}" if="${file::exists('${ChangeLogFile}')}">
 				<fileset>
@@ -289,7 +304,7 @@
 	</target>
 
 	<target name="CreateChangesReport">
-		<property name="ChangesFile" value="${Current.Path.Drop}\changes.txt"/>
+		<property name="ChangesFile" value="${Path.Drop}\changes.txt"/>
 		<delete file="${ChangesFile}"/>
 		
 		<exec program="hg.exe" output="${ChangesFile}"
