@@ -60,10 +60,14 @@ namespace Balder
 			get { return ColorProp.GetValue(this); }
 			set
 			{
+				value = Colors.Red;
 				ColorProp.SetValue(this, value);
 				SetColorForChildren();
+				OnColorChanged();
 			}
 		}
+
+		protected virtual void OnColorChanged() {}
 
 		protected void SetColorForChildren()
 		{

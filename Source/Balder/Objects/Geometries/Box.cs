@@ -201,6 +201,9 @@ namespace Balder.Objects.Geometries
 				{
 					face.Material = material;
 				}
+			} else
+			{
+				face.Material = Material;
 			}
 			face.SmoothingGroup = smoothingGroup;
 

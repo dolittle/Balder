@@ -133,6 +133,18 @@ namespace Balder.Objects.Geometries
 		}
 
 
+		protected override void OnColorChanged()
+		{
+			if( null == Material )
+			{
+				Material = Material.FromColor(Color);
+			} else
+			{
+				Material.Diffuse = Color;
+			}
+			base.OnColorChanged();
+		}
+
 		public static readonly Property<Geometry, Material> MaterialProperty = Property<Geometry, Material>.Register(g => g.Material);
 		public Material Material
 		{

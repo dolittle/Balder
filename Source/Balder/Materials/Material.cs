@@ -49,9 +49,21 @@ namespace Balder.Materials
 			Default.Ambient = Colors.Black;
 			Default.Diffuse = Colors.Blue;
 			Default.Specular = Colors.White;
+			Default.Shade = MaterialShade.Gouraud;
 		}
 
 #if(DEFAULT_CONSTRUCTOR)
+		public static Material	FromColor(Color color)
+		{
+			var material = new Material();
+			material.Ambient = Colors.Black;
+			material.Diffuse = color;
+			material.Specular = Colors.White;
+			material.Shade = MaterialShade.Gouraud;
+			return material;
+		}
+
+
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>
