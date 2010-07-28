@@ -36,7 +36,7 @@
 		<call target="Drop"/>
 
 		<call target="CreateChangesReport"/>
-		<call target="DropToDropBox"/>
+		<!--<call target="DropToDropBox"/>-->
 		
 		<IncreaseVersion/>
 		<WriteCurrentBuildDate/>
