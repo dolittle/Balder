@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using System;
 using System.Threading;
 using System.Windows.Media;
@@ -96,3 +97,4 @@ namespace Balder.Rendering.Silverlight
 		}
 	}
 }
+#endif

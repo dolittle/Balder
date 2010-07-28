@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System.Collections.Generic;
 using Balder.Math;
 using Balder.Objects.Geometries;
@@ -93,3 +93,4 @@ namespace Balder.Rendering.Silverlight
 		public float V;
 	}
 }
+#endif

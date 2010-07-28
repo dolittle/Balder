@@ -16,6 +16,8 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using Balder.Debug;
 using Balder.Display;
 using Balder.Math;
@@ -25,15 +27,18 @@ using Balder.View;
 
 #if(SILVERLIGHT)
 using System.Windows;
-using Ninject;
+using Balder.Input.Silverlight;
+#endif
 
+#if(DEFAULT_CONSTRUCTOR)
+using Ninject;
 #endif
 
 namespace Balder.Execution
 {
 	public delegate void GameEventHandler(Game game);
 
-	public partial class Game : Actor
+	public class Game : Actor
 	{
 		public IRuntimeContext RuntimeContext { get; private set; }
 
@@ -42,6 +47,12 @@ namespace Balder.Execution
 		public event GameEventHandler LoadContent = (s) => { };
 
 #if(SILVERLIGHT)
+		private IDisplay _display;
+		private bool _loaded = false;
+		private NodeMouseEventHelper _nodeMouseEventHelper;
+#endif
+
+#if(DEFAULT_CONSTRUCTOR)
 		public Game()
 			: this(
 				Runtime.Instance.Kernel.Get<IRuntimeContext>(),
@@ -69,8 +80,72 @@ namespace Balder.Execution
 			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().RemoveListener(this, UpdateAction);
 		}
 
-		partial void Constructed();
+		private void Constructed()
+		{
+#if(SILVERLIGHT)
+			Loaded += GameLoaded;
+#endif
+		}
 
+#if(SILVERLIGHT)
+		public void Unload()
+		{
+			Runtime.Instance.UnregisterGame(this);
+			_nodeMouseEventHelper.Dispose();
+		}
+
+		private void GameLoaded(object sender, RoutedEventArgs e)
+		{
+			if( _loaded )
+			{
+				return;
+			}
+			_loaded = true;
+			Validate();
+			RegisterGame();
+			AddNodesToScene();
+			InitializeViewport();
+			
+			_nodeMouseEventHelper = new NodeMouseEventHelper(this, Viewport);
+		}
+
+		private void InitializeViewport()
+		{
+			Viewport.Width = (int)Width;
+			Viewport.Height = (int)Height;
+			// Todo: This should be injected - need to figure out how to do this properly!
+			Viewport.Display = Display;
+		}
+
+		private void RegisterGame()
+		{
+			_display = Runtime.Instance.Platform.DisplayDevice.CreateDisplay();
+			_display.Initialize((int)Width, (int)Height);
+			Runtime.Instance.RegisterGame(_display, this);
+			_display.InitializeContainer(this);
+		}
+
+		private void Validate()
+		{
+			if (0 == Width || Width.Equals(double.NaN) ||
+				0 == Height || Height.Equals(double.NaN))
+			{
+				throw new ArgumentException("You need to specify Width and Height");
+			}
+		}
+
+		private void AddNodesToScene()
+		{
+			foreach (var element in Children)
+			{
+				if (element is INode)
+				{
+					Scene.AddNode(element as INode);
+				}
+			}
+		}
+
+#endif
 		public static readonly Property<Game, Camera> CameraProp = Property<Game, Camera>.Register(g => g.Camera);
 		public Camera Camera
 		{

@@ -16,8 +16,8 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using System;
-using Balder;
 using Balder.Exceptions;
 using Balder.Extensions;
 using Balder.Imaging;
@@ -71,3 +71,4 @@ namespace Balder.Rendering.Silverlight
 		public ImageFormat[] SupportedImageFormats { get { return ImageFormats; } }
 	}
 }
+#endif

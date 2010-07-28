@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using System;
 using System.Reflection;
 #if(!WINDOWS_PHONE)
@@ -173,3 +174,4 @@ namespace Balder.Silverlight.Helpers
 		}
 	}
 }
+#endif

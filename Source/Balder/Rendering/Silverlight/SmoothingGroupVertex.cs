@@ -18,8 +18,7 @@
 //
 
 #endregion
-
-using Balder;
+#if(SILVERLIGHT)
 using Balder.Math;
 
 namespace Balder.Rendering.Silverlight
@@ -39,3 +38,4 @@ namespace Balder.Rendering.Silverlight
 		public bool IsColorCalculated { get; set; }
 	}
 }
+#endif

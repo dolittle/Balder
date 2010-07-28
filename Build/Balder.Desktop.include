@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
 	<target name="ConfigureDesktop">
-		<property name="Build.Defines" value="${Global.Build.Defines},,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
+		<property name="Build.Defines" value="${Global.Build.Defines},DESKTOP,NO_ASSEMBLY_SCANNING,NO_WEB,NO_PARTIAL_TRUST,NO_EXCEPTION_SERIALIZATION,NO_DEBUG_SYMBOLS"/>
 		<property name="Current.Platform" value="Desktop"/>
 		<property name="Current.Path.Drop" value="${Path.Drop}/Desktop"/>
 		<property name="Current.Path.Components" value="${Path.Components}"/>
@@ -10,10 +10,12 @@
 			<include name="mscorlib.dll"/>
 			<include name="System.dll"/>
 			<include name="System.Core.dll"/>
+			<include name="System.Drawing.dll"/>
 			<include name="System.Net.dll"/>
 			<include name="System.Windows.dll"/>
 			<include name="System.Xml.dll"/>
 			<include name="System.Xml.Linq.dll"/>
+			<include name="System.Runtime.Serialization.dll"/>
 		</assemblyfileset>
 		<assemblyfileset id="Current.ThirdPartyAssemblies">
 			<include name="${Current.Path.Components}/ninject.dll"/>

@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using System.ComponentModel;
 using System.Globalization;
@@ -64,3 +64,4 @@ namespace Balder.Silverlight.TypeConverters
 		
 	}
 }
+#endif

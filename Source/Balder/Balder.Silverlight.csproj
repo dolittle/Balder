@@ -197,7 +197,6 @@
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
     <Compile Include="Execution\ActorState.cs" />
-    <Compile Include="Execution\Game.Silverlight.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
@@ -240,9 +239,6 @@
     <Compile Include="Math\Coordinate.cs" />
     <Compile Include="Math\PlaneIntersectionType.cs" />
     <Compile Include="Math\Ray.cs" />
-    <Compile Include="Node.Silverlight.cs">
-      <DependentUpon>Node.cs</DependentUpon>
-    </Compile>
     <Compile Include="NodeCloneInfo.cs" />
     <Compile Include="NodeCloner.cs" />
     <Compile Include="Objects\Flat\ISpriteContext.cs" />

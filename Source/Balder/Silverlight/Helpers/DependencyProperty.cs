@@ -16,6 +16,7 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
 using System;
 using System.Linq.Expressions;
 using System.Windows;
@@ -76,3 +77,4 @@ namespace Balder.Silverlight.Helpers
 		}
 	}
 }
+#endif

@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 using System.Globalization;
 using System.Windows.Data;
@@ -41,3 +41,4 @@ namespace Balder.Silverlight.ValueConverters
 		}
 	}
 }
+#endif

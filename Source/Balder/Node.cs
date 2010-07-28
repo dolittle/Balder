@@ -28,14 +28,49 @@ using Ninject;
 #endif
 using Matrix = Balder.Math.Matrix;
 
+#if(SILVERLIGHT)
+using System.Windows.Controls;
+using MouseButtonEventHandler = Balder.Input.MouseButtonEventHandler;
+using MouseEventHandler = Balder.Input.MouseEventHandler;
+using System.Windows;
+using System.Windows.Input;
+using Balder.Silverlight.Helpers;
+using Balder.Silverlight.TypeConverters;
+#endif
+
 namespace Balder
 {
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-	public abstract partial class Node : INode, ICanBeCloned, ICanPrepare, IHaveIdentity
+#if(SILVERLIGHT)
+	public abstract class Node : ItemsControl,
+#else
+	public abstract partial class Node :
+#endif
+		INode, ICanBeCloned, ICanPrepare, IHaveIdentity
+
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
+
+#if(SILVERLIGHT)
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseMoveEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseMove);
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseEnterEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseEnter);
+		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseLeaveEvent =
+			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseLeave);
+		internal static new readonly BubbledEvent<Node, MouseButtonEventHandler> MouseLeftButtonDownEvent =
+			BubbledEvent<Node, MouseButtonEventHandler>.Register(n => n.MouseLeftButtonDown);
+		internal static new readonly BubbledEvent<Node, MouseButtonEventHandler> MouseLeftButtonUpEvent =
+			BubbledEvent<Node, MouseButtonEventHandler>.Register(n => n.MouseLeftButtonUp);
+
+		public new event MouseEventHandler MouseMove;
+		public new event MouseEventHandler MouseEnter;
+		public new event MouseEventHandler MouseLeave;
+		public new event MouseButtonEventHandler MouseLeftButtonDown;
+		public new event MouseButtonEventHandler MouseLeftButtonUp;
+#endif
 
 		public static readonly BubbledEvent<Node, BubbledEventHandler> PreparedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.Prepared);
@@ -80,7 +115,108 @@ namespace Balder
 			Construct();
 		}
 
-		partial void Construct();
+		private void Construct()
+		{
+#if(SILVERLIGHT)
+			Loaded += NodeLoaded;
+			Width = 0;
+			Height = 0;
+			MouseLeftButtonUp += (s, e) => OnCommand();
+#endif
+		}
+
+#if(SILVERLIGHT)
+		private void NodeLoaded(object sender, RoutedEventArgs e)
+		{
+			OnInitialize();
+
+
+		}
+
+
+		public static readonly Property<Node, ICommand> CommandProperty =
+			Property<Node, ICommand>.Register(o => o.Command);
+		public ICommand Command
+		{
+			get { return CommandProperty.GetValue(this); }
+			set { CommandProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Node, object> CommandParameterProperty =
+			Property<Node, object>.Register(o => o.CommandParameter);
+		public object CommandParameter
+		{
+			get { return CommandParameterProperty.GetValue(this); }
+			set { CommandParameterProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Node, ToolTip> ToolTipProperty =
+			Property<Node, ToolTip>.Register(o => o.ToolTip);
+
+		/// <summary>
+		/// Tooltip to use on node
+		/// </summary>
+		/// <remarks>
+		/// The property has a TypeConverter which enables one to enter
+		/// anything in the Xaml and it will be converted to a ToolTip
+		/// object.
+		/// </remarks>
+		[TypeConverter(typeof(ToolTipTypeConverter))]
+		public ToolTip ToolTip
+		{
+			get { return ToolTipProperty.GetValue(this); }
+			set
+			{
+				ToolTipProperty.SetValue(this, value);
+				NodeTooltipHelper.Register(this);
+			}
+		}
+
+		public static readonly Property<Node, int> ToolTipStartDelayProperty =
+			Property<Node, int>.Register(o => o.ToolTipStartDelay, 400);
+
+		/// <summary>
+		/// Gets or sets the delay when a node has the mouse over till the tooltip shows up 
+		/// in milliseconds.
+		/// </summary>
+		/// <remarks>
+		/// Default value is 400. Almost half a second.
+		/// </remarks>
+		public int ToolTipStartDelay
+		{
+			get { return ToolTipStartDelayProperty.GetValue(this); }
+			set { ToolTipStartDelayProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<Node, int> ToolTipShowPeriodProperty =
+			Property<Node, int>.Register(o => o.ToolTipShowPeriod, 5000);
+
+		/// <summary>
+		/// Gets or sets the period a tooltip should be visible while mouse is hovering over,
+		/// in milliseconds
+		/// </summary>
+		/// <remarks>
+		/// Default value is 5000 - 5 seconds.
+		/// </remarks>
+		public int ToolTipShowPeriod
+		{
+			get { return ToolTipShowPeriodProperty.GetValue(this); }
+			set { ToolTipShowPeriodProperty.SetValue(this, value); }
+		}
+
+
+		protected void OnCommand()
+		{
+			if (null != Command)
+			{
+				if (Command.CanExecute(CommandParameter))
+				{
+					Command.Execute(CommandParameter);
+				}
+			}
+		}
+
+#endif
 
 		private void InvalidateWorld()
 		{

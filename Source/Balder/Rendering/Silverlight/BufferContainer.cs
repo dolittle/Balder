@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-
+#if(SILVERLIGHT)
 using System;
 
 namespace Balder.Rendering.Silverlight
@@ -37,3 +37,4 @@ namespace Balder.Rendering.Silverlight
 		public static int AlphaPosition { get; set; }
 	}
 }
+#endif
