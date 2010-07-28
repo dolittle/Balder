@@ -111,7 +111,7 @@
 			<property name="Build.Platform" value="silverlight-3.0"/>
 			<call target="ConfigureSilverlightPlatform"/>
 			<call target="Core"/>
-			<call target="Test"/>
+			<!--<call target="Test"/>-->
 		</if>
 
 		<if test="${not(framework::exists('silverlight-3.0'))}">
@@ -128,7 +128,7 @@
 			<property name="Build.Platform" value="silverlight-4.0"/>
 			<call target="ConfigureSilverlightPlatform"/>
 			<call target="Core"/>
-			<call target="Test"/>
+			<!--<call target="Test"/>-->
 		</if>
 
 		<if test="${not(framework::exists('silverlight-4.0'))}">
@@ -179,20 +179,42 @@
 		</csc>
 	</target>
 
-	<target name="CompileCoreTests">
+	<target name="CoreTests">
 		<call target="ConfigureDebug"/>
 		<mkdir dir="${Current.Path.Tests}"/>
 
-		<fileset id="ProjectAssemblies">
-			<include name="${Current.Path.Components}/Ninject.Core.dll"/>
-			<include name="${Current.Path.Drop}/Balder.dll"/>
-		</fileset>
-		
-		<MergedFileSet id="Assemblies">
+		<MergedFileSet id="AssembliesForTestProjects">
 			<fileset refid="Current.SystemAssemblies"/>
 			<fileset refid="Current.TestAssemblies"/>
+		</MergedFileSet>
+
+		<csc
+				 noconfig="true"
+				 warnaserror="false"
+				 target="library"
+				 debug="${Build.Debug}"
+				 optimize="${Build.Optimize}"
+				 define="${Build.Defines}"
+				 output="${Current.Path.Tests}/Balder.Testing.dll"
+				 >
+			<sources basedir="${Path.Source}/Balder.Testing">
+				<include name="${Build.AssemblyInfo}"/>
+				<include name="**/*.cs"/>
+			</sources>
+			<references refid="AssembliesForTestProjects"/>
+		</csc>
+
+		<fileset id="ProjectAssemblies">
+			<include name="${Current.Path.Components}/Ninject.dll"/>
+			<include name="${Current.Path.Drop}/Balder.dll"/>
+			<include name="${Current.Path.Tests}/Balder.Testing.dll"/>
+		</fileset>
+
+		<MergedFileSet id="Assemblies">
+			<fileset refid="AssembliesForTestProjects"/>
 			<fileset refid="ProjectAssemblies"/>
 		</MergedFileSet>
+		
 
 
 		<property name="nant.settings.currentframework" value="net-3.5"/>
@@ -276,6 +298,6 @@
 	</target>
 	
 	<target name="Test">
-		<!--<call target="CompileCoreTests"/>-->
+		<call target="CoreTests"/>
 	</target>
 </project>
