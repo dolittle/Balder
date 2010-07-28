@@ -104,6 +104,7 @@ namespace Balder.Objects.Geometries
 			get { return true; }
 		}
 
+		
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			if (null != Material && !_materialSet)
@@ -120,6 +121,7 @@ namespace Balder.Objects.Geometries
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
+		/*
 		protected override void OnColorChanged()
 		{
 			if (null == Material)
@@ -131,7 +133,7 @@ namespace Balder.Objects.Geometries
 				Material.Diffuse = Color;
 			}
 			base.OnColorChanged();
-		}
+		}*/
 
 
 		public Property<Mesh, Material> MaterialProperty = Property<Mesh, Material>.Register(g => g.Material);

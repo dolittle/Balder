@@ -191,6 +191,8 @@ namespace Balder.Assets.AssetLoaders
 					{
 						var materialIndex = Convert.ToInt32(scopeParameter);
 						var material = contentManager.Creator.CreateMaterial();
+						material.Shade = MaterialShade.Gouraud;
+						material.Specular = Colors.White;
 						globals.Materials[materialIndex] = material;
 						return material;
 					}
