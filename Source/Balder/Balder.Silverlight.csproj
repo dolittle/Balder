@@ -255,7 +255,6 @@
     <Compile Include="Imaging\ImageHelper.cs" />
     <Compile Include="Imaging\ImagePalette.cs" />
     <Compile Include="Objects\Geometries\Line.cs" />
-    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
     <Compile Include="Objects\Geometries\Heightmap.cs" />
     <Compile Include="Objects\Geometries\HeightmapEventArgs.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />

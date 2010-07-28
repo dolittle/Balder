@@ -60,25 +60,12 @@ namespace Balder
 			get { return ColorProp.GetValue(this); }
 			set
 			{
-				value = Colors.Red;
 				ColorProp.SetValue(this, value);
-				SetColorForChildren();
 				OnColorChanged();
 			}
 		}
 
 		protected virtual void OnColorChanged() {}
-
-		protected void SetColorForChildren()
-		{
-			foreach (var node in Children)
-			{
-				if (node is RenderableNode)
-				{
-					((RenderableNode)node).Color = Color;
-				}
-			}
-		}
 
 		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible, true);
 		public bool IsVisible

@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Balder.Assets;
@@ -29,12 +30,12 @@ using Ninject;
 
 namespace Balder.Objects.Geometries
 {
-	public partial class Mesh : RenderableNode, IAsset, ICanHandleCloning
+	public class Mesh : RenderableNode, IAsset, ICanHandleCloning
 	{
 		private readonly IContentManager _contentManager;
 		private bool _materialSet = false;
 
-#if(SILVERLIGHT)
+#if(DEFAULT_CONSTRUCTOR)
 		public Mesh()
 			: this(
 				Runtime.Instance.Kernel.Get<IContentManager>(),
@@ -43,6 +44,26 @@ namespace Balder.Objects.Geometries
 
 		}
 #endif
+
+#if(SILVERLIGHT)
+		public static Property<Mesh, Uri> AssetNameProperty =
+			Property<Mesh, Uri>.Register(o => o.AssetName);
+		public Uri AssetName
+		{
+			get { return AssetNameProperty.GetValue(this); }
+			set { AssetNameProperty.SetValue(this, value); }
+		}
+
+		public override void Prepare(Viewport viewport)
+		{
+			if (null != AssetName && !IsClone)
+			{
+				_contentManager.LoadInto(this, AssetName.OriginalString);
+			}
+			base.Prepare(viewport);
+		}
+#endif
+
 
 		public Mesh(IContentManager contentManager, IIdentityManager identityManager)
 			: base(identityManager)
@@ -66,8 +87,6 @@ namespace Balder.Objects.Geometries
 			            where a is INode
 			            select a as INode).ToArray();
 			Children.AddRange(nodes);
-			// Todo: This has to be done since Loading of the node is done after Xaml has been bound - but we will get color from the File loaded
-			SetColorForChildren();
 		}
 
 		public void PreClone()
@@ -96,9 +115,22 @@ namespace Balder.Objects.Geometries
 						((Geometry)child).Material = Material;
 					}
 				}
-				_materialSet = false;
+				_materialSet = true;
 			}
 			base.BeforeRendering(viewport, view, projection, world);
+		}
+
+		protected override void OnColorChanged()
+		{
+			if (null == Material)
+			{
+				Material = Material.FromColor(Color);
+			}
+			else
+			{
+				Material.Diffuse = Color;
+			}
+			base.OnColorChanged();
 		}
 
 

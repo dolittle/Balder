@@ -5,7 +5,7 @@
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
+    xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Balder="clr-namespace:Balder;assembly=Balder">
 	<Grid x:Name="LayoutRoot">
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
@@ -25,10 +25,9 @@
 				<View:Camera Position="0,20,-100"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Diffuse="Gray" Position="0,130,0"/>
+			<Lighting:OmniLight Diffuse="Gray" Position="0,130,0" Strength="0.5"/>
 
-
-			<Geometries:Geometry x:Name="Container">
+			<Balder:Container x:Name="Container">
 				<Geometries:Cylinder Segments="16" 
 								 Size="10" 
 								 TopRadius="20" 
@@ -45,7 +44,7 @@
 								 EndAngle="360"
 								 Color="Blue"
 								 />
-			</Geometries:Geometry>
+			</Balder:Container>
 		</Execution:Game>
 
 	</Grid>

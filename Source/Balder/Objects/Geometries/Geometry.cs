@@ -119,6 +119,9 @@ namespace Balder.Objects.Geometries
 			{
 				GeometryContext.SetMaterialForAllFaces(Material);
 
+				// Todo : Due to the fact that setting a color on a RenderableNode will cause the
+				// OnColorChanged() to be called and it sets the material, this will affect all children
+				// Not sure we want that behavior
 				foreach( var child in Children )
 				{
 					if( child is Geometry )
@@ -135,15 +138,17 @@ namespace Balder.Objects.Geometries
 
 		protected override void OnColorChanged()
 		{
-			if( null == Material )
+			if (null == Material)
 			{
 				Material = Material.FromColor(Color);
-			} else
+			}
+			else
 			{
 				Material.Diffuse = Color;
 			}
 			base.OnColorChanged();
 		}
+
 
 		public static readonly Property<Geometry, Material> MaterialProperty = Property<Geometry, Material>.Register(g => g.Material);
 		public Material Material
