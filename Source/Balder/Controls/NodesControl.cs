@@ -145,7 +145,6 @@ namespace Balder.Controls
 
 		private void HandleItemsSource()
 		{
-			_contentPresenters.Clear();
 			if( null != ItemsSource &&
 				ItemsSource is INotifyCollectionChanged )
 			{
