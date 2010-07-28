@@ -287,7 +287,7 @@
 
 			<mkdir dir="${DropBoxDrop}" unless="${directory::exists(DropBoxDrop)}"/>
 			
-			<zip zipfile="${DropBoxDrop}\${Current.Platform}\Balder_${Build.Version}.zip">
+			<zip zipfile="${DropBoxDrop}\${Current.Platform}\Balder.zip">
 				<fileset basedir="${Path.Drop}">
 					<include name="**\*"/>
 				</fileset>
