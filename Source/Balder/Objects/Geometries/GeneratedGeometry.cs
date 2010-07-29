@@ -19,37 +19,34 @@
 
 #endregion
 
-using System.Collections.ObjectModel;
+using Balder.Execution;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Objects.Geometries
 {
-	public class ViewModel
+	public class GeneratedGeometry : Geometry
 	{
-		public const int DepthCount = 5;
-		public const double DepthSpace = 12;
-
-		public ViewModel()
+		protected GeneratedGeometry(IGeometryContext geometryContext, IIdentityManager identityManager)
+			: base(geometryContext, identityManager)
 		{
-			Depths = new ObservableCollection<Depth>();
-
-			GenerateData();
+			
 		}
 
-		public ObservableCollection<Depth> Depths { get; private set; }
 
-		public void GenerateData()
+		public static readonly Property<GeneratedGeometry, bool> FlipNormalsProperty =
+			Property<GeneratedGeometry, bool>.Register(g => g.FlipNormals);
+		public bool FlipNormals
 		{
-			var position = -(DepthSpace * (DepthCount / 2d));
-			for (var depthIndex = 0; depthIndex < DepthCount; depthIndex++)
-			{
-				var row = new Depth(position, depthIndex);
-				Depths.Add(row);
-				position += DepthSpace;
-			}
-
+			get { return FlipNormalsProperty.GetValue(this); }
+			set { FlipNormalsProperty.SetValue(this, value); }
 		}
-			
-			
 
+
+
+		protected Face CreateFace(int a, int b, int c)
+		{
+			var flipNormals = FlipNormals;
+			var face = new Face(flipNormals ? c : a, b, flipNormals ? a : c);
+			return face;
+		}
 	}
 }

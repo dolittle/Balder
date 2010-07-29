@@ -30,5 +30,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			}
 
 		}
+
+		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		{
+			((ViewModel)DataContext).GenerateData();
+		}
 	}
 }

@@ -30,7 +30,7 @@ using Ninject;
 
 namespace Balder.Objects.Geometries
 {
-	public class Cylinder : Geometry
+	public class Cylinder : GeneratedGeometry
 	{
 		public static readonly Property<Cylinder, double> TopRadiusProp = Property<Cylinder, double>.Register(c => c.TopRadius);
 		public double TopRadius
@@ -330,7 +330,8 @@ namespace Balder.Objects.Geometries
 					var actualX = x + faceOffset;
 					var nextX = ((x + 1) % (actualSegments + additionalFaceSegments))+faceOffset;
 
-					face = new Face(vertexOffset + actualX,
+					face = 
+					face = CreateFace(vertexOffset + actualX,
 					                vertexOffset + nextX,
 					                nextSegmentVertexOffset + actualX);
 					face.DiffuseA = face.A;
@@ -339,7 +340,7 @@ namespace Balder.Objects.Geometries
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
-					face = new Face(nextSegmentVertexOffset + nextX,
+					face = CreateFace(nextSegmentVertexOffset + nextX,
 					                nextSegmentVertexOffset + actualX,
 					                vertexOffset + nextX);
 					face.DiffuseA = face.A;
@@ -361,7 +362,7 @@ namespace Balder.Objects.Geometries
 			{
 				var actualX = x + faceOffset;
 				var nextX = ((x + 1) % (actualSegments + additionalFaceSegments)) + faceOffset;
-				face = new Face(vertexOffset,
+				face = CreateFace(vertexOffset,
 				                vertexOffset + nextX,
 				                vertexOffset + actualX);
 				face.DiffuseA = face.A;
@@ -376,7 +377,7 @@ namespace Balder.Objects.Geometries
 			{
 				var actualX = x + faceOffset;
 				var nextX = ((x + 1) % (actualSegments + additionalFaceSegments)) + faceOffset;
-				face = new Face(vertexOffset + actualX,
+				face = CreateFace(vertexOffset + actualX,
 				                vertexOffset + nextX,
 				                vertexOffset);
 				face.DiffuseA = face.A;

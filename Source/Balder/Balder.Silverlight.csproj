@@ -151,6 +151,7 @@
     <Compile Include="Notification\NotifyingObjectWeaver.cs" />
     <Compile Include="Notification\ViewModelModule.cs" />
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
     <Compile Include="Objects\ISkyboxContext.cs" />
     <Compile Include="Objects\Skybox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />

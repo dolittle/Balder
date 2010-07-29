@@ -1,4 +1,7 @@
-﻿namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Cylinder
+﻿using System;
+using System.Windows;
+
+namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Cylinder
 {
 	public partial class Content
 	{
@@ -53,6 +56,7 @@
 			Cylinder.Segments = (int)SegmentsSlider.Value;
 			Cylinder.TopRadius = TopRadiusSlider.Value;
 			Cylinder.BottomRadius = BottomRadiusSlider.Value;
+			Cylinder.FlipNormals = (bool)FlipNormals.IsChecked;
 		}
 
 		private void CapEnds_Checked(object sender, System.Windows.RoutedEventArgs e)
@@ -76,6 +80,15 @@
 		}
 
 		private void Spokes_Checked(object sender, System.Windows.RoutedEventArgs e)
+		{
+			if (!_loaded)
+			{
+				return;
+			}
+			UpdateProperties();
+		}
+
+		private void FlipNormals_Checked(object sender, RoutedEventArgs e)
 		{
 			if (!_loaded)
 			{

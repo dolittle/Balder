@@ -29,7 +29,7 @@ using Ninject;
 
 namespace Balder.Objects.Geometries
 {
-	public class Ring : Geometry
+	public class Ring : GeneratedGeometry
 	{
 		public static readonly Property<Ring, double> InnerRadiusProp = Property<Ring, double>.Register(c => c.InnerRadius);
 		public double InnerRadius
@@ -412,14 +412,12 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
-		private Face CreateFace(int a, int b, int c)
+		private new Face CreateFace(int a, int b, int c)
 		{
-			var face = new Face(a,b,c)
-			           	{
-			           		DiffuseA = a,
-			           		DiffuseB = b,
-			           		DiffuseC = c
-			           	};
+			var face = base.CreateFace(a, b, c);
+			face.DiffuseA = a;
+			face.DiffuseB = b;
+			face.DiffuseC = c;
 			return face;
 		}
 	}

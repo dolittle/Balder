@@ -53,6 +53,7 @@
 				<RowDefinition Height="30"/>
 				<RowDefinition Height="30"/>
 				<RowDefinition Height="30"/>
+				<RowDefinition Height="30"/>
 			</Grid.RowDefinitions>
 
 
@@ -80,6 +81,9 @@
 
 			<CheckBox x:Name="CapEnds" Content="Cap ends" IsChecked="True" Grid.Column="0" Grid.Row="5" Grid.ColumnSpan="2" Click="CapEnds_Checked"/>
 			<CheckBox x:Name="Spokes" Content="Spokes" IsChecked="True" Grid.Column="0" Grid.Row="6" Grid.ColumnSpan="2" Click="Spokes_Checked"/>
+
+			<CheckBox x:Name="FlipNormals" Content="Flip normals" IsChecked="False" Grid.Column="0" Grid.Row="7" Grid.ColumnSpan="2" Click="FlipNormals_Checked"/>
+
 		</Grid>
 
 	</Grid>

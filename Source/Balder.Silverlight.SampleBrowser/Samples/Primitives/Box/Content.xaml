@@ -29,5 +29,12 @@
 
             <Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red"/>
 		</Execution:Game>
+
+		<CheckBox x:Name="FlipNormals" 
+				  Content="Flip normals" 
+				  IsChecked="False" 
+				  HorizontalAlignment="Left"
+				  VerticalAlignment="Top"
+				  Click="FlipNormals_Checked"/>
 	</Grid>
 </UserControl>

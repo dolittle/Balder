@@ -1,4 +1,6 @@
-﻿namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring
+﻿using System.Windows;
+
+namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring
 {
 	public partial class Content
 	{
@@ -54,6 +56,7 @@
 			Ring.Segments = (int)SegmentsSlider.Value;
 			Ring.InnerRadius = InnerRadiusSlider.Value;
 			Ring.OuterRadius = OuterRadiusSlider.Value;
+			Ring.FlipNormals = (bool)FlipNormals.IsChecked;
 		}
 
 		private void CapEnds_Checked(object sender, System.Windows.RoutedEventArgs e)
@@ -115,6 +118,16 @@
 
 			UpdateProperties();
 
+		}
+
+
+		private void FlipNormals_Checked(object sender, RoutedEventArgs e)
+		{
+			if (!_loaded)
+			{
+				return;
+			}
+			UpdateProperties();
 		}
 
 	}

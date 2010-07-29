@@ -41,7 +41,7 @@ namespace Balder.Objects.Geometries
 		Bottom
 	}
 
-	public class Box : Geometry
+	public class Box : GeneratedGeometry
 	{
 		private readonly Dictionary<BoxSide, Material> _materials;
 		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
@@ -192,7 +192,12 @@ namespace Balder.Objects.Geometries
 
 		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC, int smoothingGroup)
 		{
-			var face = new Face(a, b, c) { Normal = normal, DiffuseA = diffuseA, DiffuseB = diffuseB, DiffuseC = diffuseC };
+			var face = CreateFace(a, b, c);
+			face.Normal = normal;
+			face.DiffuseA = diffuseA;
+			face.DiffuseB = diffuseB;
+			face.DiffuseC = diffuseC;
+
 			var boxSide = GetBoxSideFromNormal(normal);
 			if (_materials.ContainsKey(boxSide))
 			{
