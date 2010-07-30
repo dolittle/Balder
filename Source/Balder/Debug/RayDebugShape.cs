@@ -32,7 +32,7 @@ namespace Balder.Debug
 		public RayDebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
 			: base(geometryContext,identityManager)
 		{
-			
+			RenderingWorld = Matrix.Identity;
 		}
 
 		protected override void Initialize()

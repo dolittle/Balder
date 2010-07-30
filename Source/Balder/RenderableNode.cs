@@ -19,6 +19,7 @@
 using Balder.Debug;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Math;
 using Balder.Rendering;
 #if(SILVERLIGHT)
 using System.ComponentModel;
@@ -44,6 +45,7 @@ namespace Balder
 		{
 			IsVisible = true;
 			InitializeColor();
+			
 		}
 
 		private void InitializeColor()

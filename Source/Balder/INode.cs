@@ -13,6 +13,8 @@ namespace Balder
 		
 		Scene Scene { get; set; }
 
+		BoundingSphere BoundingSphere { get; set; }
+
 		void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world);
 	}
 }

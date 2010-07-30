@@ -12,10 +12,14 @@
     <AssemblyName>Balder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
-    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
-    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
-    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -192,6 +196,7 @@
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Objects\Geometries\Cylinder.cs" />
     <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
     <Compile Include="Objects\Geometries\Geometry.cs" />
     <Compile Include="Objects\Geometries\GeometryHelper.cs" />
     <Compile Include="Objects\Geometries\Heightmap.cs" />
@@ -201,7 +206,6 @@
     <Compile Include="Objects\Geometries\Line.cs" />
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Objects\Geometries\Mesh.cs" />
-    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />

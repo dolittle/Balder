@@ -596,7 +596,7 @@ namespace Balder.Rendering.Silverlight
 
 				if (!IsLineInView(viewport, line))
 				{
-					continue;
+					//continue;
 				}
 
 				var a = _vertices[line.A];

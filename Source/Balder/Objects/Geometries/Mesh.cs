@@ -46,13 +46,6 @@ namespace Balder.Objects.Geometries
 #endif
 
 #if(SILVERLIGHT)
-		public static Property<Mesh, Uri> AssetNameProperty =
-			Property<Mesh, Uri>.Register(o => o.AssetName);
-		public Uri AssetName
-		{
-			get { return AssetNameProperty.GetValue(this); }
-			set { AssetNameProperty.SetValue(this, value); }
-		}
 
 		public override void Prepare(Viewport viewport)
 		{
@@ -63,6 +56,13 @@ namespace Balder.Objects.Geometries
 			base.Prepare(viewport);
 		}
 #endif
+		public static Property<Mesh, Uri> AssetNameProperty =
+			Property<Mesh, Uri>.Register(o => o.AssetName);
+		public Uri AssetName
+		{
+			get { return AssetNameProperty.GetValue(this); }
+			set { AssetNameProperty.SetValue(this, value); }
+		}
 
 
 		public Mesh(IContentManager contentManager, IIdentityManager identityManager)

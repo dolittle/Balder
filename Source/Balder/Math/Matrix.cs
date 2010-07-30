@@ -49,7 +49,7 @@ namespace Balder.Math
 			{
 				for (var j = 0; j < matrix._data.GetLength(1); j++)
 				{
-					if( _data[i,j] != matrix._data[i, j] )
+					if (_data[i, j] != matrix._data[i, j])
 					{
 						return false;
 					}
@@ -126,7 +126,7 @@ namespace Balder.Math
 			{
 				for (var j = 0; j < matrix._data.GetLength(1); j++)
 				{
-					matrix._data[i,j] = matrix1._data[i,j] + matrix2._data[i,j];
+					matrix._data[i, j] = matrix1._data[i, j] + matrix2._data[i, j];
 				}
 			}
 
@@ -375,10 +375,10 @@ namespace Balder.Math
 		public static Matrix CreateOrthographic(float width, float height, float nearPlane, float farPlane)
 		{
 			var matrix = new Matrix();
-			matrix._data[0, 0] = 2f/width;
-			matrix._data[1, 1] = 2f/height;
-			matrix._data[2, 2] = 1f/(nearPlane - farPlane);
-			matrix._data[3, 2] = nearPlane/(nearPlane - farPlane);
+			matrix._data[0, 0] = 2f / width;
+			matrix._data[1, 1] = 2f / height;
+			matrix._data[2, 2] = 1f / (nearPlane - farPlane);
+			matrix._data[3, 2] = nearPlane / (nearPlane - farPlane);
 			matrix._data[3, 3] = 1f;
 			return matrix;
 		}

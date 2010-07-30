@@ -53,6 +53,9 @@ namespace Balder.Rendering.Silverlight
 			public Matrix ActualWorld { get; private set; }
 			public Matrix RenderingWorld { get; set; }
 			public Scene Scene { get; set; }
+
+			public BoundingSphere BoundingSphere { get; set; }
+
 			public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 			{
 				

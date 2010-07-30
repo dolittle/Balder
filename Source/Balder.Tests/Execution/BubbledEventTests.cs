@@ -19,6 +19,7 @@
 
 #endregion
 
+using System;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Input;
@@ -40,6 +41,8 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public BoundingSphere BoundingSphere { get; set; }
+
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 
@@ -59,6 +62,7 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public BoundingSphere BoundingSphere { get; set; }
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 
@@ -79,6 +83,7 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public BoundingSphere BoundingSphere { get; set; }
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 

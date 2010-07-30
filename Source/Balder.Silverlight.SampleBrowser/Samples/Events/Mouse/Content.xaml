@@ -4,11 +4,15 @@
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    >
+    xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder">
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
 		
-		<Execution:Game x:Name="_game" Width="640" Height="480" PassiveRendering="True">
+		<Execution:Game x:Name="_game" Width="800" Height="480" PassiveRendering="True">
+			<Execution:Game.DebugInfo>
+				<Debug:DebugInfo ShowMouseHitDetectionRay="True"
+								 BoundingSpheres="True"
+								 />
+			</Execution:Game.DebugInfo>
 			<Geometries:Box 
 				x:Name="Box1"
 				Color="Red"
@@ -57,9 +61,9 @@
 				ToolTip="Blue"
 				/>
 
-			<Lighting:OmniLight Position="0,0,-80" Ambient="Black" Diffuse="Black" Specular="Gray"/>
+			<Lighting:OmniLight Position="0,0,-80" Diffuse="Black" Strength="0.5"/>
 			<Execution:Game.Camera>
-				<View:Camera Position="-150,20,-480"/>
+				<View:Camera Position="-150,130,-380"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
 

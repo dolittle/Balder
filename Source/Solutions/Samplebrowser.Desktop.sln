@@ -12,10 +12,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Tests.Desktop", "..\Balder.Tests\Balder.Tests.Desktop.csproj", "{DF5C98AD-64D5-42FE-986E-C076DA46CF63}"
 EndProject
 Global
-	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
-		SolutionIsControlled = True
-		SolutionBindings = <Solution Location In Database>
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -41,6 +37,10 @@ Global
 		{2E1F0FD0-72F6-4797-A809-327DB577E3E4} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
 		{DF5C98AD-64D5-42FE-986E-C076DA46CF63} = {2AC081A1-6E83-40C1-9632-127AF77F0065}
 		{59861862-8084-41F2-A7FB-54440E1FE8B2} = {E974FF26-421A-483F-AF33-A86326597A5C}
+	EndGlobalSection
+	GlobalSection(MercurialSourceControlSolutionProperties) = preSolution
+		SolutionIsControlled = True
+		SolutionBindings = <Solution Location In Database>
 	EndGlobalSection
 	GlobalSection(NDepend) = preSolution
 		Project = ""

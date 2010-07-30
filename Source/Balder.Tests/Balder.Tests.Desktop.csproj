@@ -8,14 +8,18 @@
     <ProjectGuid>{DF5C98AD-64D5-42FE-986E-C076DA46CF63}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Balder.Core.Tests</RootNamespace>
-    <AssemblyName>Balder.Core.Tests.Desktop</AssemblyName>
+    <RootNamespace>Balder.Tests</RootNamespace>
+    <AssemblyName>Balder.Tests.Desktop</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
-    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
-    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
-    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -68,6 +72,7 @@
     <Compile Include="Content\ContentCacheTests.cs" />
     <Compile Include="Content\ContentCreatorTests.cs" />
     <Compile Include="Content\ContentManagerTests.cs" />
+    <Compile Include="Display\ViewportTests.cs" />
     <Compile Include="Execution\BubbledEventTests.cs" />
     <Compile Include="Execution\IdentityManagerTests.cs" />
     <Compile Include="Execution\MessengerContextTests.cs" />
@@ -90,8 +95,10 @@
     <Compile Include="Math\BoundingSphereTests.cs" />
     <Compile Include="Math\CoordinateTests.cs" />
     <Compile Include="Math\FrustumTests.cs" />
+    <Compile Include="Math\MatrixVectorTests.cs" />
     <Compile Include="Math\PlaneTests.cs" />
     <Compile Include="Math\RayTests.cs" />
+    <Compile Include="Math\VectorTests.cs" />
     <Compile Include="NodeTests.cs" />
     <Compile Include="RuntimeTests.cs">
       <SubType>Code</SubType>

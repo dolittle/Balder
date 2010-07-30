@@ -151,6 +151,7 @@
     <Compile Include="Converters\StringToTypeConverterTests.cs" />
     <Compile Include="Display\Silverlight\DisplayTests.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
+    <Compile Include="Display\ViewportTests.cs" />
     <Compile Include="Execution\Silverlight\PlatformTests.cs" />
     <Compile Include="Fakes\FakeImageContext.cs" />
     <Compile Include="Fakes\FakeImageLoader.cs" />
@@ -177,8 +178,10 @@
     <Compile Include="Math\BoundingSphereTests.cs" />
     <Compile Include="Math\CoordinateTests.cs" />
     <Compile Include="Math\FrustumTests.cs" />
+    <Compile Include="Math\MatrixVectorTests.cs" />
     <Compile Include="Math\PlaneTests.cs" />
     <Compile Include="Math\RayTests.cs" />
+    <Compile Include="Math\VectorTests.cs" />
     <Compile Include="NodeTests.cs" />
     <Compile Include="Notification\NotifyingObjectWeaverTests.cs" />
     <Compile Include="Rendering\Silverlight\MetaDataPixelBufferTests.cs" />

@@ -21,6 +21,7 @@ using Balder.Assets;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
+using Balder.Math;
 using Balder.Rendering;
 using Ninject;
 
@@ -32,6 +33,7 @@ namespace Balder.Objects.Geometries
 		public IGeometryDetailLevel FullDetailLevel { get; set; }
 
 		private bool _materialSet = false;
+		private bool _boundingSphereGenerated = false;
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Geometry()
@@ -61,38 +63,38 @@ namespace Balder.Objects.Geometries
 		}
 
 		// TODO : Add boundingsphere automatically somewhere else..
-		/*
+		
 		public void InitializeBoundingSphere()
 		{
 			var lowestVector = Vector.Zero;
 			var highestVector = Vector.Zero;
-			var vertices = GeometryContext.GetVertices();
+			var vertices = FullDetailLevel.GetVertices();
 			for (var vertexIndex = 0; vertexIndex < vertices.Length; vertexIndex++)
 			{
-				var vector = vertices[vertexIndex].Vector;
-				if (vector.X < lowestVector.X)
+				var vertex = vertices[vertexIndex];
+				if (vertex.X < lowestVector.X)
 				{
-					lowestVector.X = vector.X;
+					lowestVector.X = vertex.X;
 				}
-				if (vector.Y < lowestVector.Y)
+				if (vertex.Y < lowestVector.Y)
 				{
-					lowestVector.Y = vector.Y;
+					lowestVector.Y = vertex.Y;
 				}
-				if (vector.Z < lowestVector.Z)
+				if (vertex.Z < lowestVector.Z)
 				{
-					lowestVector.Z = vector.Z;
+					lowestVector.Z = vertex.Z;
 				}
-				if (vector.X > highestVector.X)
+				if (vertex.X > highestVector.X)
 				{
-					highestVector.X = vector.X;
+					highestVector.X = vertex.X;
 				}
-				if (vector.Y > highestVector.Y)
+				if (vertex.Y > highestVector.Y)
 				{
-					highestVector.Y = vector.Y;
+					highestVector.Y = vertex.Y;
 				}
-				if (vector.Z > highestVector.Z)
+				if (vertex.Z > highestVector.Z)
 				{
-					highestVector.Z = vector.Z;
+					highestVector.Z = vertex.Z;
 				}
 			}
 
@@ -101,7 +103,7 @@ namespace Balder.Objects.Geometries
 
 			BoundingSphere = new BoundingSphere(center, length.Length / 2);
 		}
-		 * */
+		
 
 
 		public override void Prepare(Viewport viewport)
@@ -115,6 +117,14 @@ namespace Balder.Objects.Geometries
 
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
+			// Todo : this really doesn't work in all scenarios - generated meshes and so forth will only hit this once.
+			// Read above comment - BoundingSphere generation should be put somewhere else
+			if( !_boundingSphereGenerated )
+			{
+				InitializeBoundingSphere();
+				_boundingSphereGenerated = true;
+			}
+
 			if( null != Material && !_materialSet )
 			{
 				GeometryContext.SetMaterialForAllFaces(Material);
