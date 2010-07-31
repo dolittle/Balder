@@ -239,10 +239,20 @@ namespace Balder.Display
 			RenderableNode closestNode = null;
 			var closestDistance = float.MaxValue;
 
-			var actualPickRay = new Ray();
-
-			foreach (RenderableNode pickNode in Scene.RenderableNodes)
+			foreach ( var node in Scene.RenderableNodes)
 			{
+				GetNodeAtPosition(node, pickRay, ref closestNode, ref closestDistance);
+			}
+
+			return closestNode;
+		}
+
+		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
+		{
+			var actualPickRay = new Ray();
+			if (node is RenderableNode)
+			{
+				var pickNode = node as RenderableNode;
 				var inverseWorldMatrix = Matrix.Invert(pickNode.RenderingWorld);
 				var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
 				var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
@@ -251,26 +261,22 @@ namespace Balder.Display
 
 				var boundingSphere = pickNode.BoundingSphere;
 				var distance = actualPickRay.Intersects(boundingSphere);
-				if (null == distance)
-				{
-					continue;
-				}
-				if (distance.Value < closestDistance)
+				if (null != distance && distance.Value < closestDistance)
 				{
 					closestDistance = distance.Value;
 					closestNode = pickNode;
 				}
 			}
 
-			return closestNode;
-
-
-			var node = Display.GetNodeAtPosition(x, y);
-			if (node is RenderableNode)
+			if( node is IHaveChildren )
 			{
-				return node as RenderableNode;
+				var childrenNode = node as IHaveChildren;
+				
+				foreach( var child in childrenNode.Children )
+				{
+					GetNodeAtPosition(child, pickRay, ref closestNode, ref closestDistance);
+				}
 			}
-			return null;
 		}
 
 		public Ray GetPickRay(int x, int y)
@@ -312,25 +318,6 @@ namespace Balder.Display
 			ray.Position += (ray.Direction * View.Near);
 
 			return ray;
-
-
-			/*
-			x = 295;
-			y = 132;*/
-
-			/*Matrix.CreatePerspectiveFieldOfView(MathHelper.ToRadians(45f), 1.666663f,
-															 0.1f, 4000f);*/
-
-			var nearSource = new Vector((float)x, (float)y, 0f);
-			var farSource = new Vector((float)x, (float)y, 1f);
-
-			var nearPoint = Unproject(nearSource, projection, view, world);
-			var farPoint = Unproject(farSource, projection, view, world);
-
-			var direction = farPoint - nearPoint;
-			direction.Normalize();
-
-			return new Ray(nearPoint, direction);
 		}
 
 

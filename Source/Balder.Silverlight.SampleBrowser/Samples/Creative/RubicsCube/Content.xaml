@@ -5,7 +5,7 @@
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:RubicsCube="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder">
+    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder">
 
     <Grid x:Name="LayoutRoot">
         <!--

@@ -20,6 +20,8 @@
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Math;
+using Balder.Objects.Geometries;
 
 
 namespace Balder.Input.Silverlight
@@ -45,10 +47,94 @@ namespace Balder.Input.Silverlight
 			var deltaY = position.Y - _previousPosition.Y;
 			HandleManipulationDirection(deltaX, deltaY);
 
+			if (node is Geometry)
+			{
+				var pickRay = _viewport.GetPickRay((int)position.X, (int)position.Y);
+
+				var geometry = node as Geometry;
+				var vertices = geometry.FullDetailLevel.GetVertices();
+				var faces = geometry.FullDetailLevel.GetFaces();
+
+
+				Face closestFace = null;
+				var closestFaceIndex = -1;
+				var closestDistance = float.MaxValue;
+
+				for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
+				{
+					var face = faces[faceIndex];
+					var vertex1 = vertices[face.A].ToVector();
+					var vertex2 = vertices[face.B].ToVector();
+					var vertex3 = vertices[face.C].ToVector();
+
+					var edge1 = vertex2 - vertex1;
+					var edge2 = vertex3 - vertex1;
+
+					var directionCrossEdge2 = Vector.Cross(pickRay.Direction, edge2);
+
+					var determinant = Vector.Dot(edge1, directionCrossEdge2);
+
+					if (determinant > -float.Epsilon && determinant < float.Epsilon)
+					{
+						continue;
+					}
+
+					var inverseDeterminant = 1.0f / determinant;
+					var distanceVector = pickRay.Position - vertex1;
+
+					var triangleU = Vector.Dot(distanceVector, directionCrossEdge2);
+					triangleU *= inverseDeterminant;
+
+					if (triangleU < 0 || triangleU > 1)
+					{
+						continue;
+					}
+
+					var distanceCrossEdge1 = Vector.Cross(distanceVector, edge1);
+					var triangleV = Vector.Dot(pickRay.Direction, distanceCrossEdge1);
+					triangleV *= inverseDeterminant;
+
+					if (triangleV < 0 || triangleV > 1)
+					{
+						continue;
+					}
+
+					var rayDistance = Vector.Dot(edge2, distanceCrossEdge1);
+					rayDistance *= inverseDeterminant;
+
+					if (rayDistance < 0)
+					{
+						continue;
+					}
+
+					if( rayDistance < closestDistance )
+					{
+						closestFace = face;
+						closestFaceIndex = faceIndex;
+						closestDistance = rayDistance;
+					}
+				}
+
+				if (null != closestFace)
+				{
+					var material = closestFace.Material;
+					var faceIndex = closestFaceIndex;
+					var face = closestFace;
+					bubbledEvent.Raise(node, node,
+					                   new ManipulationDeltaEventArgs(material, face, faceIndex, (int) deltaX, (int) deltaY,
+					                                                  _manipulationDirection));
+				}
+
+			}
+
+
+
+			/*
 			var material = _viewport.Display.GetMaterialAtPosition((int)position.X, (int)position.Y);
 			var faceIndex = _viewport.Display.GetFaceIndexAtPosition((int)position.X, (int)position.Y);
-			var face = _viewport.Display.GetFaceAtPosition((int)position.X, (int)position.Y); 
+			var face = _viewport.Display.GetFaceAtPosition((int)position.X, (int)position.Y);
 			bubbledEvent.Raise(node, node, new ManipulationDeltaEventArgs(material, face, faceIndex, (int)deltaX, (int)deltaY, _manipulationDirection));
+			 * */
 		}
 
 		private void ResetManipulation()
@@ -70,7 +156,7 @@ namespace Balder.Input.Silverlight
 		{
 			if (_manipulating)
 			{
-				if( _manipulationStarted )
+				if (_manipulationStarted)
 				{
 					RaiseManipulationEvent(Node.ManipulationStartedEvent, _nodeBeingManipulated, position);
 					_manipulationStarted = false;
