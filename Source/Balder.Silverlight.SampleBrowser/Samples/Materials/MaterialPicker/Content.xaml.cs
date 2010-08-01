@@ -37,6 +37,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 
 		void Content_Loaded(object sender, System.Windows.RoutedEventArgs e)
 		{
+			
 			_reflectionMapTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg");
 			_visualStudioTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/VisualStudio.png");
 			_balderLogoTexture = LoadTexture("/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png");
@@ -46,13 +47,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 
 		private ImageMap LoadTexture(string uri)
 		{
-			// Todo: this is very hacky - refactoring of the asset system will make this not needed!
-			var assetLoaderService = Runtime.Instance.Kernel.Get<IAssetLoaderService>();
-			var loader = assetLoaderService.GetLoader<Imaging.Image>(uri);
-			var images = loader.Load(uri);
-			if( images.Length == 1 )
+			// Todo: this is very hacky - load the material using Xaml instead and switch
+			// between them in Xaml
+			var image = Runtime.Instance.ContentManager.Load<Imaging.Image>(uri);
+			if( null != image )
 			{
-				return new ImageMap(images[0] as Imaging.Image);	
+				return new ImageMap(image);
 			}
 			return null;
 		}
