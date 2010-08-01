@@ -63,12 +63,15 @@ namespace Balder.Objects.Geometries
 		}
 
 		// TODO : Add boundingsphere automatically somewhere else..
-		
 		public void InitializeBoundingSphere()
 		{
 			var lowestVector = Vector.Zero;
 			var highestVector = Vector.Zero;
 			var vertices = FullDetailLevel.GetVertices();
+			if( null == vertices )
+			{
+				return;
+			}
 			for (var vertexIndex = 0; vertexIndex < vertices.Length; vertexIndex++)
 			{
 				var vertex = vertices[vertexIndex];
