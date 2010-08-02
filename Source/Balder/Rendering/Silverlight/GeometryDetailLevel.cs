@@ -489,11 +489,8 @@ namespace Balder.Rendering.Silverlight
 				var b = _vertices[face.B];
 				var c = _vertices[face.C];
 
-				var mixedProduct = (b.TranslatedVector.X - a.TranslatedVector.X) * (c.TranslatedVector.Y - a.TranslatedVector.Y) -
-								   (c.TranslatedVector.X - a.TranslatedVector.X) * (b.TranslatedVector.Y - a.TranslatedVector.Y);
-
-
-				var visible = mixedProduct < 0 && IsFaceInView(viewport, face);
+				var determinant = Vector.MixedProduct(a.TranslatedVector, b.TranslatedVector, c.TranslatedVector);
+				var visible = determinant < 0 && IsFaceInView(viewport, face);
 				//&& viewport.View.IsInView(a.TransformedVector);
 				if (null != face.Material)
 				{

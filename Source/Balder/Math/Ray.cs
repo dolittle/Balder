@@ -26,7 +26,8 @@ namespace Balder.Math
 		public Vector Position;
 		public Vector Direction;
 
-		public Ray(Vector position, Vector direction) : this()
+		public Ray(Vector position, Vector direction)
+			: this()
 		{
 			Position = position;
 			Direction = direction;
@@ -105,6 +106,56 @@ namespace Balder.Math
 			}
 			var actual = (float)System.Math.Sqrt((double)radiusSquared - result);
 			return actual;
+		}
+
+
+		public float? IntersectsTriangle(Vector vector1, Vector vector2, Vector vector3)
+		{
+			float u, v;
+			return IntersectsTriangle(vector1, vector2, vector3, out u, out v);
+		}
+		
+
+		public float? IntersectsTriangle(Vector vector1, Vector vector2, Vector vector3, out float triangleU, out float triangleV)
+		{
+			var edge1 = vector2 - vector1;
+			var edge2 = vector3 - vector1;
+			var directionCrossEdge2 = Vector.Cross(Direction, edge2);
+			var determinant = Vector.Dot(edge1, directionCrossEdge2);
+
+			triangleU = 0;
+			triangleV = 0;
+
+			// BackFace Culling
+			if (determinant >= 0) 
+			{
+				return null;
+			}
+
+			var inverseDeterminant = 1.0f / determinant;
+			var distanceVector = Position - vector1;
+
+			triangleU = Vector.Dot(distanceVector, directionCrossEdge2);
+			triangleU *= inverseDeterminant;
+			
+
+			if (triangleU < 0 || triangleU > 1)
+			{
+				return null;
+			}
+
+			var distanceCrossEdge1 = Vector.Cross(distanceVector, edge1);
+			triangleV = Vector.Dot(Direction, distanceCrossEdge1);
+			triangleV *= inverseDeterminant;
+
+			if (triangleV < 0 || triangleV > 1)
+			{
+				return null;
+			}
+
+			var rayDistance = Vector.Dot(edge2, distanceCrossEdge1);
+			rayDistance *= inverseDeterminant;
+			return rayDistance;
 		}
 
 		public static bool operator ==(Ray a, Ray b)
