@@ -60,22 +60,19 @@ namespace Balder.Input.Silverlight
 				if (null != face)
 				{
 					var material = face.Material;
-					var faceIndex = faceIndex;
-					var face = face;
 					bubbledEvent.Raise(node, node,
-					                   new ManipulationDeltaEventArgs(material, face, faceIndex, (int) deltaX, (int) deltaY,
-					                                                  _manipulationDirection));
+					                   new ManipulationDeltaEventArgs(
+										   material, 
+										   face, 
+										   faceIndex, 
+										   faceU,
+										   faceV,
+										   distance.Value,
+										   (int) deltaX, 
+										   (int) deltaY,
+											_manipulationDirection));
 				}
 			}
-
-
-
-			/*
-			var material = _viewport.Display.GetMaterialAtPosition((int)position.X, (int)position.Y);
-			var faceIndex = _viewport.Display.GetFaceIndexAtPosition((int)position.X, (int)position.Y);
-			var face = _viewport.Display.GetFaceAtPosition((int)position.X, (int)position.Y);
-			bubbledEvent.Raise(node, node, new ManipulationDeltaEventArgs(material, face, faceIndex, (int)deltaX, (int)deltaY, _manipulationDirection));
-			 * */
 		}
 
 		private void ResetManipulation()

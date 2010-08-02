@@ -127,7 +127,7 @@ namespace Balder.Math
 			triangleV = 0;
 
 			// BackFace Culling
-			if (determinant >= 0) 
+			if (determinant >= 0) //determinant >= -float.Epsilon && determinant < float.Epsilon) 
 			{
 				return null;
 			}

@@ -219,7 +219,7 @@ namespace Balder.Objects.Geometries
 			float faceU;
 			float faceV;
 
-			var distance = pickRay.Intersects(BoundingSphere, out face, out faceIndex, out faceU, out faceV);
+			var distance = Intersects(pickRay, out face, out faceIndex, out faceU, out faceV);
 			return distance;
 		}
 
@@ -243,12 +243,12 @@ namespace Balder.Objects.Geometries
 				var closestFaceV = 0f;
 
 
-				for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
+				for (var i = 0; i< faces.Length; i++)
 				{
-					var face = faces[faceIndex];
-					var vertex1 = vertices[face.A].ToVector();
-					var vertex2 = vertices[face.B].ToVector();
-					var vertex3 = vertices[face.C].ToVector();
+					var currentFace = faces[i];
+					var vertex1 = vertices[currentFace.A].ToVector();
+					var vertex2 = vertices[currentFace.B].ToVector();
+					var vertex3 = vertices[currentFace.C].ToVector();
 
 					var rayDistance = pickRay.IntersectsTriangle(vertex1, vertex2, vertex3, out faceU, out faceV);
 					if (null == rayDistance || rayDistance < 0)
@@ -258,8 +258,8 @@ namespace Balder.Objects.Geometries
 
 					if (rayDistance < closestDistance)
 					{
-						closestFace = face;
-						closestFaceIndex = faceIndex;
+						closestFace = currentFace;
+						closestFaceIndex = i;
 						closestDistance = rayDistance.Value;
 						closestFaceU = faceU;
 						closestFaceV = faceV;
@@ -273,6 +273,7 @@ namespace Balder.Objects.Geometries
 					faceIndex = closestFaceIndex;
 					faceU = closestFaceU;
 					faceV = closestFaceV;
+					return closestDistance;
 				}
 			}
 			return null;

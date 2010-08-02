@@ -31,6 +31,9 @@ namespace Balder.Input
 			Material material,
 			Face face,
 			int faceIndex,
+			float faceU,
+			float faceV,
+			float distance,
 			int deltaX,
 			int deltaY,
 			ManipulationDirection direction)
@@ -40,6 +43,9 @@ namespace Balder.Input
 			FaceIndex = faceIndex;
 			DeltaX = deltaX;
 			DeltaY = deltaY;
+			FaceU = faceU;
+			FaceV = faceV;
+			Distance = distance;
 			Direction = direction;
 		}
 
@@ -49,6 +55,11 @@ namespace Balder.Input
 
 		public Face Face { get; private set; }
 		public int FaceIndex { get; private set; }
+
+		public float FaceU { get; private set; }
+		public float FaceV { get; private set; }
+
+		public float Distance { get; private set; }
 
 		public ManipulationDirection Direction { get; private set; }
 	}
