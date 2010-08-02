@@ -227,6 +227,11 @@ namespace Balder.Objects.Geometries
 
 		public float? Intersects(Ray pickRay, out Face face, out int faceIndex, out float faceU, out float faceV)
 		{
+			var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
+			var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
+			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
+			pickRay = new Ray(transformedPosition, transformedDirection);
+
 			face = null;
 			faceIndex = -1;
 			faceU = 0f;
@@ -248,8 +253,6 @@ namespace Balder.Objects.Geometries
 				var closestFaceU = 0f;
 				var closestFaceV = 0f;
 
-				var intersectedFaces = new List<Face>();
-
 				for (var i = 0; i< faces.Length; i++)
 				{
 					var currentFace = faces[i];
@@ -270,17 +273,8 @@ namespace Balder.Objects.Geometries
 						closestDistance = rayDistance.Value;
 						closestFaceU = faceU;
 						closestFaceV = faceV;
-
-						intersectedFaces.Add(currentFace);
 					}
 				}
-
-				if( intersectedFaces.Count > 1 )
-				{
-					int i = 0;
-					i++;
-				}
-				
 
 				if( null != closestFace )
 				{

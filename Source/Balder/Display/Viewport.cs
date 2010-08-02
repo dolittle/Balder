@@ -249,17 +249,12 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
-			var actualPickRay = new Ray();
+			
 			if (node is RenderableNode)
 			{
 				var pickNode = node as RenderableNode;
-				var inverseWorldMatrix = Matrix.Invert(pickNode.RenderingWorld);
-				var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
-				var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
-				actualPickRay.Position = transformedPosition;
-				actualPickRay.Direction = transformedDirection;
 
-				var distance = pickNode.Intersects(actualPickRay);
+				var distance = pickNode.Intersects(pickRay);
 				if (null != distance && distance.Value < closestDistance)
 				{
 					closestDistance = distance.Value;

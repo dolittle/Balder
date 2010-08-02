@@ -11,19 +11,19 @@
 
 	<Grid x:Name="LayoutRoot">
 		
-		<!--
+		
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Box" TargetProperty="(Node.Rotation)"/>
+							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:10" TargetName="Box" TargetProperty="(Node.Rotation)"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 					</Storyboard>
 
 				</BeginStoryboard>
 			</EventTrigger>
-		</Grid.Triggers>-->
+		</Grid.Triggers>
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 
 			<Execution:Game.Camera>
