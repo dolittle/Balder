@@ -259,8 +259,7 @@ namespace Balder.Display
 				actualPickRay.Position = transformedPosition;
 				actualPickRay.Direction = transformedDirection;
 
-				var boundingSphere = pickNode.BoundingSphere;
-				var distance = actualPickRay.Intersects(boundingSphere);
+				var distance = pickNode.Intersects(actualPickRay);
 				if (null != distance && distance.Value < closestDistance)
 				{
 					closestDistance = distance.Value;

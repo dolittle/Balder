@@ -29,11 +29,26 @@ namespace Balder.Objects.Geometries
 {
 	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
 	{
+		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseMoveEvent =
+			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseMove);
+
+		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseEnterEvent =
+			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseEnter);
+
+		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseLeaveEvent =
+			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseLeave);
+
+
 		public IGeometryContext GeometryContext { get; set; }
 		public IGeometryDetailLevel FullDetailLevel { get; set; }
 
 		private bool _materialSet = false;
 		private bool _boundingSphereGenerated = false;
+
+		public event FaceInputHandler FaceMouseMove = (a) => { };
+		public event FaceInputHandler FaceMouseEnter = (a) => { };
+		public event FaceInputHandler FaceMouseLeave = (a) => { }; 
+
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Geometry()
@@ -195,6 +210,12 @@ namespace Balder.Objects.Geometries
 				var geometry = assetPart as Geometry;
 				World = geometry.World;
 			}
+		}
+
+		public override float? Intersects(Ray pickRay)
+		{
+			var distance = pickRay.Intersects(BoundingSphere);
+			return distance;
 		}
 	}
 }

@@ -90,7 +90,6 @@ namespace Balder.Tests.Math
 		[Test]
 		public void RayPointingIntoBoundSphereFromMultipleLocationsShouldBeIntersected()
 		{
-
 			var rays = new Ray[]
 			           	{
 							new Ray(new Vector(-12,12,-14), Vector.Zero), 
@@ -112,5 +111,32 @@ namespace Balder.Tests.Math
 				Assert.That(result, Is.Not.Null, string.Format("Ray : {0}",ray));
 			}
 		}
+
+		[Test]
+		public void RayPointingFromFrontThroughTriangleFacingFrontShouldBeIntersected()
+		{
+			var vector1 = new Vector(0, -10, 0);
+			var vector3 = new Vector(-10, 10, 0);
+			var vector2 = new Vector(10, 10, 0);
+			
+			var ray = new Ray(new Vector(0, 0, -10), new Vector(0, 0, 1));
+
+			var distance = ray.IntersectsTriangle(vector1, vector2, vector3);
+			Assert.That(distance, Is.Not.Null);
+		}
+
+		[Test]
+		public void RayPointingFromFrontThroughTriangleFacingBackShouldNotBeIntersected()
+		{
+			var vector1 = new Vector(-10, 10, 0);
+			var vector2 = new Vector(10, 10, 0);
+			var vector3 = new Vector(0, -10, 0);
+
+			var ray = new Ray(new Vector(0, 0, -10), new Vector(0, 0, 1));
+
+			var distance = ray.IntersectsTriangle(vector1, vector2, vector3);
+			Assert.That(distance, Is.Null);
+		}
+
 	}
 }

@@ -84,5 +84,11 @@ namespace Balder
 				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, detailLevel, RenderingWorld);
 			}
 		}
+
+
+		public virtual float? Intersects(Ray pickRay)
+		{
+			return null;
+		}
 	}
 }

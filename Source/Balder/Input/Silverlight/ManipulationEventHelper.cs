@@ -67,42 +67,9 @@ namespace Balder.Input.Silverlight
 					var vertex2 = vertices[face.B].ToVector();
 					var vertex3 = vertices[face.C].ToVector();
 
-					var edge1 = vertex2 - vertex1;
-					var edge2 = vertex3 - vertex1;
+					var rayDistance = pickRay.IntersectsTriangle(vertex1, vertex2, vertex3);
 
-					var directionCrossEdge2 = Vector.Cross(pickRay.Direction, edge2);
-
-					var determinant = Vector.Dot(edge1, directionCrossEdge2);
-
-					if (determinant > -float.Epsilon && determinant < float.Epsilon)
-					{
-						continue;
-					}
-
-					var inverseDeterminant = 1.0f / determinant;
-					var distanceVector = pickRay.Position - vertex1;
-
-					var triangleU = Vector.Dot(distanceVector, directionCrossEdge2);
-					triangleU *= inverseDeterminant;
-
-					if (triangleU < 0 || triangleU > 1)
-					{
-						continue;
-					}
-
-					var distanceCrossEdge1 = Vector.Cross(distanceVector, edge1);
-					var triangleV = Vector.Dot(pickRay.Direction, distanceCrossEdge1);
-					triangleV *= inverseDeterminant;
-
-					if (triangleV < 0 || triangleV > 1)
-					{
-						continue;
-					}
-
-					var rayDistance = Vector.Dot(edge2, distanceCrossEdge1);
-					rayDistance *= inverseDeterminant;
-
-					if (rayDistance < 0)
+					if (null == rayDistance || rayDistance < 0)
 					{
 						continue;
 					}
@@ -111,7 +78,7 @@ namespace Balder.Input.Silverlight
 					{
 						closestFace = face;
 						closestFaceIndex = faceIndex;
-						closestDistance = rayDistance;
+						closestDistance = rayDistance.Value;
 					}
 				}
 
