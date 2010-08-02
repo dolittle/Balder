@@ -20,7 +20,6 @@
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
-using Balder.Math;
 using Balder.Objects.Geometries;
 
 
@@ -52,46 +51,21 @@ namespace Balder.Input.Silverlight
 				var pickRay = _viewport.GetPickRay((int)position.X, (int)position.Y);
 
 				var geometry = node as Geometry;
-				var vertices = geometry.FullDetailLevel.GetVertices();
-				var faces = geometry.FullDetailLevel.GetFaces();
+				Face face = null;
+				var faceIndex = -1;
+				var faceU = 0f;
+				var faceV = 0f;
 
-
-				Face closestFace = null;
-				var closestFaceIndex = -1;
-				var closestDistance = float.MaxValue;
-
-				for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
+				var distance = geometry.Intersects(pickRay, out face, out faceIndex, out faceU, out faceV);
+				if (null != face)
 				{
-					var face = faces[faceIndex];
-					var vertex1 = vertices[face.A].ToVector();
-					var vertex2 = vertices[face.B].ToVector();
-					var vertex3 = vertices[face.C].ToVector();
-
-					var rayDistance = pickRay.IntersectsTriangle(vertex1, vertex2, vertex3);
-
-					if (null == rayDistance || rayDistance < 0)
-					{
-						continue;
-					}
-
-					if( rayDistance < closestDistance )
-					{
-						closestFace = face;
-						closestFaceIndex = faceIndex;
-						closestDistance = rayDistance.Value;
-					}
-				}
-
-				if (null != closestFace)
-				{
-					var material = closestFace.Material;
-					var faceIndex = closestFaceIndex;
-					var face = closestFace;
+					var material = face.Material;
+					var faceIndex = faceIndex;
+					var face = face;
 					bubbledEvent.Raise(node, node,
 					                   new ManipulationDeltaEventArgs(material, face, faceIndex, (int) deltaX, (int) deltaY,
 					                                                  _manipulationDirection));
 				}
-
 			}
 
 
