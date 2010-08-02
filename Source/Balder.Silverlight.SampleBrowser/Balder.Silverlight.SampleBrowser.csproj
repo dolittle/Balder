@@ -258,6 +258,7 @@
     <Compile Include="Samples\Events\FacePicker\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Events\FacePicker\PickedFaceVisualizer.cs" />
     <Compile Include="Samples\Events\Mouse\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>

@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System.Collections.Generic;
 using Balder.Assets;
 using Balder.Display;
 using Balder.Execution;
@@ -236,12 +237,18 @@ namespace Balder.Objects.Geometries
 				var vertices = FullDetailLevel.GetVertices();
 				var faces = FullDetailLevel.GetFaces();
 
+				if( null == vertices || null == faces )
+				{
+					return null;
+				}
+
 				Face closestFace = null;
 				var closestFaceIndex = -1;
 				var closestDistance = float.MaxValue;
 				var closestFaceU = 0f;
 				var closestFaceV = 0f;
 
+				var intersectedFaces = new List<Face>();
 
 				for (var i = 0; i< faces.Length; i++)
 				{
@@ -251,7 +258,7 @@ namespace Balder.Objects.Geometries
 					var vertex3 = vertices[currentFace.C].ToVector();
 
 					var rayDistance = pickRay.IntersectsTriangle(vertex1, vertex2, vertex3, out faceU, out faceV);
-					if (null == rayDistance || rayDistance < 0)
+					if (null == rayDistance )
 					{
 						continue;
 					}
@@ -263,7 +270,15 @@ namespace Balder.Objects.Geometries
 						closestDistance = rayDistance.Value;
 						closestFaceU = faceU;
 						closestFaceV = faceV;
+
+						intersectedFaces.Add(currentFace);
 					}
+				}
+
+				if( intersectedFaces.Count > 1 )
+				{
+					int i = 0;
+					i++;
 				}
 				
 

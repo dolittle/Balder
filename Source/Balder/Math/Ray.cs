@@ -127,17 +127,17 @@ namespace Balder.Math
 			triangleV = 0;
 
 			// BackFace Culling
-			if (determinant >= 0) //determinant >= -float.Epsilon && determinant < float.Epsilon) 
+			//if (determinant > 0 ) 
+			if( determinant >= -float.Epsilon && determinant < float.Epsilon) 
 			{
 				return null;
 			}
 
-			var inverseDeterminant = 1.0f / determinant;
+			var inverseDeterminant = 1f / determinant;
 			var distanceVector = Position - vector1;
 
 			triangleU = Vector.Dot(distanceVector, directionCrossEdge2);
 			triangleU *= inverseDeterminant;
-			
 
 			if (triangleU < 0 || triangleU > 1)
 			{
@@ -148,13 +148,17 @@ namespace Balder.Math
 			triangleV = Vector.Dot(Direction, distanceCrossEdge1);
 			triangleV *= inverseDeterminant;
 
-			if (triangleV < 0 || triangleV > 1)
+			if (triangleV < 0 || (triangleU + triangleV) >1)
 			{
 				return null;
 			}
 
 			var rayDistance = Vector.Dot(edge2, distanceCrossEdge1);
 			rayDistance *= inverseDeterminant;
+			if( rayDistance < 0 )
+			{
+				return null;
+			}
 			return rayDistance;
 		}
 
