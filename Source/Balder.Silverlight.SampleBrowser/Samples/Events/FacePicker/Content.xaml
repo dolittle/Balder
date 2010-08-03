@@ -6,7 +6,7 @@
 	xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
 	xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
 	xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-	xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:FacePicker="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Events.FacePicker" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder" xmlns:Balder="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" mc:Ignorable="d"
+	xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:FacePicker="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Events.FacePicker" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder" xmlns:Balder="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Data.Input" mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
 
 	<Grid x:Name="LayoutRoot">
@@ -30,14 +30,38 @@
 
 			<Lighting:OmniLight Diffuse="Green" Strength="0.5" Position="-5,3,-10"/>
 
-				<Geometries:Box x:Name="Box"
+			<Geometries:Box x:Name="Box"
 							Dimension="5,5,5" 
 							Color="Red"
 							MouseMove="Box_MouseMove"
 							MouseLeave="Box_MouseLeave">
 
-					<FacePicker:PickedFaceVisualizer x:Name="Visualizer" GeometryToVisualize="{Binding ElementName=Box}"/>
-				</Geometries:Box>
+				<FacePicker:PickedFaceVisualizer x:Name="Visualizer" GeometryToVisualize="{Binding ElementName=Box}"/>
+			</Geometries:Box>
 		</Execution:Game>
+
+		<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Grid x:Name="MouseInfoGrid">
+				<Grid.Background>
+					<SolidColorBrush Opacity="0.5" Color="Gray"/>
+				</Grid.Background>
+
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200"/>
+					<ColumnDefinition Width="100"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+				</Grid.RowDefinitions>
+
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="X Position"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding XPosition}"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Y Position"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding YPosition}"/>
+			</Grid>
+		</Border>
+
 	</Grid>
 </UserControl>

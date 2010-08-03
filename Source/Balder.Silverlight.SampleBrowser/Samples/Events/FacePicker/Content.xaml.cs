@@ -1,4 +1,5 @@
-﻿using Balder.Objects.Geometries;
+﻿using Balder.Input.Silverlight;
+using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Events.FacePicker
 {
@@ -7,6 +8,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.FacePicker
 		public Content()
 		{
 			InitializeComponent();
+
+			Loaded += ContentLoaded;
+		}
+
+		void ContentLoaded(object sender, System.Windows.RoutedEventArgs e)
+		{
+			MouseInfoGrid.DataContext = NodeMouseEventHelper.MouseInfo;
 		}
 
 
