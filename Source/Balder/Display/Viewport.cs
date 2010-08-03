@@ -281,8 +281,8 @@ namespace Balder.Display
 
 			var v = new Vector
 						{
-							X = (((2.0f * x) / Width) - 1) / (projection[0, 0]*2f),
-							Y = -(((2.0f * y) / Height) - 1) / (projection[1, 1]*2f),
+							X = (((2.0f * x) / Width) - 1) / (projection[0, 0]),
+							Y = -(((2.0f * y) / Height) - 1) / (projection[1, 1]),
 							Z = 1f
 						};
 
