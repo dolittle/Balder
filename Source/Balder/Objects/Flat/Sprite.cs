@@ -97,14 +97,14 @@ namespace Balder.Objects.Flat
 			var actualPosition = new Vector(world[3, 0], world[3, 1], world[3, 2]);
 			//data[12], world.data[13], world.data[14]);
 			var transformedPosition = Vector.Transform(position, world, view);
-			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
+			//var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
 
 			var distanceVector = viewport.View.Position - actualPosition;
 			var distance = distanceVector.Length;
 			var n = 100.0f;
 			distance = MathHelper.Abs(distance);
 
-			var scale = 0.0f + ((2 * n) / distance);
+			var scale = 0.0f + (n / distance);
 			if (scale <= 0)
 			{
 				scale = 0;

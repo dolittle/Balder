@@ -62,9 +62,9 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-		private const float XSize = 0.5F;
-		private const float YSize = 0.5F;
-		private const float ZSize = 0.5F;
+		private const float XSize = 1F;
+		private const float YSize = 1F;
+		private const float ZSize = 1F;
 
 
 
