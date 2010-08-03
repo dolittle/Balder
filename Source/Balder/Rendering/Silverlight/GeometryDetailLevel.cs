@@ -51,9 +51,13 @@ namespace Balder.Rendering.Silverlight
 
 		private bool _hasPrepared;
 
+		private Material _colorMaterial;
+
+
 		public GeometryDetailLevel(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
+			_colorMaterial = Material.FromColor(Colors.Blue);
 		}
 
 
@@ -425,14 +429,14 @@ namespace Balder.Rendering.Silverlight
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-			if (null == face.Material || face.Material.Shade == MaterialShade.Gouraud)
+			if (null == material || material.Shade == MaterialShade.Gouraud)
 			{
 				var vertexA = _vertices[face.A];
 				var vertexB = _vertices[face.B];
 				var vertexC = _vertices[face.C];
-				face.CalculatedColorA = CalculateColorForVertex(vertexA, face.Material, viewport, face.SmoothingGroup);
-				face.CalculatedColorB = CalculateColorForVertex(vertexB, face.Material, viewport, face.SmoothingGroup);
-				face.CalculatedColorC = CalculateColorForVertex(vertexC, face.Material, viewport, face.SmoothingGroup);
+				face.CalculatedColorA = CalculateColorForVertex(vertexA, material, viewport, face.SmoothingGroup);
+				face.CalculatedColorB = CalculateColorForVertex(vertexB, material, viewport, face.SmoothingGroup);
+				face.CalculatedColorC = CalculateColorForVertex(vertexC, material, viewport, face.SmoothingGroup);
 			}
 		}
 
@@ -502,7 +506,16 @@ namespace Balder.Rendering.Silverlight
 				Material material = face.Material;
 				if( null == material )
 				{
-					material = Material.Default;
+					if( node is IHaveColor )
+					{
+						material = _colorMaterial;// Material.Default;
+						material.Diffuse = ((IHaveColor) node).Color;
+					} else
+					{
+						material = Material.Default;	
+					}
+					
+					
 				}
 				CalculateVertexColorsForFace(face, viewport, material);
 

@@ -46,16 +46,17 @@ namespace Balder.Materials
 		static Material()
 		{
 			Default = new Material();
-			Default.Ambient = Colors.Blue;
+			Default.Ambient = Colors.Black;
 			Default.Diffuse = Colors.Blue;
 			Default.Specular = Colors.White;
 			Default.Shade = MaterialShade.Gouraud;
+
+			Default.LinkAmbientAndDiffuse = true;
 		}
 
 		public static Material FromColor(Color color)
 		{
 			var material = new Material();
-			material.Ambient = color;
 			material.Diffuse = color;
 			material.Specular = Colors.White;
 			material.Shade = MaterialShade.Gouraud;
@@ -72,22 +73,50 @@ namespace Balder.Materials
 		}
 
 
+		public bool LinkAmbientAndDiffuse { get; set; }
+
 		/// <summary>
 		/// Gets or sets the ambient <see cref="Color"/> of the material
 		/// </summary>
 #if(SILVERLIGHT)
+		private Color _ambient;
+
 		[TypeConverter(typeof(ColorConverter))]
 #endif
-		public Color Ambient { get; set; }
+		public Color Ambient
+		{
+			get { return _ambient; }
+			set
+			{
+				_ambient = value;
+				if( LinkAmbientAndDiffuse )
+				{
+					Diffuse = value;	
+				}
+			}
+		}
 
 
 		/// <summary>
 		/// Gets or sets the diffuse <see cref="Color"/> of the material
 		/// </summary>
 #if(SILVERLIGHT)
+		private Color _diffuse;
+
 		[TypeConverter(typeof(ColorConverter))]
 #endif
-		public Color Diffuse { get; set; }
+		public Color Diffuse
+		{
+			get { return _diffuse; }
+			set
+			{
+				_diffuse = value;
+				if( LinkAmbientAndDiffuse )
+				{
+					Ambient = value;
+				}
+			}
+		}
 
 
 		/// <summary>
