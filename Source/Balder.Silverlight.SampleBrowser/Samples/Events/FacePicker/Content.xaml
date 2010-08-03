@@ -32,7 +32,7 @@
 
 				<Geometries:Box x:Name="Box"
 							Dimension="5,5,5" 
-							Color="Blue"
+							Color="Red"
 							MouseMove="Box_MouseMove"
 							MouseLeave="Box_MouseLeave">
 

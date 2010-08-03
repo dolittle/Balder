@@ -17,7 +17,6 @@
 //
 #endregion
 
-using System.Collections.Generic;
 using Balder.Assets;
 using Balder.Display;
 using Balder.Execution;
@@ -38,7 +37,6 @@ namespace Balder.Objects.Geometries
 
 		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseLeaveEvent =
 			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseLeave);
-
 
 		public IGeometryContext GeometryContext { get; set; }
 		public IGeometryDetailLevel FullDetailLevel { get; set; }
@@ -162,19 +160,6 @@ namespace Balder.Objects.Geometries
 			GeometryContext.Render(viewport, this, detailLevel);
 		}
 
-
-		protected override void OnColorChanged()
-		{
-			if (null == Material)
-			{
-				Material = Material.FromColor(Color);
-			}
-			else
-			{
-				Material.Diffuse = Color;
-			}
-			base.OnColorChanged();
-		}
 
 
 		public static readonly Property<Geometry, Material> MaterialProperty = Property<Geometry, Material>.Register(g => g.Material);
