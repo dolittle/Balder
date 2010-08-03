@@ -19,9 +19,7 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
 using Balder.Display;
-using Balder.Execution;
 using Balder.Lighting;
 using Balder.Materials;
 using Balder.Math;

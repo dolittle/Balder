@@ -76,7 +76,7 @@ namespace Balder.Rendering.Silverlight
 
 		public void SetFace(int index, Face face)
 		{
-			var renderFace = new RenderFace(face) {Index = (UInt16)index};
+			var renderFace = new RenderFace(face) { Index = (UInt16)index };
 
 			var aVector = _vertices[renderFace.A].ToVector();
 			var bVector = _vertices[renderFace.A].ToVector();
@@ -394,7 +394,7 @@ namespace Balder.Rendering.Silverlight
 				var vertex = _vertices[vertexIndex];
 				TransformAndTranslateVertex(vertex, viewport, localView, projection);
 
-				foreach( var smoothingGroup in vertex.SmoothingGroups.Values )
+				foreach (var smoothingGroup in vertex.SmoothingGroups.Values)
 				{
 					smoothingGroup.IsColorCalculated = false;
 				}
@@ -405,10 +405,10 @@ namespace Balder.Rendering.Silverlight
 		private Color CalculateColorForVertex(RenderVertex vertex, Material material, Viewport viewport, int smoothingGroup)
 		{
 			Color lightColor;
-			if( null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
+			if (null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
 			{
 				var smoothingGroupVertex = vertex.SmoothingGroups[smoothingGroup];
-				
+
 				if (smoothingGroupVertex.IsColorCalculated)
 				{
 					lightColor = smoothingGroupVertex.CalculatedColor;
@@ -418,7 +418,8 @@ namespace Balder.Rendering.Silverlight
 					lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
 					smoothingGroupVertex.CalculatedColor = lightColor;
 				}
-			} else
+			}
+			else
 			{
 				lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, vertex.TransformedNormal);
 			}
@@ -473,12 +474,6 @@ namespace Balder.Rendering.Silverlight
 				return;
 			}
 
-			/*
-			var view = viewport.View.ViewMatrix;
-			var projection = viewport.View.ProjectionMatrix;
-			var world = node.RenderingWorld;
-			*/
-
 			var matrix = world * view;
 
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
@@ -489,8 +484,10 @@ namespace Balder.Rendering.Silverlight
 				var b = _vertices[face.B];
 				var c = _vertices[face.C];
 
-				var determinant = Vector.MixedProduct(a.TranslatedVector, b.TranslatedVector, c.TranslatedVector);
-				var visible = determinant < 0 && IsFaceInView(viewport, face);
+				var mixedproduct = (b.TranslatedVector.X - a.TranslatedVector.X) * (c.TranslatedVector.Y - a.TranslatedVector.Y) -
+												   (c.TranslatedVector.X - a.TranslatedVector.X) * (b.TranslatedVector.Y - a.TranslatedVector.Y);
+
+				var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
 				//&& viewport.View.IsInView(a.TransformedVector);
 				if (null != face.Material)
 				{

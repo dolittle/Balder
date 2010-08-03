@@ -25,7 +25,7 @@
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 
 			<Execution:Game.Camera>
-				<View:Camera Position="-10,10,-20"/>
+				<View:Camera Position="-2,3,-4" FieldOfView="100"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Diffuse="Green" Strength="0.5" Position="-5,3,-10"/>
