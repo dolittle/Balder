@@ -7,8 +7,8 @@
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
     xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder">
 
-    <Grid x:Name="LayoutRoot">
-        <!--
+	<Grid x:Name="LayoutRoot">
+		<!--
         <Grid.Triggers>
             <EventTrigger RoutedEvent="Grid.Loaded">
                 <BeginStoryboard>
@@ -21,55 +21,113 @@
             </EventTrigger>
         </Grid.Triggers>-->
 
-        <Grid.Resources>
-            <!-- The recorder that records all moves -->
-            <RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
-        </Grid.Resources>
+		<Grid.Resources>
+			<!-- The recorder that records all moves -->
+			<RubicsCube:MoveRecorder x:Key="MoveRecorder"/>
+		</Grid.Resources>
 
-        <!-- Balder Game control, starting point for Balder -->
-        <Execution:Game x:Name="Game" Width="480" Height="768">
+		<!-- Balder Game control, starting point for Balder -->
+		<Execution:Game x:Name="Game" Width="480" Height="768">
 
-            <!-- Set the camera a bit to the left and above and away from the box -->
-            <Execution:Game.Camera>
-                <View:Camera Position="-50,25,-80"/>
-            </Execution:Game.Camera>
+			<!-- Set the camera a bit to the left and above and away from the box -->
+			<Execution:Game.Camera>
+				<View:Camera Position="-50,25,-80"/>
+			</Execution:Game.Camera>
 
-            <!-- Add a all-direct, emitting light, in front of the cube -->
-            <Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
-            
-            <!-- Add a container that we can rotate that will contain the cube -->
-            <Core:Container x:Name="CubeContainer">
+			<!-- Add a all-direct, emitting light, in front of the cube -->
+			<Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
 
-                <!-- Our Rubiks Cube control / Balder node -->
-                <RubicsCube:Cube x:Name="Cube"                                  
+			<!-- Add a container that we can rotate that will contain the cube -->
+			<Core:Container x:Name="CubeContainer">
+
+				<!-- Our Rubiks Cube control / Balder node -->
+				<RubicsCube:Cube x:Name="Cube"                                  
                                  MoveRecorder="{StaticResource MoveRecorder}"
                                  Rotate="CubeRotate"/>
-            </Core:Container>
-        </Execution:Game>
+			</Core:Container>
+		</Execution:Game>
 
 
-        <!-- Buttons + Info -->
-        <StackPanel Orientation="Vertical">
-            
-            <!-- Our buttons -->
-            <StackPanel Margin="0,16,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
-                <RubicsCube:ImageButton Image="Images/Solve.png" Click="SolveClicked" ToolTip="Solve cube"/>
-                <RubicsCube:ImageButton Image="Images/Shuffle.png" Click="ShuffleClicked" ToolTip="Shuffle cube"/>
-                <RubicsCube:ImageButton Image="Images/Reset.png" Click="ResetClicked" ToolTip="Reset cube"/>
-                <RubicsCube:ImageButton Image="Images/CheatListToggle.png" Click="CheatListToggleClicked" ToolTip="Toggle cheat list"/>
-            </StackPanel>
-            
-            <StackPanel Orientation="Horizontal" Margin="0,10,0,0">
-                <Image Source="Images/RotationHint.png"/>
-                <TextBlock Text=" = Rotate cube"
+
+		<!-- Buttons + Info -->
+		<StackPanel Orientation="Vertical">
+
+			<!-- Our buttons -->
+			<StackPanel Margin="0,16,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
+				<RubicsCube:ImageButton Image="Images/Solve.png" Click="SolveClicked" ToolTip="Solve cube"/>
+				<RubicsCube:ImageButton Image="Images/Shuffle.png" Click="ShuffleClicked" ToolTip="Shuffle cube"/>
+				<RubicsCube:ImageButton Image="Images/Reset.png" Click="ResetClicked" ToolTip="Reset cube"/>
+				<RubicsCube:ImageButton Image="Images/CheatListToggle.png" Click="CheatListToggleClicked" ToolTip="Toggle cheat list"/>
+			</StackPanel>
+
+			<StackPanel Orientation="Horizontal" Margin="0,10,0,0">
+				<Image Source="Images/RotationHint.png"/>
+				<TextBlock Text=" = Rotate cube"
                            VerticalAlignment="Center"
                            FontFamily="Verdana"
                            FontSize="24"/>
-            </StackPanel>
-        </StackPanel>
+			</StackPanel>
 
-        <!-- Cheat list - debugging purposes -->
-        <ListBox x:Name="CheatList" 
+			<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<StackPanel Orientation="Vertical">
+					<Grid x:Name="InfoGrid">
+						<Grid.Background>
+							<SolidColorBrush Opacity="0.5" Color="Gray"/>
+						</Grid.Background>
+
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="200"/>
+							<ColumnDefinition Width="100"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+						</Grid.RowDefinitions>
+
+						<TextBlock Grid.Column="0" Grid.Row="0" Text="DeltaX"/>
+						<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DeltaX}"/>
+						<TextBlock Grid.Column="0" Grid.Row="1" Text="DeltaY"/>
+						<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding DeltaY}"/>
+						<TextBlock Grid.Column="0" Grid.Row="2" Text="IsManipulating"/>
+						<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding IsManipulating}"/>
+						<TextBlock Grid.Column="0" Grid.Row="3" Text="Node"/>
+						<TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding Node}"/>
+
+
+					</Grid>
+
+					<Grid x:Name="CubeInfoGrid">
+						<Grid.Background>
+							<SolidColorBrush Opacity="0.5" Color="Gray"/>
+						</Grid.Background>
+
+
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="200"/>
+							<ColumnDefinition Width="100"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+						</Grid.RowDefinitions>
+						<TextBlock Grid.Column="0" Grid.Row="0" Text="DeltaX - Cube"/>
+						<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding DeltaX}"/>
+						<TextBlock Grid.Column="0" Grid.Row="1" Text="DeltaY - Cube"/>
+						<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding DeltaY}"/>
+					</Grid>
+
+				</StackPanel>
+			</Border>
+
+		</StackPanel>
+
+		<!-- Cheat list - debugging purposes -->
+		<ListBox x:Name="CheatList" 
                  ItemsSource="{Binding Source={StaticResource MoveRecorder}, Path=Moves}" 
                  HorizontalAlignment="Right"
                  VerticalAlignment="Top"
@@ -77,17 +135,17 @@
                  Height="200"
                  Visibility="Collapsed"
                  >
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Horizontal">
-                        <TextBlock Text="{Binding Group.Side}"/>
-                        <TextBlock Text=" rotated "/>
-                        <TextBlock Text="{Binding RotationCount}"/>
-                        <TextBlock Text=" - Clockwize : "/>
-                        <TextBlock Text="{Binding ClockWize}"/>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-    </Grid>
+			<ListBox.ItemTemplate>
+				<DataTemplate>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="{Binding Group.Side}"/>
+						<TextBlock Text=" rotated "/>
+						<TextBlock Text="{Binding RotationCount}"/>
+						<TextBlock Text=" - Clockwize : "/>
+						<TextBlock Text="{Binding ClockWize}"/>
+					</StackPanel>
+				</DataTemplate>
+			</ListBox.ItemTemplate>
+		</ListBox>
+	</Grid>
 </UserControl>

@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Extensions.Silverlight;
 using Balder.Input;
 using Balder.Math;
 using Balder.Objects.Geometries;
@@ -10,11 +12,42 @@ using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
+	public class CubeManipulationInfo : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+
+		private int _deltaX;
+		public int DeltaX
+		{
+			get { return _deltaX; }
+			set
+			{
+				_deltaX = value;
+				PropertyChanged.Notify(() => DeltaX);
+			}
+		}
+
+		private int _deltaY;
+		public int DeltaY
+		{
+			get { return _deltaY; }
+			set
+			{
+				_deltaY = value;
+				PropertyChanged.Notify(() => DeltaY);
+			}
+		}
+	}
+
+
 	/// <summary>
 	/// Represents a 3x3 Rubiks Cube node to placed inside a Balder Game
 	/// </summary>
 	public class Cube : Container
 	{
+		public static CubeManipulationInfo	Info = new CubeManipulationInfo();
+
+
 		#region Constants
 		public const int Depth = 3;
 		public const int Width = 3;
@@ -180,6 +213,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		private void CubeManipulationDelta(object sender, ManipulationDeltaEventArgs args)
 		{
+			Info.DeltaX = args.DeltaX;
+			Info.DeltaY = args.DeltaY;
 			var cubeBox = args.OriginalSource as CubeBox;
 			if (null == cubeBox)
 			{
@@ -192,6 +227,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				(cubeBox.Y == 1 && cubeBox.Z == 1) ||
 				(cubeBox.X == 1 && cubeBox.Z == 1))
 			{
+
 				Rotate(args.DeltaX, args.DeltaY);
 			}
 			else

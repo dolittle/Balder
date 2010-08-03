@@ -17,14 +17,66 @@
 //
 #endregion
 #if(SILVERLIGHT)
+using System.ComponentModel;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Extensions.Silverlight;
 using Balder.Objects.Geometries;
 
 
 namespace Balder.Input.Silverlight
 {
+	public class ManipulationInfo : INotifyPropertyChanged
+	{
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => {};
+
+		private INode _node;
+		public INode Node
+		{
+			get { return _node; }
+			set
+			{
+				_node = value;
+				PropertyChanged.Notify(() => Node);
+			}
+		}
+
+		private int _deltaX;
+		public int DeltaX
+		{
+			get { return _deltaX; }
+			set
+			{
+				_deltaX = value;
+				PropertyChanged.Notify(() => DeltaX);
+			}
+		}
+
+		private int _deltaY;
+		public int DeltaY
+		{
+			get { return _deltaY; }
+			set
+			{
+				_deltaY = value;
+				PropertyChanged.Notify(() => DeltaY);
+			}
+		}
+
+		private bool _isManipulating;
+		public bool IsManipulating
+		{
+			get { return _isManipulating; }
+			set
+			{
+				_isManipulating = value;
+				PropertyChanged.Notify(() => IsManipulating);
+			}
+		}
+	}
+
+
 	public class ManipulationEventHelper
 	{
 		private readonly Viewport _viewport;
@@ -33,10 +85,14 @@ namespace Balder.Input.Silverlight
 		private bool _manipulating;
 		private Node _nodeBeingManipulated;
 		private bool _manipulationStarted;
+		private ManipulationDeltaEventArgs _deltaEventArgs;
+
+		public static ManipulationInfo	ManipulationInfo = new ManipulationInfo();
 
 		public ManipulationEventHelper(Viewport viewport)
 		{
 			_viewport = viewport;
+			_deltaEventArgs = new ManipulationDeltaEventArgs();
 			ResetManipulation();
 		}
 
@@ -44,7 +100,36 @@ namespace Balder.Input.Silverlight
 		{
 			var deltaX = position.X - _previousPosition.X;
 			var deltaY = position.Y - _previousPosition.Y;
+
+			ManipulationInfo.DeltaX = (int)deltaX;
+			ManipulationInfo.DeltaY = (int)deltaY;
 			HandleManipulationDirection(deltaX, deltaY);
+
+			_deltaEventArgs.DeltaX = (int)deltaX;
+			_deltaEventArgs.DeltaY = (int) deltaY;
+			_deltaEventArgs.Direction = _manipulationDirection;
+
+			bubbledEvent.Raise(node, node, _deltaEventArgs);
+		}
+
+		private void ResetManipulation()
+		{
+			_manipulating = false;
+			_manipulationDirection = ManipulationDirection.None;
+			_manipulationStarted = false;
+			_nodeBeingManipulated = null;
+			ManipulationInfo.IsManipulating = false;
+			ManipulationInfo.Node = null;
+		}
+
+		public void StartManipulation(Node node, Point position)
+		{
+			_manipulating = true;
+			_nodeBeingManipulated = node;
+			_manipulationStarted = true;
+			_previousPosition = position;
+			ManipulationInfo.IsManipulating = true;
+			ManipulationInfo.Node = node;
 
 			if (node is Geometry)
 			{
@@ -60,36 +145,18 @@ namespace Balder.Input.Silverlight
 				if (null != face)
 				{
 					var material = face.Material;
-					bubbledEvent.Raise(node, node,
-					                   new ManipulationDeltaEventArgs(
-										   material, 
-										   face, 
-										   faceIndex, 
-										   faceU,
-										   faceV,
-										   distance.Value,
-										   (int) deltaX, 
-										   (int) deltaY,
-											_manipulationDirection));
+
+					_deltaEventArgs.Material = material;
+					_deltaEventArgs.Face = face;
+					_deltaEventArgs.FaceIndex = faceIndex;
+					_deltaEventArgs.FaceU = faceU;
+					_deltaEventArgs.FaceV = faceV;
+					_deltaEventArgs.Distance = distance.Value;
 				}
 			}
 		}
 
-		private void ResetManipulation()
-		{
-			_manipulating = false;
-			_manipulationDirection = ManipulationDirection.None;
-			_manipulationStarted = false;
-			_nodeBeingManipulated = null;
-		}
-
-		public void StartManipulation(Node node, Point position)
-		{
-			_manipulating = true;
-			_nodeBeingManipulated = node;
-			_manipulationStarted = true;
-			_previousPosition = position;
-		}
+		public bool IsManipulating { get { return _manipulating; } }
 
 		public void HandleManipulation(Point position)
 		{

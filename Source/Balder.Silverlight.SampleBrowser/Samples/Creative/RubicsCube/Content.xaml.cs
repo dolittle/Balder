@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Balder.Input.Silverlight;
 using Balder.Math;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
@@ -17,6 +18,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			// Update camera and rotate cube for initialization
 			Game.Camera.Update(Game.Viewport);
 			CubeRotate(0, 0);
+
+			InfoGrid.DataContext = ManipulationEventHelper.ManipulationInfo;
+			CubeInfoGrid.DataContext = Cube.Info;
 		}
 
 		

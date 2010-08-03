@@ -27,6 +27,11 @@ namespace Balder.Input
 {
 	public class ManipulationDeltaEventArgs : BubbledEventArgs
 	{
+		public ManipulationDeltaEventArgs()
+		{
+			
+		}
+
 		public ManipulationDeltaEventArgs(
 			Material material,
 			Face face,
@@ -49,18 +54,18 @@ namespace Balder.Input
 			Direction = direction;
 		}
 
-		public Material Material { get; private set; }
-		public int DeltaX { get; private set; }
-		public int DeltaY { get; private set; }
+		public Material Material { get; internal set; }
+		public int DeltaX { get; internal set; }
+		public int DeltaY { get; internal set; }
 
-		public Face Face { get; private set; }
-		public int FaceIndex { get; private set; }
+		public Face Face { get; internal set; }
+		public int FaceIndex { get; internal set; }
 
-		public float FaceU { get; private set; }
-		public float FaceV { get; private set; }
+		public float FaceU { get; internal set; }
+		public float FaceV { get; internal set; }
 
-		public float Distance { get; private set; }
+		public float Distance { get; internal set; }
 
-		public ManipulationDirection Direction { get; private set; }
+		public ManipulationDirection Direction { get; internal set; }
 	}
 }

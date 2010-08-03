@@ -187,7 +187,10 @@ namespace Balder.Input.Silverlight
 			if (null != hitNode)
 			{
 				RaiseEvent(Node.MouseLeftButtonDownEvent,hitNode,e);
-				_manipulationEventHelper.StartManipulation(hitNode, position);
+				if (!_manipulationEventHelper.IsManipulating)
+				{
+					_manipulationEventHelper.StartManipulation(hitNode, position);
+				}
 			}
 		}
 
