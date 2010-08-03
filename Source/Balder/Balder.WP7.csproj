@@ -123,7 +123,6 @@
     <Compile Include="Execution\ConstructorArgument.cs" />
     <Compile Include="Execution\DisplayActivationContext.cs" />
     <Compile Include="Execution\Game.cs" />
-    <Compile Include="Execution\Game.Silverlight.cs" />
     <Compile Include="Execution\IActor.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
     <Compile Include="Execution\ICanBeCloned.cs" />
@@ -131,9 +130,6 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
-    <Compile Include="Execution\IdentityManager.cs" />
-    <Compile Include="Execution\IHaveIdentity.cs" />
-    <Compile Include="Execution\IIdentityManager.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
@@ -220,7 +216,6 @@
     <Compile Include="MVVM\ICanBeEnabled.cs" />
     <Compile Include="MVVM\ICanExecuteCommand.cs" />
     <Compile Include="Node.cs" />
-    <Compile Include="Node.Silverlight.cs" />
     <Compile Include="NodeCloneInfo.cs" />
     <Compile Include="NodeClonePropertyInfo.cs" />
     <Compile Include="NodeCloner.cs" />
@@ -239,6 +234,9 @@
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Objects\Geometries\Cylinder.cs" />
     <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
+    <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
     <Compile Include="Objects\Geometries\Geometry.cs" />
     <Compile Include="Objects\Geometries\GeometryHelper.cs" />
     <Compile Include="Objects\Geometries\Heightmap.cs" />
@@ -248,7 +246,6 @@
     <Compile Include="Objects\Geometries\Line.cs" />
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Objects\Geometries\Mesh.cs" />
-    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />
@@ -290,8 +287,6 @@
     <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
     <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Silverlight\ImageContext.cs" />
-    <Compile Include="Rendering\Silverlight\IMetaDataPixelBuffer.cs" />
-    <Compile Include="Rendering\Silverlight\MetaDataPixelBuffer.cs" />
     <Compile Include="Rendering\Silverlight\RenderFace.cs" />
     <Compile Include="Rendering\Silverlight\RenderingManager.cs" />
     <Compile Include="Rendering\Silverlight\RenderVertex.cs" />
