@@ -88,6 +88,7 @@ namespace Balder.Input.Silverlight
 			_manipulating = true;
 			_nodeBeingManipulated = node;
 			_manipulationStarted = true;
+			_previousPosition = position;
 		}
 
 		public void HandleManipulation(Point position)
