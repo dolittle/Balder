@@ -48,7 +48,7 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
-		INode, ICanBeCloned, ICanPrepare, IHaveIdentity
+		INode, ICanBeCloned, ICanPrepare
 
 	{
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
@@ -101,16 +101,8 @@ namespace Balder
 		private bool _isWorldInvalidated = false;
 		private bool _isForcePrepareMatrices = true;
 
-#if(DEFAULT_CONSTRUCTOR)
 		protected Node()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
 		{
-		}
-#endif
-
-		protected Node(IIdentityManager identityManager)
-		{
-			Id = identityManager.AllocateIdentity<Node>();
 			InitializeTransform();
 			Construct();
 		}
@@ -519,7 +511,5 @@ namespace Balder
 			Prepare(viewport);
 		}
 		#endregion
-
-		public UInt16 Id { get; private set; }
 	}
 }

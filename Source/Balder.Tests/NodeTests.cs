@@ -20,9 +20,6 @@
 #endregion
 
 #if(SILVERLIGHT)
-using System.Windows;
-using System.Windows.Media;
-using Balder.Execution;
 using Moq;
 using SysColors = System.Windows.Media.Colors;
 #else
@@ -40,18 +37,11 @@ namespace Balder.Tests
 	{
 		public class SomeNode : RenderableNode
 		{
-			public SomeNode(IIdentityManager identityManager)
-				: base(identityManager)
-			{
-				
-			}
-			
 		}
 
 		private RenderableNode CreateNode()
 		{
-			var identityManagerMock = new Mock<IIdentityManager>();
-			var node = new SomeNode(identityManagerMock.Object);
+			var node = new SomeNode();
 			return node;
 		}
 

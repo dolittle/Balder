@@ -24,11 +24,7 @@ using System.Collections.Specialized;
 using System.Windows.Markup;
 #endif
 
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 using Balder.Collections;
-using Balder.Execution;
 using Balder.Rendering;
 
 
@@ -39,15 +35,8 @@ namespace Balder
 #endif
 	public class HierarchicalNode : Node, IHaveChildren
 	{
-#if(DEFAULT_CONSTRUCTOR)
-		protected HierarchicalNode()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-		}
-#endif
 
-		protected HierarchicalNode(IIdentityManager identityManager)
-			: base(identityManager)
+		protected HierarchicalNode()
 		{
 			Children = new NodeCollection(this);
 #if(SILVERLIGHT)

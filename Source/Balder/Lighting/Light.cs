@@ -22,9 +22,6 @@ using System.ComponentModel;
 using Balder.Silverlight.TypeConverters;
 #endif
 
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
@@ -39,19 +36,6 @@ namespace Balder.Lighting
 
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
 
-#if(DEFAULT_CONSTRUCTOR)
-		protected Light()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
-
-		protected Light(IIdentityManager identityManager)
-			: base(identityManager)
-		{
-			
-		}
 
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(ColorConverter))]

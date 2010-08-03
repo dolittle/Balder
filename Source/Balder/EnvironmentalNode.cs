@@ -17,25 +17,12 @@
 //
 #endregion
 
-using Balder.Execution;
-#if(SILVERLIGHT)
-using Ninject;
-#endif
 
 namespace Balder
 {
 	public class EnvironmentalNode : Node
 	{
-#if(SILVERLIGHT)
 		protected EnvironmentalNode()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
-
-		protected EnvironmentalNode(IIdentityManager identityManager)
-			: base(identityManager)
 		{
 			
 		}

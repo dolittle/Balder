@@ -40,7 +40,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			vertex.V = -(t * 0.5f) + 0.5f;
 		}
 
-		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -158,7 +158,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var framebuffer = BufferContainer.Framebuffer;
 			var depthBuffer = BufferContainer.DepthBuffer;
-			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -315,9 +314,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 							 offset,
 							 framebuffer,
 							 image,
-							 texels,
-							 nodeBuffer,
-							 nodeIdentifier);
+							 texels);
 				}
 
 				if (y == (int)yb)
@@ -365,9 +362,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			int offset,
 			int[] framebuffer,
 			IMap image,
-			int[] texels,
-			UInt32[] nodeBuffer,
-			UInt32 nodeIdentifier)
+			int[] texels)
 		{
 
 			for (var x = 0; x <= length; x++)
@@ -385,7 +380,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					framebuffer[offset] = texels[texel];
 					depthBuffer[offset] = bufferZ;
-					nodeBuffer[offset] = nodeIdentifier;
 				}
 
 				offset++;

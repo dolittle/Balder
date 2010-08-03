@@ -45,10 +45,9 @@ namespace Balder.Display.Silverlight
 		private bool _forceShow;
 		private bool _forceClear;
 
-		public Display(IPlatform platform, IMetaDataPixelBuffer metaDataPixelBuffer)
+		public Display(IPlatform platform)
 		{
 			_platform = platform;
-			MetaDataPixelBuffer = metaDataPixelBuffer;
 			ClearEnabled = true;
 		}
 
@@ -62,8 +61,6 @@ namespace Balder.Display.Silverlight
 		{
 			_bitmapQueue = new WriteableBitmapQueue(width,height);
 			_frontDepthBuffer = new UInt32[width*height];
-
-			MetaDataPixelBuffer.Initialize(width,height);
 
 			BufferContainer.Width = width;
 			BufferContainer.Height = height;
@@ -134,34 +131,6 @@ namespace Balder.Display.Silverlight
 		}
 
 
-		public INode GetNodeAtPosition(int xPosition, int yPosition)
-		{
-			var node = MetaDataPixelBuffer.GetNodeAtPosition(xPosition, yPosition);
-			return node;
-		}
-
-		public Material GetMaterialAtPosition(int xPosition, int yPosition)
-		{
-			var material = MetaDataPixelBuffer.GetMaterialAtPosition(xPosition, yPosition);
-			return material;
-		}
-
-		public Face GetFaceAtPosition(int xPosition, int yPosition)
-		{
-			var renderFace = MetaDataPixelBuffer.GetRenderFaceAtPosition(xPosition, yPosition);
-			return renderFace;
-		}
-
-		public int GetFaceIndexAtPosition(int xPosition, int yPosition)
-		{
-			var renderFace = MetaDataPixelBuffer.GetRenderFaceAtPosition(xPosition, yPosition);
-			if( null == renderFace )
-			{
-				return -1;
-			}
-			return renderFace.Index;
-		}
-
 		public int[] GetCurrentFrame()
 		{
 			var frame = new int[BufferContainer.Framebuffer.Length];
@@ -176,9 +145,6 @@ namespace Balder.Display.Silverlight
 		
 		private UInt32[] _frontDepthBuffer;
 
-		
-		public IMetaDataPixelBuffer MetaDataPixelBuffer { get; private set; }
-		
 
 		public void PrepareRender()
 		{
@@ -197,8 +163,6 @@ namespace Balder.Display.Silverlight
 
 		private void PrepareFrame(PrepareFrameMessage obj)
 		{
-			MetaDataPixelBuffer.NewFrame();
-			BufferContainer.NodeBuffer = MetaDataPixelBuffer.RenderingBuffer;
 		}
 
 		private bool ShouldClear()

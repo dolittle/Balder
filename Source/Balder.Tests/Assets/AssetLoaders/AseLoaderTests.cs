@@ -23,7 +23,6 @@ using System.Text;
 using Balder.Assets;
 using Balder.Assets.AssetLoaders;
 using Balder.Content;
-using Balder.Execution;
 using Balder.Imaging;
 using Balder.Materials;
 using Balder.Objects.Geometries;
@@ -48,16 +47,15 @@ namespace Balder.Tests.Assets.AssetLoaders
 		{
 			var geometryContext = new FakeGeometryContext();
 			var mockContentManager = new Mock<IContentManager>();
-			var identityManagerMock = new Mock<IIdentityManager>();
 			mockContentManager.Expect(c => c.CreateAssetPart<Geometry>()).Returns(() =>
 																					{
-																						var geometry = new Geometry(geometryContext, identityManagerMock.Object);
+																						var geometry = new Geometry(geometryContext);
 																						geometry.GeometryContext = geometryContext;
 																						return geometry;
 																					});
 			var contentCreatorMock = new Mock<IContentCreator>();
 
-			contentCreatorMock.Expect(c => c.CreateMaterial()).Returns(new Material(identityManagerMock.Object));
+			contentCreatorMock.Expect(c => c.CreateMaterial()).Returns(new Material());
 			mockContentManager.Expect(c => c.Creator).Returns(contentCreatorMock.Object);
 
 			var fileLoader = new StringFileLoader();

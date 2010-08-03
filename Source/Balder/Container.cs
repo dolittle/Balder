@@ -23,24 +23,12 @@ using Balder.Collections;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Rendering;
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 
 namespace Balder
 {
 	public class Container : Node, IHaveChildren, ICanBeVisible
 	{
-#if(DEFAULT_CONSTRUCTOR)
 		public Container()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
-
-		public Container(IIdentityManager identityManager)
-			: base(identityManager)
 		{
 			Children = new NodeCollection(this);
 			IsVisible = true;

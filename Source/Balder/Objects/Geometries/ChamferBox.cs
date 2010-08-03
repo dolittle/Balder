@@ -35,16 +35,15 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public ChamferBox()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 			
 		}
 #endif
 
 
-		public ChamferBox(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public ChamferBox(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 		}
 

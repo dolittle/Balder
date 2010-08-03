@@ -23,9 +23,6 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 
 namespace Balder.Lighting
 {
@@ -34,16 +31,7 @@ namespace Balder.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
-#if(DEFAULT_CONSTRUCTOR)
 		public DirectionalLight()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
-
-		public DirectionalLight(IIdentityManager identityManager)
-			: base(identityManager)
 		{
 			SpecularIntensity = 1d;
 		}

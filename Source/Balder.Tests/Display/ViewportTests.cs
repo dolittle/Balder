@@ -34,8 +34,7 @@ namespace Balder.Tests.Display
 	{
 		public class SimpleNode : RenderableNode
 		{
-			public SimpleNode(IIdentityManager identityManager)
-				: base(identityManager)
+			public SimpleNode()
 			{
 				World = Matrix.Identity;
 				RenderingWorld = Matrix.Identity;
@@ -66,11 +65,10 @@ namespace Balder.Tests.Display
 		[Test]
 		public void GettingNodeAtCenterWithViewInFrontShouldReturnTheNodeInCenter()
 		{
-			var identityManagerMock = new Mock<IIdentityManager>();
 			var viewport = GetViewport();
 			viewport.View.Position.Set(0, 0, 0 - 10);
 
-			var simpleNode = new SimpleNode(identityManagerMock.Object);
+			var simpleNode = new SimpleNode();
 			simpleNode.BoundingSphere = new BoundingSphere(new Vector(0,0,0), 10f);
 			viewport.Scene.AddNode(simpleNode);
 
@@ -82,11 +80,10 @@ namespace Balder.Tests.Display
 		[Test]
 		public void GettingNodeAtCenterWithViewInFrontAndNoNodeIsInCenterShouldReturnNull()
 		{
-			var identityManagerMock = new Mock<IIdentityManager>();
 			var viewport = GetViewport();
 			viewport.View.Position.Set(0, 0, 0 - 10);
 
-			var simpleNode = new SimpleNode(identityManagerMock.Object);
+			var simpleNode = new SimpleNode();
 			simpleNode.BoundingSphere = new BoundingSphere(new Vector(0, 0, 0), 10f);
 			simpleNode.RenderingWorld = Matrix.CreateTranslation(-100, 0, 0);
 			viewport.Scene.AddNode(simpleNode);
@@ -106,11 +103,10 @@ namespace Balder.Tests.Display
 		[Test]
 		public void GettingNodeAtCenterWithViewMovedToLeftShouldReturnTheNodeInCenter()
 		{
-			var identityManagerMock = new Mock<IIdentityManager>();
 			var viewport = GetViewport();
 			viewport.View.Position.Set(-100, 0, 0 - 10);
 
-			var simpleNode = new SimpleNode(identityManagerMock.Object);
+			var simpleNode = new SimpleNode();
 			simpleNode.BoundingSphere = new BoundingSphere(new Vector(0, 0, 0), 10f);
 			viewport.Scene.AddNode(simpleNode);
 
@@ -122,16 +118,15 @@ namespace Balder.Tests.Display
 		[Test]
 		public void GettingNodeAtCenterWithViewInFrontAndMultipleNodesShouldGetTheClosestNode()
 		{
-			var identityManagerMock = new Mock<IIdentityManager>();
 			var viewport = GetViewport();
 			viewport.View.Position.Set(-100, 0, 0 - 10);
 
-			var farthestNode = new SimpleNode(identityManagerMock.Object);
+			var farthestNode = new SimpleNode();
 			farthestNode.BoundingSphere = new BoundingSphere(new Vector(0, 0, 0), 10f);
 			farthestNode.RenderingWorld = Matrix.CreateTranslation(0, 0, 100);
 			viewport.Scene.AddNode(farthestNode);
 
-			var nearestNode = new SimpleNode(identityManagerMock.Object);
+			var nearestNode = new SimpleNode();
 			nearestNode.BoundingSphere = new BoundingSphere(new Vector(0, 0, 0), 10f);
 			nearestNode.RenderingWorld = Matrix.CreateTranslation(0, 0, 0);
 			viewport.Scene.AddNode(nearestNode);

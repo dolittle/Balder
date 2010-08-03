@@ -25,7 +25,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class GouraudTriangle : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -133,7 +133,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var framebuffer = BufferContainer.Framebuffer;
 			var depthBuffer = BufferContainer.DepthBuffer;
-			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -321,22 +320,20 @@ namespace Balder.Rendering.Silverlight.Drawing
 					var aAddInt = (int)(aAdd * 65535f);
 
 					offset = yoffset + xStart;
-					DrawSpan(	length, 
-					         	zStart, 
-					         	zAdd,
-					         	rStartInt,
-					         	rAddInt,
-					         	gStartInt,
-					         	gAddInt,
-					         	bStartInt,
-					         	bAddInt,
-					         	aStartInt,
-					         	aAddInt,
-					         	depthBuffer, 
-					         	offset, 
-					         	framebuffer,
-								nodeBuffer,
-								nodeIdentifier);
+					DrawSpan(length,
+					         zStart,
+					         zAdd,
+					         rStartInt,
+					         rAddInt,
+					         gStartInt,
+					         gAddInt,
+					         bStartInt,
+					         bAddInt,
+					         aStartInt,
+					         aAddInt,
+					         depthBuffer,
+					         offset,
+					         framebuffer);
 				}
 
 				if (y == (int)yb)
@@ -397,9 +394,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		    int aAdd,
 		    uint[] depthBuffer,
 		    int offset,
-		    int[] framebuffer,
-			UInt32[] nodeBuffer, 
-			UInt32 nodeIdentifier)
+		    int[] framebuffer)
 		{
 			
 			for (var x = 0; x <= length; x++)
@@ -424,7 +419,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					framebuffer[offset] = (int)colorAsInt;
 					depthBuffer[offset] = bufferZ;
-					nodeBuffer[offset] = nodeIdentifier;
 				}
 
 				offset++;

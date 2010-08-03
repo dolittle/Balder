@@ -36,16 +36,16 @@ namespace Balder.Materials
 	/// Represents a material
 	/// </summary>
 #if(SILVERLIGHT)
-	public class Material : FrameworkElement, IHaveIdentity
+	public class Material : FrameworkElement
 #else
-	public class Material : IHaveIdentity
+	public class Material
 #endif
 	{
 		public static Material Default;
 
 		static Material()
 		{
-			Default = Runtime.Instance.ContentManager.Creator.CreateMaterial();
+			Default = new Material();
 			Default.Ambient = Colors.Blue;
 			Default.Diffuse = Colors.Blue;
 			Default.Specular = Colors.White;
@@ -54,7 +54,7 @@ namespace Balder.Materials
 
 		public static Material FromColor(Color color)
 		{
-			var material = Runtime.Instance.ContentManager.Creator.CreateMaterial();
+			var material = new Material();
 			material.Ambient = color;
 			material.Diffuse = color;
 			material.Specular = Colors.White;
@@ -62,27 +62,13 @@ namespace Balder.Materials
 			return material;
 		}
 
-#if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
 		/// Creates an instance of <see cref="Material"/>
 		/// </summary>
 		public Material()
-			: this(
-				Runtime.Instance.Kernel.Get<IIdentityManager>()
-			)
-		{
-		}
-#endif
-
-
-		/// <summary>
-		/// Creates an instance of <see cref="Material"/>
-		/// </summary>
-		public Material(IIdentityManager identityManager)
 		{
 			Shade = MaterialShade.None;
 			Diffuse = Color.Random();
-			Id = identityManager.AllocateIdentity<Material>();
 		}
 
 
@@ -169,10 +155,5 @@ namespace Balder.Materials
 			get { return ReflectionMapProperty.GetValue(this); }
 			set { ReflectionMapProperty.SetValue(this, value); }
 		}
-
-		/// <summary>
-		/// Gets the Id of the Material
-		/// </summary>
-		public UInt16 Id { get; private set; }
 	}
 }

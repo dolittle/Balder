@@ -45,16 +45,15 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Heightmap()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 			
 		}
 #endif
 
 
-		public Heightmap(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public Heightmap(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			LengthSegments = 1;
 			HeightSegments = 1;

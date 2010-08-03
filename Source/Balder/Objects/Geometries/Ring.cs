@@ -134,14 +134,13 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Ring()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 		}
 #endif
 
-		public Ring(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public Ring(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			StartAngle = 0;
 			EndAngle = 360;

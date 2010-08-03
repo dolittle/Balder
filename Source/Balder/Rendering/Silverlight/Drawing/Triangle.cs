@@ -19,8 +19,6 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
-
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	public abstract class Triangle
@@ -111,7 +109,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			vertexC = point3;
 		}
 
-		public abstract void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier);
+		public abstract void Draw(RenderFace face, RenderVertex[] vertices);
 	}
 }
 #endif

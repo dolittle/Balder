@@ -40,15 +40,13 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public MergedGeometry()
-			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 			
 		}
 #endif
 
-		public MergedGeometry(INodeRenderingService renderingService, IIdentityManager identityManager)
-			: base(identityManager)
+		public MergedGeometry(INodeRenderingService renderingService)
 		{
 			_renderingService = renderingService;
 			_nodes = new Dictionary<IGeometryDetailLevel, INode>();

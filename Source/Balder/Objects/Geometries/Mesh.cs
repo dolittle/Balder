@@ -37,13 +37,16 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Mesh()
-			: this(
-				Runtime.Instance.Kernel.Get<IContentManager>(),
-				Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IContentManager>())
 		{
 
 		}
 #endif
+
+		public Mesh(IContentManager contentManager)
+		{
+			_contentManager = contentManager;
+		}
 
 #if(SILVERLIGHT)
 
@@ -65,11 +68,6 @@ namespace Balder.Objects.Geometries
 		}
 
 
-		public Mesh(IContentManager contentManager, IIdentityManager identityManager)
-			: base(identityManager)
-		{
-			_contentManager = contentManager;
-		}
 
 
 		public IAssetPart[] GetAssetParts()

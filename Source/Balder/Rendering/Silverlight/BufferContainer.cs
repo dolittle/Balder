@@ -25,7 +25,6 @@ namespace Balder.Rendering.Silverlight
 	{
 		public static int[] Framebuffer { get; set; }
 		public static UInt32[] DepthBuffer { get; set; }
-		public static uint[] NodeBuffer { get; set; }
 
 		public static int Width { get; set; }
 		public static int Height { get; set; }

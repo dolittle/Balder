@@ -18,13 +18,11 @@
 #endregion
 #if(SILVERLIGHT)
 using System.Collections.Generic;
-using Balder;
 using Balder.Display;
 using Balder.Lighting;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
-using Balder.Rendering;
 
 namespace Balder.Rendering.Silverlight
 {
@@ -32,12 +30,10 @@ namespace Balder.Rendering.Silverlight
 	{
 		private readonly Dictionary<DetailLevel, IGeometryDetailLevel> _detailLevels;
 		private readonly ILightCalculator _lightCalculator;
-		private readonly IMetaDataPixelBuffer _metaDataPixelBuffer;
 
-		public GeometryContext(ILightCalculator lightCalculator, IMetaDataPixelBuffer metaDataPixelBuffer)
+		public GeometryContext(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
-			_metaDataPixelBuffer = metaDataPixelBuffer;
 			_detailLevels = new Dictionary<DetailLevel, IGeometryDetailLevel>();
 		}
 
@@ -67,7 +63,7 @@ namespace Balder.Rendering.Silverlight
 			}
 			else
 			{
-				detailLevel = new GeometryDetailLevel(_lightCalculator, _metaDataPixelBuffer);
+				detailLevel = new GeometryDetailLevel(_lightCalculator);
 				_detailLevels[level] = detailLevel;
 			}
 			return detailLevel;
@@ -125,7 +121,7 @@ namespace Balder.Rendering.Silverlight
 					}
 				}
 
-				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _metaDataPixelBuffer);
+				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator);
 				_detailLevels[DetailLevel.BoundingBox] = boundingBoxDetailLevel;
 			}
 		}

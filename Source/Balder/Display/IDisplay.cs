@@ -17,11 +17,6 @@
 //
 #endregion
 
-using Balder.Materials;
-using Balder.Math;
-using Balder.Objects;
-using Balder.Objects.Geometries;
-
 namespace Balder.Display
 {
 	/// <summary>
@@ -68,38 +63,6 @@ namespace Balder.Display
 		/// </summary>
 		/// <param name="container">Container</param>
 		void InitializeContainer(object container);
-
-		/// <summary>
-		/// Get a node at a specific position within the display
-		/// </summary>
-		/// <param name="xPosition">X position</param>
-		/// <param name="yPosition">Y position</param>
-		/// <returns>The node at the position, null if no node is at the position</returns>
-		INode GetNodeAtPosition(int xPosition, int yPosition);
-
-		/// <summary>
-		/// Get the material at a specific position within the display
-		/// </summary>
-		/// <param name="xPosition">X position</param>
-		/// <param name="yPosition">Y position</param>
-		/// <returns>The material at the position, null if no material is at the position</returns>
-		Material GetMaterialAtPosition(int xPosition, int yPosition);
-
-		/// <summary>
-		/// Get the face at a specific position within the display
-		/// </summary>
-		/// <param name="xPosition">X position</param>
-		/// <param name="yPosition">Y position</param>
-		/// <returns>The face at the position, null if no face was at the position</returns>
-		Face GetFaceAtPosition(int xPosition, int yPosition);
-
-		/// <summary>
-		/// Get the index of a face within a geometry of a node at a specific position within the display
-		/// </summary>
-		/// <param name="xPosition">X position</param>
-		/// <param name="yPosition">Y position</param>
-		/// <returns>The face index at the position, -1 if no face was at the position</returns>
-		int GetFaceIndexAtPosition(int xPosition, int yPosition);
 
 		/// <summary>
 		/// Gets the current frames pixeldata

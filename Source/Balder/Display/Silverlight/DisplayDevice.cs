@@ -17,12 +17,8 @@
 //
 #endregion
 #if(SILVERLIGHT)
-using System;
-using Balder.Display;
 using System.Collections.Generic;
 using Balder.Execution;
-using Balder.Rendering.Silverlight;
-using Ninject;
 
 namespace Balder.Display.Silverlight
 {
@@ -41,8 +37,7 @@ namespace Balder.Display.Silverlight
 
 		public IDisplay CreateDisplay()
 		{
-			// TODO: Don't like that I have to call the Kernel here.  Need to get this injected. Decouple decouple decouple.... 
-			var display = new Display(_platform,Runtime.Instance.Kernel.Get<IMetaDataPixelBuffer>());
+			var display = new Display(_platform);
 			lock( _displays )
 			{
 				_displays.Add(display);	

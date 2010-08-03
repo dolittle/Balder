@@ -25,7 +25,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class FlatTriangle : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -71,7 +71,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var framebuffer = BufferContainer.Framebuffer;
 			var depthBuffer = BufferContainer.DepthBuffer;
-			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -174,7 +173,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 					zStart += zAdd*(float) xClipStart;
 					offset = yoffset + xStart;
 
-					DrawSpan(length, zStart, zAdd, depthBuffer, offset, framebuffer, colorAsInt, nodeBuffer, nodeIdentifier);
+					DrawSpan(length, zStart, zAdd, depthBuffer, offset, framebuffer, colorAsInt);
 				}
 
 				if (y == (int)yb)
@@ -204,9 +203,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint[] depthBuffer, 
 			int offset, 
 			int[] framebuffer, 
-			int colorAsInt, 
-			UInt32[] nodeBuffer, 
-			UInt32 nodeIdentifier)
+			int colorAsInt)
 		{
 			for (var x = 0; x <= length; x++)
 			{
@@ -218,7 +215,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				{
 					framebuffer[offset] = colorAsInt;
 					depthBuffer[offset] = bufferZ;
-					nodeBuffer[offset] = nodeIdentifier;
 				}
 						
 				offset++;

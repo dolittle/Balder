@@ -27,8 +27,8 @@ namespace Balder.Debug
 	{
 		private const int NumberOfCirclePoints = 32;
 
-		public BoundingSphereDebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public BoundingSphereDebugShape(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			
 		}

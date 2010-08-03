@@ -45,14 +45,12 @@ namespace Balder.Objects.Flat
 #if(DEFAULT_CONSTRUCTOR)
 		public Sprite()
 			: this(Runtime.Instance.Kernel.Get<IContentManager>(),
-			Runtime.Instance.Kernel.Get<ISpriteContext>(),
-			Runtime.Instance.Kernel.Get<IIdentityManager>())
+			Runtime.Instance.Kernel.Get<ISpriteContext>())
 		{
 		}
 #endif
 
-		public Sprite(IContentManager contentManager, ISpriteContext spriteContext, IIdentityManager identityManager)
-			: base(identityManager)
+		public Sprite(IContentManager contentManager, ISpriteContext spriteContext)
 		{
 			_contentManager = contentManager;
 			_spriteContext = spriteContext;

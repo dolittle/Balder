@@ -116,9 +116,6 @@
     <Compile Include="Display\Silverlight\DisplayDevice.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
-    <Compile Include="Execution\IdentityManager.cs" />
-    <Compile Include="Execution\IHaveIdentity.cs" />
-    <Compile Include="Execution\IIdentityManager.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\Silverlight\Platform.cs" />
@@ -280,8 +277,6 @@
     <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
     <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Silverlight\ImageContext.cs" />
-    <Compile Include="Rendering\Silverlight\IMetaDataPixelBuffer.cs" />
-    <Compile Include="Rendering\Silverlight\MetaDataPixelBuffer.cs" />
     <Compile Include="Rendering\Silverlight\RenderFace.cs" />
     <Compile Include="Rendering\Silverlight\RenderingManager.cs" />
     <Compile Include="Rendering\Silverlight\RenderVertex.cs" />

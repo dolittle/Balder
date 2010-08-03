@@ -135,14 +135,13 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Cylinder()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 		}
 #endif
 
-		public Cylinder(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public Cylinder(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			StartAngle = 0;
 			EndAngle = 360;

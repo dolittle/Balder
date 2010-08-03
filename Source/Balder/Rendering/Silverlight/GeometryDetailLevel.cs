@@ -42,7 +42,6 @@ namespace Balder.Rendering.Silverlight
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
-		private readonly IMetaDataPixelBuffer _metaDataPixelBuffer;
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
@@ -52,10 +51,9 @@ namespace Balder.Rendering.Silverlight
 
 		private bool _hasPrepared;
 
-		public GeometryDetailLevel(ILightCalculator lightCalculator, IMetaDataPixelBuffer metaDataPixelBuffer)
+		public GeometryDetailLevel(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
-			_metaDataPixelBuffer = metaDataPixelBuffer;
 		}
 
 
@@ -483,8 +481,6 @@ namespace Balder.Rendering.Silverlight
 			{
 				var face = _faces[faceIndex];
 
-				var nodeIdentifier = _metaDataPixelBuffer.GetIdentifier(node, face, face.Material);
-
 				var a = _vertices[face.A];
 				var b = _vertices[face.B];
 				var c = _vertices[face.C];
@@ -520,15 +516,15 @@ namespace Balder.Rendering.Silverlight
 							{
 								if (depthTest)
 								{
-									TextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+									TextureTriangleRenderer.Draw(face, _vertices);
 								} else
 								{
-									TextureTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
+									TextureTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
 							}
 							else
 							{
-								FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+								FlatTriangleRenderer.Draw(face, _vertices);
 							}
 						}
 						break;
@@ -539,16 +535,16 @@ namespace Balder.Rendering.Silverlight
 							face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
 							if (null != material.DiffuseMap || null != material.ReflectionMap)
 							{
-								FlatTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+								FlatTextureTriangleRenderer.Draw(face, _vertices);
 							}
 							else
 							{
 								if( depthTest )
 								{
-									FlatTriangleRenderer.Draw(face, _vertices, nodeIdentifier);	
+									FlatTriangleRenderer.Draw(face, _vertices);	
 								} else
 								{
-									FlatTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
+									FlatTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
 							}
 						}
@@ -562,16 +558,16 @@ namespace Balder.Rendering.Silverlight
 
 							if (null != material.DiffuseMap || null != material.ReflectionMap)
 							{
-								GouraudTextureTriangleRenderer.Draw(face, _vertices, nodeIdentifier);
+								GouraudTextureTriangleRenderer.Draw(face, _vertices);
 							}
 							else
 							{
 								if( depthTest )
 								{
-									GouraudTriangleRenderer.Draw(face, _vertices, nodeIdentifier);	 
+									GouraudTriangleRenderer.Draw(face, _vertices);	 
 								} else
 								{
-									GouraudTriangleNoDepthRenderer.Draw(face, _vertices, nodeIdentifier);
+									GouraudTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
 							}
 

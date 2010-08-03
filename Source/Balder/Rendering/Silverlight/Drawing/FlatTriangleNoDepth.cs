@@ -19,13 +19,11 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
-
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class FlatTriangleNoDepth : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -56,8 +54,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var xInterpolate3 = deltaX2 / deltaY2;
 
 			var framebuffer = BufferContainer.Framebuffer;
-			var depthBuffer = BufferContainer.DepthBuffer;
-			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -145,7 +141,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				{
 					offset = yoffset + xStart;
 
-					DrawSpan(length, offset, framebuffer, colorAsInt, nodeBuffer, nodeIdentifier);
+					DrawSpan(length, offset, framebuffer, colorAsInt);
 				}
 
 				if (y == (int)yb)
@@ -166,15 +162,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 			int length, 
 			int offset, 
 			int[] framebuffer, 
-			int colorAsInt, 
-			UInt32[] nodeBuffer, 
-			UInt32 nodeIdentifier)
+			int colorAsInt)
 		{
 			for (var x = 0; x <= length; x++)
 			{
 				framebuffer[offset] = colorAsInt;
-				nodeBuffer[offset] = nodeIdentifier;
-						
 				offset++;
 			}
 		}

@@ -25,8 +25,8 @@ namespace Balder.Objects.Geometries
 {
 	public class GeneratedGeometry : Geometry
 	{
-		protected GeneratedGeometry(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		protected GeneratedGeometry(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			
 		}

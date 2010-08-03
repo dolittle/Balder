@@ -53,14 +53,12 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Geometry()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-			Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 		}
 #endif
 
-		public Geometry(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(identityManager)
+		public Geometry(IGeometryContext geometryContext)
 		{
 			GeometryContext = geometryContext;
 			InitializeProperties();

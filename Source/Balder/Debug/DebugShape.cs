@@ -17,7 +17,6 @@
 //
 #endregion
 using Balder.Display;
-using Balder.Execution;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
 
@@ -28,8 +27,7 @@ namespace Balder.Debug
 		private IGeometryContext GeometryContext { get; set; }
 		protected IGeometryDetailLevel GeometryDetailLevel { get; private set; }
 		
-		public DebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(identityManager)
+		public DebugShape(IGeometryContext geometryContext)
 		{
 			GeometryContext = geometryContext;
 			GeometryDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);

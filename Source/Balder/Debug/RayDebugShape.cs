@@ -20,7 +20,6 @@
 #endregion
 
 using Balder.Display;
-using Balder.Execution;
 using Balder.Math;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
@@ -29,8 +28,8 @@ namespace Balder.Debug
 {
 	public class RayDebugShape : DebugShape
 	{
-		public RayDebugShape(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext,identityManager)
+		public RayDebugShape(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			RenderingWorld = Matrix.Identity;
 		}

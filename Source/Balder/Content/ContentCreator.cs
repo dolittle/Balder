@@ -26,17 +26,15 @@ namespace Balder.Content
 	public class ContentCreator : IContentCreator
 	{
 		private readonly IKernel _kernel;
-		private readonly IIdentityManager _identityManager;
 
 		/// <summary>
 		/// Creates a new ContentCreator and provides functionality for creating content
 		/// </summary>
 		/// <param name="kernel">Kernel that the ContentCreator will use for creating content</param>
 		/// <param name="identityManager">IdentityManager used during creation of certain content</param>
-		public ContentCreator(IKernel kernel, IIdentityManager identityManager)
+		public ContentCreator(IKernel kernel)
 		{
 			_kernel = kernel;
-			_identityManager = identityManager;
 		}
 
 		public T CreateGeometry<T>() where T : Geometry

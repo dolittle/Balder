@@ -48,16 +48,15 @@ namespace Balder.Objects.Geometries
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Box()
-			: this(Runtime.Instance.Kernel.Get<IGeometryContext>(),
-					Runtime.Instance.Kernel.Get<IIdentityManager>())
+			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
 		{
 			
 		}
 #endif
 
 
-		public Box(IGeometryContext geometryContext, IIdentityManager identityManager)
-			: base(geometryContext, identityManager)
+		public Box(IGeometryContext geometryContext)
+			: base(geometryContext)
 		{
 			_materials = new Dictionary<BoxSide, Material>();
 			_facesBySide = new Dictionary<BoxSide, List<int>>();

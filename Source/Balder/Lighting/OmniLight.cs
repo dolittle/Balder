@@ -17,12 +17,8 @@
 //
 #endregion
 using Balder.Display;
-using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 
 namespace Balder.Lighting
 {
@@ -42,20 +38,11 @@ namespace Balder.Lighting
 		public float Range { get; set; }
 
 
-#if(DEFAULT_CONSTRUCTOR)
-		public OmniLight()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
-
 		/// <summary>
 		/// Creates an instance of OmniLight
 		/// </summary>
 		/// <param name="identityManager">Identitymanager to use for the light</param>
-		public OmniLight(IIdentityManager identityManager)
-			: base(identityManager)
+		public OmniLight()
 		{
 			Strength = 1f;
 			Range = 10.0f;

@@ -24,9 +24,6 @@ using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
 using Balder.View;
-#if(DEFAULT_CONSTRUCTOR)
-using Ninject;
-#endif
 
 namespace Balder.Lighting
 {
@@ -38,16 +35,8 @@ namespace Balder.Lighting
 		private Color _actualDiffuse;
 		private Matrix _angleMatrix;
 
-#if(DEFAULT_CONSTRUCTOR)
-		public ViewLight()
-			: this(Runtime.Instance.Kernel.Get<IIdentityManager>())
-		{
-			
-		}
-#endif
 
-		public ViewLight(IIdentityManager identityManager)
-			: base(identityManager)
+		public ViewLight()
 		{
 			PrepareAngleMatrix();
 		}

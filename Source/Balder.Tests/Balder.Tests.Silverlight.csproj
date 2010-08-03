@@ -160,7 +160,6 @@
     <Compile Include="Content\ContentCreatorTests.cs" />
     <Compile Include="Content\ContentManagerTests.cs" />
     <Compile Include="Execution\BubbledEventTests.cs" />
-    <Compile Include="Execution\IdentityManagerTests.cs" />
     <Compile Include="Execution\MessengerContextTests.cs" />
     <Compile Include="Execution\MessengerSubscriptionTests.cs" />
     <Compile Include="Execution\MessengerTests.cs" />
@@ -184,7 +183,6 @@
     <Compile Include="Math\VectorTests.cs" />
     <Compile Include="NodeTests.cs" />
     <Compile Include="Notification\NotifyingObjectWeaverTests.cs" />
-    <Compile Include="Rendering\Silverlight\MetaDataPixelBufferTests.cs" />
     <Compile Include="Resources\Models.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -268,7 +266,9 @@
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Rendering\Silverlight\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -32,9 +32,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint[] depthBuffer, 
 			int offset, 
 			int[] framebuffer, 
-			int colorAsInt, 
-			UInt32[] nodeBuffer, 
-			UInt32 nodeIdentifier)
+			int colorAsInt)
 		{
 			for (var x = 0; x <= length; x++)
 			{
@@ -45,7 +43,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				{
 					framebuffer[offset] = colorAsInt;
 					depthBuffer[offset] = bufferZ;
-					nodeBuffer[offset] = nodeIdentifier;
 				}
 
 				offset++;

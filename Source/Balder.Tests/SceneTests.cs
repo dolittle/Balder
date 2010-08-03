@@ -35,8 +35,7 @@ namespace Balder.Tests
 	{
 		public class MyRenderableNode : RenderableNode
 		{
-			public MyRenderableNode(IIdentityManager identityManager)
-				: base(identityManager)
+			public MyRenderableNode()
 			{
 
 			}
@@ -57,14 +56,12 @@ namespace Balder.Tests
 		public class RenderableNodeMock : RenderableNode
 		{
 			private readonly Action _actionToCall;
-			public RenderableNodeMock(IIdentityManager identityManager)
-				: base(identityManager)
+			public RenderableNodeMock()
 			{
 
 			}
 
-			public RenderableNodeMock(IIdentityManager identityManager, Action actionToCall)
-				: base(identityManager)
+			public RenderableNodeMock(Action actionToCall)
 			{
 				_actionToCall = actionToCall;
 			}
@@ -94,8 +91,7 @@ namespace Balder.Tests
 			camera.Update(viewport);
 
 			var fakeGeometryContext = new FakeGeometryContext();
-			var identityManagerMock = new Mock<IIdentityManager>();
-			var node = new Geometry(fakeGeometryContext, identityManagerMock.Object)
+			var node = new Geometry(fakeGeometryContext)
 						{
 							BoundingSphere = new BoundingSphere(Vector.Zero, 10000f)
 						};
@@ -120,8 +116,7 @@ namespace Balder.Tests
 			camera.Update(viewport);
 
 			var fakeGeometryContext = new FakeGeometryContext();
-			var identityManagerMock = new Mock<IIdentityManager>();
-			var node = new Geometry(fakeGeometryContext, identityManagerMock.Object)
+			var node = new Geometry(fakeGeometryContext)
 			{
 				BoundingSphere = new BoundingSphere(Vector.Zero, 10f)
 			};
@@ -145,8 +140,7 @@ namespace Balder.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var identityManagerMock = new Mock<IdentityManager>();
-			var renderableNode = new MyRenderableNode(identityManagerMock.Object);
+			var renderableNode = new MyRenderableNode();
 
 			scene.AddNode(renderableNode);
 
@@ -168,9 +162,8 @@ namespace Balder.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var identityManagerMock = new Mock<IdentityManager>();
-			var topLevelNode = new MyRenderableNode(identityManagerMock.Object);
-			var childNode = new MyRenderableNode(identityManagerMock.Object);
+			var topLevelNode = new MyRenderableNode();
+			var childNode = new MyRenderableNode();
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
@@ -191,10 +184,9 @@ namespace Balder.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var identityManagerMock = new Mock<IdentityManager>();
-			var topLevelNode = new MyRenderableNode(identityManagerMock.Object);
+			var topLevelNode = new MyRenderableNode();
 			topLevelNode.Position.X = 50;
-			var childNode = new RenderableNodeMock(identityManagerMock.Object);
+			var childNode = new RenderableNodeMock();
 			topLevelNode.Children.Add(childNode);
 
 			scene.AddNode(topLevelNode);
@@ -221,8 +213,7 @@ namespace Balder.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var identityManagerMock = new Mock<IdentityManager>();
-			var node = new MyRenderableNode(identityManagerMock.Object);
+			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
 			viewport.Render(null);
@@ -243,8 +234,7 @@ namespace Balder.Tests
 			camera.Update(viewport);
 			viewport.Scene = scene;
 
-			var identityManagerMock = new Mock<IdentityManager>();
-			var node = new MyRenderableNode(identityManagerMock.Object);
+			var node = new MyRenderableNode();
 			scene.AddNode(node);
 
 			viewport.Render(null);

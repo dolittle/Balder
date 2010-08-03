@@ -25,7 +25,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class GouraudTriangleNoDepth : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices, UInt32 nodeIdentifier)
+		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -118,8 +118,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 			var framebuffer = BufferContainer.Framebuffer;
-			var depthBuffer = BufferContainer.DepthBuffer;
-			var nodeBuffer = BufferContainer.NodeBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
 
@@ -291,18 +289,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					offset = yoffset + xStart;
 					DrawSpan(length,
-								rStartInt,
-								rAddInt,
-								gStartInt,
-								gAddInt,
-								bStartInt,
-								bAddInt,
-								aStartInt,
-								aAddInt,
-								offset,
-								framebuffer,
-								nodeBuffer,
-								nodeIdentifier);
+					         rStartInt,
+					         rAddInt,
+					         gStartInt,
+					         gAddInt,
+					         bStartInt,
+					         bAddInt,
+					         aStartInt,
+					         aAddInt,
+					         offset,
+					         framebuffer);
 				}
 
 				if (y == (int)yb)
@@ -354,9 +350,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			int aStart,
 			int aAdd,
 			int offset,
-			int[] framebuffer,
-			UInt32[] nodeBuffer,
-			UInt32 nodeIdentifier)
+			int[] framebuffer)
 		{
 
 			for (var x = 0; x <= length; x++)
@@ -374,7 +368,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 				framebuffer[offset] = (int)colorAsInt;
-				nodeBuffer[offset] = nodeIdentifier;
 
 				offset++;
 				rStart += rAdd;

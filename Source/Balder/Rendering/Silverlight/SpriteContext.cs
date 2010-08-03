@@ -46,10 +46,7 @@ namespace Balder.Rendering.Silverlight
 				return;
 			}
 
-			var nodeBuffer = BufferContainer.NodeBuffer;
-			var nodeIdentifier =
-				((Balder.Display.Silverlight.Display) viewport.Display).MetaDataPixelBuffer.GetIdentifier(sprite);
-
+			
 			var position = new Vector(0, 0, 0);
 			var transformedPosition = Vector.Transform(position, world, view);
 			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
@@ -75,11 +72,11 @@ namespace Balder.Rendering.Silverlight
 
 			if (xScale != 1f || yScale != 1f)
 			{
-				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, xScale, yScale, nodeBuffer, nodeIdentifier);
+				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, xScale, yScale);
 			}
 			else
 			{
-				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, nodeBuffer, nodeIdentifier);
+				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ);
 			}
 		}
 
@@ -91,9 +88,7 @@ namespace Balder.Rendering.Silverlight
 			Image image, 
 			Vector translatedPosition, 
 			int bufferSize, 
-			UInt32 bufferZ,
-			UInt32[] nodeBuffer,
-			UInt32 nodeIdentifier)
+			UInt32 bufferZ)
 		{
 			var imageContext = image.ImageContext as ImageContext;
 			var spriteOffset = 0;
@@ -132,7 +127,6 @@ namespace Balder.Rendering.Silverlight
 								{
 									BufferContainer.Framebuffer[actualOffset] = pixel;
 									BufferContainer.DepthBuffer[actualOffset] = bufferZ;
-									nodeBuffer[actualOffset] = nodeIdentifier;
 								}
 							}
 						}
@@ -156,9 +150,7 @@ namespace Balder.Rendering.Silverlight
 			int bufferSize, 
 			UInt32 bufferZ, 
 			float xScale, 
-			float yScale,
-			UInt32[] nodeBuffer,
-			UInt32 nodeIdentifier)
+			float yScale)
 		{
 			var imageContext = image.ImageContext as ImageContext;
 
@@ -216,7 +208,6 @@ namespace Balder.Rendering.Silverlight
 								{
 									BufferContainer.Framebuffer[actualOffset] = pixel;
 									BufferContainer.DepthBuffer[actualOffset] = bufferZ;
-									nodeBuffer[actualOffset] = nodeIdentifier;
 								}
 							}
 						}
