@@ -161,7 +161,11 @@
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
     <Compile Include="Rendering\Silverlight\SkyboxContext.cs" />
+    <Compile Include="Rendering\Silverlight\Texture.cs" />
+    <Compile Include="Rendering\Silverlight\TextureManager.cs" />
+    <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />

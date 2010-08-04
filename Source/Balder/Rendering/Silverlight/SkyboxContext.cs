@@ -69,7 +69,7 @@ namespace Balder.Rendering.Silverlight
 		private GeometryDetailLevel _skyboxGeometry;
 		private SkyboxNode _node;
 
-		public SkyboxContext(ILightCalculator lightCalculator)
+		public SkyboxContext(ILightCalculator lightCalculator, ITextureManager textureManager)
 		{
 			_front = new Material();
 			_back = new Material();
@@ -77,7 +77,7 @@ namespace Balder.Rendering.Silverlight
 			_bottom = new Material();
 			_left = new Material();
 			_right = new Material();
-			_skyboxGeometry = new GeometryDetailLevel(lightCalculator);
+			_skyboxGeometry = new GeometryDetailLevel(lightCalculator, textureManager);
 			PrepareVertices();
 			PrepareFaces();
 

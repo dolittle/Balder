@@ -18,55 +18,29 @@
 //
 
 #endregion
+using Balder.Materials;
 
-using System;
-using Balder.Imaging;
-
-namespace Balder.Materials
+namespace Balder.Rendering.Silverlight
 {
-	public class ImageMap : IMap
+	public class Texture
 	{
-		private readonly Image _image;
+		public TextureMipMapLevel FullDetailLevel;
 
-		public ImageMap(Image image)
+		public Texture()
 		{
-			_image = image;
+			FullDetailLevel = new TextureMipMapLevel();
 		}
 
-
-		public int[] GetPixelsAs32BppARGB()
+		public static Texture FromMap(IMap map)
 		{
-			return _image.ImageContext.GetPixelsAs32BppARGB();
+			var texture = new Texture();
+			texture.Update(map);
+			return texture;
 		}
 
-		public bool HasPixelChanges
+		public void Update(IMap map)
 		{
-			get { return false; }
-		}
-
-		public int Width
-		{
-			get { return _image.Width; }
-		}
-
-		public int Height
-		{
-			get { return _image.Height; }
-		}
-
-		public int WidthBitCount
-		{
-			get { return _image.WidthBitCount; }
-		}
-
-		public int HeightBitCount
-		{
-			get { return _image.HeightBitCount; }
-		}
-
-		public bool IsDynamic
-		{
-			get { return false; }
+			FullDetailLevel.SetFromMap(map);
 		}
 	}
 }

@@ -29,7 +29,7 @@
 
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera x:Name="Camera" Position="0,80,-150" Target="0,10,0" />
+				<View:Camera x:Name="Camera" Position="0,40,-80" Target="0,10,0" />
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="0,400,0" Diffuse="Green" Strength="0.5"/>

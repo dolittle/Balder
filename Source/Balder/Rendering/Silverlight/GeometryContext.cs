@@ -30,10 +30,12 @@ namespace Balder.Rendering.Silverlight
 	{
 		private readonly Dictionary<DetailLevel, IGeometryDetailLevel> _detailLevels;
 		private readonly ILightCalculator _lightCalculator;
+		private readonly ITextureManager _textureManager;
 
-		public GeometryContext(ILightCalculator lightCalculator)
+		public GeometryContext(ILightCalculator lightCalculator, ITextureManager textureManager)
 		{
 			_lightCalculator = lightCalculator;
+			_textureManager = textureManager;
 			_detailLevels = new Dictionary<DetailLevel, IGeometryDetailLevel>();
 		}
 
@@ -63,7 +65,7 @@ namespace Balder.Rendering.Silverlight
 			}
 			else
 			{
-				detailLevel = new GeometryDetailLevel(_lightCalculator);
+				detailLevel = new GeometryDetailLevel(_lightCalculator, _textureManager);
 				_detailLevels[level] = detailLevel;
 			}
 			return detailLevel;
@@ -121,7 +123,7 @@ namespace Balder.Rendering.Silverlight
 					}
 				}
 
-				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator);
+				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _textureManager);
 				_detailLevels[DetailLevel.BoundingBox] = boundingBoxDetailLevel;
 			}
 		}

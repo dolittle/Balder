@@ -46,6 +46,8 @@ namespace Balder.Rendering.Silverlight
 		public Color CalculatedColorB;
 		public Color CalculatedColorC;
 
+		public Texture DiffuseTexture;
+		public Texture ReflectionTexture;
 
 		public RenderFace(int a, int b, int c)
 			: base(a,b,c)

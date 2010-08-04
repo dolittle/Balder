@@ -29,5 +29,6 @@ namespace Balder.Materials
 		int Height { get; }
 		int WidthBitCount { get; }
 		int HeightBitCount { get; }
+		bool IsDynamic { get; }
 	}
 }

@@ -553,18 +553,14 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 
-					var red = (uint)(rStart >> 8) & 0xff;
-					var green = (uint)(gStart >> 8) & 0xff;
-					var blue = (uint)(bStart >> 8) & 0xff;
-					//var alpha = (uint)(aStart >> 8) & 0xff;
+					var red = rStart >> 8 & 0xff;
+					var green = gStart >> 8 & 0xff;
+					var blue = bStart >> 8 & 0xff;
+					//var alpha = aStart >> 8 & 0xff;
 
-					uint colorAsInt = 0xff000000 |
-									  (red << 16) |
-									  (green << 8) |
-									  blue;
+					var colorAsInt = Cluts.Compose(red, green, blue, 0xff);
 
-
-					framebuffer[offset] = Cluts.Multiply(texels[texel],(int)colorAsInt);
+					framebuffer[offset] = Cluts.Multiply(texels[texel],colorAsInt);
 					depthBuffer[offset] = bufferZ;
 				}
 

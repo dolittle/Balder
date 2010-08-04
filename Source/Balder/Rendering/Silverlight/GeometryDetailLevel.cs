@@ -43,6 +43,7 @@ namespace Balder.Rendering.Silverlight
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
+		private readonly ITextureManager _textureManager;
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
@@ -55,9 +56,10 @@ namespace Balder.Rendering.Silverlight
 		private Material _colorMaterial;
 
 
-		public GeometryDetailLevel(ILightCalculator lightCalculator)
+		public GeometryDetailLevel(ILightCalculator lightCalculator, ITextureManager textureManager)
 		{
 			_lightCalculator = lightCalculator;
+			_textureManager = textureManager;
 			_colorMaterial = Material.FromColor(Colors.Blue);
 		}
 
@@ -516,6 +518,9 @@ namespace Balder.Rendering.Silverlight
 					
 				}
 				CalculateVertexColorsForFace(face, viewport, material);
+
+				face.DiffuseTexture = _textureManager.GetTextureForMap(material.DiffuseMap);
+				face.ReflectionTexture = _textureManager.GetTextureForMap(material.ReflectionMap);	
 
 				switch (material.Shade)
 				{

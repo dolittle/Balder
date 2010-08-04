@@ -63,49 +63,40 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			IMap image = null;
-
-			if (null != face.Material.DiffuseMap)
+			TextureMipMapLevel texture = null;
+			if( null != face.DiffuseTexture )
 			{
-				image = face.Material.DiffuseMap;
-
-			}
-			else if (null != face.Material.ReflectionMap)
+				texture = face.DiffuseTexture.FullDetailLevel;
+			} else if( null != face.ReflectionTexture )
 			{
-				image = face.Material.ReflectionMap;
-
+				texture = face.ReflectionTexture.FullDetailLevel;
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
-			if (null == image)
-			{
-				return;
-			}
-			var texels = image.GetPixelsAs32BppARGB();
 
-
+			var texels = texture.OriginalPixels;
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * image.Width;
-			var va = vertexA.V * image.Height;
+			var ua = vertexA.U * texture.Width;
+			var va = vertexA.V * texture.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * image.Width;
-			var vb = vertexB.V * image.Height;
+			var ub = vertexB.U * texture.Width;
+			var vb = vertexB.V * texture.Height;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * image.Width;
-			var vc = vertexC.V * image.Height;
+			var uc = vertexC.U * texture.Width;
+			var vc = vertexC.V * texture.Height;
 
 
 			var deltaX1 = xb - xa;
@@ -313,8 +304,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 							 depthBuffer,
 							 offset,
 							 framebuffer,
-							 image,
-							 texels);
+							 texture);
 				}
 
 				if (y == (int)yb)
@@ -361,12 +351,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			IMap image,
-			int[] texels)
+			TextureMipMapLevel texture)
 		{
-			var textureWidth = image.Width;
-			var textureHeight = image.Height;
-
 
 			for (var x = 0; x <= length; x++)
 			{
@@ -376,12 +362,12 @@ namespace Balder.Rendering.Silverlight.Drawing
 					zStart < 1f
 					)
 				{
-					var intu = ((int)uStart) & (textureWidth - 1);
-					var intv = ((int)vStart) & (textureHeight - 1);
+					var intu = ((int)uStart) & (texture.Width - 1);
+					var intv = ((int)vStart) & (texture.Height - 1);
 
-					var texel = ((intv << image.WidthBitCount) + intu);
+					//var texel = ((intv << texture.WidthBitCount) + intu);
 
-					framebuffer[offset] = Bilerp(texels, texel, uStart, vStart, image, textureWidth, textureHeight);
+					framebuffer[offset] = Bilerp(texture, intu, intv, uStart, vStart);
 					depthBuffer[offset] = bufferZ;
 				}
 
@@ -392,51 +378,47 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 		}
 
-		private int Bilerp(int[] texels, int texel, float u, float v, IMap map, int textureWidth, int textureHeight)
+		private int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
 		{
-			var x = ((int)u) & (textureWidth - 1);
-			var y = ((int)v) & (textureHeight - 1);
-
 			var deltaX = ((int)((u - x) * 255f)) & 0xff;
 			var deltaY = ((int)((v - y) * 255f)) & 0xff;
 			
 			var inverseDeltaX = 0xff - deltaX;
 			var inverseDeltaY = 0xff - deltaY;
 
-
 			int rightPixel;
 			if (x < map.Width - 1)
 			{
-				rightPixel = texels[texel + 1];
+				rightPixel = map.Pixels[x + 1,y];
 			}
 			else
 			{
-				rightPixel = texels[texel];
+				rightPixel = map.Pixels[x,y];
 			}
 
 
 			int belowPixel;
 			if (y < map.Height - 1)
 			{
-				belowPixel = texels[texel + (1 << map.WidthBitCount)];
+				belowPixel = map.Pixels[x, y + 1];
 			}
 			else
 			{
-				belowPixel = texels[texel];
+				belowPixel = map.Pixels[x, y];
 			}
 
 			int belowRightPixel;
 			if (y < map.Height - 1 && x < map.Width - 1)
 			{
-				belowRightPixel = texels[texel + 1 + (1 << map.WidthBitCount)];
+				belowRightPixel = map.Pixels[x + 1, y + 1];
 			}
 			else
 			{
-				belowRightPixel = texels[texel];
+				belowRightPixel = map.Pixels[x, y];
 			}
 
-			
-			var pixel = texels[texel];
+
+			var pixel = map.Pixels[x, y];
 			var currentAlpha = ((pixel >> 24) & 0xff);
 			var currentRed = ((pixel >> 16) & 0xff);
 			var currentGreen = ((pixel >> 8) & 0xff);
@@ -487,9 +469,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 			return Cluts.Compose(red, green, blue, 0xff);
-			 
-
-			return texels[texel];
 		}
 
 	}
