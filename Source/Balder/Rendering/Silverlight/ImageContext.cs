@@ -34,7 +34,7 @@ namespace Balder.Rendering.Silverlight
 
 		public void SetFrame(byte[] frameBytes)
 		{
-			Pixels = new int[frameBytes.Length/4];
+			Pixels = new int[frameBytes.Length>>2];
 			Buffer.BlockCopy(frameBytes,0,Pixels,0,frameBytes.Length);
 		}
 

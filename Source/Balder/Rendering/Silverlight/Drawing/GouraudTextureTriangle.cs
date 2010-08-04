@@ -536,6 +536,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			IMap image,
 			int[] texels)
 		{
+			var textureWidth = image.Width;
+			var textureHeight = image.Height;
 			
 
 			for (var x = 0; x <= length; x++)
@@ -546,8 +548,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 					zStart < 1f
 					)
 				{
-					var intu = ((int)uStart) & (image.Width - 1);
-					var intv = ((int)vStart) & (image.Height - 1);
+					var intu = ((int)uStart) & (textureWidth - 1);
+					var intv = ((int)vStart) & (textureHeight - 1);
 
 					var texel = ((intv << image.WidthBitCount) + intu);
 

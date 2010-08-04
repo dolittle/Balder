@@ -35,7 +35,7 @@
 			</Execution:Game.Camera>
 
 			<!-- Add a all-direct, emitting light, in front of the cube -->
-			<Lighting:OmniLight Ambient="Black" Diffuse="Black" Specular="White" Position="0,0,-50" Strength="0.5" />
+			<Lighting:OmniLight Diffuse="Gray" Position="0,0,-50" Strength="0.5" />
 
 			<!-- Add a container that we can rotate that will contain the cube -->
 			<Core:Container x:Name="CubeContainer">
