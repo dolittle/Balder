@@ -70,6 +70,7 @@ namespace Balder.Materials
 		{
 			Shade = MaterialShade.None;
 			Diffuse = Color.Random();
+			Filtering = MaterialFiltering.Bilinear;
 		}
 
 
@@ -142,6 +143,12 @@ namespace Balder.Materials
 		/// Gets or sets the shade model for the material
 		/// </summary>
 		public MaterialShade Shade { get; set; }
+
+
+		/// <summary>
+		/// Gets or sets the filtering used when rendering the material
+		/// </summary>
+		public MaterialFiltering Filtering { get; set; }
 
 
 		/// <summary>

@@ -40,6 +40,7 @@ namespace Balder.Rendering.Silverlight
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
 		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
+		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 
@@ -526,7 +527,8 @@ namespace Balder.Rendering.Silverlight
 							{
 								if (depthTest)
 								{
-									TextureTriangleRenderer.Draw(face, _vertices);
+									//TextureTriangleRenderer.Draw(face, _vertices);
+									TextureTriangleBilinearRenderer.Draw(face, _vertices);
 								} else
 								{
 									TextureTriangleNoDepthRenderer.Draw(face, _vertices);

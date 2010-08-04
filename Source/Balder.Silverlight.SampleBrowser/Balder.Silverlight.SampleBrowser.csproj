@@ -303,6 +303,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Materials\Filtering\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Materials\MaterialPicker\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -557,6 +560,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Samples\Materials\Filtering\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Samples\Materials\MaterialPicker\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -668,7 +675,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Samples\Creative\RubicsCube\Assets\RubicsTextures.psd" />
-    <Resource Include="Assets\bird spaceship lp.ASE" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
     <None Include="Properties\AppManifest.xml" />
@@ -837,9 +843,6 @@
       <ProductName>Windows Installer 3.1</ProductName>
       <Install>true</Install>
     </BootstrapperPackage>
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Assets\spaceship lp.png" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Balder\Balder.Silverlight.csproj">
