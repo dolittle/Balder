@@ -13,7 +13,9 @@
 									 StartAngle="{Binding StartAngle}" 
 									 EndAngle="{Binding EndAngle}" 
 									 Spokes="False"
-									 Segments="16" />
+									 Segments="16" 
+									 ToolTip="{Binding Value}"
+									 />
 			</DataTemplate>
 		</Controls:NodesControl.NodeTemplate>
 	</Controls:NodesControl>

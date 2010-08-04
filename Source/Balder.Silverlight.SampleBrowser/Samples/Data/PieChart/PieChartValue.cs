@@ -16,6 +16,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart
 		}
 
 		private double _endAngle;
+		
+
 		public double EndAngle
 		{
 			get { return _endAngle; }
@@ -23,6 +25,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart
 			{
 				_endAngle = value;
 				OnPropertyChanged("EndAngle");
+			}
+		}
+
+		private double _value;
+		public double Value
+		{
+			get { return _value; }
+			set
+			{
+				_value = value;
+				OnPropertyChanged("Value");
 			}
 		}
 

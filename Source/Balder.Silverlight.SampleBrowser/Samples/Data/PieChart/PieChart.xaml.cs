@@ -169,6 +169,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.PieChart
 						
 					}
 
+					pieChartValue.Value = value;
 					
 
 					startAngle += angleCoverage;
