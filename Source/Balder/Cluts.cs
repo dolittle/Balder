@@ -2,6 +2,11 @@
 {
 	public class Cluts
 	{
+		private static int[] _redComponent;
+		private static int[] _greenComponent;
+		private static int[] _blueComponent;
+		private static int[] _alphaComponent;
+
 		private static byte[,] _addedComponent;
  		private static uint[,] _addedRedComponent;
 		private static uint[,] _addedGreenComponent;
@@ -15,8 +20,24 @@
 
 		static Cluts()
 		{
+			CalculateComponents();
 			CalculateAddedComponent();
 			CalculateMultipliedComponent();
+		}
+
+		private static void CalculateComponents()
+		{
+			_redComponent = new int[256];
+			_greenComponent = new int[256];
+			_blueComponent = new int[256];
+			_alphaComponent = new int[256];
+			for (var a = 0; a < 256; a++)
+			{
+				_redComponent[a] = (int)(((uint) a) << 16);
+				_greenComponent[a] = (int)(((uint) a) << 8);
+				_blueComponent[a] = (int)(((uint) a));
+				_alphaComponent[a] = (int)(((uint) a) << 24);
+			}
 		}
 
 		private static void CalculateAddedComponent()
@@ -127,6 +148,16 @@
 				_multipliedGreenComponent[greenA, greenB] |
 				_multipliedBlueComponent[blueA, blueB];
 			return (int)pixel;
+		}
+
+		public static int Compose(int red, int green, int blue, int alpha)
+		{
+			var pixel =
+				_redComponent[red] |
+				_greenComponent[green] |
+				_blueComponent[blue] |
+				_alphaComponent[alpha];
+			return pixel;
 		}
 		
 	}

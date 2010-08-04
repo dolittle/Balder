@@ -397,9 +397,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var x = ((int)u) & (textureWidth - 1);
 			var y = ((int)v) & (textureHeight - 1);
 
-			var deltaX = ((int)((u - x)*255f))&0xff;
-			var deltaY = ((int)((v - y)*255f))&0xff;
-
+			var deltaX = ((int)((u - x) * 255f)) & 0xff;
+			var deltaY = ((int)((v - y) * 255f)) & 0xff;
+			
 			var inverseDeltaX = 0xff - deltaX;
 			var inverseDeltaY = 0xff - deltaY;
 
@@ -459,6 +459,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var belowRightGreen = ((belowRightPixel>> 8) & 0xff);
 			var belowRightBlue = ((belowRightPixel) & 0xff);
 
+			
 			var multipliedCurrentRed = Cluts.Multiply(Cluts.Multiply(currentRed, inverseDeltaY), inverseDeltaX);
 			var multipliedBelowRed = Cluts.Multiply(Cluts.Multiply(belowRed, deltaY), inverseDeltaX);
 			var multipliedRightRed = Cluts.Multiply(Cluts.Multiply(rightRed, inverseDeltaY), deltaX);
@@ -466,7 +467,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var red = Cluts.Add(
 				Cluts.Add(multipliedCurrentRed, multipliedBelowRed),
 				Cluts.Add(multipliedRightRed, multipliedBelowRightRed));
-
+			
 			var multipliedCurrentGreen = Cluts.Multiply(Cluts.Multiply(currentGreen, inverseDeltaY), inverseDeltaX);
 			var multipliedBelowGreen = Cluts.Multiply(Cluts.Multiply(belowGreen, deltaY), inverseDeltaX);
 			var multipliedRightGreen = Cluts.Multiply(Cluts.Multiply(rightGreen, inverseDeltaY), deltaX);
@@ -484,20 +485,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 				Cluts.Add(multipliedRightBlue, multipliedBelowRightBlue));
 
 
-			/*
-			var red = (uint)(rStart >> 8) & 0xff;
-			var green = (uint)(gStart >> 8) & 0xff;
-			var blue = (uint)(bStart >> 8) & 0xff;
-			//var alpha = (uint)(aStart >> 8) & 0xff;
 
-			 * */
+			return Cluts.Compose(red, green, blue, 0xff);
+			 
 
-			var colorAsInt = 0xff000000 |
-							  (red << 16) |
-							  (green << 8) |
-							  blue;
-
-			return (int) colorAsInt; // texels[texel];
+			return texels[texel];
 		}
 
 	}
