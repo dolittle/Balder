@@ -27,6 +27,8 @@ namespace Balder.Rendering.Silverlight
 		public int[] OriginalPixels;
 		public int[,] Pixels;
 
+		public byte[,] PixelsAsComponents;
+
 		public byte[,] RedComponents;
 		public byte[,] GreenComponents;
 		public byte[,] BlueComponents;
@@ -55,6 +57,7 @@ namespace Balder.Rendering.Silverlight
 			OriginalPixels = map.GetPixelsAs32BppARGB();
 
 			Pixels = new int[Width, Height];
+			PixelsAsComponents = new byte[Width << 2, Height];
 			RedComponents = new byte[Width, Height];
 			GreenComponents = new byte[Width, Height];
 			BlueComponents = new byte[Width, Height];
@@ -79,6 +82,12 @@ namespace Balder.Rendering.Silverlight
 				var blue = ((pixel) & 0xff);
 
 				Pixels[x, y] = pixel;
+
+				PixelsAsComponents[x << 2, y] = (byte)red;
+				PixelsAsComponents[(x << 2)+1, y] = (byte)green;
+				PixelsAsComponents[(x << 2)+2, y] = (byte)blue;
+				PixelsAsComponents[(x << 2)+3, y] = (byte)alpha;
+
 				RedComponents[x, y] = (byte)red;
 				GreenComponents[x, y] = (byte)green;
 				BlueComponents[x, y] = (byte)blue;

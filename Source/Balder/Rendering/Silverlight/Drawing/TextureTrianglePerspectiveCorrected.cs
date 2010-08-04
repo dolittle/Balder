@@ -25,7 +25,7 @@ using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class TextureTriangleBilinear : Triangle
+	public class TextureTrianglePerspectiveCorrected : Triangle
 	{
 		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
@@ -63,41 +63,49 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			TextureMipMapLevel texture = null;
-			if (null != face.DiffuseTexture)
+			IMap image = null;
+
+			if (null != face.Material.DiffuseMap)
 			{
-				texture = face.DiffuseTexture.FullDetailLevel;
+				image = face.Material.DiffuseMap;
+
 			}
-			else if (null != face.ReflectionTexture)
+			else if (null != face.Material.ReflectionMap)
 			{
-				texture = face.ReflectionTexture.FullDetailLevel;
+				image = face.Material.ReflectionMap;
+
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
+			if (null == image)
+			{
+				return;
+			}
+			var texels = image.GetPixelsAs32BppARGB();
 
-			var texels = texture.OriginalPixels;
+
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * texture.Width;
-			var va = vertexA.V * texture.Height;
+			var ua = vertexA.U * image.Width;
+			var va = vertexA.V * image.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * texture.Width;
-			var vb = vertexB.V * texture.Height;
+			var ub = vertexB.U * image.Width;
+			var vb = vertexB.V * image.Height;
 
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * texture.Width;
-			var vc = vertexC.V * texture.Height;
+			var uc = vertexC.U * image.Width;
+			var vc = vertexC.V * image.Height;
 
 
 			var deltaX1 = xb - xa;
@@ -152,6 +160,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var depthBuffer = BufferContainer.DepthBuffer;
 			var frameBufferWidth = BufferContainer.Width;
 			var frameBufferHeight = BufferContainer.Height;
+
 
 			var yStart = (int)ya;
 			var yEnd = (int)yc;
@@ -305,7 +314,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 							 depthBuffer,
 							 offset,
 							 framebuffer,
-							 texture);
+							 image,
+							 texels);
 				}
 
 				if (y == (int)yb)
@@ -352,8 +362,15 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			TextureMipMapLevel texture)
+			IMap image,
+			int[] texels)
 		{
+			var textureWidth = image.Width;
+			var textureHeight = image.Height;
+
+			var screenU = uStart / zStart;
+			var screenV = vStart / zStart;
+
 			for (var x = 0; x <= length; x++)
 			{
 				var bufferZ = (UInt32)((1.0f - zStart) * (float)UInt32.MaxValue);
@@ -362,10 +379,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 					zStart < 1f
 					)
 				{
-					var intu = ((int)uStart) & (texture.Width - 1);
-					var intv = ((int)vStart) & (texture.Height - 1);
+					var u = screenU / zStart;
+					var v = screenV / zStart;
 
-					framebuffer[offset] = Bilerp(texture, intu, intv, uStart, vStart);
+
+					var intu = ((int)u) & (textureWidth - 1);
+					var intv = ((int)v) & (textureHeight - 1);
+
+					var texel = ((intv << image.WidthBitCount) + intu);
+
+					framebuffer[offset] = texels[texel];
 					depthBuffer[offset] = bufferZ;
 				}
 
@@ -375,176 +398,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				vStart += vAdd;
 			}
 		}
-
-		/*
-DWORD GetSubTexel( int x, int y )
-{
-	const int h = (x & 0xff00) / 255;
-	const int i = (y & 0xff00) / 255;
-
-	x = x >> 16;
-	y = y >> 16;
-
-	const COLORREF cr1 = GetTexel( x + 0, y + 0 );
-	const COLORREF cr2 = GetTexel( x + 1, y + 0 );
-	const COLORREF cr3 = GetTexel( x + 1, y + 1 );
-	const COLORREF cr4 = GetTexel( x + 0, y + 1 );
-
-	const int a = (0x100 - h) * (0x100 - i);
-	const int b = (0x000 + h) * (0x100 - i);
-	const int c = (0x000 + h) * (0x000 + i);
-	const int d = 65536 - a - b - c;
-
-	const unsigned int R = 0x00ff0000 & (((cr1 >> 16)      * a) + ((cr2 >> 16)      * b) + ((cr3 >> 16)      * c) + ((cr4 >> 16)      * d));
-	const unsigned int G = 0xff000000 & (((cr1 & 0x00ff00) * a) + ((cr2 & 0x00ff00) * b) + ((cr3 & 0x00ff00) * c) + ((cr4 & 0x00ff00) * d));
-	const unsigned int B = 0x00ff0000 & (((cr1 & 0x0000ff) * a) + ((cr2 & 0x0000ff) * b) + ((cr3 & 0x0000ff) * c) + ((cr4 & 0x0000ff) * d));
-
-	return R|((G|B)>>16);    
-}*/
-
-		private static int redMask;
-		private static int greenMask;
-		private static int blueMask;
-		private static int alphaFull;
-
-		static TextureTriangleBilinear()
-		{
-			uint g = 0xff000000;
-			greenMask = (int)g;
-			redMask = 0x00ff0000;
-			blueMask = 0x00ff0000;
-
-			uint a = 0xff000000;
-			alphaFull = (int) a;
-		}
-
-
-		// http://cboard.cprogramming.com/game-programming/19926-super-fast-bilinear-interpolation.html
-
-		// http://en.wikipedia.org/wiki/Bilinear_filtering
-
-		private int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
-		{
-#if(true)
-			var h = ((int)(u * 256f)) & 0xff;
-			var i = ((int)(v * 256f)) & 0xff;
-
-			var rightOffset = x + 1;
-			var belowOffset = y + 1;
-
-			if (rightOffset >= map.Width)
-			{
-				rightOffset = map.Width - 1;
-			}
-			if (belowOffset >= map.Height)
-			{
-				belowOffset = map.Height - 1;
-			}
-
-			var cr1 = map.Pixels[x, y];
-			var cr2 = map.Pixels[rightOffset, y];
-			var cr3 = map.Pixels[rightOffset, belowOffset];
-			var cr4 = map.Pixels[x, belowOffset];
-
-			var a = (0x100 - h) * (0x100 - i);
-			var b = (0x000 + h) * (0x100 - i);
-			var c = (0x000 + h) * (0x000 + i);
-			var d = 65536 - a - b - c;
-
-			int red = redMask & (((cr1 >> 16)*a) + ((cr2 >> 16)*b) + ((cr3 >> 16)*c) + ((cr4 >> 16)*d));
-			int green = greenMask & (((cr1 & 0x0000ff00) * a) + ((cr2 & 0x000000ff00) * b) + ((cr3 & 0x0000ff00) * c) + ((cr4 & 0x0000ff00) * d));
-			int blue = blueMask & (((cr1 & 0x000000ff)*a) + ((cr2 & 0x000000ff)*b) + ((cr3 & 0x000000ff)*c) + ((cr4 & 0x000000ff)*d));
-
-			var pixel = red | (((green | blue)>>16)&0xffff) | alphaFull ;
-			return pixel;
-
-#else
-			var deltaX = (byte)(((int)((u - x) * 255f)) & 0xff);
-			var deltaY = (byte)(((int)((v - y) * 255f)) & 0xff);
-
-			var inverseDeltaX = (byte)(0xff - deltaX);
-			var inverseDeltaY = (byte)(0xff - deltaY);
-
-			var rightOffset = x + 1;
-			var belowOffset = y + 1;
-
-			if (rightOffset >= map.Width)
-			{
-				rightOffset = map.Width - 1;
-			}
-			if (belowOffset >= map.Height)
-			{
-				belowOffset = map.Height - 1;
-			}
-
-			var actualX = x << 2;
-			rightOffset <<= 2;
-
-			var currentRed = map.PixelsAsComponents[actualX, y];
-			var currentGreen = map.PixelsAsComponents[actualX + 1, y];
-			var currentBlue = map.PixelsAsComponents[actualX + 2, y];
-			var currentAlpha = map.PixelsAsComponents[actualX + 3, y];
-
-
-			var rightRed = map.PixelsAsComponents[rightOffset, y];
-			var rightGreen = map.PixelsAsComponents[rightOffset + 1, y];
-			var rightBlue = map.PixelsAsComponents[rightOffset + 2, y];
-			var rightAlpha = map.PixelsAsComponents[rightOffset + 3, y];
-
-			var belowRed = map.PixelsAsComponents[actualX, belowOffset];
-			var belowGreen = map.PixelsAsComponents[actualX + 1, belowOffset];
-			var belowBlue = map.PixelsAsComponents[actualX + 2, belowOffset];
-			var belowAlpha = map.PixelsAsComponents[actualX + 3, belowOffset];
-
-			var belowRightRed = map.PixelsAsComponents[rightOffset, belowOffset];
-			var belowRightGreen = map.PixelsAsComponents[rightOffset + 1, belowOffset];
-			var belowRightBlue = map.PixelsAsComponents[rightOffset + 2, belowOffset];
-			var belowRightAlpha = map.PixelsAsComponents[rightOffset + 3, belowOffset];
-
-
-			var multipliedCurrentRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentRed, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRed, deltaY), inverseDeltaX);
-			var multipliedRightRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightRed, inverseDeltaY), deltaX);
-			var multipliedBelowRightRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightRed, deltaY), deltaX);
-			var red = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentRed, multipliedBelowRed),
-				Cluts.AddComponent(multipliedRightRed, multipliedBelowRightRed));
-
-
-			var multipliedCurrentGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentGreen, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowGreen, deltaY), inverseDeltaX);
-			var multipliedRightGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightGreen, inverseDeltaY), deltaX);
-			var multipliedBelowRightGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightGreen, deltaY), deltaX);
-			var green = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentGreen, multipliedBelowGreen),
-				Cluts.AddComponent(multipliedRightGreen, multipliedBelowRightGreen));
-
-			var multipliedCurrentBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentBlue, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowBlue, deltaY), inverseDeltaX);
-			var multipliedRightBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightBlue, inverseDeltaY), deltaX);
-			var multipliedBelowRightBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightBlue, deltaY), deltaX);
-			var blue = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentBlue, multipliedBelowBlue),
-				Cluts.AddComponent(multipliedRightBlue, multipliedBelowRightBlue));
-
-
-			var multipliedCurrentAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentAlpha, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowAlpha, deltaY), inverseDeltaX);
-			var multipliedRightAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightAlpha, inverseDeltaY), deltaX);
-			var multipliedBelowRightAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightAlpha, deltaY), deltaX);
-			var alpha = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentAlpha, multipliedBelowAlpha),
-				Cluts.AddComponent(multipliedRightAlpha, multipliedBelowRightAlpha));
-
-
-
-			return Cluts.Compose(red, green, blue, alpha);
-#endif
-			//return Cluts.Compose(currentRed, currentGreen, currentBlue, currentAlpha);
-		}
-
-
-
 
 	}
 }

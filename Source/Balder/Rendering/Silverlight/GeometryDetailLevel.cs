@@ -19,6 +19,7 @@
 #if(SILVERLIGHT)
 using System;
 using System.Collections.Generic;
+using Balder.Diagnostics;
 using Balder.Display;
 using Balder.Lighting;
 using Balder.Materials;
@@ -31,6 +32,8 @@ namespace Balder.Rendering.Silverlight
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
+		public static  long Milliseconds;
+
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
 		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
 		private static readonly FlatTriangleAdditive FlatTriangleAdditiveRenderer = new FlatTriangleAdditive();
@@ -41,6 +44,7 @@ namespace Balder.Rendering.Silverlight
 		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
+		private static readonly TextureTrianglePerspectiveCorrected TextureTrianglePerspectiveCorrectedRenderer = new TextureTrianglePerspectiveCorrected();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 		private readonly ITextureManager _textureManager;
@@ -344,8 +348,17 @@ namespace Balder.Rendering.Silverlight
 			Render(viewport, node, view, projection, world, true);
 		}
 
+		private static Stopwatch Stopwatch = Stopwatch.StartNew();
+
+		static GeometryDetailLevel()
+		{
+			Stopwatch.Start();
+		}
+
 		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world, bool depthTest)
 		{
+			var before = Stopwatch.ElapsedMilliseconds;
+
 			if (null == _vertices)
 			{
 				return;
@@ -365,6 +378,9 @@ namespace Balder.Rendering.Silverlight
 			{
 				RenderVertices(node, viewport);
 			}
+
+			var after = Stopwatch.ElapsedMilliseconds;
+			Milliseconds = after-before;
 		}
 
 
@@ -533,10 +549,14 @@ namespace Balder.Rendering.Silverlight
 								if (depthTest)
 								{
 									//TextureTriangleRenderer.Draw(face, _vertices);
+
+									//TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+
 									TextureTriangleBilinearRenderer.Draw(face, _vertices);
 								} else
 								{
-									TextureTriangleNoDepthRenderer.Draw(face, _vertices);
+									TextureTriangleBilinearRenderer.Draw(face, _vertices);
+									//TextureTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
 							}
 							else

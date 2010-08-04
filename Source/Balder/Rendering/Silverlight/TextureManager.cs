@@ -47,6 +47,7 @@ namespace Balder.Rendering.Silverlight
 			} else
 			{
 				texture = Texture.FromMap(map);
+				_textures[map] = texture;
 			}
 
 			return texture;

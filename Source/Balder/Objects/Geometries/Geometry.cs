@@ -210,15 +210,22 @@ namespace Balder.Objects.Geometries
 
 		public float? Intersects(Ray pickRay, out Face face, out int faceIndex, out float faceU, out float faceV)
 		{
-			var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
-			var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
-			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
-			pickRay = new Ray(transformedPosition, transformedDirection);
 
 			face = null;
 			faceIndex = -1;
 			faceU = 0f;
 			faceV = 0f;
+
+			if( null == RenderingWorld )
+			{
+				return null;
+			}
+
+			var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
+			var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
+			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
+			pickRay = new Ray(transformedPosition, transformedDirection);
+
 			var distance = pickRay.Intersects(BoundingSphere);
 			if (null != distance)
 			{

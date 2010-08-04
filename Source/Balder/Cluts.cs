@@ -150,7 +150,39 @@
 			return (int)pixel;
 		}
 
+		public static byte MultiplyComponent(int a, int b)
+		{
+			return _multipliedComponent[a, b];
+		}
+
+
+		public static byte MultiplyComponent(byte a, byte b)
+		{
+			return _multipliedComponent[a, b];
+		}
+
+		public static byte AddComponent(int a, int b)
+		{
+			return _addedComponent[a, b];
+		}
+
+		public static byte AddComponent(byte a, byte b)
+		{
+			return _addedComponent[a, b];
+		}
+
+
 		public static int Compose(int red, int green, int blue, int alpha)
+		{
+			var pixel =
+				_redComponent[red] |
+				_greenComponent[green] |
+				_blueComponent[blue] |
+				_alphaComponent[alpha];
+			return pixel;
+		}
+
+		public static int Compose(byte red, byte green, byte blue, byte alpha)
 		{
 			var pixel =
 				_redComponent[red] |
