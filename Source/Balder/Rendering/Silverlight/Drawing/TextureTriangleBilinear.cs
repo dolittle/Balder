@@ -64,10 +64,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 			TextureMipMapLevel texture = null;
-			if( null != face.DiffuseTexture )
+			if (null != face.DiffuseTexture)
 			{
 				texture = face.DiffuseTexture.FullDetailLevel;
-			} else if( null != face.ReflectionTexture )
+			}
+			else if (null != face.ReflectionTexture)
 			{
 				texture = face.ReflectionTexture.FullDetailLevel;
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
@@ -382,66 +383,42 @@ namespace Balder.Rendering.Silverlight.Drawing
 		{
 			var deltaX = ((int)((u - x) * 255f)) & 0xff;
 			var deltaY = ((int)((v - y) * 255f)) & 0xff;
-			
+
 			var inverseDeltaX = 0xff - deltaX;
 			var inverseDeltaY = 0xff - deltaY;
 
-			int rightPixel;
-			if (x < map.Width - 1)
-			{
-				rightPixel = map.Pixels[x + 1,y];
-			}
-			else
-			{
-				rightPixel = map.Pixels[x,y];
-			}
+			var rightOffset = x + 1;
+			var belowOffset = y + 1;
 
-
-			int belowPixel;
-			if (y < map.Height - 1)
+			if (rightOffset >= map.Width)
 			{
-				belowPixel = map.Pixels[x, y + 1];
+				rightOffset = map.Width - 1;
 			}
-			else
+			if (belowOffset >= map.Height)
 			{
-				belowPixel = map.Pixels[x, y];
+				belowOffset = map.Height - 1;
 			}
 
-			int belowRightPixel;
-			if (y < map.Height - 1 && x < map.Width - 1)
-			{
-				belowRightPixel = map.Pixels[x + 1, y + 1];
-			}
-			else
-			{
-				belowRightPixel = map.Pixels[x, y];
-			}
+			var currentAlpha = map.AlphaComponents[x, y];
+			var currentRed = map.RedComponents[x, y];
+			var currentGreen = map.GreenComponents[x, y];
+			var currentBlue = map.BlueComponents[x, y];
 
+			var rightAlpha = map.AlphaComponents[rightOffset, y];
+			var rightRed = map.RedComponents[rightOffset, y];
+			var rightGreen = map.GreenComponents[rightOffset, y];
+			var rightBlue = map.BlueComponents[rightOffset, y];
 
-			var pixel = map.Pixels[x, y];
-			var currentAlpha = ((pixel >> 24) & 0xff);
-			var currentRed = ((pixel >> 16) & 0xff);
-			var currentGreen = ((pixel >> 8) & 0xff);
-			var currentBlue = ((pixel) & 0xff);
-			
+			var belowAlpha = map.AlphaComponents[x, belowOffset];
+			var belowRed = map.RedComponents[x, belowOffset];
+			var belowGreen = map.GreenComponents[x, belowOffset];
+			var belowBlue = map.BlueComponents[x, belowOffset];
 
-			var rightAlpha = ((rightPixel >> 24) & 0xff);
-			var rightRed = ((rightPixel >> 16) & 0xff);
-			var rightGreen = ((rightPixel >> 8) & 0xff);
-			var rightBlue = ((rightPixel) & 0xff);
+			var belowRightAlpha = map.AlphaComponents[rightOffset, belowOffset];
+			var belowRightRed = map.RedComponents[rightOffset, belowOffset];
+			var belowRightGreen = map.GreenComponents[rightOffset, belowOffset];
+			var belowRightBlue = map.BlueComponents[rightOffset, belowOffset];
 
-
-			var belowAlpha = ((belowPixel >> 24) & 0xff);
-			var belowRed = ((belowPixel >> 16) & 0xff);
-			var belowGreen = ((belowPixel >> 8) & 0xff);
-			var belowBlue = ((belowPixel) & 0xff);
-
-			var belowRightAlpha = ((belowRightPixel >> 24) & 0xff);
-			var belowRightRed = ((belowRightPixel >> 16) & 0xff);
-			var belowRightGreen = ((belowRightPixel>> 8) & 0xff);
-			var belowRightBlue = ((belowRightPixel) & 0xff);
-
-			
 			var multipliedCurrentRed = Cluts.Multiply(Cluts.Multiply(currentRed, inverseDeltaY), inverseDeltaX);
 			var multipliedBelowRed = Cluts.Multiply(Cluts.Multiply(belowRed, deltaY), inverseDeltaX);
 			var multipliedRightRed = Cluts.Multiply(Cluts.Multiply(rightRed, inverseDeltaY), deltaX);
@@ -449,7 +426,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var red = Cluts.Add(
 				Cluts.Add(multipliedCurrentRed, multipliedBelowRed),
 				Cluts.Add(multipliedRightRed, multipliedBelowRightRed));
-			
+
 			var multipliedCurrentGreen = Cluts.Multiply(Cluts.Multiply(currentGreen, inverseDeltaY), inverseDeltaX);
 			var multipliedBelowGreen = Cluts.Multiply(Cluts.Multiply(belowGreen, deltaY), inverseDeltaX);
 			var multipliedRightGreen = Cluts.Multiply(Cluts.Multiply(rightGreen, inverseDeltaY), deltaX);
