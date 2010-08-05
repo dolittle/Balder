@@ -337,6 +337,33 @@ namespace Balder.Display
 			Messenger.DefaultContext.Send(RenderDoneMessage.Default);
 		}
 
+		/// <summary>
+		/// Projects a vector into screen-coordinates
+		/// </summary>
+		/// <param name="source">Source vector to project</param>
+		/// <param name="world">World matrix for the vector</param>
+		/// <returns>Projected vector</returns>
+		/// <remarks>
+		/// Contribution from Dmitriy Kataskin
+		/// </remarks>
+		public Vector Project(Vector source, Matrix world)
+		{
+			var matrix = (world * View.ViewMatrix) * View.ProjectionMatrix;
+			var vector = Vector.TransformNormal(source, matrix);
+			float a = (((source.X * matrix[0, 3]) + (source.Y * matrix[1, 3])) + (source.Z * matrix[2, 3])) + matrix[3, 3];
+
+			if (!WithinEpsilon(a, 1f))
+			{
+				vector = vector / (a);
+			}
+
+			vector.X = (((vector.X + 1f) * 0.5f) * Width);
+			vector.Y = (((-vector.Y + 1f) * 0.5f) * Height);
+			vector.Z = (vector.Z * (MaxDepth - MinDepth)) + MinDepth;
+
+			return vector;
+		}
+
 		private void Prepare(PrepareMessage prepareMessage)
 		{
 			Scene.Prepare(this);
