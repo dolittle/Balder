@@ -128,9 +128,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var zInterpolateB = deltaZB / deltaYB;
 			var zInterpolateC = deltaZC / deltaYC;
 
-			var oneOverZA = 1f/za;
-			var oneOverZB = 1f/zb;
-			var oneOverZC = 1f/zc;
+			var oneOverZA = 1f / za;
+			var oneOverZB = 1f / zb;
+			var oneOverZC = 1f / zc;
 
 			var uiza = ua * oneOverZA;
 			var viza = va * oneOverZA;
@@ -271,14 +271,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 		private uint[] depthBuffer;
 
 		int offset = 0;
-		int length = 0;
-
-		int xStart = 0;
-		int xEnd = 0;
-
-		float zStart = 0f;
-		float zAdd = 0f;
-
 		private float x1;
 		private float z1;
 
@@ -313,58 +305,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		private void DrawSubTriangleSegment()
 		{
-			/*
-			var yClipTop = 0;
-
-			if (y1 < 0)
-			{
-				yClipTop = -(int)y1;
-				y1 = 0;
-			}
-
-			if (y2 >= frameBufferHeight)
-			{
-				y2 = frameBufferHeight - 1;
-			}
-
-			var height = y2 - y1;
-			if (height == 0)
-			{
-				return;
-			}
-
-			if (yClipTop > 0)
-			{
-				var yClipTopAsFloat = (float)yClipTop;
-				x1 = x1 + xInterpolate1 * yClipTopAsFloat;
-				z1 = z1 + zInterpolate1 * yClipTopAsFloat;
-				u1 = u1 + uInterpolate1 * yClipTopAsFloat;
-				v1 = v1 + vInterpolate1 * yClipTopAsFloat;
-
-				x2 = x2 + xInterpolate2 * yClipTopAsFloat;
-				z2 = z2 + zInterpolate2 * yClipTopAsFloat;
-				u2 = u2 + uInterpolate2 * yClipTopAsFloat;
-				v2 = v2 + vInterpolate2 * yClipTopAsFloat;
-			}
-			*/
 			var yoffset = BufferContainer.Width * y1Int;
 
 			for (var y = y1Int; y < y2Int; y++)
 			{
 				if (y > 0 && y < BufferContainer.Height)
 				{
-					xStart = (int)x1;
-					xEnd = (int)x2;
-					zStart = z1;
-					length = xEnd - xStart;
-
-					if (length != 0)
+					if ((int)x1 < (int)x2)
 					{
-						offset = yoffset + xStart;
-						DrawSpan(length,
-								 zStart,
-								 zAdd,
-								 depthBuffer,
+						offset = yoffset + (int)x1;
+						DrawSpan(depthBuffer,
 								 offset,
 								 framebuffer,
 								 texture,
@@ -389,9 +339,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 		protected virtual void DrawSpan(
-			int length,
-			float zStart,
-			float zAdd,
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
@@ -416,15 +363,19 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var actualU = 0f;
 			var actualV = 0f;
 
-			for (var x = 0; x <= length; x++)
+			var x1Int = (int)x1;
+			var x2Int = (int)x2;
+
+			while (x1Int++ < x2Int)
 			{
-				var bufferZ = (UInt32)((1.0f - iz) * (float)UInt32.MaxValue);
+				z = 1f / iz;
+				var bufferZ = (UInt32)((1.0f - z) * (float)UInt32.MaxValue);
 				if (bufferZ > depthBuffer[offset] &&
-					zStart >= 0f &&
-					zStart < 1f
+					z >= 0f &&
+					z < 1f
 					)
 				{
-					z = 1f / iz;
+					
 					u = uiz * z;
 					v = viz * z;
 
