@@ -75,9 +75,9 @@ namespace Balder.Rendering.Silverlight
 
 		public void MakeScreenCoordinates()
 		{
-			TranslatedScreenCoordinates.X = TranslatedVector.X;
-			TranslatedScreenCoordinates.Y = TranslatedVector.Y;
-			TranslatedScreenCoordinates.Z = TranslatedVector.Z;
+			TranslatedScreenCoordinates.X = (int)TranslatedVector.X;
+			TranslatedScreenCoordinates.Y = (int)TranslatedVector.Y;
+			TranslatedScreenCoordinates.Z = (int)TranslatedVector.Z;
 		}
 
 		public Vector TransformedVector;

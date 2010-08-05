@@ -415,10 +415,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 				belowOffset = map.Height - 1;
 			}
 
-			var cr1 = map.Pixels[x, y];
-			var cr2 = map.Pixels[rightOffset, y];
-			var cr3 = map.Pixels[rightOffset, belowOffset];
-			var cr4 = map.Pixels[x, belowOffset];
+			var cr1 = map.Pixels[x, y]| alphaFull;
+			var cr2 = map.Pixels[rightOffset, y] | alphaFull;
+			var cr3 = map.Pixels[rightOffset, belowOffset] | alphaFull;
+			var cr4 = map.Pixels[x, belowOffset] | alphaFull;
 
 			var a = (0x100 - h) * (0x100 - i);
 			var b = (0x000 + h) * (0x100 - i);

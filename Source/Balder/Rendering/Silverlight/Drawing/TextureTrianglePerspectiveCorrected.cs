@@ -20,11 +20,13 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using Balder.Materials;
 using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
+	// Based upon : http://www.lysator.liu.se/~mikaelk/doc/perspectivetexture/
+
+
 	public class TextureTrianglePerspectiveCorrected : Triangle
 	{
 		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
@@ -83,20 +85,20 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U; // * texture.Width;
-			var va = vertexA.V; // * texture.Height;
+			var ua = vertexA.U * texture.Width;
+			var va = vertexA.V * texture.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U; // *texture.Width;
-			var vb = vertexB.V; // * texture.Height;
+			var ub = vertexB.U * texture.Width;
+			var vb = vertexB.V * texture.Height;
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U; // * texture.Width;
-			var vc = vertexC.V; // * texture.Height;
+			var uc = vertexC.U * texture.Width;
+			var vc = vertexC.V * texture.Height;
 
 			var yaInt = (int)ya;
 			var ybInt = (int)yb;
@@ -309,7 +311,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var y = y1Int; y < y2Int; y++)
 			{
-				if (y > 0 && y < BufferContainer.Height)
+				if (y >= 0 && y < BufferContainer.Height)
 				{
 					if ((int)x1 < (int)x2)
 					{
@@ -352,46 +354,43 @@ namespace Balder.Rendering.Silverlight.Drawing
 			float v;
 			float z;
 
-			var dx = 1f / (x1 - (int)x1);
-			var iz = iz1; // +dx * dizdx;
-			var uiz = uiz1; // +dx * duizdx;
-			var viz = viz1; // +dx * dvizdx;
+			var dx = 1f - (x1 - (int)x1);
+			var iz = iz1 + dx * dizdx;
+			var uiz = uiz1 + dx * duizdx;
+			var viz = viz1 + dx * dvizdx;
 
 			var color = (uint)0xff000000;
 			var colorAsInt = (int)color;
 
-			var actualU = 0f;
-			var actualV = 0f;
-
 			var x1Int = (int)x1;
 			var x2Int = (int)x2;
 
-			while (x1Int++ < x2Int)
+			for (var x = x1Int; x < x2Int; x++)
 			{
-				z = 1f / iz;
-				var bufferZ = (UInt32)((1.0f - z) * (float)UInt32.MaxValue);
-				if (bufferZ > depthBuffer[offset] &&
-					z >= 0f &&
-					z < 1f
-					)
+				if (x >= 0 && x < BufferContainer.Width)
 				{
-					
-					u = uiz * z;
-					v = viz * z;
+					z = 1f / iz;
+					var bufferZ = (UInt32)((1.0f - z) * (float)UInt32.MaxValue);
+					if (bufferZ > depthBuffer[offset] &&
+						z >= 0f &&
+						z < 1f
+						)
+					{
+						u = uiz * z;
+						v = viz * z;
 
-					actualU = u * textureWidth;
-					actualV = v * textureHeight;
+						var intu = (int)(u) & (textureWidth - 1);
+						var intv = (int)(v) & (textureHeight - 1);
 
+						//var texel = ((intv << texture.WidthBitCount) + intu);
 
-					var intu = (int)(actualU) & (textureWidth - 1);
-					var intv = (int)(actualV) & (textureHeight - 1);
-
-					var texel = ((intv << texture.WidthBitCount) + intu);
-
-					framebuffer[offset] = texels[texel] | colorAsInt;
-					//framebuffer[offset] = Bilerp(texture, intu, intv, actualU, actualV);
-					depthBuffer[offset] = bufferZ;
+						//framebuffer[offset] = texels[texel] | colorAsInt;
+						//framebuffer[offset] = texture.Pixels[intu, intv] | colorAsInt;
+						framebuffer[offset] = Bilerp(texture, intu, intv, u, v);
+						depthBuffer[offset] = bufferZ;
+					}
 				}
+
 
 				offset++;
 
@@ -434,10 +433,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 				belowOffset = map.Height - 1;
 			}
 
-			var cr1 = map.Pixels[x, y];
-			var cr2 = map.Pixels[rightOffset, y];
-			var cr3 = map.Pixels[rightOffset, belowOffset];
-			var cr4 = map.Pixels[x, belowOffset];
+			var cr1 = map.Pixels[x, y] | alphaFull;
+			var cr2 = map.Pixels[rightOffset, y] | alphaFull;
+			var cr3 = map.Pixels[rightOffset, belowOffset] | alphaFull;
+			var cr4 = map.Pixels[x, belowOffset] | alphaFull;
 
 			var a = (0x100 - h) * (0x100 - i);
 			var b = (0x000 + h) * (0x100 - i);
