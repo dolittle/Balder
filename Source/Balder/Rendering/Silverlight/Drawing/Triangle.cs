@@ -31,26 +31,26 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var point2 = vertexB;
 			var point3 = vertexC;
 
-			if (point2.TranslatedScreenCoordinates.Y < point1.TranslatedScreenCoordinates.Y)
+			if (point1.TranslatedScreenCoordinates.Y > point2.TranslatedScreenCoordinates.Y)
 			{
 				var p = point1;
 				point1 = point2;
 				point2 = p;
 			}
 
-			if (point3.TranslatedScreenCoordinates.Y < point2.TranslatedScreenCoordinates.Y)
+			if (point1.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
 			{
-				var p = point2;
-				point2 = point3;
+				var p = point1;
+				point1 = point3;
 				point3 = p;
 			}
 
 
-			if (point2.TranslatedScreenCoordinates.Y < point1.TranslatedScreenCoordinates.Y)
+			if (point2.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
 			{
-				var p = point1;
-				point1 = point2;
-				point2 = p;
+				var p = point2;
+				point2 = point3;
+				point3 = p;
 			}
 
 			vertexA = point1;
@@ -67,7 +67,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var point2 = vertexB;
 			var point3 = vertexC;
 
-			if (point2.TranslatedScreenCoordinates.Y < point1.TranslatedScreenCoordinates.Y)
+			if (point1.TranslatedScreenCoordinates.Y > point2.TranslatedScreenCoordinates.Y)
 			{
 				var p = point1;
 				point1 = point2;
@@ -79,7 +79,20 @@ namespace Balder.Rendering.Silverlight.Drawing
 				face.CalculatedColorA = cb;
 			}
 
-			if (point3.TranslatedScreenCoordinates.Y < point2.TranslatedScreenCoordinates.Y)
+			if (point1.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
+			{
+				var p = point1;
+				point1 = point3;
+				point3 = p;
+
+				var ca = face.CalculatedColorA;
+				var cc = face.CalculatedColorC;
+				face.CalculatedColorC = ca;
+				face.CalculatedColorA = cc;
+			}
+
+
+			if (point2.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
 			{
 				var p = point2;
 				point2 = point3;
@@ -89,19 +102,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				var cc = face.CalculatedColorC;
 				face.CalculatedColorC = cb;
 				face.CalculatedColorB = cc;
-			}
-
-
-			if (point2.TranslatedScreenCoordinates.Y < point1.TranslatedScreenCoordinates.Y)
-			{
-				var p = point1;
-				point1 = point2;
-				point2 = p;
-
-				var ca = face.CalculatedColorA;
-				var cb = face.CalculatedColorB;
-				face.CalculatedColorB = ca;
-				face.CalculatedColorA = cb;
 			}
 
 			vertexA = point1;

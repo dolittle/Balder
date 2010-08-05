@@ -376,31 +376,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 		}
 
-		/*
-DWORD GetSubTexel( int x, int y )
-{
-	const int h = (x & 0xff00) / 255;
-	const int i = (y & 0xff00) / 255;
-
-	x = x >> 16;
-	y = y >> 16;
-
-	const COLORREF cr1 = GetTexel( x + 0, y + 0 );
-	const COLORREF cr2 = GetTexel( x + 1, y + 0 );
-	const COLORREF cr3 = GetTexel( x + 1, y + 1 );
-	const COLORREF cr4 = GetTexel( x + 0, y + 1 );
-
-	const int a = (0x100 - h) * (0x100 - i);
-	const int b = (0x000 + h) * (0x100 - i);
-	const int c = (0x000 + h) * (0x000 + i);
-	const int d = 65536 - a - b - c;
-
-	const unsigned int R = 0x00ff0000 & (((cr1 >> 16)      * a) + ((cr2 >> 16)      * b) + ((cr3 >> 16)      * c) + ((cr4 >> 16)      * d));
-	const unsigned int G = 0xff000000 & (((cr1 & 0x00ff00) * a) + ((cr2 & 0x00ff00) * b) + ((cr3 & 0x00ff00) * c) + ((cr4 & 0x00ff00) * d));
-	const unsigned int B = 0x00ff0000 & (((cr1 & 0x0000ff) * a) + ((cr2 & 0x0000ff) * b) + ((cr3 & 0x0000ff) * c) + ((cr4 & 0x0000ff) * d));
-
-	return R|((G|B)>>16);    
-}*/
 
 		private static int redMask;
 		private static int greenMask;
@@ -425,7 +400,6 @@ DWORD GetSubTexel( int x, int y )
 
 		private int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
 		{
-#if(true)
 			var h = ((int)(u * 256f)) & 0xff;
 			var i = ((int)(v * 256f)) & 0xff;
 
@@ -457,90 +431,6 @@ DWORD GetSubTexel( int x, int y )
 
 			var pixel = red | (((green | blue)>>16)&0xffff) | alphaFull ;
 			return pixel;
-
-#else
-			var deltaX = (byte)(((int)((u - x) * 255f)) & 0xff);
-			var deltaY = (byte)(((int)((v - y) * 255f)) & 0xff);
-
-			var inverseDeltaX = (byte)(0xff - deltaX);
-			var inverseDeltaY = (byte)(0xff - deltaY);
-
-			var rightOffset = x + 1;
-			var belowOffset = y + 1;
-
-			if (rightOffset >= map.Width)
-			{
-				rightOffset = map.Width - 1;
-			}
-			if (belowOffset >= map.Height)
-			{
-				belowOffset = map.Height - 1;
-			}
-
-			var actualX = x << 2;
-			rightOffset <<= 2;
-
-			var currentRed = map.PixelsAsComponents[actualX, y];
-			var currentGreen = map.PixelsAsComponents[actualX + 1, y];
-			var currentBlue = map.PixelsAsComponents[actualX + 2, y];
-			var currentAlpha = map.PixelsAsComponents[actualX + 3, y];
-
-
-			var rightRed = map.PixelsAsComponents[rightOffset, y];
-			var rightGreen = map.PixelsAsComponents[rightOffset + 1, y];
-			var rightBlue = map.PixelsAsComponents[rightOffset + 2, y];
-			var rightAlpha = map.PixelsAsComponents[rightOffset + 3, y];
-
-			var belowRed = map.PixelsAsComponents[actualX, belowOffset];
-			var belowGreen = map.PixelsAsComponents[actualX + 1, belowOffset];
-			var belowBlue = map.PixelsAsComponents[actualX + 2, belowOffset];
-			var belowAlpha = map.PixelsAsComponents[actualX + 3, belowOffset];
-
-			var belowRightRed = map.PixelsAsComponents[rightOffset, belowOffset];
-			var belowRightGreen = map.PixelsAsComponents[rightOffset + 1, belowOffset];
-			var belowRightBlue = map.PixelsAsComponents[rightOffset + 2, belowOffset];
-			var belowRightAlpha = map.PixelsAsComponents[rightOffset + 3, belowOffset];
-
-
-			var multipliedCurrentRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentRed, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRed, deltaY), inverseDeltaX);
-			var multipliedRightRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightRed, inverseDeltaY), deltaX);
-			var multipliedBelowRightRed = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightRed, deltaY), deltaX);
-			var red = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentRed, multipliedBelowRed),
-				Cluts.AddComponent(multipliedRightRed, multipliedBelowRightRed));
-
-
-			var multipliedCurrentGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentGreen, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowGreen, deltaY), inverseDeltaX);
-			var multipliedRightGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightGreen, inverseDeltaY), deltaX);
-			var multipliedBelowRightGreen = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightGreen, deltaY), deltaX);
-			var green = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentGreen, multipliedBelowGreen),
-				Cluts.AddComponent(multipliedRightGreen, multipliedBelowRightGreen));
-
-			var multipliedCurrentBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentBlue, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowBlue, deltaY), inverseDeltaX);
-			var multipliedRightBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightBlue, inverseDeltaY), deltaX);
-			var multipliedBelowRightBlue = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightBlue, deltaY), deltaX);
-			var blue = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentBlue, multipliedBelowBlue),
-				Cluts.AddComponent(multipliedRightBlue, multipliedBelowRightBlue));
-
-
-			var multipliedCurrentAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(currentAlpha, inverseDeltaY), inverseDeltaX);
-			var multipliedBelowAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowAlpha, deltaY), inverseDeltaX);
-			var multipliedRightAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(rightAlpha, inverseDeltaY), deltaX);
-			var multipliedBelowRightAlpha = Cluts.MultiplyComponent(Cluts.MultiplyComponent(belowRightAlpha, deltaY), deltaX);
-			var alpha = Cluts.AddComponent(
-				Cluts.AddComponent(multipliedCurrentAlpha, multipliedBelowAlpha),
-				Cluts.AddComponent(multipliedRightAlpha, multipliedBelowRightAlpha));
-
-
-
-			return Cluts.Compose(red, green, blue, alpha);
-#endif
-			//return Cluts.Compose(currentRed, currentGreen, currentBlue, currentAlpha);
 		}
 
 

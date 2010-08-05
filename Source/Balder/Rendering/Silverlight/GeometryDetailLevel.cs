@@ -32,7 +32,7 @@ namespace Balder.Rendering.Silverlight
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
-		public static  long Milliseconds;
+		public static long Milliseconds;
 
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
 		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
@@ -380,7 +380,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var after = Stopwatch.ElapsedMilliseconds;
-			Milliseconds = after-before;
+			Milliseconds = after - before;
 		}
 
 
@@ -495,6 +495,24 @@ namespace Balder.Rendering.Silverlight
 
 			var matrix = world * view;
 
+			/*
+			var v = new RenderVertex[3];
+			v[0] = new RenderVertex {TranslatedScreenCoordinates = new Vector(425, 144, 0), DepthBufferAdjustedZ = 0.5f};
+			v[1] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, 135, 0), DepthBufferAdjustedZ = 0.5f };
+			v[2] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, 345, 0), DepthBufferAdjustedZ = 0.5f };
+
+
+			var f = new RenderFace(0, 1, 2);
+
+			f.DiffuseTextureCoordinateA = new TextureCoordinate(1f, 0);
+			f.DiffuseTextureCoordinateB = new TextureCoordinate(0, 0);
+			f.DiffuseTextureCoordinateC = new TextureCoordinate(0, 1f);
+			f.DiffuseTexture = _textureManager.GetTextureForMap(_faces[0].Material.DiffuseMap);
+
+			TextureTrianglePerspectiveCorrectedRenderer.Draw(f, v);
+
+			return;
+			*/
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
@@ -520,23 +538,24 @@ namespace Balder.Rendering.Silverlight
 				face.TransformNormal(matrix);
 
 				Material material = face.Material;
-				if( null == material )
+				if (null == material)
 				{
-					if( node is IHaveColor )
+					if (node is IHaveColor)
 					{
 						material = _colorMaterial;// Material.Default;
-						material.Diffuse = ((IHaveColor) node).Color;
-					} else
-					{
-						material = Material.Default;	
+						material.Diffuse = ((IHaveColor)node).Color;
 					}
-					
-					
+					else
+					{
+						material = Material.Default;
+					}
+
+
 				}
 				CalculateVertexColorsForFace(face, viewport, material);
 
 				face.DiffuseTexture = _textureManager.GetTextureForMap(material.DiffuseMap);
-				face.ReflectionTexture = _textureManager.GetTextureForMap(material.ReflectionMap);	
+				face.ReflectionTexture = _textureManager.GetTextureForMap(material.ReflectionMap);
 
 				switch (material.Shade)
 				{
@@ -550,10 +569,11 @@ namespace Balder.Rendering.Silverlight
 								{
 									//TextureTriangleRenderer.Draw(face, _vertices);
 
-									//TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
 
-									TextureTriangleBilinearRenderer.Draw(face, _vertices);
-								} else
+									//TextureTriangleBilinearRenderer.Draw(face, _vertices);
+								}
+								else
 								{
 									TextureTriangleBilinearRenderer.Draw(face, _vertices);
 									//TextureTriangleNoDepthRenderer.Draw(face, _vertices);
@@ -576,10 +596,11 @@ namespace Balder.Rendering.Silverlight
 							}
 							else
 							{
-								if( depthTest )
+								if (depthTest)
 								{
-									FlatTriangleRenderer.Draw(face, _vertices);	
-								} else
+									FlatTriangleRenderer.Draw(face, _vertices);
+								}
+								else
 								{
 									FlatTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
@@ -599,10 +620,11 @@ namespace Balder.Rendering.Silverlight
 							}
 							else
 							{
-								if( depthTest )
+								if (depthTest)
 								{
-									GouraudTriangleRenderer.Draw(face, _vertices);	 
-								} else
+									GouraudTriangleRenderer.Draw(face, _vertices);
+								}
+								else
 								{
 									GouraudTriangleNoDepthRenderer.Draw(face, _vertices);
 								}

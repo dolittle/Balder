@@ -63,121 +63,271 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			IMap image = null;
-
-			if (null != face.Material.DiffuseMap)
+			texture = null;
+			if (null != face.DiffuseTexture)
 			{
-				image = face.Material.DiffuseMap;
-
+				texture = face.DiffuseTexture.FullDetailLevel;
 			}
-			else if (null != face.Material.ReflectionMap)
+			else if (null != face.ReflectionTexture)
 			{
-				image = face.Material.ReflectionMap;
-
+				texture = face.ReflectionTexture.FullDetailLevel;
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
-			if (null == image)
-			{
-				return;
-			}
-			var texels = image.GetPixelsAs32BppARGB();
 
-
+			texels = texture.OriginalPixels;
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * image.Width;
-			var va = vertexA.V * image.Height;
+			var ua = vertexA.U; // * texture.Width;
+			var va = vertexA.V; // * texture.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * image.Width;
-			var vb = vertexB.V * image.Height;
-
+			var ub = vertexB.U; // *texture.Width;
+			var vb = vertexB.V; // * texture.Height;
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * image.Width;
-			var vc = vertexC.V * image.Height;
+			var uc = vertexC.U; // * texture.Width;
+			var vc = vertexC.V; // * texture.Height;
+
+			var yaInt = (int)ya;
+			var ybInt = (int)yb;
+			var ycInt = (int)yc;
+
+			if ((yaInt == ybInt && yaInt == ycInt)
+				|| ((int)xa == (int)xb && (int)xa == (int)xc))
+			{
+				return;
+			}
+
+			var deltaXA = xb - xa;
+			var deltaXB = xc - xa;
+			var deltaXC = xc - xb;
+
+			var deltaYA = yb - ya;
+			var deltaYB = yc - ya;
+			var deltaYC = yc - yb;
+
+			var deltaZA = zb - za;
+			var deltaZB = zc - za;
+			var deltaZC = zc - zb;
+
+			var xInterpolateA = deltaXA / deltaYA;
+			var xInterpolateB = deltaXB / deltaYB;
+			var xInterpolateC = deltaXC / deltaYC;
+
+			var zInterpolateA = deltaZA / deltaYA;
+			var zInterpolateB = deltaZB / deltaYB;
+			var zInterpolateC = deltaZC / deltaYC;
+
+			var oneOverZA = 1f/za;
+			var oneOverZB = 1f/zb;
+			var oneOverZC = 1f/zc;
+
+			var uiza = ua * oneOverZA;
+			var viza = va * oneOverZA;
+
+			var uizb = ub * oneOverZB;
+			var vizb = vb * oneOverZB;
+
+			var uizc = uc * oneOverZC;
+			var vizc = vc * oneOverZC;
+
+			var denom = ((xc - xa) * (yb - ya) - (xb - xa) * (yc - ya));
+			if (float.IsInfinity(denom) || denom == 0)
+			{
+				return;
+			}
+
+			denom = 1f / denom;	// Reciprocal for speeding up
+			dizdx = ((oneOverZC - oneOverZA) * deltaYA - (oneOverZB - oneOverZA) * deltaYB) * denom;
+			duizdx = ((uizc - uiza) * deltaYA - (uizb - uiza) * deltaYB) * denom;
+			dvizdx = ((vizc - viza) * deltaYA - (vizb - viza) * deltaYB) * denom;
+			dizdy = ((oneOverZB - oneOverZA) * deltaXB - (oneOverZC - oneOverZA) * deltaXA) * denom;
+			duizdy = ((uizb - uiza) * deltaXB - (uizc - uiza) * deltaXA) * denom;
+			dvizdy = ((vizb - viza) * deltaXB - (vizc - viza) * deltaXA) * denom;
+
+			framebuffer = BufferContainer.Framebuffer;
+			depthBuffer = BufferContainer.DepthBuffer;
 
 
-			var deltaX1 = xb - xa;
-			var deltaX2 = xc - xb;
-			var deltaX3 = xc - xa;
+			var hypotenuseRight = xInterpolateB > xInterpolateA;
+			if (ya == yb)
+			{
+				hypotenuseRight = xa > xb;
+			}
+			if (yb == yc)
+			{
+				hypotenuseRight = xc > xb;
+			}
 
-			var deltaY1 = yb - ya;
-			var deltaY2 = yc - yb;
-			var deltaY3 = yc - ya;
+			var dy = 0f;
+			dy = 1f - (ya - yaInt);
+			if (!hypotenuseRight)
+			{
+				xInterpolate1 = xInterpolateB;
+				zInterpolate1 = zInterpolateB;
 
-			var deltaZ1 = zb - za;
-			var deltaZ2 = zc - zb;
-			var deltaZ3 = zc - za;
-
-			var deltaU1 = ub - ua;
-			var deltaU2 = uc - ub;
-			var deltaU3 = uc - ua;
-
-			var deltaV1 = vb - va;
-			var deltaV2 = vc - vb;
-			var deltaV3 = vc - va;
-
-			var x1 = xa;
-			var x2 = xa;
-
-			var z1 = za;
-			var z2 = za;
-
-			var u1 = ua;
-			var u2 = ua;
-
-			var v1 = va;
-			var v2 = va;
-
-			var xInterpolate1 = deltaX3 / deltaY3;
-			var xInterpolate2 = deltaX1 / deltaY1;
-			var xInterpolate3 = deltaX2 / deltaY2;
-
-			var zInterpolate1 = deltaZ3 / deltaY3;
-			var zInterpolate2 = deltaZ1 / deltaY1;
-			var zInterpolate3 = deltaZ2 / deltaY2;
-
-			var uInterpolate1 = deltaU3 / deltaY3;
-			var uInterpolate2 = deltaU1 / deltaY1;
-			var uInterpolate3 = deltaU2 / deltaY2;
-
-			var vInterpolate1 = deltaV3 / deltaY3;
-			var vInterpolate2 = deltaV1 / deltaY1;
-			var vInterpolate3 = deltaV2 / deltaY2;
-
-			var framebuffer = BufferContainer.Framebuffer;
-			var depthBuffer = BufferContainer.DepthBuffer;
-			var frameBufferWidth = BufferContainer.Width;
-			var frameBufferHeight = BufferContainer.Height;
+				dizdy1 = xInterpolateB * dizdx + dizdy;
+				duizdy1 = xInterpolateB * duizdx + duizdy;
+				dvizdy1 = xInterpolateB * dvizdx + dvizdy;
 
 
-			var yStart = (int)ya;
-			var yEnd = (int)yc;
+				// Subpixling
+				x1 = xa + dy * xInterpolate1;
+				z1 = za + dy * zInterpolate1;
+
+				iz1 = oneOverZA + dy * dizdy1;
+				uiz1 = uiza + dy * duizdy1;
+				viz1 = viza + dy * dvizdy1;
+
+
+				if (yaInt < ybInt)
+				{
+					x2 = xa + dy * xInterpolateA;
+					xInterpolate2 = xInterpolateA;
+
+					y1Int = yaInt;
+					y2Int = ybInt;
+
+					DrawSubTriangleSegment();
+				}
+
+				if (ybInt < ycInt)
+				{
+					x2 = xb + (1f - (yb - ybInt)) * xInterpolateC;
+					xInterpolate2 = xInterpolateC;
+
+					y1Int = ybInt;
+					y2Int = ycInt;
+
+					DrawSubTriangleSegment();
+				}
+			}
+			else // Hypotenuse is to the right
+			{
+				xInterpolate2 = xInterpolateB;
+
+				x2 = xa + dy * xInterpolateB;
+
+				if (yaInt < ybInt)
+				{
+					xInterpolate1 = xInterpolateA;
+					zInterpolate1 = zInterpolateA;
+
+					dizdy1 = xInterpolate1 * dizdx + dizdy;
+					duizdy1 = xInterpolate1 * duizdx + duizdy;
+					dvizdy1 = xInterpolate1 * dvizdx + dvizdy;
+
+					// Subpixling
+					x1 = xa + dy * xInterpolate1;
+					z1 = za + dy * zInterpolate1;
+
+					iz1 = oneOverZA + dy * dizdy1;
+					uiz1 = uiza + dy * duizdy1;
+					viz1 = viza + dy * dvizdy1;
+
+					y1Int = yaInt;
+					y2Int = ybInt;
+
+					DrawSubTriangleSegment();
+				}
+				if (ybInt < ycInt)
+				{
+					xInterpolate1 = xInterpolateC;
+					zInterpolate1 = zInterpolateC;
+
+					dizdy1 = xInterpolateC * dizdx + dizdy;
+					duizdy1 = xInterpolateC * duizdx + duizdy;
+					dvizdy1 = xInterpolateC * dvizdx + dvizdy;
+
+					dy = 1 - (yb - ybInt);
+
+					// Subpixling
+					x1 = xb + dy * xInterpolate1;
+					z1 = zb + dy * zInterpolate1;
+
+					iz1 = oneOverZB + dy * dizdy1;
+					uiz1 = uizb + dy * duizdy1;
+					viz1 = vizb + dy * dvizdy1;
+
+					y1Int = ybInt;
+					y2Int = ycInt;
+
+					DrawSubTriangleSegment();
+				}
+			}
+		}
+
+		private int[] framebuffer;
+		private uint[] depthBuffer;
+
+		int offset = 0;
+		int length = 0;
+
+		int xStart = 0;
+		int xEnd = 0;
+
+		float zStart = 0f;
+		float zAdd = 0f;
+
+		private float x1;
+		private float z1;
+
+		private float x2;
+		private float z2;
+
+		private int y1Int;
+		private int y2Int;
+
+		private float xInterpolate1;
+		private float zInterpolate1;
+
+		private float xInterpolate2;
+		private float zInterpolate2;
+
+		private TextureMipMapLevel texture;
+		private int[] texels;
+
+		private float dizdx;
+		private float duizdx;
+		private float dvizdx;
+		private float dizdy;
+		private float duizdy;
+		private float dvizdy;
+		private float dizdy1;
+		private float duizdy1;
+		private float dvizdy1;
+		private float iz1;
+		private float uiz1;
+		private float viz1;
+
+
+		private void DrawSubTriangleSegment()
+		{
+			/*
 			var yClipTop = 0;
 
-			if (yStart < 0)
+			if (y1 < 0)
 			{
-				yClipTop = -yStart;
-				yStart = 0;
+				yClipTop = -(int)y1;
+				y1 = 0;
 			}
 
-			if (yEnd >= frameBufferHeight)
+			if (y2 >= frameBufferHeight)
 			{
-				yEnd = frameBufferHeight - 1;
+				y2 = frameBufferHeight - 1;
 			}
 
-			var height = yEnd - yStart;
+			var height = y2 - y1;
 			if (height == 0)
 			{
 				return;
@@ -186,218 +336,171 @@ namespace Balder.Rendering.Silverlight.Drawing
 			if (yClipTop > 0)
 			{
 				var yClipTopAsFloat = (float)yClipTop;
-				x1 = xa + xInterpolate1 * yClipTopAsFloat;
-				z1 = za + zInterpolate1 * yClipTopAsFloat;
-				u1 = ua + uInterpolate1 * yClipTopAsFloat;
-				v1 = va + vInterpolate1 * yClipTopAsFloat;
+				x1 = x1 + xInterpolate1 * yClipTopAsFloat;
+				z1 = z1 + zInterpolate1 * yClipTopAsFloat;
+				u1 = u1 + uInterpolate1 * yClipTopAsFloat;
+				v1 = v1 + vInterpolate1 * yClipTopAsFloat;
 
-				if (yb < 0)
-				{
-					var ySecondClipTop = -yb;
-
-					x2 = xb + (xInterpolate3 * ySecondClipTop);
-					xInterpolate2 = xInterpolate3;
-
-					z2 = zb + (zInterpolate3 * ySecondClipTop);
-					zInterpolate2 = zInterpolate3;
-
-					u2 = ub + (uInterpolate3 * ySecondClipTop);
-					uInterpolate2 = uInterpolate3;
-
-					v2 = vb + (vInterpolate3 * ySecondClipTop);
-					vInterpolate2 = vInterpolate3;
-
-				}
-				else
-				{
-					x2 = xa + xInterpolate2 * yClipTopAsFloat;
-					z2 = za + zInterpolate2 * yClipTopAsFloat;
-					u2 = ua + uInterpolate2 * yClipTopAsFloat;
-					v2 = va + vInterpolate2 * yClipTopAsFloat;
-				}
+				x2 = x2 + xInterpolate2 * yClipTopAsFloat;
+				z2 = z2 + zInterpolate2 * yClipTopAsFloat;
+				u2 = u2 + uInterpolate2 * yClipTopAsFloat;
+				v2 = v2 + vInterpolate2 * yClipTopAsFloat;
 			}
+			*/
+			var yoffset = BufferContainer.Width * y1Int;
 
-			var yoffset = BufferContainer.Width * yStart;
-
-			var offset = 0;
-			var length = 0;
-			var originalLength = 0;
-
-			var xStart = 0;
-			var xEnd = 0;
-
-			var zStart = 0f;
-			var zEnd = 0f;
-			var zAdd = 0f;
-
-			var xClipStart = 0;
-
-			var uStart = 0f;
-			var uEnd = 0f;
-			var uAdd = 0f;
-
-			var vStart = 0f;
-			var vEnd = 0f;
-			var vAdd = 0f;
-
-
-			for (var y = yStart; y <= yEnd; y++)
+			for (var y = y1Int; y < y2Int; y++)
 			{
-				if (x2 < x1)
+				if (y > 0 && y < BufferContainer.Height)
 				{
-					xStart = (int)x2;
-					xEnd = (int)x1;
-
-					zStart = z2;
-					zEnd = z1;
-
-					uStart = u2;
-					uEnd = u1;
-
-					vStart = v2;
-					vEnd = v1;
-				}
-				else
-				{
-					offset = yoffset + (int)x1;
-
 					xStart = (int)x1;
 					xEnd = (int)x2;
-
 					zStart = z1;
-					zEnd = z2;
+					length = xEnd - xStart;
 
-					uStart = u1;
-					uEnd = u2;
-
-					vStart = v1;
-					vEnd = v2;
-				}
-				originalLength = xEnd - xStart;
-
-				if (xStart < 0)
-				{
-					xClipStart = -xStart;
-					xStart = 0;
-				}
-				if (xEnd >= frameBufferWidth)
-				{
-					xEnd = frameBufferWidth - 1;
-				}
-
-
-				length = xEnd - xStart;
-
-				if (length != 0)
-				{
-					var xClipStartAsFloat = (float)xClipStart;
-					var lengthAsFloat = (float)originalLength;
-					zAdd = (zEnd - zStart) / lengthAsFloat;
-					uAdd = (uEnd - uStart) / lengthAsFloat;
-					vAdd = (vEnd - vStart) / lengthAsFloat;
-
-					if (xClipStartAsFloat > 0)
+					if (length != 0)
 					{
-						zStart += (zAdd * xClipStartAsFloat);
-						uStart += (uAdd * xClipStartAsFloat);
-						vStart += (vAdd * xClipStartAsFloat);
+						offset = yoffset + xStart;
+						DrawSpan(length,
+								 zStart,
+								 zAdd,
+								 depthBuffer,
+								 offset,
+								 framebuffer,
+								 texture,
+								 texels);
 					}
-
-					offset = yoffset + xStart;
-					DrawSpan(length,
-							 zStart,
-							 zAdd,
-							 uStart,
-							 uAdd,
-							 vStart,
-							 vAdd,
-							 depthBuffer,
-							 offset,
-							 framebuffer,
-							 image,
-							 texels);
 				}
-
-				if (y == (int)yb)
-				{
-					x2 = xb;
-					xInterpolate2 = xInterpolate3;
-
-					z2 = zb;
-					zInterpolate2 = zInterpolate3;
-
-					u2 = ub;
-					uInterpolate2 = uInterpolate3;
-
-					v2 = vb;
-					vInterpolate2 = vInterpolate3;
-				}
-
-
 				x1 += xInterpolate1;
 				x2 += xInterpolate2;
 
 				z1 += zInterpolate1;
 				z2 += zInterpolate2;
 
-				u1 += uInterpolate1;
-				u2 += uInterpolate2;
-
-				v1 += vInterpolate1;
-				v2 += vInterpolate2;
+				iz1 += dizdy1;
+				uiz1 += duizdy1;
+				viz1 += dvizdy1;
 
 				yoffset += BufferContainer.Width;
+
 			}
 
 		}
+
 
 		protected virtual void DrawSpan(
 			int length,
 			float zStart,
 			float zAdd,
-			float uStart,
-			float uAdd,
-			float vStart,
-			float vAdd,
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			IMap image,
+			TextureMipMapLevel texture,
 			int[] texels)
 		{
-			var textureWidth = image.Width;
-			var textureHeight = image.Height;
+			var textureWidth = texture.Width;
+			var textureHeight = texture.Height;
 
-			var screenU = uStart / zStart;
-			var screenV = vStart / zStart;
+			float u;
+			float v;
+			float z;
+
+			var dx = 1f / (x1 - (int)x1);
+			var iz = iz1; // +dx * dizdx;
+			var uiz = uiz1; // +dx * duizdx;
+			var viz = viz1; // +dx * dvizdx;
+
+			var color = (uint)0xff000000;
+			var colorAsInt = (int)color;
+
+			var actualU = 0f;
+			var actualV = 0f;
 
 			for (var x = 0; x <= length; x++)
 			{
-				var bufferZ = (UInt32)((1.0f - zStart) * (float)UInt32.MaxValue);
+				var bufferZ = (UInt32)((1.0f - iz) * (float)UInt32.MaxValue);
 				if (bufferZ > depthBuffer[offset] &&
 					zStart >= 0f &&
 					zStart < 1f
 					)
 				{
-					var u = screenU / zStart;
-					var v = screenV / zStart;
+					z = 1f / iz;
+					u = uiz * z;
+					v = viz * z;
+
+					actualU = u * textureWidth;
+					actualV = v * textureHeight;
 
 
-					var intu = ((int)u) & (textureWidth - 1);
-					var intv = ((int)v) & (textureHeight - 1);
+					var intu = (int)(actualU) & (textureWidth - 1);
+					var intv = (int)(actualV) & (textureHeight - 1);
 
-					var texel = ((intv << image.WidthBitCount) + intu);
+					var texel = ((intv << texture.WidthBitCount) + intu);
 
-					framebuffer[offset] = texels[texel];
+					framebuffer[offset] = texels[texel] | colorAsInt;
+					//framebuffer[offset] = Bilerp(texture, intu, intv, actualU, actualV);
 					depthBuffer[offset] = bufferZ;
 				}
 
 				offset++;
-				zStart += zAdd;
-				uStart += uAdd;
-				vStart += vAdd;
+
+				iz += dizdx;
+				uiz += duizdx;
+				viz += dvizdx;
 			}
 		}
+
+		private static int redMask;
+		private static int greenMask;
+		private static int blueMask;
+		private static int alphaFull;
+
+		static TextureTrianglePerspectiveCorrected()
+		{
+			uint g = 0xff000000;
+			greenMask = (int)g;
+			redMask = 0x00ff0000;
+			blueMask = 0x00ff0000;
+
+			uint a = 0xff000000;
+			alphaFull = (int)a;
+		}
+
+		private int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
+		{
+			var h = ((int)(u * 256f)) & 0xff;
+			var i = ((int)(v * 256f)) & 0xff;
+
+			var rightOffset = x + 1;
+			var belowOffset = y + 1;
+
+			if (rightOffset >= map.Width)
+			{
+				rightOffset = map.Width - 1;
+			}
+			if (belowOffset >= map.Height)
+			{
+				belowOffset = map.Height - 1;
+			}
+
+			var cr1 = map.Pixels[x, y];
+			var cr2 = map.Pixels[rightOffset, y];
+			var cr3 = map.Pixels[rightOffset, belowOffset];
+			var cr4 = map.Pixels[x, belowOffset];
+
+			var a = (0x100 - h) * (0x100 - i);
+			var b = (0x000 + h) * (0x100 - i);
+			var c = (0x000 + h) * (0x000 + i);
+			var d = 65536 - a - b - c;
+
+			int red = redMask & (((cr1 >> 16) * a) + ((cr2 >> 16) * b) + ((cr3 >> 16) * c) + ((cr4 >> 16) * d));
+			int green = greenMask & (((cr1 & 0x0000ff00) * a) + ((cr2 & 0x000000ff00) * b) + ((cr3 & 0x0000ff00) * c) + ((cr4 & 0x0000ff00) * d));
+			int blue = blueMask & (((cr1 & 0x000000ff) * a) + ((cr2 & 0x000000ff) * b) + ((cr3 & 0x000000ff) * c) + ((cr4 & 0x000000ff) * d));
+
+			var pixel = red | (((green | blue) >> 16) & 0xffff) | alphaFull;
+			return pixel;
+		}
+
 
 	}
 }

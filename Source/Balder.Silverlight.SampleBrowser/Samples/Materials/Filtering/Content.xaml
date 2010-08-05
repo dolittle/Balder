@@ -6,6 +6,7 @@
     
     <Grid x:Name="LayoutRoot">
 
+		
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -17,17 +18,20 @@
 				</BeginStoryboard>
 			</EventTrigger>
 		</Grid.Triggers>
+		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,10,-25" Target="0,0,0"/>
+				<View:Camera Position="0,0,-25" Target="0,0,0" FieldOfView="80"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
 			<Geometries:Box x:Name="Box" Dimension="20,20,20">
 				<Geometries:Box.Material>
-					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>
-					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>-->
+					
+					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
+					
+					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>
 				</Geometries:Box.Material>
 			</Geometries:Box>
 		</Execution:Game>
