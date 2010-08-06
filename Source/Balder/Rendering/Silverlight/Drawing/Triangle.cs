@@ -55,6 +55,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected float UInterpolateY1;
 		protected float VInterpolateY1;
 
+		protected int ColorAsInt;
 
 		protected static int RedMask;
 		protected static int GreenMask;
@@ -231,7 +232,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				vertexC.V = face.DiffuseTextureCoordinateC.V;
 			}
 
-
+			
 			Texture = null;
 			if (null != face.DiffuseTexture)
 			{
@@ -244,26 +245,34 @@ namespace Balder.Rendering.Silverlight.Drawing
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
+			var textureWidth = 0;
+			var textureHeight = 0;
+
+			if( null != Texture )
+			{
+				textureWidth = Texture.Width;
+				textureHeight = Texture.Height;
+			}
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * Texture.Width;
-			var va = vertexA.V * Texture.Height;
+			var ua = vertexA.U * textureWidth;
+			var va = vertexA.V * textureHeight;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * Texture.Width;
-			var vb = vertexB.V * Texture.Height;
+			var ub = vertexB.U * textureWidth;
+			var vb = vertexB.V * textureHeight;
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * Texture.Width;
-			var vc = vertexC.V * Texture.Height;
+			var uc = vertexC.U * textureWidth;
+			var vc = vertexC.V * textureHeight;
 
 			var yaInt = (int)ya;
 			var ybInt = (int)yb;
@@ -282,10 +291,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var deltaYA = yb - ya;
 			var deltaYB = yc - ya;
 			var deltaYC = yc - yb;
-
-			var deltaZA = zb - za;
-			var deltaZB = zc - za;
-			var deltaZC = zc - zb;
 
 			var xInterpolateA = deltaXA / deltaYA;
 			var xInterpolateB = deltaXB / deltaYB;
@@ -321,6 +326,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Framebuffer = BufferContainer.Framebuffer;
 			DepthBuffer = BufferContainer.DepthBuffer;
 
+			ColorAsInt = (int)face.Color.ToUInt32();
+
+
 			var hypotenuseRight = xInterpolateB > xInterpolateA;
 			if (ya == yb)
 			{
@@ -331,8 +339,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				hypotenuseRight = xc > xb;
 			}
 
-			var dy = 0f;
-			dy = 1f - (ya - yaInt);
+			var subPixelY = 1f - (ya - yaInt);
 			if (!hypotenuseRight)
 			{
 				XInterpolate1 = xInterpolateB;
@@ -343,16 +350,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 				// Subpixling
-				X1 = xa + dy * XInterpolate1;
+				X1 = xa + subPixelY * XInterpolate1;
 
-				Z1 = oneOverZA + dy * ZInterpolateY1;
-				U1 = uOneOverZA + dy * UInterpolateY1;
-				V1 = vOneOverZA + dy * VInterpolateY1;
+				Z1 = oneOverZA + subPixelY * ZInterpolateY1;
+				U1 = uOneOverZA + subPixelY * UInterpolateY1;
+				V1 = vOneOverZA + subPixelY * VInterpolateY1;
 
 
 				if (yaInt < ybInt)
 				{
-					X2 = xa + dy * xInterpolateA;
+					X2 = xa + subPixelY * xInterpolateA;
 					XInterpolate2 = xInterpolateA;
 
 					Y1Int = yaInt;
@@ -376,7 +383,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			{
 				XInterpolate2 = xInterpolateB;
 
-				X2 = xa + dy * xInterpolateB;
+				X2 = xa + subPixelY * xInterpolateB;
 
 				if (yaInt < ybInt)
 				{
@@ -387,11 +394,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 					VInterpolateY1 = XInterpolate1 * VzInterpolationX + VInterpolationY;
 
 					// Subpixling
-					X1 = xa + dy * XInterpolate1;
+					X1 = xa + subPixelY * XInterpolate1;
 
-					Z1 = oneOverZA + dy * ZInterpolateY1;
-					U1 = uOneOverZA + dy * UInterpolateY1;
-					V1 = vOneOverZA + dy * VInterpolateY1;
+					Z1 = oneOverZA + subPixelY * ZInterpolateY1;
+					U1 = uOneOverZA + subPixelY * UInterpolateY1;
+					V1 = vOneOverZA + subPixelY * VInterpolateY1;
 
 					Y1Int = yaInt;
 					Y2Int = ybInt;
@@ -406,14 +413,14 @@ namespace Balder.Rendering.Silverlight.Drawing
 					UInterpolateY1 = xInterpolateC * UzInerpolationX + UzInterpolationY;
 					VInterpolateY1 = xInterpolateC * VzInterpolationX + VInterpolationY;
 
-					dy = 1 - (yb - ybInt);
+					subPixelY = 1 - (yb - ybInt);
 
 					// Subpixling
-					X1 = xb + dy * XInterpolate1;
+					X1 = xb + subPixelY * XInterpolate1;
 
-					Z1 = oneOverZB + dy * ZInterpolateY1;
-					U1 = uOneOverZB + dy * UInterpolateY1;
-					V1 = vOneOverZB + dy * VInterpolateY1;
+					Z1 = oneOverZB + subPixelY * ZInterpolateY1;
+					U1 = uOneOverZB + subPixelY * UInterpolateY1;
+					V1 = vOneOverZB + subPixelY * VInterpolateY1;
 
 					Y1Int = ybInt;
 					Y2Int = ycInt;

@@ -19,323 +19,45 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
-using Balder.Materials;
-using Balder.Math;
-
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class TextureTriangleNoDepth : Triangle
 	{
-		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
+		protected override void DrawSpan(int offset)
 		{
-			var u = vertex.TransformedVectorNormalized;
-			var n = vertex.TransformedNormal;
-			var r = Vector.Reflect(n, u);
-			var m = MathHelper.Sqrt((r.X * r.X) + (r.Y * r.Y) +
-									((r.Z + 0f) * (r.Z + 0f)));
-			var s = (r.X / m);
-			var t = (r.Y / m);
-			vertex.U = (s * 0.5f) + 0.5f;
-			vertex.V = -(t * 0.5f) + 0.5f;
-		}
+			var textureWidth = Texture.Width;
+			var textureHeight = Texture.Height;
 
-		public override void Draw(RenderFace face, RenderVertex[] vertices)
-		{
-			var vertexA = vertices[face.A];
-			var vertexB = vertices[face.B];
-			var vertexC = vertices[face.C];
+			float u;
+			float v;
+			float z;
 
-			if (null != face.DiffuseTextureCoordinateA)
+			var subPixelX = 1f - (X1 - (int)X1);
+			var zz = Z1 + subPixelX * ZInterpolationX;
+			var uu = U1 + subPixelX * UzInerpolationX;
+			var vv = V1 + subPixelX * VzInterpolationX;
+
+			var x1Int = (int)X1;
+			var x2Int = (int)X2;
+
+			for (var x = x1Int; x < x2Int; x++)
 			{
-				vertexA.U = face.DiffuseTextureCoordinateA.U;
-				vertexA.V = face.DiffuseTextureCoordinateA.V;
-			}
-			if (null != face.DiffuseTextureCoordinateB)
-			{
-				vertexB.U = face.DiffuseTextureCoordinateB.U;
-				vertexB.V = face.DiffuseTextureCoordinateB.V;
-			}
-			if (null != face.DiffuseTextureCoordinateC)
-			{
-				vertexC.U = face.DiffuseTextureCoordinateC.U;
-				vertexC.V = face.DiffuseTextureCoordinateC.V;
-			}
-
-
-			IMap image = null;
-
-			if (null != face.Material.DiffuseMap)
-			{
-				image = face.Material.DiffuseMap;
-
-			}
-			else if (null != face.Material.ReflectionMap)
-			{
-				image = face.Material.ReflectionMap;
-
-				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
-				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
-				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
-			}
-			if (null == image)
-			{
-				return;
-			}
-			var texels = image.GetPixelsAs32BppARGB();
-
-
-
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
-
-			var xa = vertexA.TranslatedScreenCoordinates.X;
-			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var ua = vertexA.U * image.Width;
-			var va = vertexA.V * image.Height;
-
-			var xb = vertexB.TranslatedScreenCoordinates.X;
-			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var ub = vertexB.U * image.Width;
-			var vb = vertexB.V * image.Height;
-
-
-			var xc = vertexC.TranslatedScreenCoordinates.X;
-			var yc = vertexC.TranslatedScreenCoordinates.Y;
-			var uc = vertexC.U * image.Width;
-			var vc = vertexC.V * image.Height;
-
-
-			var deltaX1 = xb - xa;
-			var deltaX2 = xc - xb;
-			var deltaX3 = xc - xa;
-
-			var deltaY1 = yb - ya;
-			var deltaY2 = yc - yb;
-			var deltaY3 = yc - ya;
-
-			var deltaU1 = ub - ua;
-			var deltaU2 = uc - ub;
-			var deltaU3 = uc - ua;
-
-			var deltaV1 = vb - va;
-			var deltaV2 = vc - vb;
-			var deltaV3 = vc - va;
-
-			var x1 = xa;
-			var x2 = xa;
-
-			var u1 = ua;
-			var u2 = ua;
-
-			var v1 = va;
-			var v2 = va;
-
-			var xInterpolate1 = deltaX3 / deltaY3;
-			var xInterpolate2 = deltaX1 / deltaY1;
-			var xInterpolate3 = deltaX2 / deltaY2;
-
-			var uInterpolate1 = deltaU3 / deltaY3;
-			var uInterpolate2 = deltaU1 / deltaY1;
-			var uInterpolate3 = deltaU2 / deltaY2;
-
-			var vInterpolate1 = deltaV3 / deltaY3;
-			var vInterpolate2 = deltaV1 / deltaY1;
-			var vInterpolate3 = deltaV2 / deltaY2;
-
-			var framebuffer = BufferContainer.Framebuffer;
-			var frameBufferWidth = BufferContainer.Width;
-			var frameBufferHeight = BufferContainer.Height;
-
-			var yStart = (int)ya;
-			var yEnd = (int)yc;
-			var yClipTop = 0;
-
-			if (yStart < 0)
-			{
-				yClipTop = -yStart;
-				yStart = 0;
-			}
-
-			if (yEnd >= frameBufferHeight)
-			{
-				yEnd = frameBufferHeight - 1;
-			}
-
-			var height = yEnd - yStart;
-			if (height == 0)
-			{
-				return;
-			}
-
-			if (yClipTop > 0)
-			{
-				var yClipTopAsFloat = (float)yClipTop;
-				x1 = xa + xInterpolate1 * yClipTopAsFloat;
-				u1 = ua + uInterpolate1 * yClipTopAsFloat;
-				v1 = va + vInterpolate1 * yClipTopAsFloat;
-
-				if (yb < 0)
+				if (x >= 0 && x < BufferContainer.Width)
 				{
-					var ySecondClipTop = -yb;
+					z = 1f / zz;
+					u = uu * z;
+					v = vv * z;
 
-					x2 = xb + (xInterpolate3 * ySecondClipTop);
-					xInterpolate2 = xInterpolate3;
-
-					u2 = ub + (uInterpolate3 * ySecondClipTop);
-					uInterpolate2 = uInterpolate3;
-
-					v2 = vb + (vInterpolate3 * ySecondClipTop);
-					vInterpolate2 = vInterpolate3;
-
+					var intu = (int)(u) & (textureWidth - 1);
+					var intv = (int)(v) & (textureHeight - 1);
+					Framebuffer[offset] = Texture.Pixels[intu, intv] | AlphaFull;
 				}
-				else
-				{
-					x2 = xa + xInterpolate2 * yClipTopAsFloat;
-					u2 = ua + uInterpolate2 * yClipTopAsFloat;
-					v2 = va + vInterpolate2 * yClipTopAsFloat;
-				}
-			}
-
-			var yoffset = BufferContainer.Width * yStart;
-
-			var offset = 0;
-			var length = 0;
-			var originalLength = 0;
-
-			var xStart = 0;
-			var xEnd = 0;
-
-			var xClipStart = 0;
-
-			var uStart = 0f;
-			var uEnd = 0f;
-			var uAdd = 0f;
-
-			var vStart = 0f;
-			var vEnd = 0f;
-			var vAdd = 0f;
-
-
-			for (var y = yStart; y <= yEnd; y++)
-			{
-				if (x2 < x1)
-				{
-					xStart = (int)x2;
-					xEnd = (int)x1;
-
-					uStart = u2;
-					uEnd = u1;
-
-					vStart = v2;
-					vEnd = v1;
-				}
-				else
-				{
-					offset = yoffset + (int)x1;
-
-					xStart = (int)x1;
-					xEnd = (int)x2;
-
-					uStart = u1;
-					uEnd = u2;
-
-					vStart = v1;
-					vEnd = v2;
-				}
-				originalLength = xEnd - xStart;
-
-				if (xStart < 0)
-				{
-					xClipStart = -xStart;
-					xStart = 0;
-				}
-				if (xEnd >= frameBufferWidth)
-				{
-					xEnd = frameBufferWidth - 1;
-				}
-
-
-				length = xEnd - xStart;
-
-				if (length != 0)
-				{
-					var xClipStartAsFloat = (float)xClipStart;
-					var lengthAsFloat = (float)originalLength;
-					uAdd = (uEnd - uStart) / lengthAsFloat;
-					vAdd = (vEnd - vStart) / lengthAsFloat;
-
-					if (xClipStartAsFloat > 0)
-					{
-						uStart += (uAdd * xClipStartAsFloat);
-						vStart += (vAdd * xClipStartAsFloat);
-					}
-
-					offset = yoffset + xStart;
-					DrawSpan(length,
-							 uStart,
-							 uAdd,
-							 vStart,
-							 vAdd,
-							 offset,
-							 framebuffer,
-							 image,
-							 texels);
-				}
-
-				if (y == (int)yb)
-				{
-					x2 = xb;
-					xInterpolate2 = xInterpolate3;
-
-					u2 = ub;
-					uInterpolate2 = uInterpolate3;
-
-					v2 = vb;
-					vInterpolate2 = vInterpolate3;
-				}
-
-
-				x1 += xInterpolate1;
-				x2 += xInterpolate2;
-
-				u1 += uInterpolate1;
-				u2 += uInterpolate2;
-
-				v1 += vInterpolate1;
-				v2 += vInterpolate2;
-
-				yoffset += BufferContainer.Width;
-			}
-
-		}
-
-		protected virtual void DrawSpan(
-			int length,
-			float uStart,
-			float uAdd,
-			float vStart,
-			float vAdd,
-			int offset,
-			int[] framebuffer,
-			IMap image,
-			int[] texels)
-		{
-			var textureWidth = image.Width;
-			var textureHeight = image.Height;
-
-
-			for (var x = 0; x <= length; x++)
-			{
-				var intu = ((int)uStart) & (textureWidth - 1);
-				var intv = ((int)vStart) & (textureHeight - 1);
-
-				var texel = ((intv << image.WidthBitCount) + intu);
-
-				framebuffer[offset] = texels[texel];
 
 				offset++;
-				uStart += uAdd;
-				vStart += vAdd;
+
+				zz += ZInterpolationX;
+				uu += UzInerpolationX;
+				vv += VzInterpolationX;
 			}
 		}
 

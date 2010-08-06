@@ -275,7 +275,6 @@
     <Compile Include="Rendering\Silverlight\BufferContainer.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangle.cs" />
-    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleAdditive.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\Point.cs" />

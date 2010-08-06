@@ -36,7 +36,6 @@ namespace Balder.Rendering.Silverlight
 
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
 		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
-		private static readonly FlatTriangleAdditive FlatTriangleAdditiveRenderer = new FlatTriangleAdditive();
 		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
 		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
 		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
@@ -494,25 +493,6 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var matrix = world * view;
-
-			/*
-			var v = new RenderVertex[3];
-			v[0] = new RenderVertex {TranslatedScreenCoordinates = new Vector(425, 144, 0), DepthBufferAdjustedZ = 0.5f};
-			v[1] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, 135, 0), DepthBufferAdjustedZ = 0.5f };
-			v[2] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, 345, 0), DepthBufferAdjustedZ = 0.5f };
-
-
-			var f = new RenderFace(0, 1, 2);
-
-			f.DiffuseTextureCoordinateA = new TextureCoordinate(1f, 0);
-			f.DiffuseTextureCoordinateB = new TextureCoordinate(0, 0);
-			f.DiffuseTextureCoordinateC = new TextureCoordinate(0, 1f);
-			f.DiffuseTexture = _textureManager.GetTextureForMap(_faces[0].Material.DiffuseMap);
-
-			TextureTrianglePerspectiveCorrectedRenderer.Draw(f, v);
-
-			return;
-			*/
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
@@ -562,22 +542,16 @@ namespace Balder.Rendering.Silverlight
 					case MaterialShade.None:
 						{
 							face.Color = material.Diffuse;
-
+							
 							if (null != material.DiffuseMap || null != material.ReflectionMap)
 							{
 								if (depthTest)
 								{
-									//TextureTriangleRenderer.Draw(face, _vertices);
-
 									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
-
-									//TextureTriangleBilinearRenderer.Draw(face, _vertices);
 								}
 								else
 								{
-									//TextureTriangleBilinearRenderer.Draw(face, _vertices);
-									//TextureTriangleNoDepthRenderer.Draw(face, _vertices);
-									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+									TextureTriangleNoDepthRenderer.Draw(face, _vertices);
 								}
 							}
 							else
