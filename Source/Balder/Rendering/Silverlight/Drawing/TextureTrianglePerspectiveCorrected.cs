@@ -385,8 +385,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 						//var texel = ((intv << texture.WidthBitCount) + intu);
 
 						//framebuffer[offset] = texels[texel] | colorAsInt;
-						//framebuffer[offset] = texture.Pixels[intu, intv] | colorAsInt;
-						framebuffer[offset] = Bilerp(texture, intu, intv, u, v);
+						framebuffer[offset] = texture.Pixels[intu, intv] | colorAsInt;
+						//framebuffer[offset] = Bilerp(texture, intu, intv, u, v);
 						depthBuffer[offset] = bufferZ;
 					}
 				}

@@ -567,17 +567,17 @@ namespace Balder.Rendering.Silverlight
 							{
 								if (depthTest)
 								{
-									TextureTriangleRenderer.Draw(face, _vertices);
+									//TextureTriangleRenderer.Draw(face, _vertices);
 
-									//TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
 
 									//TextureTriangleBilinearRenderer.Draw(face, _vertices);
 								}
 								else
 								{
 									//TextureTriangleBilinearRenderer.Draw(face, _vertices);
-									TextureTriangleNoDepthRenderer.Draw(face, _vertices);
-									//TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+									//TextureTriangleNoDepthRenderer.Draw(face, _vertices);
+									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
 								}
 							}
 							else
