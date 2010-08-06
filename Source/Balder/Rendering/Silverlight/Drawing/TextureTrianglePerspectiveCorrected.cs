@@ -39,7 +39,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 		private float _xInterpolate2;
 
 		private TextureMipMapLevel _texture;
-		private int[] _texels;
 
 		private float _x1;
 		private float _x2;
@@ -107,8 +106,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
 
-			_texels = _texture.OriginalPixels;
-
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
@@ -154,10 +151,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var xInterpolateA = deltaXA / deltaYA;
 			var xInterpolateB = deltaXB / deltaYB;
 			var xInterpolateC = deltaXC / deltaYC;
-
-			var zInterpolateA = deltaZA / deltaYA;
-			var zInterpolateB = deltaZB / deltaYB;
-			var zInterpolateC = deltaZC / deltaYC;
 
 			var oneOverZA = 1f / za;
 			var oneOverZB = 1f / zb;
@@ -306,9 +299,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 						_pixelOffset = yoffset + (int)_x1;
 						DrawSpan(_depthBuffer,
 								 _pixelOffset,
-								 _framebuffer,
-								 _texture,
-								 _texels);
+								 _framebuffer);
 					}
 				}
 				_x1 += _xInterpolate1;
@@ -326,12 +317,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected virtual void DrawSpan(
 			uint[] depthBuffer,
 			int offset,
-			int[] framebuffer,
-			TextureMipMapLevel texture,
-			int[] texels)
+			int[] framebuffer)
 		{
-			var textureWidth = texture.Width;
-			var textureHeight = texture.Height;
+			var textureWidth = _texture.Width;
+			var textureHeight = _texture.Height;
 
 			float u;
 			float v;
@@ -364,16 +353,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-
-						//var texel = ((intv << texture.WidthBitCount) + intu);
-
-						//framebuffer[offset] = texels[texel] | colorAsInt;
-						framebuffer[offset] = texture.Pixels[intu, intv] | colorAsInt;
+						framebuffer[offset] = _texture.Pixels[intu, intv] | colorAsInt;
 						//framebuffer[offset] = Bilerp(texture, intu, intv, u, v);
 						depthBuffer[offset] = bufferZ;
 					}
 				}
-
 
 				offset++;
 
@@ -434,8 +418,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var pixel = red | (((green | blue) >> 16) & 0xffff) | alphaFull;
 			return pixel;
 		}
-
-
 	}
 }
 #endif
