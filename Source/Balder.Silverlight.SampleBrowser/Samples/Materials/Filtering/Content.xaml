@@ -35,9 +35,10 @@
 			<Geometries:Box x:Name="Box" Dimension="20,20,20">
 				<Geometries:Box.Material>
 					
-					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>
+					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
+					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/WoodChip_Spruce110_CU.JPG"/>-->
 					
-					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>-->
+					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>
 				</Geometries:Box.Material>
 			</Geometries:Box>
 		</Execution:Game>

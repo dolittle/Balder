@@ -25,10 +25,39 @@ using Balder.Math;
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	// Based upon : http://www.lysator.liu.se/~mikaelk/doc/perspectivetexture/
-
-
 	public class TextureTrianglePerspectiveCorrected : Triangle
 	{
+		private int[] _framebuffer;
+		private uint[] _depthBuffer;
+
+		private int _pixelOffset;
+
+		private int _y1Int;
+		private int _y2Int;
+
+		private float _xInterpolate1;
+		private float _xInterpolate2;
+
+		private TextureMipMapLevel _texture;
+		private int[] _texels;
+
+		private float _x1;
+		private float _x2;
+		private float _z1;
+		private float _u1;
+		private float _v1;
+
+		private float _zInterpolationX;
+		private float _uzInerpolationX;
+		private float _vzInterpolationX;
+		private float _zInterpolationY;
+		private float _uzInterpolationY;
+		private float _vInterpolationY;
+		private float _zInterpolateY1;
+		private float _uInterpolateY1;
+		private float _vInterpolateY1;
+
+	
 		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
 			var u = vertex.TransformedVectorNormalized;
@@ -65,40 +94,40 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			texture = null;
+			_texture = null;
 			if (null != face.DiffuseTexture)
 			{
-				texture = face.DiffuseTexture.FullDetailLevel;
+				_texture = face.DiffuseTexture.FullDetailLevel;
 			}
 			else if (null != face.ReflectionTexture)
 			{
-				texture = face.ReflectionTexture.FullDetailLevel;
+				_texture = face.ReflectionTexture.FullDetailLevel;
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 			}
 
-			texels = texture.OriginalPixels;
+			_texels = _texture.OriginalPixels;
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
 			var ya = vertexA.TranslatedScreenCoordinates.Y;
 			var za = vertexA.DepthBufferAdjustedZ;
-			var ua = vertexA.U * texture.Width;
-			var va = vertexA.V * texture.Height;
+			var ua = vertexA.U * _texture.Width;
+			var va = vertexA.V * _texture.Height;
 
 			var xb = vertexB.TranslatedScreenCoordinates.X;
 			var yb = vertexB.TranslatedScreenCoordinates.Y;
 			var zb = vertexB.DepthBufferAdjustedZ;
-			var ub = vertexB.U * texture.Width;
-			var vb = vertexB.V * texture.Height;
+			var ub = vertexB.U * _texture.Width;
+			var vb = vertexB.V * _texture.Height;
 
 			var xc = vertexC.TranslatedScreenCoordinates.X;
 			var yc = vertexC.TranslatedScreenCoordinates.Y;
 			var zc = vertexC.DepthBufferAdjustedZ;
-			var uc = vertexC.U * texture.Width;
-			var vc = vertexC.V * texture.Height;
+			var uc = vertexC.U * _texture.Width;
+			var vc = vertexC.V * _texture.Height;
 
 			var yaInt = (int)ya;
 			var ybInt = (int)yb;
@@ -134,32 +163,31 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var oneOverZB = 1f / zb;
 			var oneOverZC = 1f / zc;
 
-			var uiza = ua * oneOverZA;
-			var viza = va * oneOverZA;
+			var uOneOverZA = ua * oneOverZA;
+			var vOneOverZA = va * oneOverZA;
 
-			var uizb = ub * oneOverZB;
-			var vizb = vb * oneOverZB;
+			var uOneOverZB = ub * oneOverZB;
+			var vOneOverZB = vb * oneOverZB;
 
-			var uizc = uc * oneOverZC;
-			var vizc = vc * oneOverZC;
+			var uOneOverZC = uc * oneOverZC;
+			var vOneOverZC = vc * oneOverZC;
 
-			var denom = ((xc - xa) * (yb - ya) - (xb - xa) * (yc - ya));
-			if (float.IsInfinity(denom) || denom == 0)
+			var denominator = ((xc - xa) * (yb - ya) - (xb - xa) * (yc - ya));
+			if (float.IsInfinity(denominator) || denominator == 0)
 			{
 				return;
 			}
 
-			denom = 1f / denom;	// Reciprocal for speeding up
-			dizdx = ((oneOverZC - oneOverZA) * deltaYA - (oneOverZB - oneOverZA) * deltaYB) * denom;
-			duizdx = ((uizc - uiza) * deltaYA - (uizb - uiza) * deltaYB) * denom;
-			dvizdx = ((vizc - viza) * deltaYA - (vizb - viza) * deltaYB) * denom;
-			dizdy = ((oneOverZB - oneOverZA) * deltaXB - (oneOverZC - oneOverZA) * deltaXA) * denom;
-			duizdy = ((uizb - uiza) * deltaXB - (uizc - uiza) * deltaXA) * denom;
-			dvizdy = ((vizb - viza) * deltaXB - (vizc - viza) * deltaXA) * denom;
+			denominator = 1f / denominator;	
+			_zInterpolationX = ((oneOverZC - oneOverZA) * deltaYA - (oneOverZB - oneOverZA) * deltaYB) * denominator;
+			_uzInerpolationX = ((uOneOverZC - uOneOverZA) * deltaYA - (uOneOverZB - uOneOverZA) * deltaYB) * denominator;
+			_vzInterpolationX = ((vOneOverZC - vOneOverZA) * deltaYA - (vOneOverZB - vOneOverZA) * deltaYB) * denominator;
+			_zInterpolationY = ((oneOverZB - oneOverZA) * deltaXB - (oneOverZC - oneOverZA) * deltaXA) * denominator;
+			_uzInterpolationY = ((uOneOverZB - uOneOverZA) * deltaXB - (uOneOverZC - uOneOverZA) * deltaXA) * denominator;
+			_vInterpolationY = ((vOneOverZB - vOneOverZA) * deltaXB - (vOneOverZC - vOneOverZA) * deltaXA) * denominator;
 
-			framebuffer = BufferContainer.Framebuffer;
-			depthBuffer = BufferContainer.DepthBuffer;
-
+			_framebuffer = BufferContainer.Framebuffer;
+			_depthBuffer = BufferContainer.DepthBuffer;
 
 			var hypotenuseRight = xInterpolateB > xInterpolateA;
 			if (ya == yb)
@@ -175,168 +203,123 @@ namespace Balder.Rendering.Silverlight.Drawing
 			dy = 1f - (ya - yaInt);
 			if (!hypotenuseRight)
 			{
-				xInterpolate1 = xInterpolateB;
-				zInterpolate1 = zInterpolateB;
+				_xInterpolate1 = xInterpolateB;
 
-				dizdy1 = xInterpolateB * dizdx + dizdy;
-				duizdy1 = xInterpolateB * duizdx + duizdy;
-				dvizdy1 = xInterpolateB * dvizdx + dvizdy;
+				_zInterpolateY1 = xInterpolateB * _zInterpolationX + _zInterpolationY;
+				_uInterpolateY1 = xInterpolateB * _uzInerpolationX + _uzInterpolationY;
+				_vInterpolateY1 = xInterpolateB * _vzInterpolationX + _vInterpolationY;
 
 
 				// Subpixling
-				x1 = xa + dy * xInterpolate1;
-				z1 = za + dy * zInterpolate1;
+				_x1 = xa + dy * _xInterpolate1;
 
-				iz1 = oneOverZA + dy * dizdy1;
-				uiz1 = uiza + dy * duizdy1;
-				viz1 = viza + dy * dvizdy1;
+				_z1 = oneOverZA + dy * _zInterpolateY1;
+				_u1 = uOneOverZA + dy * _uInterpolateY1;
+				_v1 = vOneOverZA + dy * _vInterpolateY1;
 
 
 				if (yaInt < ybInt)
 				{
-					x2 = xa + dy * xInterpolateA;
-					xInterpolate2 = xInterpolateA;
+					_x2 = xa + dy * xInterpolateA;
+					_xInterpolate2 = xInterpolateA;
 
-					y1Int = yaInt;
-					y2Int = ybInt;
+					_y1Int = yaInt;
+					_y2Int = ybInt;
 
 					DrawSubTriangleSegment();
 				}
 
 				if (ybInt < ycInt)
 				{
-					x2 = xb + (1f - (yb - ybInt)) * xInterpolateC;
-					xInterpolate2 = xInterpolateC;
+					_x2 = xb + (1f - (yb - ybInt)) * xInterpolateC;
+					_xInterpolate2 = xInterpolateC;
 
-					y1Int = ybInt;
-					y2Int = ycInt;
+					_y1Int = ybInt;
+					_y2Int = ycInt;
 
 					DrawSubTriangleSegment();
 				}
 			}
 			else // Hypotenuse is to the right
 			{
-				xInterpolate2 = xInterpolateB;
+				_xInterpolate2 = xInterpolateB;
 
-				x2 = xa + dy * xInterpolateB;
+				_x2 = xa + dy * xInterpolateB;
 
 				if (yaInt < ybInt)
 				{
-					xInterpolate1 = xInterpolateA;
-					zInterpolate1 = zInterpolateA;
+					_xInterpolate1 = xInterpolateA;
 
-					dizdy1 = xInterpolate1 * dizdx + dizdy;
-					duizdy1 = xInterpolate1 * duizdx + duizdy;
-					dvizdy1 = xInterpolate1 * dvizdx + dvizdy;
+					_zInterpolateY1 = _xInterpolate1 * _zInterpolationX + _zInterpolationY;
+					_uInterpolateY1 = _xInterpolate1 * _uzInerpolationX + _uzInterpolationY;
+					_vInterpolateY1 = _xInterpolate1 * _vzInterpolationX + _vInterpolationY;
 
 					// Subpixling
-					x1 = xa + dy * xInterpolate1;
-					z1 = za + dy * zInterpolate1;
+					_x1 = xa + dy * _xInterpolate1;
 
-					iz1 = oneOverZA + dy * dizdy1;
-					uiz1 = uiza + dy * duizdy1;
-					viz1 = viza + dy * dvizdy1;
+					_z1 = oneOverZA + dy * _zInterpolateY1;
+					_u1 = uOneOverZA + dy * _uInterpolateY1;
+					_v1 = vOneOverZA + dy * _vInterpolateY1;
 
-					y1Int = yaInt;
-					y2Int = ybInt;
+					_y1Int = yaInt;
+					_y2Int = ybInt;
 
 					DrawSubTriangleSegment();
 				}
 				if (ybInt < ycInt)
 				{
-					xInterpolate1 = xInterpolateC;
-					zInterpolate1 = zInterpolateC;
+					_xInterpolate1 = xInterpolateC;
 
-					dizdy1 = xInterpolateC * dizdx + dizdy;
-					duizdy1 = xInterpolateC * duizdx + duizdy;
-					dvizdy1 = xInterpolateC * dvizdx + dvizdy;
+					_zInterpolateY1 = xInterpolateC * _zInterpolationX + _zInterpolationY;
+					_uInterpolateY1 = xInterpolateC * _uzInerpolationX + _uzInterpolationY;
+					_vInterpolateY1 = xInterpolateC * _vzInterpolationX + _vInterpolationY;
 
 					dy = 1 - (yb - ybInt);
 
 					// Subpixling
-					x1 = xb + dy * xInterpolate1;
-					z1 = zb + dy * zInterpolate1;
+					_x1 = xb + dy * _xInterpolate1;
 
-					iz1 = oneOverZB + dy * dizdy1;
-					uiz1 = uizb + dy * duizdy1;
-					viz1 = vizb + dy * dvizdy1;
+					_z1 = oneOverZB + dy * _zInterpolateY1;
+					_u1 = uOneOverZB + dy * _uInterpolateY1;
+					_v1 = vOneOverZB + dy * _vInterpolateY1;
 
-					y1Int = ybInt;
-					y2Int = ycInt;
+					_y1Int = ybInt;
+					_y2Int = ycInt;
 
 					DrawSubTriangleSegment();
 				}
 			}
 		}
 
-		private int[] framebuffer;
-		private uint[] depthBuffer;
-
-		int offset = 0;
-		private float x1;
-		private float z1;
-
-		private float x2;
-		private float z2;
-
-		private int y1Int;
-		private int y2Int;
-
-		private float xInterpolate1;
-		private float zInterpolate1;
-
-		private float xInterpolate2;
-		private float zInterpolate2;
-
-		private TextureMipMapLevel texture;
-		private int[] texels;
-
-		private float dizdx;
-		private float duizdx;
-		private float dvizdx;
-		private float dizdy;
-		private float duizdy;
-		private float dvizdy;
-		private float dizdy1;
-		private float duizdy1;
-		private float dvizdy1;
-		private float iz1;
-		private float uiz1;
-		private float viz1;
 
 
 		private void DrawSubTriangleSegment()
 		{
-			var yoffset = BufferContainer.Width * y1Int;
+			var yoffset = BufferContainer.Width * _y1Int;
 
-			for (var y = y1Int; y < y2Int; y++)
+			for (var y = _y1Int; y < _y2Int; y++)
 			{
 				if (y >= 0 && y < BufferContainer.Height)
 				{
-					if ((int)x1 < (int)x2)
+					if ((int)_x1 < (int)_x2)
 					{
-						offset = yoffset + (int)x1;
-						DrawSpan(depthBuffer,
-								 offset,
-								 framebuffer,
-								 texture,
-								 texels);
+						_pixelOffset = yoffset + (int)_x1;
+						DrawSpan(_depthBuffer,
+								 _pixelOffset,
+								 _framebuffer,
+								 _texture,
+								 _texels);
 					}
 				}
-				x1 += xInterpolate1;
-				x2 += xInterpolate2;
+				_x1 += _xInterpolate1;
+				_x2 += _xInterpolate2;
 
-				z1 += zInterpolate1;
-				z2 += zInterpolate2;
-
-				iz1 += dizdy1;
-				uiz1 += duizdy1;
-				viz1 += dvizdy1;
+				_z1 += _zInterpolateY1;
+				_u1 += _uInterpolateY1;
+				_v1 += _vInterpolateY1;
 
 				yoffset += BufferContainer.Width;
-
 			}
-
 		}
 
 
@@ -354,30 +337,30 @@ namespace Balder.Rendering.Silverlight.Drawing
 			float v;
 			float z;
 
-			var dx = 1f - (x1 - (int)x1);
-			var iz = iz1 + dx * dizdx;
-			var uiz = uiz1 + dx * duizdx;
-			var viz = viz1 + dx * dvizdx;
+			var dx = 1f - (_x1 - (int)_x1);
+			var zz = _z1 + dx * _zInterpolationX;
+			var uu = _u1 + dx * _uzInerpolationX;
+			var vv = _v1 + dx * _vzInterpolationX;
 
 			var color = (uint)0xff000000;
 			var colorAsInt = (int)color;
 
-			var x1Int = (int)x1;
-			var x2Int = (int)x2;
+			var x1Int = (int)_x1;
+			var x2Int = (int)_x2;
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
 				if (x >= 0 && x < BufferContainer.Width)
 				{
-					z = 1f / iz;
+					z = 1f / zz;
 					var bufferZ = (UInt32)((1.0f - z) * (float)UInt32.MaxValue);
 					if (bufferZ > depthBuffer[offset] &&
 						z >= 0f &&
 						z < 1f
 						)
 					{
-						u = uiz * z;
-						v = viz * z;
+						u = uu * z;
+						v = vv * z;
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
@@ -394,9 +377,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 				offset++;
 
-				iz += dizdx;
-				uiz += duizdx;
-				viz += dvizdx;
+				zz += _zInterpolationX;
+				uu += _uzInerpolationX;
+				vv += _vzInterpolationX;
 			}
 		}
 
@@ -415,6 +398,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint a = 0xff000000;
 			alphaFull = (int)a;
 		}
+
 
 		private int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
 		{
