@@ -48,6 +48,26 @@ namespace Balder.Silverlight.TypeConverters
 				}
 				else
 				{
+                    string colorStr = (string)value;
+                    if (colorStr.StartsWith("#") && colorStr.Length == 9)
+                    {
+                        if (colorStr.Length == 9)
+                        {
+                            byte alpha = Byte.Parse(colorStr.Substring(1, 2), NumberStyles.AllowHexSpecifier);
+                            byte red = Byte.Parse(colorStr.Substring(3, 2), NumberStyles.AllowHexSpecifier);
+                            byte green = Byte.Parse(colorStr.Substring(5, 2), NumberStyles.AllowHexSpecifier);
+                            byte blue = Byte.Parse(colorStr.Substring(7, 2), NumberStyles.AllowHexSpecifier);
+                            return new Color(red, green, blue, alpha);
+                        }
+                        else if (colorStr.Length == 7)
+                        {
+                            byte red = Byte.Parse(colorStr.Substring(1, 2), NumberStyles.AllowHexSpecifier);
+                            byte green = Byte.Parse(colorStr.Substring(3, 2), NumberStyles.AllowHexSpecifier);
+                            byte blue = Byte.Parse(colorStr.Substring(5, 2), NumberStyles.AllowHexSpecifier);
+                            return new Color(red, green, blue, 255);
+                        }
+                    }
+
 					return Colors.Black;
 				}
 			}
