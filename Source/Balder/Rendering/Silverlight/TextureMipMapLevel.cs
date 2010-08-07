@@ -18,26 +18,15 @@
 //
 
 #endregion
+
+using System;
 using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
 {
 	public class TextureMipMapLevel
 	{
-		public int[] OriginalPixels;
 		public int[,] Pixels;
-
-		public byte[,] PixelsAsComponents;
-
-		public byte[,] RedComponents;
-		public byte[,] GreenComponents;
-		public byte[,] BlueComponents;
-		public byte[,] AlphaComponents;
-
-		public int[,] RedComponentsAdjustedForPixel;
-		public int[,] GreenComponentsAdjustedForPixel;
-		public int[,] BlueComponentsAdjustedForPixel;
-		public int[,] AlphaComponentsAdjustedForPixel;
 
 		public int Width;
 		public int Height;
@@ -47,56 +36,65 @@ namespace Balder.Rendering.Silverlight
 
 		public bool IsSemiTransparent;
 
+		private bool IsWidthPowerOfTwo;
+		private bool IsHeightPowerOfTwo;
+
+		private void InitializeWidth()
+		{
+			var log = System.Math.Log(Width) / System.Math.Log(2);
+
+			var logAsInt = (int)log;
+			var logDiff = log - (double)logAsInt;
+			if (logDiff == 0)
+			{
+				IsWidthPowerOfTwo = true;
+				WidthBitCount = (int)log;
+			}
+		}
+
+		private void InitializeHeight()
+		{
+			var log = System.Math.Log(Height) / System.Math.Log(2);
+
+			var logAsInt = (int)log;
+			var logDiff = log - (double)logAsInt;
+			if (logDiff == 0)
+			{
+				IsHeightPowerOfTwo = true;
+				HeightBitCount = (int)log;
+			}
+		}
+
+
 		public void SetFromMap(IMap map)
 		{
 			Width = map.Width;
 			Height = map.Height;
-			WidthBitCount = map.WidthBitCount;
-			HeightBitCount = map.HeightBitCount;
+			InitializeWidth();
+			InitializeHeight();
 
-			OriginalPixels = map.GetPixelsAs32BppARGB();
+			if( !IsWidthPowerOfTwo)
+			{
+				throw new ArgumentException("Width of texture is not power of two (2,4,8,16,32,64,128,256,512)");
+			}
+
+			if (!IsHeightPowerOfTwo)
+			{
+				throw new ArgumentException("Height of texture is not power of two (2,4,8,16,32,64,128,256,512)");
+			}
+
+			var originalPixels = map.GetPixelsAs32BppARGB();
 
 			Pixels = new int[Width, Height];
-			PixelsAsComponents = new byte[Width << 2, Height];
-			RedComponents = new byte[Width, Height];
-			GreenComponents = new byte[Width, Height];
-			BlueComponents = new byte[Width, Height];
-			AlphaComponents = new byte[Width, Height];
-			GreenComponents = new byte[Width, Height];
-			RedComponentsAdjustedForPixel = new int[Width, Height];
-			GreenComponentsAdjustedForPixel = new int[Width, Height];
-			BlueComponentsAdjustedForPixel = new int[Width, Height];
-			AlphaComponentsAdjustedForPixel = new int[Width, Height];
 
 			IsSemiTransparent = false;
-			for (var pixelIndex = 0; pixelIndex < OriginalPixels.Length; pixelIndex++)
+			for (var pixelIndex = 0; pixelIndex < originalPixels.Length; pixelIndex++)
 			{
 				var x = (pixelIndex & map.Width - 1);
 				var y = (pixelIndex >> map.HeightBitCount) & map.Height - 1;
 
-				var pixel = OriginalPixels[pixelIndex];
-
-				var alpha = ((pixel >> 24) & 0xff);
-				var red = ((pixel >> 16) & 0xff);
-				var green = ((pixel >> 8) & 0xff);
-				var blue = ((pixel) & 0xff);
-
+				var pixel = originalPixels[pixelIndex];
 				Pixels[x, y] = pixel;
-
-				PixelsAsComponents[x << 2, y] = (byte)red;
-				PixelsAsComponents[(x << 2)+1, y] = (byte)green;
-				PixelsAsComponents[(x << 2)+2, y] = (byte)blue;
-				PixelsAsComponents[(x << 2)+3, y] = (byte)alpha;
-
-				RedComponents[x, y] = (byte)red;
-				GreenComponents[x, y] = (byte)green;
-				BlueComponents[x, y] = (byte)blue;
-				AlphaComponents[x, y] = (byte)alpha;
-
-				RedComponentsAdjustedForPixel[x, y] = (int)(((uint)pixel) & 0x00ff0000);
-				GreenComponentsAdjustedForPixel[x, y] = (int)(((uint)pixel) & 0x0000ff00);
-				BlueComponentsAdjustedForPixel[x, y] = (int)(((uint)pixel) & 0x000000ff);
-				AlphaComponentsAdjustedForPixel[x, y] = (int)(((uint)pixel) & 0xff000000);
 			}
 		}
 	}
