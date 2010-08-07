@@ -30,7 +30,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			float z;
 
 			var subPixelX = 1f - (X1 - (int)X1);
-			var zz = Z1 + subPixelX * ZInterpolationX;
+			var zz = Z1 + subPixelX * ZInterpolateX;
 
 			var x1Int = (int)X1;
 			var x2Int = (int)X2;
@@ -52,7 +52,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				}
 
 				offset++;
-				zz += ZInterpolationX;
+				zz += ZInterpolateX;
 			}
 		}
 	}
