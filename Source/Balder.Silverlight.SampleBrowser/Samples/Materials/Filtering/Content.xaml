@@ -10,39 +10,41 @@
 	xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
 	xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" 
 	mc:Ignorable="d">
-    
-    <Grid x:Name="LayoutRoot">
+
+	<Grid x:Name="LayoutRoot">
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:10" TargetName="Box" TargetProperty="(Node.Rotation)"/>
+							<Animation:CoordinateAnimation From="0,0,0" To="359,359,0" Duration="00:00:10" TargetName="Box" TargetProperty="(Node.Rotation)"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 					</Storyboard>
 				</BeginStoryboard>
 			</EventTrigger>
 		</Grid.Triggers>
-		
-		
+
+
 		<Execution:Game x:Name="Game" Width="800" Height="600">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,10,-15" Target="0,0,0" FieldOfView="80"/>
+				<View:Camera Position="0,20,-85" Target="0,0,0" FieldOfView="45"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
 			<Geometries:Box x:Name="Box" Dimension="20,20,20">
 				<Geometries:Box.Material>
-					
-					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
-					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/WoodChip_Spruce110_CU.JPG"/>-->
-					
-					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>
+					<Materials:Material Diffuse="Blue" Shade="Gouraud"/>
+
+
+				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
+				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/WoodChip_Spruce110_CU.JPG"/>-->
+
+				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>-->
 				</Geometries:Box.Material>
 			</Geometries:Box>
 		</Execution:Game>
-		
+
 		<TextBlock x:Name="Time" HorizontalAlignment="Left" VerticalAlignment="Top"/>
 
 

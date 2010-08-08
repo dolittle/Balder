@@ -23,7 +23,7 @@
 		
 		<Execution:Game x:Name="Game" Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="100,130,-100" Target="0,0,0"/>
+				<View:Camera Position="0,70,-50" Target="0,0,0"/>
 			</Execution:Game.Camera>
 			
 			<Geometries:Heightmap x:Name="HeightMap" 

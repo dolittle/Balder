@@ -75,6 +75,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected float UInterpolateY1;
 		protected float VInterpolateY1;
 
+		protected float RScanline;
+		protected float GScanline;
+		protected float BScanline;
+		protected float AScanline;
+		protected float RScanlineInterpolate;
+		protected float GScanlineInterpolate;
+		protected float BScanlineInterpolate;
+		protected float AScanlineInterpolate;
+
+
 		protected int ColorAsInt;
 
 		protected static int RedMask;
@@ -236,31 +246,31 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
 
-			if (null != face.DiffuseTextureCoordinateA)
+			if (null != face.Texture1TextureCoordinateA)
 			{
-				vertexA.U = face.DiffuseTextureCoordinateA.U;
-				vertexA.V = face.DiffuseTextureCoordinateA.V;
+				vertexA.U = face.Texture1TextureCoordinateA.U;
+				vertexA.V = face.Texture1TextureCoordinateA.V;
 			}
-			if (null != face.DiffuseTextureCoordinateB)
+			if (null != face.Texture1TextureCoordinateB)
 			{
-				vertexB.U = face.DiffuseTextureCoordinateB.U;
-				vertexB.V = face.DiffuseTextureCoordinateB.V;
+				vertexB.U = face.Texture1TextureCoordinateB.U;
+				vertexB.V = face.Texture1TextureCoordinateB.V;
 			}
-			if (null != face.DiffuseTextureCoordinateC)
+			if (null != face.Texture1TextureCoordinateC)
 			{
-				vertexC.U = face.DiffuseTextureCoordinateC.U;
-				vertexC.V = face.DiffuseTextureCoordinateC.V;
+				vertexC.U = face.Texture1TextureCoordinateC.U;
+				vertexC.V = face.Texture1TextureCoordinateC.V;
 			}
 
 
 			Texture = null;
-			if (null != face.DiffuseTexture)
+			if (null != face.Texture1)
 			{
-				Texture = face.DiffuseTexture.FullDetailLevel;
+				Texture = face.Texture1.FullDetailLevel;
 			}
-			else if (null != face.ReflectionTexture)
+			else if (null != face.Texture2)
 			{
-				Texture = face.ReflectionTexture.FullDetailLevel;
+				Texture = face.Texture2.FullDetailLevel;
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
@@ -274,6 +284,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 				textureHeight = Texture.Height;
 			}
 
+			/*
+			face.CalculatedColorA = new Color(0xff, 0, 0, 0xff);
+			face.CalculatedColorB = new Color(0, 0xff, 0, 0xff);
+			face.CalculatedColorC = new Color(0, 0, 0xff, 0xff);
+			*/
 			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
 
 			var xa = vertexA.TranslatedScreenCoordinates.X;
@@ -559,6 +574,22 @@ namespace Balder.Rendering.Silverlight.Drawing
 					if ((int)X1 < (int)X2)
 					{
 						PixelOffset = yoffset + (int)X1;
+
+						RScanline = R1;
+						GScanline = G1;
+						BScanline = B1;
+						AScanline = A1;
+
+						var length = (X2 - X1);
+
+						var oneOverLength = 1f / length;
+
+						RScanlineInterpolate = (R2 - R1) * oneOverLength;
+						GScanlineInterpolate = (G2 - G1) * oneOverLength;
+						BScanlineInterpolate = (B2 - B1) * oneOverLength;
+						AScanlineInterpolate = (A2 - A1) * oneOverLength;
+
+
 						DrawSpan(PixelOffset);
 					}
 				}

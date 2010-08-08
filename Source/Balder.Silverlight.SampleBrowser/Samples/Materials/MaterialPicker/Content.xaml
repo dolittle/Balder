@@ -19,8 +19,8 @@
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
-						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(X)" From="0" To="359" Duration="00:00:03"/>
-						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(Y)" From="0" To="359" Duration="00:00:05"/>
+						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(X)" From="0" To="359" Duration="00:00:13"/>
+						<DoubleAnimation Storyboard.TargetName="GeometryContainer" Storyboard.TargetProperty="(Node.Rotation).(Y)" From="0" To="359" Duration="00:00:15"/>
 					</Storyboard>
 				</BeginStoryboard>
 

@@ -20,7 +20,6 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using Balder;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -38,16 +37,33 @@ namespace Balder.Rendering.Silverlight
 		public Vector TranslatedPosition;
 		public Vector TransformedDebugNormal;
 		public Vector TranslatedDebugNormal;
-		public TextureCoordinate DiffuseTextureCoordinateA;
-		public TextureCoordinate DiffuseTextureCoordinateB;
-		public TextureCoordinate DiffuseTextureCoordinateC;
+
+		public TextureCoordinate Texture1TextureCoordinateA;
+		public TextureCoordinate Texture1TextureCoordinateB;
+		public TextureCoordinate Texture1TextureCoordinateC;
+
+		public TextureCoordinate Texture2TextureCoordinateA;
+		public TextureCoordinate Texture2TextureCoordinateB;
+		public TextureCoordinate Texture2TextureCoordinateC;
+
+		public TextureCoordinate LightMapTextureCoordinateA;
+		public TextureCoordinate LightMapTextureCoordinateB;
+		public TextureCoordinate LightMapTextureCoordinateC;
+
+		public TextureCoordinate BumpMapTextureCoordinateA;
+		public TextureCoordinate BumpMapTextureCoordinateB;
+		public TextureCoordinate BumpMapTextureCoordinateC;
 
 		public Color CalculatedColorA;
 		public Color CalculatedColorB;
 		public Color CalculatedColorC;
 
-		public Texture DiffuseTexture;
-		public Texture ReflectionTexture;
+		public Texture Texture1;
+		public Texture Texture2;
+
+		public Texture LightMap;
+
+		public Texture BumpMap;
 
 		public RenderFace(int a, int b, int c)
 			: base(a,b,c)

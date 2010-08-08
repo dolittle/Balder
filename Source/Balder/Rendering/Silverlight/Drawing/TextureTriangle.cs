@@ -46,20 +46,20 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var vertexB = vertices[face.B];
 			var vertexC = vertices[face.C];
 
-			if (null != face.DiffuseTextureCoordinateA)
+			if (null != face.Texture1TextureCoordinateA)
 			{
-				vertexA.U = face.DiffuseTextureCoordinateA.U;
-				vertexA.V = face.DiffuseTextureCoordinateA.V;
+				vertexA.U = face.Texture1TextureCoordinateA.U;
+				vertexA.V = face.Texture1TextureCoordinateA.V;
 			}
-			if (null != face.DiffuseTextureCoordinateB)
+			if (null != face.Texture1TextureCoordinateB)
 			{
-				vertexB.U = face.DiffuseTextureCoordinateB.U;
-				vertexB.V = face.DiffuseTextureCoordinateB.V;
+				vertexB.U = face.Texture1TextureCoordinateB.U;
+				vertexB.V = face.Texture1TextureCoordinateB.V;
 			}
-			if (null != face.DiffuseTextureCoordinateC)
+			if (null != face.Texture1TextureCoordinateC)
 			{
-				vertexC.U = face.DiffuseTextureCoordinateC.U;
-				vertexC.V = face.DiffuseTextureCoordinateC.V;
+				vertexC.U = face.Texture1TextureCoordinateC.U;
+				vertexC.V = face.Texture1TextureCoordinateC.V;
 			}
 
 
