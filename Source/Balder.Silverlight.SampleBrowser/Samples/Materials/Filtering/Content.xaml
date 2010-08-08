@@ -27,17 +27,18 @@
 
 		<Execution:Game x:Name="Game" Width="800" Height="600">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,20,-85" Target="0,0,0" FieldOfView="45"/>
+				<View:Camera Position="0,20,-45" Target="0,0,0" FieldOfView="45"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
 			<Geometries:Box x:Name="Box" Dimension="20,20,20">
 				<Geometries:Box.Material>
-					<Materials:Material Diffuse="Blue" Shade="Gouraud"/>
+					<!--<Materials:Material Diffuse="Blue" Shade="Gouraud"/>-->
+					<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Samples/GettingStarted/HelloWorld/Assets/cloudless.png"/>
 
 
-				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
+					<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"/>-->
 				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/WoodChip_Spruce110_CU.JPG"/>-->
 
 				<!--<Materials:Material DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>-->

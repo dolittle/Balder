@@ -91,7 +91,7 @@ namespace Balder.Rendering.Silverlight
 			for (var pixelIndex = 0; pixelIndex < originalPixels.Length; pixelIndex++)
 			{
 				var x = (pixelIndex & map.Width - 1);
-				var y = (pixelIndex >> map.HeightBitCount) & map.Height - 1;
+				var y = (pixelIndex >> WidthBitCount) & map.Height - 1;
 
 				var pixel = originalPixels[pixelIndex];
 				Pixels[x, y] = pixel;
