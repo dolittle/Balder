@@ -19,9 +19,7 @@
 
 #endregion
 
-using Balder.Display;
 using Balder.Execution;
-using Ninject;
 
 namespace Balder.Rendering
 {
@@ -43,7 +41,6 @@ namespace Balder.Rendering
 		}
 
 		public PassiveRenderingMode PassiveRenderingMode { get; set; }
-
 
 		public bool Paused { get; set; }
 	}

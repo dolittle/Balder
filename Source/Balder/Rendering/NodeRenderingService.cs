@@ -7,14 +7,14 @@ namespace Balder.Rendering
 {
 	public class NodeRenderingService : INodeRenderingService
 	{
-		private readonly RuntimeContext _runtimeContext;
+		private readonly IRuntimeContext _runtimeContext;
 
 		private int _frameCounter;
 		private bool _render;
 		private readonly ShowMessage _showMessage;
 		private readonly PrepareFrameMessage _prepareFrameMessage;
 
-		public NodeRenderingService(RuntimeContext runtimeContext)
+		public NodeRenderingService(IRuntimeContext runtimeContext)
 		{
 			_runtimeContext = runtimeContext;
 			Messenger.DefaultContext.SubscriptionsFor<PassiveRenderingSignal>().AddListener(this, PassiveRenderingSignaled);
