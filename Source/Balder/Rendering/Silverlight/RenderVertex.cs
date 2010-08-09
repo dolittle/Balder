@@ -51,7 +51,6 @@ namespace Balder.Rendering.Silverlight
 			TransformedVector = new Vector(x, y, z);
 			TranslatedVector = new Vector(x, y, z);
 			TranslatedScreenCoordinates = Vector.Zero;
-			SmoothingGroups = new Dictionary<int, SmoothingGroupVertex>();
 		}
 
 		public void Transform(Matrix matrix)
@@ -60,11 +59,6 @@ namespace Balder.Rendering.Silverlight
 
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, matrix);
-
-			foreach( var smoothingGroup in SmoothingGroups.Values )
-			{
-				smoothingGroup.TransformedNormal = Vector.TransformNormal(smoothingGroup.Normal, matrix);
-			}
 		}
 
 
@@ -86,8 +80,6 @@ namespace Balder.Rendering.Silverlight
 		public Vector TransformedVectorNormalized;
 		public Vector TranslatedScreenCoordinates;
 		public float DepthBufferAdjustedZ;
-
-		public Dictionary<int, SmoothingGroupVertex> SmoothingGroups { get; private set; }
 
 		public float U;
 		public float V;

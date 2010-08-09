@@ -290,7 +290,6 @@
     <Compile Include="Rendering\Silverlight\RenderVertex.cs" />
     <Compile Include="Rendering\Silverlight\ShapeContext.cs" />
     <Compile Include="Rendering\Silverlight\Shapes.cs" />
-    <Compile Include="Rendering\Silverlight\SmoothingGroupVertex.cs" />
     <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
     <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
     <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />

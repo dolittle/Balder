@@ -350,11 +350,6 @@ namespace Balder.Rendering.Silverlight
 			{
 				var vertex = _vertices[vertexIndex];
 				TransformAndTranslateVertex(vertex, viewport, localView, projection);
-
-				foreach (var smoothingGroup in vertex.SmoothingGroups.Values)
-				{
-					smoothingGroup.IsColorCalculated = false;
-				}
 			}
 		}
 
