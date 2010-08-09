@@ -247,86 +247,23 @@ namespace Balder.Rendering.Silverlight
 					_faces[index].Texture1TextureCoordinateC = _textureCoordinates[_faces[index].DiffuseC];
 				}
 			}
-
-			if (null != _faces)
-			{
-				GenerateSmoothingInformation();
-			}
 		}
 
-		private void GenerateSmoothingInformation()
+		public void CalculateNormals(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			var vertexCount = new Dictionary<int, Dictionary<int, int>>();
-			var vertexNormal = new Dictionary<int, Dictionary<int, SmoothingGroupVertex>>();
-
-			Action<int, Face> addNormal =
-				delegate(int vertex, Face face)
-				{
-					Dictionary<int, SmoothingGroupVertex> smoothingGroupVertices;
-					Dictionary<int, int> smoothingGroupCount;
-					if (!vertexNormal.ContainsKey(vertex))
-					{
-						smoothingGroupVertices = new Dictionary<int, SmoothingGroupVertex>();
-						vertexNormal[vertex] = smoothingGroupVertices;
-						smoothingGroupCount = new Dictionary<int, int>();
-						vertexCount[vertex] = smoothingGroupCount;
-					}
-					else
-					{
-						smoothingGroupVertices = vertexNormal[vertex];
-						smoothingGroupCount = vertexCount[vertex];
-					}
-
-					if (!smoothingGroupCount.ContainsKey(face.SmoothingGroup))
-					{
-						smoothingGroupCount[face.SmoothingGroup] = 1;
-					}
-
-					SmoothingGroupVertex smoothingGroup;
-					if (!smoothingGroupVertices.ContainsKey(face.SmoothingGroup))
-					{
-						smoothingGroup = new SmoothingGroupVertex();
-						smoothingGroupVertices[face.SmoothingGroup] = smoothingGroup;
-					}
-					else
-					{
-						smoothingGroup = smoothingGroupVertices[face.SmoothingGroup];
-					}
-
-					smoothingGroup.Normal += face.Normal;
-					smoothingGroup.Number = face.SmoothingGroup;
-					smoothingGroupCount[face.SmoothingGroup]++;
-				};
-
-			foreach (var face in _faces)
+			if( null == _normals )
 			{
-				addNormal(face.A, face);
-				addNormal(face.B, face);
-				addNormal(face.C, face);
+				return;
 			}
-
-			foreach (var vertex in vertexNormal.Keys)
+			var localView = (world * view);
+			for (var normalIndex = 0; normalIndex < _normals.Length; normalIndex++)
 			{
-				var countPerSmoothingGroup = vertexCount[vertex];
-
-				var smoothingGroups = vertexNormal[vertex];
-
-
-				foreach (var smoothingGroup in smoothingGroups.Values)
-				{
-					var count = countPerSmoothingGroup[smoothingGroup.Number];
-					var normal = new Vector(smoothingGroup.Normal.X / count,
-											smoothingGroup.Normal.Y / count,
-											smoothingGroup.Normal.Z / count);
-					normal.Normalize();
-					smoothingGroup.Normal = normal;
-
-					_vertices[vertex].SmoothingGroups[smoothingGroup.Number] = smoothingGroup;
-				}
-
-				InvalidateVertex(vertex);
+				var normal = _normals[normalIndex];
+				normal.Transformed = Vector.TransformNormal(normal.Vector, localView);
+				normal.IsColorCalculated = false;
 			}
 		}
+
 
 		public void CalculateVertices(Viewport viewport, INode node)
 		{
@@ -371,6 +308,7 @@ namespace Balder.Rendering.Silverlight
 
 			var color = GetColorFromNode(node);
 			CalculateVertices(viewport, view, projection, world);
+			CalculateNormals(viewport, view, projection, world);
 			RenderFaces(node, viewport, view, world, depthTest);
 			RenderLines(viewport, color);
 
@@ -421,44 +359,30 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private Color CalculateColorForVertex(RenderVertex vertex, Material material, Viewport viewport, int smoothingGroup)
+		private Color CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
 		{
-			Color lightColor;
-			if (null != vertex.SmoothingGroups && vertex.SmoothingGroups.ContainsKey(smoothingGroup))
+			if (null == _normals || null == _vertices)
 			{
-				var smoothingGroupVertex = vertex.SmoothingGroups[smoothingGroup];
-
-				if (smoothingGroupVertex.IsColorCalculated)
-				{
-					lightColor = smoothingGroupVertex.CalculatedColor;
-				}
-				else
-				{
-					lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, smoothingGroupVertex.TransformedNormal);
-					smoothingGroupVertex.CalculatedColor = lightColor;
-				}
-			}
-			else
-			{
-				lightColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, vertex.TransformedNormal);
+				return Colors.Black;
 			}
 
-			return lightColor;
+			var normal = _normals[normalIndex];
+			var vertex = _vertices[vertexIndex];
+
+			if( !normal.IsColorCalculated )
+			{
+				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);	
+			}
+			return normal.CalculatedColor;
 		}
-
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-			if (null == material || material.Shade == MaterialShade.Gouraud)
-			{
-				var vertexA = _vertices[face.A];
-				var vertexB = _vertices[face.B];
-				var vertexC = _vertices[face.C];
-				face.CalculatedColorA = CalculateColorForVertex(vertexA, material, viewport, face.SmoothingGroup);
-				face.CalculatedColorB = CalculateColorForVertex(vertexB, material, viewport, face.SmoothingGroup);
-				face.CalculatedColorC = CalculateColorForVertex(vertexC, material, viewport, face.SmoothingGroup);
-			}
+			face.CalculatedColorA = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
+			face.CalculatedColorB = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
+			face.CalculatedColorC = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
 		}
+
 
 		private void RenderVertices(INode node, Viewport viewport)
 		{
@@ -485,7 +409,7 @@ namespace Balder.Rendering.Silverlight
 					_vertices[line.B].TransformedVector.Z >= viewport.View.Near);
 		}
 
-		
+
 
 		private void RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
 		{
