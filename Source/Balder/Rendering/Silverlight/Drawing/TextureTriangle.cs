@@ -21,24 +21,11 @@
 #if(SILVERLIGHT)
 using System;
 using Balder.Materials;
-using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class TextureTriangle : Triangle
 	{
-		private static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
-		{
-			var u = vertex.TransformedVectorNormalized;
-			var n = vertex.TransformedNormal;
-			var r = Vector.Reflect(n, u);
-			var m = MathHelper.Sqrt((r.X * r.X) + (r.Y * r.Y) +
-									((r.Z + 0f) * (r.Z + 0f)));
-			var s = (r.X / m);
-			var t = (r.Y / m);
-			vertex.U = (s * 0.5f) + 0.5f;
-			vertex.V = -(t * 0.5f) + 0.5f;
-		}
 
 		public override void Draw(RenderFace face, RenderVertex[] vertices)
 		{
@@ -63,16 +50,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			IMap image = null;
+			TextureMipMapLevel image = null;
 
-			if (null != face.Material.DiffuseMap)
+			if (null != face.Texture1)
 			{
-				image = face.Material.DiffuseMap;
+				image = face.Texture1.FullDetailLevel;
 
 			}
 			else if (null != face.Material.ReflectionMap)
 			{
-				image = face.Material.ReflectionMap;
+				image = face.Texture2.FullDetailLevel;
 
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
@@ -82,9 +69,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			{
 				return;
 			}
-			var texels = image.GetPixelsAs32BppARGB();
-
-
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
@@ -313,8 +297,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 							 depthBuffer,
 							 offset,
 							 framebuffer,
-							 image,
-							 texels);
+							 image);
 				}
 
 				if (y == (int)yb)
@@ -361,12 +344,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 			uint[] depthBuffer,
 			int offset,
 			int[] framebuffer,
-			IMap image,
-			int[] texels)
+			TextureMipMapLevel texture)
 		{
-			var textureWidth = image.Width;
-			var textureHeight = image.Height;
-
+			var textureWidth = texture.Width;
+			var textureHeight = texture.Height;
 
 			for (var x = 0; x <= length; x++)
 			{
@@ -379,9 +360,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 					var intu = ((int)uStart) & (textureWidth - 1);
 					var intv = ((int)vStart) & (textureHeight - 1);
 
-					var texel = ((intv << image.WidthBitCount) + intu);
-
-					framebuffer[offset] = texels[texel];
+					framebuffer[offset] = texture.Pixels[intu,intv];
 					depthBuffer[offset] = bufferZ;
 				}
 
