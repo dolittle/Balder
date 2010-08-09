@@ -73,8 +73,7 @@ namespace Balder.Assets.AssetLoaders
 			foreach (var geometry in geometries)
 			{
 				var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
-				GeometryHelper.CalculateFaceNormals(geometryDetailLevel);
-				GeometryHelper.CalculateVertexNormals(geometryDetailLevel);
+				GeometryHelper.CalculateNormals(geometryDetailLevel);
 			}
 		}
 

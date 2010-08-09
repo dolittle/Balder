@@ -27,15 +27,8 @@ namespace Balder.Objects.Geometries
 	/// </summary>
 	public static class GeometryHelper
 	{
-		/// <summary>
-		/// Generate face normals for faces added to a specific <see cref="IGeometryDetailLevel"/>
-		/// </summary>
-		/// <param name="detailLevel"></param>
-		public static void CalculateFaceNormals(IGeometryDetailLevel detailLevel)
+		private static void CalculateFaceNormals(IGeometryDetailLevel detailLevel, Vertex[] vertices, Face[] faces)
 		{
-			var vertices = detailLevel.GetVertices();
-			var faces = detailLevel.GetFaces();
-
 			for( var faceIndex=0; faceIndex<faces.Length; faceIndex++ )
 			{
 				var v1 = vertices[faces[faceIndex].A].ToVector();
@@ -50,17 +43,10 @@ namespace Balder.Objects.Geometries
 		}
 
 
-		/// <summary>
-		/// Generate vertex normals for vertices added to a specific <see cref="IGeometryDetailLevel"/>
-		/// </summary>
-		/// <param name="detailLevel"></param>
-		public static void CalculateVertexNormals(IGeometryDetailLevel detailLevel)
+		private static void CalculateVertexNormals(IGeometryDetailLevel detailLevel, Vertex[] vertices, Face[] faces)
 		{
 			var vertexCount = new Dictionary<int, int>();
 			var vertexNormal = new Dictionary<int, Vector>();
-
-			var vertices = detailLevel.GetVertices();
-			var faces = detailLevel.GetFaces();
 
 			Func<int, Vector, int> addNormal =
 				delegate(int vertex, Vector normal)
@@ -98,6 +84,115 @@ namespace Balder.Objects.Geometries
 				vertices[vertex].NormalZ = normal.Z;
 				detailLevel.InvalidateVertex(vertex);
 			}
+		}
+
+
+		public static void CalculateNormals(IGeometryDetailLevel detailLevel)
+		{
+			var vertices = detailLevel.GetVertices();
+			var faces = detailLevel.GetFaces();
+
+			CalculateFaceNormals(detailLevel, vertices, faces);
+			CalculateVertexNormals(detailLevel, vertices, faces);
+
+			var vertexCount = new Dictionary<int, Dictionary<int, int>>();
+			var vertexNormal = new Dictionary<int, Dictionary<int, Vector>>();
+
+			SummarizeFaceNormals(faces, vertexNormal, vertexCount);
+			var normals = CalculateNormalsForSmoothingGroups(faces, vertexNormal, vertexCount);
+			detailLevel.AllocateNormals(normals.Count);
+			var normalIndex = 0;
+			foreach( var normal in normals )
+			{
+				detailLevel.SetNormal(normalIndex, normal);
+				normalIndex++;
+			}
+
+		}
+
+		private static List<Normal> CalculateNormalsForSmoothingGroups(Face[] faces, Dictionary<int, Dictionary<int, Vector>> vertexNormal, Dictionary<int, Dictionary<int, int>> vertexCount)
+		{
+			var normals = new List<Normal>();
+			var normalIndex = 0;
+
+			foreach (var vertex in vertexNormal.Keys)
+			{
+				var countPerSmoothingGroup = vertexCount[vertex];
+				var smoothingGroups = vertexNormal[vertex];
+				foreach (var smoothingGroupNumber in smoothingGroups.Keys)
+				{
+					var smoothingGroup = smoothingGroups[smoothingGroupNumber];
+					var count = countPerSmoothingGroup[smoothingGroupNumber];
+					var normal = smoothingGroup/count;
+					normal.Normalize();
+
+					foreach( var face in faces )
+					{
+						if( face.SmoothingGroup == smoothingGroupNumber )
+						{
+							if( face.A == vertex )
+							{
+								face.NormalA = normalIndex;
+							}
+							if( face.B == vertex )
+							{
+								face.NormalB = normalIndex;
+							}
+							if( face.C == vertex )
+							{
+								face.NormalC = normalIndex;
+							}
+						}
+					}
+
+					normals.Add(new Normal(normal.X, normal.Y, normal.Z));
+					normalIndex++;
+				}
+			}
+			return normals;
+		}
+
+		private static void SummarizeFaceNormals(Face[] faces, Dictionary<int, Dictionary<int, Vector>> vertexNormal, Dictionary<int, Dictionary<int, int>> vertexCount)
+		{
+			foreach (var face in faces)
+			{
+				AddFaceNormalForVertexInSmoothingGroup(vertexNormal, face.A, vertexCount, face);
+				AddFaceNormalForVertexInSmoothingGroup(vertexNormal, face.B, vertexCount, face);
+				AddFaceNormalForVertexInSmoothingGroup(vertexNormal, face.C, vertexCount, face);
+			}
+		}
+
+		private static void AddFaceNormalForVertexInSmoothingGroup(Dictionary<int, Dictionary<int, Vector>> vertexNormal, int vertex, Dictionary<int, Dictionary<int, int>> vertexCount, Face face)
+		{
+			Dictionary<int, Vector> smoothingGroupVertices;
+			Dictionary<int, int> smoothingGroupCount;
+			if (!vertexNormal.ContainsKey(vertex))
+			{
+				smoothingGroupVertices = new Dictionary<int, Vector>();
+				vertexNormal[vertex] = smoothingGroupVertices;
+				smoothingGroupCount = new Dictionary<int, int>();
+				vertexCount[vertex] = smoothingGroupCount;
+			}
+			else
+			{
+				smoothingGroupVertices = vertexNormal[vertex];
+				smoothingGroupCount = vertexCount[vertex];
+			}
+
+			if (!smoothingGroupCount.ContainsKey(face.SmoothingGroup))
+			{
+				smoothingGroupCount[face.SmoothingGroup] = 1;
+			}
+
+			if (smoothingGroupVertices.ContainsKey(face.SmoothingGroup))
+			{
+				smoothingGroupVertices[face.SmoothingGroup] += face.Normal;	
+			} else
+			{
+				smoothingGroupVertices[face.SmoothingGroup] = face.Normal;
+			}
+			
+			smoothingGroupCount[face.SmoothingGroup]++;
 		}
 	}
 }

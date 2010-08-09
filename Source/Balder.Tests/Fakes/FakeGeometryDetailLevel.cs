@@ -11,7 +11,7 @@ namespace Balder.Tests.Fakes
 		private Vertex[] _vertices;
 		private TextureCoordinate[] _textureCoordinates;
 		private Line[] _lines;
-		private Vertex[] _normals;
+		private Normal[] _normals;
 		
 
 		public int FaceCount { get; private set; }
@@ -64,16 +64,16 @@ namespace Balder.Tests.Fakes
 
 		public void AllocateNormals(int count)
 		{
-			_normals = new Vertex[count];
+			_normals = new Normal[count];
 			NormalCount = count;
 		}
 
-		public void SetNormal(int index, Vertex normal)
+		public void SetNormal(int index, Normal normal)
 		{
 			_normals[index] = normal;
 		}
 
-		public Vertex[] GetNormals()
+		public Normal[] GetNormals()
 		{
 			return _normals;
 		}

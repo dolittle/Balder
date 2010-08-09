@@ -23,8 +23,8 @@ namespace Balder.Objects.Geometries
 		void InvalidateVertex(int index);
 
 		void AllocateNormals(int count);
-		void SetNormal(int index, Vertex normal);
-		Vertex[] GetNormals();
+		void SetNormal(int index, Normal normal);
+		Normal[] GetNormals();
 		void InvalidateNormal(int index);
 
 		void AllocateLines(int count);

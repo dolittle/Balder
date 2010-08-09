@@ -101,8 +101,7 @@ namespace Balder.Objects.Geometries
 			GenerateTextureCoordinates();
 			GenerateFaces();
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);

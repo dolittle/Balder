@@ -152,6 +152,7 @@
     <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
     <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
     <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
+    <Compile Include="Objects\Geometries\Normal.cs" />
     <Compile Include="Objects\ISkyboxContext.cs" />
     <Compile Include="Objects\Skybox.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />
@@ -163,6 +164,7 @@
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
+    <Compile Include="Rendering\Silverlight\RenderNormal.cs" />
     <Compile Include="Rendering\Silverlight\SkyboxContext.cs" />
     <Compile Include="Rendering\Silverlight\Texture.cs" />
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />

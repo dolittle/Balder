@@ -246,8 +246,7 @@ namespace Balder.Objects.Geometries
 				faceIndex = BuildEnds(actualSegments, actualStacks, nextSegmentOffset, faceSegments, faceOffset, additionalFaceSegments, faceIndex);
 			}
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);

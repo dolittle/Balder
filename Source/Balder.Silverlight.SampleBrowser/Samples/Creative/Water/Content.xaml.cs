@@ -69,9 +69,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 			if( geometryDetailLevel.FaceCount > 0 &&
 				geometryDetailLevel.VertexCount > 0)
 			{
-				GeometryHelper.CalculateFaceNormals(geometryDetailLevel);
-				GeometryHelper.CalculateVertexNormals(geometryDetailLevel);
-				
+				GeometryHelper.CalculateNormals(geometryDetailLevel);
 			}
 
 

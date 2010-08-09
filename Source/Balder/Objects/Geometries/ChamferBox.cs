@@ -79,8 +79,7 @@ namespace Balder.Objects.Geometries
 			GenerateTextureCoordinates();
 			GenerateFaces();
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 		}
 
 		private void GenerateVertices()

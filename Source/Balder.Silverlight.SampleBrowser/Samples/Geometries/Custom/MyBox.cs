@@ -16,8 +16,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Geometries.Custom
 			//GenerateLines();
 			GenerateFaces();
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 
 			base.Prepare(viewport);
 		}

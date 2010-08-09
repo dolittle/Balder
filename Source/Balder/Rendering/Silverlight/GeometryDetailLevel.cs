@@ -50,7 +50,7 @@ namespace Balder.Rendering.Silverlight
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
-		private Vertex[] _normals;
+		private RenderNormal[] _normals;
 		private TextureCoordinate[] _textureCoordinates;
 		private Line[] _lines;
 
@@ -160,26 +160,27 @@ namespace Balder.Rendering.Silverlight
 			return _vertices;
 		}
 
-		#endregion
-
-		#region Normal related
 		public void InvalidateVertex(int index)
 		{
 
 		}
 
+		#endregion
+
+		#region Normal related
+
 		public void AllocateNormals(int count)
 		{
-			_normals = new Vertex[count];
+			_normals = new RenderNormal[count];
 
 		}
 
-		public void SetNormal(int index, Vertex normal)
+		public void SetNormal(int index, Normal normal)
 		{
-			_normals[index] = normal;
+			_normals[index] = new RenderNormal(normal);
 		}
 
-		public Vertex[] GetNormals()
+		public Normal[] GetNormals()
 		{
 			return _normals;
 		}
@@ -492,36 +493,6 @@ namespace Balder.Rendering.Silverlight
 			{
 				return;
 			}
-
-#if(false)
-			static float y = 200;
-
-			var v = new RenderVertex[3];
-			v[0] = new RenderVertex { TranslatedScreenCoordinates = new Vector(425, 144, 0), DepthBufferAdjustedZ = 0.5f };
-			v[1] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, y, 0), DepthBufferAdjustedZ = 0.5f };
-			v[2] = new RenderVertex { TranslatedScreenCoordinates = new Vector(214, 345, 0), DepthBufferAdjustedZ = 0.5f };
-
-
-			var f = new RenderFace(0, 1, 2);
-			f.CalculatedColorA = new Color(0xff, 0, 0, 0xff);
-			f.CalculatedColorB = new Color(0, 0xff, 0, 0xff);
-			f.CalculatedColorC = new Color(0, 0, 0xff, 0xff);
-
-			/*
-			f.DiffuseTextureCoordinateA = new TextureCoordinate(1f, 0);
-			f.DiffuseTextureCoordinateB = new TextureCoordinate(0, 0);
-			f.DiffuseTextureCoordinateC = new TextureCoordinate(0, 1f);
-			f.DiffuseTexture = _textureManager.GetTextureForMap(_faces[0].Material.DiffuseMap);
-			
-			TextureTrianglePerspectiveCorrectedRenderer.Draw(f, v);
-			 * */
-
-			GouraudTriangleRenderer.Draw(f, v);
-
-			y += 0.5f;
-
-			return;
-#endif
 
 			var matrix = world * view;
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)

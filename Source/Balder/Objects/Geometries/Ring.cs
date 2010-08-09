@@ -206,8 +206,7 @@ namespace Balder.Objects.Geometries
 			BuildVertices(actualSegments, actualStacks, vertexCount, open);
 			BuildFaces(actualSegments, actualStacks, vertexCount);
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);

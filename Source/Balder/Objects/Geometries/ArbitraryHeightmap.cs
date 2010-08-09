@@ -228,8 +228,7 @@ namespace Balder.Objects.Geometries
 			PrepareVertices();
 			PrepareFaces();
 
-			GeometryHelper.CalculateFaceNormals(FullDetailLevel);
-			GeometryHelper.CalculateVertexNormals(FullDetailLevel);
+			GeometryHelper.CalculateNormals(FullDetailLevel);
 
 			var vertices = FullDetailLevel.GetVertices();
 
