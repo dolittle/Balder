@@ -27,8 +27,6 @@ namespace Balder.Materials
 		bool HasPixelChanges { get; }
 		int Width { get; }
 		int Height { get; }
-		int WidthBitCount { get; }
-		int HeightBitCount { get; }
 		bool IsDynamic { get; }
 	}
 }

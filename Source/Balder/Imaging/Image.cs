@@ -51,59 +51,8 @@ namespace Balder.Imaging
 		
 		public IImageContext ImageContext { get; set; }
 
-		private int _width;
-		public int Width
-		{
-			get { return _width; }
-			set
-			{
-				_width = value;
-				InitializeWidth();
-			}
-		}
-
-		private int _height;
-		public int Height
-		{
-			get { return _height; }
-			set
-			{
-				_height = value;
-				InitializeHeight();
-			}
-		}
-
-		public bool IsWidthPowerOfTwo { get; private set; }
-		public bool IsHeightPowerOfTwo { get; private set; }
-
-		public int WidthBitCount { get; private set; }
-		public int HeightBitCount { get; private set; }
-
-		private void InitializeWidth()
-		{
-			var log = System.Math.Log(Width) / System.Math.Log(2);
-
-			var logAsInt = (int) log;
-			var logDiff = log - (double) logAsInt;
-			if( logDiff == 0 )
-			{
-				IsWidthPowerOfTwo = true;
-				WidthBitCount = (int) log;
-			}
-		}
-
-		private void InitializeHeight()
-		{
-			var log = System.Math.Log(Height) / System.Math.Log(2);
-
-			var logAsInt = (int)log;
-			var logDiff = log - (double)logAsInt;
-			if (logDiff == 0)
-			{
-				IsHeightPowerOfTwo = true;
-				HeightBitCount = (int)log;
-			}
-		}
+		public int Width { get; set; }
+		public int Height { get; set; }
 
 		public string Name { get; set; }
 		public object GetContext()

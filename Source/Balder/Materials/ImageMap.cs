@@ -54,16 +54,6 @@ namespace Balder.Materials
 			get { return _image.Height; }
 		}
 
-		public int WidthBitCount
-		{
-			get { return _image.WidthBitCount; }
-		}
-
-		public int HeightBitCount
-		{
-			get { return _image.HeightBitCount; }
-		}
-
 		public bool IsDynamic
 		{
 			get { return false; }
