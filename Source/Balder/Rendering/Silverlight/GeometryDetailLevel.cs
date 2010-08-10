@@ -398,19 +398,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				var face = _faces[faceIndex];
 
-				var a = _vertices[face.A];
-				var b = _vertices[face.B];
-				var c = _vertices[face.C];
-
-				var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
-									(c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
-
-				var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
-				//&& viewport.View.IsInView(a.TransformedVector);
-				if (null != face.Material)
-				{
-					visible |= face.Material.DoubleSided;
-				}
+				bool visible = IsFaceVisible(face, viewport);
 				if (!visible)
 				{
 					continue;
@@ -418,21 +406,7 @@ namespace Balder.Rendering.Silverlight
 
 				face.TransformNormal(matrix);
 
-				Material material = face.Material;
-				if (null == material)
-				{
-					if (node is IHaveColor)
-					{
-						material = _colorMaterial;// Material.Default;
-						material.Diffuse = ((IHaveColor)node).Color;
-					}
-					else
-					{
-						material = Material.Default;
-					}
-
-
-				}
+				var material = PrepareMaterialForFace(face, node);
 				CalculateVertexColorsForFace(face, viewport, material);
 
 				face.Texture1 = _textureManager.GetTextureForMap(material.DiffuseMap);
@@ -441,6 +415,42 @@ namespace Balder.Rendering.Silverlight
 				face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
 				material.Renderer.Draw(face, _vertices);
 			}
+		}
+
+		private Material PrepareMaterialForFace(RenderFace face, INode node)
+		{
+			Material material = face.Material;
+			if (null == material)
+			{
+				if (node is IHaveColor)
+				{
+					material = _colorMaterial;// Material.Default;
+					material.Diffuse = ((IHaveColor)node).Color;
+				}
+				else
+				{
+					material = Material.Default;
+				}
+			}
+			return material;
+		}
+
+		private bool IsFaceVisible(RenderFace face, Viewport viewport)
+		{
+			var a = _vertices[face.A];
+			var b = _vertices[face.B];
+			var c = _vertices[face.C];
+
+			var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
+			                   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
+
+			var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
+			//&& viewport.View.IsInView(a.TransformedVector);
+			if (null != face.Material)
+			{
+				visible |= face.Material.DoubleSided;
+			}
+			return visible;
 		}
 
 		private void RenderLines(Viewport viewport, Color color)
