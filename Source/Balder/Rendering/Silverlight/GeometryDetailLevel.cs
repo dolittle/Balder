@@ -33,15 +33,6 @@ namespace Balder.Rendering.Silverlight
 	{
 		public static long Milliseconds;
 
-		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
-		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
-		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
-		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
-		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
-		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
-		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
-		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
-		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 		private readonly ITextureManager _textureManager;
@@ -447,77 +438,8 @@ namespace Balder.Rendering.Silverlight
 				face.Texture1 = _textureManager.GetTextureForMap(material.DiffuseMap);
 				face.Texture2 = _textureManager.GetTextureForMap(material.ReflectionMap);
 
-				switch (material.Shade)
-				{
-					case MaterialShade.None:
-						{
-							face.Color = material.Diffuse;
-
-							if (null != material.DiffuseMap || null != material.ReflectionMap)
-							{
-								if (depthTest)
-								{
-									TextureTriangleRenderer.Draw(face, _vertices);
-								}
-								else
-								{
-									TextureTriangleNoDepthRenderer.Draw(face, _vertices);
-								}
-							}
-							else
-							{
-								FlatTriangleRenderer.Draw(face, _vertices);
-							}
-						}
-						break;
-
-					case MaterialShade.Flat:
-						{
-							face.Transform(matrix);
-							face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
-							if (null != material.DiffuseMap || null != material.ReflectionMap)
-							{
-								FlatTextureTriangleRenderer.Draw(face, _vertices);
-							}
-							else
-							{
-								if (depthTest)
-								{
-									FlatTriangleRenderer.Draw(face, _vertices);
-								}
-								else
-								{
-									FlatTriangleNoDepthRenderer.Draw(face, _vertices);
-								}
-							}
-						}
-						break;
-
-					case MaterialShade.Gouraud:
-						{
-							face.CalculatedColorA = face.CalculatedColorA;
-							face.CalculatedColorB = face.CalculatedColorB;
-							face.CalculatedColorC = face.CalculatedColorC;
-
-							if (null != material.DiffuseMap || null != material.ReflectionMap)
-							{
-								GouraudTextureTriangleRenderer.Draw(face, _vertices);
-							}
-							else
-							{
-								if (depthTest)
-								{
-									GouraudTriangleRenderer.Draw(face, _vertices);
-								}
-								else
-								{
-									GouraudTriangleNoDepthRenderer.Draw(face, _vertices);
-								}
-							}
-
-						}
-						break;
-				}
+				face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
+				material.Renderer.Draw(face, _vertices);
 			}
 		}
 
@@ -533,7 +455,7 @@ namespace Balder.Rendering.Silverlight
 
 				if (!IsLineInView(viewport, line))
 				{
-					//continue;
+					continue;
 				}
 
 				var a = _vertices[line.A];
