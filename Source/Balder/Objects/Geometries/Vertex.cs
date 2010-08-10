@@ -48,15 +48,15 @@ namespace Balder.Objects.Geometries
 		}
 
 
-		public float X { get; set; }
-		public float Y { get; set; }
-		public float Z { get; set; }
+		public float X;
+		public float Y;
+		public float Z;
 
-		public float NormalX { get; set; }
-		public float NormalY { get; set; }
-		public float NormalZ { get; set; }
+		public float NormalX;
+		public float NormalY;
+		public float NormalZ;
 
-		public Color Color { get; set; }
+		public Color Color;
 
 		public Vector ToVector()
 		{
