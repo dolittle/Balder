@@ -206,10 +206,11 @@ namespace Balder
 
 		public static Color Scale(Color color, float scale)
 		{
-			var redAsFloat = ((float)color.Red) / 255f;
-			var greenAsFloat = ((float)color.Green) / 255f;
-			var blueAsFloat = ((float)color.Blue) / 255f;
-			var alphaAsFloat = ((float)color.Alpha) / 255f;
+			var oneOver = 1f/255f;
+			var redAsFloat = ((float)color.Red) * oneOver;
+			var greenAsFloat = ((float)color.Green) * oneOver;
+			var blueAsFloat = ((float)color.Blue) * oneOver;
+			var alphaAsFloat = ((float)color.Alpha) * oneOver;
 
 			redAsFloat = redAsFloat * scale;
 			greenAsFloat = greenAsFloat * scale;
