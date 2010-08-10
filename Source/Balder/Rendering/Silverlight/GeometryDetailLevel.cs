@@ -18,7 +18,6 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using System.Collections.Generic;
 using Balder.Diagnostics;
 using Balder.Display;
 using Balder.Lighting;
@@ -43,7 +42,6 @@ namespace Balder.Rendering.Silverlight
 		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
-		private static readonly TextureTrianglePerspectiveCorrected TextureTrianglePerspectiveCorrectedRenderer = new TextureTrianglePerspectiveCorrected();
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 		private readonly ITextureManager _textureManager;
@@ -331,25 +329,15 @@ namespace Balder.Rendering.Silverlight
 			return Colors.Gray;
 		}
 
-		private static void TransformAndTranslateVertex(RenderVertex vertex, Viewport viewport, Matrix localView, Matrix projection)
-		{
-			vertex.Transform(localView);
-			vertex.Translate(projection, viewport.Width, viewport.Height);
-			vertex.MakeScreenCoordinates();
-
-			vertex.TransformedVectorNormalized = vertex.TransformedNormal;
-			vertex.TransformedVectorNormalized.Normalize();
-			var z = ((vertex.TransformedVector.Z / viewport.View.DepthDivisor) + viewport.View.DepthZero);
-			vertex.DepthBufferAdjustedZ = z;
-		}
 
 		private void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			var localView = (world * view);
+			var worldView = (world * view);
+			var worldViewProjection = worldView*projection;
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
-				TransformAndTranslateVertex(vertex, viewport, localView, projection);
+				vertex.TransformAndProject(viewport, worldView, worldViewProjection);
 			}
 		}
 
@@ -366,7 +354,8 @@ namespace Balder.Rendering.Silverlight
 
 			if( !normal.IsColorCalculated )
 			{
-				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);	
+				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
+				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, new Vector(vertex.X,vertex.Y,vertex.Z), normal.Transformed);	
 			}
 			return normal.CalculatedColor;
 		}
@@ -384,8 +373,8 @@ namespace Balder.Rendering.Silverlight
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
-				PointRenderer.Draw((int)vertex.TranslatedScreenCoordinates.X,
-								   (int)vertex.TranslatedScreenCoordinates.Y,
+				PointRenderer.Draw((int)vertex.ProjectedVector.X,
+								   (int)vertex.ProjectedVector.Y,
 								   viewport.DebugInfo.Color,
 								   4);
 			}
@@ -393,15 +382,15 @@ namespace Balder.Rendering.Silverlight
 
 		private bool IsFaceInView(Viewport viewport, Face face)
 		{
-			return (_vertices[face.A].TransformedVector.Z >= viewport.View.Near &&
-					_vertices[face.B].TransformedVector.Z >= viewport.View.Near) &&
-				   _vertices[face.C].TransformedVector.Z >= viewport.View.Near;
+			return (_vertices[face.A].ProjectedVector.Z >= Viewport.MinDepth &&
+					 _vertices[face.B].ProjectedVector.Z >= Viewport.MinDepth) &&
+					_vertices[face.C].ProjectedVector.Z >= Viewport.MinDepth;
 		}
 
 		private bool IsLineInView(Viewport viewport, Line line)
 		{
-			return (_vertices[line.A].TransformedVector.Z >= viewport.View.Near &&
-					_vertices[line.B].TransformedVector.Z >= viewport.View.Near);
+			return (_vertices[line.A].ProjectedVector.Z >= Viewport.MinDepth &&
+					_vertices[line.B].ProjectedVector.Z >= Viewport.MinDepth);
 		}
 
 
@@ -422,8 +411,8 @@ namespace Balder.Rendering.Silverlight
 				var b = _vertices[face.B];
 				var c = _vertices[face.C];
 
-				var mixedproduct = (b.TranslatedVector.X - a.TranslatedVector.X) * (c.TranslatedVector.Y - a.TranslatedVector.Y) -
-												   (c.TranslatedVector.X - a.TranslatedVector.X) * (b.TranslatedVector.Y - a.TranslatedVector.Y);
+				var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
+									(c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
 
 				var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
 				//&& viewport.View.IsInView(a.TransformedVector);
@@ -468,7 +457,7 @@ namespace Balder.Rendering.Silverlight
 							{
 								if (depthTest)
 								{
-									TextureTrianglePerspectiveCorrectedRenderer.Draw(face, _vertices);
+									TextureTriangleRenderer.Draw(face, _vertices);
 								}
 								else
 								{
@@ -549,10 +538,10 @@ namespace Balder.Rendering.Silverlight
 
 				var a = _vertices[line.A];
 				var b = _vertices[line.B];
-				var xstart = a.TranslatedScreenCoordinates.X;
-				var ystart = a.TranslatedScreenCoordinates.Y;
-				var xend = b.TranslatedScreenCoordinates.X;
-				var yend = b.TranslatedScreenCoordinates.Y;
+				var xstart = a.ProjectedVector.X;
+				var ystart = a.ProjectedVector.Y;
+				var xend = b.ProjectedVector.X;
+				var yend = b.ProjectedVector.Y;
 				Shapes.DrawLine(viewport,
 								(int)xstart,
 								(int)ystart,

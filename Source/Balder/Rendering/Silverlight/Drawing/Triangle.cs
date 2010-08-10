@@ -105,6 +105,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
+			/*
 			var u = vertex.TransformedVectorNormalized;
 			var n = vertex.TransformedNormal;
 			var r = Vector.Reflect(n, u);
@@ -113,7 +114,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var s = (r.X / m);
 			var t = (r.Y / m);
 			vertex.U = (s * 0.5f) + 0.5f;
-			vertex.V = -(t * 0.5f) + 0.5f;
+			vertex.V = -(t * 0.5f) + 0.5f;*/
 		}
 
 
@@ -125,14 +126,14 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var point2 = vertexB;
 			var point3 = vertexC;
 
-			if (point1.TranslatedScreenCoordinates.Y > point2.TranslatedScreenCoordinates.Y)
+			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point2;
 				point2 = p;
 			}
 
-			if (point1.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
+			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point3;
@@ -140,7 +141,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			if (point2.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
+			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point2;
 				point2 = point3;
@@ -161,7 +162,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var point2 = vertexB;
 			var point3 = vertexC;
 
-			if (point1.TranslatedScreenCoordinates.Y > point2.TranslatedScreenCoordinates.Y)
+			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point2;
@@ -173,7 +174,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				face.CalculatedColorA = cb;
 			}
 
-			if (point1.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
+			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point3;
@@ -186,7 +187,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			if (point2.TranslatedScreenCoordinates.Y > point3.TranslatedScreenCoordinates.Y)
+			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point2;
 				point2 = point3;
@@ -284,16 +285,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 				textureHeight = Texture.Height;
 			}
 
-			/*
-			face.CalculatedColorA = new Color(0xff, 0, 0, 0xff);
-			face.CalculatedColorB = new Color(0, 0xff, 0, 0xff);
-			face.CalculatedColorC = new Color(0, 0, 0xff, 0xff);
-			*/
 			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
 
-			var xa = vertexA.TranslatedScreenCoordinates.X;
-			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var za = vertexA.DepthBufferAdjustedZ;
+			var xa = vertexA.ProjectedVector.X;
+			var ya = vertexA.ProjectedVector.Y;
+			var za = vertexA.ProjectedVector.Z;
 			var ua = vertexA.U * textureWidth;
 			var va = vertexA.V * textureHeight;
 			var ra = ((float)face.CalculatedColorA.Red) / 255f;
@@ -301,9 +297,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var ba = ((float)face.CalculatedColorA.Blue) / 255f;
 			var aa = ((float)face.CalculatedColorA.Alpha) / 255f;
 
-			var xb = vertexB.TranslatedScreenCoordinates.X;
-			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var zb = vertexB.DepthBufferAdjustedZ;
+			var xb = vertexB.ProjectedVector.X;
+			var yb = vertexB.ProjectedVector.Y;
+			var zb = vertexB.ProjectedVector.Z;
 			var ub = vertexB.U * textureWidth;
 			var vb = vertexB.V * textureHeight;
 			var rb = ((float)face.CalculatedColorB.Red) / 255f;
@@ -311,9 +307,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var bb = ((float)face.CalculatedColorB.Blue) / 255f;
 			var ab = ((float)face.CalculatedColorB.Alpha) / 255f;
 
-			var xc = vertexC.TranslatedScreenCoordinates.X;
-			var yc = vertexC.TranslatedScreenCoordinates.Y;
-			var zc = vertexC.DepthBufferAdjustedZ;
+			var xc = vertexC.ProjectedVector.X;
+			var yc = vertexC.ProjectedVector.Y;
+			var zc = vertexC.ProjectedVector.Z;
 			var uc = vertexC.U * textureWidth;
 			var vc = vertexC.V * textureHeight;
 			var rc = ((float)face.CalculatedColorC.Red) / 255f;

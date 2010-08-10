@@ -20,7 +20,6 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using Balder.Materials;
 using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
@@ -79,22 +78,22 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
 
-			var xa = vertexA.TranslatedScreenCoordinates.X;
-			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var za = vertexA.DepthBufferAdjustedZ;
+			var xa = vertexA.ProjectedVector.X;
+			var ya = vertexA.ProjectedVector.Y;
+			var za = vertexA.ProjectedVector.Z;
 			var ua = vertexA.U * texture.Width;
 			var va = vertexA.V * texture.Height;
 
-			var xb = vertexB.TranslatedScreenCoordinates.X;
-			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var zb = vertexB.DepthBufferAdjustedZ;
+			var xb = vertexB.ProjectedVector.X;
+			var yb = vertexB.ProjectedVector.Y;
+			var zb = vertexB.ProjectedVector.Z;
 			var ub = vertexB.U * texture.Width;
 			var vb = vertexB.V * texture.Height;
 
 
-			var xc = vertexC.TranslatedScreenCoordinates.X;
-			var yc = vertexC.TranslatedScreenCoordinates.Y;
-			var zc = vertexC.DepthBufferAdjustedZ;
+			var xc = vertexC.ProjectedVector.X;
+			var yc = vertexC.ProjectedVector.Y;
+			var zc = vertexC.ProjectedVector.Z;
 			var uc = vertexC.U * texture.Width;
 			var vc = vertexC.V * texture.Height;
 

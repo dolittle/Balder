@@ -23,150 +23,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class FlatTriangleNoDepth : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices)
+		protected override void DrawSpan(int offset)
 		{
-			var vertexA = vertices[face.A];
-			var vertexB = vertices[face.B];
-			var vertexC = vertices[face.C];
+			var x1Int = (int)X1;
+			var x2Int = (int)X2;
 
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
-
-			var xa = vertexA.TranslatedScreenCoordinates.X;
-			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var xb = vertexB.TranslatedScreenCoordinates.X;
-			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var xc = vertexC.TranslatedScreenCoordinates.X;
-			var yc = vertexC.TranslatedScreenCoordinates.Y;
-
-			var deltaX1 = xb - xa;
-			var deltaX2 = xc - xb;
-			var deltaX3 = xc - xa;
-
-			var deltaY1 = yb - ya;
-			var deltaY2 = yc - yb;
-			var deltaY3 = yc - ya;
-
-			var x1 = xa;
-			var x2 = xa;
-
-			var xInterpolate1 = deltaX3 / deltaY3;
-			var xInterpolate2 = deltaX1 / deltaY1;
-			var xInterpolate3 = deltaX2 / deltaY2;
-
-			var framebuffer = BufferContainer.Framebuffer;
-			var frameBufferWidth = BufferContainer.Width;
-			var frameBufferHeight = BufferContainer.Height;
-
-			var yStart = (int)ya;
-			var yEnd = (int) yc;
-			var yClipTop = 0;
-			
-			if( yStart < 0 )
+			for (var x = x1Int; x < x2Int; x++)
 			{
-				yClipTop = -yStart;
-				yStart = 0;
-			}
-
-			if( yEnd >= frameBufferHeight )
-			{
-				yEnd = frameBufferHeight-1;
-			}
-
-			var height = yEnd - yStart;
-			if (height == 0)
-			{
-				return;
-			}
-
-			if( yClipTop > 0 )
-			{
-				x1 = xa+xInterpolate1*(float) yClipTop;
-
-				if( yb < 0 )
+				if (x >= 0 && x < BufferContainer.Width)
 				{
-					var ySecondClipTop = -yb;
-
-					x2 = xb + (xInterpolate3*ySecondClipTop);
-					xInterpolate2 = xInterpolate3;
-
-				} else
-				{
-					x2 = xa + xInterpolate2*(float) yClipTop;
-				}
-			}
-
-			var yoffset = BufferContainer.Width * yStart;
-
-			var colorAsInt = (int) face.Color.ToUInt32();
-
-			var offset = 0;
-			var length = 0;
-			var originalLength = 0;
-
-			var xStart = 0;
-			var xEnd = 0;
-
-			var xClipStart = 0;
-
-			for (var y = yStart; y <= yEnd; y++)
-			{
-				if (x2 < x1)
-				{
-					xStart = (int)x2;
-					xEnd = (int)x1;
-				}
-				else
-				{
-					xStart = (int)x1;
-					xEnd = (int)x2;
-
-					offset = yoffset + (int)x1;
-				}
-				originalLength = xEnd - xStart;
-
-				if( xStart < 0 )
-				{
-					xClipStart = -xStart;
-					xStart = 0;
-				}
-				if( xEnd >= frameBufferWidth )
-				{
-					xEnd = frameBufferWidth - 1;
+					Framebuffer[offset] = ColorAsInt;
 				}
 
-
-				length = xEnd - xStart;
-
-				if (length != 0)
-				{
-					offset = yoffset + xStart;
-
-					DrawSpan(length, offset, framebuffer, colorAsInt);
-				}
-
-				if (y == (int)yb)
-				{
-					x2 = xb;
-					xInterpolate2 = xInterpolate3;
-				}
-
-
-				x1 += xInterpolate1;
-				x2 += xInterpolate2;
-
-				yoffset += BufferContainer.Width;
-			}
-		}
-
-		protected virtual void DrawSpan(
-			int length, 
-			int offset, 
-			int[] framebuffer, 
-			int colorAsInt)
-		{
-			for (var x = 0; x <= length; x++)
-			{
-				framebuffer[offset] = colorAsInt;
 				offset++;
 			}
 		}

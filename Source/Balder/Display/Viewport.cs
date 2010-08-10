@@ -42,8 +42,8 @@ namespace Balder.Display
 	public class Viewport
 #endif
 	{
-		private const float MinDepth = 0f;
-		private const float MaxDepth = 1f;
+		public const float MinDepth = 0f;
+		public const float MaxDepth = 1f;
 
 		private Ray _mousePickRay;
 
@@ -349,9 +349,19 @@ namespace Balder.Display
 		public Vector Project(Vector source, Matrix world)
 		{
 			var matrix = (world * View.ViewMatrix) * View.ProjectionMatrix;
-			var vector = Vector.TransformNormal(source, matrix);
-			float a = (((source.X * matrix[0, 3]) + (source.Y * matrix[1, 3])) + (source.Z * matrix[2, 3])) + matrix[3, 3];
+			return ProjectWithMatrix(source, matrix);
+		}
 
+		public Vector ProjectWithMatrix(Vector source, Matrix matrix)
+		{
+			return ProjectWithMatrix(source.X, source.Y, source.Z, matrix);
+		}
+
+		public Vector ProjectWithMatrix(float x, float y, float z, Matrix matrix)
+		{
+			var vector = Vector.TransformNormal(x,y,z, matrix);
+			var a = (((x * matrix[0, 3]) + (y * matrix[1, 3])) + (z * matrix[2, 3])) + matrix[3, 3];
+			
 			if (!WithinEpsilon(a, 1f))
 			{
 				vector = vector / (a);
@@ -360,7 +370,6 @@ namespace Balder.Display
 			vector.X = (((vector.X + 1f) * 0.5f) * Width);
 			vector.Y = (((-vector.Y + 1f) * 0.5f) * Height);
 			vector.Z = (vector.Z * (MaxDepth - MinDepth)) + MinDepth;
-
 			return vector;
 		}
 
@@ -370,7 +379,7 @@ namespace Balder.Display
 		}
 
 
-		private static bool WithinEpsilon(float a, float b)
+		public static bool WithinEpsilon(float a, float b)
 		{
 			var num = a - b;
 			return ((-1.401298E-45f <= num) && (num <= float.Epsilon));

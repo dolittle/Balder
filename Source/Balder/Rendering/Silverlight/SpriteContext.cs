@@ -29,6 +29,7 @@ namespace Balder.Rendering.Silverlight
 	{
 		private static readonly Interpolator XScalingInterpolator;
 		private static readonly Interpolator YScalingInterpolator;
+		private RenderVertex _vertex;
 
 		static SpriteContext()
 		{
@@ -36,6 +37,11 @@ namespace Balder.Rendering.Silverlight
 			XScalingInterpolator.SetNumberOfInterpolationPoints(1);
 			YScalingInterpolator = new Interpolator();
 			YScalingInterpolator.SetNumberOfInterpolationPoints(1);
+		}
+
+		public SpriteContext()
+		{
+			_vertex = new RenderVertex(0,0,0);
 		}
 
 		public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
@@ -46,37 +52,33 @@ namespace Balder.Rendering.Silverlight
 				return;
 			}
 
-			
-			var position = new Vector(0, 0, 0);
-			var transformedPosition = Vector.Transform(position, world, view);
-			var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
+			var worldView = world*view;
+			var worldViewProjection = worldView*projection;
 
-			var z = ((transformedPosition.Z / viewport.View.DepthDivisor) + viewport.View.DepthZero);
-			var depthBufferAdjustedZ = z;
+			_vertex.TransformAndProject(viewport, worldView, worldViewProjection);
 
-
-			var bufferSize = BufferContainer.Stride * BufferContainer.Height;
-			var bufferZ = (UInt32)((1.0f - depthBufferAdjustedZ) * (float)UInt32.MaxValue);
-			if (depthBufferAdjustedZ < 0f || depthBufferAdjustedZ >= 1f)
+			if (_vertex.ProjectedVector.Z < 0f || _vertex.ProjectedVector.Z >= 1f)
 			{
 				return;
 			}
+			var bufferSize = BufferContainer.Stride * BufferContainer.Height;
+			var bufferZ = (UInt32)((1.0f - _vertex.ProjectedVector.Z) * (float)UInt32.MaxValue);
 
 			var xOriginOffset = (int)-((sprite.CurrentFrame.Width / 2f) * xScale);
 			var yOriginOffset = (int)-((sprite.CurrentFrame.Height / 2f) * yScale);
 
-			var actualX = ((int) translatedPosition.X) + xOriginOffset;
-			var actualY = ((int) translatedPosition.Y) + yOriginOffset;
+			var actualX = ((int)_vertex.ProjectedVector.X) + xOriginOffset;
+			var actualY = ((int)_vertex.ProjectedVector.Y) + yOriginOffset;
 
 			var positionOffset = actualX + (actualY * BufferContainer.Stride);
 
 			if (xScale != 1f || yScale != 1f)
 			{
-				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ, xScale, yScale);
+				RenderScaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, _vertex.ProjectedVector, bufferSize, bufferZ, xScale, yScale);
 			}
 			else
 			{
-				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, translatedPosition, bufferSize, bufferZ);
+				RenderUnscaled(viewport, positionOffset, actualX, actualY, sprite.CurrentFrame, _vertex.ProjectedVector, bufferSize, bufferZ);
 			}
 		}
 

@@ -19,361 +19,51 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
-
 namespace Balder.Rendering.Silverlight.Drawing
 {
 	public class GouraudTriangleNoDepth : Triangle
 	{
-		public override void Draw(RenderFace face, RenderVertex[] vertices)
+		protected override void DrawSpan(int offset)
 		{
-			var vertexA = vertices[face.A];
-			var vertexB = vertices[face.B];
-			var vertexC = vertices[face.C];
+			var subPixelX = 1f - (X1 - (int)X1);
 
-			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
-
-			var xa = vertexA.TranslatedScreenCoordinates.X;
-			var ya = vertexA.TranslatedScreenCoordinates.Y;
-			var ra = ((float)face.CalculatedColorA.Red) / 255f;
-			var ga = ((float)face.CalculatedColorA.Green) / 255f;
-			var ba = ((float)face.CalculatedColorA.Blue) / 255f;
-			var aa = ((float)face.CalculatedColorA.Alpha) / 255f;
-
-			var xb = vertexB.TranslatedScreenCoordinates.X;
-			var yb = vertexB.TranslatedScreenCoordinates.Y;
-			var rb = ((float)face.CalculatedColorB.Red) / 255f;
-			var gb = ((float)face.CalculatedColorB.Green) / 255f;
-			var bb = ((float)face.CalculatedColorB.Blue) / 255f;
-			var ab = ((float)face.CalculatedColorB.Alpha) / 255f;
+			var rr = (int)((RScanline + subPixelX * RScanlineInterpolate) * 65535f);
+			var gg = (int)((GScanline + subPixelX * GScanlineInterpolate) * 65535f);
+			var bb = (int)((BScanline + subPixelX * BScanlineInterpolate) * 65535f);
+			var aa = (int)((AScanline + subPixelX * AScanlineInterpolate) * 65535f);
+			var rInterpolate = (int)(RScanlineInterpolate * 65535f);
+			var gInterpolate = (int)(GScanlineInterpolate * 65535f);
+			var bInterpolate = (int)(BScanlineInterpolate * 65535f);
+			var aInterpolate = (int)(AScanlineInterpolate * 65535f);
 
 
-			var xc = vertexC.TranslatedScreenCoordinates.X;
-			var yc = vertexC.TranslatedScreenCoordinates.Y;
-			var rc = ((float)face.CalculatedColorC.Red) / 255f;
-			var gc = ((float)face.CalculatedColorC.Green) / 255f;
-			var bc = ((float)face.CalculatedColorC.Blue) / 255f;
-			var ac = ((float)face.CalculatedColorC.Alpha) / 255f;
+			var x1Int = (int)X1;
+			var x2Int = (int)X2;
 
-
-			var deltaX1 = xb - xa;
-			var deltaX2 = xc - xb;
-			var deltaX3 = xc - xa;
-
-			var deltaY1 = yb - ya;
-			var deltaY2 = yc - yb;
-			var deltaY3 = yc - ya;
-
-			var deltaR1 = rb - ra;
-			var deltaR2 = rc - rb;
-			var deltaR3 = rc - ra;
-
-			var deltaG1 = gb - ga;
-			var deltaG2 = gc - gb;
-			var deltaG3 = gc - ga;
-
-			var deltaB1 = bb - ba;
-			var deltaB2 = bc - bb;
-			var deltaB3 = bc - ba;
-
-			var deltaA1 = ab - aa;
-			var deltaA2 = ac - ab;
-			var deltaA3 = ac - aa;
-
-			var x1 = xa;
-			var x2 = xa;
-
-			var r1 = ra;
-			var r2 = ra;
-
-			var g1 = ga;
-			var g2 = ga;
-
-			var b1 = ba;
-			var b2 = ba;
-
-			var a1 = aa;
-			var a2 = aa;
-
-
-			var xInterpolate1 = deltaX3 / deltaY3;
-			var xInterpolate2 = deltaX1 / deltaY1;
-			var xInterpolate3 = deltaX2 / deltaY2;
-
-			var rInterpolate1 = deltaR3 / deltaY3;
-			var rInterpolate2 = deltaR1 / deltaY1;
-			var rInterpolate3 = deltaR2 / deltaY2;
-
-			var gInterpolate1 = deltaG3 / deltaY3;
-			var gInterpolate2 = deltaG1 / deltaY1;
-			var gInterpolate3 = deltaG2 / deltaY2;
-
-			var bInterpolate1 = deltaB3 / deltaY3;
-			var bInterpolate2 = deltaB1 / deltaY1;
-			var bInterpolate3 = deltaB2 / deltaY2;
-
-			var aInterpolate1 = deltaA3 / deltaY3;
-			var aInterpolate2 = deltaA1 / deltaY1;
-			var aInterpolate3 = deltaA2 / deltaY2;
-
-
-			var framebuffer = BufferContainer.Framebuffer;
-			var frameBufferWidth = BufferContainer.Width;
-			var frameBufferHeight = BufferContainer.Height;
-
-			var yStart = (int)ya;
-			var yEnd = (int)yc;
-			var yClipTop = 0;
-
-			if (yStart < 0)
+			for (var x = x1Int; x < x2Int; x++)
 			{
-				yClipTop = -yStart;
-				yStart = 0;
-			}
-
-			if (yEnd >= frameBufferHeight)
-			{
-				yEnd = frameBufferHeight - 1;
-			}
-
-			var height = yEnd - yStart;
-			if (height == 0)
-			{
-				return;
-			}
-
-			if (yClipTop > 0)
-			{
-				var yClipTopAsFloat = (float)yClipTop;
-				x1 = xa + xInterpolate1 * yClipTopAsFloat;
-				r1 = ra + rInterpolate1 * yClipTopAsFloat;
-				g1 = ga + gInterpolate1 * yClipTopAsFloat;
-				b1 = ba + bInterpolate1 * yClipTopAsFloat;
-				a1 = aa + aInterpolate1 * yClipTopAsFloat;
-
-				if (yb < 0)
+				if (x >= 0 && x < BufferContainer.Width)
 				{
-					var ySecondClipTop = -yb;
+					var red = (rr >> 8) & 0xff;
+					var green = (gg >> 8) & 0xff;
+					var blue = (bb >> 8) & 0xff;
 
-					x2 = xb + (xInterpolate3 * ySecondClipTop);
-					xInterpolate2 = xInterpolate3;
+					//var alpha = (uint)(aStart >> 8) & 0xff;
 
-					r2 = rb + (rInterpolate3 * ySecondClipTop);
-					rInterpolate2 = rInterpolate3;
+					var colorAsInt = AlphaFull |
+										(red << 16) |
+										(green << 8) |
+										blue;
 
-					g2 = gb + (gInterpolate3 * ySecondClipTop);
-					gInterpolate2 = gInterpolate3;
-
-					b2 = bb + (bInterpolate3 * ySecondClipTop);
-					bInterpolate2 = bInterpolate3;
-
-					a2 = ab + (aInterpolate3 * ySecondClipTop);
-					aInterpolate2 = aInterpolate3;
+					Framebuffer[offset] = colorAsInt;
 				}
-				else
-				{
-					x2 = xa + xInterpolate2 * yClipTopAsFloat;
-					r2 = ra + rInterpolate2 * yClipTopAsFloat;
-					g2 = ga + gInterpolate2 * yClipTopAsFloat;
-					b2 = ba + bInterpolate2 * yClipTopAsFloat;
-					a2 = aa + aInterpolate2 * yClipTopAsFloat;
-				}
-			}
-
-			var yoffset = BufferContainer.Width * yStart;
-
-			var offset = 0;
-			var length = 0;
-			var originalLength = 0;
-
-			var xStart = 0;
-			var xEnd = 0;
-
-			var xClipStart = 0;
-
-			var rStart = 0f;
-			var rEnd = 0f;
-			var rAdd = 0f;
-			var gStart = 0f;
-			var gEnd = 0f;
-			var gAdd = 0f;
-			var bStart = 0f;
-			var bEnd = 0f;
-			var bAdd = 0f;
-			var aStart = 0f;
-			var aEnd = 0f;
-			var aAdd = 0f;
-
-
-			for (var y = yStart; y <= yEnd; y++)
-			{
-				if (x2 < x1)
-				{
-					xStart = (int)x2;
-					xEnd = (int)x1;
-
-					rStart = r2;
-					rEnd = r1;
-
-					gStart = g2;
-					gEnd = g1;
-
-					bStart = b2;
-					bEnd = b1;
-
-					aStart = a2;
-					aEnd = a1;
-				}
-				else
-				{
-					offset = yoffset + (int)x1;
-
-					xStart = (int)x1;
-					xEnd = (int)x2;
-
-					rStart = r1;
-					rEnd = r2;
-
-					gStart = g1;
-					gEnd = g2;
-
-					bStart = b1;
-					bEnd = b2;
-
-					aStart = a1;
-					aEnd = a2;
-				}
-				originalLength = xEnd - xStart;
-
-				if (xStart < 0)
-				{
-					xClipStart = -xStart;
-					xStart = 0;
-				}
-				if (xEnd >= frameBufferWidth)
-				{
-					xEnd = frameBufferWidth - 1;
-				}
-
-
-				length = xEnd - xStart;
-
-				if (length != 0)
-				{
-					var xClipStartAsFloat = (float)xClipStart;
-					var lengthAsFloat = (float)originalLength;
-					rAdd = (rEnd - rStart) / lengthAsFloat;
-					gAdd = (gEnd - gStart) / lengthAsFloat;
-					bAdd = (bEnd - bStart) / lengthAsFloat;
-					aAdd = (aEnd - aStart) / lengthAsFloat;
-
-					if (xClipStartAsFloat > 0)
-					{
-						rStart += (rAdd * xClipStartAsFloat);
-						gStart += (gAdd * xClipStartAsFloat);
-						bStart += (bAdd * xClipStartAsFloat);
-						aStart += (aAdd * xClipStartAsFloat);
-					}
-
-					var rStartInt = ((int)(rStart * 255f)) << 8;
-					var rAddInt = (int)(rAdd * 65535f);
-
-					var gStartInt = ((int)(gStart * 255f)) << 8;
-					var gAddInt = (int)(gAdd * 65535f);
-
-					var bStartInt = ((int)(bStart * 255f)) << 8;
-					var bAddInt = (int)(bAdd * 65535f);
-
-					var aStartInt = ((int)(aStart * 255f)) << 8;
-					var aAddInt = (int)(aAdd * 65535f);
-
-					offset = yoffset + xStart;
-					DrawSpan(length,
-					         rStartInt,
-					         rAddInt,
-					         gStartInt,
-					         gAddInt,
-					         bStartInt,
-					         bAddInt,
-					         aStartInt,
-					         aAddInt,
-					         offset,
-					         framebuffer);
-				}
-
-				if (y == (int)yb)
-				{
-					x2 = xb;
-					xInterpolate2 = xInterpolate3;
-
-					r2 = rb;
-					rInterpolate2 = rInterpolate3;
-
-					g2 = gb;
-					gInterpolate2 = gInterpolate3;
-
-					b2 = bb;
-					bInterpolate2 = bInterpolate3;
-
-					a2 = ab;
-					aInterpolate2 = aInterpolate3;
-				}
-
-
-				x1 += xInterpolate1;
-				x2 += xInterpolate2;
-
-				r1 += rInterpolate1;
-				r2 += rInterpolate2;
-
-				g1 += gInterpolate1;
-				g2 += gInterpolate2;
-
-				b1 += bInterpolate1;
-				b2 += bInterpolate2;
-
-				a1 += aInterpolate1;
-				a2 += aInterpolate2;
-
-				yoffset += BufferContainer.Width;
-			}
-		}
-
-		protected virtual void DrawSpan(
-			int length,
-			int rStart,
-			int rAdd,
-			int gStart,
-			int gAdd,
-			int bStart,
-			int bAdd,
-			int aStart,
-			int aAdd,
-			int offset,
-			int[] framebuffer)
-		{
-
-			for (var x = 0; x <= length; x++)
-			{
-				var red = (uint)(rStart >> 8) & 0xff;
-				var green = (uint)(gStart >> 8) & 0xff;
-				var blue = (uint)(bStart >> 8) & 0xff;
-				//var alpha = (uint)(aStart >> 8) & 0xff;
-
-				uint colorAsInt = 0xff000000 |
-								  (red << 16) |
-								  (green << 8) |
-								  blue;
-
-
-
-				framebuffer[offset] = (int)colorAsInt;
 
 				offset++;
-				rStart += rAdd;
-				gStart += gAdd;
-				bStart += bAdd;
-				aStart += aAdd;
+
+				rr += rInterpolate;
+				gg += gInterpolate;
+				bb += bInterpolate;
+				aa += aInterpolate;
 			}
 		}
 	}

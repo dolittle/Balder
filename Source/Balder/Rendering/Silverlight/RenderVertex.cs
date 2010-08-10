@@ -19,7 +19,7 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System.Collections.Generic;
+using Balder.Display;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -48,38 +48,29 @@ namespace Balder.Rendering.Silverlight
 		public RenderVertex(float x, float y, float z, float normalX, float normalY, float normalZ)
 			: base(x, y, z, normalX, normalY, normalZ)
 		{
-			TransformedVector = new Vector(x, y, z);
-			TranslatedVector = new Vector(x, y, z);
-			TranslatedScreenCoordinates = Vector.Zero;
+			ProjectedVector = new Vector(x, y, z);
 		}
 
-		public void Transform(Matrix matrix)
+		public void TransformAndProject(Viewport viewport, Matrix worldView, Matrix worldViewProjection)
 		{
-			TransformedVector = Vector.Transform(X, Y, Z, matrix);
+			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
+			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
+			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
+
+			var z = (((X * worldView[0, 2]) + (Y * worldView[1, 2])) + (Z * worldView[2, 2])) + (worldView[3, 2]);
+			z = (z / viewport.View.DepthDivisor) + viewport.View.DepthZero;
+			ProjectedVector.Z = z;
 
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
-			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, matrix);
+			//TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
+
+			//TransformedVectorNormalized = Vector.Transform(X, Y, Z, worldView);
+			//TransformedVectorNormalized.Normalize();
 		}
 
-
-		public void Translate(Matrix projectionMatrix, float width, float height)
-		{
-			TranslatedVector = Vector.Translate(TransformedVector, projectionMatrix, width, height);
-		}
-
-		public void MakeScreenCoordinates()
-		{
-			TranslatedScreenCoordinates.X = TranslatedVector.X;
-			TranslatedScreenCoordinates.Y = TranslatedVector.Y;
-			TranslatedScreenCoordinates.Z = TranslatedVector.Z;
-		}
-
-		public Vector TransformedVector;
-		public Vector TranslatedVector;
+		public Vector ProjectedVector;
 		public Vector TransformedNormal;
 		public Vector TransformedVectorNormalized;
-		public Vector TranslatedScreenCoordinates;
-		public float DepthBufferAdjustedZ;
 
 		public float U;
 		public float V;

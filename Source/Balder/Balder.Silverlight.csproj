@@ -158,7 +158,7 @@
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
-    <Compile Include="Rendering\Silverlight\Drawing\TextureTrianglePerspectiveCorrected.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
@@ -280,7 +280,6 @@
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\Point.cs" />
-    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\Triangle.cs" />
     <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
     <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />

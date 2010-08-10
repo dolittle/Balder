@@ -105,13 +105,6 @@ namespace Balder.Rendering.Silverlight
 
 			TransformedDebugNormal = TransformedPosition + (TransformedNormal); //*DebugNormalLength);
 		}
-
-		public void Translate(Matrix projectionMatrix, float width, float height)
-		{
-			TranslatedPosition = Vector.Translate(TransformedPosition, projectionMatrix, width, height);
-			TranslatedDebugNormal = Vector.Translate(TransformedDebugNormal, projectionMatrix, width, height);
-		}
-
 	}
 }
 #endif
