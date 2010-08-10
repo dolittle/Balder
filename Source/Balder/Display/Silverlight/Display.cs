@@ -23,8 +23,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Balder.Execution;
-using Balder.Materials;
-using Balder.Objects.Geometries;
+using Balder.Objects;
 using Balder.Rendering;
 using Balder.Rendering.Silverlight;
 
@@ -44,14 +43,18 @@ namespace Balder.Display.Silverlight
 		private PrepareMessage _prepareMessage;
 		private bool _forceShow;
 		private bool _forceClear;
+		private WriteableBitmap _currentFrontBitmap;
+		private WriteableBitmap _currentRenderBitmap;
+
+		private UInt32[] _frontDepthBuffer;
+		private Grid _container;
+		private Image _image;
 
 		public Display(IPlatform platform)
 		{
 			_platform = platform;
 			ClearEnabled = true;
 		}
-
-		
 
 		public bool ClearEnabled { get; set; }
 		public bool Paused { get; set; }
@@ -117,16 +120,26 @@ namespace Balder.Display.Silverlight
 		}
 
 
-		private Image _image;
+		
 		public void InitializeContainer(object container)
 		{
 			if (container is Grid)
 			{
+				_container = container as Grid;
+				
 				_image = new Image
 				{
 					Stretch = Stretch.None
 				};
-				((Grid)container).Children.Add(_image);
+				_container.Children.Add(_image);
+			}
+		}
+
+		public void InitializeSkybox(Skybox skybox)
+		{
+			if (null != _container)
+			{
+				_container.Children.Insert(0,skybox.SkyboxContext as SkyboxControl);
 			}
 		}
 
@@ -140,10 +153,6 @@ namespace Balder.Display.Silverlight
 
 		public Color BackgroundColor { get; set; }
 
-		private WriteableBitmap _currentFrontBitmap;
-		private WriteableBitmap _currentRenderBitmap;
-		
-		private UInt32[] _frontDepthBuffer;
 
 
 		public void PrepareRender()

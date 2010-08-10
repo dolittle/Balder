@@ -23,6 +23,7 @@
 			
 			<Lighting:OmniLight Position="0,0,-20" Diffuse="Green"/>
 			
+			
 			<Geometries:Box Dimension="5,5,5">
 				<Geometries:Box.Material>
 					<Materials:Material Ambient="Black" Diffuse="Green" Specular="White" Shade="Gouraud"/>
@@ -33,5 +34,8 @@
 				<View:Camera x:Name="Camera" Position="0,0,0" Target="0,0,-1"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
+		
+		
+		<TextBlock x:Name="PositionText"/>
     </Grid>
 </UserControl>

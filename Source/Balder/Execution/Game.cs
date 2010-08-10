@@ -123,6 +123,10 @@ namespace Balder.Execution
 			_display.Initialize((int)Width, (int)Height);
 			Runtime.Instance.RegisterGame(_display, this);
 			_display.InitializeContainer(this);
+			if( null != Skybox )
+			{
+				_display.InitializeSkybox(Skybox);
+			}
 		}
 
 		private void Validate()
@@ -198,7 +202,14 @@ namespace Balder.Execution
 		public Skybox Skybox
 		{
 			get { return Viewport.Skybox;  }
-			set { Viewport.Skybox = value; }
+			set
+			{
+				Viewport.Skybox = value;
+				if (null != _display)
+				{
+					_display.InitializeSkybox(value);
+				}
+			}
 		}
 
 		public DebugInfo DebugInfo

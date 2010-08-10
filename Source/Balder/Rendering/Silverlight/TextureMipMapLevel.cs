@@ -18,8 +18,9 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System;
+using System.Windows.Media.Imaging;
 using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
@@ -27,6 +28,7 @@ namespace Balder.Rendering.Silverlight
 	public class TextureMipMapLevel
 	{
 		public int[,] Pixels;
+		public WriteableBitmap WriteableBitmap;
 
 		public int Width;
 		public int Height;
@@ -84,18 +86,30 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var originalPixels = map.GetPixelsAs32BppARGB();
+			PrepareWriteableBitmap(originalPixels);
+			PreparePixels(originalPixels);
+		}
 
+		private void PreparePixels(int[] originalPixels)
+		{
 			Pixels = new int[Width, Height];
 
 			IsSemiTransparent = false;
 			for (var pixelIndex = 0; pixelIndex < originalPixels.Length; pixelIndex++)
 			{
-				var x = (pixelIndex & map.Width - 1);
-				var y = (pixelIndex >> WidthBitCount) & map.Height - 1;
+				var x = (pixelIndex & Width - 1);
+				var y = (pixelIndex >> WidthBitCount) & Height - 1;
 
 				var pixel = originalPixels[pixelIndex];
 				Pixels[x, y] = pixel;
 			}
 		}
+
+		private void PrepareWriteableBitmap(int[] pixels)
+		{
+			WriteableBitmap = new WriteableBitmap(Width,Height);
+			Buffer.BlockCopy(pixels,0,WriteableBitmap.Pixels,0,pixels.Length*4);
+		}
 	}
 }
+#endif

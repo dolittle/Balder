@@ -28,8 +28,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.Skybox
 			Camera.Position.Y = y;
 
 			_sin += 0.005d;
-			
 
+			PositionText.Text = string.Format("{0}, {1}, {2}", x, y, z);
 		}
 	}
 }

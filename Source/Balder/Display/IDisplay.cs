@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+#if(SILVERLIGHT)
+using Balder.Objects;
+#endif
 
 namespace Balder.Display
 {
@@ -58,11 +61,15 @@ namespace Balder.Display
 		/// </summary>
 		void Uninitialize();
 
+#if(SILVERLIGHT)
 		/// <summary>
 		/// Initialize display container
 		/// </summary>
 		/// <param name="container">Container</param>
 		void InitializeContainer(object container);
+#endif
+
+		void InitializeSkybox(Skybox skybox);
 
 		/// <summary>
 		/// Gets the current frames pixeldata

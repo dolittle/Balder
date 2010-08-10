@@ -18,6 +18,8 @@
 //
 
 #endregion
+
+using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
 #if(SILVERLIGHT)
@@ -37,6 +39,7 @@ namespace Balder.Objects
 	public class Skybox
 #endif
 	{
+		private readonly IDisplay _display;
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Skybox()

@@ -236,13 +236,13 @@ namespace Balder.Math
 
 		public static Matrix CreateScreenTranslation(int width, int height)
 		{
-			var centerX = ((float)width) / 2f;
-			var centerY = ((float)height) / 2f;
+			var centerX = ((float)width) * 0.5f;
+			var centerY = ((float)height) * 0.5f;
 			var matrix = new Matrix();
 			matrix._data[0, 0] = centerX;
 			matrix._data[0, 1] = matrix._data[0, 2] = matrix._data[0, 3] = 0f;
 
-			matrix._data[1, 1] = centerY;
+			matrix._data[1, 1] = -centerY;
 			matrix._data[1, 0] = matrix._data[1, 2] = matrix._data[1, 3] = 0f;
 
 			matrix._data[2, 0] = matrix._data[2, 1] = matrix._data[2, 2] = 0f;
@@ -377,7 +377,7 @@ namespace Balder.Math
 			var matrix = new Matrix();
 			matrix._data[0, 0] = 2f / width;
 			matrix._data[1, 1] = 2f / height;
-			matrix._data[2, 2] = 1f / (nearPlane - farPlane);
+			matrix._data[2, 2] = 1f / (farPlane - nearPlane);
 			matrix._data[3, 2] = nearPlane / (nearPlane - farPlane);
 			matrix._data[3, 3] = 1f;
 			return matrix;
@@ -509,6 +509,20 @@ namespace Balder.Math
             );
             return outMatrix;
         }
+#endif
+
+#if(SILVERLIGHT)
+		public System.Windows.Media.Media3D.Matrix3D	ToMatrix3D()
+		{
+			var m3d = new System.Windows.Media.Media3D.Matrix3D
+				(
+				_data[0, 0], _data[0, 1], _data[0, 2], _data[0, 3],
+				_data[1, 0], _data[1, 1], _data[1, 2], _data[1, 3],
+				_data[2, 0], _data[2, 1], _data[2, 2], _data[2, 3],
+				_data[3, 0], _data[3, 1], _data[3, 2], _data[3, 3]
+				);
+			return m3d;
+		}
 #endif
 	}
 }
