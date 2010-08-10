@@ -20,7 +20,6 @@
 #endregion
 
 using System.ComponentModel;
-using Balder;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -46,6 +45,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		public Column(int depth, int row, int column)
 		{
 			Name = string.Format("Node : {0}, {1}, {2}", depth, row, column);
+
+			var x = Row.ColumnSpace*column;
+			var y = Depth.RowSpace*row;
+			var z = ViewModel.DepthSpace * depth;
+			Position = new Vector((float)x,(float)y,(float)z);
 		}
 
 		public override string ToString()

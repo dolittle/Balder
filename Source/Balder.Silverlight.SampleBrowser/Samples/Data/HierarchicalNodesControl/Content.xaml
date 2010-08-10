@@ -75,7 +75,10 @@
 			</Execution:Game>
 
 			<Slider x:Name="RotationSlider" Width="640" Minimum="0" Maximum="360"  ValueChanged="RotationSlider_ValueChanged"/>
-			<Button Content="Generate Data" Click="Button_Click"/>
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Generate Data" Click="Button_Click"/>
+				<Button Content="Add Data" Click="Button_Click_1"/>
+			</StackPanel>
 		</StackPanel>
 
 
