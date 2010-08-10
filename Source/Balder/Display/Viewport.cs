@@ -137,6 +137,17 @@ namespace Balder.Display
 		public Matrix ScreenMatrix { get; private set; }
 
 		/// <summary>
+		/// Get the matrix representing the combined View * Projection matrices
+		/// </summary>
+		public Matrix ViewProjectionMatrix { get; private set; }
+
+		/// <summary>
+		/// Get the matrix representing the combined View * Projection * Screen matrices
+		/// </summary>
+		public Matrix ViewProjectionScreenMatrix { get; private set; }
+
+
+		/// <summary>
 		/// Get the aspect ratio for the viewport
 		/// </summary>
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
@@ -324,6 +335,7 @@ namespace Balder.Display
 		public void Render(RenderMessage renderMessage)
 		{
 			ScreenMatrix = Matrix.CreateScreenTranslation(Width, Height);
+			ViewProjectionScreenMatrix = View.ViewMatrix*View.ProjectionMatrix*ScreenMatrix;
 			if (null != View)
 			{
 				View.Update(this);
