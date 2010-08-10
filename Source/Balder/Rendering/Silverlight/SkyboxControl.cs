@@ -36,6 +36,34 @@ namespace Balder.Rendering.Silverlight
 	public class SkyboxControl : Grid, ISkyboxContext
 	{
 		private ITextureManager _textureManager;
+		private TextureMipMapLevel _frontTexture;
+		private TextureMipMapLevel _backTexture;
+		private TextureMipMapLevel _leftTexture;
+		private TextureMipMapLevel _rightTexture;
+		private TextureMipMapLevel _topTexture;
+		private TextureMipMapLevel _bottomTexture;
+
+
+		private Image _frontImage;
+		private Image _backImage;
+		private Image _leftImage;
+		private Image _rightImage;
+		private Image _topImage;
+		private Image _bottomImage;
+
+		private Matrix _frontWorld;
+		private Matrix _backWorld;
+		private Matrix _leftWorld;
+		private Matrix _rightWorld;
+		private Matrix _topWorld;
+		private Matrix _bottomWorld;
+
+		private Dimension _frontDimensions;
+		private Dimension _backDimensions;
+		private Dimension _leftDimensions;
+		private Dimension _rightDimensions;
+		private Dimension _topDimensions;
+		private Dimension _bottomDimensions;
 
 		public SkyboxControl()
 			: this(Runtime.Instance.Kernel.Get<ITextureManager>())
@@ -48,12 +76,11 @@ namespace Balder.Rendering.Silverlight
 			_textureManager = textureManager;
 			HorizontalAlignment = HorizontalAlignment.Stretch;
 			VerticalAlignment = VerticalAlignment.Stretch;
-			PrepareImages();
-
+			SetupImages();
 			Clip = new RectangleGeometry();
 		}
 
-		private void PrepareImages()
+		private void SetupImages()
 		{
 			_frontImage = CreateImage();
 			_backImage = CreateImage();
@@ -61,6 +88,13 @@ namespace Balder.Rendering.Silverlight
 			_rightImage = CreateImage();
 			_topImage = CreateImage();
 			_bottomImage = CreateImage();
+
+			_frontDimensions = new Dimension();
+			_backDimensions = new Dimension();
+			_leftDimensions = new Dimension();
+			_rightDimensions = new Dimension();
+			_topDimensions = new Dimension();
+			_bottomDimensions = new Dimension();
 		}
 
 		private Image CreateImage()
@@ -71,32 +105,52 @@ namespace Balder.Rendering.Silverlight
 			return image;
 		}
 
-		private Image _frontImage;
-		private Image _backImage;
-		private Image _leftImage;
-		private Image _rightImage;
-		private Image _topImage;
-		private Image _bottomImage;
-
-
-
-		private void UpdateImage(Image image, TextureMipMapLevel texture, Viewport viewport, Matrix viewMatrix, float rotationX, float rotationY, float xPos, float yPos, float zPos)
+		private void PrepareTextures(Skybox skybox)
 		{
-			image.Source = texture.WriteableBitmap;
+			_frontTexture = _textureManager.GetTextureForMap(skybox.Front).FullDetailLevel;
+			_backTexture = _textureManager.GetTextureForMap(skybox.Back).FullDetailLevel;
+			_leftTexture = _textureManager.GetTextureForMap(skybox.Left).FullDetailLevel;
+			_rightTexture = _textureManager.GetTextureForMap(skybox.Right).FullDetailLevel;
+			_topTexture = _textureManager.GetTextureForMap(skybox.Top).FullDetailLevel;
+			_bottomTexture = _textureManager.GetTextureForMap(skybox.Bottom).FullDetailLevel;
+		}
+
+		private void PrepareSides()
+		{
+			SetMatrixIfTextureIsNew(_frontTexture, _frontDimensions, 0, 0, 0, 0, 1f, ref _frontWorld);
+			SetMatrixIfTextureIsNew(_backTexture, _backDimensions, 0, 180, 0, 0, -1f, ref _backWorld);
+			SetMatrixIfTextureIsNew(_leftTexture, _leftDimensions, 0, -90, -1f, 0, 0, ref _leftWorld);
+			SetMatrixIfTextureIsNew(_rightTexture, _rightDimensions, 0, 90, 1f, 0, 0, ref _rightWorld);
+			SetMatrixIfTextureIsNew(_topTexture, _topDimensions, -90, 0, 0, 1f, 0, ref _topWorld);
+			SetMatrixIfTextureIsNew(_bottomTexture, _bottomDimensions, 90, 0, 0, -1f, 0, ref _bottomWorld);
+		}
+
+		private void SetMatrixIfTextureIsNew(TextureMipMapLevel texture, Dimension existingDimension, float rotationX, float rotationY, float xPosition, float yPosition, float zPosition, ref Matrix matrix)
+		{
+			if (existingDimension.Equals(texture.Width, texture.Height))
+			{
+				return;
+			}
+			existingDimension.Set(texture.Width, texture.Height);
+
 			var widthScale = 1f / (texture.Width * 0.5f);
 			var heightScale = 1f / (texture.Height * 0.5f);
 
 			var invertY = Matrix.CreateScale(new Vector(1f, -1f, 1f));
 			var origin = Matrix.CreateTranslation(-(texture.Width >> 1), -(texture.Height >> 1), 0);
 			var scale = Matrix.CreateScale(new Vector(widthScale, heightScale, 1f));
-			var translate = Matrix.CreateTranslation(xPos, yPos, zPos);
+			var translate = Matrix.CreateTranslation(xPosition, yPosition, zPosition);
 			var rotation = Matrix.CreateRotation(rotationX, rotationY, 0f);
 
 			var world = origin * invertY * scale * rotation * translate;
-			//scale * rotation * translate;
-			var screen = Matrix.CreateScreenTranslation(viewport.Width, viewport.Height);
+			matrix = world;
+		}
 
-			var matrix = world * viewMatrix * viewport.View.ProjectionMatrix * screen;
+
+		private void UpdateImage(Image image, TextureMipMapLevel texture, Viewport viewport, Matrix viewMatrix, Matrix world)
+		{
+			image.Source = texture.WriteableBitmap;
+			var matrix = world * viewMatrix * viewport.View.ProjectionMatrix * viewport.ScreenMatrix;
 			var m3d = matrix.ToMatrix3D();
 
 			var projection = image.Projection as Matrix3DProjection;
@@ -107,35 +161,20 @@ namespace Balder.Rendering.Silverlight
 		public void Render(Viewport viewport, Skybox skybox)
 		{
 			Visibility = Visibility.Visible;
-
 			((RectangleGeometry)Clip).Rect = new Rect(0, 0, viewport.Width, viewport.Height);
 
-			var front = _textureManager.GetTextureForMap(skybox.Front).FullDetailLevel;
-			var back = _textureManager.GetTextureForMap(skybox.Back).FullDetailLevel;
-			var left = _textureManager.GetTextureForMap(skybox.Left).FullDetailLevel;
-			var right = _textureManager.GetTextureForMap(skybox.Right).FullDetailLevel;
-			var top = _textureManager.GetTextureForMap(skybox.Top).FullDetailLevel;
-			var bottom = _textureManager.GetTextureForMap(skybox.Bottom).FullDetailLevel;
+			PrepareTextures(skybox);
+			PrepareSides();
 
 			var viewMatrix = viewport.View.ViewMatrix.Clone();
 			viewMatrix.SetTranslation(0, 0, 0);
 
-
-			UpdateImage(_frontImage, front, viewport, viewMatrix, 0, 0, 0, 0, 1f);
-			UpdateImage(_backImage, back, viewport, viewMatrix, 0, 180, 0, 0, -1f);
-
-			UpdateImage(_leftImage, left, viewport, viewMatrix, 0, -90, -1f, 0, 0);
-
-			UpdateImage(_rightImage, right, viewport, viewMatrix, 0, 90, 1f, 0, 0);
-
-			UpdateImage(_topImage, top, viewport, viewMatrix, -90, 0, 0, 1f, 0);
-			UpdateImage(_bottomImage, bottom, viewport, viewMatrix, 90, 0, 0, -1f, 0);
-
-
-
-
-
-
+			UpdateImage(_frontImage, _frontTexture, viewport, viewMatrix, _frontWorld);
+			UpdateImage(_backImage, _backTexture, viewport, viewMatrix, _backWorld);
+			UpdateImage(_leftImage, _leftTexture, viewport, viewMatrix, _leftWorld);
+			UpdateImage(_rightImage, _rightTexture, viewport, viewMatrix, _rightWorld);
+			UpdateImage(_topImage, _topTexture, viewport, viewMatrix, _topWorld);
+			UpdateImage(_bottomImage, _bottomTexture, viewport, viewMatrix, _bottomWorld);
 		}
 	}
 }

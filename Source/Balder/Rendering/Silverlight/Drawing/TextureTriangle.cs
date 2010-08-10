@@ -39,9 +39,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var uu = U1 + subPixelX * UzInerpolateX;
 			var vv = V1 + subPixelX * VzInterpolateX;
 
-			var color = (uint)0xff000000;
-			var colorAsInt = (int)color;
-
 			var x1Int = (int)X1;
 			var x2Int = (int)X2;
 
@@ -62,7 +59,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = Texture.Pixels[intu, intv] | colorAsInt;
+						Framebuffer[offset] = Texture.Pixels[intu, intv] | AlphaFull;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}

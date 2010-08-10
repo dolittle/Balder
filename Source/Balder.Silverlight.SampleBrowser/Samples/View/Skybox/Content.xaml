@@ -24,9 +24,9 @@
 			<Lighting:OmniLight Position="0,0,-20" Diffuse="Green"/>
 			
 			
-			<Geometries:Box Dimension="5,5,5">
+			<Geometries:Box Dimension="10,10,10">
 				<Geometries:Box.Material>
-					<Materials:Material Ambient="Black" Diffuse="Green" Specular="White" Shade="Gouraud"/>
+					<Materials:Material Ambient="Black" Diffuse="Green" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.PNG"/>
 				</Geometries:Box.Material>
 			</Geometries:Box>
 			

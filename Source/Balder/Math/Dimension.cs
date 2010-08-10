@@ -31,5 +31,26 @@ namespace Balder.Math
 	{
 		public float Width { get; set; }
 		public float Height { get; set; }
+
+		public void Set(float width, float height)
+		{
+			Width = width;
+			Height = height;
+		}
+
+		public bool Equals(float width, float height)
+		{
+			return Width == width && Height == height;
+		}
+
+		public override bool Equals(object obj)
+		{
+			var dimension = obj as Dimension;
+			if (dimension != null)
+			{
+				return dimension.Width == Width && dimension.Height == Height;
+			}
+			return false;
+		}
 	}
 }

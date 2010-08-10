@@ -130,6 +130,12 @@ namespace Balder.Display
 		/// </summary>
 		public Skybox Skybox { get; set; }
 
+
+		/// <summary>
+		/// Get the matrix that represents the matrix for converting to screen coordinates
+		/// </summary>
+		public Matrix ScreenMatrix { get; private set; }
+
 		/// <summary>
 		/// Get the aspect ratio for the viewport
 		/// </summary>
@@ -317,6 +323,7 @@ namespace Balder.Display
 
 		public void Render(RenderMessage renderMessage)
 		{
+			ScreenMatrix = Matrix.CreateScreenTranslation(Width, Height);
 			if (null != View)
 			{
 				View.Update(this);
