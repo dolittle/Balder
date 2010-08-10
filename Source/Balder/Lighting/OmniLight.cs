@@ -48,6 +48,15 @@ namespace Balder.Lighting
 			Range = 10.0f;
 		}
 
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			_position = Position;
+			_viewPosition = viewport.View.Position;
+			base.BeforeRendering(viewport, view, projection, world);
+		}
+
+		private Vector _position;
+		private Vector _viewPosition;
 
 		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
@@ -62,7 +71,7 @@ namespace Balder.Lighting
             var ambient = actualAmbient  * strengthAsFloat;
 
             // Diffuse light
-            var lightDir = Position-point;
+            var lightDir = _position-point;
             lightDir.Normalize();
             normal.Normalize();
             var dfDot = lightDir.Dot(normal);
@@ -72,7 +81,7 @@ namespace Balder.Lighting
             // Specular highlight
             var reflection = 2f * dfDot * normal - lightDir;
             reflection.Normalize();
-            var view = viewport.View.Position - point;
+            var view = _viewPosition - point;
             view.Normalize();
             var spDot = reflection.Dot(view);
             spDot = MathHelper.Saturate(spDot);

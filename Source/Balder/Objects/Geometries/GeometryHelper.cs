@@ -29,7 +29,7 @@ namespace Balder.Objects.Geometries
 	{
 		private static void CalculateFaceNormals(IGeometryDetailLevel detailLevel, Vertex[] vertices, Face[] faces)
 		{
-			for( var faceIndex=0; faceIndex<faces.Length; faceIndex++ )
+			for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
 			{
 				var v1 = vertices[faces[faceIndex].A].ToVector();
 				var v2 = vertices[faces[faceIndex].B].ToVector();
@@ -50,19 +50,19 @@ namespace Balder.Objects.Geometries
 
 			Func<int, Vector, int> addNormal =
 				delegate(int vertex, Vector normal)
+				{
+					if (!vertexNormal.ContainsKey(vertex))
 					{
-						if (!vertexNormal.ContainsKey(vertex))
-						{
-							vertexNormal[vertex] = normal;
-							vertexCount[vertex] = 1;
-						}
-						else
-						{
-							vertexNormal[vertex] += normal;
-							vertexCount[vertex]++;
-						}
-						return 0;
-					};
+						vertexNormal[vertex] = normal;
+						vertexCount[vertex] = 1;
+					}
+					else
+					{
+						vertexNormal[vertex] += normal;
+						vertexCount[vertex]++;
+					}
+					return 0;
+				};
 
 			foreach (var face in faces)
 			{
@@ -77,8 +77,8 @@ namespace Balder.Objects.Geometries
 				var count = vertexCount[vertex];
 
 				var normal = new Vector(addedNormals.X / count,
-				                        addedNormals.Y / count,
-				                        addedNormals.Z / count);
+										addedNormals.Y / count,
+										addedNormals.Z / count);
 				vertices[vertex].NormalX = normal.X;
 				vertices[vertex].NormalY = normal.Y;
 				vertices[vertex].NormalZ = normal.Z;
@@ -86,6 +86,45 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
+		public static void CalculateNormals(IGeometryDetailLevel detailLevel, bool useSmoothingGroups)
+		{
+			if (useSmoothingGroups)
+			{
+				CalculateNormals(detailLevel);
+			}
+			else
+			{
+				var vertices = detailLevel.GetVertices();
+				var faces = detailLevel.GetFaces();
+
+				CalculateFaceNormals(detailLevel, vertices, faces);
+				CalculateVertexNormals(detailLevel, vertices, faces);
+				PutVerticesNormals(detailLevel, vertices);
+				SetFacesNormalIndexToSameAsVertices(detailLevel, faces);
+			}
+		}
+
+		private static void SetFacesNormalIndexToSameAsVertices(IGeometryDetailLevel detailLevel, Face[] faces)
+		{
+			for (var faceIndex = 0; faceIndex < faces.Length; faceIndex++)
+			{
+				var face = faces[faceIndex];
+				face.NormalA = face.A;
+				face.NormalB = face.B;
+				face.NormalC = face.C;
+				detailLevel.InvalidateFace(faceIndex);
+			}
+		}
+
+		private static void PutVerticesNormals(IGeometryDetailLevel detailLevel, Vertex[] vertices)
+		{
+			detailLevel.AllocateNormals(vertices.Length);
+			for (var vertexIndex = 0; vertexIndex < vertices.Length; vertexIndex++)
+			{
+				var vertex = vertices[vertexIndex];
+				detailLevel.SetNormal(vertexIndex, new Normal(vertex.NormalX, vertex.NormalY, vertex.NormalZ));
+			}
+		}
 
 		public static void CalculateNormals(IGeometryDetailLevel detailLevel)
 		{
@@ -102,7 +141,7 @@ namespace Balder.Objects.Geometries
 			var normals = CalculateNormalsForSmoothingGroups(faces, vertexNormal, vertexCount);
 			detailLevel.AllocateNormals(normals.Count);
 			var normalIndex = 0;
-			foreach( var normal in normals )
+			foreach (var normal in normals)
 			{
 				detailLevel.SetNormal(normalIndex, normal);
 				normalIndex++;
@@ -123,22 +162,22 @@ namespace Balder.Objects.Geometries
 				{
 					var smoothingGroup = smoothingGroups[smoothingGroupNumber];
 					var count = countPerSmoothingGroup[smoothingGroupNumber];
-					var normal = smoothingGroup/count;
+					var normal = smoothingGroup / count;
 					normal.Normalize();
 
-					foreach( var face in faces )
+					foreach (var face in faces)
 					{
-						if( face.SmoothingGroup == smoothingGroupNumber )
+						if (face.SmoothingGroup == smoothingGroupNumber)
 						{
-							if( face.A == vertex )
+							if (face.A == vertex)
 							{
 								face.NormalA = normalIndex;
 							}
-							if( face.B == vertex )
+							if (face.B == vertex)
 							{
 								face.NormalB = normalIndex;
 							}
-							if( face.C == vertex )
+							if (face.C == vertex)
 							{
 								face.NormalC = normalIndex;
 							}
@@ -186,12 +225,13 @@ namespace Balder.Objects.Geometries
 
 			if (smoothingGroupVertices.ContainsKey(face.SmoothingGroup))
 			{
-				smoothingGroupVertices[face.SmoothingGroup] += face.Normal;	
-			} else
+				smoothingGroupVertices[face.SmoothingGroup] += face.Normal;
+			}
+			else
 			{
 				smoothingGroupVertices[face.SmoothingGroup] = face.Normal;
 			}
-			
+
 			smoothingGroupCount[face.SmoothingGroup]++;
 		}
 	}

@@ -105,16 +105,17 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
-			/*
 			var u = vertex.TransformedVectorNormalized;
 			var n = vertex.TransformedNormal;
 			var r = Vector.Reflect(n, u);
 			var m = MathHelper.Sqrt((r.X * r.X) + (r.Y * r.Y) +
 									((r.Z + 0f) * (r.Z + 0f)));
-			var s = (r.X / m);
-			var t = (r.Y / m);
-			vertex.U = (s * 0.5f) + 0.5f;
-			vertex.V = -(t * 0.5f) + 0.5f;*/
+
+			var m1 = 1f/m;
+			var s = (r.X * m1);
+			var t = (r.Y * m1);
+			vertex.U = -(s * 0.5f) + 0.5f;
+			vertex.V = (t * 0.5f) + 0.5f;
 		}
 
 
