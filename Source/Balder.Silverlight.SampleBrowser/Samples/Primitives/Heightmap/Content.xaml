@@ -21,10 +21,14 @@
 		
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="100,50,-100" Target="0,0,0"/>
+				<View:Camera Position="0,50,-40" Target="0,0,0"/>
 			</Execution:Game.Camera>
-			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
-			<Geometries:Heightmap x:Name="HeightMap" Dimension="40,40" LengthSegments="16" HeightSegments="16" HeightInput="Heightmap_HeightInput"/>
+			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue" Strength="0.5"/>
+			<Geometries:Heightmap x:Name="HeightMap" 
+								  Dimension="40,40" 
+								  LengthSegments="16" 
+								  HeightSegments="16" 
+								  HeightInput="Heightmap_HeightInput"/>
 		</Execution:Game>
 	</Grid>
 </UserControl>

@@ -130,6 +130,10 @@ namespace Balder.Objects.Geometries
 						vertexIndex++;
 					}
 				}
+
+				// Todo: only do this when there are changes.
+				GeometryHelper.CalculateNormals(FullDetailLevel, false);
+
 			}
 			base.BeforeRendering(viewport, view, projection, world);
 		}
@@ -175,6 +179,9 @@ namespace Balder.Objects.Geometries
 
 			PrepareVertices();
 			PrepareFaces();
+
+			// Todo: only do this when there are changes.
+			GeometryHelper.CalculateNormals(FullDetailLevel, false);
 
 			base.Prepare(viewport);
 		}
