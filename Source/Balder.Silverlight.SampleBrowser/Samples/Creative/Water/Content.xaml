@@ -4,10 +4,14 @@
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" >
+    xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder">
 	
 	<UserControl.Resources>
-		<Materials:Material x:Name="SkyMaterial" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Samples/Creative/Water/sky.jpg"/>
+		<Materials:Material x:Name="SkyMaterial" 
+							ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Samples/Creative/Water/sky.jpg"
+							
+							Diffuse="Blue"
+							/>
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
 		<Grid.Triggers>
@@ -25,6 +29,7 @@
 			<Execution:Game.Camera>
 				<View:Camera Position="0,70,-50" Target="0,0,0"/>
 			</Execution:Game.Camera>
+			
 			
 			<Geometries:Heightmap x:Name="HeightMap" 
 								  Dimension="80,80" 
