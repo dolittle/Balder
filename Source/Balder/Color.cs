@@ -43,9 +43,9 @@ namespace Balder
 #if(WINDOWS_PHONE)
 	[StructLayout(LayoutKind.Sequential, Size = 4)]
 #else
-    [StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
+	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
 #endif
-    public struct Color : IEquatable<Color>
+	public struct Color : IEquatable<Color>
 	{
 		private static readonly Random Rnd = new Random();
 
@@ -167,7 +167,19 @@ namespace Balder
 
 		public Color Additive(Color secondColor)
 		{
-			return Cluts.Add(this, secondColor);
+			var red = (int)Red + (int)secondColor.Red;
+			var green = (int)Green + (int)secondColor.Green;
+			var blue = (int)Blue + (int)secondColor.Blue;
+			var alpha = (int)Alpha + (int)secondColor.Alpha;
+
+			var result = new Color
+			{
+				Red = (byte)(red > 0xff ? 0xff : red),
+				Green = (byte)(green > 0xff ? 0xff : green),
+				Blue = (byte)(blue > 0xff ? 0xff : blue),
+				Alpha = (byte)(alpha > 0xff ? 0xff : alpha),
+			};
+			return result;
 		}
 
 		public Color Subtract(Color secondColor)
@@ -206,22 +218,21 @@ namespace Balder
 
 		public static Color Scale(Color color, float scale)
 		{
-			var oneOver = 1f/255f;
-			var redAsFloat = ((float)color.Red) * oneOver;
-			var greenAsFloat = ((float)color.Green) * oneOver;
-			var blueAsFloat = ((float)color.Blue) * oneOver;
-			var alphaAsFloat = ((float)color.Alpha) * oneOver;
+			var intScale = (int)(scale * 256f);
 
-			redAsFloat = redAsFloat * scale;
-			greenAsFloat = greenAsFloat * scale;
-			blueAsFloat = blueAsFloat * scale;
-			alphaAsFloat = alphaAsFloat * scale;
+			var redScaled = (color.Red * intScale) >> 8;
+			var greenScaled = (color.Green * intScale) >> 8;
+			var blueScaled = (color.Blue * intScale) >> 8;
+			var alphaScaled = (color.Alpha * intScale) >> 8;
 
 			var newColor = new Color(
-				(byte)(MathHelper.Saturate(redAsFloat)*255f),
-				(byte)(MathHelper.Saturate(greenAsFloat)*255f),
-				(byte)(MathHelper.Saturate(blueAsFloat)*255f),
-				(byte)(MathHelper.Saturate(alphaAsFloat)*255f));
+					(byte)(redScaled < 0 ? 0 : redScaled > 0xff ? 0xff : redScaled),
+					(byte)(greenScaled < 0 ? 0 : greenScaled > 0xff ? 0xff : (byte)greenScaled),
+					(byte)(blueScaled < 0 ? 0 : blueScaled > 0xff ? 0xff : (byte)blueScaled),
+					(byte)(alphaScaled < 0 ? 0 : alphaScaled > 0xff ? 0xff : (byte)alphaScaled)
+				);
+
+
 			return newColor;
 		}
 
@@ -268,7 +279,13 @@ namespace Balder
 
 		public static Color operator *(Color firstColor, Color secondColor)
 		{
-			var newColor = Cluts.Multiply(firstColor, secondColor);
+			var newColor = new Color(
+				(byte)(((int)firstColor.Red * (int)secondColor.Red) >> 8),
+				(byte)(((int)firstColor.Green * (int)secondColor.Green) >> 8),
+				(byte)(((int)firstColor.Blue * (int)secondColor.Blue) >> 8),
+				(byte)(((int)firstColor.Alpha * (int)secondColor.Alpha) >> 8)
+				);
+
 			return newColor;
 		}
 

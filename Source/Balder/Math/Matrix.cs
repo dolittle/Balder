@@ -17,8 +17,6 @@
 //
 #endregion
 
-using System;
-
 namespace Balder.Math
 {
 	public class Matrix
