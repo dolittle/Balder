@@ -170,32 +170,6 @@ namespace Balder.Display
 		}
 
 
-		public static Vector Transform(Vector vector, Matrix matrix)
-		{
-			var vector2 = Vector.Zero;
-			vector2.X = (((vector.X * matrix[0, 0]) + (vector.Y * matrix[1, 0])) + (vector.Z * matrix[2, 0]));
-			vector2.Y = (((vector.X * matrix[0, 1]) + (vector.Y * matrix[1, 1])) + (vector.Z * matrix[2, 1]));
-			vector2.Z = (((vector.X * matrix[0, 2]) + (vector.Y * matrix[1, 2])) + (vector.Z * matrix[2, 2]));
-			return vector2;
-		}
-
-
-		/*
-		public Vector3 Unproject(Vector3 source, Matrix projection, Matrix view, Matrix world)
-		{
-			Matrix matrix = Matrix.Invert(Matrix.Multiply(Matrix.Multiply(world, view), projection));
-			source.X = (((source.X - this.X) / ((float)this.Width)) * 2f) - 1f;
-			source.Y = -((((source.Y - this.Y) / ((float)this.Height)) * 2f) - 1f);
-			source.Z = (source.Z - this.MinDepth) / (this.MaxDepth - this.MinDepth);
-			Vector3 vector = Vector3.Transform(source, matrix);
-			float a = (((source.X * matrix.M14) + (source.Y * matrix.M24)) + (source.Z * matrix.M34)) + matrix.M44;
-			if (!WithinEpsilon(a, 1f))
-			{
-				vector = (Vector3)(vector / a);
-			}
-			return vector;
-		}*/
-
 
 
 		/// <summary>
@@ -218,10 +192,10 @@ namespace Balder.Display
 			source.W = 1f;
 			var vector = Vector.TransformNormal(source, matrix);
 
-			var a = (source.X * matrix[0, 3]) +
-						(source.Y * matrix[1, 3]) +
-						(source.Z * matrix[2, 3]) +
-						(matrix[3, 3]);
+			var a = (source.X * matrix.M14) +
+						(source.Y * matrix.M24) +
+						(source.Z * matrix.M34) +
+						(matrix.M44);
 
 			if (!WithinEpsilon(a, 1f))
 			{
@@ -298,8 +272,8 @@ namespace Balder.Display
 
 			var v = new Vector
 						{
-							X = (((2.0f * x) / Width) - 1) / (projection[0, 0]),
-							Y = -(((2.0f * y) / Height) - 1) / (projection[1, 1]),
+							X = (((2.0f * x) / Width) - 1) / (projection.M11),
+							Y = -(((2.0f * y) / Height) - 1) / (projection.M22),
 							Z = 1f
 						};
 
@@ -310,9 +284,9 @@ namespace Balder.Display
 						{
 							Direction = new Vector
 											{
-												X = (v.X * inverseView[0, 0]) + (v.Y * inverseView[1, 0]) + (v.Z * inverseView[2, 0]),
-												Y = (v.X * inverseView[0, 1]) + (v.Y * inverseView[1, 1]) + (v.Z * inverseView[2, 1]),
-												Z = (v.X * inverseView[0, 2]) + (v.Y * inverseView[1, 2]) + (v.Z * inverseView[2, 2]),
+												X = (v.X * inverseView.M11) + (v.Y * inverseView.M21) + (v.Z * inverseView.M31),
+												Y = (v.X * inverseView.M12) + (v.Y * inverseView.M22) + (v.Z * inverseView.M32),
+												Z = (v.X * inverseView.M13) + (v.Y * inverseView.M23) + (v.Z * inverseView.M33),
 												W = 1f
 											}
 						};
@@ -320,9 +294,9 @@ namespace Balder.Display
 
 			ray.Position = new Vector
 							{
-								X = inverseView[3, 0],
-								Y = inverseView[3, 1],
-								Z = inverseView[3, 2],
+								X = inverseView.M41,
+								Y = inverseView.M42,
+								Z = inverseView.M43,
 								W = 1f
 							};
 
@@ -379,7 +353,7 @@ namespace Balder.Display
 		public Vector ProjectWithMatrix(float x, float y, float z, Matrix matrix)
 		{
 			var vector = Vector.TransformNormal(x,y,z, matrix);
-			var a = (((x * matrix[0, 3]) + (y * matrix[1, 3])) + (z * matrix[2, 3])) + matrix[3, 3];
+			var a = (((x * matrix.M14) + (y * matrix.M24)) + (z * matrix.M34)) + matrix.M44;
 			
 			if (!WithinEpsilon(a, 1f))
 			{

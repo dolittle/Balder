@@ -57,7 +57,7 @@ namespace Balder.Rendering.Silverlight
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
 
-			var z = (((X * worldView[0, 2]) + (Y * worldView[1, 2])) + (Z * worldView[2, 2])) + (worldView[3, 2]);
+			var z = (((X * worldView.M13) + (Y * worldView.M23)) + (Z * worldView.M33)) + (worldView.M43);
 			z = (z / viewport.View.DepthDivisor) + viewport.View.DepthZero;
 			ProjectedVector.Z = z;
 

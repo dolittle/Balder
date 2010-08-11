@@ -421,11 +421,11 @@ namespace Balder.Math
 		public BoundingSphere Transform(Matrix matrix)
 		{
 			var center = Vector.Transform(Center, matrix);
-			var num4 = ((matrix[0, 0] * matrix[0, 0]) + (matrix[0, 1] * matrix[0, 1])) + (matrix[0, 2] * matrix[0, 2]);
-			var num3 = ((matrix[1, 0] * matrix[1, 0]) + (matrix[1, 1] * matrix[1, 1])) + (matrix[1, 2] * matrix[1, 2]);
-			var num2 = ((matrix[2, 0] * matrix[2, 0]) + (matrix[2, 1] * matrix[2, 1])) + (matrix[2, 2] * matrix[2, 2]);
-			var num = System.Math.Max(num4, System.Math.Max(num3, num2));
-			var radius = this.Radius * ((float)System.Math.Sqrt((double)num));
+			var x = ((matrix.M11 * matrix.M11) + (matrix.M12 * matrix.M12)) + (matrix.M13 * matrix.M13);
+			var y = ((matrix.M21 * matrix.M21) + (matrix.M22 * matrix.M22)) + (matrix.M23 * matrix.M23);
+			var z = ((matrix.M31 * matrix.M31) + (matrix.M32 * matrix.M32)) + (matrix.M33 * matrix.M33);
+			var max = System.Math.Max(x, System.Math.Max(y, z));
+			var radius = this.Radius * ((float)System.Math.Sqrt((double)max));
 			var sphere = new BoundingSphere(center,radius);
 			return sphere;
 		}

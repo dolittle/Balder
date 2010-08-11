@@ -78,38 +78,38 @@ namespace Balder.Math
         public static explicit operator Matrix(Quaternion Quaternion)
         {
             Matrix Result = new Matrix();
-            float x2 = Quaternion.X + Quaternion.X;
-            float y2 = Quaternion.Y + Quaternion.Y;
-            float z2 = Quaternion.Z + Quaternion.Z;
-            float xx = Quaternion.X * x2;
-            float xy = Quaternion.X * y2;
-            float xz = Quaternion.X * z2;
-            float yy = Quaternion.Y * y2;
-            float yz = Quaternion.Y * z2;
-            float zz = Quaternion.Z * z2;
-            float wx = Quaternion.W * x2;
-            float wy = Quaternion.W * y2;
-            float wz = Quaternion.W * z2;
+            var x2 = Quaternion.X + Quaternion.X;
+            var y2 = Quaternion.Y + Quaternion.Y;
+            var z2 = Quaternion.Z + Quaternion.Z;
+            var xx = Quaternion.X * x2;
+            var xy = Quaternion.X * y2;
+            var xz = Quaternion.X * z2;
+            var yy = Quaternion.Y * y2;
+            var yz = Quaternion.Y * z2;
+            var zz = Quaternion.Z * z2;
+            var wx = Quaternion.W * x2;
+            var wy = Quaternion.W * y2;
+            var wz = Quaternion.W * z2;
 
-            Result[0, 0] = 1 - yy - zz;
-            Result[1, 0] = xy - wz;
-            Result[2, 0] = xz + wy;
-            Result[3, 0] = 0;
+            Result.M11 = 1 - yy - zz;
+            Result.M21 = xy - wz;
+            Result.M31 = xz + wy;
+            Result.M41 = 0;
 
-            Result[0, 1] = xy + wz;
-            Result[1, 1] = 1 - xx - zz;
-            Result[2, 1] = yz - wx;
-            Result[3, 1] = 0;
+			Result.M12 = xy + wz;
+			Result.M22 = 1 - xx - zz;
+			Result.M32 = yz - wx;
+			Result.M42 = 0;
 
-            Result[0, 2] = xz - wy;
-            Result[1, 2] = yz + wx;
-            Result[2, 2] = 1 - xx - yy;
-            Result[3, 2] = 0;
+			Result.M13 = xz - wy;
+			Result.M23 = yz + wx;
+			Result.M33 = 1 - xx - yy;
+			Result.M43 = 0;
 
-            Result[0, 3] = 0;
-            Result[1, 3] = 0;
-            Result[2, 3] = 0;
-            Result[3, 3] = 1;
+			Result.M14 = 0;
+			Result.M24 = 0;
+			Result.M34 = 0;
+			Result.M44 = 1;
 
             return Result;
         }

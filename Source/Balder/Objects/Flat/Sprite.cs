@@ -94,7 +94,7 @@ namespace Balder.Objects.Flat
 			var projection = viewport.View.ProjectionMatrix;
 
 			var position = new Vector(0, 0, 0);
-			var actualPosition = new Vector(world[3, 0], world[3, 1], world[3, 2]);
+			var actualPosition = new Vector(world.M41, world.M42, world.M43);
 			//data[12], world.data[13], world.data[14]);
 			var transformedPosition = Vector.Transform(position, world, view);
 			//var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);

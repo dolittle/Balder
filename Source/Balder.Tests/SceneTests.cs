@@ -193,9 +193,9 @@ namespace Balder.Tests
 			viewport.Render(null);
 
 			var actualPosition = new Coordinate();
-			actualPosition.X = childNode.WorldResult[3, 0];
-			actualPosition.Y = childNode.WorldResult[3, 1];
-			actualPosition.Z = childNode.WorldResult[3, 2];
+			actualPosition.X = childNode.WorldResult.M41;
+			actualPosition.Y = childNode.WorldResult.M42;
+			actualPosition.Z = childNode.WorldResult.M43;
 			Assert.That(actualPosition.X, Is.EqualTo(topLevelNode.Position.X));
 		}
 
