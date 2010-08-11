@@ -71,6 +71,7 @@ namespace Balder.Materials
 			DiffuseMapOpacity = 1f;
 			ReflectionMapOpacity = 1f;
 			MagnificationFiltering = MaterialFiltering.None;
+			Renderer = GouraudTriangleRenderer;
 		}
 
 

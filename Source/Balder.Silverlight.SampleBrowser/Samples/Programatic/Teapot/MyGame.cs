@@ -1,9 +1,7 @@
-using System.Windows.Media;
 using Balder.Execution;
 using Balder.Lighting;
 using Balder.Materials;
 using Balder.Objects.Geometries;
-using Color=Balder.Color;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 {
@@ -15,14 +13,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
 		{
 			ContentManager.AssetsRoot = "Assets";
 
-			var light = new OmniLight();
+			var light = new ViewLight();
 			light.Diffuse = Color.FromArgb(0xff, 255, 121, 32);
 			light.Specular = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
 			light.Ambient = Color.FromArgb(0xff, 0x7f, 0x3f, 0x10);
-
-			light.Position.X = -100;
-			light.Position.Y = 0;
-			light.Position.Z = 0;
 			Scene.AddNode(light);
 
 			Camera.Position.X = 0;

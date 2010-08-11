@@ -412,7 +412,7 @@ namespace Balder.Rendering.Silverlight
 				face.Texture1 = _textureManager.GetTextureForMap(material.DiffuseMap);
 				face.Texture2 = _textureManager.GetTextureForMap(material.ReflectionMap);
 
-				face.Color = _lightCalculator.Calculate(viewport, face.Material, face.TransformedPosition, face.TransformedNormal);
+				face.Color = _lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
 				material.Renderer.Draw(face, _vertices);
 			}
 		}
@@ -424,7 +424,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				if (node is IHaveColor)
 				{
-					material = _colorMaterial;// Material.Default;
+					material = _colorMaterial;
 					material.Diffuse = ((IHaveColor)node).Color;
 				}
 				else
