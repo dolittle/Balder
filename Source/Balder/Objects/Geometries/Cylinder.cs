@@ -32,6 +32,11 @@ namespace Balder.Objects.Geometries
 {
 	public class Cylinder : GeneratedGeometry
 	{
+		private const int GeneralSmoothingGroup = 0;
+		private const int EndsSmoothingGroup = 1;
+		private const int SpokesSmoothingGroup = 2;
+
+
 		public static readonly Property<Cylinder, double> TopRadiusProp = Property<Cylinder, double>.Register(c => c.TopRadius);
 		public double TopRadius
 		{
@@ -328,13 +333,21 @@ namespace Balder.Objects.Geometries
 					var actualX = x + faceOffset;
 					var nextX = ((x + 1) % (actualSegments + additionalFaceSegments))+faceOffset;
 
-					face = 
 					face = CreateFace(vertexOffset + actualX,
 					                vertexOffset + nextX,
 					                nextSegmentVertexOffset + actualX);
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
+
+					if( spokes && x == 0 )
+					{
+						face.SmoothingGroup = SpokesSmoothingGroup;
+					} else
+					{
+						face.SmoothingGroup = GeneralSmoothingGroup;
+					}
+
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
@@ -344,6 +357,16 @@ namespace Balder.Objects.Geometries
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
+
+					if (spokes && x == 0)
+					{
+						face.SmoothingGroup = SpokesSmoothingGroup;
+					}
+					else
+					{
+						face.SmoothingGroup = GeneralSmoothingGroup;
+					}
+
 					FullDetailLevel.SetFace(faceIndex, face);
 
 					faceIndex++;
@@ -366,6 +389,7 @@ namespace Balder.Objects.Geometries
 				face.DiffuseA = face.A;
 				face.DiffuseB = face.B;
 				face.DiffuseC = face.C;
+				face.SmoothingGroup = EndsSmoothingGroup;
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
@@ -381,6 +405,7 @@ namespace Balder.Objects.Geometries
 				face.DiffuseA = face.A;
 				face.DiffuseB = face.B;
 				face.DiffuseC = face.C;
+				face.SmoothingGroup = EndsSmoothingGroup;
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}

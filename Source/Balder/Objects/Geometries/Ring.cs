@@ -31,6 +31,11 @@ namespace Balder.Objects.Geometries
 {
 	public class Ring : GeneratedGeometry
 	{
+		private const int GeneralSmoothingGroup = 0;
+		private const int EndsSmoothingGroup = 1;
+		private const int SpokesSmoothingGroup = 2;
+
+
 		public static readonly Property<Ring, double> InnerRadiusProp = Property<Ring, double>.Register(c => c.InnerRadius);
 		public double InnerRadius
 		{
@@ -253,11 +258,11 @@ namespace Balder.Objects.Geometries
 				var nextStack = currentStack + verticesPerStack;
 				if (openRing&&Spokes)
 				{
-					face = CreateFace(nextStack + 1, nextStack, currentStack);
+					face = CreateFace(nextStack + 1, nextStack, currentStack, SpokesSmoothingGroup);
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
-					face = CreateFace(nextStack + 1, currentStack, currentStack + 1);
+					face = CreateFace(nextStack + 1, currentStack, currentStack + 1, SpokesSmoothingGroup);
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 				}
@@ -266,11 +271,11 @@ namespace Balder.Objects.Geometries
 				{
 					currentStack += (verticesPerStack - 2);
 					nextStack += (verticesPerStack - 2);
-					face = CreateFace(currentStack, nextStack, nextStack + 1);
+					face = CreateFace(currentStack, nextStack, nextStack + 1, SpokesSmoothingGroup);
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 
-					face = CreateFace(currentStack + 1, currentStack, nextStack + 1);
+					face = CreateFace(currentStack + 1, currentStack, nextStack + 1, SpokesSmoothingGroup);
 					FullDetailLevel.SetFace(faceIndex, face);
 					faceIndex++;
 				}
@@ -292,18 +297,18 @@ namespace Balder.Objects.Geometries
 				var nextStackOffset = segmentOffset + (verticesPerStack);
 				var nextStackAndSegmentOffset = nextSegmentOffset + (verticesPerStack);
 
-				face = CreateFace(nextStackOffset, nextSegmentOffset, segmentOffset);
+				face = CreateFace(nextStackOffset, nextSegmentOffset, segmentOffset, GeneralSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
-				face = CreateFace(nextSegmentOffset, nextStackOffset, nextStackAndSegmentOffset);
+				face = CreateFace(nextSegmentOffset, nextStackOffset, nextStackAndSegmentOffset, GeneralSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 
 
-				face = CreateFace(segmentOffset + 1, nextSegmentOffset + 1, nextStackOffset + 1);
+				face = CreateFace(segmentOffset + 1, nextSegmentOffset + 1, nextStackOffset + 1, GeneralSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
-				face = CreateFace(nextStackAndSegmentOffset + 1, nextStackOffset + 1, nextSegmentOffset + 1);
+				face = CreateFace(nextStackAndSegmentOffset + 1, nextStackOffset + 1, nextSegmentOffset + 1, GeneralSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
@@ -318,10 +323,10 @@ namespace Balder.Objects.Geometries
 				var segmentOffset = segment * 2;
 				var nextSegmentOffset = (segmentOffset + 2) % verticesPerStack;
 
-				face = CreateFace(nextSegmentOffset + 1, segmentOffset + 1, segmentOffset);
+				face = CreateFace(nextSegmentOffset + 1, segmentOffset + 1, segmentOffset, EndsSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
-				face = CreateFace(nextSegmentOffset, nextSegmentOffset + 1, segmentOffset);
+				face = CreateFace(nextSegmentOffset, nextSegmentOffset + 1, segmentOffset, EndsSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
@@ -332,10 +337,10 @@ namespace Balder.Objects.Geometries
 				var segmentOffset = bottomCapOffset + (segment * 2);
 				var nextSegmentOffset = bottomCapOffset + ((segmentOffset + 2) % verticesPerStack);
 
-				face = CreateFace(segmentOffset, segmentOffset + 1, nextSegmentOffset + 1);
+				face = CreateFace(segmentOffset, segmentOffset + 1, nextSegmentOffset + 1, EndsSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
-				face = CreateFace(segmentOffset, nextSegmentOffset + 1, nextSegmentOffset);
+				face = CreateFace(segmentOffset, nextSegmentOffset + 1, nextSegmentOffset, EndsSmoothingGroup);
 				FullDetailLevel.SetFace(faceIndex, face);
 				faceIndex++;
 			}
@@ -410,12 +415,13 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
-		private new Face CreateFace(int a, int b, int c)
+		private new Face CreateFace(int a, int b, int c, int smoothingGroup)
 		{
 			var face = base.CreateFace(a, b, c);
 			face.DiffuseA = a;
 			face.DiffuseB = b;
 			face.DiffuseC = c;
+			face.SmoothingGroup = smoothingGroup;
 			return face;
 		}
 	}
