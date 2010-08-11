@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
 using Balder.Objects.Geometries;
@@ -41,7 +42,8 @@ namespace Balder.Input
 			float distance,
 			int deltaX,
 			int deltaY,
-			ManipulationDirection direction)
+			ManipulationDirection direction,
+			Viewport viewport)
 		{
 			Material = material;
 			Face = face;
@@ -52,6 +54,7 @@ namespace Balder.Input
 			FaceV = faceV;
 			Distance = distance;
 			Direction = direction;
+			Viewport = viewport;
 		}
 
 		public Material Material { get; internal set; }
@@ -67,5 +70,7 @@ namespace Balder.Input
 		public float Distance { get; internal set; }
 
 		public ManipulationDirection Direction { get; internal set; }
+
+		public Viewport Viewport { get; internal set; }
 	}
 }

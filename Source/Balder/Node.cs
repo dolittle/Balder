@@ -105,7 +105,27 @@ namespace Balder
 		{
 			InitializeTransform();
 			Construct();
+			SetupManipulation();
 		}
+
+		private void SetupManipulation()
+		{
+			InteractionEnabled = false;
+			ManipulationDelta += NodeManipulationDelta;
+			
+		}
+
+		void NodeManipulationDelta(object sender, ManipulationDeltaEventArgs args)
+		{
+			if (InteractionEnabled)
+			{
+				var world = World;
+				var rotation = Matrix.CreateRotation((float) -args.DeltaY, (float) -args.DeltaX, 0);
+				World = world*rotation;
+			}
+		}
+
+		public bool InteractionEnabled { get; set; }
 
 		private void Construct()
 		{
@@ -121,8 +141,6 @@ namespace Balder
 		private void NodeLoaded(object sender, RoutedEventArgs e)
 		{
 			OnInitialize();
-
-
 		}
 
 

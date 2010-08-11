@@ -108,6 +108,7 @@ namespace Balder.Input.Silverlight
 			_deltaEventArgs.DeltaX = (int)deltaX;
 			_deltaEventArgs.DeltaY = (int) deltaY;
 			_deltaEventArgs.Direction = _manipulationDirection;
+			_deltaEventArgs.Viewport = _viewport;
 
 			bubbledEvent.Raise(node, node, _deltaEventArgs);
 		}

@@ -8,26 +8,15 @@
     xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
 	xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder">
 	<Grid x:Name="LayoutRoot">
-		<Grid.Triggers>
-			<EventTrigger RoutedEvent="Grid.Loaded">
-				<BeginStoryboard>
-					<Storyboard RepeatBehavior="Forever">
-						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:05" TargetName="Box" TargetProperty="(Node.Rotation)"/>
-						</Animation:StoryboardExtensions.CoordinateAnimation>
-					</Storyboard>
-				</BeginStoryboard>
-			</EventTrigger>
-		</Grid.Triggers>
 
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="100,50,-100" Target="0,0,0"/>
+				<View:Camera Position="0,30,-60" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
-            <Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red"/>
+            <Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red" InteractionEnabled="true"/>
 		</Execution:Game>
 
 		<CheckBox x:Name="FlipNormals" 
