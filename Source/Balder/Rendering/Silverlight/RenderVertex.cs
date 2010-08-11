@@ -64,12 +64,14 @@ namespace Balder.Rendering.Silverlight
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
 
-			TransformedVectorNormalized = Vector.Transform(X, Y, Z, worldView);
+			TransformedVector = Vector.Transform(X, Y, Z, worldView);
+			TransformedVectorNormalized = TransformedVector;
 			TransformedVectorNormalized.Normalize();
 		}
 
 		public Vector ProjectedVector;
 		public Vector TransformedNormal;
+		public Vector TransformedVector;
 		public Vector TransformedVectorNormalized;
 
 		public float U;

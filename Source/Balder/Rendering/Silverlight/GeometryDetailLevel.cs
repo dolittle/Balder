@@ -346,7 +346,7 @@ namespace Balder.Rendering.Silverlight
 			if( !normal.IsColorCalculated )
 			{
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
-				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, new Vector(vertex.X,vertex.Y,vertex.Z), normal.Transformed);	
+				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);	
 			}
 			return normal.CalculatedColor;
 		}
