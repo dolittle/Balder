@@ -194,7 +194,13 @@ namespace Balder.Materials
 		public MaterialFiltering MagnificationFiltering
 		{
 			get { return MagnificationFilteringProperty.GetValue(this); }
-			set { MagnificationFilteringProperty.SetValue(this, value); }
+			set
+			{
+				MagnificationFilteringProperty.SetValue(this, value);
+#if(SILVERLIGHT)
+				MaterialPropertiesChanged();
+#endif
+			}
 		}
 
 
@@ -314,18 +320,24 @@ namespace Balder.Materials
 							}
 							else
 							{
-								Renderer = TextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? TextureTriangleBilinearRenderer
+											: (Triangle)TextureTriangleRenderer;
 							}
 						}
 						else
 						{
 							if (null != ReflectionMap && ReflectionMapOpacity != 0)
 							{
-								Renderer = TextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+								           	? TextureTriangleBilinearRenderer
+								           	: (Triangle)TextureTriangleRenderer;
 							}
 							else
 							{
-								Renderer = TextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? TextureTriangleBilinearRenderer
+											: (Triangle)TextureTriangleRenderer;
 							}
 						}
 						
