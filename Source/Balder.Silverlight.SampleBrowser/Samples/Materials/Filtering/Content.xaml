@@ -42,7 +42,7 @@
 
 					<Materials:Material 
 						DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"
-						Shade="None"
+						Shade="Gouraud"
 						MagnificationFiltering="Bilinear"
 						/>
 				</Geometries:Box.Material>

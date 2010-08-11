@@ -294,10 +294,12 @@ namespace Balder.Materials
 		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
 		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
 		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
+		private static readonly FlatTextureTriangleBilinear FlatTextureTriangleBilinearRenderer = new FlatTextureTriangleBilinear();
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
 		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
+		private static readonly GouraudTextureTriangleBilinear GouraudTextureTriangleBilinearRenderer = new GouraudTextureTriangleBilinear();
 
 		private void MaterialPropertiesChanged()
 		{
@@ -353,16 +355,23 @@ namespace Balder.Materials
 								Renderer = FlatTriangleRenderer;
 							} else
 							{
-								Renderer = FlatTextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? FlatTextureTriangleBilinearRenderer
+											: (Triangle)FlatTextureTriangleRenderer;
 							}
 						} else
 						{
 							if( null != ReflectionMap && ReflectionMapOpacity != 0 )
 							{
-								Renderer = FlatTextureTriangleRenderer;
-							} else
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? FlatTextureTriangleBilinearRenderer
+											: (Triangle)FlatTextureTriangleRenderer;
+							}
+							else
 							{
-								Renderer = FlatTextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? FlatTextureTriangleBilinearRenderer
+											: (Triangle)FlatTextureTriangleRenderer;
 							}
 						}
 					}
@@ -378,18 +387,25 @@ namespace Balder.Materials
 							}
 							else
 							{
-								Renderer = GouraudTextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? GouraudTextureTriangleBilinearRenderer
+											: (Triangle)GouraudTextureTriangleRenderer;
+
 							}
 						}
 						else
 						{
 							if (null != ReflectionMap && ReflectionMapOpacity != 0)
 							{
-								Renderer = GouraudTextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? GouraudTextureTriangleBilinearRenderer
+											: (Triangle)GouraudTextureTriangleRenderer;
 							}
 							else
 							{
-								Renderer = GouraudTextureTriangleRenderer;
+								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
+											? GouraudTextureTriangleBilinearRenderer
+											: (Triangle)GouraudTextureTriangleRenderer;
 							}
 						}
 					}

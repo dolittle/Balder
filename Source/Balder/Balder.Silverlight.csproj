@@ -158,6 +158,8 @@
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
