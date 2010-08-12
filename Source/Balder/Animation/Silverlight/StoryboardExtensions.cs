@@ -61,7 +61,9 @@ namespace Balder.Animation.Silverlight
 			xAnimation.EasingFunction = coordinateAnimation.EasingFunction;
 
 			if (coordinateAnimation.Target != null)
+			{
 				Storyboard.SetTarget(xAnimation, coordinateAnimation.Target);
+			}
 			Storyboard.SetTargetName(xAnimation, coordinateAnimation.TargetName);
 			Storyboard.SetTargetProperty(xAnimation, new PropertyPath(string.Format("{0}.(X)",coordinateAnimation.TargetProperty)));
 			storyboard.Children.Add(xAnimation);
@@ -74,7 +76,9 @@ namespace Balder.Animation.Silverlight
 			yAnimation.Duration = coordinateAnimation.Duration;
 			yAnimation.EasingFunction = coordinateAnimation.EasingFunction;
 			if (coordinateAnimation.Target != null)
+			{
 				Storyboard.SetTarget(yAnimation, coordinateAnimation.Target);
+			}
 			Storyboard.SetTargetName(yAnimation, coordinateAnimation.TargetName);
 			Storyboard.SetTargetProperty(yAnimation, new PropertyPath(string.Format("{0}.(Y)", coordinateAnimation.TargetProperty)));
 			storyboard.Children.Add(yAnimation);
@@ -87,7 +91,9 @@ namespace Balder.Animation.Silverlight
 			zAnimation.Duration = coordinateAnimation.Duration;
 			zAnimation.EasingFunction = coordinateAnimation.EasingFunction;
 			if (coordinateAnimation.Target != null)
+			{
 				Storyboard.SetTarget(zAnimation, coordinateAnimation.Target);
+			}
 			Storyboard.SetTargetName(zAnimation, coordinateAnimation.TargetName);
 			Storyboard.SetTargetProperty(zAnimation, new PropertyPath(string.Format("{0}.(Z)", coordinateAnimation.TargetProperty)));
 			storyboard.Children.Add(zAnimation);
