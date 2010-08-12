@@ -56,7 +56,7 @@ namespace Balder.Rendering.Silverlight
 
 				_active = true;
 				_renderingThread = new Thread(RenderingThread);
-				_renderingThread.Start();
+				//_renderingThread.Start();
 			}
 		}
 

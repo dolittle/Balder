@@ -34,6 +34,7 @@ namespace Balder.Display.Silverlight
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 
 		private readonly IPlatform _platform;
+		private readonly IRuntimeContext _runtimeContext;
 		private WriteableBitmapQueue _bitmapQueue;
 
 		private bool _initialized;
@@ -49,10 +50,13 @@ namespace Balder.Display.Silverlight
 		private UInt32[] _frontDepthBuffer;
 		private Grid _container;
 		private Image _image;
+		private int _height;
+		private int _width;
 
-		public Display(IPlatform platform)
+		public Display(IPlatform platform, IRuntimeContext runtimeContext)
 		{
 			_platform = platform;
+			_runtimeContext = runtimeContext;
 			ClearEnabled = true;
 		}
 
@@ -62,16 +66,13 @@ namespace Balder.Display.Silverlight
 
 		public void Initialize(int width, int height)
 		{
+			_width = width;
+			_height = height;
 			_bitmapQueue = new WriteableBitmapQueue(width,height);
 			_frontDepthBuffer = new UInt32[width*height];
 
 			BufferContainer.Width = width;
 			BufferContainer.Height = height;
-			BufferContainer.RedPosition = 2;
-			BufferContainer.GreenPosition = 0;
-			BufferContainer.BluePosition = 1;
-			BufferContainer.AlphaPosition = 3;
-			BufferContainer.Stride = width;
 
 			PrepareFrame(null);
 			
@@ -88,7 +89,8 @@ namespace Balder.Display.Silverlight
 			RenderingManager.Instance.Swapped -= Swap;
 			RenderingManager.Instance.Updated -= Update;
 			RenderingManager.Instance.Prepare -= Prepare;
-			Messenger.DefaultContext.SubscriptionsFor<ShowMessage>().RemoveListener(this, ShowMessage);
+
+			_runtimeContext.MessengerContext.SubscriptionsFor<ShowMessage>().RemoveListener(this, ShowMessage);
 		}
 
 		private void InitializeRendering()
@@ -101,8 +103,8 @@ namespace Balder.Display.Silverlight
 			RenderingManager.Instance.Prepare += Prepare;
 			RenderingManager.Instance.Start();
 
-			Messenger.DefaultContext.SubscriptionsFor<ShowMessage>().AddListener(this,ShowMessage);
-			Messenger.DefaultContext.SubscriptionsFor<PrepareFrameMessage>().AddListener(this,PrepareFrame);
+			_runtimeContext.MessengerContext.SubscriptionsFor<ShowMessage>().AddListener(this, ShowMessage);
+			_runtimeContext.MessengerContext.SubscriptionsFor<PrepareFrameMessage>().AddListener(this, PrepareFrame);
 
 			_renderMessage = new RenderMessage();
 			_prepareMessage = new PrepareMessage();
@@ -163,6 +165,8 @@ namespace Balder.Display.Silverlight
 					
 				if (null != _currentRenderBitmap)
 				{
+					BufferContainer.Width = _width;
+					BufferContainer.Height = _height;
 					BufferContainer.Framebuffer = _currentRenderBitmap.Pixels;
 					BufferContainer.DepthBuffer = _frontDepthBuffer;
 					Array.Clear(_frontDepthBuffer, 0, _frontDepthBuffer.Length);
@@ -193,7 +197,7 @@ namespace Balder.Display.Silverlight
 			if (_initialized && !Halted)
 			{
 				PrepareRender();
-				Messenger.DefaultContext.Send(_renderMessage);
+				_runtimeContext.MessengerContext.Send(_renderMessage);
 				AfterRender();
 			}
 		}
@@ -240,14 +244,14 @@ namespace Balder.Display.Silverlight
 
 		public void Prepare()
 		{
-			Messenger.DefaultContext.Send(_prepareMessage);
+			_runtimeContext.MessengerContext.Send(_prepareMessage);
 		}
 
 		public void Update()
 		{
 			if (_initialized && !Halted)
 			{
-				Messenger.DefaultContext.Send(_updateMessage);
+				_runtimeContext.MessengerContext.Send(_updateMessage);
 			}
 		}
 	}

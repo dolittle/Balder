@@ -20,7 +20,6 @@
 #endregion
 
 using Balder.Display;
-using Balder.Execution;
 using Balder.Math;
 using Balder.Rendering;
 using Balder.View;
@@ -49,7 +48,7 @@ namespace Balder.Tests.Display
 			var viewport = new Viewport(runtimeContextMock.Object);
 			viewport.Width = 640;
 			viewport.Height = 480;
-			var scene = new Scene(nodeRenderingServiceMock.Object);
+			var scene = new Scene(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
 
 			var camera = new Camera();
 			camera.Position.Set(0, 0, 0);

@@ -27,7 +27,7 @@ namespace Balder.Execution
 	/// Represents a context for the messenger in which one can publish and subscribe
 	/// to messages from
 	/// </summary>
-	public class MessengerContext
+	public class MessengerContext : IMessengerContext
 	{
 		private readonly Dictionary<Type, object> _messageSubscriptions;
 

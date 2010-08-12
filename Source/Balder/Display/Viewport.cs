@@ -42,6 +42,7 @@ namespace Balder.Display
 	public class Viewport
 #endif
 	{
+		private readonly IRuntimeContext _runtimeContext;
 		public const float MinDepth = 0f;
 		public const float MaxDepth = 1f;
 
@@ -63,18 +64,19 @@ namespace Balder.Display
 		/// <param name="runtimeContext">RuntimeContext that the viewport belongs to</param>
 		public Viewport(IRuntimeContext runtimeContext)
 		{
+			_runtimeContext = runtimeContext;
 			DebugInfo = new DebugInfo();
 
 			_mousePickRay = new Ray(Vector.Zero, Vector.Forward);
 
-			Messenger.DefaultContext.SubscriptionsFor<RenderMessage>().AddListener(this, Render);
-			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
+			runtimeContext.MessengerContext.SubscriptionsFor<RenderMessage>().AddListener(this, Render);
+			runtimeContext.MessengerContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
 		}
 
 		public void Uninitialize()
 		{
-			Messenger.DefaultContext.SubscriptionsFor<RenderMessage>().RemoveListener(this, Render);
-			Messenger.DefaultContext.SubscriptionsFor<PrepareMessage>().RemoveListener(this, Prepare);
+			_runtimeContext.MessengerContext.SubscriptionsFor<RenderMessage>().RemoveListener(this, Render);
+			_runtimeContext.MessengerContext.SubscriptionsFor<PrepareMessage>().RemoveListener(this, Prepare);
 		}
 
 		/// <summary>
@@ -327,7 +329,7 @@ namespace Balder.Display
 				DebugRenderer.Instance.RenderRay(_mousePickRay.Position, _mousePickRay.Direction, this);
 			}
 
-			Messenger.DefaultContext.Send(RenderDoneMessage.Default);
+			_runtimeContext.MessengerContext.Send(RenderDoneMessage.Default);
 		}
 
 		/// <summary>

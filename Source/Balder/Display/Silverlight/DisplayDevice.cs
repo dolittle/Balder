@@ -19,6 +19,7 @@
 #if(SILVERLIGHT)
 using System.Collections.Generic;
 using Balder.Execution;
+using Balder.Rendering;
 
 namespace Balder.Display.Silverlight
 {
@@ -35,9 +36,9 @@ namespace Balder.Display.Silverlight
 		}
 
 
-		public IDisplay CreateDisplay()
+		public IDisplay CreateDisplay(IRuntimeContext runtimeContext)
 		{
-			var display = new Display(_platform);
+			var display = new Display(_platform, runtimeContext);
 			lock( _displays )
 			{
 				_displays.Add(display);	

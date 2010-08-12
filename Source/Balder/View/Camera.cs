@@ -40,8 +40,8 @@ namespace Balder.View
 
 		public Camera()
 		{
-			Position = new Coordinate(0f, 0f, 0f);
-			Target = new Coordinate(0f, 0f, -1f);
+			Position = Vector.Zero;
+			Target = Vector.Forward;
 			Up = Vector.Up;
 			Near = DefaultNear;
 			Far = DefaultFar;

@@ -19,13 +19,14 @@
 
 using System;
 using Balder.Display;
+using Balder.Rendering;
 using Moq;
 
 namespace Balder.Tests.Fakes
 {
 	public class FakeDisplayDevice : IDisplayDevice
 	{
-		public IDisplay CreateDisplay()
+		public IDisplay CreateDisplay(IRuntimeContext runtimeContext)
 		{
 			var mock = new Mock<IDisplay>();
 			return mock.Object;

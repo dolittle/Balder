@@ -29,8 +29,8 @@ using Balder.Objects;
 using Balder.Objects.Flat;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
+using Ninject;
 using Ninject.Activation;
-using Ninject.Planning.Bindings;
 
 namespace Balder.Execution
 {
@@ -38,7 +38,7 @@ namespace Balder.Execution
 	{
 		public PlatformKernel(Type platformType)
 		{
-			var platform = Activator.CreateInstance(platformType) as IPlatform;
+			var platform = this.Get(platformType) as IPlatform;
 
 			Bind<IPlatform>().ToConstant(platform);
 			Bind<IDisplayDevice>().ToConstant(platform.DisplayDevice);
@@ -50,34 +50,19 @@ namespace Balder.Execution
 			Bind<IShapeContext>().To(platform.ShapeContextType);
 			Bind<IMaterialCalculator>().To(platform.MaterialCalculatorType);
 			Bind<ISkyboxContext>().To(platform.SkyboxContextType);
-			
-			//AddBindingResolver<IPlatform>(PlatformBindingResolver);
-			//AddBindingResolver<IDisplay>(DisplayBindingResolver);
+			Bind<IRuntimeContext>().ToMethod(RuntimeContextResolver);
 		}
 
-		private static IBinding PlatformBindingResolver(IContext context)
-		{
-			throw new NotImplementedException();
-		}
+		private IRuntimeContext _currentRuntimeContext;
 
-		private static IBinding DisplayBindingResolver(IContext context)
+		private IRuntimeContext RuntimeContextResolver(IContext context)
 		{
-			
-			/*
-			var binding = new StandardBinding(this, typeof(IDisplay));
-			IBindingTargetSyntax binder = new StandardBindingBuilder(binding);
-			
-
-			if (null != context.ParentContext &&
-				context.ParentContext is DisplayActivationContext)
+			if( context.Request.ParentContext == null )
 			{
-				var display = ((DisplayActivationContext)context.ParentContext).Display;
-				binder.ToConstant(display);
-			}
+				_currentRuntimeContext = context.Kernel.Get<RuntimeContext>();
+			} 
 
-			return binding;*/
-
-			return null;
+			return _currentRuntimeContext;
 		}
 	}
 }

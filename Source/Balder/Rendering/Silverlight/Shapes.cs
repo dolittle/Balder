@@ -27,7 +27,7 @@ namespace Balder.Rendering.Silverlight
 	{
 		public static void DrawLine(Viewport viewport, int xstart, int ystart, int xend, int yend, Color color)
 		{
-			var stride = BufferContainer.Stride;
+			var stride = BufferContainer.Width;
 			var framebuffer = BufferContainer.Framebuffer;
 			if( null == framebuffer )
 			{

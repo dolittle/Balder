@@ -48,16 +48,25 @@ namespace Balder.Tests.Silverlight.Input
 			}
 		}
 
-		[Test]
-		public void MouseOverNodeShouldFireMouseMoveEvent()
+		private void CreateMocks(out Game game, out Scene scene, out FakeViewport viewport)
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
 			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			
+			game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
+			scene = new Scene(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
+			viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
 			game.Scene = scene;
+		}
+
+		[Test]
+		public void MouseOverNodeShouldFireMouseMoveEvent()
+		{
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
@@ -75,12 +84,11 @@ namespace Balder.Tests.Silverlight.Input
 		[Test,SilverlightUnitTest]
 		public void FirstMouseOverShouldFireMouseEnterEvent()
 		{
-			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
-			game.Scene = scene;
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
 			viewport.NodeToReturn = geometry;
@@ -97,12 +105,11 @@ namespace Balder.Tests.Silverlight.Input
 		[Test, SilverlightUnitTest]
 		public void SubsequentMouseOverShouldNotFireMouseEnterEvent()
 		{
-			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
-			game.Scene = scene;
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
 			viewport.NodeToReturn = geometry;
@@ -121,12 +128,11 @@ namespace Balder.Tests.Silverlight.Input
 		[Test, SilverlightUnitTest]
 		public void MouseHoveringOverAndThenNotOverShouldFireMouseLeaveEvent()
 		{
-			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
-			game.Scene = scene;
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
 			viewport.NodeToReturn = geometry;
@@ -145,12 +151,11 @@ namespace Balder.Tests.Silverlight.Input
 		[Test, SilverlightUnitTest]
 		public void MouseNotHoveringOverAnythingShouldNotFireAnyEvents()
 		{
-			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
-			game.Scene = scene;
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
 
@@ -173,12 +178,11 @@ namespace Balder.Tests.Silverlight.Input
 		[Test, SilverlightUnitTest]
 		public void MouseEnteringAndLeavingAndThenEnteringShouldFireMouseEnter()
 		{
-			var runtimeContextMock = new Mock<IRuntimeContext>();
-			var nodeRenderingServiceMock = new Mock<INodeRenderingService>();
-			var game = new Game(runtimeContextMock.Object, nodeRenderingServiceMock.Object);
-			var scene = new Scene(nodeRenderingServiceMock.Object);
-			var viewport = new FakeViewport(runtimeContextMock.Object) { Scene = scene };
-			game.Scene = scene;
+			Game game;
+			Scene scene;
+			FakeViewport viewport;
+
+			CreateMocks(out game, out scene, out viewport);
 			var geometry = new Geometry();
 			scene.AddNode(geometry);
 			viewport.NodeToReturn = geometry;

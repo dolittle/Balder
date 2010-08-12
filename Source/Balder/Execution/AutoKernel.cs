@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using Ninject;
 using Ninject.Activation;
-using Ninject.Activation.Providers;
 using Ninject.Modules;
 using Ninject.Planning.Bindings;
 
@@ -32,7 +31,7 @@ namespace Balder.Execution
 	/// </summary>
 	/// <param name="context">Binding context to resolve in</param>
 	/// <returns>The resolved binding - null if it didn't solve it</returns>
-	public delegate IBinding BindingResolver(IContext context);
+	public delegate bool BindingResolver(IRequest context);
 
 	/// <summary>
 	/// Represents the method that will handle resolving a binding with type information
@@ -40,7 +39,7 @@ namespace Balder.Execution
 	/// <param name="type">Type to resolve</param>
 	/// <param name="context">Binding context to resolve in</param>
 	/// <returns>The resolved binding - null if it didn't solve it</returns>
-	public delegate IBinding GenericBindingResolver(Type type, IContext context);
+	public delegate bool GenericBindingResolver(Type type, IRequest context);
 
 
 	/// <summary>
@@ -69,7 +68,7 @@ namespace Balder.Execution
 		/// <param name="resolver"><see cref="BindingResolver"/> to use for resolving specific type</param>
 		public void AddBindingResolver<T>(BindingResolver resolver)
 		{
-			_bindingResolvers[typeof (T)] = resolver;
+			_bindingResolvers[typeof(T)] = resolver;
 		}
 
 		/// <summary>
@@ -85,27 +84,28 @@ namespace Balder.Execution
 		public override IEnumerable<object> Resolve(IRequest request)
 		{
 			var service = request.Service;
-			var context = request.ParentContext;
 
-			IBinding binding = null;
+			var resolved = false;
 			foreach (var resolver in _genericBindingResolvers)
 			{
-				binding = resolver(service, context);
-				if (null != binding)
+				if (resolver(service, request))
 				{
+					resolved = true;
 					break;
 				}
 			}
 
-			if (null == binding)
+			if (!resolved)
 			{
-				if( !base.CanResolve(request) )
+				if (!base.CanResolve(request))
 				{
 					if (_bindingResolvers.ContainsKey(service))
 					{
-						binding = _bindingResolvers[service](context);
+						resolved = _bindingResolvers[service](request);
 					}
-					else
+
+
+					if (!resolved)
 					{
 						var serviceName = service.Name;
 						if (serviceName.StartsWith("I"))
@@ -119,13 +119,14 @@ namespace Balder.Execution
 									return null;
 								}
 
-								var attributes = serviceInstanceType.GetCustomAttributes(typeof (SingletonAttribute), false);
-								if( attributes.Length == 1 )
+								var attributes = serviceInstanceType.GetCustomAttributes(typeof(SingletonAttribute), false);
+								if (attributes.Length == 1)
 								{
-									Bind(service).To(serviceInstanceType).InSingletonScope();	
-								} else
+									Bind(service).To(serviceInstanceType).InSingletonScope();
+								}
+								else
 								{
-									Bind(service).To(serviceInstanceType);	
+									Bind(service).To(serviceInstanceType);
 								}
 							}
 						}

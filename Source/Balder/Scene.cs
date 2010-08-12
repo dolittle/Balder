@@ -45,8 +45,9 @@ namespace Balder
 #endif
 	{
 		public static int NodeCount = 0;
-
+		private readonly IRuntimeContext _runtimeContext;
 		private readonly INodeRenderingService _nodeRenderingService;
+
 		private readonly NodeCollection _renderableNodes;
 		private readonly NodeCollection _flatNodes;
 		private readonly NodeCollection _environmentalNodes;
@@ -63,7 +64,8 @@ namespace Balder
 		/// Construct a scene
 		/// </summary>
 		public Scene()
-			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
+			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>(),
+			Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 			IsPaused = false;
 		}
@@ -72,9 +74,11 @@ namespace Balder
 		/// <summary>
 		/// Construct a scene - specifying the rendering service
 		/// </summary>
+		/// <param name="runtimeContext">RuntimeContext that the Scene belongs to</param>
 		/// <param name="nodeRenderingService">NodeRenderingService to use</param>
-		public Scene(INodeRenderingService nodeRenderingService)
+		public Scene(IRuntimeContext runtimeContext, INodeRenderingService nodeRenderingService)
 		{
+			_runtimeContext = runtimeContext;
 			_nodeRenderingService = nodeRenderingService;
 			_renderableNodes = new NodeCollection(this);
 			_flatNodes = new NodeCollection(this);
@@ -129,7 +133,7 @@ namespace Balder
 				_allNodes.Add(node);
 			}
 
-			Messenger.DefaultContext.Send(_renderSignal);
+			_runtimeContext.MessengerContext.Send(_renderSignal);
 		}
 
 
@@ -230,9 +234,9 @@ namespace Balder
 			{
 				lock(_allNodes)
 				{
-					_nodeRenderingService.PrepareForRendering(viewport, _allNodes);	
+					_nodeRenderingService.PrepareForRendering(viewport, _allNodes);
 				}
-				
+
 				_nodeRenderingService.Render(viewport, _renderableNodes);
 			}
 		}

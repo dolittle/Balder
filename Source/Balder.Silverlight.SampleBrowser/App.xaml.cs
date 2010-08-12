@@ -26,15 +26,15 @@ namespace Balder.Silverlight.SampleBrowser
 			Kernel = autoKernel;
 		}
 
-		private static IBinding ResolveViewModel(Type type, IContext context)
+		private static bool ResolveViewModel(Type type, IRequest request)
 		{
 			if( type.Name.Equals("ViewModel"))
 			{
 				var proxy = Weaver.GetProxyType(type);
-				var binding = context.Kernel.Bind(type).To(proxy).Binding;
-				return binding;
+				request.ParentContext.Kernel.Bind(type).To(proxy);
+				return true;
 			}
-			return null;
+			return false;
 		}
 
 		public App()

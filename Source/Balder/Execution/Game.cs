@@ -20,7 +20,6 @@
 using System;
 using Balder.Debug;
 using Balder.Display;
-using Balder.Math;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
@@ -47,7 +46,6 @@ namespace Balder.Execution
 		public event GameEventHandler LoadContent = (s) => { };
 
 #if(SILVERLIGHT)
-		private IDisplay _display;
 		private bool _loaded = false;
 		private NodeMouseEventHelper _nodeMouseEventHelper;
 #endif
@@ -56,28 +54,28 @@ namespace Balder.Execution
 		public Game()
 			: this(
 				Runtime.Instance.Kernel.Get<IRuntimeContext>(),
-				Runtime.Instance.Kernel.Get<INodeRenderingService>()
+			Runtime.Instance.Kernel.Get<INodeRenderingService>()
 			)
 		{
 		}
 #endif
 
-		public Game(IRuntimeContext runtimeContext, INodeRenderingService renderingService)
+		public Game(IRuntimeContext runtimeContext, INodeRenderingService nodeRenderingService)
 		{
 			RuntimeContext = runtimeContext;
-			Viewport = new Viewport(runtimeContext) { Width = 800, Height = 600 };
-			Scene = new Scene(renderingService);
-			Camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
+			Viewport = new Viewport(runtimeContext); 
+			Scene = new Scene(runtimeContext, nodeRenderingService);
+			Camera = new Camera();
 			Constructed();
 			PassiveRenderingMode = PassiveRenderingMode.FullDetail;
 
 			PassiveRendering = Runtime.Instance.Platform.IsInDesignMode;
-			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
+			runtimeContext.MessengerContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
 		}
 
 		public void Uninitialize()
 		{
-			Messenger.DefaultContext.SubscriptionsFor<UpdateMessage>().RemoveListener(this, UpdateAction);
+			RuntimeContext.MessengerContext.SubscriptionsFor<UpdateMessage>().RemoveListener(this, UpdateAction);
 		}
 
 		private void Constructed()
@@ -119,13 +117,12 @@ namespace Balder.Execution
 
 		private void RegisterGame()
 		{
-			_display = Runtime.Instance.Platform.DisplayDevice.CreateDisplay();
-			_display.Initialize((int)Width, (int)Height);
-			Runtime.Instance.RegisterGame(_display, this);
-			_display.InitializeContainer(this);
+			RuntimeContext.Display.Initialize((int)Width,(int)Height);
+			Runtime.Instance.RegisterGame(RuntimeContext.Display, this);
+			RuntimeContext.Display.InitializeContainer(this);
 			if( null != Skybox )
 			{
-				_display.InitializeSkybox(Skybox);
+				RuntimeContext.Display.InitializeSkybox(Skybox);
 			}
 		}
 
@@ -205,10 +202,7 @@ namespace Balder.Execution
 			set
 			{
 				Viewport.Skybox = value;
-				if (null != _display)
-				{
-					_display.InitializeSkybox(value);
-				}
+				RuntimeContext.Display.InitializeSkybox(value);
 			}
 		}
 
@@ -225,7 +219,7 @@ namespace Balder.Execution
 			set
 			{
 				_passiveRendering = value;
-				RuntimeContext.PassiveRendering = true;
+				RuntimeContext.PassiveRendering = value;
 			}
 		}
 

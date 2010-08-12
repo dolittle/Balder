@@ -16,6 +16,9 @@
 // limitations under the License.
 //
 #endregion
+
+using Balder.Rendering;
+
 namespace Balder.Display
 {
 	/// <summary>
@@ -27,7 +30,7 @@ namespace Balder.Display
 		/// Create a display from the display device
 		/// </summary>
 		/// <returns>Created display</returns>
-		IDisplay CreateDisplay();
+		IDisplay CreateDisplay(IRuntimeContext runtimeContext);
 
 		/// <summary>
 		/// Remove a created display

@@ -19,6 +19,7 @@
 
 #endregion
 
+using Balder.Display;
 using Balder.Execution;
 
 namespace Balder.Rendering
@@ -26,6 +27,15 @@ namespace Balder.Rendering
 	[Singleton]
 	public class RuntimeContext : IRuntimeContext
 	{
+		public RuntimeContext(IDisplayDevice displayDevice, IMessengerContext messengerContext)
+		{
+			MessengerContext = messengerContext;
+			Display = displayDevice.CreateDisplay(this);
+		}
+
+		public IMessengerContext MessengerContext { get; private set; }
+		public IDisplay Display { get; private set; }
+
 		private bool _passiveRendering;
 		public bool PassiveRendering
 		{
@@ -41,7 +51,6 @@ namespace Balder.Rendering
 		}
 
 		public PassiveRenderingMode PassiveRenderingMode { get; set; }
-
 		public bool Paused { get; set; }
 	}
 }

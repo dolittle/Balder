@@ -1,4 +1,5 @@
 ﻿#region License
+
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -15,19 +16,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
+
 #endregion
-#if(SILVERLIGHT)
-using System;
-
-namespace Balder.Rendering.Silverlight
+namespace Balder.Execution
 {
-	public class BufferContainer
+	public interface IMessengerContext
 	{
-		public static int[] Framebuffer { get; set; }
-		public static UInt32[] DepthBuffer { get; set; }
-
-		public static int Width { get; set; }
-		public static int Height { get; set; }
+		MessageSubscriptions<T> SubscriptionsFor<T>();
+		void Send<T>(T message);
 	}
 }
-#endif

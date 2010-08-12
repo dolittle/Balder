@@ -61,7 +61,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				return;
 			}
-			var bufferSize = BufferContainer.Stride * BufferContainer.Height;
+			var bufferSize = BufferContainer.Width * BufferContainer.Height;
 			var bufferZ = (UInt32)((1.0f - _vertex.ProjectedVector.Z) * (float)UInt32.MaxValue);
 
 			var xOriginOffset = (int)-((sprite.CurrentFrame.Width / 2f) * xScale);
@@ -70,7 +70,7 @@ namespace Balder.Rendering.Silverlight
 			var actualX = ((int)_vertex.ProjectedVector.X) + xOriginOffset;
 			var actualY = ((int)_vertex.ProjectedVector.Y) + yOriginOffset;
 
-			var positionOffset = actualX + (actualY * BufferContainer.Stride);
+			var positionOffset = actualX + (actualY * BufferContainer.Width);
 
 			if (xScale != 1f || yScale != 1f)
 			{
@@ -108,7 +108,7 @@ namespace Balder.Rendering.Silverlight
 
 				if (currentY >= 0)
 				{
-					var offset = y*BufferContainer.Stride;
+					var offset = y*BufferContainer.Width;
 					var currentX = actualX;
 
 					for (var x = 0; x < image.Width; x++)
@@ -183,7 +183,7 @@ namespace Balder.Rendering.Silverlight
 				if (currentY >= 0)
 				{
 					var currentX = actualX;
-					var offset = y*BufferContainer.Stride;
+					var offset = y*BufferContainer.Width;
 
 					var spriteY = (int) YScalingInterpolator.Points[0].InterpolatedValues[y];
 

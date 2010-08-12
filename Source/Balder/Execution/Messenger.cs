@@ -26,7 +26,7 @@ namespace Balder.Execution
 	/// <summary>
 	/// Handles decoupled messaging
 	/// </summary>
-	public class Messenger
+	public class Messenger : IMessenger
 	{
 		private static readonly Dictionary<object, MessengerContext> Contexts;
 
@@ -40,7 +40,7 @@ namespace Balder.Execution
 		/// <summary>
 		/// Gets the default messenger context
 		/// </summary>
-		public static MessengerContext DefaultContext { get; private set; }
+		public static IMessengerContext DefaultContext { get; private set; }
 
 
 		/// <summary>

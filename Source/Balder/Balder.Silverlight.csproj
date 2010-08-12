@@ -116,6 +116,8 @@
     <Compile Include="Display\Silverlight\DisplayDevice.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
+    <Compile Include="Execution\IMessenger.cs" />
+    <Compile Include="Execution\IMessengerContext.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\Silverlight\Platform.cs" />
