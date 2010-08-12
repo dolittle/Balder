@@ -37,7 +37,7 @@ namespace Balder.Execution
 {
 	public delegate void GameEventHandler(Game game);
 
-	public class Game : Actor
+	public class Game : Actor, IHaveRuntimeContext
 	{
 		public IRuntimeContext RuntimeContext { get; private set; }
 

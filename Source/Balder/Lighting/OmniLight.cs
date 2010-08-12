@@ -41,7 +41,6 @@ namespace Balder.Lighting
 		/// <summary>
 		/// Creates an instance of OmniLight
 		/// </summary>
-		/// <param name="identityManager">Identitymanager to use for the light</param>
 		public OmniLight()
 		{
 			Strength = 1f;
@@ -60,49 +59,46 @@ namespace Balder.Lighting
 
 		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-			var actualAmbient = Ambient+material.Ambient;
-			var actualDiffuse = Diffuse+material.Diffuse;
+			var actualAmbient = Ambient + material.ActualAmbient;
+			var actualDiffuse = Diffuse + material.ActualDiffuse;
 			var actualSpecular = material.Specular;
 
 			var strengthAsFloat = (float)Strength;
 
-            // Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
-            // Ambient light
-            var ambient = actualAmbient  * strengthAsFloat;
+			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
+			// Ambient light
+			var ambient = actualAmbient * strengthAsFloat;
 
-            // Diffuse light
-            var lightDir = _position-point;
-            lightDir.Normalize();
-            normal.Normalize();
-            var dfDot = lightDir.Dot(normal);
-            dfDot = MathHelper.Saturate(dfDot);
+			// Diffuse light
+			var lightDir = _position - point;
+			lightDir.Normalize();
+			normal.Normalize();
+			var dfDot = lightDir.Dot(normal);
+			dfDot = MathHelper.Saturate(dfDot);
 			var diffuse = actualDiffuse * dfDot * strengthAsFloat;
 
-            // Specular highlight
-            var reflection = 2f * dfDot * normal - lightDir;
-            reflection.Normalize();
-            var view = _viewPosition - point;
-            view.Normalize();
-            var spDot = reflection.Dot(view);
-            spDot = MathHelper.Saturate(spDot);
+			// Specular highlight
+			var reflection = 2f * dfDot * normal - lightDir;
+			reflection.Normalize();
+			var view = _viewPosition - point;
+			view.Normalize();
+			var spDot = reflection.Dot(view);
+			spDot = MathHelper.Saturate(spDot);
 			var specular = actualSpecular * spDot * strengthAsFloat;
 
-            // Compute self shadowing
-            var shadow = 4.0f * lightDir.Dot(normal);
-            shadow = MathHelper.Saturate(shadow);
+			// Compute self shadowing
+			var shadow = 4.0f * lightDir.Dot(normal);
+			shadow = MathHelper.Saturate(shadow);
 
-            // Compute range for the light
-            var attenuation = ((lightDir / Range).Dot(lightDir / Range));
-            attenuation = MathHelper.Saturate(attenuation);
-            attenuation = 1f - attenuation;
+			// Compute range for the light
+			var attenuation = ((lightDir / Range).Dot(lightDir / Range));
+			attenuation = MathHelper.Saturate(attenuation);
+			attenuation = 1f - attenuation;
 
-            // Final result
-			var colorVector = (ambient  + (shadow * diffuse) + specular) * attenuation;
-				//material.Diffuse*diffuse + material.Specular*specular;
-				//ambient + (shadow * diffuse + specular) * attenuation;
+			// Final result
+			var colorVector = (ambient + (shadow * diffuse) + specular) * attenuation;
 
 			return colorVector;
 		}
-
 	}
 }

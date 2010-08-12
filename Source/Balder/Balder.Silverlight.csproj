@@ -112,6 +112,8 @@
     <Compile Include="Controls\NodesStack.cs" />
     <Compile Include="Converters\StringToTypeConverter.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Diagnostics\IStopwatch.cs" />
+    <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Display\Silverlight\Display.cs" />
     <Compile Include="Display\Silverlight\DisplayDevice.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
@@ -123,6 +125,7 @@
     <Compile Include="Execution\Silverlight\Platform.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Execution\IHaveRuntimeContext.cs" />
     <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
     <Compile Include="Input\ManipulationDirection.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />
@@ -143,6 +146,7 @@
     <Compile Include="MVVM\DelegateCommand.cs" />
     <Compile Include="MVVM\ICanBeEnabled.cs" />
     <Compile Include="MVVM\ICanExecuteCommand.cs" />
+    <Compile Include="NodeStatistics.cs" />
     <Compile Include="Notification\Dispatcher.cs" />
     <Compile Include="Notification\DispatcherManager.cs" />
     <Compile Include="Notification\IDispatcher.cs" />
@@ -154,6 +158,7 @@
     <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
     <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
     <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
+    <Compile Include="Objects\Geometries\GeometryStatistics.cs" />
     <Compile Include="Objects\Geometries\Normal.cs" />
     <Compile Include="Objects\ISkyboxContext.cs" />
     <Compile Include="Objects\Skybox.cs" />

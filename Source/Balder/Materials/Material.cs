@@ -71,9 +71,13 @@ namespace Balder.Materials
 			DiffuseMapOpacity = 1f;
 			ReflectionMapOpacity = 1f;
 			MagnificationFiltering = MaterialFiltering.None;
+#if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
+#endif
 		}
 
+		internal Color ActualAmbient;
+		internal Color ActualDiffuse;
 
 		public bool LinkAmbientAndDiffuse { get; set; }
 
@@ -96,6 +100,7 @@ namespace Balder.Materials
 					Diffuse = value;
 				}
 				AmbientProperty.SetValue(this, value);
+				UpdateColors();
 			}
 		}
 
@@ -119,6 +124,7 @@ namespace Balder.Materials
 					Ambient = value;
 				}
 				DiffuseProperty.SetValue(this, value);
+				UpdateColors();
 			}
 		}
 
@@ -245,6 +251,7 @@ namespace Balder.Materials
 #if(SILVERLIGHT)
 				MaterialPropertiesChanged();
 #endif
+				UpdateColors();
 			}
 		}
 
@@ -284,9 +291,46 @@ namespace Balder.Materials
 #if(SILVERLIGHT)
 				MaterialPropertiesChanged();
 #endif
+				UpdateColors();
 			}
 		}
 
+
+		private void UpdateColors()
+		{
+			ActualAmbient = GetActualColor(Ambient);
+			ActualDiffuse = GetActualColor(Diffuse);
+		}
+
+		private Color GetActualColor(Color color)
+		{
+			Color actualColor;
+			if (null != DiffuseMap)
+			{
+				if (null != ReflectionMap)
+				{
+					actualColor = color * (1f - DiffuseMapOpacity) * (1f - ReflectionMapOpacity);
+				}
+				else
+				{
+					actualColor = color * (1f - DiffuseMapOpacity);
+				}
+			}
+			else
+			{
+				if (null != ReflectionMap)
+				{
+					actualColor = color * (1f - ReflectionMapOpacity);
+				}
+				else
+				{
+					actualColor = color;
+				}
+			}
+
+			return actualColor;
+
+		}
 
 #if(SILVERLIGHT)
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
@@ -303,8 +347,8 @@ namespace Balder.Materials
 
 		private void MaterialPropertiesChanged()
 		{
+			UpdateColors();
 			SetRenderer();
-
 		}
 
 

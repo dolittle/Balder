@@ -91,6 +91,8 @@
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Diagnostics\IStopwatch.cs" />
+    <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
     <Compile Include="Display\IDisplay.cs" />
     <Compile Include="Display\IDisplayDevice.cs" />
@@ -114,9 +116,9 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
-    <Compile Include="Execution\IdentityManager.cs" />
-    <Compile Include="Execution\IHaveIdentity.cs" />
-    <Compile Include="Execution\IIdentityManager.cs" />
+    <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="Execution\IMessenger.cs" />
+    <Compile Include="Execution\IMessengerContext.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
@@ -168,6 +170,7 @@
     <Compile Include="Materials\IMap.cs" />
     <Compile Include="Materials\IMaterialCalculator.cs" />
     <Compile Include="Materials\Material.cs" />
+    <Compile Include="Materials\MaterialFiltering.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
     <Compile Include="Math\BoundingBox.cs" />
     <Compile Include="Math\BoundingSphere.cs" />
@@ -189,6 +192,7 @@
     <Compile Include="NodeClonePropertyInfo.cs" />
     <Compile Include="NodeCloner.cs" />
     <Compile Include="NodeExtensions.cs" />
+    <Compile Include="NodeStatistics.cs" />
     <Compile Include="Objects\Flat\ISpriteContext.cs" />
     <Compile Include="Objects\Flat\Sprite.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
@@ -196,9 +200,12 @@
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Objects\Geometries\Cylinder.cs" />
     <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
+    <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
     <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
     <Compile Include="Objects\Geometries\Geometry.cs" />
     <Compile Include="Objects\Geometries\GeometryHelper.cs" />
+    <Compile Include="Objects\Geometries\GeometryStatistics.cs" />
     <Compile Include="Objects\Geometries\Heightmap.cs" />
     <Compile Include="Objects\Geometries\HeightmapEventArgs.cs" />
     <Compile Include="Objects\Geometries\IGeometryContext.cs" />
@@ -206,6 +213,7 @@
     <Compile Include="Objects\Geometries\Line.cs" />
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Objects\Geometries\Mesh.cs" />
+    <Compile Include="Objects\Geometries\Normal.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />

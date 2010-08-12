@@ -41,6 +41,12 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+
+		public NodeStatistics Statistics
+		{
+			get { throw new NotImplementedException(); }
+		}
+
 		public BoundingSphere BoundingSphere { get; set; }
 
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
@@ -62,6 +68,12 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+
+		public NodeStatistics Statistics
+		{
+			get { throw new NotImplementedException(); }
+		}
+
 		public BoundingSphere BoundingSphere { get; set; }
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
@@ -83,6 +95,12 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+
+		public NodeStatistics Statistics
+		{
+			get { throw new NotImplementedException(); }
+		}
+
 		public BoundingSphere BoundingSphere { get; set; }
 		public void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{

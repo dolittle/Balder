@@ -180,7 +180,8 @@ namespace Balder.Display.Silverlight
 
 		private bool ShouldClear()
 		{
-			return (_initialized && ClearEnabled && !Paused || _forceClear) && !Halted;
+			var shouldClear = (_initialized && ClearEnabled && !Paused || _forceClear) && !Halted;
+			return shouldClear;
 		}
 
 		public void AfterRender()
@@ -212,7 +213,8 @@ namespace Balder.Display.Silverlight
 
 		public void Clear()
 		{
-			if (ShouldClear())
+			var shouldClear = ShouldClear();
+			if (shouldClear)
 			{
 				var clearBitmap = _bitmapQueue.CurrentRenderBitmap;
 				if (null != clearBitmap)

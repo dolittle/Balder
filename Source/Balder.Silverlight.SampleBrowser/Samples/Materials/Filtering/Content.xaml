@@ -49,7 +49,33 @@
 			</Geometries:Box>
 		</Execution:Game>
 
-		<TextBlock x:Name="Time" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+		<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Grid x:Name="InfoGrid" DataContext="{Binding ElementName=Box, Path=Statistics}">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200"/>
+					<ColumnDefinition Width="100"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+				</Grid.RowDefinitions>
+
+				
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="Total Node time"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding TimeSpentInNode}"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Time spent in vertices"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding TimeSpentInVertices}"/>
+				<TextBlock Grid.Column="0" Grid.Row="2" Text="Time spent in lighting"/>
+				<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding TimeSpentInLighting}"/>
+				<TextBlock Grid.Column="0" Grid.Row="3" Text="Time spent in rendering"/>
+				<TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding TimeSpentInRendering}"/>
+				<TextBlock Grid.Column="0" Grid.Row="4" Text="Rendered Faces"/>
+				<TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding RenderedFaces}"/>
+			</Grid>
+		</Border>
 
 
 	</Grid>

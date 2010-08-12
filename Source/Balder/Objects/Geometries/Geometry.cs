@@ -69,6 +69,11 @@ namespace Balder.Objects.Geometries
 			InitializeProperties();
 		}
 
+		protected override NodeStatistics GetStatisticsObject()
+		{
+			return new GeometryStatistics();
+		}
+
 		private void InitializeProperties()
 		{
 			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);

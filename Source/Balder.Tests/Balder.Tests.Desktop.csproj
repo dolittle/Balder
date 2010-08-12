@@ -74,7 +74,6 @@
     <Compile Include="Content\ContentManagerTests.cs" />
     <Compile Include="Display\ViewportTests.cs" />
     <Compile Include="Execution\BubbledEventTests.cs" />
-    <Compile Include="Execution\IdentityManagerTests.cs" />
     <Compile Include="Execution\MessengerContextTests.cs" />
     <Compile Include="Execution\MessengerSubscriptionTests.cs" />
     <Compile Include="Execution\MessengerTests.cs" />

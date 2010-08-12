@@ -19,13 +19,15 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Reflection;
-using Balder.Rendering;
 using Balder.Extensions;
+using Balder.Rendering;
+
 #if(SILVERLIGHT)
 using System.Windows;
-using Balder.Extensions.Silverlight;
+
 #endif
 
 namespace Balder.Execution
@@ -34,7 +36,7 @@ namespace Balder.Execution
 #if(SILVERLIGHT)
 		where T:DependencyObject
 #endif
-	{
+    {
 		private readonly bool _canNotify;
 		private readonly PropertyInfo _propertyInfo;
 		private readonly Dictionary<object, ObjectProperty<TP>> _objectPropertyBag;
@@ -42,6 +44,7 @@ namespace Balder.Execution
 		private readonly TP _defaultValue;
 		private readonly Type _ownerType;
 		private readonly bool _isValueType;
+    	private readonly List<object> _childProperties;
 
 		private Property(Expression<Func<T, TP>> expression, TP defaultValue)
 		{
@@ -51,6 +54,8 @@ namespace Balder.Execution
 			_propertyInfo = expression.GetPropertyInfo();
 			_defaultValue = defaultValue;
 			_isValueType = typeof(TP).IsValueType;
+			_childProperties = new List<object>();
+			PopulateChildProperties();
 
 			Initialize();
 			
@@ -60,6 +65,20 @@ namespace Balder.Execution
 			} else
 			{
 				_canNotify = false;
+			}
+		}
+
+		private void PopulateChildProperties()
+		{
+			var type = typeof (TP);
+			var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
+			var query = from p in fields
+						where p.Name.StartsWith("Property") || p.FieldType.IsGenericType
+			            select p;
+			foreach( var field in query )
+			{
+				var property = field.GetValue(null);
+				_childProperties.Add(property);
 			}
 		}
 
@@ -104,16 +123,73 @@ namespace Balder.Execution
 		{
 			var property = new Property<T, TP>(expression, defaultValue);
 			return property;
-			
+		}
+
+		public void SetRuntimeContext(T obj, IRuntimeContext runtimeContext)
+		{
+			var objectProperty = GetObjectProperty(obj);
+			if( null != objectProperty.RuntimeContext)
+			{
+				return;
+			}
+			objectProperty.RuntimeContext = runtimeContext;
+		}
+
+		private void SetRuntimeContextOnChildren(TP obj, IRuntimeContext runtimeContext)
+		{
+			foreach( var childProperty in _childProperties )
+			{
+				var method = childProperty.GetType().GetMethod("SetRuntimeContext");
+				if( null != method )
+				{
+					method.Invoke(childProperty, new object[] {obj, runtimeContext});
+				}
+			}
 		}
 
 		public void SetValue(T obj, TP value)
 		{
 			var objectProperty = GetObjectProperty(obj);
+
+			if (null == objectProperty.RuntimeContext && obj is IHaveRuntimeContext)
+			{
+				var runtimeContext = ((IHaveRuntimeContext)obj).RuntimeContext;
+#if(SILVERLIGHT)
+				if (null == runtimeContext && obj is FrameworkElement)
+				{
+					var frameworkElement = obj as FrameworkElement;
+					frameworkElement.Loaded += (s, e) =>
+					                                   	{
+					                                   		runtimeContext = ((IHaveRuntimeContext) obj).RuntimeContext;
+					                                   		SetRuntimeContext(obj, runtimeContext);
+															if (null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet)
+															{
+																SetRuntimeContextOnChildren(value, objectProperty.RuntimeContext);
+																objectProperty.ChildrenRuntimeContextSet = true;
+															}
+														};
+				}
+#endif
+
+				if (null != runtimeContext)
+				{
+					SetRuntimeContext(obj, runtimeContext);
+				}
+
+			}
+
+			if( null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet )
+			{
+				SetRuntimeContextOnChildren(value, objectProperty.RuntimeContext);
+				objectProperty.ChildrenRuntimeContextSet = true;
+			}
+
+			objectProperty.SignalRendering();
 			if (objectProperty.CallFromExternal)
 			{
 				return;
 			}
+
 
 			objectProperty.CallFromProperty = true;
 			if ( objectProperty.DoesValueCauseChange(value))
@@ -126,16 +202,13 @@ namespace Balder.Execution
 			objectProperty.CallFromProperty = false;
 		}
 
-		private readonly PassiveRenderingSignal _renderSignal = new PassiveRenderingSignal();
 
 		private void HandleNotification(T obj, TP newValue, TP oldValue)
 		{
 			if( _canNotify )
 			{
 				((ICanNotifyChanges)obj).Notify(_propertyInfo.Name,oldValue,newValue);
-				
 			}
-			Messenger.DefaultContext.Send(_renderSignal);
 		}
 
 		public TP GetValue(T obj)

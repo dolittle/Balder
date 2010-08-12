@@ -17,8 +17,9 @@
 //
 #endregion
 #if(SILVERLIGHT)
-using Balder.Objects;
+
 #endif
+using Balder.Objects;
 
 namespace Balder.Display
 {

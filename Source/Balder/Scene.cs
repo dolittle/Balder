@@ -45,7 +45,7 @@ namespace Balder
 #endif
 	{
 		public static int NodeCount = 0;
-		private readonly IRuntimeContext _runtimeContext;
+		
 		private readonly INodeRenderingService _nodeRenderingService;
 
 		private readonly NodeCollection _renderableNodes;
@@ -78,7 +78,7 @@ namespace Balder
 		/// <param name="nodeRenderingService">NodeRenderingService to use</param>
 		public Scene(IRuntimeContext runtimeContext, INodeRenderingService nodeRenderingService)
 		{
-			_runtimeContext = runtimeContext;
+			RuntimeContext = runtimeContext;
 			_nodeRenderingService = nodeRenderingService;
 			_renderableNodes = new NodeCollection(this);
 			_flatNodes = new NodeCollection(this);
@@ -90,7 +90,7 @@ namespace Balder
 			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
 		}
 
-		private readonly PassiveRenderingSignal _renderSignal = new PassiveRenderingSignal();
+		public IRuntimeContext RuntimeContext { get; private set; }
 
 		/// <summary>
 		/// Add a node to the scene
@@ -133,7 +133,7 @@ namespace Balder
 				_allNodes.Add(node);
 			}
 
-			_runtimeContext.MessengerContext.Send(_renderSignal);
+			RuntimeContext.SignalRendering();
 		}
 
 

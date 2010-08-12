@@ -10,5 +10,6 @@ namespace Balder.Rendering
 		PassiveRenderingMode PassiveRenderingMode { get; set; }
 		bool Paused { get; set; }
 		IMessengerContext MessengerContext { get; }
+		void SignalRendering();
 	}
 }

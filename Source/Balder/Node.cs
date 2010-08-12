@@ -18,8 +18,10 @@
 #endregion
 using System;
 using System.ComponentModel;
+using System.Windows.Media;
 using Balder.Display;
 using Balder.Execution;
+
 using Balder.Input;
 using Balder.Math;
 using Balder.Rendering;
@@ -36,6 +38,7 @@ using System.Windows;
 using System.Windows.Input;
 using Balder.Silverlight.Helpers;
 using Balder.Silverlight.TypeConverters;
+using Balder.Extensions.Silverlight;
 #endif
 
 namespace Balder
@@ -44,13 +47,16 @@ namespace Balder
 	/// Abstract class representing a node in a scene
 	/// </summary>
 #if(SILVERLIGHT)
-	public abstract class Node : ItemsControl,
+	public abstract class Node : ItemsControl, INotifyPropertyChanged,
 #else
 	public abstract partial class Node :
 #endif
-		INode, ICanBeCloned, ICanPrepare
+		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
 
 	{
+#if(SILVERLIGHT)
+		public event PropertyChangedEventHandler  PropertyChanged;
+#endif
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
 #if(SILVERLIGHT)
@@ -112,7 +118,6 @@ namespace Balder
 		{
 			InteractionEnabled = false;
 			ManipulationDelta += NodeManipulationDelta;
-			
 		}
 
 		void NodeManipulationDelta(object sender, ManipulationDeltaEventArgs args)
@@ -126,6 +131,24 @@ namespace Balder
 		}
 
 		public bool InteractionEnabled { get; set; }
+		private NodeStatistics _statistics;
+		public NodeStatistics Statistics
+		{
+			get { return _statistics; }
+			private set
+			{
+				_statistics = value;
+#if(SILVERLIGHT)
+				PropertyChanged.Notify(() => Statistics);
+#endif
+			}
+		}
+
+		protected virtual NodeStatistics GetStatisticsObject()
+		{
+			return new NodeStatistics();
+		}
+
 
 		private void Construct()
 		{
@@ -382,7 +405,19 @@ namespace Balder
 		public Matrix World
 		{
 			get { return _world; }
-			set { _world = value; }
+			set
+			{
+				_world = value;
+				SignalRendering();
+			}
+		}
+
+		protected void SignalRendering()
+		{
+			if( null != Scene )
+			{
+				Scene.RuntimeContext.SignalRendering();
+			}
 		}
 
 #if(SILVERLIGHT)
@@ -497,6 +532,7 @@ namespace Balder
 				return;
 			}
 
+			Statistics = GetStatisticsObject();
 			Initialize();
 			_isInitialized = true;
 		}
@@ -529,5 +565,24 @@ namespace Balder
 			Prepare(viewport);
 		}
 		#endregion
+
+		public IRuntimeContext RuntimeContext
+		{
+			get
+			{
+				if( null != Scene )
+				{
+					return Scene.RuntimeContext;
+				} else
+				{
+					var parent = VisualTreeHelper.GetParent(this);
+					if( parent is IHaveRuntimeContext )
+					{
+						return ((IHaveRuntimeContext) parent).RuntimeContext;
+					}
+				}
+				return null;
+			}
+		}
 	}
 }

@@ -3,7 +3,7 @@ using System;
 namespace Balder.Diagnostics
 {
 	// Based upon Tiaan Gelenhuys Stopwatch : http://blog.tiaan.com/link/2009/02/03/stopwatch-silverlight
-	public class Stopwatch
+	public class Stopwatch : IStopwatch
 	{
 		public static readonly bool IsHighResolution = false;
 		public static readonly long Frequency = TimeSpan.TicksPerSecond;

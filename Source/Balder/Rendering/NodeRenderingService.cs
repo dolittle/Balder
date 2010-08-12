@@ -63,10 +63,10 @@ namespace Balder.Rendering
 		{
 			if( _runtimeContext.PassiveRendering && !_render )
 			{
-				viewport.Display.Paused = true;
+				_runtimeContext.Display.Paused = true;
 			} else
 			{
-				viewport.Display.Paused = false;
+				_runtimeContext.Display.Paused = false;
 			}
 
 			if (_render)
@@ -170,10 +170,15 @@ namespace Balder.Rendering
 
 			if (node is ICanRender)
 			{
+				node.Statistics.BeginNodeTiming();
 				((ICanRender) node).Render(viewport, detailLevel);
+				node.Statistics.EndNodeTiming();
 				((ICanRender)node).RenderDebugInfo(viewport, detailLevel);
 			}
+
+			node.Statistics.BeginChildrenTiming();
 			RenderChildren(node, viewport, detailLevel);
+			node.Statistics.EndNodeTiming();
 		}
 
 

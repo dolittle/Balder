@@ -20,6 +20,7 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Media;
 using Balder.Extensions.Silverlight;
 using Balder.Silverlight.TypeConverters;
 #endif

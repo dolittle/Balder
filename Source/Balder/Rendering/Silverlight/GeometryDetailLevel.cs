@@ -31,8 +31,6 @@ namespace Balder.Rendering.Silverlight
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
-		public static long Milliseconds;
-
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
 		private readonly ITextureManager _textureManager;
@@ -274,17 +272,9 @@ namespace Balder.Rendering.Silverlight
 			Render(viewport, node, view, projection, world, true);
 		}
 
-		private static Stopwatch Stopwatch = Stopwatch.StartNew();
-
-		static GeometryDetailLevel()
-		{
-			Stopwatch.Start();
-		}
 
 		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world, bool depthTest)
 		{
-			var before = Stopwatch.ElapsedMilliseconds;
-
 			if (null == _vertices)
 			{
 				return;
@@ -296,18 +286,26 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var color = GetColorFromNode(node);
+
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+
+			geometryStatistics.BeginVerticesTiming();
 			CalculateVertices(viewport, view, projection, world);
+			geometryStatistics.EndVerticesTiming();
+
+			geometryStatistics.BeginLightingTiming();
 			CalculateNormals(viewport, view, projection, world);
-			RenderFaces(node, viewport, view, world, depthTest);
-			RenderLines(viewport, color);
+			geometryStatistics.EndLightingTiming();
+
+			geometryStatistics.BeginRenderingTiming();
+			geometryStatistics.RenderedFaces = RenderFaces(node, viewport, view, world, depthTest);
+			geometryStatistics.RenderedLines = RenderLines(viewport, color);
+			geometryStatistics.EndRenderingTiming();
 
 			if (viewport.DebugInfo.ShowVertices)
 			{
 				RenderVertices(node, viewport);
 			}
-
-			var after = Stopwatch.ElapsedMilliseconds;
-			Milliseconds = after - before;
 		}
 
 
@@ -386,13 +384,14 @@ namespace Balder.Rendering.Silverlight
 
 
 
-		private void RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
+		private int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
 		{
 			if (null == _faces)
 			{
-				return;
+				return 0;
 			}
 
+			var faceCount = 0;
 			var matrix = world * view;
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
@@ -414,7 +413,10 @@ namespace Balder.Rendering.Silverlight
 
 				face.Color = _lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
 				material.Renderer.Draw(face, _vertices);
+
+				faceCount++;
 			}
+			return faceCount;
 		}
 
 		private Material PrepareMaterialForFace(RenderFace face, INode node)
@@ -453,12 +455,14 @@ namespace Balder.Rendering.Silverlight
 			return visible;
 		}
 
-		private void RenderLines(Viewport viewport, Color color)
+		private int RenderLines(Viewport viewport, Color color)
 		{
 			if (null == _lines)
 			{
-				return;
+				return 0;
 			}
+
+			var lineCount = 0;
 			for (var lineIndex = 0; lineIndex < _lines.Length; lineIndex++)
 			{
 				var line = _lines[lineIndex];
@@ -480,7 +484,9 @@ namespace Balder.Rendering.Silverlight
 								(int)xend,
 								(int)yend,
 								color);
+				lineCount++;
 			}
+			return lineCount;
 		}
 	}
 }

@@ -19,8 +19,11 @@
 
 #endregion
 
+using System;
 using Balder.Execution;
+using Balder.Rendering;
 using Balder.Testing;
+using Moq;
 using NUnit.Framework;
 #if(SILVERLIGHT)
 using System.Windows;
@@ -31,18 +34,48 @@ namespace Balder.Tests.Execution
 	[TestFixture]
 	public class PropertyTests : TestFixture
 	{
-		public class SomeOtherClass
+		public class SomeThirdClass
+#if(SILVERLIGHT)
+			: FrameworkElement
+#endif
 		{
+			public static readonly Property<SomeThirdClass, int> IntProperty = Property<SomeThirdClass, int>.Register(s => s.Int);
+			public int Int
+			{
+				get { return IntProperty.GetValue(this); }
+				set { IntProperty.SetValue(this, value); }
+			}
+		}
+
+		public class SomeOtherClass
+#if(SILVERLIGHT)
+			: FrameworkElement
+#endif
+		{
+			public static readonly Property<SomeOtherClass, int> IntProperty = Property<SomeOtherClass, int>.Register(s => s.Int);
+			public int Int
+			{
+				get { return IntProperty.GetValue(this); }
+				set { IntProperty.SetValue(this, value); }
+			}
+
+			public static readonly Property<SomeOtherClass, SomeThirdClass> SomeThirdClassProperty =
+				Property<SomeOtherClass, SomeThirdClass>.Register(s => s.SomeThirdClass);
+
+			public SomeThirdClass SomeThirdClass
+			{
+				get { return SomeThirdClassProperty.GetValue(this); }
+				set { SomeThirdClassProperty.SetValue(this, value); }
+			}
 
 		}
 
 
+		public class SomeClass :
 #if(SILVERLIGHT)
-		public class SomeClass : FrameworkElement,
-#else
-		public class SomeClass : 
+			FrameworkElement,
 #endif
-			 ICanNotifyChanges
+			ICanNotifyChanges, IHaveRuntimeContext
 		{
 			public const int IntDefault = 42;
 			public const float FloatDefault = 42.42f;
@@ -113,7 +146,21 @@ namespace Balder.Tests.Execution
 				OldValue = oldValue;
 				NewValue = newValue;
 			}
+
+			public IRuntimeContext RuntimeContextToReturn;
+			public bool RuntimeContextGetCalled;
+
+			public IRuntimeContext RuntimeContext
+			{
+				get
+				{
+					RuntimeContextGetCalled = true;
+					return RuntimeContextToReturn;
+				}
+			}
 		}
+
+		
 
 
 		[Test]
@@ -225,6 +272,59 @@ namespace Balder.Tests.Execution
 
 			var actual = instance.StringWithDefault;
 			Assert.That(actual,Is.EqualTo(expected));
+		}
+
+		[Test]
+		public void SettingValueOnObjectWithRuntimeContextShouldGetRuntimeContext()
+		{
+			var instance = new SomeClass();
+			instance.String = "Something";
+
+			Assert.That(instance.RuntimeContextGetCalled, Is.True);
+		}
+
+		[Test]
+		public void SettingValueOnObjectWithRuntimeContextShouldSignalRendering()
+		{
+			var instance = new SomeClass();
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			instance.RuntimeContextToReturn = runtimeContextMock.Object;
+			runtimeContextMock.Expect(r => r.SignalRendering());
+			instance.String = "Something";
+			runtimeContextMock.VerifyAll();
+		}
+
+		[Test]
+		public void SettingValueOnChildObjectWithPropertiesShouldSignalRendering()
+		{
+			var instance = new SomeClass();
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			instance.RuntimeContextToReturn = runtimeContextMock.Object;
+			
+
+			instance.SomeOtherClass = new SomeOtherClass();
+			runtimeContextMock.Expect(r => r.SignalRendering());
+			instance.SomeOtherClass.Int = 5;
+			
+			runtimeContextMock.VerifyAll();
+		}
+
+		[Test]
+		public void SettingValueOnChildOfAChildObjectWithPropertiesShouldSignalRendering()
+		{
+			var instance = new SomeClass();
+			var runtimeContextMock = new Mock<IRuntimeContext>();
+			instance.RuntimeContextToReturn = runtimeContextMock.Object;
+
+
+			instance.SomeOtherClass = new SomeOtherClass();
+			instance.SomeOtherClass.Int = 5;
+
+			instance.SomeOtherClass.SomeThirdClass = new SomeThirdClass();
+			runtimeContextMock.Expect(r => r.SignalRendering());
+			instance.SomeOtherClass.SomeThirdClass.Int = 6;
+
+			runtimeContextMock.VerifyAll();
 		}
 	}
 }

@@ -27,6 +27,7 @@ namespace Balder.Rendering
 	[Singleton]
 	public class RuntimeContext : IRuntimeContext
 	{
+		private static readonly PassiveRenderingSignal	RenderingSignal = new PassiveRenderingSignal();
 		public RuntimeContext(IDisplayDevice displayDevice, IMessengerContext messengerContext)
 		{
 			MessengerContext = messengerContext;
@@ -52,5 +53,10 @@ namespace Balder.Rendering
 
 		public PassiveRenderingMode PassiveRenderingMode { get; set; }
 		public bool Paused { get; set; }
+
+		public void SignalRendering()
+		{
+			MessengerContext.Send(RenderingSignal);
+		}
 	}
 }

@@ -1,4 +1,6 @@
 ﻿using System;
+using Balder.Rendering;
+
 #if(SILVERLIGHT)
 using System.Windows;
 #endif
@@ -11,7 +13,10 @@ namespace Balder.Execution
         public WeakReference Object;
         public bool CallFromExternal;
         public bool CallFromProperty;
+    	public IRuntimeContext RuntimeContext;
         private bool _isValueType;
+    	public bool ChildrenRuntimeContextSet;
+
 
 #if(SILVERLIGHT)
         internal ObjectProperty(DependencyObject obj, bool isValueType, T defaultValue)
@@ -23,6 +28,7 @@ namespace Balder.Execution
             Object = new WeakReference(obj);
             CallFromExternal = false;
             CallFromProperty = false;
+			ChildrenRuntimeContextSet = false;
             _isValueType = isValueType;
         }
 
@@ -43,5 +49,13 @@ namespace Balder.Execution
                 return !value.Equals(Value);
             }
         }
+
+		public void SignalRendering()
+		{
+			if( null != RuntimeContext )
+			{
+				RuntimeContext.SignalRendering();
+			}
+		}
     }
 }
