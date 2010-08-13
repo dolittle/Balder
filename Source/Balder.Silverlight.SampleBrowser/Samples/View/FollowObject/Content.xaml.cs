@@ -15,7 +15,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.FollowObject
 		{
 			InitializeComponent();
 
-			Game.Update += GameUpdate;
 			_positionStoryboard = LayoutRoot.Resources["PositionStoryboard"] as Storyboard;
 			_targetStoryboard = LayoutRoot.Resources["TargetStoryboard"] as Storyboard;
 
@@ -94,10 +93,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.FollowObject
 			_targetStoryboard.Begin();
 		}
 
-		private void GameUpdate(Game game)
-		{
-			CameraInfo.Text = string.Format("Position : {0}, Target : {1}", Game.Camera.Position, Game.Camera.Target);
-		}
 
 		private void LeftPosition(object sender, RoutedEventArgs e)
 		{

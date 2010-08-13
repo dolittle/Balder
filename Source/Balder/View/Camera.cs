@@ -153,17 +153,30 @@ namespace Balder.View
 
 		public bool IsInView(Vector vector)
 		{
-			return _frustum.IsPointInFrustum(vector) == FrustumIntersection.Inside;
+			var inFrustum = _frustum.IsPointInFrustum(vector);
+			return inFrustum == FrustumIntersection.Inside ||
+				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Coordinate coordinate)
 		{
-			return _frustum.IsPointInFrustum(coordinate) == FrustumIntersection.Inside;
+			var inFrustum = _frustum.IsPointInFrustum(coordinate);
+			return inFrustum == FrustumIntersection.Inside ||
+				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(BoundingSphere boundingSphere)
 		{
-			return _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius) == FrustumIntersection.Inside;
+			var inFrustum = _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
+			return inFrustum == FrustumIntersection.Inside ||
+			       inFrustum == FrustumIntersection.Intersect;
+		}
+
+		public bool IsInView(Vector position, float radius)
+		{
+			var inFrustum = _frustum.IsSphereInFrustum(position, radius);
+			return inFrustum == FrustumIntersection.Inside ||
+				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		#endregion

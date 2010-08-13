@@ -61,10 +61,11 @@ namespace Balder.Rendering
 
 		public void PrepareForRendering(Viewport viewport, NodeCollection nodes)
 		{
-			if( _runtimeContext.PassiveRendering && !_render )
+			if (_runtimeContext.PassiveRendering && !_render)
 			{
 				_runtimeContext.Display.Paused = true;
-			} else
+			}
+			else
 			{
 				_runtimeContext.Display.Paused = false;
 			}
@@ -88,19 +89,22 @@ namespace Balder.Rendering
 		{
 			if (_render)
 			{
+				viewport.Statistics.Reset();
+
 				var detailLevel = DetailLevel.Full;
-				if( _runtimeContext.PassiveRendering )
+				if (_runtimeContext.PassiveRendering)
 				{
-					if( _frameCounter-- < 0 )
+					if (_frameCounter-- < 0)
 					{
 						_frameCounter = 0;
 						_render = false;
 						detailLevel = DetailLevel.Full;
-						
-					} else
+
+					}
+					else
 					{
-						detailLevel = _runtimeContext.PassiveRenderingMode==PassiveRenderingMode.BoundingBox?DetailLevel.BoundingBox:DetailLevel.Full;
-						
+						detailLevel = _runtimeContext.PassiveRenderingMode == PassiveRenderingMode.BoundingBox ? DetailLevel.BoundingBox : DetailLevel.Full;
+
 					}
 				}
 				foreach (var node in nodes)
@@ -123,7 +127,7 @@ namespace Balder.Rendering
 		{
 			if (node is Node)
 			{
-				((Node) node).OnPrepare(viewport);
+				((Node)node).OnPrepare(viewport);
 			}
 
 			PrepareChildren(viewport, node);
@@ -133,7 +137,7 @@ namespace Balder.Rendering
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (var child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren)node).Children)
 				{
 					Prepare(viewport, child);
 				}
@@ -149,11 +153,11 @@ namespace Balder.Rendering
 		}
 
 		private static void PrepareChildrenForRendering(INode node, Matrix world, Viewport viewport, Matrix view,
-		                                                Matrix projection)
+														Matrix projection)
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (var child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren)node).Children)
 				{
 					PrepareForRendering(child, viewport, view, projection, world);
 				}
@@ -168,10 +172,21 @@ namespace Balder.Rendering
 				return;
 			}
 
+			if( node.BoundingSphere.IsSet() )
+			{
+				var boundingSpherePosition = node.BoundingSphere.Center*node.RenderingWorld;
+				var inView = viewport.View.IsInView(boundingSpherePosition, node.BoundingSphere.Radius);
+				if( !inView )
+				{
+					return;
+				}
+			}
+
 			if (node is ICanRender)
 			{
 				node.Statistics.BeginNodeTiming();
 				((ICanRender) node).Render(viewport, detailLevel);
+				viewport.Statistics.RenderedNodes++;
 				node.Statistics.EndNodeTiming();
 				((ICanRender)node).RenderDebugInfo(viewport, detailLevel);
 			}
@@ -186,7 +201,7 @@ namespace Balder.Rendering
 		{
 			if (node is IHaveChildren)
 			{
-				foreach (var child in ((IHaveChildren) node).Children)
+				foreach (var child in ((IHaveChildren)node).Children)
 				{
 					RenderNode(child, viewport, detailLevel);
 				}

@@ -16,34 +16,40 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
-using System.Windows;
-using System.Windows.Media.Animation;
 
-namespace Balder.Extensions.Silverlight
+#if(SILVERLIGHT)
+using System.ComponentModel;
+using Balder.Extensions.Silverlight;
+#endif
+
+namespace Balder.Display
 {
-	public static class StoryboardExtensions
+	public class ViewportStatistics 
+#if(SILVERLIGHT)
+		: INotifyPropertyChanged
+#endif
 	{
-		public static void SetValueForKeyFrame(this Storyboard storyboard, string keyFrameName, double value)
+#if(SILVERLIGHT)
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+#endif
+
+		private int _renderedNodes;
+		public int RenderedNodes
 		{
-			foreach (var timeline in storyboard.Children)
+			get { return _renderedNodes; }
+			set
 			{
-				if (timeline is DoubleAnimationUsingKeyFrames)
-				{
-					var animation = timeline as DoubleAnimationUsingKeyFrames;
-					foreach (DoubleKeyFrame keyframe in animation.KeyFrames)
-					{
-						string name = keyframe.GetValue(FrameworkElement.NameProperty) as string;
-						if (null != name && name == keyFrameName)
-						{
-							keyframe.Value = value;
-							return;
-						}
-					}
-				}
-			}			
+				_renderedNodes = value;
+#if(SILVERLIGHT)
+				PropertyChanged.Notify(() => RenderedNodes);
+#endif
+			}
 		}
 
+
+		public void Reset()
+		{
+			RenderedNodes = 0;
+		}
 	}
 }
-#endif

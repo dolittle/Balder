@@ -17,8 +17,10 @@
 //
 #endregion
 
+
 using Balder.Debug;
 using Balder.Execution;
+
 using Balder.Math;
 using Balder.Objects;
 using Balder.Rendering;
@@ -66,6 +68,7 @@ namespace Balder.Display
 		{
 			_runtimeContext = runtimeContext;
 			DebugInfo = new DebugInfo();
+			Statistics = new ViewportStatistics();
 
 			_mousePickRay = new Ray(Vector.Zero, Vector.Forward);
 
@@ -148,11 +151,15 @@ namespace Balder.Display
 		/// </summary>
 		public Matrix ViewProjectionScreenMatrix { get; private set; }
 
-
 		/// <summary>
 		/// Get the aspect ratio for the viewport
 		/// </summary>
 		public float AspectRatio { get { return ((float)Width) / ((float)Height); } }
+
+		/// <summary>
+		/// Get the statistics for the viewport
+		/// </summary>
+		public ViewportStatistics Statistics { get; private set; }
 
 
 		public static readonly Property<Viewport, Coordinate> MousePickRayStartProperty =

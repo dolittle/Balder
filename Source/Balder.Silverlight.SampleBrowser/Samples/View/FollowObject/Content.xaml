@@ -80,8 +80,45 @@
 				<Button Content="Look at Front" Click="FrontTarget"/>
 				<Button Content="Look at Back" Click="BackTarget"/>
 			</StackPanel>
-			
-			<TextBlock x:Name="CameraInfo" FontFamily="Verdana" FontSize="18" Foreground="Black"/>
+
+
+			<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+				<Grid x:Name="InfoGrid" DataContext="{Binding ElementName=Game, Path=Viewport.Statistics}">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="200"/>
+						<ColumnDefinition Width="100"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+						<RowDefinition Height="30"/>
+					</Grid.RowDefinitions>
+
+
+					<TextBlock Grid.Column="0" Grid.Row="0" Text="Total Nodes Rendered"/>
+					<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RenderedNodes}"/>
+
+					<TextBlock Grid.Column="0" Grid.Row="1" Text="Camera XPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding ElementName=Camera, Path=Position.X}"/>
+					<TextBlock Grid.Column="0" Grid.Row="2" Text="Camera YPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="2" Text="{Binding ElementName=Camera, Path=Position.Y}"/>
+					<TextBlock Grid.Column="0" Grid.Row="3" Text="Camera ZPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ElementName=Camera, Path=Position.Z}"/>
+					<TextBlock Grid.Column="0" Grid.Row="4" Text="Camera XPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="4" Text="{Binding ElementName=Camera, Path=Target.X}"/>
+					<TextBlock Grid.Column="0" Grid.Row="5" Text="Camera YPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="5" Text="{Binding ElementName=Camera, Path=Target.Y}"/>
+					<TextBlock Grid.Column="0" Grid.Row="6" Text="Camera ZPos"/>
+					<TextBlock Grid.Column="1" Grid.Row="6" Text="{Binding ElementName=Camera, Path=Target.Z}"/>
+
+
+				</Grid>
+			</Border>
+
 		</StackPanel>
 	</Grid>
 </UserControl>

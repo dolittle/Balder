@@ -80,6 +80,21 @@ namespace Balder.View
 		bool IsInView(Coordinate coordinate);
 
 		/// <summary>
+		/// Check if a boundingsphere is within view
+		/// </summary>
+		/// <param name="boundingSphere"><see cref="BoundingSphere"/> to check</param>
+		/// <returns>True if in view, false if not</returns>
+		bool IsInView(BoundingSphere boundingSphere);
+
+		/// <summary>
+		/// Check if a sphere is within the view
+		/// </summary>
+		/// <param name="position">Position of sphere</param>
+		/// <param name="radius">Radius of the sphere</param>
+		/// <returns>True if in view, false if not</returns>
+		bool IsInView(Vector position, float radius);
+
+		/// <summary>
 		/// Update view - typically called before rendering to update all data view is holding
 		/// based upon any changes.
 		/// </summary>

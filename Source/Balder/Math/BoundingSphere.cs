@@ -430,6 +430,11 @@ namespace Balder.Math
 			return sphere;
 		}
 
+		public bool IsSet()
+		{
+			return Radius > 0;
+		}
+
 
 		
 		public static bool operator ==(BoundingSphere a, BoundingSphere b)

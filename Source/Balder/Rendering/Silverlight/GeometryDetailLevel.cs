@@ -287,24 +287,95 @@ namespace Balder.Rendering.Silverlight
 
 			var color = GetColorFromNode(node);
 
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-
-			geometryStatistics.BeginVerticesTiming();
+			BeginVerticesTiming(node);
+			
 			CalculateVertices(viewport, view, projection, world);
-			geometryStatistics.EndVerticesTiming();
+			EndVerticesTiming(node);
 
-			geometryStatistics.BeginLightingTiming();
+			BeginLightingTiming(node);
 			CalculateNormals(viewport, view, projection, world);
-			geometryStatistics.EndLightingTiming();
+			EndLightingTiming(node);
 
-			geometryStatistics.BeginRenderingTiming();
-			geometryStatistics.RenderedFaces = RenderFaces(node, viewport, view, world, depthTest);
-			geometryStatistics.RenderedLines = RenderLines(viewport, color);
-			geometryStatistics.EndRenderingTiming();
+			BeginRenderingTiming(node);
+			SetRenderedFaces(node, RenderFaces(node, viewport, view, world, depthTest));
+			SetRenderedLines(node, RenderLines(viewport, color));
+			EndRenderingTiming(node);
 
 			if (viewport.DebugInfo.ShowVertices)
 			{
 				RenderVertices(node, viewport);
+			}
+		}
+
+		private void SetRenderedFaces(INode node, int renderedFaces)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.RenderedFaces = renderedFaces;
+			}
+		}
+
+		private void SetRenderedLines(INode node, int renderedLines)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.RenderedLines = renderedLines;
+			}
+		}
+
+		private void BeginVerticesTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if( null != geometryStatistics )
+			{
+				geometryStatistics.BeginVerticesTiming();
+			}
+		}
+
+		private void EndVerticesTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndVerticesTiming();
+			}
+		}
+
+		private void BeginLightingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.BeginLightingTiming();
+			}
+		}
+
+		private void EndLightingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndLightingTiming();
+			}
+		}
+
+		private void BeginRenderingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.BeginRenderingTiming();
+			}
+		}
+
+		private void EndRenderingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndRenderingTiming();
 			}
 		}
 

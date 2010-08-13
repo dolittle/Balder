@@ -117,6 +117,7 @@
     <Compile Include="Display\Silverlight\Display.cs" />
     <Compile Include="Display\Silverlight\DisplayDevice.cs" />
     <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
+    <Compile Include="Display\ViewportStatistics.cs" />
     <Compile Include="Execution\IAmUnique.cs" />
     <Compile Include="Execution\IMessenger.cs" />
     <Compile Include="Execution\IMessengerContext.cs" />
@@ -239,7 +240,6 @@
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
     <Compile Include="Extensions\Silverlight\NotificationExtensions.cs" />
-    <Compile Include="Extensions\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Extensions\Silverlight\VisualStateExtensions.cs" />
     <Compile Include="Extensions\Silverlight\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
