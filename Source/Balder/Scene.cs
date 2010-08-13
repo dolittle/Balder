@@ -91,6 +91,7 @@ namespace Balder
 		}
 
 		public IRuntimeContext RuntimeContext { get; private set; }
+		public Game Game { get; internal set; }
 
 		/// <summary>
 		/// Add a node to the scene
@@ -134,6 +135,12 @@ namespace Balder
 			}
 
 			RuntimeContext.SignalRendering();
+#if(SILVERLIGHT)
+			if( null != Game && node is UIElement )
+			{
+				Game.AddChildFromProgrammaticApproach(node);
+			}
+#endif
 		}
 
 

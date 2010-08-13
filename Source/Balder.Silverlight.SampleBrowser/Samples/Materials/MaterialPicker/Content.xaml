@@ -8,13 +8,14 @@
     xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder">
 	
 	<UserControl.Resources>
-		<Materials:Material x:Key="FlatMaterial" Ambient="Red" Diffuse="Red" Specular="White" Shade="Flat"/>
-		<Materials:Material x:Key="GouraudMaterial"  Ambient="Red" Diffuse="Red" Specular="White" Shade="Gouraud"/>
-		<Materials:Material x:Key="TexturedMaterial" Ambient="Red" Diffuse="Red" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
-		<Materials:Material x:Key="ReflectionMaterial" Ambient="Red" Diffuse="Red" Specular="White" Shade="Gouraud" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="FlatMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Flat"/>
+		<Materials:Material x:Key="GouraudMaterial"  Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud"/>
+		<Materials:Material x:Key="TexturedMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="ReflectionMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
 	</UserControl.Resources>
 	
 	<Grid x:Name="LayoutRoot">
+		<!--
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -25,20 +26,21 @@
 				</BeginStoryboard>
 
 			</EventTrigger>
-		</Grid.Triggers>
+		</Grid.Triggers>-->
 
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>
 				<View:Camera x:Name="Camera" Position="0,40,-80" Target="0,10,0" />
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,400,0" Diffuse="Green" Strength="0.5"/>
+			<Lighting:OmniLight Position="0,400,0" Ambient="Black" Diffuse="White" Strength="0.5"/>
 			
 			<Geometries:Geometry x:Name="GeometryContainer">
-				<Geometries:Mesh x:Name="Teapot" AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ase" IsVisible="True"/>
-				<Geometries:Box x:Name="Box" Dimension="40,40,40" Position="0,10,0" IsVisible="False"/>
+				<Geometries:Mesh x:Name="Teapot" AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ase" IsVisible="True" InteractionEnabled="True"/>
+				<Geometries:Box x:Name="Box" Dimension="40,40,40" Position="0,10,0" IsVisible="False" InteractionEnabled="True"/>
 			</Geometries:Geometry>
 		</Execution:Game>
+		
 
 		<Grid HorizontalAlignment="Left" VerticalAlignment="Top">
 			<Grid.ColumnDefinitions>

@@ -26,6 +26,7 @@ using Balder.View;
 
 #if(SILVERLIGHT)
 using System.Windows;
+using System.Windows.Controls;
 using Balder.Input.Silverlight;
 #endif
 
@@ -81,11 +82,31 @@ namespace Balder.Execution
 		private void Constructed()
 		{
 #if(SILVERLIGHT)
+			_programmaticChildren = new Grid();
+			Children.Add(_programmaticChildren);
+
 			Loaded += GameLoaded;
 #endif
 		}
 
 #if(SILVERLIGHT)
+
+		private Grid _programmaticChildren { get; set; }
+		private bool _nodeAddedFromXaml;
+
+		internal void AddChildFromProgrammaticApproach(INode node)
+		{
+			if( _nodeAddedFromXaml )
+			{
+				return;
+			}
+			if( node is UIElement )
+			{
+				_programmaticChildren.Children.Add(node as UIElement);
+			}
+		}
+
+
 		public void Unload()
 		{
 			Runtime.Instance.UnregisterGame(this);
@@ -141,7 +162,9 @@ namespace Balder.Execution
 			{
 				if (element is INode)
 				{
+					_nodeAddedFromXaml = true;
 					Scene.AddNode(element as INode);
+					_nodeAddedFromXaml = false;
 				}
 			}
 		}
@@ -181,6 +204,7 @@ namespace Balder.Execution
 			{
 				_scene = value;
 				Viewport.Scene = value;
+				value.Game = this;
 			}
 		}
 

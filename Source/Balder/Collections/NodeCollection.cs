@@ -36,16 +36,38 @@ namespace Balder.Collections
 #endif
 	{
 		private readonly object _owner;
+		private Scene _ownersScene;
 
 		public NodeCollection(object owner)
 		{
 			_owner = owner;
 		}
 
+		private Scene OwnersScene
+		{
+			get
+			{
+				if( null == _ownersScene )
+				{
+					if (_owner is Node)
+					{
+						_ownersScene = ((Node)_owner).Scene;
+					}
+					if (_owner is Scene)
+					{
+						_ownersScene = (Scene)_owner;
+					}
+				}
+
+				return _ownersScene;
+			}
+		}
+
 		public new void Add(INode node)
 		{
 			if (node is Node && _owner is INode)
 			{
+				((Node) node).Scene = OwnersScene;
 				((Node)node).Parent = _owner as INode;
 			}
 			base.Add(node);

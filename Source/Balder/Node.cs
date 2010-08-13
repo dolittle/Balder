@@ -271,7 +271,28 @@ namespace Balder
 		}
 
 		public BoundingSphere BoundingSphere { get; set; }
-		public Scene Scene { get; set; }
+		private Scene _scene;
+		public Scene Scene
+		{
+			get { return _scene; }
+			set
+			{
+				_scene = value;
+				OnSceneSet(value);
+			}
+		}
+
+		protected virtual void OnSceneSet(Scene scene)
+		{
+			if( this is IHaveChildren )
+			{
+				foreach( var child in ((IHaveChildren)this).Children )
+				{
+					child.Scene = scene;
+				}
+			}
+		}
+
 
 		#region Transform
 
