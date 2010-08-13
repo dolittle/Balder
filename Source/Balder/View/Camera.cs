@@ -143,7 +143,7 @@ namespace Balder.View
 		#region Public Methods
 
 		public void Update(Viewport viewport)
-		{
+				{	
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 			SetupProjection(viewport);
 			UpdateDepthDivisor();
@@ -159,6 +159,11 @@ namespace Balder.View
 		public bool IsInView(Coordinate coordinate)
 		{
 			return _frustum.IsPointInFrustum(coordinate) == FrustumIntersection.Inside;
+		}
+
+		public bool IsInView(BoundingSphere boundingSphere)
+		{
+			return _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius) == FrustumIntersection.Inside;
 		}
 
 		#endregion

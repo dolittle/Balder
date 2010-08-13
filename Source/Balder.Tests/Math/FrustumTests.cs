@@ -17,6 +17,7 @@
 //
 #endregion
 using Balder.Display;
+using Balder.Execution;
 using Balder.Math;
 using Balder.Rendering;
 using Balder.View;
@@ -36,6 +37,9 @@ namespace Balder.Tests.Math
 		public void Setup()
 		{
 			var runtimeContextMock = new Mock<IRuntimeContext>();
+			var messenger = new MessengerContext();
+			runtimeContextMock.Expect(r => r.MessengerContext).Returns(messenger);
+
 				var viewport = new Viewport(runtimeContextMock.Object) { Width = 640, Height = 480 };
 			_camera = new Camera() { Target = Vector.Forward, Position = Vector.Zero };
 			viewport.View = _camera;
@@ -99,6 +103,14 @@ namespace Balder.Tests.Math
 			var vectorToTest = new Vector(0f, 0f, _camera.Far+1f);
 			var result = _frustum.IsPointInFrustum(vectorToTest);
 			Assert.That(result, Is.EqualTo(FrustumIntersection.Outside));
+		}
+
+		[Test]
+		public void SphereInsideShouldNotBeClipped()
+		{
+			var vectorToTest = new Vector(0f, 0f, (_camera.Far - _camera.Near) / 2);
+			var result = _frustum.IsSphereInFrustum(vectorToTest, 5);
+			Assert.That(result, Is.EqualTo(FrustumIntersection.Inside));
 		}
 	}
 }

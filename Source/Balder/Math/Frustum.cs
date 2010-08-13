@@ -42,18 +42,17 @@ namespace Balder.Math
 
 	public class Frustum
 	{
-		private const float AngleToRadians = (float)System.Math.PI / 180.0f;
 		private readonly Plane[] _planes = new Plane[(int)FrustumLocation.Total];
-		private Vector ntl, ntr, nbl, nbr, ftl, ftr, fbl, fbr;
+		private Vector nearTopLeft, nearTopRight, nearBottomLeft, nearBottomRight, farTopLeft, farTopRight, farBottomLeft, farBottomRight;
 		private float _near;
 		private float _far;
-		private float _ratio;
-		private float _angle;
+		private float _aspectRatio;
+		private float _fieldOfView;
 		private float _tang;
-		private float _nw;
-		private float _nh;
-		private float _fw;
-		private float _fh;
+		private float _nearWidth;
+		private float _nearHeight;
+		private float _farWidth;
+		private float _farHeight;
 
 
 		public Frustum()
@@ -65,55 +64,61 @@ namespace Balder.Math
 		}
 
 
-		public void SetCameraInternals(float angle, float ratio, float near, float far)
+		private const double ANG2RAD = 3.14159265358979323846/180.0;
+
+		public void SetCameraInternals(float fieldOfView, float aspectRatio, float near, float far)
 		{
-			_angle = angle;
-			_ratio = ratio;
+			_fieldOfView = fieldOfView;
+			_aspectRatio = aspectRatio;
 			_near = near;
 			_far = far;
 
-			_tang = (float)System.Math.Tan(angle * AngleToRadians * 0.5);
-			_nh = near * _tang;
-			_nw = _nh * ratio;
-			_fh = far * _tang;
-			_fw = _fh * ratio;
+			var fieldOfViewRadians = MathHelper.ToRadians(fieldOfView);
+			_tang = (float)System.Math.Tan(fieldOfViewRadians*0.5);
+			_nearHeight = near * _tang;
+			_nearWidth = _nearHeight * aspectRatio;
+			_farHeight = far * _tang;
+			_farWidth = _farHeight * aspectRatio;
 		}
 
 
 		public void SetCameraDefinition(Viewport viewport, Camera camera)
 		{
-			Vector nc, fc, X, Y, Z;
-
 			SetCameraInternals((float)camera.FieldOfView, viewport.AspectRatio, camera.Near, camera.Far);
 
-			Z = camera.Target-camera.Position;
-			Z.Normalize();
+			var z = camera.Position-camera.Target;
+			z.Normalize();
 
-			X = camera.Up * Z;
-			X.Normalize();
+			var x = camera.Up * z;
+			x.Normalize();
 
-			Y = Z * X;
+			var y = z * x;
+			
 
-			nc = camera.Position - Z * _near;
-			fc = camera.Position - Z * _far;
+			var nearClip = camera.Position - (z * _near);
 
-			ntl = nc + Y * _nh - X * _nw;
-			ntr = nc + Y * _nh + X * _nw;
-			nbl = nc - Y * _nh - X * _nw;
-			nbr = nc - Y * _nh + X * _nw;
+			nearTopLeft = nearClip + (y * _nearHeight) - (x * _nearWidth);
+			nearTopRight = nearClip + (y * _nearHeight) + (x * _nearWidth);
+			nearBottomLeft = nearClip - (y * _nearHeight) - (x * _nearWidth);
+			nearBottomRight = nearClip - (y * _nearHeight) + (x * _nearWidth);
 
-			ftl = fc + Y * _fh - X * _fw;
-			ftr = fc + Y * _fh + X * _fw;
-			fbl = fc - Y * _fh - X * _fw;
-			fbr = fc - Y * _fh + X * _fw;
+			var farClip = camera.Position - (z * _far);
+
+			farTopLeft = farClip + (y * _farHeight) - (x * _farWidth);
+			farTopRight = farClip + (y * _farHeight) + (x * _farWidth);
+			farBottomLeft = farClip - (y * _farHeight) - (x * _farWidth);
+			farBottomRight = farClip - (y * _farHeight) + (x * _farWidth);
 
 
-			_planes[(int)FrustumLocation.Top].SetVectors(ntr, ntl, ftl);
-			_planes[(int)FrustumLocation.Bottom].SetVectors(nbl, nbr, fbr);
-			_planes[(int)FrustumLocation.Left].SetVectors(ntl, nbl, fbl);
-			_planes[(int)FrustumLocation.Right].SetVectors(nbr, ntr, fbr);
-			_planes[(int)FrustumLocation.Near].SetVectors(ntl, ntr, fbr);
-			_planes[(int)FrustumLocation.Far].SetVectors(ftr, ftl, fbl);
+			_planes[(int)FrustumLocation.Top].SetVectors(nearTopRight, nearTopLeft, farTopLeft);
+			_planes[(int)FrustumLocation.Bottom].SetVectors(nearBottomLeft, nearBottomRight, farBottomRight);
+			_planes[(int)FrustumLocation.Left].SetVectors(nearTopLeft, nearBottomLeft, farBottomLeft);
+			_planes[(int)FrustumLocation.Right].SetVectors(nearBottomRight, nearTopRight, farBottomRight);
+			_planes[(int)FrustumLocation.Near].SetVectors(nearTopLeft, nearTopRight, farBottomRight);
+			_planes[(int)FrustumLocation.Far].SetVectors(farTopRight, farTopLeft, farBottomLeft);
+
+			
+
 		}
 
 
@@ -140,7 +145,7 @@ namespace Balder.Math
 			{
 				var plane = _planes[planeIndex];
 				distance = plane.GetDistanceFromVector(vector);
-                if (distance < (-radius))
+                if (distance < -radius)
                 {
                     return FrustumIntersection.Outside;
                 }

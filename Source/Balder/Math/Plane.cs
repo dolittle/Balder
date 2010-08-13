@@ -82,7 +82,7 @@ namespace Balder.Math
 
 		public float GetDistanceFromVector(Vector vector)
 		{
-			return Distance + Normal.Dot(vector);
+			return Normal.Dot(vector) + Distance;
 		}
 
 		public PlaneIntersectionType Intersects(BoundingBox box)
