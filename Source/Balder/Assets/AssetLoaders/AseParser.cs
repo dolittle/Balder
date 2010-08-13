@@ -1,3 +1,21 @@
+#region License
+//
+// Author: Einar Ingebrigtsen <einar@dolittle.com>
+// Copyright (c) 2007-2010, DoLittle Studios
+//
+// Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the license at 
+//
+//   http://balder.codeplex.com/license
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+//
+#endregion
 using System;
 using System.Collections.Generic;
 using System.Globalization;
@@ -29,12 +47,16 @@ namespace Balder.Assets.AssetLoaders
 		public const string MESH_NUMFACES = "MESH_NUMFACES";
 		public const string MESH_NUMTVERTEX = "MESH_NUMTVERTEX";
 		public const string MESH_NUMTVFACES = "MESH_NUMTVFACES";
+		public const string MESH_NUMCVERTEX = "MESH_NUMCVERTEX";
+		public const string MESH_NUMCVFACES = "MESH_NUMCVFACES";
 
 		public const string MESH_VERTEX_LIST = "MESH_VERTEX_LIST";
 		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
 		public const string MESH_TVERTLIST = "MESH_TVERTLIST";
 		public const string MESH_TFACELIST = "MESH_TFACELIST";
 		public const string MESH_NORMALS = "MESH_NORMALS";
+		public const string MESH_CVERTLIST = "MESH_CVERTLIST";
+		public const string MESH_CFACELIST = "MESH_CFACELIST";
 
 		public const string MESH_VERTEX = "MESH_VERTEX";
 		public const string MESH_FACE = "MESH_FACE";
@@ -42,6 +64,8 @@ namespace Balder.Assets.AssetLoaders
 		public const string MESH_TFACE = "MESH_TFACE";
 		public const string MESH_FACENORMAL = "MESH_FACENORMAL";
 		public const string MESH_VERTEXNORMAL = "MESH_VERTEXNORMAL";
+		public const string MESH_VERTCOL = "MESH_VERTCOL";
+		public const string MESH_CFACE = "MESH_CFACE";
 
 		public const string MESH_SMOOTHING = "MESH_SMOOTHING";
 
@@ -52,6 +76,10 @@ namespace Balder.Assets.AssetLoaders
 
 
 		public const string NODE_TM = "NODE_TM";
+		public const string TM_ROW0 = "TM_ROW0";
+		public const string TM_ROW1 = "TM_ROW1";
+		public const string TM_ROW2 = "TM_ROW2";
+		public const string TM_ROW3 = "TM_ROW3";
 		public const string TM_POS = "TM_POS";
 		public const string TM_ROTAXIS = "TM_ROTAXIS";
 		public const string TM_ROTANGLE = "TM_ROTANGLE";
@@ -67,6 +95,8 @@ namespace Balder.Assets.AssetLoaders
 		                                                                                     		{MESH_FACE_LIST, FaceScopeHandler},
 		                                                                                     		{MESH_TVERTLIST, TextureCoordinateScopeHandler},
 		                                                                                     		{MESH_TFACELIST, TextureCoordinateScopeHandler},
+																									{MESH_CVERTLIST, ColorVertexScopeHandler},
+																									{MESH_CFACELIST, ColorFaceScopeHandler},
 		                                                                                     		{MATERIAL_LIST, MaterialListScopeHandler},
 		                                                                                     		{MATERIAL, MaterialScopeHandler},
 		                                                                                     		{MAP_DIFFUSE, DiffuseScopeHandler}
@@ -148,6 +178,13 @@ namespace Balder.Assets.AssetLoaders
 								{
 									contentIndex = firstSpace;
 								}
+
+								if( contentIndex < 1 )
+								{
+									contentIndex = trimmedLine.Length-1;
+								}
+
+
 								var propertyName = trimmedLine.Substring(1, contentIndex).Trim();
 
 								contentIndex++;
@@ -216,28 +253,48 @@ namespace Balder.Assets.AssetLoaders
 						}
 					}
 					break;
-				case TM_POS:
+				case TM_ROW0:
 					{
 						var elements = content.Split('\t', ' ');
-						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
-						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
-						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
-						var coordinate = new Coordinate();
-						coordinate.Set(x, y, z);
-						var translation = Matrix.CreateTranslation(coordinate);
-						geometry.World = translation;
+						geometry.World.M11 = float.Parse(elements[0], CultureInfo.InvariantCulture);
+						geometry.World.M12 = float.Parse(elements[2], CultureInfo.InvariantCulture);
+						geometry.World.M13 = float.Parse(elements[1], CultureInfo.InvariantCulture);
 					}
 					break;
-				case TM_SCALE:
+
+				case TM_ROW2:
 					{
 						var elements = content.Split('\t', ' ');
-						var x = double.Parse(elements[0], CultureInfo.InvariantCulture);
-						var y = double.Parse(elements[2], CultureInfo.InvariantCulture);
-						var z = double.Parse(elements[1], CultureInfo.InvariantCulture);
-						var coordinate = new Coordinate();
-						coordinate.Set(x, y, z);
-						var scale = Matrix.CreateScale(coordinate);
-						geometry.World = scale * geometry.World;
+						geometry.World.M21 = float.Parse(elements[0], CultureInfo.InvariantCulture);
+						geometry.World.M22 = float.Parse(elements[2], CultureInfo.InvariantCulture);
+						geometry.World.M23 = float.Parse(elements[1], CultureInfo.InvariantCulture);
+					}
+					break;
+
+				case TM_ROW1:
+					{
+						var elements = content.Split('\t', ' ');
+						geometry.World.M31 = float.Parse(elements[0], CultureInfo.InvariantCulture);
+						geometry.World.M32 = float.Parse(elements[2], CultureInfo.InvariantCulture);
+						geometry.World.M33 = float.Parse(elements[1], CultureInfo.InvariantCulture);
+					}
+					break;
+
+				case TM_ROW3:
+					{
+						var elements = content.Split('\t', ' ');
+						geometry.World.M41 = float.Parse(elements[0], CultureInfo.InvariantCulture);
+						geometry.World.M42 = float.Parse(elements[2], CultureInfo.InvariantCulture);
+						geometry.World.M43 = float.Parse(elements[1], CultureInfo.InvariantCulture);
+					}
+					break;
+
+				
+					
+				case TM_POS:
+					{
+						// TODO : Introduce some kinda "out-of-scope" callback mechanism - this is kinda hacky
+						globals.CurrentObjectsInvertedMatrix = Matrix.Invert(geometry.World);
 					}
 					break;
 
@@ -268,6 +325,12 @@ namespace Balder.Assets.AssetLoaders
 						geometryDetailLevel.AllocateTextureCoordinates(numTVertices);
 					}
 					break;
+				case MESH_NUMCVERTEX:
+					{
+						var numCVertices = Convert.ToInt32(content);
+						globals.CurrentObjectVertexColors = new Color[numCVertices];
+					}
+					break;
 			}
 		}
 
@@ -284,6 +347,12 @@ namespace Balder.Assets.AssetLoaders
 						var x = float.Parse(elements[1], CultureInfo.InvariantCulture);
 						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
 						var z = float.Parse(elements[2], CultureInfo.InvariantCulture);
+
+						var invertedVector = Vector.Transform(x, y, z, globals.CurrentObjectsInvertedMatrix);
+						x = invertedVector.X;
+						y = invertedVector.Y;
+						z = invertedVector.Z;
+
 						var vertex = new Vertex(x, y, z);
 						geometryDetailLevel.SetVertex(vertexIndex, vertex);
 					}
@@ -292,6 +361,30 @@ namespace Balder.Assets.AssetLoaders
 			}
 		}
 
+		private static void ColorVertexScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
+		{
+			switch (propertyName)
+			{
+				case MESH_VERTCOL:
+					{
+						var elements = content.Split('\t', ' ');
+						var colorIndex = Convert.ToInt32(elements[0]);
+						var r = float.Parse(elements[1], CultureInfo.InvariantCulture);
+						var g = float.Parse(elements[3], CultureInfo.InvariantCulture);
+						var b = float.Parse(elements[2], CultureInfo.InvariantCulture);
+
+						var color = new Color((byte)(r*255f), (byte)(g*255f), (byte)(b*255f), 0xff);
+						globals.CurrentObjectVertexColors[colorIndex] = color;
+					}
+					break;
+			}
+		}
+
+
+		private static void ColorFaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
+		{
+			
+		}
         
 
 		private static void FaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)

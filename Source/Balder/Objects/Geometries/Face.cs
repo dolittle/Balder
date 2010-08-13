@@ -24,7 +24,9 @@ namespace Balder.Objects.Geometries
 	public class Face
 	{
 		public Material Material;
-		public Color Color;
+		public Color ColorA;
+		public Color ColorB;
+		public Color ColorC;
 
 		public int A;
 		public int B;
@@ -47,6 +49,10 @@ namespace Balder.Objects.Geometries
 			A = a;
 			B = b;
 			C = c;
+
+			ColorA = Colors.White;
+			ColorB = Colors.White;
+			ColorC = Colors.White;
 		}
 	}
 }

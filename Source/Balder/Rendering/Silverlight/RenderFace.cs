@@ -58,6 +58,8 @@ namespace Balder.Rendering.Silverlight
 		public Color CalculatedColorB;
 		public Color CalculatedColorC;
 
+		public Color Color;
+
 		public Texture Texture1;
 		public Texture Texture2;
 
@@ -75,7 +77,9 @@ namespace Balder.Rendering.Silverlight
 			: this(face.A, face.B, face.C)
 		{
 			Material = face.Material;
-			Color = face.Color;
+			ColorA = face.ColorA;
+			ColorB = face.ColorB;
+			ColorC = face.ColorC;
 			DiffuseA = face.DiffuseA;
 			DiffuseB = face.DiffuseB;
 			DiffuseC = face.DiffuseC;
