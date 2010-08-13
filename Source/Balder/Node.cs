@@ -18,7 +18,7 @@
 #endregion
 using System;
 using System.ComponentModel;
-using System.Windows.Media;
+
 using Balder.Display;
 using Balder.Execution;
 
@@ -39,6 +39,7 @@ using System.Windows.Input;
 using Balder.Silverlight.Helpers;
 using Balder.Silverlight.TypeConverters;
 using Balder.Extensions.Silverlight;
+using System.Windows.Media;
 #endif
 
 namespace Balder
@@ -594,7 +595,9 @@ namespace Balder
 				if( null != Scene )
 				{
 					return Scene.RuntimeContext;
-				} else
+				} 
+#if(SILVERLIGHT)				
+				else
 				{
 					var parent = VisualTreeHelper.GetParent(this);
 					if( parent is IHaveRuntimeContext )
@@ -602,6 +605,7 @@ namespace Balder
 						return ((IHaveRuntimeContext) parent).RuntimeContext;
 					}
 				}
+#endif
 				return null;
 			}
 		}
