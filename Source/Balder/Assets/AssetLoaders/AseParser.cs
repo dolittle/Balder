@@ -282,9 +282,13 @@ namespace Balder.Assets.AssetLoaders
 							if( !globals.SubMaterials.ContainsKey(globals.CurrentMaterial))
 							{
 								subMaterials = new Dictionary<int, Material>();
-								globals.SubMaterials[globals.CurrentMaterial] = subMaterials;
-								subMaterials[materialIndex] = material;
+							} else
+							{
+								subMaterials = globals.SubMaterials[globals.CurrentMaterial];
 							}
+							globals.SubMaterials[globals.CurrentMaterial] = subMaterials;
+							subMaterials[materialIndex] = material;
+
 						} else
 						{
 							globals.Materials[materialIndex] = material;
@@ -467,6 +471,23 @@ namespace Balder.Assets.AssetLoaders
 
 		private static void ColorFaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
+			switch( propertyName)
+			{
+				case MESH_CFACE:
+					{
+						var elements = content.Split('\t', ' ');
+						var faceIndex = Convert.ToInt32(elements[0]);
+						var a = Convert.ToInt32(elements[1]);
+						var b = Convert.ToInt32(elements[2]);
+						var c = Convert.ToInt32(elements[3]);
+
+						globals.Faces[faceIndex].ColorA = globals.CurrentObjectVertexColors[a];
+						globals.Faces[faceIndex].ColorB = globals.CurrentObjectVertexColors[b];
+						globals.Faces[faceIndex].ColorC = globals.CurrentObjectVertexColors[c];
+					}
+					break;
+
+			}
 			
 		}
         
