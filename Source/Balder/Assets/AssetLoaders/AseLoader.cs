@@ -29,7 +29,6 @@ using Balder.Rendering;
 namespace Balder.Assets.AssetLoaders
 {
 
-	public delegate void AddPropertyHandler(AseGlobals globals, object scopeObject, string propertyName, string content);
 
 	public class AseLoader : AssetLoader
 	{
