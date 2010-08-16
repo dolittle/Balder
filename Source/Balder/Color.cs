@@ -300,6 +300,38 @@ namespace Balder
 			return Scale(color, value);
 		}
 
+		private static readonly int RedMask;
+		private static readonly int GreenMask;
+		private static readonly int BlueMask;
+		private static readonly int AlphaMask;
+
+		static Color()
+		{
+			uint a = 0xff000000;
+			AlphaMask = (int)a;
+			RedMask = 0x00ff0000;
+			GreenMask = 0x0000ff00;
+			BlueMask = 0x000000ff;
+		}
+
+
+		public static int Multiply(int color1, int color2)
+		{
+			var red2 = (color2&RedMask)>>16;
+			var red = (((color1&RedMask)>>8)*red2);
+
+			var green2 = (color2 & GreenMask)>>8;
+			var green = (((color1 & GreenMask)>>8)*green2);
+
+			var blue2 = (color2 & BlueMask);
+			var blue = (((color1 & BlueMask)*blue2)>>8);
+
+			var alpha2 = (color2 & AlphaMask) >> 24;
+			var alpha = ((color1 & AlphaMask) >> 8)*alpha2;
+
+			return red|green|blue|alpha;
+		}
+
 #if(!IOS)
 		/// <summary>
 		/// Implicitly convert to <see cref="Color"/> from <see cref="SysColor"/>

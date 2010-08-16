@@ -102,5 +102,77 @@ namespace Balder.Tests
 			Assert.That(result.Alpha, Is.EqualTo(0xff));
 		}
 
+		[Test]
+		public void MultiplyingIntegerColorWithOnlyRedSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color {Red = 0x80, Alpha = 0};
+			var color2 = new Color { Red = 0x80, Alpha = 0};
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Multiply(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x400000));
+		}
+
+		[Test]
+		public void MultiplyingIntegerColorWithOnlyGreenSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Green = 0x80, Alpha = 0};
+			var color2 = new Color { Green = 0x80, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Multiply(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x4000));
+		}
+
+		[Test]
+		public void MultiplyingIntegerColorWithOnlyBlueSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Blue = 0x80, Alpha = 0 };
+			var color2 = new Color { Blue = 0x80, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Multiply(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x40));
+		}
+
+		[Test]
+		public void MultiplyingIntegerColorWithOnlyAlphaSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Alpha = 0x80 };
+			var color2 = new Color { Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Multiply(color1AsInt, color2AsInt);
+
+			var expected = 0x40000000;
+			Assert.That(result, Is.EqualTo((int)expected));
+		}
+
+		[Test]
+		public void MultiplyingIntegerColorWithAllComponentsSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Red = 0x80, Green = 0x80, Blue = 0x80, Alpha = 0x80 };
+			var color2 = new Color { Red = 0x80, Green = 0x80, Blue = 0x80, Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Multiply(color1AsInt, color2AsInt);
+
+			var expected = 0x40404040;
+			Assert.That(result, Is.EqualTo((int)expected));
+		}
+
 	}
 }
