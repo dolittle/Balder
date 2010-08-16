@@ -318,17 +318,17 @@ namespace Balder
 		public static int Multiply(int color1, int color2)
 		{
 			var red2 = (color2&RedMask)>>16;
-			var red = (((color1&RedMask)>>8)*red2);
+			var red = RedMask & (((color1&RedMask)>>8)*red2);
 
 			var green2 = (color2 & GreenMask)>>8;
-			var green = (((color1 & GreenMask)>>8)*green2);
+			var green = GreenMask & (((color1 & GreenMask)>>8)*green2);
 
 			var blue2 = (color2 & BlueMask);
-			var blue = (((color1 & BlueMask)*blue2)>>8);
+			var blue = BlueMask & (((color1 & BlueMask)*blue2)>>8);
 
-			var alpha2 = (color2 & AlphaMask) >> 24;
-			var alpha = ((color1 & AlphaMask) >> 8)*alpha2;
-
+			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
+			var alpha = (0xff0000&((color1 & AlphaMask) >> 8))*alpha2;
+			
 			return red|green|blue|alpha;
 		}
 

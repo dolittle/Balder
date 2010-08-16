@@ -79,7 +79,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = Cluts.Multiply(Bilerp(Texture,intu, intv,u,v), colorAsInt)|AlphaFull;
+						Framebuffer[offset] = Color.Multiply(Bilerp(Texture,intu, intv,u,v), colorAsInt)|AlphaFull;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}

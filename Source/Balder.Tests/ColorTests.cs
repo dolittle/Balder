@@ -162,15 +162,15 @@ namespace Balder.Tests
 		[Test]
 		public void MultiplyingIntegerColorWithAllComponentsSetShouldProduceCorrectResult()
 		{
-			var color1 = new Color { Red = 0x80, Green = 0x80, Blue = 0x80, Alpha = 0x80 };
-			var color2 = new Color { Red = 0x80, Green = 0x80, Blue = 0x80, Alpha = 0x80 };
+			var color1 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
+			var color2 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
 
 			var color1AsInt = color1.ToInt();
 			var color2AsInt = color2.ToInt();
 
 			var result = Color.Multiply(color1AsInt, color2AsInt);
 
-			var expected = 0x40404040;
+			var expected = 0x90909090;
 			Assert.That(result, Is.EqualTo((int)expected));
 		}
 
