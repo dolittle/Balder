@@ -317,19 +317,40 @@ namespace Balder
 
 		public static int Multiply(int color1, int color2)
 		{
-			var red2 = (color2&RedMask)>>16;
-			var red = RedMask & (((color1&RedMask)>>8)*red2);
+			var red2 = (color2 & RedMask) >> 16;
+			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
 
-			var green2 = (color2 & GreenMask)>>8;
-			var green = GreenMask & (((color1 & GreenMask)>>8)*green2);
+			var green2 = (color2 & GreenMask) >> 8;
+			var green = GreenMask & (((color1 & GreenMask) >> 8) * green2);
 
 			var blue2 = (color2 & BlueMask);
-			var blue = BlueMask & (((color1 & BlueMask)*blue2)>>8);
+			var blue = BlueMask & (((color1 & BlueMask) * blue2) >> 8);
 
 			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
-			var alpha = (0xff0000&((color1 & AlphaMask) >> 8))*alpha2;
-			
-			return red|green|blue|alpha;
+			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
+
+			return red | green | blue | alpha;
+		}
+
+
+		public static int Blend(int color1, int color2)
+		{
+			var color1Alpha = ((color1) >> 24) & 0xff;
+			var color2Alpha = ((color2) >> 24) & 0xff;
+
+			var red2 = (((color2 & RedMask) >> 16) * color2Alpha) >> 8;
+			var red = RedMask & ((((color1 & RedMask) * color1Alpha) >> 16) * red2);
+
+			var green2 = (((color2 & GreenMask) >> 8) * color2Alpha) >> 8;
+			var green = GreenMask & ((((color1 & GreenMask) * color1Alpha) >> 16) * green2);
+
+			var blue2 = ((color2 & BlueMask)*color2Alpha)>>8;
+			var blue = BlueMask & ((((color1 & BlueMask) * color1Alpha) * blue2) >> 16);
+
+			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
+			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
+
+			return red | green | blue | alpha;
 		}
 
 #if(!IOS)

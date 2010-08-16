@@ -174,5 +174,64 @@ namespace Balder.Tests
 			Assert.That(result, Is.EqualTo((int)expected));
 		}
 
+
+		[Test]
+		public void BlendingIntegerColorWithRedSetAndAlphaBeingHalfShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Red = 0x80, Alpha = 0x80 };
+			var color2 = new Color { Red = 0x80, Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Blend(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x40100000));
+		}
+
+		[Test]
+		public void BlendingIntegerColorWithGreenSetAndAlphaBeingHalfShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Green = 0x80, Alpha = 0x80 };
+			var color2 = new Color { Green = 0x80, Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Blend(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x40001000));
+		}
+
+		[Test]
+		public void BlendingIntegerColorWithBlueSetAndAlphaBeingHalfShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Blue = 0x80, Alpha = 0x80 };
+			var color2 = new Color { Blue = 0x80, Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Blend(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x40000010));
+		}
+
+		[Test]
+		public void BlendingIntegerColorWithAllComponentsSetAndAlphaBeingHalfShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0x80 };
+			var color2 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0x80 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Blend(color1AsInt, color2AsInt);
+
+			var expected = 0x40242424;
+			Assert.That(result, Is.EqualTo((int)expected));
+		}
+
+
 	}
 }
