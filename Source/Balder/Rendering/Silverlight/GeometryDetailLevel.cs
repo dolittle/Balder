@@ -412,7 +412,8 @@ namespace Balder.Rendering.Silverlight
 			if (!normal.IsColorCalculated)
 			{
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
-				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);	
+				normal.CalculatedColor =
+					Color.FromInt(_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed));
 			}
 			return normal.CalculatedColor;
 		}
@@ -437,7 +438,8 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Flat:
 					{
-						face.Color = _lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
+						face.Color = Color.FromInt(
+							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal));
 					}
 					break;
 			}

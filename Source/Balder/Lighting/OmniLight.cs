@@ -51,23 +51,24 @@ namespace Balder.Lighting
 		{
 			_position = Position;
 			_viewPosition = viewport.View.Position;
+			_strengthAsFloat = (float)Strength;
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
 		private Vector _position;
 		private Vector _viewPosition;
+		private float _strengthAsFloat;
 
-		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
+		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-			var actualAmbient = Ambient + material.ActualAmbient;
-			var actualDiffuse = Diffuse + material.ActualDiffuse;
-			var actualSpecular = material.Specular;
+			var actualAmbient = Color.Additive(AmbientAsInt, material.AmbientAsInt);
+			var actualDiffuse = Color.Additive(DiffuseAsInt, material.DiffuseAsInt);
+			var actualSpecular = material.SpecularAsInt;
 
-			var strengthAsFloat = (float)Strength;
 
 			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
 			// Ambient light
-			var ambient = actualAmbient * strengthAsFloat;
+			var ambient = Color.Scale(actualAmbient, _strengthAsFloat);
 
 			// Diffuse light
 			var lightDir = _position - point;
@@ -75,7 +76,7 @@ namespace Balder.Lighting
 			normal.Normalize();
 			var dfDot = lightDir.Dot(normal);
 			dfDot = MathHelper.Saturate(dfDot);
-			var diffuse = actualDiffuse * dfDot * strengthAsFloat;
+			var diffuse = Color.Scale(Color.Scale(actualDiffuse,dfDot), _strengthAsFloat);
 
 			// Specular highlight
 			var reflection = 2f * dfDot * normal - lightDir;
@@ -84,7 +85,7 @@ namespace Balder.Lighting
 			view.Normalize();
 			var spDot = reflection.Dot(view);
 			spDot = MathHelper.Saturate(spDot);
-			var specular = actualSpecular * spDot * strengthAsFloat;
+			var specular = Color.Scale(Color.Scale(actualSpecular, spDot), _strengthAsFloat);
 
 			// Compute self shadowing
 			var shadow = 4.0f * lightDir.Dot(normal);
@@ -96,9 +97,13 @@ namespace Balder.Lighting
 			attenuation = 1f - attenuation;
 
 			// Final result
-			var colorVector = (ambient + (shadow * diffuse) + specular) * attenuation;
+			var color = Color.Scale(
+				Color.Additive(
+					Color.Additive(
+						ambient, Color.Scale(diffuse, shadow)), specular)
+				, attenuation);
 
-			return colorVector;
+			return color;
 		}
 	}
 }

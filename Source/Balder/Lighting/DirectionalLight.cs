@@ -71,8 +71,10 @@ namespace Balder.Lighting
 			}
 		}
 
-		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
+		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
+			return 0xffffff;
+#if(FALSE)
 			var actualDiffuse = Diffuse;
 
 			var lightVector = -(Vector) Direction;
@@ -92,6 +94,7 @@ namespace Balder.Lighting
 
 			var color = diffuseLight*(float)specular;
 			return color;
+#endif
 		}
 	}
 }

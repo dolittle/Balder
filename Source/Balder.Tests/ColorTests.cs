@@ -336,7 +336,7 @@ namespace Balder.Tests
 		}
 
 		[Test]
-		public void AddingIntegerColorWithAllComponentsSetThatWillOverfloatShouldProduceSaturate()
+		public void AddingIntegerColorWithAllComponentsSetThatWillOverfloatShouldSaturate()
 		{
 			var color1 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
 			var color2 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
@@ -348,6 +348,46 @@ namespace Balder.Tests
 
 			var expected = 0xffffffff;
 			Assert.That(result, Is.EqualTo((int)expected));
+		}
+
+		[Test]
+		public void ScalingIntegerColorWithRedSetShouldProduceCorrectResult()
+		{
+			var color = new Color { Red = 0x80, Alpha = 0x0 };
+
+			var colorAsInt = color.ToInt();
+			var result = Color.Scale(colorAsInt, 0x80);
+			Assert.That(result, Is.EqualTo(0x400000));
+		}
+
+		[Test]
+		public void ScalingIntegerColorWithGreenSetShouldProduceCorrectResult()
+		{
+			var color = new Color { Green = 0x80, Alpha = 0x0 };
+
+			var colorAsInt = color.ToInt();
+			var result = Color.Scale(colorAsInt, 0x80);
+			Assert.That(result, Is.EqualTo(0x4000));
+		}
+
+		[Test]
+		public void ScalingIntegerColorWithBlueSetShouldProduceCorrectResult()
+		{
+			var color = new Color { Blue = 0x80, Alpha = 0x0 };
+
+			var colorAsInt = color.ToInt();
+			var result = Color.Scale(colorAsInt, 0x80);
+			Assert.That(result, Is.EqualTo(0x40));
+		}
+
+		[Test]
+		public void ScalingIntegerColorWithAllComponentsSetShouldProduceCorrectResult()
+		{
+			var color = new Color { Red = 0x80, Green = 0x80, Blue = 0x80, Alpha = 0x80 };
+
+			var colorAsInt = color.ToInt();
+			var result = Color.Scale(colorAsInt, 0x80);
+			Assert.That(result, Is.EqualTo(0x40404040));
 		}
 
 	}

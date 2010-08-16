@@ -41,6 +41,11 @@ namespace Balder.Materials
 	public class Material
 #endif
 	{
+		internal Color ActualAmbient;
+		internal Color ActualDiffuse;
+		internal int AmbientAsInt;
+		internal int DiffuseAsInt;
+		internal int SpecularAsInt;
 		public static Material Default;
 
 		static Material()
@@ -78,8 +83,6 @@ namespace Balder.Materials
 #endif
 		}
 
-		internal Color ActualAmbient;
-		internal Color ActualDiffuse;
 
 		public bool LinkAmbientAndDiffuse { get; set; }
 
@@ -302,6 +305,10 @@ namespace Balder.Materials
 		{
 			ActualAmbient = GetActualColor(Ambient);
 			ActualDiffuse = GetActualColor(Diffuse);
+
+			AmbientAsInt = ActualAmbient.ToInt();
+			DiffuseAsInt = ActualDiffuse.ToInt();
+			SpecularAsInt = Specular.ToInt();
 		}
 
 		private Color GetActualColor(Color color)
@@ -349,6 +356,7 @@ namespace Balder.Materials
 
 		internal Texture DiffuseTexture;
 		internal Texture ReflectionTexture;
+
 
 		private void MaterialPropertiesChanged()
 		{

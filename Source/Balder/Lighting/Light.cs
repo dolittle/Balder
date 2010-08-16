@@ -32,7 +32,7 @@ namespace Balder.Lighting
 #pragma warning disable 1591 // Xml Comments
 	public abstract class Light : EnvironmentalNode, ILight
 	{
-		public abstract Color Calculate(Viewport viewport, Material material, Vector point, Vector normal);
+		public abstract int Calculate(Viewport viewport, Material material, Vector point, Vector normal);
 
 		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
 
@@ -43,7 +43,11 @@ namespace Balder.Lighting
 		public Color Diffuse
 		{
 			get { return DiffuseProp.GetValue(this); }
-			set { DiffuseProp.SetValue(this, value); }
+			set
+			{
+				DiffuseProp.SetValue(this, value);
+				DiffuseAsInt = value.ToInt();
+			}
 		}
 
 		public static readonly Property<Light, Color> SpecularProp = Property<Light, Color>.Register(l => l.Specular);
@@ -54,7 +58,11 @@ namespace Balder.Lighting
 		public Color Specular
 		{
 			get { return SpecularProp.GetValue(this); }
-			set { SpecularProp.SetValue(this, value); }
+			set
+			{
+				SpecularProp.SetValue(this, value);
+				SpecularAsInt = value.ToInt();
+			}
 		}
 
 		public static readonly Property<Light, Color> AmbientProp = Property<Light, Color>.Register(l => l.Ambient);
@@ -65,8 +73,17 @@ namespace Balder.Lighting
 		public Color Ambient
 		{
 			get { return AmbientProp.GetValue(this); }
-			set { AmbientProp.SetValue(this, value); }
+			set
+			{
+				AmbientProp.SetValue(this, value);
+				AmbientAsInt = value.ToInt();
+			}
 		}
+
+
+		internal int AmbientAsInt;
+		internal int DiffuseAsInt;
+		internal int SpecularAsInt;
 
 	}
 #pragma warning restore 1591

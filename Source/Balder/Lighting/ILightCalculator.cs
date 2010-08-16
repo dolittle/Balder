@@ -41,6 +41,6 @@ namespace Balder.Lighting
 		/// inside the viewport - meaning that it will calculate using all lights
 		/// available.
 		/// </remarks>
-		Color Calculate(Viewport viewport, Material material, Vector point, Vector normal);
+		int Calculate(Viewport viewport, Material material, Vector point, Vector normal);
 	}
 }

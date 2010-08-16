@@ -103,8 +103,9 @@ namespace Balder.Lighting
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		public override Color Calculate(Viewport viewport, Material material, Vector point, Vector normal)
+		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
+#if(FALSE)
 			var camera = viewport.View as Camera;
 			if (null != camera)
 			{
@@ -120,6 +121,8 @@ namespace Balder.Lighting
 				return color;
 			}
 			return new Color();
+#endif
+			return 0xffffff;
 		}
 	}
 }

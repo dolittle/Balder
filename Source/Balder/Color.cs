@@ -49,6 +49,37 @@ namespace Balder
 	{
 		private static readonly Random Rnd = new Random();
 
+
+		private static readonly int RedMask;
+		private static readonly int GreenMask;
+		private static readonly int BlueMask;
+		private static readonly int AlphaMask;
+		private static readonly int AlphaShiftedMask;
+		private static readonly int RedUnderflow;
+		private static readonly int GreenUnderflow;
+		private static readonly int BlueUnderflow;
+		private static readonly int AlphaUnderflow;
+		private static readonly int AlphaShiftedUnderflow;
+
+		static Color()
+		{
+			RedMask = 0x00ff0000;
+			RedUnderflow = 0x0000ffff;
+
+			GreenMask = 0x0000ff00;
+			GreenUnderflow = 0x000000ff;
+
+			BlueMask = 0x000000ff;
+			BlueUnderflow = 0x00000000;
+
+			uint a = 0xff000000;
+			AlphaMask = (int)a;
+			AlphaUnderflow = 0x00ffffff;
+
+			AlphaShiftedMask = 0x00ff0000;
+			AlphaShiftedUnderflow = 0x0000ffff;
+		}
+
 		/// <summary>
 		/// Creates an instance of <see cref="Color"/> with all channels initialized
 		/// </summary>
@@ -118,6 +149,16 @@ namespace Balder
 								Blue = blue,
 								Alpha = alpha
 							};
+			return color;
+		}
+
+		public static Color FromInt(int colorAsInt)
+		{
+			var color = new Color();
+			color.Red = (byte)((colorAsInt & RedMask) >> 16);
+			color.Green = (byte)((colorAsInt & GreenMask) >> 8);
+			color.Blue = (byte)((colorAsInt & BlueMask));
+			color.Alpha = (byte)((colorAsInt & RedMask) >> 24);
 			return color;
 		}
 
@@ -300,20 +341,6 @@ namespace Balder
 			return Scale(color, value);
 		}
 
-		private static readonly int RedMask;
-		private static readonly int GreenMask;
-		private static readonly int BlueMask;
-		private static readonly int AlphaMask;
-
-		static Color()
-		{
-			uint a = 0xff000000;
-			AlphaMask = (int)a;
-			RedMask = 0x00ff0000;
-			GreenMask = 0x0000ff00;
-			BlueMask = 0x000000ff;
-		}
-
 
 		public static int Multiply(int color1, int color2)
 		{
@@ -373,10 +400,106 @@ namespace Balder
 				blue = BlueMask;
 			}
 
-			var alpha = ((color1 & AlphaMask)>>8) + ((color2 & AlphaMask)>>8);
-			if (alpha > (AlphaMask>>8))
+			var alpha = ((color1 >> 8) & AlphaShiftedMask) + ((color2 >> 8) & AlphaShiftedMask);
+			if (alpha  > (AlphaShiftedMask))
 			{
 				alpha = AlphaMask;
+			} else
+			{
+				alpha <<= 8;
+			}
+
+			return red | green | blue | alpha;
+		}
+
+		public static int Scale(int color, int scale)
+		{
+			var red = RedMask & (((color & RedMask) >> 8) * scale);
+			if (red > RedMask)
+			{
+				red = RedMask;
+			} else if( red <= RedUnderflow )
+			{
+				red = 0;
+			}
+			
+
+			var green = GreenMask & (((color & GreenMask) >> 8) * scale);
+			if (green > GreenMask)
+			{
+				green = GreenMask;
+			} else if( green <= GreenUnderflow )
+			{
+				green = 0;
+			}
+			
+
+			var blue = BlueMask & (((color & BlueMask) * scale) >> 8);
+			if (blue > BlueMask)
+			{
+				blue = BlueMask;
+			} else if ( blue <= BlueUnderflow )
+			{
+				blue = 0;
+			}
+
+			var alpha = (0xff0000 & ((color & AlphaMask) >> 8)) * scale;
+			if ((alpha>>8) > (AlphaShiftedMask))
+			{
+				alpha = AlphaMask;
+			} else if((alpha>>8) < AlphaShiftedUnderflow)
+			{
+				alpha = 0;
+			}
+
+			return red | green | blue | alpha;
+		}
+
+
+		public static int Scale(int color, float scale)
+		{
+			var scaleAsInt = (int) (scale*65536f);
+
+			var red = RedMask & (((color & RedMask) >> 8) * scaleAsInt) >>8;
+			if (red > RedMask)
+			{
+				red = RedMask;
+			}
+			else if (red <= RedUnderflow)
+			{
+				red = 0;
+			}
+
+
+			var green = GreenMask & (((color & GreenMask) >> 8) * scaleAsInt) >> 8;
+			if (green > GreenMask)
+			{
+				green = GreenMask;
+			}
+			else if (green <= GreenUnderflow)
+			{
+				green = 0;
+			}
+
+
+			var blue = BlueMask & (((color & BlueMask) * scaleAsInt) >> 16);
+			if (blue > BlueMask)
+			{
+				blue = BlueMask;
+			}
+			else if (blue <= BlueUnderflow)
+			{
+				blue = 0;
+			}
+
+			var alpha = (0xff0000 & (((((color & AlphaMask) >> 8)) * scaleAsInt)>>8));
+			if ((alpha >> 8) > (AlphaShiftedMask))
+			{
+				alpha = AlphaMask;
+			}
+			else if ((alpha >> 8) < AlphaShiftedUnderflow)
+			{
+				alpha = 0;
 			}
 
 			return red | green | blue | alpha;
