@@ -90,7 +90,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected static int RedMask;
 		protected static int GreenMask;
 		protected static int BlueMask;
-		protected static int AlphaFull;
 
 		static Triangle()
 		{
@@ -98,9 +97,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			GreenMask = (int)g;
 			RedMask = 0x00ff0000;
 			BlueMask = 0x00ff0000;
-
-			uint a = 0xff000000;
-			AlphaFull = (int)a;
 		}
 
 		protected static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
@@ -223,10 +219,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 				belowOffset = map.Height - 1;
 			}
 
-			var cr1 = map.Pixels[x, y] | AlphaFull;
-			var cr2 = map.Pixels[rightOffset, y] | AlphaFull;
-			var cr3 = map.Pixels[rightOffset, belowOffset] | AlphaFull;
-			var cr4 = map.Pixels[x, belowOffset] | AlphaFull;
+			var cr1 = map.Pixels[x, y] | Color.AlphaFull;
+			var cr2 = map.Pixels[rightOffset, y] | Color.AlphaFull;
+			var cr3 = map.Pixels[rightOffset, belowOffset] | Color.AlphaFull;
+			var cr4 = map.Pixels[x, belowOffset] | Color.AlphaFull;
 
 			var a = (0x100 - h) * (0x100 - i);
 			var b = (0x000 + h) * (0x100 - i);
@@ -237,7 +233,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var green = GreenMask & (((cr1 & 0x0000ff00) * a) + ((cr2 & 0x000000ff00) * b) + ((cr3 & 0x0000ff00) * c) + ((cr4 & 0x0000ff00) * d));
 			var blue = BlueMask & (((cr1 & 0x000000ff) * a) + ((cr2 & 0x000000ff) * b) + ((cr3 & 0x000000ff) * c) + ((cr4 & 0x000000ff) * d));
 
-			var pixel = red | (((green | blue) >> 16) & 0xffff) | AlphaFull;
+			var pixel = red | (((green | blue) >> 16) & 0xffff) | Color.AlphaFull;
 			return pixel;
 		}
 

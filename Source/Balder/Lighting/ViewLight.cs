@@ -32,7 +32,7 @@ namespace Balder.Lighting
 		private Vector _direction;
 		private Vector _viewDirection;
 		private Vector _lightVector;
-		private Color _actualDiffuse;
+		private int _actualDiffuse;
 		private Matrix _angleMatrix;
 
 
@@ -98,31 +98,28 @@ namespace Balder.Lighting
 			_viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
 			_viewDirection.Normalize();
 
-			_actualDiffuse = Diffuse;
+			_actualDiffuse = DiffuseAsInt;
 
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-#if(FALSE)
 			var camera = viewport.View as Camera;
 			if (null != camera)
 			{
 				var ndl = System.Math.Max(0, normal.Dot(_lightVector));
-				var diffuseLight = ndl * _actualDiffuse;
+				var diffuseLight = Color.Scale(_actualDiffuse, ndl);
 
 				var reflectionVector = Vector.Reflect(_lightVector, normal);
 				reflectionVector.Normalize();
 
 				var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), SpecularPower);
 
-				var color = diffuseLight * (float)specular;
+				var color = Color.Scale(diffuseLight, (float)specular);
 				return color;
 			}
-			return new Color();
-#endif
-			return 0xffffff;
+			return Color.AlphaFull;
 		}
 	}
 }

@@ -73,16 +73,14 @@ namespace Balder.Lighting
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-			return 0xffffff;
-#if(FALSE)
-			var actualDiffuse = Diffuse;
+			var actualDiffuse = DiffuseAsInt;
 
 			var lightVector = -(Vector) Direction;
 			lightVector.Normalize();
 
 			var ndl = System.Math.Max(0, normal.Dot(lightVector));
 
-			var diffuseLight = ndl*actualDiffuse;
+			var diffuseLight = Color.Scale(actualDiffuse, ndl);
 
 			var reflectionVector = Vector.Reflect(lightVector, normal);
 			reflectionVector.Normalize();
@@ -92,9 +90,8 @@ namespace Balder.Lighting
 
 			var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(viewDirection)), SpecularPower);
 
-			var color = diffuseLight*(float)specular;
+			var color = Color.Scale(diffuseLight, (float)specular);
 			return color;
-#endif
 		}
 	}
 }

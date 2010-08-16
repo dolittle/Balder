@@ -61,6 +61,8 @@ namespace Balder
 		private static readonly int AlphaUnderflow;
 		private static readonly int AlphaShiftedUnderflow;
 
+		public static int AlphaFull;
+
 		static Color()
 		{
 			RedMask = 0x00ff0000;
@@ -75,6 +77,7 @@ namespace Balder
 			uint a = 0xff000000;
 			AlphaMask = (int)a;
 			AlphaUnderflow = 0x00ffffff;
+			AlphaFull = (int)a;
 
 			AlphaShiftedMask = 0x00ff0000;
 			AlphaShiftedUnderflow = 0x0000ffff;

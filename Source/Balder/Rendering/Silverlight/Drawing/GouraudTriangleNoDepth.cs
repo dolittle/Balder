@@ -50,7 +50,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					//var alpha = (uint)(aStart >> 8) & 0xff;
 
-					var colorAsInt = AlphaFull |
+					var colorAsInt = Color.AlphaFull |
 										(red << 16) |
 										(green << 8) |
 										blue;

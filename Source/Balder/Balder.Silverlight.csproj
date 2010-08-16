@@ -99,7 +99,6 @@
     <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
-    <Compile Include="Cluts.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
