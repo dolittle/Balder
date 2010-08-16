@@ -100,6 +100,7 @@ namespace Balder.Assets.AssetLoaders
 
 		private static readonly Dictionary<string, EndScopeHandler> EndScopeHandlers = new Dictionary<string, EndScopeHandler>
 		                                                                               	{
+																							{GEOMOBJECT, GeometryEndScopeHandler}
 
 		                                                                               	};
 
@@ -154,7 +155,6 @@ namespace Balder.Assets.AssetLoaders
 						var endIndex = trimmedLine.IndexOf("{");
 						var scope = trimmedLine.Substring(startIndex, endIndex - startIndex).Trim();
 
-
 						var scopeParameter = string.Empty;
 						var elements = scope.Split(' ');
 						if (elements.Length == 2)
@@ -205,16 +205,16 @@ namespace Balder.Assets.AssetLoaders
 
 		private static void HandleBeginScope(AseGlobals globals, string scope, string scopeParameter, object scopeObject)
 		{
-			if( BeginScopeHandlers.ContainsKey(scope))
+			if (BeginScopeHandlers.ContainsKey(scope))
 			{
 				BeginScopeHandlers[scope](globals, scopeObject, scope, scopeParameter);
 			}
-			
+
 		}
 
 		private static void HandleEndScope(AseGlobals globals, string scope, object scopeObject)
 		{
-			if( EndScopeHandlers.ContainsKey(scope) )
+			if (EndScopeHandlers.ContainsKey(scope))
 			{
 				EndScopeHandlers[scope](globals, scopeObject, scope);
 			}
@@ -234,7 +234,7 @@ namespace Balder.Assets.AssetLoaders
 					var contentIndex = 0;
 
 					if ((firstTab < firstSpace || firstSpace < 0) &&
-					    firstTab > 0)
+						firstTab > 0)
 					{
 						contentIndex = firstTab;
 					}
@@ -243,9 +243,9 @@ namespace Balder.Assets.AssetLoaders
 						contentIndex = firstSpace;
 					}
 
-					if( contentIndex < 1 )
+					if (contentIndex < 1)
 					{
-						contentIndex = trimmedLine.Length-1;
+						contentIndex = trimmedLine.Length - 1;
 					}
 
 
@@ -276,25 +276,27 @@ namespace Balder.Assets.AssetLoaders
 						material.Shade = MaterialShade.Gouraud;
 						material.Specular = Colors.White;
 
-						if( scope == SUBMATERIAL )
+						if (scope == SUBMATERIAL)
 						{
 							Dictionary<int, Material> subMaterials;
-							if( !globals.SubMaterials.ContainsKey(globals.CurrentMaterial))
+							if (!globals.SubMaterials.ContainsKey(globals.CurrentMaterial))
 							{
 								subMaterials = new Dictionary<int, Material>();
-							} else
+							}
+							else
 							{
 								subMaterials = globals.SubMaterials[globals.CurrentMaterial];
 							}
 							globals.SubMaterials[globals.CurrentMaterial] = subMaterials;
 							subMaterials[materialIndex] = material;
 
-						} else
+						}
+						else
 						{
 							globals.Materials[materialIndex] = material;
 							globals.CurrentMaterial = material;
 						}
-						
+
 						return material;
 					}
 			}
@@ -311,34 +313,7 @@ namespace Balder.Assets.AssetLoaders
 				case MATERIAL_REF:
 					{
 						var materialRef = Convert.ToInt32(content);
-						if (null != globals.Materials && globals.Materials.ContainsKey(materialRef) )
-						{
-							var subMaterialSet = false;
-							var material = globals.Materials[materialRef];
-
-							var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
-							geometryDetailLevel.AllocateFaces(globals.Faces.Length);
-							for( var faceIndex=0; faceIndex<globals.Faces.Length; faceIndex++ )
-							{
-								var face = globals.Faces[faceIndex];
-
-								if( globals.SubMaterials.ContainsKey(material))
-								{
-									if( globals.SubMaterials[material].ContainsKey(face.MaterialId))
-									{
-										face.Material = globals.SubMaterials[material][face.MaterialId];
-										subMaterialSet = true;
-									}
-								}
-
-								geometryDetailLevel.SetFace(faceIndex, face);
-							}
-
-							if(!subMaterialSet)
-							{
-								geometry.Material = material;
-							}
-						}
+						globals.CurrentMaterialRef = materialRef;
 					}
 					break;
 				case TM_ROW0:
@@ -377,8 +352,8 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-				
-					
+
+
 				case TM_POS:
 					{
 						// TODO : Introduce some kinda "out-of-scope" callback mechanism - this is kinda hacky
@@ -388,6 +363,42 @@ namespace Balder.Assets.AssetLoaders
 
 			}
 		}
+
+		private static void GeometryEndScopeHandler(AseGlobals globals, object scopeObject, string scopeName)
+		{
+			var geometry = scopeObject as Geometry;
+			var materialRef = globals.CurrentMaterialRef;
+			globals.CurrentMaterialRef = 0;
+
+			var subMaterialSet = false;
+			Material material = null;
+			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
+			geometryDetailLevel.AllocateFaces(globals.Faces.Length);
+
+			for (var faceIndex = 0; faceIndex < globals.Faces.Length; faceIndex++)
+			{
+				var face = globals.Faces[faceIndex];
+				if (null != globals.Materials && globals.Materials.ContainsKey(materialRef))
+				{
+					material = globals.Materials[materialRef];
+
+					if (globals.SubMaterials.ContainsKey(material))
+					{
+						if (globals.SubMaterials[material].ContainsKey(face.MaterialId))
+						{
+							face.Material = globals.SubMaterials[material][face.MaterialId];
+							subMaterialSet = true;
+						}
+					}
+				}
+				geometryDetailLevel.SetFace(faceIndex, face);
+			}
+			if (!subMaterialSet)
+			{
+				geometry.Material = material;
+			}
+		}
+
 
 		private static void MeshScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
@@ -461,7 +472,7 @@ namespace Balder.Assets.AssetLoaders
 						var g = float.Parse(elements[3], CultureInfo.InvariantCulture);
 						var b = float.Parse(elements[2], CultureInfo.InvariantCulture);
 
-						var color = new Color((byte)(r*255f), (byte)(g*255f), (byte)(b*255f), 0xff);
+						var color = new Color((byte)(r * 255f), (byte)(g * 255f), (byte)(b * 255f), 0xff);
 						globals.CurrentObjectVertexColors[colorIndex] = color;
 					}
 					break;
@@ -471,7 +482,7 @@ namespace Balder.Assets.AssetLoaders
 
 		private static void ColorFaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
-			switch( propertyName)
+			switch (propertyName)
 			{
 				case MESH_CFACE:
 					{
@@ -488,9 +499,9 @@ namespace Balder.Assets.AssetLoaders
 					break;
 
 			}
-			
+
 		}
-        
+
 
 		private static void FaceScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
@@ -502,7 +513,7 @@ namespace Balder.Assets.AssetLoaders
 						var smoothingGroup = GetFaceParameter(content, MESH_SMOOTHING);
 						var materialId = GetFaceParameter(content, MESH_MTLID);
 						content = content.Replace(" ", string.Empty);
-                        var elements = content.Split(':');
+						var elements = content.Split(':');
 
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[2].Substring(0, elements[2].Length - 1));
@@ -526,7 +537,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				var length = 2;
 				var startIndex = parameterIndex + parameterName.Length + 1;
-				if( content.Length-startIndex < 2 )
+				if (content.Length - startIndex < 2)
 				{
 					length = 1;
 				}
@@ -593,7 +604,7 @@ namespace Balder.Assets.AssetLoaders
 
 		private static void MaterialScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
-			switch( propertyName)
+			switch (propertyName)
 			{
 				case MATERIAL:
 					{

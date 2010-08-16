@@ -24,8 +24,10 @@ using System.Windows;
 using Balder.Rendering.Silverlight;
 using Balder.Rendering.Silverlight.Drawing;
 using Balder.Silverlight.TypeConverters;
+using Ninject;
 #endif
 using Balder.Execution;
+
 
 
 namespace Balder.Materials
@@ -345,10 +347,35 @@ namespace Balder.Materials
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly GouraudTextureTriangleBilinear GouraudTextureTriangleBilinearRenderer = new GouraudTextureTriangleBilinear();
 
+		internal Texture DiffuseTexture;
+		internal Texture ReflectionTexture;
+
 		private void MaterialPropertiesChanged()
 		{
 			UpdateColors();
 			SetRenderer();
+			SetTextures();
+		}
+
+		private static ITextureManager _textureManager;
+		private void SetTextures()
+		{
+			if( null == _textureManager )
+			{
+				// TODO: Look into this - would be nice to have a better way of doing 
+				// the performance boost of caching the textures directly - very platform specific thing
+				// bleeding into core - possibly introduce a MaterialContext thing
+				_textureManager = Runtime.Instance.Kernel.Get<ITextureManager>();
+			}
+
+			if (null != DiffuseMap)
+			{
+				DiffuseTexture = _textureManager.GetTextureForMap(DiffuseMap);
+			}
+			if( null != ReflectionMap )
+			{
+				ReflectionTexture = _textureManager.GetTextureForMap(ReflectionMap);
+			}
 		}
 
 

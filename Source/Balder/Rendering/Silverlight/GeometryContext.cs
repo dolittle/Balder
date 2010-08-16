@@ -65,7 +65,7 @@ namespace Balder.Rendering.Silverlight
 			}
 			else
 			{
-				detailLevel = new GeometryDetailLevel(_lightCalculator, _textureManager);
+				detailLevel = new GeometryDetailLevel(_lightCalculator);
 				_detailLevels[level] = detailLevel;
 			}
 			return detailLevel;
@@ -123,7 +123,7 @@ namespace Balder.Rendering.Silverlight
 					}
 				}
 
-				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator, _textureManager);
+				var boundingBoxDetailLevel = new BoundingGeometryDetailLevel(minimum, maximum, _lightCalculator);
 				_detailLevels[DetailLevel.BoundingBox] = boundingBoxDetailLevel;
 			}
 		}

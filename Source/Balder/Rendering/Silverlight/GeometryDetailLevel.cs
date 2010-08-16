@@ -32,7 +32,6 @@ namespace Balder.Rendering.Silverlight
 	{
 		private static readonly Point PointRenderer = new Point();
 		private readonly ILightCalculator _lightCalculator;
-		private readonly ITextureManager _textureManager;
 
 		private RenderVertex[] _vertices;
 		private RenderFace[] _faces;
@@ -45,10 +44,9 @@ namespace Balder.Rendering.Silverlight
 		private Material _colorMaterial;
 
 
-		public GeometryDetailLevel(ILightCalculator lightCalculator, ITextureManager textureManager)
+		public GeometryDetailLevel(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
-			_textureManager = textureManager;
 			_colorMaterial = Material.FromColor(Colors.Blue);
 		}
 
@@ -237,7 +235,7 @@ namespace Balder.Rendering.Silverlight
 
 		public void CalculateNormals(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			if( null == _normals )
+			if (null == _normals)
 			{
 				return;
 			}
@@ -287,7 +285,7 @@ namespace Balder.Rendering.Silverlight
 			var color = GetColorFromNode(node);
 
 			BeginVerticesTiming(node);
-			
+
 			CalculateVertices(viewport, view, projection, world);
 			EndVerticesTiming(node);
 
@@ -327,7 +325,7 @@ namespace Balder.Rendering.Silverlight
 		private void BeginVerticesTiming(INode node)
 		{
 			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if( null != geometryStatistics )
+			if (null != geometryStatistics)
 			{
 				geometryStatistics.BeginVerticesTiming();
 			}
@@ -392,7 +390,7 @@ namespace Balder.Rendering.Silverlight
 		private void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			var worldView = (world * view);
-			var worldViewProjection = worldView*projection;
+			var worldViewProjection = worldView * projection;
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
@@ -411,7 +409,7 @@ namespace Balder.Rendering.Silverlight
 			var normal = _normals[normalIndex];
 			var vertex = _vertices[vertexIndex];
 
-			if( !normal.IsColorCalculated )
+			if (!normal.IsColorCalculated)
 			{
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
 				normal.CalculatedColor = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);	
@@ -421,9 +419,28 @@ namespace Balder.Rendering.Silverlight
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-			face.CalculatedColorA = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
-			face.CalculatedColorB = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
-			face.CalculatedColorC = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
+			switch( material.Shade )
+			{
+				case MaterialShade.None:
+					{
+						face.CalculatedColorA = face.ColorA;
+						face.CalculatedColorB = face.ColorB;
+						face.CalculatedColorC = face.ColorC;
+					}
+					break;
+				case MaterialShade.Gouraud:
+					{
+						face.CalculatedColorA = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
+						face.CalculatedColorB = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
+						face.CalculatedColorC = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
+					}
+					break;
+				case MaterialShade.Flat:
+					{
+						face.Color = _lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
+					}
+					break;
+			}
 		}
 
 
@@ -478,10 +495,10 @@ namespace Balder.Rendering.Silverlight
 				var material = PrepareMaterialForFace(face, node);
 				CalculateVertexColorsForFace(face, viewport, material);
 
-				face.Texture1 = _textureManager.GetTextureForMap(material.DiffuseMap);
-				face.Texture2 = _textureManager.GetTextureForMap(material.ReflectionMap);
+				face.Texture1 = material.DiffuseTexture;
+				face.Texture2 = material.ReflectionTexture;
 
-				face.Color = _lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
+				
 				material.Renderer.Draw(face, _vertices);
 
 				faceCount++;
@@ -514,7 +531,7 @@ namespace Balder.Rendering.Silverlight
 			var c = _vertices[face.C];
 
 			var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
-			                   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
+							   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
 
 			var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
 			//&& viewport.View.IsInView(a.TransformedVector);

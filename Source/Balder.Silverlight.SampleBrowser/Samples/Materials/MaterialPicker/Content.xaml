@@ -15,7 +15,7 @@
 	</UserControl.Resources>
 	
 	<Grid x:Name="LayoutRoot">
-		<!--
+		
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
@@ -26,7 +26,7 @@
 				</BeginStoryboard>
 
 			</EventTrigger>
-		</Grid.Triggers>-->
+		</Grid.Triggers>
 
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>

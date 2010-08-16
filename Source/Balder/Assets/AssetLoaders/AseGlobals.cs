@@ -16,7 +16,9 @@ namespace Balder.Assets.AssetLoaders
 
 		public Matrix CurrentObjectsInvertedMatrix { get; set; }
 		public Color[] CurrentObjectVertexColors { get; set; }
-		public Material CurrentMaterial { get; set; }  
+		public Material CurrentMaterial { get; set; }
+
+		public int CurrentMaterialRef { get; set; }
 
 
 		public AseGlobals()

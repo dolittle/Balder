@@ -25,8 +25,8 @@ namespace Balder.Rendering.Silverlight
 {
 	public class BoundingGeometryDetailLevel : GeometryDetailLevel
 	{
-		public BoundingGeometryDetailLevel(Vector minimum, Vector maximum, ILightCalculator lightCalculator, ITextureManager textureManager)
-			: base(lightCalculator, textureManager)
+		public BoundingGeometryDetailLevel(Vector minimum, Vector maximum, ILightCalculator lightCalculator)
+			: base(lightCalculator)
 		{
 			AllocateVertices(8);
 			SetVertex(0,new Vertex(minimum.X, maximum.Y, minimum.Z));
