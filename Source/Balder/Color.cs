@@ -344,11 +344,40 @@ namespace Balder
 			var green2 = (((color2 & GreenMask) >> 8) * color2Alpha) >> 8;
 			var green = GreenMask & ((((color1 & GreenMask) * color1Alpha) >> 16) * green2);
 
-			var blue2 = ((color2 & BlueMask)*color2Alpha)>>8;
+			var blue2 = ((color2 & BlueMask) * color2Alpha) >> 8;
 			var blue = BlueMask & ((((color1 & BlueMask) * color1Alpha) * blue2) >> 16);
 
 			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
 			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
+
+			return red | green | blue | alpha;
+		}
+
+		public static int Additive(int color1, int color2)
+		{
+			var red = (color1 & RedMask) + (color2& RedMask);
+			if (red > RedMask)
+			{
+				red = RedMask;
+			}
+
+			var green = (color1 & GreenMask) + (color2 & GreenMask);
+			if (green > GreenMask)
+			{
+				green = GreenMask;
+			}
+
+			var blue = (color1 & BlueMask) + (color2 & BlueMask);
+			if (blue > BlueMask)
+			{
+				blue = BlueMask;
+			}
+
+			var alpha = ((color1 & AlphaMask)>>8) + ((color2 & AlphaMask)>>8);
+			if (alpha > (AlphaMask>>8))
+			{
+				alpha = AlphaMask;
+			}
 
 			return red | green | blue | alpha;
 		}

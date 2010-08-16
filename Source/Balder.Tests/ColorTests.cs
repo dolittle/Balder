@@ -232,6 +232,123 @@ namespace Balder.Tests
 			Assert.That(result, Is.EqualTo((int)expected));
 		}
 
+		[Test]
+		public void AddingIntegerColorWithRedSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Red = 0x20, Alpha = 0 };
+			var color2 = new Color { Red = 0x20, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x400000));
+		}
+
+		[Test]
+		public void AddingIntegerColorWithGreenSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Green = 0x20, Alpha = 0 };
+			var color2 = new Color { Green = 0x20, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x4000));
+		}
+
+		[Test]
+		public void AddingIntegerColorWithBlueSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Blue = 0x20, Alpha = 0 };
+			var color2 = new Color { Blue = 0x20, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x40));
+		}
+
+
+		[Test]
+		public void AddingIntegerColorWithAllComponentsSetShouldProduceCorrectResult()
+		{
+			var color1 = new Color { Red = 0x20, Green = 0x20, Blue = 0x20, Alpha = 0x20 };
+			var color2 = new Color { Red = 0x20, Green = 0x20, Blue = 0x20, Alpha = 0x20 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			var expected = 0x40404040;
+			Assert.That(result, Is.EqualTo((int)expected));
+		}
+
+
+		[Test]
+		public void AddingIntegerColorWithRedSetThatWillOverflowShouldSaturate()
+		{
+			var color1 = new Color { Red = 0xc0, Alpha = 0 };
+			var color2 = new Color { Red = 0xc0, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0xff0000));
+		}
+
+
+		[Test]
+		public void AddingIntegerColorWithGreenSetThatWillOverflowShouldSaturate()
+		{
+			var color1 = new Color { Green = 0xc0, Alpha = 0 };
+			var color2 = new Color { Green = 0xc0, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0x00ff00));
+		}
+
+
+		[Test]
+		public void AddingIntegerColorWithBlueSetThatWillOverflowShouldSaturate()
+		{
+			var color1 = new Color { Blue = 0xc0, Alpha = 0 };
+			var color2 = new Color { Blue = 0xc0, Alpha = 0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			Assert.That(result, Is.EqualTo(0xff));
+		}
+
+		[Test]
+		public void AddingIntegerColorWithAllComponentsSetThatWillOverfloatShouldProduceSaturate()
+		{
+			var color1 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
+			var color2 = new Color { Red = 0xc0, Green = 0xc0, Blue = 0xc0, Alpha = 0xc0 };
+
+			var color1AsInt = color1.ToInt();
+			var color2AsInt = color2.ToInt();
+
+			var result = Color.Additive(color1AsInt, color2AsInt);
+
+			var expected = 0xffffffff;
+			Assert.That(result, Is.EqualTo((int)expected));
+		}
 
 	}
 }
