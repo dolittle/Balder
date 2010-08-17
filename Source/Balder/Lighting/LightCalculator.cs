@@ -9,7 +9,7 @@ namespace Balder.Lighting
 	{
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
 		{
-			var color = viewport.Scene.AmbientColor.ToInt();
+			var color = 0; // viewport.Scene.AmbientColor.ToInt();
 			foreach( ILight light in viewport.Scene.Lights )
 			{
 				var lightColor = light.Calculate(viewport, material, vector, normal);

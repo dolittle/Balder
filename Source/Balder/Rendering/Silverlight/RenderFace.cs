@@ -61,7 +61,10 @@ namespace Balder.Rendering.Silverlight
 		public Color Color;
 
 		public Texture Texture1;
+		public int Texture1Factor;
+
 		public Texture Texture2;
+		public int Texture2Factor;
 
 		public Texture LightMap;
 

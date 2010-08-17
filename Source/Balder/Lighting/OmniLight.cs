@@ -78,6 +78,7 @@ namespace Balder.Lighting
 			var lightDir = _position - point;
 			lightDir.Normalize();
 			normal.Normalize();
+
 			var dfDot = System.Math.Max(0, lightDir.Dot(normal));
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
@@ -92,6 +93,7 @@ namespace Balder.Lighting
 			var specularPower = material.ShineStrengthAsFloat * (float)System.Math.Pow(spDot, material.ShineAsFloat);
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
+
 			// Compute self shadowing
 			var shadow = 4.0f * lightDir.Dot(normal);
 			shadow = MathHelper.Saturate(shadow);
@@ -102,6 +104,7 @@ namespace Balder.Lighting
 			attenuation = 1f - attenuation;
 
 			// Final result
+
 			var color = Color.Scale(
 				Color.Additive(
 					Color.Additive(

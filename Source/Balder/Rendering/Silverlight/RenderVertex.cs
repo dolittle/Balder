@@ -74,8 +74,11 @@ namespace Balder.Rendering.Silverlight
 		public Vector TransformedVector;
 		public Vector TransformedVectorNormalized;
 
-		public float U;
-		public float V;
+		public float U1;
+		public float V1;
+
+		public float U2;
+		public float V2;
 	}
 }
 #endif

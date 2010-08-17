@@ -518,7 +518,8 @@ namespace Balder.Rendering.Silverlight
 
 				face.Texture1 = material.DiffuseTexture;
 				face.Texture2 = material.ReflectionTexture;
-
+				face.Texture1Factor = material.DiffuseTextureFactor;
+				face.Texture2Factor = material.ReflectionTextureFactor;
 
 				material.Renderer.Draw(face, _vertices);
 

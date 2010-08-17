@@ -29,8 +29,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected override void DrawSpan(int offset)
 		{
-			var textureWidth = Texture.Width;
-			var textureHeight = Texture.Height;
+			var textureWidth = Texture1.Width;
+			var textureHeight = Texture1.Height;
 
 			float u;
 			float v;
@@ -38,8 +38,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var subPixelX = 1f - (X1 - (int)X1);
 			var zz = Z1 + subPixelX * ZInterpolateX;
-			var uu = U1 + subPixelX * UzInerpolateX;
-			var vv = V1 + subPixelX * VzInterpolateX;
+			var uu = U1 + subPixelX * U1zInterpolateX;
+			var vv = V1 + subPixelX * V1zInterpolateX;
 
 			var x1Int = (int)X1;
 			var x2Int = (int)X2;
@@ -61,7 +61,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = Bilerp(Texture, intu, intv, u, v) | Color.AlphaFull;
+						Framebuffer[offset] = Bilerp(Texture1, intu, intv, u, v) | Color.AlphaFull;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}
@@ -69,8 +69,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 				offset++;
 
 				zz += ZInterpolateX;
-				uu += UzInerpolateX;
-				vv += VzInterpolateX;
+				uu += U1zInterpolateX;
+				vv += V1zInterpolateX;
 			}
 		}
 

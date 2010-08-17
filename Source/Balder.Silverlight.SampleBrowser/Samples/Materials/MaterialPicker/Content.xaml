@@ -9,9 +9,14 @@
 	
 	<UserControl.Resources>
 		<Materials:Material x:Key="FlatMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Flat"/>
-		<Materials:Material x:Key="GouraudMaterial"  Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud"/>
-		<Materials:Material x:Key="TexturedMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
-		<Materials:Material x:Key="ReflectionMaterial" Ambient="Black" Diffuse="Red" Specular="White" Shade="Gouraud" ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="GouraudMaterial"  Ambient="Black" Diffuse="Blue" Specular="White" Shade="Gouraud"/>
+		<Materials:Material x:Key="TexturedMaterial" Ambient="Black" Diffuse="Blue" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
+		<Materials:Material x:Key="ReflectionMaterial" Ambient="Black" Diffuse="Blue" Specular="White" Shade="Gouraud" 
+							DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png"
+							DiffuseMapOpacity="1.0"
+							ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"
+							ReflectionMapOpacity="0.1"
+							/>
 	</UserControl.Resources>
 	
 	<Grid x:Name="LayoutRoot">
@@ -33,7 +38,7 @@
 				<View:Camera x:Name="Camera" Position="0,40,-80" Target="0,10,0" />
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,400,0" Ambient="Black" Diffuse="White" Strength="1"/>
+			<Lighting:OmniLight Position="0,200,-100" Ambient="Black" Diffuse="White" Strength="1"/>
 			
 			<Geometries:Geometry x:Name="GeometryContainer">
 				<Geometries:Mesh x:Name="Teapot" AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ase" IsVisible="True" InteractionEnabled="True"/>

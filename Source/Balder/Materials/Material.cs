@@ -249,9 +249,9 @@ namespace Balder.Materials
 			}
 		}
 
-		public static readonly Property<Material, float> DiffuseMapOpacityProperty =
-			Property<Material, float>.Register(m => m.DiffuseMapOpacity);
-		public float DiffuseMapOpacity
+		public static readonly Property<Material, double> DiffuseMapOpacityProperty =
+			Property<Material, double>.Register(m => m.DiffuseMapOpacity);
+		public double DiffuseMapOpacity
 		{
 			get { return DiffuseMapOpacityProperty.GetValue(this); }
 			set
@@ -289,9 +289,9 @@ namespace Balder.Materials
 		}
 
 
-		public static readonly Property<Material, float> ReflectionMapOpacityProperty =
-			Property<Material, float>.Register(m => m.ReflectionMapOpacity);
-		public float ReflectionMapOpacity
+		public static readonly Property<Material, double> ReflectionMapOpacityProperty =
+			Property<Material, double>.Register(m => m.ReflectionMapOpacity);
+		public double ReflectionMapOpacity
 		{
 			get { return ReflectionMapOpacityProperty.GetValue(this); }
 			set
@@ -321,27 +321,15 @@ namespace Balder.Materials
 		private Color GetActualColor(Color color)
 		{
 			Color actualColor;
+			var diffuseMapOpacity = (float) DiffuseMapOpacity;
+			var reflectionMapOpacity = (float) ReflectionMapOpacity;
 			if (null != DiffuseMap)
 			{
-				if (null != ReflectionMap)
-				{
-					actualColor = color * (1f - DiffuseMapOpacity) * (1f - ReflectionMapOpacity);
-				}
-				else
-				{
-					actualColor = color * (1f - DiffuseMapOpacity);
-				}
+				actualColor = color*(1f - diffuseMapOpacity); // +(Colors.White * diffuseMapOpacity);
 			}
 			else
 			{
-				if (null != ReflectionMap)
-				{
-					actualColor = color * (1f - ReflectionMapOpacity);
-				}
-				else
-				{
-					actualColor = color;
-				}
+				actualColor = color;
 			}
 
 			return actualColor;
@@ -356,13 +344,18 @@ namespace Balder.Materials
 		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
 		private static readonly FlatTextureTriangleBilinear FlatTextureTriangleBilinearRenderer = new FlatTextureTriangleBilinear();
 		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
+		private static readonly FlatDualTextureTriangle FlatDualTextureTriangleRenderer = new FlatDualTextureTriangle();
 		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
+		private static readonly GouraudDualTextureTriangle GouraudDualTextureTriangleRenderer = new GouraudDualTextureTriangle();
 		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly GouraudTextureTriangleBilinear GouraudTextureTriangleBilinearRenderer = new GouraudTextureTriangleBilinear();
 
 		internal Texture DiffuseTexture;
 		internal Texture ReflectionTexture;
+
+		internal int DiffuseTextureFactor;
+		internal int ReflectionTextureFactor;
 
 
 		private void MaterialPropertiesChanged()
@@ -391,6 +384,9 @@ namespace Balder.Materials
 			{
 				ReflectionTexture = _textureManager.GetTextureForMap(ReflectionMap);
 			}
+
+			DiffuseTextureFactor = (int) (DiffuseMapOpacity*256);
+			ReflectionTextureFactor = (int) (ReflectionMapOpacity*256);
 		}
 
 
@@ -419,7 +415,7 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 								           	? TextureTriangleBilinearRenderer
-								           	: (Triangle)TextureTriangleRenderer;
+								           	: (Triangle)FlatDualTextureTriangleRenderer;
 							}
 							else
 							{
@@ -485,7 +481,7 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? GouraudTextureTriangleBilinearRenderer
-											: (Triangle)GouraudTextureTriangleRenderer;
+											: (Triangle)GouraudDualTextureTriangleRenderer;
 							}
 							else
 							{

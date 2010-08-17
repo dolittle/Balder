@@ -178,10 +178,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
 
 			if( null != _selectedMaterial.DiffuseMap )
 			{
-				_selectedMaterial.DiffuseMap = _selectedTexture;
+				//_selectedMaterial.DiffuseMap = _selectedTexture;
 			} else if( null != _selectedMaterial.ReflectionMap )
 			{
-				_selectedMaterial.ReflectionMap = _selectedTexture;
+				//_selectedMaterial.ReflectionMap = _selectedTexture;
 			}
 		}
 

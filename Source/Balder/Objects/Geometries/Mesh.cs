@@ -144,6 +144,5 @@ namespace Balder.Objects.Geometries
 				_materialSet = false;
 			}
 		}
-
 	}
 }

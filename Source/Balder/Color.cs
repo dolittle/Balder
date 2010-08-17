@@ -345,7 +345,58 @@ namespace Balder
 		}
 
 
+
 		public static int Multiply(int color1, int color2)
+		{
+			/*
+			var sa = (color1 >> 24) & 0xff;
+			var sr = (color1 >> 16) & 0xff;
+			var sg = (color1 >> 8) & 0xff;
+			var sb = (color1) & 0xff;
+
+			var da = (color2 >> 24) & 0xff;
+			var dr = (color2 >> 16) & 0xff;
+			var dg = (color2 >> 8) & 0xff;
+			var db = (color2) & 0xff;
+
+
+			int ta = (sa * da) + 128;
+			int tr = (sr * dr) + 128;
+			int tg = (sg * dg) + 128;
+			int tb = (sb * db) + 128;
+
+			int ba = ((ta >> 8) + ta) >> 8;
+			int br = ((tr >> 8) + tr) >> 8;
+			int bg = ((tg >> 8) + tg) >> 8;
+			int bb = ((tb >> 8) + tb) >> 8;
+
+			ba = 0xff;
+
+			var color = (ba << 24) |
+						((ba <= br ? ba : br) << 16) |
+						((ba <= bg ? ba : bg) << 8) |
+						((ba <= bb ? ba : bb));
+
+			return color;
+			*/
+
+			var red2 = (color2 & RedMask) >> 16;
+			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
+
+			var green2 = (color2 & GreenMask) >> 8;
+			var green = GreenMask & (((color1 & GreenMask) >> 8) * green2);
+
+			var blue2 = (color2 & BlueMask);
+			var blue = BlueMask & (((color1 & BlueMask) * blue2) >> 8);
+
+			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
+			var alpha = AlphaMask & (((color1>>8) & AlphaShiftedMask) * alpha2);
+
+			return red | green | blue | alpha;
+
+		}
+
+		public static int Mul2(int color1, int color2)
 		{
 			var red2 = (color2 & RedMask) >> 16;
 			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
@@ -360,16 +411,17 @@ namespace Balder
 			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
 
 			return red | green | blue | alpha;
+
 		}
 
 
 		public static int Blend(int color1, int color2)
 		{
-			var color1Alpha = ((color1) >> 24) & 0xff;
-			var color2Alpha = ((color2) >> 24) & 0xff;
+			var color1Alpha = (((color1) >> 24) & 0xff) + 1;
+			var color2Alpha = (((color2) >> 24) & 0xff) + 1;
 
 			var red2 = (((color2 & RedMask) >> 16) * color2Alpha) >> 8;
-			var red = RedMask & ((((color1 & RedMask) * color1Alpha) >> 16) * red2);
+			var red = RedMask & ((((color1 & RedMask) >> 16) * color1Alpha) * red2);
 
 			var green2 = (((color2 & GreenMask) >> 8) * color2Alpha) >> 8;
 			var green = GreenMask & ((((color1 & GreenMask) * color1Alpha) >> 16) * green2);
@@ -377,15 +429,40 @@ namespace Balder
 			var blue2 = ((color2 & BlueMask) * color2Alpha) >> 8;
 			var blue = BlueMask & ((((color1 & BlueMask) * color1Alpha) * blue2) >> 16);
 
-			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
-			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
+			var alpha2 = 0xff & (color2 >> 24);
+			var alpha = AlphaMask & (((color1 >> 8) & AlphaShiftedMask) * alpha2);
 
 			return red | green | blue | alpha;
 		}
 
+		public static int Blend(int color1, int color2, int factor)
+		{
+			var alpha1 = (color1 >> 24) & 0xff;
+			var red1 = (color1 >> 16) & 0xff;
+			var green1 = (color1 >> 8) & 0xff;
+			var blue1 = (color1) & 0xff;
+
+			var alpha2 = (color2 >> 24) & 0xff;
+			var red2 = (color2 >> 16) & 0xff;
+			var green2 = (color2 >> 8) & 0xff;
+			var blue2 = (color2) & 0xff;
+
+			var inverseFactor = 0xff - factor;
+			var alpha = ((alpha1 * factor) + (alpha2 * inverseFactor)) >> 8;
+			var red = ((red1 * factor) + (red2 * inverseFactor)) >> 8;
+			var green = ((green1 * factor) + (green2 * inverseFactor)) >> 8;
+			var blue = ((blue1 * factor) + (blue2 * inverseFactor)) >> 8;
+
+			return alpha << 24 |
+			       red << 16 |
+			       green << 8 |
+			       blue;
+
+		}
+
 		public static int Additive(int color1, int color2)
 		{
-			var red = (color1 & RedMask) + (color2& RedMask);
+			var red = (color1 & RedMask) + (color2 & RedMask);
 			if (red > RedMask)
 			{
 				red = RedMask;
@@ -404,10 +481,11 @@ namespace Balder
 			}
 
 			var alpha = ((color1 >> 8) & AlphaShiftedMask) + ((color2 >> 8) & AlphaShiftedMask);
-			if (alpha  > (AlphaShiftedMask))
+			if (alpha > (AlphaShiftedMask))
 			{
 				alpha = AlphaMask;
-			} else
+			}
+			else
 			{
 				alpha <<= 8;
 			}
@@ -421,36 +499,43 @@ namespace Balder
 			if (red > RedMask)
 			{
 				red = RedMask;
-			} else if( red <= RedUnderflow )
+			}
+			else if (red <= RedUnderflow)
 			{
 				red = 0;
 			}
-			
+
 
 			var green = GreenMask & (((color & GreenMask) >> 8) * scale);
 			if (green > GreenMask)
 			{
 				green = GreenMask;
-			} else if( green <= GreenUnderflow )
+			}
+			else if (green <= GreenUnderflow)
 			{
 				green = 0;
 			}
-			
+
 
 			var blue = BlueMask & (((color & BlueMask) * scale) >> 8);
 			if (blue > BlueMask)
 			{
 				blue = BlueMask;
-			} else if ( blue <= BlueUnderflow )
+			}
+			else if (blue <= BlueUnderflow)
 			{
 				blue = 0;
 			}
 
-			var alpha = (0xff0000 & ((color & AlphaMask) >> 8)) * scale;
-			if ((alpha>>8) > (AlphaShiftedMask))
+			//var alpha = (0xff0000 & ((color & AlphaMask) >> 8)) * scale;
+
+			var alpha = AlphaMask & (((color >> 8) & AlphaShiftedMask) * scale);
+
+			if ((alpha >> 8) > (AlphaShiftedMask))
 			{
 				alpha = AlphaMask;
-			} else if((alpha>>8) < AlphaShiftedUnderflow)
+			}
+			else if ((alpha >> 8) < AlphaShiftedUnderflow)
 			{
 				alpha = 0;
 			}
@@ -461,9 +546,9 @@ namespace Balder
 
 		public static int Scale(int color, float scale)
 		{
-			var scaleAsInt = (int) (scale*65536f);
+			var scaleAsInt = (int)(scale * 65536f);
 
-			var red = RedMask & (((color & RedMask) >> 8) * scaleAsInt) >>8;
+			var red = RedMask & (((color & RedMask) >> 8) * scaleAsInt) >> 8;
 			if (red > RedMask)
 			{
 				red = RedMask;
@@ -495,7 +580,7 @@ namespace Balder
 				blue = 0;
 			}
 
-			var alpha = (0xff0000 & (((((color & AlphaMask) >> 8)) * scaleAsInt)>>8));
+			var alpha = (0xff0000 & (((((color & AlphaMask) >> 8)) * scaleAsInt) >> 8));
 			if ((alpha >> 8) > (AlphaShiftedMask))
 			{
 				alpha = AlphaMask;
