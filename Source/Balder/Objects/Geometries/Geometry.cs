@@ -190,6 +190,7 @@ namespace Balder.Objects.Geometries
 		public void SetContext(object context)
 		{
 			GeometryContext = context as IGeometryContext;
+			
 		}
 
 		public void InitializeFromAssetPart(IAssetPart assetPart)
@@ -198,6 +199,8 @@ namespace Balder.Objects.Geometries
 			{
 				var geometry = assetPart as Geometry;
 				World = geometry.World;
+				BoundingSphere = geometry.BoundingSphere;
+				FullDetailLevel = geometry.FullDetailLevel;
 			}
 		}
 
