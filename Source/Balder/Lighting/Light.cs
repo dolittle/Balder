@@ -32,58 +32,80 @@ namespace Balder.Lighting
 #pragma warning disable 1591 // Xml Comments
 	public abstract class Light : EnvironmentalNode, ILight
 	{
+		protected int AmbientAsInt;
+		protected int DiffuseAsInt;
+		protected int SpecularAsInt;
+		protected float StrengthAsFloat;
+
 		public abstract int Calculate(Viewport viewport, Material material, Vector point, Vector normal);
 
-		public static readonly Property<Light, Color> DiffuseProp = Property<Light, Color>.Register(l => l.Diffuse);
+		public static readonly Property<Light, Color> DiffuseProperty = Property<Light, Color>.Register(l => l.Diffuse);
 
+		protected Light()
+		{
+			Strength = 1;
+			Diffuse = Colors.White;
+			Specular = Colors.White;
+		}
 
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Diffuse
 		{
-			get { return DiffuseProp.GetValue(this); }
+			get { return DiffuseProperty.GetValue(this); }
 			set
 			{
-				DiffuseProp.SetValue(this, value);
+				DiffuseProperty.SetValue(this, value);
 				DiffuseAsInt = value.ToInt();
 			}
 		}
 
-		public static readonly Property<Light, Color> SpecularProp = Property<Light, Color>.Register(l => l.Specular);
+		public static readonly Property<Light, Color> SpecularProperty = Property<Light, Color>.Register(l => l.Specular);
 
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Specular
 		{
-			get { return SpecularProp.GetValue(this); }
+			get { return SpecularProperty.GetValue(this); }
 			set
 			{
-				SpecularProp.SetValue(this, value);
+				SpecularProperty.SetValue(this, value);
 				SpecularAsInt = value.ToInt();
 			}
 		}
 
-		public static readonly Property<Light, Color> AmbientProp = Property<Light, Color>.Register(l => l.Ambient);
+		public static readonly Property<Light, Color> AmbientProperty = Property<Light, Color>.Register(l => l.Ambient);
 
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Ambient
 		{
-			get { return AmbientProp.GetValue(this); }
+			get { return AmbientProperty.GetValue(this); }
 			set
 			{
-				AmbientProp.SetValue(this, value);
+				AmbientProperty.SetValue(this, value);
 				AmbientAsInt = value.ToInt();
 			}
 		}
 
 
-		internal int AmbientAsInt;
-		internal int DiffuseAsInt;
-		internal int SpecularAsInt;
+		public static readonly Property<Light, double> StrengthProperty =
+			Property<Light, double>.Register(l => l.Strength);
+		/// <summary>
+		/// Gets or sets the strength of the light
+		/// </summary>
+		public double Strength
+		{
+			get { return StrengthProperty.GetValue(this); }
+			set
+			{
+				StrengthProperty.SetValue(this, value);
+				StrengthAsFloat = (float) value;
+			}
+		}
 
 	}
 #pragma warning restore 1591

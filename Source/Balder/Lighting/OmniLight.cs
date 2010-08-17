@@ -17,6 +17,7 @@
 //
 #endregion
 using Balder.Display;
+using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
 
@@ -27,37 +28,40 @@ namespace Balder.Lighting
 	/// </summary>
 	public class OmniLight : Light
 	{
-
-		/// <summary>
-		/// Gets or sets the strength of the light
-		/// </summary>
-		public double Strength { get; set; }
+		public static readonly Property<OmniLight, double> RangeProperty =
+			Property<OmniLight, double>.Register(l => l.Range);
 
 		/// <summary>
 		/// Gets or sets the range of the light
 		/// </summary>
-		public float Range { get; set; }
+		public double Range
+		{
+			get { return RangeProperty.GetValue(this); }
+			set
+			{
+				RangeProperty.SetValue(this,value);
+				_rangeAsFloat = (float) value;
+			}
+		}
 
 		/// <summary>
 		/// Creates an instance of OmniLight
 		/// </summary>
 		public OmniLight()
 		{
-			Strength = 1f;
-			Range = 10.0f;
+			Range = 10;
 		}
 
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			_position = Position;
 			_viewPosition = viewport.View.Position;
-			_strengthAsFloat = (float)Strength;
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
 		private Vector _position;
 		private Vector _viewPosition;
-		private float _strengthAsFloat;
+		private float _rangeAsFloat;
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
@@ -68,14 +72,14 @@ namespace Balder.Lighting
 
 			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
 			// Ambient light
-			var ambient = Color.Scale(actualAmbient, _strengthAsFloat);
+			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
 
 			// Diffuse light
 			var lightDir = _position - point;
 			lightDir.Normalize();
 			normal.Normalize();
 			var dfDot = System.Math.Max(0, lightDir.Dot(normal));
-			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), _strengthAsFloat);
+			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
 			// Specular highlight
 			var reflection = 2f * dfDot * normal - lightDir;
@@ -86,14 +90,14 @@ namespace Balder.Lighting
 			spDot = MathHelper.Saturate(spDot);
 
 			var specularPower = material.ShineStrengthAsFloat * (float)System.Math.Pow(spDot, material.ShineAsFloat);
-			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), _strengthAsFloat);
+			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 			// Compute self shadowing
 			var shadow = 4.0f * lightDir.Dot(normal);
 			shadow = MathHelper.Saturate(shadow);
 
 			// Compute range for the light
-			var attenuation = ((lightDir / Range).Dot(lightDir / Range));
+			var attenuation = ((lightDir / _rangeAsFloat).Dot(lightDir / _rangeAsFloat));
 			attenuation = MathHelper.Saturate(attenuation);
 			attenuation = 1f - attenuation;
 

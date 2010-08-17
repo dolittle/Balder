@@ -14,7 +14,7 @@
 			<Execution:Game.Camera>
 				<View:Camera Position="-10,0,-20"/>
 			</Execution:Game.Camera>
-			<Lighting:OmniLight Position="0,2,-10" Strength="0.5" Diffuse="Green"/>
+			<Lighting:OmniLight Position="0,2,-10" Strength="1.0" Diffuse="White"/>
 			<Custom:MyBox Color="Blue"/>
 		</Execution:Game>
 

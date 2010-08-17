@@ -31,13 +31,7 @@ namespace Balder.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
-		private float _strengthAsFloat;
 		private Vector _direction;
-
-		public DirectionalLight()
-		{
-			Strength = 1;
-		}
 
 		/// <summary>
 		/// Direction Property
@@ -59,27 +53,16 @@ namespace Balder.Lighting
 			}
 		}
 
-		/// <summary>
-		/// Gets or sets the strength of the light
-		/// </summary>
-		public double Strength { get; set; }
-
-		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			_strengthAsFloat = (float)Strength;
-			base.BeforeRendering(viewport, view, projection, world);
-		}
-
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
 			var actualAmbient = Color.Multiply(AmbientAsInt, material.AmbientAsInt);
 			var actualDiffuse = Color.Multiply(DiffuseAsInt, material.DiffuseAsInt);
 			var actualSpecular = material.SpecularAsInt;
 
-			var ambient = Color.Scale(actualAmbient, _strengthAsFloat);
+			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
 
 			var dfDot = System.Math.Max(0, _direction.Dot(normal));
-			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), _strengthAsFloat);
+			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
 			var reflectionVector = Vector.Reflect(_direction, normal);
 			reflectionVector.Normalize();
@@ -94,7 +77,7 @@ namespace Balder.Lighting
 				(float)System.Math.Pow(
 					MathHelper.Saturate(reflectionVector.Dot(viewDirection)), 
 						material.ShineAsFloat);
-			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), _strengthAsFloat);
+			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 
 			var color = 
