@@ -31,26 +31,12 @@ namespace Balder.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
+		private float _strengthAsFloat;
+		private Vector _direction;
+
 		public DirectionalLight()
 		{
-			SpecularIntensity = 1d;
-		}
-
-
-		/// <summary>
-		/// Gets or sets the specular intensity
-		/// </summary>
-		public double SpecularIntensity
-		{
-			get; set;
-		}
-
-		/// <summary>
-		/// Gets or sets the specular power
-		/// </summary>
-		public double SpecularPower
-		{
-			get; set;
+			Strength = 1;
 		}
 
 		/// <summary>
@@ -68,29 +54,53 @@ namespace Balder.Lighting
 			set
 			{
 				DirectionProperty.SetValue(this, value);
+				_direction = value;
+				_direction.Normalize();
 			}
+		}
+
+		/// <summary>
+		/// Gets or sets the strength of the light
+		/// </summary>
+		public double Strength { get; set; }
+
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			_strengthAsFloat = (float)Strength;
+			base.BeforeRendering(viewport, view, projection, world);
 		}
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
-			var actualDiffuse = DiffuseAsInt;
+			var actualAmbient = Color.Multiply(AmbientAsInt, material.AmbientAsInt);
+			var actualDiffuse = Color.Multiply(DiffuseAsInt, material.DiffuseAsInt);
+			var actualSpecular = material.SpecularAsInt;
 
-			var lightVector = -(Vector) Direction;
-			lightVector.Normalize();
+			var ambient = Color.Scale(actualAmbient, _strengthAsFloat);
 
-			var ndl = System.Math.Max(0, normal.Dot(lightVector));
+			var dfDot = System.Math.Max(0, _direction.Dot(normal));
+			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), _strengthAsFloat);
 
-			var diffuseLight = Color.Scale(actualDiffuse, ndl);
-
-			var reflectionVector = Vector.Reflect(lightVector, normal);
+			var reflectionVector = Vector.Reflect(_direction, normal);
 			reflectionVector.Normalize();
 
 			var viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
 			viewDirection.Normalize();
 
-			var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(viewDirection)), SpecularPower);
+			var shadow = 4.0f * _direction.Dot(normal);
+			shadow = MathHelper.Saturate(shadow);
 
-			var color = Color.Scale(diffuseLight, (float)specular);
+			var specularPower = material.ShineStrengthAsFloat* 
+				(float)System.Math.Pow(
+					MathHelper.Saturate(reflectionVector.Dot(viewDirection)), 
+						material.ShineAsFloat);
+			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), _strengthAsFloat);
+
+
+			var color = 
+				Color.Additive(
+					Color.Additive(ambient, 
+						Color.Scale(diffuse,shadow)), specular);
 			return color;
 		}
 	}

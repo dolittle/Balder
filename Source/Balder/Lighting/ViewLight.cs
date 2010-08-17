@@ -88,8 +88,9 @@ namespace Balder.Lighting
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			var combinedMatrix = viewport.View.ViewMatrix * _angleMatrix;
-
-			_direction = Vector.Transform(Vector.Forward, combinedMatrix);
+			Direction = Vector.Transform(Vector.Forward, combinedMatrix);
+			
+			/*
 			_direction.Normalize();
 
 			_lightVector = -(Vector)_direction;
@@ -99,10 +100,11 @@ namespace Balder.Lighting
 			_viewDirection.Normalize();
 
 			_actualDiffuse = DiffuseAsInt;
-
+			*/
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
+		/*
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
 		{
 			var camera = viewport.View as Camera;
@@ -114,12 +116,15 @@ namespace Balder.Lighting
 				var reflectionVector = Vector.Reflect(_lightVector, normal);
 				reflectionVector.Normalize();
 
-				var specular = SpecularIntensity * (float)System.Math.Pow(MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), SpecularPower);
+				var specular = material.ShineStrengthAsFloat * 
+					(float)System.Math.Pow(
+					MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), material.ShineAsFloat);
 
 				var color = Color.Scale(diffuseLight, (float)specular);
 				return color;
 			}
 			return Color.AlphaFull;
-		}
+		}*/
+		
 	}
 }

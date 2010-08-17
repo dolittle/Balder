@@ -27,10 +27,10 @@
 		
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,50,-100"/>
+				<View:Camera Position="0,60,-70"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,30,0" Ambient="Black" Diffuse="Green" Specular="White"/>
+			<Lighting:OmniLight Position="0,30,-30" Ambient="Black" Diffuse="White" Specular="White"/>
 			
 			<local:PieChart x:Name="Chart" ValueMember="Value" ValuesSource="{Binding Objects}"/>
 		</Execution:Game>

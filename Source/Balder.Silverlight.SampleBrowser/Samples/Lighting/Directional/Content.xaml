@@ -25,8 +25,8 @@
 				<View:Camera Position="0,30,-200"/>
 			</Execution:Game.Camera>
 			
-			<Lighting:DirectionalLight Direction="0,-1,0" Diffuse="White"/>
-			<Lighting:DirectionalLight Direction="0,1,0" Diffuse="Green"/>
+			<!--<Lighting:DirectionalLight Direction="0,-1,0" Diffuse="White" Strength="0.5"/>-->
+			<Lighting:DirectionalLight Direction="0,1,0" Diffuse="Green" Strength="0.5"/>
 			
 			<Geometries:Ring x:Name="Ring"
 							 Size="20" 

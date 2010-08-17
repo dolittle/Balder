@@ -46,6 +46,8 @@ namespace Balder.Materials
 		internal int AmbientAsInt;
 		internal int DiffuseAsInt;
 		internal int SpecularAsInt;
+		internal float ShineAsFloat;
+		internal float ShineStrengthAsFloat;
 		public static Material Default;
 
 		static Material()
@@ -78,6 +80,8 @@ namespace Balder.Materials
 			DiffuseMapOpacity = 1f;
 			ReflectionMapOpacity = 1f;
 			MagnificationFiltering = MaterialFiltering.None;
+			Shine = 1;
+			ShineStrength = 1;
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
@@ -152,26 +156,26 @@ namespace Balder.Materials
 
 
 
-		public static readonly Property<Material, float> ShineProperty =
-			Property<Material, float>.Register(m => m.Shine);
+		public static readonly Property<Material, double> ShineProperty =
+			Property<Material, double>.Register(m => m.Shine, 1);
 
 		/// <summary>
 		/// Gets or sets the shininess of the material
 		/// </summary>
-		public float Shine
+		public double Shine
 		{
 			get { return ShineProperty.GetValue(this); }
 			set { ShineProperty.SetValue(this, value); }
 		}
 
 
-		public static readonly Property<Material, float> ShineStrengthProperty =
-			Property<Material, float>.Register(m => m.ShineStrength);
+		public static readonly Property<Material, double> ShineStrengthProperty =
+			Property<Material, double>.Register(m => m.ShineStrength, 1);
 
 		/// <summary>
 		/// Gets or sets the shininess strength of the material
 		/// </summary>
-		public float ShineStrength
+		public double ShineStrength
 		{
 			get { return ShineStrengthProperty.GetValue(this); }
 			set { ShineStrengthProperty.SetValue(this, value); }
@@ -309,6 +313,9 @@ namespace Balder.Materials
 			AmbientAsInt = ActualAmbient.ToInt();
 			DiffuseAsInt = ActualDiffuse.ToInt();
 			SpecularAsInt = Specular.ToInt();
+
+			ShineAsFloat = (float) Shine;
+			ShineStrengthAsFloat = (float) ShineStrength;
 		}
 
 		private Color GetActualColor(Color color)
