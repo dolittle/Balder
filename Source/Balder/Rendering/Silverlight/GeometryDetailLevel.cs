@@ -420,7 +420,7 @@ namespace Balder.Rendering.Silverlight
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-			switch( material.Shade )
+			switch (material.Shade)
 			{
 				case MaterialShade.None:
 					{
@@ -460,9 +460,28 @@ namespace Balder.Rendering.Silverlight
 
 		private bool IsFaceInView(Viewport viewport, Face face)
 		{
-			return (_vertices[face.A].ProjectedVector.Z >= Viewport.MinDepth &&
+			var visible = true;
+
+			visible &= (_vertices[face.A].ProjectedVector.X < viewport.Width || 
+						_vertices[face.B].ProjectedVector.X < viewport.Width ||
+						_vertices[face.C].ProjectedVector.X < viewport.Width);
+
+			visible &= (_vertices[face.A].ProjectedVector.X > 0 || 
+						_vertices[face.B].ProjectedVector.X > 0 || 
+						_vertices[face.C].ProjectedVector.X > 0);
+
+			visible &= (_vertices[face.A].ProjectedVector.Y < viewport.Height ||
+						_vertices[face.B].ProjectedVector.Y < viewport.Height ||
+						_vertices[face.C].ProjectedVector.Y < viewport.Height);
+
+			visible &= (_vertices[face.A].ProjectedVector.Y > 0 ||
+						_vertices[face.B].ProjectedVector.Y > 0 ||
+						_vertices[face.C].ProjectedVector.Y > 0);
+
+			visible &= (_vertices[face.A].ProjectedVector.Z >= Viewport.MinDepth &&
 					 _vertices[face.B].ProjectedVector.Z >= Viewport.MinDepth) &&
 					_vertices[face.C].ProjectedVector.Z >= Viewport.MinDepth;
+			return visible;
 		}
 
 		private bool IsLineInView(Viewport viewport, Line line)
@@ -500,7 +519,7 @@ namespace Balder.Rendering.Silverlight
 				face.Texture1 = material.DiffuseTexture;
 				face.Texture2 = material.ReflectionTexture;
 
-				
+
 				material.Renderer.Draw(face, _vertices);
 
 				faceCount++;
@@ -541,6 +560,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				visible |= face.Material.DoubleSided;
 			}
+
 			return visible;
 		}
 
