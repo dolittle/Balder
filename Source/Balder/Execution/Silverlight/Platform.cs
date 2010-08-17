@@ -26,7 +26,8 @@ using Balder.Input;
 using Balder.Display.Silverlight;
 using Balder.Input.Silverlight;
 using Balder.Materials.Silverlight;
-#if(WINDOWS_PHONE)
+
+#if(WINDOWS_PHONE && !FORCESOFTWARE)
 using Balder.Rendering.Xna;
 #else
 using Balder.Rendering.Silverlight;
@@ -48,13 +49,14 @@ namespace Balder.Execution.Silverlight
 
 		private void InitializeObjects()
 		{
-#if(WINDOWS_PHONE)
-            if( IsInDesignMode )
+#if(WINDOWS_PHONE && !FORCESOFTWARE)
+			if ( IsInDesignMode )
 #endif
             {
-                DisplayDevice = new DisplayDevice(this);    
-            } 
-#if(WINDOWS_PHONE)
+                DisplayDevice = new DisplayDevice(this);
+			}
+
+#if(WINDOWS_PHONE && !FORCESOFTWARE)
 			else
             {
                 DisplayDevice = new Balder.Display.WP7.DisplayDevice();
