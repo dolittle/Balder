@@ -30,7 +30,7 @@
 				<View:Camera Position="0,50,-150" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
+			<Lighting:OmniLight Position="-100,100,0"/>
 
 			<Geometries:Ring x:Name="Ring" 
 							 InnerRadius="10" 

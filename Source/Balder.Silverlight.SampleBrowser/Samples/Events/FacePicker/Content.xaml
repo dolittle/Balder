@@ -28,7 +28,7 @@
 				<View:Camera Position="-2,3,-4" FieldOfView="100"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Diffuse="Green" Strength="0.5" Position="-5,3,-10"/>
+			<Lighting:OmniLight Position="-5,3,-10"/>
 
 			<Geometries:Box x:Name="Box"
 							Dimension="5,5,5" 

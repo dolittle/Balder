@@ -27,7 +27,7 @@
 				<View:Camera Position="100,50,-100" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
+			<Lighting:OmniLight Position="-100,100,0"/>
 
 			<Geometries:Geometry x:Name="Container">
 				<Geometries:Cylinder x:Name="Cylinder" 

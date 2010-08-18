@@ -25,7 +25,7 @@
 				<View:Camera Position="0,20,-100"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Diffuse="White" Position="0,130,0" Strength="1"/>
+			<Lighting:OmniLight Position="0,130,0"/>
 
 			<Balder:Container x:Name="Container">
 				<Geometries:Cylinder Segments="16" 

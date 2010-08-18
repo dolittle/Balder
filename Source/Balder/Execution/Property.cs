@@ -127,6 +127,10 @@ namespace Balder.Execution
 
 		public void SetRuntimeContext(T obj, IRuntimeContext runtimeContext)
 		{
+			if( null == obj )
+			{
+				return;
+			}
 			var objectProperty = GetObjectProperty(obj);
 			if( null != objectProperty.RuntimeContext)
 			{

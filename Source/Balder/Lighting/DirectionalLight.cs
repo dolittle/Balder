@@ -50,6 +50,9 @@ namespace Balder.Lighting
 				DirectionProperty.SetValue(this, value);
 				_direction = value;
 				_direction.Normalize();
+
+				//_direction = -_direction;
+
 			}
 		}
 
@@ -61,7 +64,7 @@ namespace Balder.Lighting
 
 			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
 
-			
+					
 			var dfDot = System.Math.Max(0, -_direction.Dot(normal));
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
@@ -71,9 +74,8 @@ namespace Balder.Lighting
 			var viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
 			viewDirection.Normalize();
 
-			var shadow = 4.0f *	_direction.Dot(normal);
+			var shadow = 4.0f*dfDot; 
 			shadow = MathHelper.Saturate(shadow);
-			shadow = 1f;
 
 			var specularPower = MathHelper.Saturate(material.ShineStrengthAsFloat* 
 				(float)System.Math.Pow(

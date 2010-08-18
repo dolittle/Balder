@@ -114,7 +114,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			BlueMask = 0x00ff0000;
 		}
 
-		protected static void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
+		protected void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
 		{
 			var u = vertex.TransformedVectorNormalized;
 			var n = vertex.TransformedNormal;
@@ -125,8 +125,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var m1 = 1f/m;
 			var s = (r.X * m1);
 			var t = (r.Y * m1);
-			vertex.U2 = -(s * 0.5f) + 0.5f;
-			vertex.V2 = (t * 0.5f) + 0.5f;
+
+			if( null == Texture2 )
+			{
+				vertex.U1 = -(s * 0.5f) + 0.5f;
+				vertex.V1 = (t * 0.5f) + 0.5f;
+				
+			} else
+			{
+				vertex.U2 = -(s * 0.5f) + 0.5f;
+				vertex.V2 = (t * 0.5f) + 0.5f;
+				
+			}
 		}
 
 
@@ -301,7 +311,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			vertexC.V2 = vertexC.V1;
 
 			Texture1 = null;
-			if (null != face.Texture1)
+			if (null != face.Texture1 && face.Texture1Factor > 0)
 			{
 				Texture1 = face.Texture1.FullDetailLevel;
 			}
@@ -309,12 +319,19 @@ namespace Balder.Rendering.Silverlight.Drawing
 			if (null != face.Texture2)
 			{
 				Texture2 = face.Texture2.FullDetailLevel;
+
+				if (null == Texture1)
+				{
+					Texture1 = Texture2;
+					Texture2 = null;
+				}
 				
 				
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
 				
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
+
 			}
 
 			Texture1Factor = face.Texture1Factor;

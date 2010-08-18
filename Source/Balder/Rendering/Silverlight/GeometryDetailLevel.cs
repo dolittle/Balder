@@ -244,6 +244,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				var normal = _normals[normalIndex];
 				normal.Transformed = Vector.TransformNormal(normal.Vector, localView);
+				normal.Transformed.Normalize();
 				normal.IsColorCalculated = false;
 			}
 		}
@@ -411,6 +412,7 @@ namespace Balder.Rendering.Silverlight
 
 			if (!normal.IsColorCalculated)
 			{
+
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
 				normal.CalculatedColor =
 					Color.FromInt(_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed));
@@ -556,7 +558,6 @@ namespace Balder.Rendering.Silverlight
 
 			var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
 							   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
-
 			var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
 			//&& viewport.View.IsInView(a.TransformedVector);
 			if (null != face.Material)

@@ -61,7 +61,7 @@
 				ToolTip="Blue"
 				/>
 
-			<Lighting:OmniLight Position="0,0,-80" Diffuse="Black" Strength="0.5"/>
+			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
 				<View:Camera Position="-150,130,-380"/>
 			</Execution:Game.Camera>
