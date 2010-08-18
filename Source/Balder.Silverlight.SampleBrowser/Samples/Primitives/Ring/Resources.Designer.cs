@@ -67,7 +67,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
         ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geo [rest of string was truncated]&quot;;.
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
+        ///    xmln [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -76,7 +77,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring
+        ///   Looks up a localized string similar to using System.Windows;
+        ///
+        ///namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring
         ///{
         ///	public partial class Content
         ///	{
@@ -97,10 +100,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Ring {
         ///
         ///		private void StartValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs&lt;double&gt; e)
         ///		{
-        ///			if (!_loaded)
-        ///			{
-        ///				return;
-        ///			} [rest of string was truncated]&quot;;.
+        ///			if (!_loaded) [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

@@ -45,7 +45,7 @@ namespace Balder
 #endif
 	{
 		public static int NodeCount = 0;
-		
+
 		private readonly INodeRenderingService _nodeRenderingService;
 
 		private readonly NodeCollection _renderableNodes;
@@ -54,10 +54,17 @@ namespace Balder
 		private readonly NodeCollection _lights;
 		private readonly NodeCollection _allNodes;
 
+		public static readonly Property<Scene, Color> AmbientColorProperty =
+			Property<Scene, Color>.Register(s => s.AmbientColor);
+
 		/// <summary>
-		/// Ambient color for the scene - default is set to #1f1f1f (RGB)
+		/// Ambient color for the scene - default is set to black
 		/// </summary>
-		public Color AmbientColor;
+		public Color AmbientColor
+		{
+			get { return AmbientColorProperty.GetValue(this); }
+			set { AmbientColorProperty.SetValue(this, value); }
+		}
 
 #if(DEFAULT_CONSTRUCTOR)
 		/// <summary>
@@ -87,7 +94,7 @@ namespace Balder
 			_allNodes = new NodeCollection(this);
 			IsPaused = false;
 
-			AmbientColor = Color.FromArgb(0xff, 0x1f, 0x1f, 0x1f);
+			AmbientColor = Color.FromArgb(0xff, 0, 0, 0);
 		}
 
 		public IRuntimeContext RuntimeContext { get; private set; }
@@ -121,9 +128,9 @@ namespace Balder
 				{
 					_environmentalNodes.Add(node);
 				}
-				if( node is ILight )
+				if (node is ILight)
 				{
-					lock( _lights )
+					lock (_lights)
 					{
 						_lights.Add(node);
 					}
@@ -136,7 +143,7 @@ namespace Balder
 
 			RuntimeContext.SignalRendering();
 #if(SILVERLIGHT)
-			if( null != Game && node is UIElement )
+			if (null != Game && node is UIElement)
 			{
 				Game.AddChildFromProgrammaticApproach(node);
 			}
@@ -230,16 +237,16 @@ namespace Balder
 
 		public void Render(Viewport viewport)
 		{
-			if( IsPaused )
+			if (IsPaused)
 			{
 				// Todo: Figure out a better way to pause/halt everything - hate to have this value floating around everywhere
 				// besides - its altering the state of an object within Viewport - not really its concern!
 				viewport.Display.Halted = true;
 				return;
-			} 
-			lock( _renderableNodes )
+			}
+			lock (_renderableNodes)
 			{
-				lock(_allNodes)
+				lock (_allNodes)
 				{
 					_nodeRenderingService.PrepareForRendering(viewport, _allNodes);
 				}

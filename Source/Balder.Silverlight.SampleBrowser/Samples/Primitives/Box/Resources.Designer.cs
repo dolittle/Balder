@@ -67,7 +67,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Box {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
-        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Li [rest of string was truncated]&quot;;.
+        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
+        ///    xmlns [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -76,13 +77,21 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Box {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Box
+        ///   Looks up a localized string similar to using System;
+        ///using System.Windows;
+        ///
+        ///namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Box
         ///{
         ///	public partial class Content
         ///	{
         ///		public Content()
         ///		{
         ///			InitializeComponent();
+        ///		}
+        ///
+        ///		private void FlipNormals_Checked(object sender, RoutedEventArgs e)
+        ///		{
+        ///			Box.FlipNormals = (bool) FlipNormals.IsChecked;
         ///		}
         ///	}
         ///}

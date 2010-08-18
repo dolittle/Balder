@@ -90,7 +90,7 @@ namespace Balder.Lighting
 			var spDot = reflection.Dot(view);
 			spDot = MathHelper.Saturate(spDot);
 
-			var specularPower = material.ShineStrengthAsFloat * (float)System.Math.Pow(spDot, material.ShineAsFloat);
+			var specularPower = MathHelper.Saturate((material.ShineStrengthAsFloat * (float)System.Math.Pow(spDot, material.ShineAsFloat)));
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 

@@ -11,5 +11,8 @@ namespace Balder.Silverlight.SampleBrowser
 
 		[Inject]
 		public Features.Resources.ViewModel Resources { get; set; }
+
+		[Inject]
+		public Samples.Materials.Editor.ViewModel MaterialEditor { get; set; }
 	}
 }

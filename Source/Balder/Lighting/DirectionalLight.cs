@@ -61,7 +61,8 @@ namespace Balder.Lighting
 
 			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
 
-			var dfDot = System.Math.Max(0, _direction.Dot(normal));
+			
+			var dfDot = System.Math.Max(0, -_direction.Dot(normal));
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
 			var reflectionVector = Vector.Reflect(_direction, normal);
@@ -70,13 +71,14 @@ namespace Balder.Lighting
 			var viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
 			viewDirection.Normalize();
 
-			var shadow = 4.0f * _direction.Dot(normal);
+			var shadow = 4.0f *	_direction.Dot(normal);
 			shadow = MathHelper.Saturate(shadow);
+			shadow = 1f;
 
-			var specularPower = material.ShineStrengthAsFloat* 
+			var specularPower = MathHelper.Saturate(material.ShineStrengthAsFloat* 
 				(float)System.Math.Pow(
 					MathHelper.Saturate(reflectionVector.Dot(viewDirection)), 
-						material.ShineAsFloat);
+						material.ShineAsFloat));
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 

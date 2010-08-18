@@ -72,7 +72,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         ///						/&gt;
         ///
         ///		&lt;Grid HorizontalAlignment=&quot;Left&quot; VerticalAlignment=&quot;Top&quot;&gt;
-        ///			&lt;Grid.ColumnDefiniti [rest of string was truncated]&quot;;.
+        ///			&lt;Grid.ColumnDefinitions&gt;
+        ///				 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -82,7 +83,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Windows.Controls;
-        ///using System.Windows.Media;
         ///using Balder;
         ///using Balder.Assets;
         ///using Balder.Execution;
@@ -90,6 +90,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         ///using Balder.Materials;
         ///using Balder.Math;
         ///using Balder.Objects.Geometries;
+        ///using Ninject;
         ///using Geometry=Balder.Objects.Geometries.Geometry;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials
@@ -100,7 +101,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Materials {
         ///
         ///		private Mesh _teapot;
         ///		private Box _box;
-        /// [rest of string was truncated]&quot;;.
+        ///		private Cylinder _cylinder;
+        ///		private Ring _ring;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

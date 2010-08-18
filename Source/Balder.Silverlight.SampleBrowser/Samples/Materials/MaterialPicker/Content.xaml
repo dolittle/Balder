@@ -13,9 +13,9 @@
 		<Materials:Material x:Key="TexturedMaterial" Ambient="Black" Diffuse="Blue" Specular="White" Shade="Gouraud" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"/>
 		<Materials:Material x:Key="ReflectionMaterial" Ambient="Black" Diffuse="Blue" Specular="White" Shade="Gouraud" 
 							DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png"
-							DiffuseMapOpacity="1.0"
+							DiffuseMapOpacity="0.5"
 							ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Assets/ReflectionMap.jpg"
-							ReflectionMapOpacity="0.1"
+							ReflectionMapOpacity="0.5"
 							/>
 	</UserControl.Resources>
 	

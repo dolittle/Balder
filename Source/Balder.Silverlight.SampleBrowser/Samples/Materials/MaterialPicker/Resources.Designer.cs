@@ -67,7 +67,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
-        ///    xmlns:View=&quot;clr-namespace: [rest of string was truncated]&quot;;.
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot;         /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -82,6 +82,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker {
         ///using Balder.Execution;
         ///using Balder.Materials;
         ///using Balder.Objects.Geometries;
+        ///using Ninject;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker
         ///{
@@ -93,7 +94,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.MaterialPicker {
         ///		private Material _flatMaterial;
         ///		private Material _gouraudMaterial;
         ///		private Material _texturedMaterial;
-        ///		private Material _ref [rest of string was truncated]&quot;;.
+        ///		private Material _reflectionMa [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

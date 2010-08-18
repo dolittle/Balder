@@ -113,9 +113,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
-        ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
+        ///    xmlns:Controls=&quot;clr-namespace:Balder.Controls;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.BarChart&quot; 
-        ///    xmlns: [rest of string was truncated]&quot;;.
+        ///    xmlns:Materials=&quot;clr-namespace:Balder.Ma [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BarChart_xaml {
             get {
@@ -141,7 +141,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///		{
         ///			InitializeComponent();
         ///
-        ///			_values = new ObservableCollection&lt;BarChartValue&gt; [rest of string was truncated]&quot;;.
+        ///			_values = new ObservableCollection&lt;BarChartValue&gt;();
+        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string BarChart_xaml_cs {
             get {
@@ -212,7 +213,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.BarChart {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
         ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
-        ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrows [rest of string was truncated]&quot;;.
+        ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.BarChart&quot; 
+        ///   [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {

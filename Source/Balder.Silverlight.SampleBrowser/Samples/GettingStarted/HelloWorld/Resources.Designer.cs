@@ -67,7 +67,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.GettingStarted.HelloWorld {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
-        ///    xmlns:Animation=&quot;clr-namespace:Ba [rest of string was truncated]&quot;;.
+        ///    xmlns:Animation=&quot;clr-namespace:Balder.Animation.Silverlight;ass [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {

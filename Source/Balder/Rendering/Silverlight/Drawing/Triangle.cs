@@ -28,6 +28,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 	{
 		protected int[] Framebuffer;
 		protected uint[] DepthBuffer;
+
 		protected TextureMipMapLevel Texture1;
 		protected TextureMipMapLevel Texture2;
 		protected int Texture1Factor;

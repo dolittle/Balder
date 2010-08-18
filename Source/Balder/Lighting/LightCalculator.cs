@@ -9,14 +9,17 @@ namespace Balder.Lighting
 	{
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
 		{
-			var color = 0; // viewport.Scene.AmbientColor.ToInt();
+			var color = viewport.Scene.AmbientColor.ToInt();
 			foreach( ILight light in viewport.Scene.Lights )
 			{
-				var lightColor = light.Calculate(viewport, material, vector, normal);
-				color = Color.Additive(color, lightColor);
+				if (light.IsEnabled)
+				{
+					var lightColor = light.Calculate(viewport, material, vector, normal);
+					color = Color.Additive(color, lightColor);
+				}
 			}
 
-			return color;
+			return color | Color.AlphaFull;
 		}
 	}
 #pragma warning restore 1591

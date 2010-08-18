@@ -103,8 +103,16 @@ namespace Balder.Lighting
 			set
 			{
 				StrengthProperty.SetValue(this, value);
-				StrengthAsFloat = (float) value;
+				StrengthAsFloat = (float)value;
 			}
+		}
+
+		public static readonly Property<Light, bool> IsEnabledProperty =
+			Property<Light, bool>.Register(l => l.IsEnabled, true);
+		public bool IsEnabled
+		{
+			get { return IsEnabledProperty.GetValue(this); }
+			set { IsEnabledProperty.SetValue(this, value); }
 		}
 
 	}

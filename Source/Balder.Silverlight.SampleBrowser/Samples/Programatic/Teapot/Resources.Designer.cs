@@ -99,13 +99,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using System.Windows.Media;
-        ///using Balder.Execution;
+        ///   Looks up a localized string similar to using Balder.Execution;
         ///using Balder.Lighting;
         ///using Balder.Materials;
         ///using Balder.Objects.Geometries;
-        ///using Color=Balder.Color;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot
         ///{
@@ -115,10 +112,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Programatic.Teapot {
         ///
         ///		public override void OnInitialize()
         ///		{
-        ///			ContentManager.AssetsRoot = &quot;Samples/Programatic/Teapot/Assets&quot;;
+        ///			ContentManager.AssetsRoot = &quot;Assets&quot;;
         ///
-        ///			var light = new OmniLight();
-        ///			light.Diffuse = Color [rest of string was truncated]&quot;;.
+        ///			var light = new ViewLight();
+        ///			light.Diffuse = Color.FromArgb(0xff, 255, 121, 32);
+        ///			light.Specular = Color.FromArgb(0xff, 0xff, 0xff, 0xff);
+        ///			light.Ambient = Color.FromA [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MyGame_cs {
             get {

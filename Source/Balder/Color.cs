@@ -161,7 +161,7 @@ namespace Balder
 			color.Red = (byte)((colorAsInt & RedMask) >> 16);
 			color.Green = (byte)((colorAsInt & GreenMask) >> 8);
 			color.Blue = (byte)((colorAsInt & BlueMask));
-			color.Alpha = (byte)((colorAsInt & RedMask) >> 24);
+			color.Alpha = (byte)((colorAsInt & AlphaMask) >> 24);
 			return color;
 		}
 
@@ -378,8 +378,8 @@ namespace Balder
 						((ba <= bb ? ba : bb));
 
 			return color;
+			
 			*/
-
 			var red2 = (color2 & RedMask) >> 16;
 			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
 
@@ -527,10 +527,7 @@ namespace Balder
 				blue = 0;
 			}
 
-			//var alpha = (0xff0000 & ((color & AlphaMask) >> 8)) * scale;
-
 			var alpha = AlphaMask & (((color >> 8) & AlphaShiftedMask) * scale);
-
 			if ((alpha >> 8) > (AlphaShiftedMask))
 			{
 				alpha = AlphaMask;

@@ -91,10 +91,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
+        ///    xmlns:Controls=&quot;clr-namespace:Balder.Controls;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack&quot; 
-        ///    xmlns:View= [rest of string was truncated]&quot;;.
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembl [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -122,7 +122,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Collections.ObjectModel;
-        ///using System.Windows.Media;
         ///using Balder.Math;
         ///using Color=Balder.Color;
         ///
@@ -134,8 +133,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesStack {
         ///		{
         ///			Objects = new ObservableCollection&lt;BusinessObject&gt;
         ///			          	{
-        ///			          		new BusinessObject {Color = Color.FromSystemColor(Colors.Red), Position = new Coordinate(-120, 0, 0)},
-        ///			          		new BusinessObject {Color = Color.FromSystemColor(Co [rest of string was truncated]&quot;;.
+        ///			          		new BusinessObject {Color = Colors.Red, Position = new Coordinate(-120, 0, 0)},
+        ///			          		new BusinessObject {Color = Colors.Green, Position = new Coordinate(0, 0, 0)},
+        ///			          		new BusinessObject  [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ViewModel_cs {
             get {

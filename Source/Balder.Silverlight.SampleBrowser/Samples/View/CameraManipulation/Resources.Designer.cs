@@ -67,7 +67,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.CameraManipulation {
         ///	xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot;
         ///	xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot;
         ///	xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot;
-        ///	xmlns:Lighting=&quot;clr-namespace:Balder.Lighting; [rest of string was truncated]&quot;;.
+        ///	xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot;
+        ///	&gt;
+        ///	&lt;Grid x:Name [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -98,7 +100,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.CameraManipulation {
         ///		{
         ///			if (null != _xSlider)
         ///			{
-        ///				CalculateCameraP [rest of string was truncated]&quot;;.
+        ///				CalculateCameraPositi [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

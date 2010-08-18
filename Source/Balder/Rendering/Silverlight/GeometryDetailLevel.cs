@@ -438,6 +438,7 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Flat:
 					{
+						
 						face.Color = Color.FromInt(
 							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal));
 					}
@@ -500,7 +501,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var faceCount = 0;
-			var matrix = world * view;
+			var localView = (world * view);
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
@@ -511,7 +512,8 @@ namespace Balder.Rendering.Silverlight
 					continue;
 				}
 
-				face.TransformNormal(matrix);
+				face.TransformNormal(localView);
+				face.Transform(localView);
 
 				var material = PrepareMaterialForFace(face, node);
 				CalculateVertexColorsForFace(face, viewport, material);

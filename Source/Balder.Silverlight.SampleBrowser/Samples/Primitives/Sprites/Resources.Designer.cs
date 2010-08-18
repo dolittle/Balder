@@ -67,7 +67,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.Sprites {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Flat=&quot;clr-namespace:Balder.Objects.Flat;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
-        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects. [rest of string was truncated]&quot;;.
+        ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
+        ///    x [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {

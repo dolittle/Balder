@@ -67,7 +67,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
-        ///    xmlns:View=&quot;clr-namespace:Balder. [rest of string was truncated]&quot;;.
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; xmlns:Debug=&quot; [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -77,9 +77,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse {
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Collections.Generic;
-        ///using System.Windows;
-        ///using System.Windows.Media;
         ///using Balder;
+        ///using Balder.Input;
         ///using Balder.Math;
         ///using Color = Balder.Color;
         ///
@@ -97,7 +96,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse {
         ///
         ///			/*
         ///			Box1.MouseMove += Mesh_MouseMove;
-        ///			Box1.Mous [rest of string was truncated]&quot;;.
+        ///			Box1.MouseEnter += Mesh_MouseEnter;
+        ///			Box1.MouseLeave [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

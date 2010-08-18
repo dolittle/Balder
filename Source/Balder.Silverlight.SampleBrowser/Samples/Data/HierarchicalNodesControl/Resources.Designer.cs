@@ -87,9 +87,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
-        ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
+        ///    xmlns:Controls=&quot;clr-namespace:Balder.Controls;assembly=Balder&quot; 
         ///	xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl&quot; 
-        /// [rest of string was truncated]&quot;;.
+        ///	xmlns:Geometries=&quot;clr-namespace:B [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -98,7 +98,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System.Windows.Controls;
+        ///   Looks up a localized string similar to using System;
+        ///using System.Windows.Controls;
+        ///using Balder.Input;
         ///using Balder.Objects.Geometries;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
@@ -116,7 +118,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///
         ///		}
         ///
-        ///		private void Box_MouseEnter(object sender, System.Windows.Input.MouseEventArgs  [rest of string was truncated]&quot;;.
+        ///		private void Box_MouseEnter(object sender, Mouse [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

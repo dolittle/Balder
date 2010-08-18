@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Balder.Silverlight.SampleBrowser</RootNamespace>
     <AssemblyName>Balder.Silverlight.SampleBrowser</AssemblyName>
-    <TargetFrameworkVersion>v3.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <SilverlightApplication>true</SilverlightApplication>
     <SupportedCultures>
     </SupportedCultures>
@@ -53,6 +53,7 @@
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,6 +119,7 @@
     <Reference Include="System.Windows.Controls.Data, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Data.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Input, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Windows.Controls.Input.Toolkit, Version=4.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Windows.Controls.Layout.Toolkit, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Components\Silverlight\Toolkit\System.Windows.Controls.Layout.Toolkit.dll</HintPath>
@@ -137,6 +139,10 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Controls\ColorPicker\ColorPicker.cs" />
+    <Compile Include="Controls\ColorPicker\ColorSpace.cs" />
+    <Compile Include="Controls\ColorPicker\HSV.cs" />
+    <Compile Include="Controls\ColorPicker\SelectedColorEventArgs.cs" />
     <Compile Include="Controls\ResourceViewer.xaml.cs">
       <DependentUpon>ResourceViewer.xaml</DependentUpon>
     </Compile>
@@ -306,6 +312,21 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Materials\Editor\BilinearFilteringValueConverter.cs" />
+    <Compile Include="Samples\Materials\Editor\ColorEditor.xaml.cs">
+      <DependentUpon>ColorEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Materials\Editor\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Materials\Editor\MapDescription.cs" />
+    <Compile Include="Samples\Materials\Editor\MapEditor.xaml.cs">
+      <DependentUpon>MapEditor.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Materials\Editor\MapValueConverter.cs" />
+    <Compile Include="Samples\Materials\Editor\ShadeValueConverter.cs" />
+    <Compile Include="Samples\Materials\Editor\SystemColorToBalderColorConverter.cs" />
+    <Compile Include="Samples\Materials\Editor\ViewModel.cs" />
     <Compile Include="Samples\Materials\Filtering\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -448,6 +469,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="Controls\ColorPicker\ColorPicker.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Controls\ResourceViewer.xaml">
       <SubType>Form</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
@@ -569,6 +594,18 @@
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Materials\Editor\ColorEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Materials\Editor\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Materials\Editor\MapEditor.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Samples\Materials\Filtering\Content.xaml">
       <SubType>Designer</SubType>
@@ -886,6 +923,8 @@
     <Resource Include="Assets\Skybox\skybox_top.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Controls\ColorPicker\License.txt" />
+    <Content Include="Controls\ColorPicker\ReadMe.txt" />
     <Content Include="Samples\View\Skybox\Readme.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />

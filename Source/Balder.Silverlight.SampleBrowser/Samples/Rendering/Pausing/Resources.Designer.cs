@@ -67,7 +67,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Rendering.Pausing {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Balder&quot; 
-        ///    xmlns:View=&quot;clr-namespace:Balder. [rest of string was truncated]&quot;;.
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
+        ///    &gt;        /// [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {

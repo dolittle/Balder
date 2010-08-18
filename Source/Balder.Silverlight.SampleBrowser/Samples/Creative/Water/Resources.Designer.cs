@@ -67,7 +67,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water {
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:View=&quot;clr-namespace:Balder.View;assembly=Balder&quot; 
-        ///    xmlns:Materials=&quot;clr-namespace:Balder.M [rest of string was truncated]&quot;;.
+        ///    xmlns:Materials=&quot;clr-namespace:Balder.Materials;assembly=Balder&quot;&gt;
+        ///	
+        ///	&lt;Us [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -95,7 +97,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water {
         ///		{
         ///			InitializeComponent();
         ///
-        ///			_waveMap = new float[2, (int)HeightMap.LengthSegments, (int)HeightMap.HeightSe [rest of string was truncated]&quot;;.
+        ///			_waveMap = new float[2, (int)HeightMap.LengthSegments, (int)HeightMap.HeightSegments];
+        ///
+        ///			 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

@@ -4,6 +4,7 @@
 
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Balder.Silverlight.SampleBrowser;component/Themes/ImageButton.xaml"/>
+		<ResourceDictionary Source="/Balder.Silverlight.SampleBrowser;component/Controls/ColorPicker/ColorPicker.xaml"/>
     </ResourceDictionary.MergedDictionaries>
 
 </ResourceDictionary>

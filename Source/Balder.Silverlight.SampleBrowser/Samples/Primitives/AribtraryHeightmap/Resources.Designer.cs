@@ -67,7 +67,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Debug=&quot;clr-namespace:Balder.Debug;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
-        ///    xmlns:Lighting=&quot;clr-namespa [rest of string was truncated]&quot;;.
+        ///    xmlns:Lighting=&quot;clr-namespace:Balder.Lighting;assembly=Ba [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -76,9 +76,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using System;
-        ///using Balder;
-        ///using Balder.Objects.Geometries;
+        ///   Looks up a localized string similar to using Balder.Objects.Geometries;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
         ///{
@@ -94,10 +92,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Primitives.AribtraryHeightmap
         ///
         ///		private void Heightmap_HeightInput(object sender, HeightmapEventArgs e)
         ///		{
-        ///			var height = Math.Sin(_sin + _movement) * 2;
+        ///			var height = System.Math.Sin(_sin + _movement) * 2;
         ///
         ///			e.Height = (float)height;
-        ///			var highlight = (byte)((height * 16f)  [rest of string was truncated]&quot;;.
+        ///			var highlight = (byte)((height * 16f) + 32f);
+        ///
+        ///			e.Color = Color.Fro [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {

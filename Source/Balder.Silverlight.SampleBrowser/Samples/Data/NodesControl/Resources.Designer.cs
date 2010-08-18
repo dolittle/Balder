@@ -92,10 +92,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl {
         ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
-        ///    xmlns:Controls=&quot;clr-namespace:Balder.Silverlight.Controls;assembly=Balder.Silverlight&quot; 
+        ///    xmlns:Controls=&quot;clr-namespace:Balder.Controls;assembly=Balder&quot; 
         ///    xmlns:Geometries=&quot;clr-namespace:Balder.Objects.Geometries;assembly=Balder&quot; 
         ///    xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl&quot; 
-        ///    xmlns:V [rest of string was truncated]&quot;;.
+        ///    xmlns:View=&quot;clr-namespace:Balder.View;ass [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -104,22 +104,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to using Balder;
-        ///
-        ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
+        ///   Looks up a localized string similar to namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
         ///{
         ///	public partial class Content
         ///	{
         ///		public Content()
         ///		{
         ///			InitializeComponent();
-        ///
-        ///			Game.Update += new Balder.Execution.GameEventHandler(Game_Update);
-        ///		}
-        ///
-        ///		void Game_Update(Balder.Execution.Game game)
-        ///		{
-        ///			NodeCounter.Text = Scene.NodeCount.ToString();
         ///		}
         ///	}
         ///}.
@@ -155,20 +146,23 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl {
         
         /// <summary>
         ///   Looks up a localized string similar to using System.Collections.ObjectModel;
+        ///using System.ComponentModel;
+        ///using System.Windows.Input;
         ///using Balder.Math;
-        ///using Color = Balder.Color;
+        ///using Balder.MVVM;
         ///
         ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
         ///{
-        ///	public class ViewModel
+        ///	public class ViewModel : INotifyPropertyChanged
         ///	{
+        ///		public event PropertyChangedEventHandler PropertyChanged = (s, e) =&gt; { };
+        ///
         ///		public ViewModel()
         ///		{
-        ///			/*
-        ///			Objects = new ObservableCollection&lt;BusinessObject&gt;
-        ///			          	{
-        ///			          		new BusinessObject {Color = Color.FromSystemColor(Colors.Red), Position = new Coordinate(-120, 0, 0)},
-        ///			          		new BusinessObject {Color = Color.FromSystemColor(Colors.Green), Posit [rest of string was truncated]&quot;;.
+        ///			ManyObjects = new ObservableCollection&lt;BusinessObject&gt;();
+        ///			FewObjects = new ObservableCollection&lt;BusinessObject&gt;();
+        ///
+        ///			Populate(Ma [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string ViewModel_cs {
             get {

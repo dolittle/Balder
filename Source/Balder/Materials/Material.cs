@@ -80,15 +80,27 @@ namespace Balder.Materials
 			DiffuseMapOpacity = 1f;
 			ReflectionMapOpacity = 1f;
 			MagnificationFiltering = MaterialFiltering.None;
-			Shine = 1;
-			ShineStrength = 1;
+			Glossiness = 1;
+			SpecularLevel = 1;
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
 		}
 
 
-		public bool LinkAmbientAndDiffuse { get; set; }
+		public static readonly Property<Material, bool> LinkAmbientAndDiffuseProperty =
+			Property<Material, bool>.Register(m => m.LinkAmbientAndDiffuse);
+
+		public bool LinkAmbientAndDiffuse
+		{
+			get { return LinkAmbientAndDiffuseProperty.GetValue(this); }
+			set
+			{
+				LinkAmbientAndDiffuseProperty.SetValue(this, value);
+				var color = Diffuse;
+				AmbientProperty.SetValue(this,color);
+			}
+		}
 
 		public static readonly Property<Material, Color> AmbientProperty =
 			Property<Material, Color>.Register(m => m.Ambient);
@@ -130,7 +142,7 @@ namespace Balder.Materials
 			{
 				if (LinkAmbientAndDiffuse)
 				{
-					Ambient = value;
+					AmbientProperty.SetValue(this, value);
 				}
 				DiffuseProperty.SetValue(this, value);
 				UpdateColors();
@@ -151,34 +163,46 @@ namespace Balder.Materials
 		public Color Specular
 		{
 			get { return SpecularProperty.GetValue(this); }
-			set { SpecularProperty.SetValue(this, value); }
+			set
+			{
+				SpecularProperty.SetValue(this, value);
+				UpdateColors();
+			}
 		}
 
 
 
-		public static readonly Property<Material, double> ShineProperty =
-			Property<Material, double>.Register(m => m.Shine, 1);
+		public static readonly Property<Material, double> GlossinessProperty =
+			Property<Material, double>.Register(m => m.Glossiness, 1);
 
 		/// <summary>
-		/// Gets or sets the shininess of the material
+		/// Gets or sets the glosiness of the material
 		/// </summary>
-		public double Shine
+		public double Glossiness
 		{
-			get { return ShineProperty.GetValue(this); }
-			set { ShineProperty.SetValue(this, value); }
+			get { return GlossinessProperty.GetValue(this); }
+			set
+			{
+				GlossinessProperty.SetValue(this, value);
+				UpdateColors();
+			}
 		}
 
 
-		public static readonly Property<Material, double> ShineStrengthProperty =
-			Property<Material, double>.Register(m => m.ShineStrength, 1);
+		public static readonly Property<Material, double> SpecularLevelProperty =
+			Property<Material, double>.Register(m => m.SpecularLevel, 1);
 
 		/// <summary>
-		/// Gets or sets the shininess strength of the material
+		/// Gets or sets the specular level of the material
 		/// </summary>
-		public double ShineStrength
+		public double SpecularLevel
 		{
-			get { return ShineStrengthProperty.GetValue(this); }
-			set { ShineStrengthProperty.SetValue(this, value); }
+			get { return SpecularLevelProperty.GetValue(this); }
+			set
+			{
+				SpecularLevelProperty.SetValue(this, value);
+				UpdateColors();
+			}
 		}
 
 		public static readonly Property<Material, MaterialShade> ShadeProperty =
@@ -314,18 +338,18 @@ namespace Balder.Materials
 			DiffuseAsInt = ActualDiffuse.ToInt();
 			SpecularAsInt = Specular.ToInt();
 
-			ShineAsFloat = (float) Shine;
-			ShineStrengthAsFloat = (float) ShineStrength;
+			ShineAsFloat = (float)Glossiness;
+			ShineStrengthAsFloat = (float)SpecularLevel;
 		}
 
 		private Color GetActualColor(Color color)
 		{
 			Color actualColor;
-			var diffuseMapOpacity = (float) DiffuseMapOpacity;
-			var reflectionMapOpacity = (float) ReflectionMapOpacity;
+			var diffuseMapOpacity = (float)DiffuseMapOpacity;
+			var reflectionMapOpacity = (float)ReflectionMapOpacity;
 			if (null != DiffuseMap)
 			{
-				actualColor = color*(1f - diffuseMapOpacity); // +(Colors.White * diffuseMapOpacity);
+				actualColor = color * (1f - diffuseMapOpacity); // +(Colors.White * diffuseMapOpacity);
 			}
 			else
 			{
@@ -339,17 +363,19 @@ namespace Balder.Materials
 #if(SILVERLIGHT)
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
 		private static readonly FlatTriangleNoDepth FlatTriangleNoDepthRenderer = new FlatTriangleNoDepth();
-		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
-		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
 		private static readonly FlatTextureTriangle FlatTextureTriangleRenderer = new FlatTextureTriangle();
 		private static readonly FlatTextureTriangleBilinear FlatTextureTriangleBilinearRenderer = new FlatTextureTriangleBilinear();
-		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
 		private static readonly FlatDualTextureTriangle FlatDualTextureTriangleRenderer = new FlatDualTextureTriangle();
-		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
+		private static readonly GouraudTriangle GouraudTriangleRenderer = new GouraudTriangle();
+		private static readonly GouraudTriangleNoDepth GouraudTriangleNoDepthRenderer = new GouraudTriangleNoDepth();
 		private static readonly GouraudTextureTriangle GouraudTextureTriangleRenderer = new GouraudTextureTriangle();
 		private static readonly GouraudDualTextureTriangle GouraudDualTextureTriangleRenderer = new GouraudDualTextureTriangle();
-		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
 		private static readonly GouraudTextureTriangleBilinear GouraudTextureTriangleBilinearRenderer = new GouraudTextureTriangleBilinear();
+		private static readonly TextureTriangle TextureTriangleRenderer = new TextureTriangle();
+		private static readonly TextureTriangleNoDepth TextureTriangleNoDepthRenderer = new TextureTriangleNoDepth();
+		private static readonly TextureTriangleBilinear TextureTriangleBilinearRenderer = new TextureTriangleBilinear();
+		private static readonly DualTextureTriangle DualTextureTriangleRenderer = new DualTextureTriangle();
+
 
 		internal Texture DiffuseTexture;
 		internal Texture ReflectionTexture;
@@ -368,7 +394,7 @@ namespace Balder.Materials
 		private static ITextureManager _textureManager;
 		private void SetTextures()
 		{
-			if( null == _textureManager )
+			if (null == _textureManager)
 			{
 				// TODO: Look into this - would be nice to have a better way of doing 
 				// the performance boost of caching the textures directly - very platform specific thing
@@ -380,19 +406,19 @@ namespace Balder.Materials
 			{
 				DiffuseTexture = _textureManager.GetTextureForMap(DiffuseMap);
 			}
-			if( null != ReflectionMap )
+			if (null != ReflectionMap)
 			{
 				ReflectionTexture = _textureManager.GetTextureForMap(ReflectionMap);
 			}
 
-			DiffuseTextureFactor = (int) (DiffuseMapOpacity*256);
-			ReflectionTextureFactor = (int) (ReflectionMapOpacity*256);
+			DiffuseTextureFactor = (int)(DiffuseMapOpacity * 256);
+			ReflectionTextureFactor = (int)(ReflectionMapOpacity * 256);
 		}
 
 
 		private void SetRenderer()
 		{
-			switch( Shade )
+			switch (Shade)
 			{
 				case MaterialShade.None:
 					{
@@ -414,8 +440,8 @@ namespace Balder.Materials
 							if (null != ReflectionMap && ReflectionMapOpacity != 0)
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
-								           	? TextureTriangleBilinearRenderer
-								           	: (Triangle)FlatDualTextureTriangleRenderer;
+											? TextureTriangleBilinearRenderer
+											: (Triangle)DualTextureTriangleRenderer;
 							}
 							else
 							{
@@ -424,30 +450,32 @@ namespace Balder.Materials
 											: (Triangle)TextureTriangleRenderer;
 							}
 						}
-						
+
 					}
 					break;
 
 				case MaterialShade.Flat:
 					{
-						if( null == DiffuseMap || DiffuseMapOpacity == 0)
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
 						{
-							if( null == ReflectionMap || ReflectionMapOpacity == 0 )
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
 							{
 								Renderer = FlatTriangleRenderer;
-							} else
+							}
+							else
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? FlatTextureTriangleBilinearRenderer
 											: (Triangle)FlatTextureTriangleRenderer;
 							}
-						} else
+						}
+						else
 						{
-							if( null != ReflectionMap && ReflectionMapOpacity != 0 )
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? FlatTextureTriangleBilinearRenderer
-											: (Triangle)FlatTextureTriangleRenderer;
+											: (Triangle)FlatDualTextureTriangleRenderer;
 							}
 							else
 							{
