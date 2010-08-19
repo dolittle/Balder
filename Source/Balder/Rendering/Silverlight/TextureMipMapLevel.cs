@@ -25,6 +25,8 @@ using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
 {
+
+
 	public class TextureMipMapLevel
 	{
 		public int[,] Pixels;
@@ -41,30 +43,24 @@ namespace Balder.Rendering.Silverlight
 		private bool IsWidthPowerOfTwo;
 		private bool IsHeightPowerOfTwo;
 
+
+		private bool IsPowerOfTwo(int dimension, out int widthBitCount)
+		{
+			var log = (float) (System.Math.Log(dimension) / System.Math.Log(2));
+			var logAsInt = (int)log;
+			var logDiff = log - logAsInt;
+			widthBitCount = (int) log;
+			return logDiff == 0;
+		}
+
 		private void InitializeWidth()
 		{
-			var log = System.Math.Log(Width) / System.Math.Log(2);
-
-			var logAsInt = (int)log;
-			var logDiff = log - (double)logAsInt;
-			if (logDiff == 0)
-			{
-				IsWidthPowerOfTwo = true;
-				WidthBitCount = (int)log;
-			}
+			IsWidthPowerOfTwo = IsPowerOfTwo(Width, out WidthBitCount);
 		}
 
 		private void InitializeHeight()
 		{
-			var log = System.Math.Log(Height) / System.Math.Log(2);
-
-			var logAsInt = (int)log;
-			var logDiff = log - (double)logAsInt;
-			if (logDiff == 0)
-			{
-				IsHeightPowerOfTwo = true;
-				HeightBitCount = (int)log;
-			}
+			IsHeightPowerOfTwo = IsPowerOfTwo(Height, out HeightBitCount);
 		}
 
 
