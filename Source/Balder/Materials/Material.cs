@@ -339,7 +339,7 @@ namespace Balder.Materials
 			SpecularAsInt = Specular.ToInt();
 
 			GlossinessAsFloat = (float)Glossiness;
-			ShineStrengthAsFloat = (float)SpecularLevel;
+			SpecularLevelAsFloat = (float)SpecularLevel;
 		}
 
 		private Color GetActualColor(Color color)
