@@ -1,0 +1,217 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Materials.Editor.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+			 xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Materials.Editor" 
+			 xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
+			 xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
+			 xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
+			 xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" 
+			 xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" mc:Ignorable="d"
+			 
+			 DataContext="{Binding Source={StaticResource ViewModels}, Path=MaterialEditor}"
+    >
+
+	<Grid x:Name="LayoutRoot">
+		<Grid.Resources>
+			<Style TargetType="TextBlock" x:Key="HelpText">
+				<Style.Setters>
+					<Setter Property="Margin" Value="0,10,0,2"/>
+					<Setter Property="FontFamily" Value="Verdana"/>
+					<Setter Property="FontSize" Value="14"/>
+					<Setter Property="FontStyle" Value="Normal"/>
+					<Setter Property="FontWeight" Value="Bold"/>
+				</Style.Setters>
+			</Style>
+
+			<Style TargetType="TextBlock" x:Key="Category">
+				<Style.Setters>
+					<Setter Property="Margin" Value="0,10,0,2"/>
+					<Setter Property="FontFamily" Value="Verdana"/>
+					<Setter Property="FontSize" Value="16"/>
+					<Setter Property="FontStyle" Value="Normal"/>
+					<Setter Property="FontWeight" Value="Bold"/>
+				</Style.Setters>
+			</Style>
+
+			<Style TargetType="TextBlock" x:Key="Property">
+				<Style.Setters>
+					<Setter Property="Margin" Value="0,4,0,4"/>
+					<Setter Property="FontFamily" Value="Verdana"/>
+					<Setter Property="FontSize" Value="12"/>
+					<Setter Property="FontStyle" Value="Normal"/>
+					<Setter Property="FontWeight" Value="Bold"/>
+				</Style.Setters>
+			</Style>
+
+			<local:BilinearFilteringValueConverter x:Key="BilinearFilteringConverter"/>
+			<local:ShadeValueConverter x:Key="ShadeConverter"/>
+			<local:MapValueConverter x:Key="MapConverter"/>
+			<local:SystemColorToBalderColorConverter x:Key="ColorConverter"/>
+		</Grid.Resources>
+
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="300"/>
+				<ColumnDefinition Width="640"/>
+			</Grid.ColumnDefinitions>
+
+			<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+				<StackPanel Orientation="Vertical" Grid.Column="0" DataContext="{Binding ElementName=Mesh, Path=Material}">
+
+					<StackPanel.Background>
+						<SolidColorBrush Opacity="0.5" Color="Gray"/>
+					</StackPanel.Background>
+
+					<StackPanel Orientation="Horizontal" Margin="0,8,0,8">
+						<Image Source="/Balder.Silverlight.SampleBrowser;component/Assets/mouse.png" Stretch="None"/>
+						<TextBlock Text=" = Rotate object" Style="{StaticResource HelpText}"/>
+					</StackPanel>
+					
+
+					<TextBlock Text="Object Properties" Style="{StaticResource Category}"/>
+					<StackPanel Orientation="Horizontal">
+						<TextBlock Text="Zoom"/>
+						<Slider Width="100" Minimum="-70" Maximum="-30" Value="{Binding ElementName=Game, Path=Camera.Position.Z, Mode=TwoWay}"/>
+					</StackPanel>
+
+					<TextBlock Text="Global Properties" Style="{StaticResource Category}"/>
+					<local:ColorEditor NameOfColor="Scene Ambient" Color="{Binding ElementName=Game, Path=Scene.AmbientColor, Mode=TwoWay, Converter={StaticResource ColorConverter}}" />
+
+					<TextBlock Text="Properties" Style="{StaticResource Category}"/>
+					<StackPanel Orientation="Vertical">
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding MagnificationFiltering, Mode=TwoWay, Converter={StaticResource BilinearFilteringConverter}}"/>
+							<TextBlock Text="Bilinear filtering" Grid.Column="1" Grid.Row="0"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBlock Text="Shading type" Grid.Column="0" Grid.Row="1"/>
+							<ComboBox Grid.Column="1" Grid.Row="1" SelectedIndex="{Binding Path=Shade, Mode=TwoWay, Converter={StaticResource ShadeConverter}}">
+								<ComboBoxItem Content="None"/>
+								<ComboBoxItem Content="Flat"/>
+								<ComboBoxItem Content="Gouraud"/>
+							</ComboBox>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBlock Text="Specular level"/>
+							<toolkit:NumericUpDown Minimum="0" 
+											   Maximum="100" 
+											   DecimalPlaces="1" 
+											   Increment=".1"
+											   Value="{Binding SpecularLevel, Mode=TwoWay}"
+											   />
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBlock Text="Glossiness"/>
+							<toolkit:NumericUpDown Minimum="0" 
+											   Maximum="100" 
+											   DecimalPlaces="1" 
+											   Increment=".1"
+											   Value="{Binding Glossiness, Mode=TwoWay}"
+											   />
+						</StackPanel>
+
+
+
+					</StackPanel>
+
+					<TextBlock Text="Colors" Style="{StaticResource Category}"/>
+					<StackPanel Orientation="Vertical">
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding LinkAmbientAndDiffuse, Mode=TwoWay}"/>
+							<TextBlock Text="Lock ambient and diffuse"/>
+						</StackPanel>
+
+						<local:ColorEditor NameOfColor="Ambient" Color="{Binding Ambient, Mode=TwoWay, Converter={StaticResource ColorConverter}}"  Grid.Row="0"/>
+						<local:ColorEditor NameOfColor="Diffuse" Color="{Binding Diffuse, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="1"/>
+						<local:ColorEditor NameOfColor="Specular" Color="{Binding Specular, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="2"/>
+					</StackPanel>
+
+
+					<TextBlock Text="Maps" Style="{StaticResource Category}"/>
+					<Grid VerticalAlignment="Center">
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+						</Grid.RowDefinitions>
+
+						<local:MapEditor Grid.Row="0" 
+									 MapName="Diffuse" 
+									 Opacity="{Binding DiffuseMapOpacity, Mode=TwoWay}"
+									 MapItems="{Binding Source={StaticResource ViewModels}, Path=MaterialEditor.Maps}"
+									 MapItemDisplayMemberPath="Name"
+									 SelectedMapItem="{Binding DiffuseMap, Mode=TwoWay, Converter={StaticResource MapConverter}}"
+									 />
+						<local:MapEditor Grid.Row="1" 
+									 MapName="Reflection" 
+									 Opacity="{Binding ReflectionMapOpacity, Mode=TwoWay}"
+									 MapItems="{Binding Source={StaticResource ViewModels}, Path=MaterialEditor.Maps}"
+									 MapItemDisplayMemberPath="Name"
+									 SelectedMapItem="{Binding ReflectionMap, Mode=TwoWay, Converter={StaticResource MapConverter}}"
+									 />
+					</Grid>
+
+
+					<TextBlock Text="Lights" Style="{StaticResource Category}"/>
+
+					<TextBlock Text="Omni light" Style="{StaticResource Property}"/>
+					<StackPanel Orientation="Vertical" DataContext="{Binding ElementName=OmniLight}">
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding Path=IsEnabled, Mode=TwoWay}"/>
+							<TextBlock Text="OmniLight"/>
+							<TextBlock Margin="20,0,0,0" Text="Strength"/>
+							<toolkit:NumericUpDown Minimum="0" Maximum="1" DecimalPlaces="2" Increment=".01" Value="{Binding ElementName=OmniLight, Mode=TwoWay, Path=Strength}"/>
+						</StackPanel>
+						<local:ColorEditor NameOfColor="Diffuse" Color="{Binding Diffuse, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="1"/>
+						<local:ColorEditor NameOfColor="Specular" Color="{Binding Specular, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="2"/>
+					</StackPanel>
+
+					<StackPanel Orientation="Vertical" DataContext="{Binding ElementName=DirectionalLight}">
+						<StackPanel Orientation="Horizontal">
+							<CheckBox IsChecked="{Binding Path=IsEnabled, Mode=TwoWay}"/>
+							<TextBlock Text="Directional Light"/>
+							<TextBlock Margin="20,0,0,0" Text="Strength"/>
+							<toolkit:NumericUpDown Minimum="0" Maximum="1" DecimalPlaces="2" Increment=".01" Value="{Binding ElementName=OmniLight, Mode=TwoWay, Path=Strength}"/>
+						</StackPanel>
+						<local:ColorEditor NameOfColor="Diffuse" Color="{Binding Diffuse, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="1"/>
+						<local:ColorEditor NameOfColor="Specular" Color="{Binding Specular, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="2"/>
+					</StackPanel>
+				</StackPanel>
+			</Border>
+
+
+			<Execution:Game x:Name="Game" Grid.Column="1" Width="640" Height="480">
+				<Execution:Game.Camera>
+					<View:Camera Position="0,0,-100"/>
+				</Execution:Game.Camera>
+
+				<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
+				<Lighting:DirectionalLight x:Name="DirectionalLight" Direction="0,1,0" IsEnabled="False"/>
+
+				<Geometries:Mesh x:Name="Mesh" 
+								 InteractionEnabled="True"
+								 PivotPoint="0,10,0"
+								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ASE">
+					<Geometries:Mesh.Material>
+						<Materials:Material 
+							Ambient="Black" 
+							Diffuse="Blue" 
+							Specular="White" 
+							Shade="Gouraud" 
+							/>
+					</Geometries:Mesh.Material>
+				</Geometries:Mesh>
+			</Execution:Game>
+		</Grid>
+
+
+
+
+	</Grid>
+</UserControl>
