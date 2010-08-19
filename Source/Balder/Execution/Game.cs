@@ -190,6 +190,7 @@ namespace Balder.Execution
 				value.Height = 0;
 				value.Visibility = Visibility.Collapsed;
 #endif
+				value.RuntimeContext = RuntimeContext;
 				CameraProp.SetValue(this, value);
 				Viewport.View = value;
 

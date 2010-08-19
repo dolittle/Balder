@@ -16,21 +16,26 @@
 // limitations under the License.
 //
 #endregion
+
+using System;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
 #if(SILVERLIGHT)
 using System.Windows;
+using Balder.Rendering;
+
 #endif
 
 
 namespace Balder.View
 {
 #if(SILVERLIGHT)
-	public class Camera : FrameworkElement, IView
+	public class Camera : FrameworkElement,
 #else
-	public class Camera : IView
+	public class Camera :
 #endif
+		IView, IHaveRuntimeContext
 	{
 		public const float DefaultFieldOfView = 45f;
 		public const float DefaultFar = 4000f;
@@ -180,5 +185,7 @@ namespace Balder.View
 		}
 
 		#endregion
+
+		public IRuntimeContext RuntimeContext { get; internal set; }
 	}
 }
