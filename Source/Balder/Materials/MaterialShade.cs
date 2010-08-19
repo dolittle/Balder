@@ -11,11 +11,6 @@ namespace Balder.Materials
 		None=1,
 
 		/// <summary>
-		/// Wireframe shading - no solid filling
-		/// </summary>
-		Wireframe,
-
-		/// <summary>
 		/// Flat shading
 		/// </summary>
 		Flat,
