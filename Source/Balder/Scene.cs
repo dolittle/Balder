@@ -94,7 +94,7 @@ namespace Balder
 			_allNodes = new NodeCollection(this);
 			IsPaused = false;
 
-			AmbientColor = Color.FromArgb(0xff, 0, 0, 0);
+			AmbientColor = Color.FromArgb(0xff, 0x10, 0x10, 0x10);
 		}
 
 		public IRuntimeContext RuntimeContext { get; private set; }
