@@ -283,6 +283,7 @@ namespace Balder.Rendering.Silverlight
 				_hasPrepared = true;
 			}
 
+
 			var color = GetColorFromNode(node);
 
 			BeginVerticesTiming(node);
@@ -576,6 +577,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var lineCount = 0;
+			var colorAsInt = color.ToInt();
 			for (var lineIndex = 0; lineIndex < _lines.Length; lineIndex++)
 			{
 				var line = _lines[lineIndex];
@@ -596,7 +598,7 @@ namespace Balder.Rendering.Silverlight
 								(int)ystart,
 								(int)xend,
 								(int)yend,
-								color);
+								colorAsInt);
 				lineCount++;
 			}
 			return lineCount;

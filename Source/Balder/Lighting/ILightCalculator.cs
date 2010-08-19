@@ -18,6 +18,8 @@
 //
 
 #endregion
+
+using Balder.Collections;
 using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
@@ -29,6 +31,13 @@ namespace Balder.Lighting
 	/// </summary>
 	public interface ILightCalculator
 	{
+		/// <summary>
+		/// Prepare the light calculator with the lights needed for calculations
+		/// </summary>
+		/// <param name="viewport">Viewport to prepare</param>
+		/// <param name="lights">Collection of lights to prepare for</param>
+		void Prepare(Viewport viewport, NodeCollection lights);
+
 		/// <summary>
 		/// Calculate color based on lighting in the viewport
 		/// </summary>

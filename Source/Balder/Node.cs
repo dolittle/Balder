@@ -34,6 +34,7 @@ using Matrix = Balder.Math.Matrix;
 using System.Windows.Controls;
 using MouseButtonEventHandler = Balder.Input.MouseButtonEventHandler;
 using MouseEventHandler = Balder.Input.MouseEventHandler;
+using ManipulationDeltaEventArgs = Balder.Input.ManipulationDeltaEventArgs;
 using System.Windows;
 using System.Windows.Input;
 using Balder.Silverlight.Helpers;

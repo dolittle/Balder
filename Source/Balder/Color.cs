@@ -348,38 +348,6 @@ namespace Balder
 
 		public static int Multiply(int color1, int color2)
 		{
-			/*
-			var sa = (color1 >> 24) & 0xff;
-			var sr = (color1 >> 16) & 0xff;
-			var sg = (color1 >> 8) & 0xff;
-			var sb = (color1) & 0xff;
-
-			var da = (color2 >> 24) & 0xff;
-			var dr = (color2 >> 16) & 0xff;
-			var dg = (color2 >> 8) & 0xff;
-			var db = (color2) & 0xff;
-
-
-			int ta = (sa * da) + 128;
-			int tr = (sr * dr) + 128;
-			int tg = (sg * dg) + 128;
-			int tb = (sb * db) + 128;
-
-			int ba = ((ta >> 8) + ta) >> 8;
-			int br = ((tr >> 8) + tr) >> 8;
-			int bg = ((tg >> 8) + tg) >> 8;
-			int bb = ((tb >> 8) + tb) >> 8;
-
-			ba = 0xff;
-
-			var color = (ba << 24) |
-						((ba <= br ? ba : br) << 16) |
-						((ba <= bg ? ba : bg) << 8) |
-						((ba <= bb ? ba : bb));
-
-			return color;
-			
-			*/
 			var red2 = (color2 & RedMask) >> 16;
 			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
 

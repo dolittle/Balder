@@ -25,7 +25,7 @@ namespace Balder.Rendering.Silverlight
 {
 	public static class Shapes
 	{
-		public static void DrawLine(Viewport viewport, int xstart, int ystart, int xend, int yend, Color color)
+		public static void DrawLine(Viewport viewport, int xstart, int ystart, int xend, int yend, int color)
 		{
 			var stride = BufferContainer.Width;
 			var framebuffer = BufferContainer.Framebuffer;
@@ -33,8 +33,6 @@ namespace Balder.Rendering.Silverlight
 			{
 				return;
 			}
-
-			var colorAsInt = (int)color.ToUInt32();
 
 			var deltaX = xend - xstart;
 			var deltaY = yend - ystart;
@@ -57,7 +55,7 @@ namespace Balder.Rendering.Silverlight
 					if (currentX > 0 && currentY > 0 && currentX < viewport.Width && currentY < viewport.Height)
 					{
 						var bufferOffset = (stride*(int) currentY) + (int) currentX;
-						framebuffer[bufferOffset] = colorAsInt;
+						framebuffer[bufferOffset] = color;
 					}
 
 					currentX += slopeX;

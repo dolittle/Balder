@@ -19,6 +19,7 @@
 
 using Balder.Collections;
 using Balder.Display;
+using Balder.Lighting;
 using Balder.Math;
 
 namespace Balder.Rendering
@@ -26,15 +27,17 @@ namespace Balder.Rendering
 	public class NodeRenderingService : INodeRenderingService
 	{
 		private IRuntimeContext _runtimeContext;
+		private readonly ILightCalculator _lightCalculator;
 
 		private int _frameCounter;
 		private bool _render;
 		private readonly ShowMessage _showMessage;
 		private readonly PrepareFrameMessage _prepareFrameMessage;
 
-		public NodeRenderingService(IRuntimeContext runtimeContext)
+		public NodeRenderingService(IRuntimeContext runtimeContext, ILightCalculator lightCalculator)
 		{
 			_runtimeContext = runtimeContext;
+			_lightCalculator = lightCalculator;
 			runtimeContext.MessengerContext.SubscriptionsFor<PassiveRenderingSignal>().AddListener(this, PassiveRenderingSignaled);
 			_render = true;
 			_showMessage = new ShowMessage();
@@ -72,6 +75,7 @@ namespace Balder.Rendering
 
 			if (_render)
 			{
+				_lightCalculator.Prepare(viewport, viewport.Scene.Lights);
 				_runtimeContext.MessengerContext.Send(_prepareFrameMessage);
 				foreach (var node in nodes)
 				{

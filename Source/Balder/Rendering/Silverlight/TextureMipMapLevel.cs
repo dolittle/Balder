@@ -25,8 +25,6 @@ using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
 {
-
-
 	public class TextureMipMapLevel
 	{
 		public int[,] Pixels;
