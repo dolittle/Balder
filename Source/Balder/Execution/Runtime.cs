@@ -22,6 +22,7 @@ using Balder.Assets;
 using Balder.Collections;
 using Balder.Content;
 using Balder.Debug;
+using Balder.Diagnostics;
 using Balder.Display;
 #if(SILVERLIGHT)
 using Balder.Execution.Silverlight;
@@ -56,6 +57,7 @@ namespace Balder.Execution
 			assetLoaderService.Initialize();
 			ContentManager = contentManager;
 			InitializePlatformEventHandlers();
+			Stopwatch = new NullStopwatch();
 		}
 
 		public static IRuntime Instance
@@ -86,6 +88,21 @@ namespace Balder.Execution
 		public IContentManager ContentManager { get; private set; }
 
 		public DebugInfo DebugInfo { get; set; }
+
+		public IStopwatch Stopwatch { get; private set; }
+
+		public void EnableStatistics()
+		{
+			Stopwatch = new Stopwatch();
+			Stopwatch.Start();
+
+		}
+
+		public void DisableStatistics()
+		{
+			Stopwatch.Stop();
+			Stopwatch = new NullStopwatch();
+		}
 
 
 		public T CreateGame<T>() where T : Game

@@ -30,7 +30,7 @@ namespace Balder.Display
 #endif
 	{
 #if(SILVERLIGHT)
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
+		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
 		private int _renderedNodes;
@@ -41,7 +41,7 @@ namespace Balder.Display
 			{
 				_renderedNodes = value;
 #if(SILVERLIGHT)
-				PropertyChanged.Notify(() => RenderedNodes);
+				OnPropertyChanged("RenderedNodes");
 #endif
 			}
 		}
@@ -51,5 +51,16 @@ namespace Balder.Display
 		{
 			RenderedNodes = 0;
 		}
+
+
+
+		private void OnPropertyChanged(string propertyName)
+		{
+			if( null != PropertyChanged )
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
+		}
+
 	}
 }

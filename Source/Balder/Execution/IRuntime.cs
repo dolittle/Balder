@@ -18,6 +18,7 @@
 #endregion
 using System;
 using Balder.Content;
+using Balder.Diagnostics;
 using Balder.Display;
 using Ninject;
 
@@ -29,6 +30,11 @@ namespace Balder.Execution
 		Game CreateGame(Type type);
 		void RegisterGame(IDisplay display, Game game);
 		void UnregisterGame(Game game);
+
+		void EnableStatistics();
+		void DisableStatistics();
+
+		IStopwatch Stopwatch { get; }
 		IPlatform Platform { get; }
 		IKernel Kernel { get; }
 		IContentManager ContentManager { get; }

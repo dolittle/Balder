@@ -33,7 +33,7 @@ namespace Balder.Objects.Geometries
 			{
 				_renderedFaces = value;
 #if(SILVERLIGHT)
-				Notify(() => RenderedFaces);
+				OnPropertyChanged("RenderedFaces");
 #endif
 			}
 		}
@@ -46,7 +46,7 @@ namespace Balder.Objects.Geometries
 			{
 				_renderedLines = value;
 #if(SILVERLIGHT)
-				Notify(() => RenderedLines);
+				OnPropertyChanged("RenderedLines");
 #endif
 			}
 		}
@@ -60,7 +60,7 @@ namespace Balder.Objects.Geometries
 			{
 				_timeSpentInVertices = value;
 #if(SILVERLIGHT)
-				Notify(() => TimeSpentInVertices);
+				OnPropertyChanged("TimeSpentInVertices");
 #endif
 			}
 		}
@@ -73,7 +73,7 @@ namespace Balder.Objects.Geometries
 			{
 				_timeSpentInLighting = value;
 #if(SILVERLIGHT)
-				Notify(()=>TimeSpentInLighting);
+				OnPropertyChanged("TimeSpentInLighting");
 #endif
 			}
 		}
@@ -86,7 +86,7 @@ namespace Balder.Objects.Geometries
 			{
 				_timeSpentInRendering = value;
 #if(SILVERLIGHT)
-				Notify(()=>TimeSpentInRendering);
+				OnPropertyChanged("TimeSpentInRendering");
 #endif
 			}
 		}

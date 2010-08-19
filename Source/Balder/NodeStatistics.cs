@@ -22,6 +22,7 @@ using System.ComponentModel;
 using System.Linq.Expressions;
 using Balder.Extensions.Silverlight;
 #endif
+using Balder.Execution;
 using Balder.Diagnostics;
 
 namespace Balder
@@ -34,15 +35,12 @@ namespace Balder
 #if(SILVERLIGHT)
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { }; 
 #endif
-
-		protected IStopwatch Stopwatch;
 		private long _nodeStartTime;
 		private long _childrenStartTime;
 
-		public NodeStatistics()
+		protected IStopwatch Stopwatch
 		{
-			Stopwatch = new Stopwatch();
-			Stopwatch.Start();
+			get { return Runtime.Instance.Stopwatch; }
 		}
 
 
@@ -54,7 +52,7 @@ namespace Balder
 			{
 				_timeSpentInNode = value;
 #if(SILVERLIGHT)
-				Notify(() => TimeSpentInNode);
+				OnPropertyChanged("TimeSpentInNode");
 #endif
 			}
 		}
@@ -67,7 +65,7 @@ namespace Balder
 			{
 				_timeSpentInChildren = value;
 #if(SILVERLIGHT)
-				Notify(() => TimeSpentInChildren);
+				OnPropertyChanged("TimeSpentInChildren");
 #endif
 			}
 		}
@@ -94,9 +92,12 @@ namespace Balder
 
 
 #if(SILVERLIGHT)
-		protected void Notify(Expression<Func<object>> expression)
+		protected void OnPropertyChanged(string propertyName)
 		{
-			PropertyChanged.Notify(expression);
+			if( null != PropertyChanged )
+			{
+				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+			}
 		}
 #endif
 	}
