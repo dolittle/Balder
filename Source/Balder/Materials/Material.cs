@@ -43,12 +43,19 @@ namespace Balder.Materials
 	{
 		internal Color ActualAmbient;
 		internal Color ActualDiffuse;
+		
 		internal int AmbientAsInt;
 		internal int DiffuseAsInt;
 		internal int SpecularAsInt;
 		internal float GlossinessAsFloat;
 		internal float SpecularLevelAsFloat;
+		internal bool CachedSolid;
+		internal bool CachedWireframe;
+		internal bool CachedConstantColorForWireframe;
+		internal int CachedDiffuseWireframeAsInt;
+		internal Color CachedDiffuseWireframe;
 		public static Material Default;
+
 
 		static Material()
 		{
@@ -76,15 +83,55 @@ namespace Balder.Materials
 		public Material()
 		{
 			Shade = MaterialShade.None;
+			DiffuseWireframe = Colors.Green;
 			Diffuse = Color.Random();
 			DiffuseMapOpacity = 1f;
 			ReflectionMapOpacity = 1f;
 			MagnificationFiltering = MaterialFiltering.None;
 			Glossiness = 1;
 			SpecularLevel = 1;
+			Solid = true;
+			Wireframe = false;
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
+		}
+
+
+		public static readonly Property<Material, bool> SolidProperty =
+			Property<Material, bool>.Register(m => m.Solid, true);
+		public bool Solid
+		{
+			get { return SolidProperty.GetValue(this); }
+			set
+			{
+				SolidProperty.SetValue(this, value);
+				CachedSolid = value;
+			}
+		}
+
+		public static readonly Property<Material, bool> WireframeProperty =
+			Property<Material, bool>.Register(m => m.Wireframe, false);
+		public bool Wireframe
+		{
+			get { return WireframeProperty.GetValue(this); }
+			set
+			{
+				WireframeProperty.SetValue(this, value);
+				CachedWireframe = value;
+			}
+		}
+
+		public static readonly Property<Material, bool> ConstantColorForWireframeProperty =
+			Property<Material, bool>.Register(m => m.ConstantColorForWireframe, false);
+		public bool ConstantColorForWireframe
+		{
+			get { return ConstantColorForWireframeProperty.GetValue(this); }
+			set
+			{
+				ConstantColorForWireframeProperty.SetValue(this, value);
+				CachedConstantColorForWireframe = value;
+			}
 		}
 
 
@@ -98,7 +145,7 @@ namespace Balder.Materials
 			{
 				LinkAmbientAndDiffuseProperty.SetValue(this, value);
 				var color = Diffuse;
-				AmbientProperty.SetValue(this,color);
+				AmbientProperty.SetValue(this, color);
 			}
 		}
 
@@ -122,6 +169,26 @@ namespace Balder.Materials
 				}
 				AmbientProperty.SetValue(this, value);
 				UpdateColors();
+			}
+		}
+
+		public static readonly Property<Material, Color> DiffuseWireframeProperty =
+			Property<Material, Color>.Register(m => m.DiffuseWireframe);
+
+		/// <summary>
+		/// Gets or sets the Diffuse <see cref="Color"/> for wireframe when constant coloring for wireframe is enabled
+		/// </summary>
+#if(SILVERLIGHT)
+		[TypeConverter(typeof(ColorConverter))]
+#endif
+		public Color DiffuseWireframe
+		{
+			get { return DiffuseWireframeProperty.GetValue(this); }
+			set
+			{
+				DiffuseWireframeProperty.SetValue(this, value);
+				CachedDiffuseWireframe = value;
+				CachedDiffuseWireframeAsInt = value.ToInt();
 			}
 		}
 
@@ -347,7 +414,7 @@ namespace Balder.Materials
 			Color actualColor;
 			var diffuseMapOpacity = (float)DiffuseMapOpacity;
 			var reflectionMapOpacity = (float)ReflectionMapOpacity;
-			
+
 			if (null != DiffuseMap)
 			{
 				actualColor = color * (1f - diffuseMapOpacity);

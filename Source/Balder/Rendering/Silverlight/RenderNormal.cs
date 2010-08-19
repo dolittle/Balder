@@ -40,6 +40,7 @@ namespace Balder.Rendering.Silverlight
 		public Vector Vector;
 		public Vector Transformed;
 		public Color CalculatedColor;
+		public int CalculatedColorAsInt;
 		public bool IsColorCalculated;
 	}
 }

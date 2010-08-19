@@ -82,6 +82,22 @@
 
 					<TextBlock Text="Properties" Style="{StaticResource Category}"/>
 					<StackPanel Orientation="Vertical">
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding Solid, Mode=TwoWay}"/>
+							<TextBlock Text="Solid flll enabled" Grid.Column="1" Grid.Row="0"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding Wireframe, Mode=TwoWay}"/>
+							<TextBlock Text="Wireframe enabled" Grid.Column="1" Grid.Row="0"/>
+						</StackPanel>
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding ConstantColorForWireframe, Mode=TwoWay}"/>
+							<TextBlock Text="Use constant color for wireframe" Grid.Column="1" Grid.Row="0"/>
+						</StackPanel>
+
+						
 
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding MagnificationFiltering, Mode=TwoWay, Converter={StaticResource BilinearFilteringConverter}}"/>
@@ -128,9 +144,10 @@
 							<TextBlock Text="Lock ambient and diffuse"/>
 						</StackPanel>
 
-						<local:ColorEditor NameOfColor="Ambient" Color="{Binding Ambient, Mode=TwoWay, Converter={StaticResource ColorConverter}}"  Grid.Row="0"/>
-						<local:ColorEditor NameOfColor="Diffuse" Color="{Binding Diffuse, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="1"/>
-						<local:ColorEditor NameOfColor="Specular" Color="{Binding Specular, Mode=TwoWay, Converter={StaticResource ColorConverter}}" Grid.Row="2"/>
+						<local:ColorEditor NameOfColor="Ambient" Color="{Binding Ambient, Mode=TwoWay, Converter={StaticResource ColorConverter}}"  />
+						<local:ColorEditor NameOfColor="Diffuse" Color="{Binding Diffuse, Mode=TwoWay, Converter={StaticResource ColorConverter}}" />
+						<local:ColorEditor NameOfColor="Specular" Color="{Binding Specular, Mode=TwoWay, Converter={StaticResource ColorConverter}}" />
+						<local:ColorEditor NameOfColor="Wireframe Diffuse" Color="{Binding DiffuseWireframe, Mode=TwoWay, Converter={StaticResource ColorConverter}}" />
 					</StackPanel>
 
 

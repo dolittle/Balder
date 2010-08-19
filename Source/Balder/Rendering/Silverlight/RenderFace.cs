@@ -54,11 +54,20 @@ namespace Balder.Rendering.Silverlight
 		public TextureCoordinate BumpMapTextureCoordinateB;
 		public TextureCoordinate BumpMapTextureCoordinateC;
 
+		public int ColorAAsInt;
+		public int ColorBAsInt;
+		public int ColorCAsInt;
+
 		public Color CalculatedColorA;
 		public Color CalculatedColorB;
 		public Color CalculatedColorC;
 
+		public int CalculatedColorAAsInt;
+		public int CalculatedColorBAsInt;
+		public int CalculatedColorCAsInt;
+
 		public Color Color;
+		public int ColorAsInt;
 
 		public Texture Texture1;
 		public int Texture1Factor;
@@ -83,6 +92,9 @@ namespace Balder.Rendering.Silverlight
 			ColorA = face.ColorA;
 			ColorB = face.ColorB;
 			ColorC = face.ColorC;
+			ColorAAsInt = ColorA.ToInt();
+			ColorBAsInt = ColorB.ToInt();
+			ColorCAsInt = ColorC.ToInt();
 			DiffuseA = face.DiffuseA;
 			DiffuseB = face.DiffuseB;
 			DiffuseC = face.DiffuseC;

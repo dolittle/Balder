@@ -400,12 +400,14 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
+		private static readonly RenderNormal NullNormal = new RenderNormal(new Normal(0,0,0));
 
-		private Color CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
+		private RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
 		{
+			
 			if (null == _normals || null == _vertices)
 			{
-				return Colors.Black;
+				return NullNormal;
 			}
 
 			var normal = _normals[normalIndex];
@@ -415,10 +417,11 @@ namespace Balder.Rendering.Silverlight
 			{
 
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
-				normal.CalculatedColor =
-					Color.FromInt(_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed));
+				normal.CalculatedColorAsInt =
+					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);
+				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
 			}
-			return normal.CalculatedColor;
+			return normal;
 		}
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
@@ -430,20 +433,29 @@ namespace Balder.Rendering.Silverlight
 						face.CalculatedColorA = face.ColorA;
 						face.CalculatedColorB = face.ColorB;
 						face.CalculatedColorC = face.ColorC;
+						face.CalculatedColorAAsInt = face.ColorAAsInt;
+						face.CalculatedColorBAsInt = face.ColorBAsInt;
+						face.CalculatedColorCAsInt = face.ColorCAsInt;
 					}
 					break;
 				case MaterialShade.Gouraud:
 					{
-						face.CalculatedColorA = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
-						face.CalculatedColorB = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
-						face.CalculatedColorC = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
+						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
+						face.CalculatedColorA = normal.CalculatedColor;
+						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
+						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
+						face.CalculatedColorB = normal.CalculatedColor;
+						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
+						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
+						face.CalculatedColorC = normal.CalculatedColor;
+						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
 					}
 					break;
 				case MaterialShade.Flat:
 					{
-						
-						face.Color = Color.FromInt(
-							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal));
+						face.ColorAsInt = 
+							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
+						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
 			}
@@ -519,18 +531,44 @@ namespace Balder.Rendering.Silverlight
 				face.Transform(localView);
 
 				var material = PrepareMaterialForFace(face, node);
-				CalculateVertexColorsForFace(face, viewport, material);
 
-				face.Texture1 = material.DiffuseTexture;
-				face.Texture2 = material.ReflectionTexture;
-				face.Texture1Factor = material.DiffuseTextureFactor;
-				face.Texture2Factor = material.ReflectionTextureFactor;
+				if( ShouldCalculateVertexColorsForFace(material))
+				{
+					CalculateVertexColorsForFace(face, viewport, material);
+				}
 
-				material.Renderer.Draw(face, _vertices);
+				if( material.CachedSolid )
+				{
+					face.Texture1 = material.DiffuseTexture;
+					face.Texture2 = material.ReflectionTexture;
+					face.Texture1Factor = material.DiffuseTextureFactor;
+					face.Texture2Factor = material.ReflectionTextureFactor;
+
+					material.Renderer.Draw(face, _vertices);
+				}
+				if( material.CachedWireframe )
+				{
+					if( material.CachedConstantColorForWireframe )
+					{
+						face.CalculatedColorA = material.CachedDiffuseWireframe;
+						face.CalculatedColorAAsInt = material.CachedDiffuseWireframeAsInt;
+						face.CalculatedColorB = material.CachedDiffuseWireframe;
+						face.CalculatedColorBAsInt = material.CachedDiffuseWireframeAsInt;
+						face.CalculatedColorC = material.CachedDiffuseWireframe;
+						face.CalculatedColorCAsInt = material.CachedDiffuseWireframeAsInt;
+					}
+					DrawFaceAsLine(viewport, face, _vertices);
+				}
 
 				faceCount++;
 			}
 			return faceCount;
+		}
+
+		private bool ShouldCalculateVertexColorsForFace(Material material)
+		{
+			return material.CachedSolid || (material.CachedWireframe && !material.CachedConstantColorForWireframe);
+		
 		}
 
 		private Material PrepareMaterialForFace(RenderFace face, INode node)
@@ -602,6 +640,63 @@ namespace Balder.Rendering.Silverlight
 				lineCount++;
 			}
 			return lineCount;
+		}
+
+
+		private void DrawFaceAsLine(Viewport viewport, RenderFace face, RenderVertex[] vertices)
+		{
+			var a = _vertices[face.A];
+			var b = _vertices[face.B];
+			var c = _vertices[face.C];
+#if(false)
+			Shapes.DrawLine(viewport,
+							a.ProjectedVector.X,
+							a.ProjectedVector.Y,
+							a.ProjectedVector.Z,
+							b.ProjectedVector.X,
+							b.ProjectedVector.Y,
+							b.ProjectedVector.Z,
+							face.CalculatedColorAAsInt);
+
+			Shapes.DrawLine(viewport,
+							b.ProjectedVector.X,
+							b.ProjectedVector.Y,
+							b.ProjectedVector.Z,
+							c.ProjectedVector.X,
+							c.ProjectedVector.Y,
+							c.ProjectedVector.Z,
+							face.CalculatedColorBAsInt);
+
+			Shapes.DrawLine(viewport,
+							a.ProjectedVector.X,
+							a.ProjectedVector.Y,
+							a.ProjectedVector.Z,
+							c.ProjectedVector.X,
+							c.ProjectedVector.Y,
+							c.ProjectedVector.Z,
+							face.CalculatedColorCAsInt);
+#else
+			Shapes.DrawLine(viewport,
+							a.ProjectedVector.X,
+							a.ProjectedVector.Y,
+							b.ProjectedVector.X,
+							b.ProjectedVector.Y,
+							face.CalculatedColorAAsInt);
+
+			Shapes.DrawLine(viewport,
+							b.ProjectedVector.X,
+							b.ProjectedVector.Y,
+							c.ProjectedVector.X,
+							c.ProjectedVector.Y,
+							face.CalculatedColorBAsInt);
+
+			Shapes.DrawLine(viewport,
+							a.ProjectedVector.X,
+							a.ProjectedVector.Y,
+							c.ProjectedVector.X,
+							c.ProjectedVector.Y,
+							face.CalculatedColorCAsInt);
+#endif
 		}
 	}
 }

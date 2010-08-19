@@ -18,6 +18,7 @@
 #endregion
 #if(SILVERLIGHT)
 
+using System;
 using Balder;
 using Balder.Display;
 
@@ -25,7 +26,7 @@ namespace Balder.Rendering.Silverlight
 {
 	public static class Shapes
 	{
-		public static void DrawLine(Viewport viewport, int xstart, int ystart, int xend, int yend, int color)
+		public static void DrawLine(Viewport viewport, float xstart, float ystart, float xend, float yend, int color)
 		{
 			var stride = BufferContainer.Width;
 			var framebuffer = BufferContainer.Framebuffer;
@@ -44,11 +45,11 @@ namespace Balder.Rendering.Silverlight
 
 			if( actualLength != 0 )
 			{
-				var slopeX = (float) deltaX/(float) actualLength;
-				var slopeY = (float) deltaY/(float) actualLength;
+				var slopeX =  deltaX/ actualLength;
+				var slopeY =  deltaY/ actualLength;
 
-				var currentX = (float)xstart;
-				var currentY = (float)ystart;
+				var currentX = xstart;
+				var currentY = ystart;
 
 				for( var pixel=0; pixel<actualLength; pixel++)
 				{
@@ -63,6 +64,68 @@ namespace Balder.Rendering.Silverlight
 				}
 			}
 		}
+
+
+		public static void DrawLine(Viewport viewport, 
+			float xstart, 
+			float ystart,
+			float zstart,
+			float xend, 
+			float yend, 
+			float zend,
+			int color)
+		{
+			var stride = BufferContainer.Width;
+			var framebuffer = BufferContainer.Framebuffer;
+			var depthbuffer = BufferContainer.DepthBuffer;
+			if (null == framebuffer)
+			{
+				return;
+			}
+
+			var deltaX = xend - xstart;
+			var deltaY = yend - ystart;
+			var deltaZ = zend - zstart;
+
+			var lengthX = deltaX >= 0 ? deltaX : -deltaX;
+			var lengthY = deltaY >= 0 ? deltaY : -deltaY;
+
+			var actualLength = lengthX > lengthY ? lengthX : lengthY;
+
+			var slopeZ = deltaZ/actualLength;
+			
+
+			if (actualLength != 0)
+			{
+				var slopeX = deltaX / actualLength;
+				var slopeY = deltaY / actualLength;
+
+				var currentX = xstart;
+				var currentY = ystart;
+				var currentZ = zstart;
+
+				for (var pixel = 0; pixel < actualLength; pixel++)
+				{
+					if (currentX > 0 && currentY > 0 && currentX < viewport.Width && currentY < viewport.Height)
+					{
+						var bufferOffset = (stride * (int)currentY) + (int)currentX;
+						var bufferZ = (UInt32)((1.0f - currentZ) * (float)UInt32.MaxValue);
+						if (bufferZ > depthbuffer[bufferOffset] &&
+							currentZ >= 0f &&
+							currentZ < 1f
+							)
+						{
+							framebuffer[bufferOffset] = color;
+						}
+					}
+
+					currentX += slopeX;
+					currentY += slopeY;
+					currentZ += slopeZ;
+				}
+			}
+		}
+
 	}
 }
 #endif
