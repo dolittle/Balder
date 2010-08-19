@@ -8,7 +8,7 @@
     >
     
     <Grid x:Name="LayoutRoot" >
-		<Execution:Game Width="640" Height="480" PassiveRendering="True">
+		<Execution:Game Width="640" Height="480">
 			<Execution:Game.Skybox>
 				<Objects:Skybox IsEnabled="true"
 								Front="/Balder.Silverlight.SampleBrowser;component/Assets/Skybox/skybox_front.JPG"
