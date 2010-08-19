@@ -157,6 +157,7 @@ namespace Balder.Rendering.Silverlight
 			projection.ProjectionMatrix = m3d;
 		}
 
+		private bool done;
 
 		public void Render(Viewport viewport, Skybox skybox)
 		{

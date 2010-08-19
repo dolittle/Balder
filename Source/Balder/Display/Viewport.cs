@@ -72,12 +72,16 @@ namespace Balder.Display
 
 			_mousePickRay = new Ray(Vector.Zero, Vector.Forward);
 
+
+			runtimeContext.MessengerContext.SubscriptionsFor<PassiveRenderingSignal>().AddListener(this, PassiveRender);
+
 			runtimeContext.MessengerContext.SubscriptionsFor<RenderMessage>().AddListener(this, Render);
 			runtimeContext.MessengerContext.SubscriptionsFor<PrepareMessage>().AddListener(this, Prepare);
 		}
 
 		public void Uninitialize()
 		{
+			_runtimeContext.MessengerContext.SubscriptionsFor<PassiveRenderingSignal>().RemoveListener(this, PassiveRender);
 			_runtimeContext.MessengerContext.SubscriptionsFor<RenderMessage>().RemoveListener(this, Render);
 			_runtimeContext.MessengerContext.SubscriptionsFor<PrepareMessage>().RemoveListener(this, Prepare);
 		}
@@ -314,6 +318,13 @@ namespace Balder.Display
 			return ray;
 		}
 
+		private bool _render;
+
+		private void PassiveRender(PassiveRenderingSignal message)
+		{
+			_render = true;
+
+		}
 
 		public void Render(RenderMessage renderMessage)
 		{
@@ -323,7 +334,10 @@ namespace Balder.Display
 			{
 				View.Update(this);
 
-				if (null != Skybox && Skybox.IsEnabled)
+				
+				if (null != Skybox && 
+					Skybox.IsEnabled &&
+					(_render || !_runtimeContext.PassiveRendering))
 				{
 					Skybox.SkyboxContext.Render(this, Skybox);
 				}
@@ -337,6 +351,7 @@ namespace Balder.Display
 			}
 
 			_runtimeContext.MessengerContext.Send(RenderDoneMessage.Default);
+			_render = false;
 		}
 
 		/// <summary>
