@@ -154,6 +154,7 @@ namespace Balder.Execution
 		public void SetValue(T obj, TP value)
 		{
 			var objectProperty = GetObjectProperty(obj);
+			var causesChange = objectProperty.DoesValueCauseChange(value);
 
 			if (null == objectProperty.RuntimeContext && obj is IHaveRuntimeContext)
 			{
@@ -188,7 +189,10 @@ namespace Balder.Execution
 				objectProperty.ChildrenRuntimeContextSet = true;
 			}
 
-			objectProperty.SignalRendering();
+			if (causesChange)
+			{
+				objectProperty.SignalRendering();
+			}
 			if (objectProperty.CallFromExternal)
 			{
 				return;
@@ -196,7 +200,7 @@ namespace Balder.Execution
 
 
 			objectProperty.CallFromProperty = true;
-			if ( objectProperty.DoesValueCauseChange(value))
+			if (causesChange)
 			{
 				var oldValue = objectProperty.Value;
 				objectProperty.Value = value;
@@ -230,11 +234,14 @@ namespace Balder.Execution
 			var objectProperty = GetObjectProperty((T)obj);
 			var oldValue = objectProperty.Value;
 			var newValue = (TP) e.NewValue;
-			if( objectProperty.DoesValueCauseChange(newValue) &&
+			var causesChange = objectProperty.DoesValueCauseChange(newValue); 
+			if( causesChange &&
 				!objectProperty.CallFromProperty)
 			{
 				HandleNotification((T)obj,newValue,oldValue);
+				objectProperty.SignalRendering();
 			}
+
 			objectProperty.Value = newValue;
 
 			if (!objectProperty.CallFromProperty)
