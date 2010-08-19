@@ -21,18 +21,12 @@
 
 using Balder.Display;
 using Balder.Execution;
-using Balder.Materials;
 using Balder.Math;
-using Balder.View;
 
 namespace Balder.Lighting
 {
 	public class ViewLight : DirectionalLight
 	{
-		private Vector _direction;
-		private Vector _viewDirection;
-		private Vector _lightVector;
-		private int _actualDiffuse;
 		private Matrix _angleMatrix;
 
 
@@ -90,41 +84,8 @@ namespace Balder.Lighting
 			var combinedMatrix = viewport.View.ViewMatrix * _angleMatrix;
 			Direction = Vector.Transform(Vector.Forward, combinedMatrix);
 			
-			/*
-			_direction.Normalize();
-
-			_lightVector = -(Vector)_direction;
-			_lightVector.Normalize();
-
-			_viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
-			_viewDirection.Normalize();
-
-			_actualDiffuse = DiffuseAsInt;
-			*/
 			base.BeforeRendering(viewport, view, projection, world);
 		}
-
-		/*
-		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal)
-		{
-			var camera = viewport.View as Camera;
-			if (null != camera)
-			{
-				var ndl = System.Math.Max(0, normal.Dot(_lightVector));
-				var diffuseLight = Color.Scale(_actualDiffuse, ndl);
-
-				var reflectionVector = Vector.Reflect(_lightVector, normal);
-				reflectionVector.Normalize();
-
-				var specular = material.ShineStrengthAsFloat * 
-					(float)System.Math.Pow(
-					MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), material.ShineAsFloat);
-
-				var color = Color.Scale(diffuseLight, (float)specular);
-				return color;
-			}
-			return Color.AlphaFull;
-		}*/
-		
+	
 	}
 }

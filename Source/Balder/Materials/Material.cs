@@ -46,8 +46,8 @@ namespace Balder.Materials
 		internal int AmbientAsInt;
 		internal int DiffuseAsInt;
 		internal int SpecularAsInt;
-		internal float ShineAsFloat;
-		internal float ShineStrengthAsFloat;
+		internal float GlossinessAsFloat;
+		internal float SpecularLevelAsFloat;
 		public static Material Default;
 
 		static Material()
@@ -338,7 +338,7 @@ namespace Balder.Materials
 			DiffuseAsInt = ActualDiffuse.ToInt();
 			SpecularAsInt = Specular.ToInt();
 
-			ShineAsFloat = (float)Glossiness;
+			GlossinessAsFloat = (float)Glossiness;
 			ShineStrengthAsFloat = (float)SpecularLevel;
 		}
 

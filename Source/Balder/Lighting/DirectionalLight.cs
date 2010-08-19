@@ -77,10 +77,10 @@ namespace Balder.Lighting
 			var shadow = 4.0f*dfDot; 
 			shadow = MathHelper.Saturate(shadow);
 
-			var specularPower = MathHelper.Saturate(material.ShineStrengthAsFloat* 
+			var specularPower = MathHelper.Saturate(material.SpecularLevelAsFloat* 
 				(float)System.Math.Pow(
 					MathHelper.Saturate(reflectionVector.Dot(viewDirection)), 
-						material.ShineAsFloat));
+						material.GlossinessAsFloat));
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 
