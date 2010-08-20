@@ -4,12 +4,12 @@
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder">
+    xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
 	
 	<UserControl.Resources>
-		<Materials:Material x:Name="SkyMaterial" 
+		<Materials:Material x:Key="SkyMaterial" 
 							ReflectionMap="/Balder.Silverlight.SampleBrowser;component/Samples/Creative/Water/sky.jpg"
-							
+							Shade="None"
 							Diffuse="Blue"
 							/>
 	</UserControl.Resources>
@@ -30,13 +30,10 @@
 				<View:Camera Position="0,70,-50" Target="0,0,0"/>
 			</Execution:Game.Camera>
 			
-			
 			<Geometries:Heightmap x:Name="HeightMap" 
 								  Dimension="80,80" 
-								  LengthSegments="40" 
-								  HeightSegments="40" 
-								  Material="{StaticResource SkyMaterial}"
-								  HeightInput="Heightmap_HeightInput"/>
+								  UseStaticHeightmap="False"
+								  Material="{StaticResource SkyMaterial}"/>
 		</Execution:Game>
 	</Grid>
 </UserControl>

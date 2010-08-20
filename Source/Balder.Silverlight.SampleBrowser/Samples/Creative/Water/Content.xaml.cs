@@ -11,18 +11,61 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 		private int _frameNumber = 0;
 		private int _rainCounter = 0;
 
+		private const int ArrayWidth = 40;
+		private const int ArrayHeight = 40;
+
+		private float[,] _waveMap1;
+		private float[,] _waveMap2;
+		private float[,] _currentWaveMap;
+		private float[,] _otherWaveMap;
 		private float[, ,] _waveMap;
 
 		public Content()
 		{
 			InitializeComponent();
 
-			_waveMap = new float[2, (int)HeightMap.LengthSegments, (int)HeightMap.HeightSegments];
+			_waveMap1 = new float[ArrayWidth, ArrayHeight];
+			_waveMap2 = new float[ArrayWidth, ArrayHeight];
+
+			SetCurrentWavemap();
+
 
 			Game.Update += Game_Update;
 		}
 
 
+		private void SetCurrentWavemap()
+		{
+			if (_frameNumber == 0)
+			{
+				_currentWaveMap = _waveMap1;
+				_otherWaveMap = _waveMap2;
+			}
+			else
+			{
+				_currentWaveMap = _waveMap2;
+				_otherWaveMap = _waveMap1;
+			}
+			HeightMap.HeightmapArray = _otherWaveMap;
+		}
+
+		private void UpdateWavemap()
+		{
+			var n = 0f;
+			for (var z = 1; z < ArrayHeight-1; z++)
+			{
+				for (var x = 1; x < ArrayWidth-1; x++)
+				{
+					n = ((_otherWaveMap[x - 1, z] +
+						_otherWaveMap[x + 1, z] +
+						_otherWaveMap[x, z - 1] +
+						_otherWaveMap[x, z + 1]) / 2) -
+						_currentWaveMap[x, z];
+					n = n - n / 16;
+					_currentWaveMap[x, z] = n;
+				}
+			}
+		}
 
 
 		private void Heightmap_HeightInput(object sender, HeightmapEventArgs e)
@@ -30,50 +73,33 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.Water
 			var n = 0f;
 			var x = e.GridX;
 			var z = e.GridY;
-			if (x <= 0 || z <= 0 || x >= HeightMap.LengthSegments-1 || z >= HeightMap.HeightSegments-1)
+			if (x <= 0 || z <= 0 || x >= HeightMap.LengthSegments - 1 || z >= HeightMap.HeightSegments - 1)
 			{
 				return;
 			}
 
-			var frame1 = _frameNumber;
-			var frame0 = _frameNumber ^ 1;
-
-			n = ((_waveMap[frame1, x - 1, z] +
-				_waveMap[frame1, x + 1, z] +
-				_waveMap[frame1, x, z - 1] +
-				_waveMap[frame1, x, z + 1]) / 2) -
-				_waveMap[frame0, x, z];
-			n = n - n / 16;
-			_waveMap[frame0, x, z] = n;
 
 			e.Height = n;
 		}
 
 		private void Game_Update(Game game)
 		{
-			var frame1 = _frameNumber;
-
+			
+			UpdateWavemap();
+			SetCurrentWavemap();
 			if (_rainCounter-- <= 0)
 			{
 				_rainCounter = 50;
 
 				var x = System.Math.Abs(rnd.Next((int)HeightMap.LengthSegments - 2) + 1);
 				var z = System.Math.Abs(rnd.Next((int)HeightMap.HeightSegments - 2) + 1);
-				//x = HeightMap.LengthSegments/2;
-				//z = HeightMap.HeightSegments / 2;
 
-				_waveMap[frame1, x, z] = -10;
-			}
-
-			var geometryDetailLevel = HeightMap.GeometryContext.GetDetailLevel(DetailLevel.Full);
-			if( geometryDetailLevel.FaceCount > 0 &&
-				geometryDetailLevel.VertexCount > 0)
-			{
-				//GeometryHelper.CalculateNormals(geometryDetailLevel, false);
+				_otherWaveMap[x, z] = -10;
 			}
 
 
 			_frameNumber ^= 1;
+
 		}
 	}
 }
