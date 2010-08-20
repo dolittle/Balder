@@ -68,6 +68,7 @@ namespace Balder.Objects.Geometries
 			LengthSegments = 1;
 			HeightSegments = 1;
 			_heightsInvalidated = true;
+			UseStaticHeightmap = true;
 		}
 
 
