@@ -21,6 +21,7 @@ using System.Collections.Generic;
 using Balder.Assets;
 using Balder.Execution;
 using Ninject;
+using Ninject.Parameters;
 
 #pragma warning disable 1591
 namespace Balder.Content
@@ -57,7 +58,7 @@ namespace Balder.Content
 		public void LoadInto<T>(T asset, string assetName)
 			where T : IAsset
 		{
-			var loader = _assetLoaderService.GetLoader<T>(assetName);
+			
 
 			IEnumerable<IAssetPart> assetParts;
 			if( _contentCache.Exists<T>(assetName) )
@@ -83,6 +84,7 @@ namespace Balder.Content
 				assetParts = newAssetParts;
 			} else
 			{
+				var loader = _assetLoaderService.GetLoader<T>(assetName);
 				assetParts = loader.Load(assetName);
 				_contentCache.Put<T>(assetName,assetParts);
 			}
