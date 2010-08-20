@@ -31,11 +31,14 @@ namespace Balder.Lighting
 			_lights = lightsToUse.ToArray();
 		}
 
+		private static uint White = 0xffffffff;
+		private static int WhiteAsInt = (int) White;
+
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
 		{
-			if (null == _lights)
+			if (null == _lights || _lights.Length == 0)
 			{
-				return Color.AlphaFull;
+				return WhiteAsInt;
 			}
 
 			var color = _sceneAmbient;

@@ -401,6 +401,7 @@ namespace Balder.Rendering.Silverlight
 				normal.CalculatedColorAsInt =
 					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
+				normal.IsColorCalculated = true;
 			}
 			return normal;
 		}
@@ -422,13 +423,13 @@ namespace Balder.Rendering.Silverlight
 				case MaterialShade.Gouraud:
 					{
 						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
-						face.CalculatedColorA = normal.CalculatedColor;
+						face.CalculatedColorA = face.ColorA * normal.CalculatedColor;
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
 						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
-						face.CalculatedColorB = normal.CalculatedColor;
+						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
 						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
-						face.CalculatedColorC = normal.CalculatedColor;
+						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
 					}
 					break;
