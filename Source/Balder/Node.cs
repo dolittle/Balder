@@ -525,6 +525,10 @@ namespace Balder
 		public void InvalidatePrepare()
 		{
 			_isPrepared = false;
+			if (null != RuntimeContext)
+			{
+				RuntimeContext.SignalRendering();
+			}
 		}
 
 		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
