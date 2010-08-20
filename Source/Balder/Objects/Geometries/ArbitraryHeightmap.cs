@@ -49,6 +49,9 @@ namespace Balder.Objects.Geometries
 		private static readonly HeightmapEventArgs EventArgs = new HeightmapEventArgs();
 		public event EventHandler<HeightmapEventArgs> HeightInput;
 
+		private bool _heightsInvalidated;
+		private bool _invalidateNormals;
+
 		private Vertex[] _vertices;
 		private Vertex[] _deviceVertices;
 
@@ -64,6 +67,7 @@ namespace Balder.Objects.Geometries
 		{
 			LengthSegments = 1;
 			HeightSegments = 1;
+			_heightsInvalidated = true;
 		}
 
 
@@ -133,53 +137,152 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
-		public override void BeforeRendering(Display.Viewport viewport, Matrix view, Matrix projection, Matrix world)
-		{
-			if (null != HeightInput)
-			{
-				var actualLength = LengthSegments + 1;
-				var actualHeight = HeightSegments + 1;
 
-				var vertexIndex = 0;
-				
-				for (var y = 0; y < actualHeight; y++)
+		public static Property<ArbitraryHeightmap, bool> UseStaticHeightmapProperty =
+			Property<ArbitraryHeightmap, bool>.Register(h => h.UseStaticHeightmap, true);
+		public bool UseStaticHeightmap
+		{
+			get { return UseStaticHeightmapProperty.GetValue(this); }
+			set { UseStaticHeightmapProperty.SetValue(this, value); }
+		}
+
+		public static Property<ArbitraryHeightmap, float[,]> HeightmapArrayProperty =
+			Property<ArbitraryHeightmap, float[,]>.Register(h => h.HeightmapArray);
+		public float[,] HeightmapArray
+		{
+			get { return HeightmapArrayProperty.GetValue(this); }
+			set
+			{
+				HeightmapArrayProperty.SetValue(this, value);
+				if (null != value)
 				{
-					var offset = y * actualLength;
-					for (var x = 0; x < actualLength; x++)
+					var length = value.GetLength(0);
+					var height = value.GetLength(1);
+					LengthSegments = length - 1;
+					HeightSegments = height - 1;
+				}
+				InvalidateHeights();
+			}
+		}
+
+		public void InvalidateHeights()
+		{
+			_heightsInvalidated = true;
+
+		}
+
+		private void ValidateArray(float[,] array)
+		{
+			if (array.GetLength(0) != LengthSegments + 1)
+			{
+				throw new ArgumentException("First dimension of array is not the same as LengthSegments - this property is not necessary to set manually when using an array");
+			}
+
+			if (array.GetLength(1) != HeightSegments + 1)
+			{
+				throw new ArgumentException("Second dimension of array is not the same as HeightSegments - this property is not necessary to set manually when using an array");
+			}
+		}
+
+
+
+
+		private void SetHeights()
+		{
+			var actualLength = LengthSegments + 1;
+			var actualHeight = HeightSegments + 1;
+			var changes = false;
+
+
+			var array = HeightmapArray;
+			if (null != array)
+			{
+				ValidateArray(array);
+			}
+
+			var vertexIndex = 0;
+			var vertices = FullDetailLevel.GetVertices();
+			for (var y = 0; y < actualHeight; y++)
+			{
+				var offset = y * actualLength;
+				for (var x = 0; x < actualLength; x++)
+				{
+					var vertex = vertices[offset + x];
+					var heightBefore = vertex.Y;
+					var colorBefore = vertex.Color;
+
+					if (null != HeightInput)
 					{
-						var vertex = _vertices[offset + x];
-						var heightBefore = vertex.Y;
-						var colorBefore = vertex.Color;
 						EventArgs.Color = Colors.Black;
 						EventArgs.ActualVertex = vertex;
 						EventArgs.GridX = x;
 						EventArgs.GridY = y;
-
 						HeightInput(this, EventArgs);
-
-						if (heightBefore != EventArgs.Height ||
-							!colorBefore.Equals(EventArgs.Color))
-						{
-							SetVectorHeightFromVertex(vertex, EventArgs.Height, offset +x);
-							vertex.Color = EventArgs.Color;
-						}
-
-						vertexIndex++;
+						vertex.Y = EventArgs.Height;
+						vertex.Color = EventArgs.Color;
 					}
+					else
+					{
+						if (null != array)
+						{
+							vertex.Y = array[x, y];
+							vertex.Color = Colors.White;
+						}
+					}
+
+					if (heightBefore != vertex.Y ||
+						!colorBefore.Equals(vertex.Color))
+					{
+						SetVectorHeightFromVertex(_vertices[vertexIndex], vertex.Y, offset + x);
+						FullDetailLevel.SetVertex(vertexIndex, vertex);
+						changes = true;
+					}
+
+					vertexIndex++;
 				}
 			}
+
+			if (changes)
+			{
+				_invalidateNormals = true;
+			}
+		}
+
+
+		private bool ShouldSetHeights
+		{
+			get { return _heightsInvalidated || !UseStaticHeightmap; }
+		}
+
+
+
+
+		public override void BeforeRendering(Display.Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			if (ShouldSetHeights)
+			{
+				SetHeights();
+			}
+			if (_invalidateNormals)
+			{
+				GeometryHelper.CalculateNormals(FullDetailLevel, false);
+			}
+
+			_invalidateNormals = false;
+			_heightsInvalidated = false;
+
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
 		private void SetVectorHeightFromVertex(Vertex vertex, float height, int vertexIndex)
 		{
 			var normal = vertex.NormalToVector();
+			
 			var vector = vertex.ToVector();
 			var newVector = vector + (normal*height);
 			_deviceVertices[vertexIndex].X = newVector.X;
 			_deviceVertices[vertexIndex].Y = newVector.Y;
 			_deviceVertices[vertexIndex].Z = newVector.Z;
-
 		}
 
 
@@ -244,12 +347,14 @@ namespace Balder.Objects.Geometries
 		}
 
 
+
 		private void PrepareVertices()
 		{
 			var actualLength = LengthSegments + 1;
 			var actualHeight = HeightSegments + 1;
 			var vertexCount = actualLength*actualHeight;
 			FullDetailLevel.AllocateVertices(vertexCount);
+			FullDetailLevel.AllocateTextureCoordinates(vertexCount);
 			_vertices = new Vertex[vertexCount];
 
 
@@ -264,6 +369,11 @@ namespace Balder.Objects.Geometries
 			Line1Interpolator.Interpolate(actualHeight);
 			Line2Interpolator.Interpolate(actualHeight);
 
+			var uAdd = 1.0f/actualLength;
+			var vAdd = 1.0f/actualHeight;
+
+			var v = 0f;
+			
 			var vertexIndex = 0;
 			for (var point = 0; point < actualHeight; point++)
 			{
@@ -281,6 +391,7 @@ namespace Balder.Objects.Geometries
 
 				ContentInterpolator.Interpolate(actualLength);
 
+				var u = 0f;
 				for (var contentPoint = 0; contentPoint < actualLength; contentPoint++)
 				{
 					var x = ContentInterpolator.Points[0].InterpolatedValues[contentPoint];
@@ -289,9 +400,15 @@ namespace Balder.Objects.Geometries
 
 					var vertex = new Vertex(x, y, z);
 					FullDetailLevel.SetVertex(vertexIndex, vertex);
+
+					FullDetailLevel.SetTextureCoordinate(vertexIndex, new TextureCoordinate(u,v));
+
 					_vertices[vertexIndex] = vertex;
 					vertexIndex++;
+					u += uAdd;
 				}
+
+				v += vAdd;
 			}
 			_deviceVertices = FullDetailLevel.GetVertices();
 		}
@@ -314,9 +431,17 @@ namespace Balder.Objects.Geometries
 					var offsetNextLine = offset + actualLength;
 					var face = new Face(offsetNextLine, offset + 1, offset);
 					face.Normal = Vector.Up;
+					face.Material = Material;
+					face.DiffuseA = face.A;
+					face.DiffuseB = face.B;
+					face.DiffuseC = face.C;
 					FullDetailLevel.SetFace(faceIndex, face);
 					face = new Face(offset + 1, offsetNextLine, offsetNextLine + 1);
 					face.Normal = Vector.Up;
+					face.Material = Material;
+					face.DiffuseA = face.A;
+					face.DiffuseB = face.B;
+					face.DiffuseC = face.C;
 					FullDetailLevel.SetFace(faceIndex + 1, face);
 
 

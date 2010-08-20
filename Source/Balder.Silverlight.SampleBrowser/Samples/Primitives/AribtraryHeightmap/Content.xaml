@@ -31,9 +31,9 @@
 			</Execution:Game.DebugInfo>
 
 			<Execution:Game.Camera>
-				<View:Camera Position="100,50,-100" Target="0,0,0"/>
+				<View:Camera Position="0,30,-60" Target="0,0,0"/>
 			</Execution:Game.Camera>
-			<Lighting:OmniLight Position="-100,100,0" Ambient="Brown" Diffuse="Green" Specular="Blue"/>
+			<Lighting:OmniLight Position="0,100,0"/>
 
 			<Geometries:ArbitraryHeightmap x:Name="Heightmap"
 										   Point1="-40,10,20"
@@ -42,6 +42,7 @@
 										   Point4="15,-20,-20"
 										   LengthSegments="16"
 										   HeightSegments="16"
+										   UseStaticHeightmap="False"
 										   HeightInput="Heightmap_HeightInput"
 										   Material="{StaticResource Material}"
 										   

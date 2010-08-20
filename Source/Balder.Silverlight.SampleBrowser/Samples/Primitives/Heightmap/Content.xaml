@@ -28,6 +28,7 @@
 								  Dimension="40,40" 
 								  LengthSegments="16" 
 								  HeightSegments="16" 
+								  UseStaticHeightmap="False"
 								  HeightInput="Heightmap_HeightInput"/>
 		</Execution:Game>
 	</Grid>
