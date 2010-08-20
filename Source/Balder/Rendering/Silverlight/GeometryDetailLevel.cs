@@ -39,8 +39,6 @@ namespace Balder.Rendering.Silverlight
 		private TextureCoordinate[] _textureCoordinates;
 		private Line[] _lines;
 
-		private bool _hasPrepared;
-
 		private Material _colorMaterial;
 
 
@@ -220,18 +218,6 @@ namespace Balder.Rendering.Silverlight
 
 		#endregion
 
-		private void Prepare()
-		{
-			if (null != _textureCoordinates && _textureCoordinates.Length > 0 && null != _faces)
-			{
-				for (var index = 0; index < _faces.Length; index++)
-				{
-					_faces[index].Texture1TextureCoordinateA = _textureCoordinates[_faces[index].DiffuseA];
-					_faces[index].Texture1TextureCoordinateB = _textureCoordinates[_faces[index].DiffuseB];
-					_faces[index].Texture1TextureCoordinateC = _textureCoordinates[_faces[index].DiffuseC];
-				}
-			}
-		}
 
 		public void CalculateNormals(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
@@ -276,11 +262,6 @@ namespace Balder.Rendering.Silverlight
 			if (null == _vertices)
 			{
 				return;
-			}
-			if (!_hasPrepared)
-			{
-				Prepare();
-				_hasPrepared = true;
 			}
 
 
@@ -529,6 +510,13 @@ namespace Balder.Rendering.Silverlight
 
 				face.TransformNormal(localView);
 				face.Transform(localView);
+
+				if (null != _textureCoordinates)
+				{
+					face.Texture1TextureCoordinateA = _textureCoordinates[face.DiffuseA];
+					face.Texture1TextureCoordinateB = _textureCoordinates[face.DiffuseB];
+					face.Texture1TextureCoordinateC = _textureCoordinates[face.DiffuseC];
+				}
 
 				var material = PrepareMaterialForFace(face, node);
 
