@@ -56,7 +56,13 @@ namespace Balder.Rendering
 
 		public void SignalRendering()
 		{
-			MessengerContext.Send(RenderingSignal);
+			// TODO : DesignMode - probably need a better way to handle this
+ 			// don't want to ask the platform if its in design mode every time a property changes
+			// I guess I'll notice this when I actually start supporting the designer.. :)
+			if( _passiveRendering )
+			{
+				MessengerContext.Send(RenderingSignal);	
+			}
 		}
 	}
 }
