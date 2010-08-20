@@ -49,7 +49,7 @@
 				<View:Camera x:Name="Camera" Position="0,30,-100"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,30,-50" Ambient="Brown" Diffuse="Green" Specular="White"/>
+			<Lighting:OmniLight Position="0,30,-50"/>
 
 			<local:BarChart x:Name="Chart" ValueMember="Value" ValuesSource="{Binding Objects}"/>
 		</Execution:Game>

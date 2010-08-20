@@ -1,15 +1,15 @@
 ﻿using System;
-using System.Windows.Controls;
 using Balder.Input;
 using Balder.Objects.Geometries;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
-	public partial class Content : UserControl
+	public partial class Content
 	{
 		public Content()
 		{
 			InitializeComponent();
+
 		}
 
 		private void RotationSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
@@ -42,9 +42,9 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		{
 			var viewModel = (ViewModel) DataContext;
 
-			var depth = rnd.Next(10, 20);
-			var row = rnd.Next(10, 20);
-			var column = rnd.Next(10, 20);
+			var depth = rnd.Next(0, ViewModel.DepthCount);
+			var row = rnd.Next(0, ViewModel.RowCount);
+			var column = rnd.Next(ViewModel.ColumnCount, ViewModel.ColumnCount*2);
 			var newColumn = new Column(depth, row, column);
 			viewModel.Depths[0].Rows[0].Columns.Add(newColumn);
 

@@ -7,7 +7,7 @@
 	xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder" 
-    xmlns:Core="clr-namespace:Balder;assembly=Balder">
+    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>
@@ -17,8 +17,7 @@
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
 		<StackPanel Orientation="Vertical" >
-			
-			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="True">
+			<local:MyGame x:Name="Game" Width="640" Height="480" PassiveRendering="True">
 				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
 					<Controls:NodesControl.NodeTemplate>
 						<DataTemplate>
@@ -67,12 +66,13 @@
 					</Controls:NodesControl.NodeTemplate>
 				</Controls:NodesControl>
 
+				<Lighting:DirectionalLight Direction="0,0,1"/>
 
-				<Execution:Game.Camera>
-					<View:Camera x:Name="Camera" Position="30,250,-1000"/>
-				</Execution:Game.Camera>
+				<local:MyGame.Camera>
+					<View:Camera x:Name="Camera" Position="30,250,-300"/>
+				</local:MyGame.Camera>
 
-			</Execution:Game>
+			</local:MyGame>
 
 			<Slider x:Name="RotationSlider" Width="640" Minimum="0" Maximum="360"  ValueChanged="RotationSlider_ValueChanged"/>
 			<StackPanel Orientation="Horizontal">

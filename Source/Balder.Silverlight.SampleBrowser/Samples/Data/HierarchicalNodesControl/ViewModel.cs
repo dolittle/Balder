@@ -25,7 +25,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 {
 	public class ViewModel
 	{
+		public const int RowCount = 5;
+		public const int ColumnCount = 5;
 		public const int DepthCount = 5;
+
+		public const double RowSpace = 12;
+		public const double ColumnSpace = 12;
 		public const double DepthSpace = 12;
 
 		public ViewModel()

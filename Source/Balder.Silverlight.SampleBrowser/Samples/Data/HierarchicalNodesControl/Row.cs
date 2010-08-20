@@ -29,8 +29,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 	{
 		private readonly double _yPosition;
 		private readonly double _zPosition;
-		public const int ColumnCount = 5;
-		public const double ColumnSpace = 12;
 
 		public Row(double yPosition, double zPosition, int depth, int row)
 		{
@@ -38,8 +36,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			_zPosition = zPosition;
 			Columns = new ObservableCollection<Column>();
 
-			var position = -(ColumnSpace*(ColumnCount/2d));
-			for( var columnIndex=0; columnIndex<ColumnCount; columnIndex++ )
+			var position = -(ViewModel.ColumnSpace * (ViewModel.ColumnCount / 2d));
+			for (var columnIndex = 0; columnIndex < ViewModel.ColumnCount; columnIndex++)
 			{
 				var column = new Column(depth, row, columnIndex)
 				             	{
@@ -47,7 +45,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 									Color = Color.Random()
 				             	};
 				Columns.Add(column);
-				position += ColumnSpace;
+				position += ViewModel.ColumnSpace;
 			}
 			
 		}

@@ -46,8 +46,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 		{
 			Name = string.Format("Node : {0}, {1}, {2}", depth, row, column);
 
-			var x = Row.ColumnSpace*column;
-			var y = Depth.RowSpace*row;
+			var x = ViewModel.ColumnSpace*column;
+			var y = ViewModel.RowSpace * row;
 			var z = ViewModel.DepthSpace * depth;
 			Position = new Vector((float)x,(float)y,(float)z);
 		}

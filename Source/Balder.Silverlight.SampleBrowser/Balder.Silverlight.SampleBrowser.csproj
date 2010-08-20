@@ -222,6 +222,7 @@
     </Compile>
     <Compile Include="Samples\Data\HierarchicalNodesControl\Depth.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\MatrixToStringValueConverter.cs" />
+    <Compile Include="Samples\Data\HierarchicalNodesControl\MyGame.cs" />
     <Compile Include="Samples\Data\HierarchicalNodesControl\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
