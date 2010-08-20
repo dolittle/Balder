@@ -64,8 +64,10 @@ namespace Balder.Silverlight.Helpers
 				ToolTipService.SetToolTip(node, null);
 
 				_rootVisual = Application.Current.RootVisual;
-
-				_rootVisual.MouseLeave += (s, e) => CloseOpenToolTips();
+				if (null != _rootVisual)
+				{
+					_rootVisual.MouseLeave += (s, e) => CloseOpenToolTips();
+				}
 			}
 		}
 
