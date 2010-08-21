@@ -43,7 +43,7 @@ namespace Balder.Materials
 	{
 		internal Color ActualAmbient;
 		internal Color ActualDiffuse;
-		
+
 		internal int AmbientAsInt;
 		internal int DiffuseAsInt;
 		internal int SpecularAsInt;
@@ -54,6 +54,8 @@ namespace Balder.Materials
 		internal bool CachedConstantColorForWireframe;
 		internal int CachedDiffuseWireframeAsInt;
 		internal Color CachedDiffuseWireframe;
+		internal int CachedOpacityAsInt;
+		internal bool CachedDoubleSided;
 		public static Material Default;
 
 
@@ -92,6 +94,8 @@ namespace Balder.Materials
 			SpecularLevel = 1;
 			Solid = true;
 			Wireframe = false;
+			Opacity = 1;
+			DoubleSided = false;
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
@@ -310,10 +314,35 @@ namespace Balder.Materials
 		}
 
 
+		public static readonly Property<Material, bool> DoubleSidedProperty =
+			Property<Material, bool>.Register(m => m.DoubleSided, false);
 		/// <summary>
 		/// Gets or sets wether or not the material is double sided or not
 		/// </summary>
-		public bool DoubleSided { get; set; }
+		public bool DoubleSided
+		{
+			get { return DoubleSidedProperty.GetValue(this); }
+			set
+			{
+				DoubleSidedProperty.SetValue(this,value);
+				CachedDoubleSided = value;
+			}
+		}
+
+
+		public static readonly Property<Material, double> OpacityProperty =
+			Property<Material, double>.Register(m => m.Opacity, 1.0);
+		public new double Opacity
+		{
+			get { return OpacityProperty.GetValue(this); }
+			set
+			{
+				OpacityProperty.SetValue(this, value);
+				CachedOpacityAsInt = (int) (value*256);
+			}
+		}
+
+
 
 		/// <summary>
 		/// DiffuseMap Property

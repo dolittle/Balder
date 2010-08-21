@@ -44,6 +44,8 @@ namespace Balder.Objects.Geometries
 		public int NormalB;
 		public int NormalC;
 
+		public int Opacity;
+
 		public Face(int a, int b, int c)
 		{
 			A = a;

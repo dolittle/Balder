@@ -41,6 +41,10 @@ namespace Balder.Rendering.Silverlight
 		public Vector Transformed;
 		public Color CalculatedColor;
 		public int CalculatedColorAsInt;
+		public Color DiffuseColor;
+		public int DiffuseColorAsInt;
+		public Color SpecularColor;
+		public int SpecularColorAsInt;
 		public bool IsColorCalculated;
 	}
 }

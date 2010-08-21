@@ -34,20 +34,31 @@ namespace Balder.Lighting
 		private static uint White = 0xffffffff;
 		private static int WhiteAsInt = (int) White;
 
-		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal)
+		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal, out int diffuseResult, out int specularResult)
 		{
+			diffuseResult = 0;
+			specularResult = 0;
 			if (null == _lights || _lights.Length == 0)
 			{
 				return WhiteAsInt;
 			}
 
-			var color = _sceneAmbient;
+			var color = 0; // _sceneAmbient;
+			var diffuse = 0;
+			var specular = 0;
+			var lightDiffuse = 0;
+			var lightSpecular = 0;
 			for (var lightIndex = 0; lightIndex < _lights.Length; lightIndex++)
 			{
 				var light = _lights[lightIndex];
-				var lightColor = light.Calculate(viewport, material, vector, normal);
+				var lightColor = light.Calculate(viewport, material, vector, normal, out lightDiffuse, out lightSpecular);
 				color = Color.Additive(color, lightColor);
+				diffuse = Color.Additive(diffuse, lightDiffuse);
+				specular = Color.Additive(specular, lightSpecular);
 			}
+
+			diffuseResult = diffuse|Color.AlphaFull;
+			specularResult = specular | Color.AlphaFull;
 
 			return color | Color.AlphaFull;
 		}

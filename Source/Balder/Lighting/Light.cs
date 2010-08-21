@@ -37,7 +37,7 @@ namespace Balder.Lighting
 		protected int SpecularAsInt;
 		protected float StrengthAsFloat;
 
-		public abstract int Calculate(Viewport viewport, Material material, Vector point, Vector normal);
+		public abstract int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult);
 
 		public static readonly Property<Light, Color> DiffuseProperty = Property<Light, Color>.Register(l => l.Diffuse);
 

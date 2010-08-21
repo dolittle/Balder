@@ -69,6 +69,15 @@ namespace Balder.Rendering.Silverlight
 		public Color Color;
 		public int ColorAsInt;
 
+		public Color DiffuseColorA;
+		public Color DiffuseColorB;
+		public Color DiffuseColorC;
+
+		public Color SpecularColorA;
+		public Color SpecularColorB;
+		public Color SpecularColorC;
+
+
 		public Texture Texture1;
 		public int Texture1Factor;
 

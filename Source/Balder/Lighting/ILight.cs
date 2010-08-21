@@ -50,7 +50,7 @@ namespace Balder.Lighting
 		/// <param name="point">Point to calculate for - in the form of a <see cref="Vector"/></param>
 		/// <param name="normal">Normal for the point to calculate for - in the form of a <see cref="Vector"/></param>
 		/// <returns>Calculated <see cref="Color"/></returns>
-		int Calculate(Viewport viewport, Material material, Vector point, Vector normal);
+		int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult);
 
 		/// <summary>
 		/// Gets or sets wether or not the light is enabled

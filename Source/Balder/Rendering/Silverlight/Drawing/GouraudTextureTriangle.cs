@@ -48,6 +48,24 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var bInterpolate = (int)(BScanlineInterpolate * 65535f);
 			var aInterpolate = (int)(AScanlineInterpolate * 65535f);
 
+			var diffuseRr = (int)((DiffuseRScanline + subPixelX * DiffuseRScanlineInterpolate) * 65535f);
+			var diffuseGg = (int)((DiffuseGScanline + subPixelX * DiffuseGScanlineInterpolate) * 65535f);
+			var diffuseBb = (int)((DiffuseBScanline + subPixelX * DiffuseBScanlineInterpolate) * 65535f);
+			var diffuseAa = (int)((DiffuseAScanline + subPixelX * DiffuseAScanlineInterpolate) * 65535f);
+			var diffuseRInterpolate = (int)(DiffuseRScanlineInterpolate * 65535f);
+			var diffuseGInterpolate = (int)(DiffuseGScanlineInterpolate * 65535f);
+			var diffuseBInterpolate = (int)(DiffuseBScanlineInterpolate * 65535f);
+			var diffuseAInterpolate = (int)(DiffuseAScanlineInterpolate * 65535f);
+
+			var specularRr = (int)((SpecularRScanline + subPixelX * SpecularRScanlineInterpolate) * 65535f);
+			var specularGg = (int)((SpecularGScanline + subPixelX * SpecularGScanlineInterpolate) * 65535f);
+			var specularBb = (int)((SpecularBScanline + subPixelX * SpecularBScanlineInterpolate) * 65535f);
+			var specularAa = (int)((SpecularAScanline + subPixelX * SpecularAScanlineInterpolate) * 65535f);
+			var specularRInterpolate = (int)(SpecularRScanlineInterpolate * 65535f);
+			var specularGInterpolate = (int)(SpecularGScanlineInterpolate * 65535f);
+			var specularBInterpolate = (int)(SpecularBScanlineInterpolate * 65535f);
+			var specularAInterpolate = (int)(SpecularAScanlineInterpolate * 65535f);
+
 			var x1Int = (int)X1;
 			var x2Int = (int)X2;
 
@@ -69,16 +87,34 @@ namespace Balder.Rendering.Silverlight.Drawing
 						var green = (gg >> 8) & 0xff;
 						var blue = (bb >> 8) & 0xff;
 
+						var diffuseRed = (diffuseRr >> 8) & 0xff;
+						var diffuseGreen = (diffuseGg >> 8) & 0xff;
+						var diffuseBlue = (diffuseBb >> 8) & 0xff;
+
+						var specularRed = (specularRr >> 8) & 0xff;
+						var specularGreen = (specularGg >> 8) & 0xff;
+						var specularBlue = (specularBb >> 8) & 0xff;
+						
+
 						//var alpha = (uint)(aStart >> 8) & 0xff;
 
 						var colorAsInt = (red << 16) |
 										  (green << 8) |
 										  blue;
 
+						var diffuse = (diffuseRed << 16) | (diffuseGreen << 8) | diffuseBlue;
+						var specular = (specularRed << 16) | (specularGreen << 8) | specularBlue;
+
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = Color.Multiply(Texture1.Pixels[intu, intv], colorAsInt) | Color.AlphaFull;
+						Framebuffer[offset] = 
+							//Color.Additive(diffuse, specular) |
+							//Color.Multiply(Texture1.Pixels[intu, intv], diffuse) |
+							Color.Additive(Color.Multiply(
+								Texture1.Pixels[intu, intv], diffuse), specular) |
+						                      Color.AlphaFull;
+							//Color.Multiply(Texture1.Pixels[intu, intv], colorAsInt) | Color.AlphaFull;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}
@@ -94,6 +130,15 @@ namespace Balder.Rendering.Silverlight.Drawing
 				bb += bInterpolate;
 				aa += aInterpolate;
 
+				diffuseRr += diffuseRInterpolate;
+				diffuseGg += diffuseGInterpolate;
+				diffuseBb += diffuseBInterpolate;
+				diffuseAa += diffuseAInterpolate;
+
+				specularRr += specularRInterpolate;
+				specularGg += specularGInterpolate;
+				specularBb += specularBInterpolate;
+				specularAa += specularAInterpolate;
 			}
 		}
 	}

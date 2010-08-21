@@ -399,8 +399,10 @@ namespace Balder.Rendering.Silverlight
 
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
 				normal.CalculatedColorAsInt =
-					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed);
+					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed, out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
+				normal.DiffuseColor = Color.FromInt(normal.DiffuseColorAsInt);
+				normal.SpecularColor = Color.FromInt(normal.SpecularColorAsInt);
 				normal.IsColorCalculated = true;
 			}
 			return normal;
@@ -425,18 +427,29 @@ namespace Balder.Rendering.Silverlight
 						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
 						face.CalculatedColorA = face.ColorA * normal.CalculatedColor;
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
+						face.DiffuseColorA = normal.DiffuseColor;
+						face.SpecularColorA = normal.SpecularColor;
+
 						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
 						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
+						face.DiffuseColorB = normal.DiffuseColor;
+						face.SpecularColorB = normal.SpecularColor;
+
 						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
 						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
+						face.ColorAsInt = material.Diffuse.ToInt();
+						face.DiffuseColorC = normal.DiffuseColor;
+						face.SpecularColorC = normal.SpecularColor;
 					}
 					break;
 				case MaterialShade.Flat:
 					{
+						int diffuse;
+						int specular;
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal);
+							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal, out diffuse, out specular);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
@@ -520,6 +533,7 @@ namespace Balder.Rendering.Silverlight
 				}
 
 				var material = PrepareMaterialForFace(face, node);
+				face.Opacity = material.CachedOpacityAsInt;
 
 				if( ShouldCalculateVertexColorsForFace(material))
 				{
@@ -590,7 +604,7 @@ namespace Balder.Rendering.Silverlight
 			//&& viewport.View.IsInView(a.TransformedVector);
 			if (null != face.Material)
 			{
-				visible |= face.Material.DoubleSided;
+				visible |= face.Material.CachedDoubleSided;
 			}
 
 			return visible;

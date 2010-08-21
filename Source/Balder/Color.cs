@@ -403,6 +403,8 @@ namespace Balder
 			return red | green | blue | alpha;
 		}
 
+
+
 		public static int Blend(int color1, int color2, int factor)
 		{
 			var alpha1 = (color1 >> 24) & 0xff;
@@ -458,7 +460,9 @@ namespace Balder
 				alpha <<= 8;
 			}
 
-			return red | green | blue | alpha;
+			
+			var result = red | green | blue | alpha;
+			return result;
 		}
 
 		public static int Scale(int color, int scale)

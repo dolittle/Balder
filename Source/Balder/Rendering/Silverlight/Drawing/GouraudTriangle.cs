@@ -67,7 +67,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 										  (green << 8) |
 										  blue;
 
-						Framebuffer[offset] = colorAsInt;
+						SetPixel(offset,colorAsInt);
+						//Framebuffer[offset] = colorAsInt;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}

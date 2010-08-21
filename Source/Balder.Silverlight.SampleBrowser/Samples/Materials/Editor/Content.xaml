@@ -103,6 +103,8 @@
 							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding MagnificationFiltering, Mode=TwoWay, Converter={StaticResource BilinearFilteringConverter}}"/>
 							<TextBlock Text="Bilinear filtering" Grid.Column="1" Grid.Row="0"/>
 						</StackPanel>
+						
+						
 
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock Text="Shading type" Grid.Column="0" Grid.Row="1"/>
@@ -133,6 +135,21 @@
 											   />
 						</StackPanel>
 
+
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding DoubleSided, Mode=TwoWay}"/>
+							<TextBlock Text="Double sided" Grid.Column="1" Grid.Row="0"/>
+						</StackPanel>
+						
+						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+							<TextBlock Text="Opacity"/>
+							<toolkit:NumericUpDown Minimum="0"
+												   Maximum="1"
+												   DecimalPlaces="2"
+												   Increment=".1"
+												   Value="{Binding Opacity, Mode=TwoWay}"
+												   />
+						</StackPanel>
 
 
 					</StackPanel>
