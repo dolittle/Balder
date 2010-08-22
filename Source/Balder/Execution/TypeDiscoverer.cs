@@ -68,7 +68,10 @@ namespace Balder.Execution
 				var parts = Deployment.Current.Parts;
 				foreach (var part in parts)
 				{
-					AddTypesFromPart(part);
+					if( ShouldAddAssembly(part.Source) )
+					{
+						AddTypesFromPart(part);
+					}
 				}
 			}
 		}
@@ -87,6 +90,12 @@ namespace Balder.Execution
 		}
 #endif
 #endif
+		private bool ShouldAddAssembly(string name)
+		{
+			return !name.Contains("System.");
+
+		}
+
 
 		private Type[] Find<T>()
 		{
