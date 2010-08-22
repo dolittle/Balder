@@ -107,7 +107,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 									specular
 								),
 									Color.Multiply(
-										Color.Scale(Bilerp(Texture2, intu2, intv2, u1, v1), Texture2Factor),
+										Color.Scale(Bilerp(Texture2, intu2, intv2, u2, v2), Texture2Factor),
 										diffuse))
 									| Color.AlphaFull;
 
