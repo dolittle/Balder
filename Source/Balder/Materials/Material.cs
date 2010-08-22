@@ -41,8 +41,9 @@ namespace Balder.Materials
 	public class Material
 #endif
 	{
-		internal Color ActualAmbient;
-		internal Color ActualDiffuse;
+		internal Color CachedAmbient;
+		internal Color CachedDiffuse;
+		internal Color CachedSpecular;
 
 		internal int AmbientAsInt;
 		internal int DiffuseAsInt;
@@ -427,35 +428,18 @@ namespace Balder.Materials
 
 		private void UpdateColors()
 		{
-			ActualAmbient = GetActualColor(Ambient);
-			ActualDiffuse = GetActualColor(Diffuse);
+			CachedAmbient = Ambient;
+			CachedDiffuse = Diffuse;
+			CachedSpecular = Specular;
 
-			AmbientAsInt = ActualAmbient.ToInt();
-			DiffuseAsInt = ActualDiffuse.ToInt();
-			SpecularAsInt = Specular.ToInt();
+			AmbientAsInt = CachedAmbient.ToInt();
+			DiffuseAsInt = CachedDiffuse.ToInt();
+			SpecularAsInt = CachedSpecular.ToInt();
 
 			GlossinessAsFloat = (float)Glossiness;
 			SpecularLevelAsFloat = (float)SpecularLevel;
 		}
 
-		private Color GetActualColor(Color color)
-		{
-			Color actualColor;
-			var diffuseMapOpacity = (float)DiffuseMapOpacity;
-			var reflectionMapOpacity = (float)ReflectionMapOpacity;
-
-			if (null != DiffuseMap)
-			{
-				actualColor = color * (1f - diffuseMapOpacity);
-			}
-			else
-			{
-				actualColor = color;
-			}
-
-			return actualColor;
-
-		}
 
 #if(SILVERLIGHT)
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();

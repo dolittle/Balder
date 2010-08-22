@@ -65,9 +65,9 @@ namespace Balder.Lighting
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)
 		{
-			var actualAmbient = Color.Multiply(AmbientAsInt, material.AmbientAsInt);
-			var actualDiffuse = DiffuseAsInt; //Color.Multiply(DiffuseAsInt, material.DiffuseAsInt);
-			var actualSpecular = SpecularAsInt; //material.SpecularAsInt;
+			var actualAmbient = viewport.Scene.AmbientAsInt;
+			var actualDiffuse = DiffuseAsInt; 
+			var actualSpecular = SpecularAsInt; 
 
 
 			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
@@ -102,6 +102,12 @@ namespace Balder.Lighting
 			attenuation = MathHelper.Saturate(attenuation);
 			attenuation = 1f - attenuation;
 
+			diffuseResult = diffuse;
+			specularResult = specular;
+
+			diffuse = Color.Multiply(diffuse, material.DiffuseAsInt);
+			specular = Color.Multiply(specular, material.SpecularAsInt);
+
 			// Final result
 			diffuse = Color.Scale(diffuse, shadow);
 			var color = Color.Scale(
@@ -110,8 +116,6 @@ namespace Balder.Lighting
 						ambient, diffuse), specular)
 				, attenuation);
 
-			diffuseResult = diffuse;
-			specularResult = specular;
 
 			return color;
 		}

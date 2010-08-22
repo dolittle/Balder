@@ -58,11 +58,9 @@ namespace Balder.Lighting
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)
 		{
-			diffuseResult = 0;
-			specularResult = 0;
-			var actualAmbient = Color.Multiply(AmbientAsInt, material.AmbientAsInt);
-			var actualDiffuse = Color.Multiply(DiffuseAsInt, material.DiffuseAsInt);
-			var actualSpecular = material.SpecularAsInt;
+			var actualAmbient = viewport.Scene.AmbientAsInt;
+			var actualDiffuse = DiffuseAsInt; 
+			var actualSpecular = SpecularAsInt;
 
 			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
 
@@ -85,11 +83,18 @@ namespace Balder.Lighting
 						material.GlossinessAsFloat));
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
+			diffuseResult = diffuse;
+			specularResult = specular;
+
+			diffuse = Color.Multiply(diffuse, material.DiffuseAsInt);
+			specular = Color.Multiply(specular, material.SpecularAsInt);
+
 			diffuse = Color.Scale(diffuse, shadow);
-			var color = 
+			var color =
 				Color.Additive(
-					Color.Additive(ambient, 
+					Color.Additive(ambient,
 						diffuse), specular);
+
 			return color;
 		}
 	}

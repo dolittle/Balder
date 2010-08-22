@@ -59,7 +59,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 						var intu = (int)(u) & (textureWidth - 1);
 						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = Texture1.Pixels[intu, intv] | Color.AlphaFull;
+						Framebuffer[offset] = 
+							Color.Blend(Texture1.Pixels[intu, intv],MaterialDiffuseAsInt,Texture1Factor) | Color.AlphaFull;
 						DepthBuffer[offset] = bufferZ;
 					}
 				}

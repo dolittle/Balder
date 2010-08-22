@@ -44,6 +44,8 @@ namespace Balder
 	public class Scene
 #endif
 	{
+
+		internal int AmbientAsInt;
 		public static int NodeCount = 0;
 
 		private readonly INodeRenderingService _nodeRenderingService;
@@ -63,7 +65,11 @@ namespace Balder
 		public Color AmbientColor
 		{
 			get { return AmbientColorProperty.GetValue(this); }
-			set { AmbientColorProperty.SetValue(this, value); }
+			set
+			{
+				AmbientColorProperty.SetValue(this, value);
+				AmbientAsInt = value.ToInt();
+			}
 		}
 
 #if(DEFAULT_CONSTRUCTOR)

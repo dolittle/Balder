@@ -163,6 +163,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 
 		protected int ColorAsInt;
+		protected int DiffuseAsInt;
+		protected int SpecularAsInt;
+		protected int MaterialDiffuseAsInt;
 
 		protected static int RedMask;
 		protected static int GreenMask;
@@ -676,7 +679,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Framebuffer = BufferContainer.Framebuffer;
 			DepthBuffer = BufferContainer.DepthBuffer;
 
-			ColorAsInt = (int)face.Color.ToUInt32();
+			ColorAsInt = face.ColorAsInt;
+			DiffuseAsInt = face.DiffuseAsInt;
+			SpecularAsInt = face.SpecularAsInt;
+			MaterialDiffuseAsInt = face.MaterialDiffuseAsInt;
 
 
 			var hypotenuseRight = xInterpolateB > xInterpolateA;

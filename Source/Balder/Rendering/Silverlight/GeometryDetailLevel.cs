@@ -399,7 +399,9 @@ namespace Balder.Rendering.Silverlight
 
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
 				normal.CalculatedColorAsInt =
-					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed, out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
+					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed,
+					                           out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
+						
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
 				normal.DiffuseColor = Color.FromInt(normal.DiffuseColorAsInt);
 				normal.SpecularColor = Color.FromInt(normal.SpecularColorAsInt);
@@ -439,17 +441,14 @@ namespace Balder.Rendering.Silverlight
 						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
 						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
-						face.ColorAsInt = material.Diffuse.ToInt();
 						face.DiffuseColorC = normal.DiffuseColor;
 						face.SpecularColorC = normal.SpecularColor;
 					}
 					break;
 				case MaterialShade.Flat:
 					{
-						int diffuse;
-						int specular;
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal, out diffuse, out specular);
+							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal, out face.DiffuseAsInt, out face.SpecularAsInt);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
@@ -534,6 +533,7 @@ namespace Balder.Rendering.Silverlight
 
 				var material = PrepareMaterialForFace(face, node);
 				face.Opacity = material.CachedOpacityAsInt;
+				face.MaterialDiffuseAsInt = material.DiffuseAsInt;
 
 				if( ShouldCalculateVertexColorsForFace(material))
 				{

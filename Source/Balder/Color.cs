@@ -364,25 +364,6 @@ namespace Balder
 
 		}
 
-		public static int Mul2(int color1, int color2)
-		{
-			var red2 = (color2 & RedMask) >> 16;
-			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
-
-			var green2 = (color2 & GreenMask) >> 8;
-			var green = GreenMask & (((color1 & GreenMask) >> 8) * green2);
-
-			var blue2 = (color2 & BlueMask);
-			var blue = BlueMask & (((color1 & BlueMask) * blue2) >> 8);
-
-			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
-			var alpha = (0xff0000 & ((color1 & AlphaMask) >> 8)) * alpha2;
-
-			return red | green | blue | alpha;
-
-		}
-
-
 		public static int Blend(int color1, int color2)
 		{
 			var color1Alpha = (((color1) >> 24) & 0xff) + 1;
@@ -417,7 +398,7 @@ namespace Balder
 			var green2 = (color2 >> 8) & 0xff;
 			var blue2 = (color2) & 0xff;
 
-			var inverseFactor = 0xff - factor;
+			var inverseFactor = 0x100 - factor;
 			var alpha = ((alpha1 * factor) + (alpha2 * inverseFactor)) >> 8;
 			var red = ((red1 * factor) + (red2 * inverseFactor)) >> 8;
 			var green = ((green1 * factor) + (green2 * inverseFactor)) >> 8;
