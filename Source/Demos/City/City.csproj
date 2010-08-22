@@ -1,0 +1,215 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.50727</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{92E6AE62-59E7-466B-8021-5154E4A4A952}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>City</RootNamespace>
+    <AssemblyName>City</AssemblyName>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <SilverlightApplication>true</SilverlightApplication>
+    <SupportedCultures>
+    </SupportedCultures>
+    <XapOutputs>true</XapOutputs>
+    <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
+    <XapFilename>City.xap</XapFilename>
+    <SilverlightManifestTemplate>Properties\AppManifest.xml</SilverlightManifestTemplate>
+    <SilverlightAppEntry>City.App</SilverlightAppEntry>
+    <TestPageFileName>CityTestPage.html</TestPageFileName>
+    <CreateTestPage>true</CreateTestPage>
+    <ValidateXaml>true</ValidateXaml>
+    <EnableOutOfBrowser>false</EnableOutOfBrowser>
+    <OutOfBrowserSettingsFile>Properties\OutOfBrowserSettings.xml</OutOfBrowserSettingsFile>
+    <UsePlatformExtensions>false</UsePlatformExtensions>
+    <ThrowErrorsInValidation>true</ThrowErrorsInValidation>
+    <LinkedServerProject>
+    </LinkedServerProject>
+  </PropertyGroup>
+  <!-- This property group is only here to support building this project using the 
+       MSBuild 3.5 toolset. In order to work correctly with this older toolset, it needs 
+       to set the TargetFrameworkVersion to v3.5 -->
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>Bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="mscorlib" />
+    <Reference Include="System.Windows" />
+    <Reference Include="system" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Net" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Windows.Browser" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.xaml.cs">
+      <DependentUpon>App.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="MainPage.xaml.cs">
+      <DependentUpon>MainPage.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ApplicationDefinition Include="App.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </ApplicationDefinition>
+    <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Assets\city_partly.ASE" />
+    <Resource Include="Assets\road.ASE" />
+    <None Include="Properties\AppManifest.xml" />
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <Resource Include="Assets\10m_build_01.png" />
+    <Resource Include="Assets\10m_build_02.png" />
+    <Resource Include="Assets\10m_build_03.png" />
+    <Resource Include="Assets\10m_build_04.png" />
+    <Resource Include="Assets\15m_build_01.png" />
+    <Resource Include="Assets\15m_build_02.png" />
+    <Resource Include="Assets\5m_build_01.png" />
+    <Resource Include="Assets\5m_build_02.png" />
+    <Resource Include="Assets\alley_build_01.png" />
+    <Resource Include="Assets\alley_build_02.png" />
+    <Resource Include="Assets\alley_build_03.png" />
+    <Resource Include="Assets\alley_build_04.png" />
+    <Resource Include="Assets\arch_01.png" />
+    <Resource Include="Assets\Banner_01.png" />
+    <Resource Include="Assets\billboard_01.png" />
+    <Resource Include="Assets\build_05.png" />
+    <Resource Include="Assets\build_06.png" />
+    <Resource Include="Assets\build_07.png" />
+    <Resource Include="Assets\build_08.png" />
+    <Resource Include="Assets\Build_Hybrid_01.png" />
+    <Resource Include="Assets\Build_Hybrid_Alpha_01.png" />
+    <Resource Include="Assets\Build_Hybrid_Corn_01.png" />
+    <Resource Include="Assets\build_side_01.png" />
+    <Resource Include="Assets\build_side_02.png" />
+    <Resource Include="Assets\cafe_sidewalk_01.png" />
+    <Resource Include="Assets\city_wall_01.png" />
+    <Resource Include="Assets\city_wall_02.png" />
+    <Resource Include="Assets\city_wall_03.png" />
+    <Resource Include="Assets\cliff_01.png" />
+    <Resource Include="Assets\cliff_02.png" />
+    <Resource Include="Assets\containers_compacted.png" />
+    <Resource Include="Assets\cross_walk_01.png" />
+    <Resource Include="Assets\cross_walk_02.png" />
+    <Resource Include="Assets\cross_walk_02_Trans.png" />
+    <Resource Include="Assets\devider_01.png" />
+    <Resource Include="Assets\dirt_road_01.png" />
+    <Resource Include="Assets\evening_02.png" />
+    <Resource Include="Assets\Ford_Festiva_01.png" />
+    <Resource Include="Assets\Ford_Festiva_02.png" />
+    <Resource Include="Assets\gas_station_01.png" />
+    <Resource Include="Assets\glow_field.png" />
+    <Resource Include="Assets\gradient_ground_01.png" />
+    <Resource Include="Assets\gradient_ground_corn_01.png" />
+    <Resource Include="Assets\grass_01.png" />
+    <Resource Include="Assets\grass_02.png" />
+    <Resource Include="Assets\grass_03.png" />
+    <Resource Include="Assets\grass_edge_01.png" />
+    <Resource Include="Assets\hedge_01.png" />
+    <Resource Include="Assets\Intesect_tile_side_02.png" />
+    <Resource Include="Assets\Intesect_tile_side_03.png" />
+    <Resource Include="Assets\Kia_Picanto_01.png" />
+    <Resource Include="Assets\kiosk_01.png" />
+    <Resource Include="Assets\old_castle_wall_01.png" />
+    <Resource Include="Assets\palm tree 01.png" />
+    <Resource Include="Assets\phone_booth_01.png" />
+    <Resource Include="Assets\plaza_ground_01.png" />
+    <Resource Include="Assets\river_bridge_side_01_big.png" />
+    <Resource Include="Assets\river_bridge_side_02_big.png" />
+    <Resource Include="Assets\river_bridge_under_01_big.png" />
+    <Resource Include="Assets\river_ground_01.png" />
+    <Resource Include="Assets\river_road_01_big.png" />
+    <Resource Include="Assets\river_wall_01_big.png" />
+    <Resource Include="Assets\river_wall_river_edge_01.png" />
+    <Resource Include="Assets\river_wall_side_01_big.png" />
+    <Resource Include="Assets\river_wall_stairs 01.png" />
+    <Resource Include="Assets\river_wall_top_edge_01.png" />
+    <Resource Include="Assets\round_plaza_01.png" />
+    <Resource Include="Assets\round_plaza_02.png" />
+    <Resource Include="Assets\round_plaza_03.png" />
+    <Resource Include="Assets\round_plaza_04.png" />
+    <Resource Include="Assets\round_plaza_fence_01.png" />
+    <Resource Include="Assets\sea_front_01.png" />
+    <Resource Include="Assets\shadow_blob_01.png" />
+    <Resource Include="Assets\shadow_car_01.png" />
+    <Resource Include="Assets\shadow_gradient_01.png" />
+    <Resource Include="Assets\sidewalk_corner_01.png" />
+    <Resource Include="Assets\sidewalk_corner_01_1.png" />
+    <Resource Include="Assets\station 01.png" />
+    <Resource Include="Assets\station_wall_gnd_01.png" />
+    <Resource Include="Assets\station_window.png" />
+    <Resource Include="Assets\station_window_inside 01.png" />
+    <Resource Include="Assets\Street_20m_Sidewalk_01.png" />
+    <Resource Include="Assets\Street_20m_Straight_01.png" />
+    <Resource Include="Assets\Street_20m_Turn_01.png" />
+    <Resource Include="Assets\Street_20m_Turn_Edge_01.png" />
+    <Resource Include="Assets\test_tile_01.png" />
+    <Resource Include="Assets\tourist_info_01.png" />
+    <Resource Include="Assets\tram 01.png" />
+    <Resource Include="Assets\truck_isuzu_01.png" />
+    <Resource Include="Assets\truck_isuzu_01_shadow.png" />
+    <Resource Include="Assets\Tunnel_gate_01.png" />
+    <Resource Include="Assets\van_practic 01.png" />
+    <Resource Include="Assets\van_practic 02.png" />
+    <Resource Include="Assets\wall_01.png" />
+    <Resource Include="Assets\wall_plaza_01.png" />
+    <Resource Include="Assets\Wire_robot_01.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\Balder\Balder.Silverlight.csproj">
+      <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
+      <Name>Balder.Silverlight</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+</Project>

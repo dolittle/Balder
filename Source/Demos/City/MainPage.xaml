@@ -1,0 +1,58 @@
+﻿<UserControl x:Class="City.MainPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+
+    <Grid x:Name="LayoutRoot" Background="Black" KeyDown="LayoutRoot_KeyDown" KeyUp="LayoutRoot_KeyUp">
+		<!--
+		<Grid.Triggers>
+			<EventTrigger RoutedEvent="Grid.Loaded">
+				<BeginStoryboard>
+					<Storyboard RepeatBehavior="Forever">
+						<Animation:StoryboardExtensions.CoordinateAnimation>
+							<Animation:CoordinateAnimation From="0,0,0" To="0,359,0" Duration="00:00:10" TargetName="City" TargetProperty="(Node.Rotation)"/>
+						</Animation:StoryboardExtensions.CoordinateAnimation>
+					</Storyboard>
+				</BeginStoryboard>
+
+			</EventTrigger>
+		</Grid.Triggers>
+-->
+
+		<Execution:Game x:Name="Game" Width="640" Height="480">
+			<Execution:Game.Camera>
+				<View:Camera x:Name="Camera" Position="-2000,100,900" Target="0,0,1"/>
+			</Execution:Game.Camera>
+			
+			<Geometries:Mesh x:Name="City" AssetName="/City;component/Assets/city_partly.ASE" InteractionEnabled="True"/>
+		</Execution:Game>
+
+		<Border BorderBrush="White" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Grid x:Name="InfoGrid" DataContext="{Binding ElementName=Game, Path=Viewport.Statistics}">
+				<Grid.Background>
+					<SolidColorBrush Opacity="0.5" Color="Gray"/>
+				</Grid.Background>
+
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200"/>
+					<ColumnDefinition Width="100"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
+				</Grid.RowDefinitions>
+
+
+				<TextBlock Grid.Column="0" Grid.Row="0" Text="Total Nodes Rendered"/>
+				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RenderedNodes}"/>
+			</Grid>
+		</Border>
+
+
+	</Grid>
+</UserControl>
