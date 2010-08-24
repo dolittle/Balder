@@ -57,7 +57,7 @@ namespace Balder.Rendering
 		{
 			foreach (var node in nodes)
 			{
-				Prepare(viewport, node);
+				PrepareNode(viewport, node);
 			}
 		}
 
@@ -86,6 +86,11 @@ namespace Balder.Rendering
 					PrepareForRendering(node, viewport, view, projection, world);
 				}
 			}
+		}
+
+		public void PrepareNodeForRendering(INode node, Viewport viewport)
+		{
+			PrepareForRendering(node, viewport, viewport.View.ViewMatrix, viewport.View.ProjectionMatrix, Matrix.Identity);
 		}
 
 
@@ -127,7 +132,7 @@ namespace Balder.Rendering
 
 		#region Private Helpers
 
-		private static void Prepare(Viewport viewport, INode node)
+		public void PrepareNode(Viewport viewport, INode node)
 		{
 			if (node is Node)
 			{
@@ -137,13 +142,13 @@ namespace Balder.Rendering
 			PrepareChildren(viewport, node);
 		}
 
-		private static void PrepareChildren(Viewport viewport, INode node)
+		private void PrepareChildren(Viewport viewport, INode node)
 		{
 			if (node is IHaveChildren)
 			{
 				foreach (var child in ((IHaveChildren)node).Children)
 				{
-					Prepare(viewport, child);
+					PrepareNode(viewport, child);
 				}
 			}
 		}
@@ -169,7 +174,7 @@ namespace Balder.Rendering
 		}
 
 
-		private static void RenderNode(INode node, Viewport viewport, DetailLevel detailLevel)
+		public void RenderNode(INode node, Viewport viewport, DetailLevel detailLevel)
 		{
 			if (!node.IsVisible())
 			{
@@ -188,20 +193,37 @@ namespace Balder.Rendering
 
 			if (node is ICanRender)
 			{
-				node.Statistics.BeginNodeTiming();
+				if( null != node.Statistics )
+				{
+					node.Statistics.BeginNodeTiming();	
+				}
+				
 				((ICanRender) node).Render(viewport, detailLevel);
 				viewport.Statistics.RenderedNodes++;
-				node.Statistics.EndNodeTiming();
+
+				if( null != node.Statistics )
+				{
+					node.Statistics.EndNodeTiming();	
+				}
+				
 				((ICanRender)node).RenderDebugInfo(viewport, detailLevel);
 			}
 
-			node.Statistics.BeginChildrenTiming();
+			if( null != node.Statistics )
+			{
+				node.Statistics.BeginChildrenTiming();	
+			}
+			
 			RenderChildren(node, viewport, detailLevel);
-			node.Statistics.EndNodeTiming();
+
+			if( null != node.Statistics )
+			{
+				node.Statistics.EndNodeTiming();	
+			}
 		}
 
 
-		private static void RenderChildren(INode node, Viewport viewport, DetailLevel detailLevel)
+		private void RenderChildren(INode node, Viewport viewport, DetailLevel detailLevel)
 		{
 			if (node is IHaveChildren)
 			{

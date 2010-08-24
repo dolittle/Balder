@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl {
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -83,13 +83,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl.Content&quot;
+        ///   Looks up a localized string similar to &lt;UserControl x:Class=&quot;Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl.Content&quot;
         ///    xmlns=&quot;http://schemas.microsoft.com/winfx/2006/xaml/presentation&quot; 
         ///    xmlns:x=&quot;http://schemas.microsoft.com/winfx/2006/xaml&quot; 
         ///    xmlns:Execution=&quot;clr-namespace:Balder.Execution;assembly=Balder&quot; 
         ///    xmlns:Controls=&quot;clr-namespace:Balder.Controls;assembly=Balder&quot; 
-        ///	xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl&quot; 
-        ///	xmlns:Geometries=&quot;clr-namespace:B [rest of string was truncated]&quot;;.
+        ///	xmlns:local=&quot;clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl&quot; 
+        ///	xmlns:Geometries=&quot;clr-namespace:Balde [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml {
             get {
@@ -99,26 +99,28 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         
         /// <summary>
         ///   Looks up a localized string similar to using System;
-        ///using System.Windows.Controls;
+        ///using System.Windows;
         ///using Balder.Input;
         ///using Balder.Objects.Geometries;
         ///
-        ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+        ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
         ///{
-        ///	public partial class Content : UserControl
+        ///	public partial class Content
         ///	{
         ///		public Content()
         ///		{
         ///			InitializeComponent();
+        ///
         ///		}
         ///
         ///		private void RotationSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs&lt;double&gt; e)
         ///		{
-        ///			Nodes.Rotation.Y = e.NewValue;
+        ///			Game.Camera.Position.X = -e.NewValue;
+        ///			//Nodes.Rotation.Y = e.NewValue;
         ///
         ///		}
         ///
-        ///		private void Box_MouseEnter(object sender, Mouse [rest of string was truncated]&quot;;.
+        ///		private void Box_MouseEnter [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string Content_xaml_cs {
             get {
@@ -155,7 +157,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///using System.Windows.Data;
         ///using System.Windows.Media;
         ///
-        ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+        ///namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
         ///{
         ///	public class MatrixToStringValueConverter : IValueConverter
         ///	{
@@ -165,7 +167,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
         ///		}
         ///
         ///		public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        /// [rest of string was truncated]&quot;;.
+        ///		 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string MatrixToStringValueConverter_cs {
             get {

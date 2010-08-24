@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Windows;
 using Balder.Input;
 using Balder.Objects.Geometries;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
 	public partial class Content
 	{
@@ -14,7 +15,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 
 		private void RotationSlider_ValueChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<double> e)
 		{
-			Nodes.Rotation.Y = e.NewValue;
+			Game.Camera.Position.X = -e.NewValue;
+			//Nodes.Rotation.Y = e.NewValue;
 
 		}
 
@@ -48,6 +50,26 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			var newColumn = new Column(depth, row, column);
 			viewModel.Depths[0].Rows[0].Columns.Add(newColumn);
 
+		}
+
+		private void Button_Click_2(object sender, RoutedEventArgs e)
+		{
+			var viewModel = (ViewModel)DataContext;
+
+			foreach( var depth in viewModel.Depths )
+			{
+				foreach( var row in depth.Rows )
+				{
+					foreach( var column in row.Columns )
+					{
+						column.IsBox ^= true;
+						column.IsCylinder ^= true;
+					}
+					
+				}
+				
+			}
+			
 		}
 	}
 }

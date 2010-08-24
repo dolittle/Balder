@@ -27,6 +27,7 @@
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
 				</Grid.RowDefinitions>
 				
 				<TextBlock Text="X Axis" Grid.Row="0" Grid.Column="0" Foreground="White" />
@@ -38,8 +39,12 @@
 				<TextBlock Text="{Binding Path=Value, ElementName=_ySlider, Mode=OneWay}" Grid.Row="1" Grid.Column="2" Foreground="White"/>
 
 				<TextBlock Text="Zoom" Grid.Row="2" Grid.Column="0" Foreground="White"/>
-				<Slider x:Name="_zoomSlider" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" Minimum="200" Maximum="500" ValueChanged="Slider_ValueChanged"/>
+				<Slider x:Name="_zoomSlider" HorizontalAlignment="Stretch" Grid.Row="2" Grid.Column="1" Minimum="100" Maximum="500" Value="200" ValueChanged="Slider_ValueChanged"/>
 				<TextBlock Text="{Binding Path=Value, ElementName=_zoomSlider, Mode=OneWay}" Grid.Row="2" Grid.Column="2" Foreground="White"/>
+
+				<TextBlock Text="Field of View" Grid.Row="3" Grid.Column="0" Foreground="White"/>
+				<Slider x:Name="_fovSlider" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1" Minimum="40" Maximum="150" ValueChanged="Slider_ValueChanged"/>
+				<TextBlock Text="{Binding Path=Value, ElementName=_fovSlider, Mode=OneWay}" Grid.Row="3" Grid.Column="2" Foreground="White"/>
 			</Grid>
 			
 		</StackPanel>

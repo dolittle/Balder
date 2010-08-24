@@ -37,6 +37,13 @@ namespace Balder.Rendering
 		void Prepare(Viewport viewport, NodeCollection nodes);
 
 		/// <summary>
+		/// Prepare specific node and its children
+		/// </summary>
+		/// <param name="viewport">Viewport to prepare it for</param>
+		/// <param name="node">Node to prepare</param>
+		void PrepareNode(Viewport viewport, INode node);
+
+		/// <summary>
 		/// Prepare nodes for rendering
 		/// </summary>
 		/// <param name="viewport">Viewport that the nodes are being rendered to</param>
@@ -49,5 +56,20 @@ namespace Balder.Rendering
 		/// <param name="viewport">Viewport that the nodes are being rendered to</param>
 		/// <param name="nodes">Nodes to render</param>
 		void Render(Viewport viewport, NodeCollection nodes);
+
+		/// <summary>
+		/// Prepare specific node for rendering
+		/// </summary>
+		/// <param name="node">Node to prepare</param>
+		/// <param name="viewport">Viewport to prepare it for rendering into</param>
+		void PrepareNodeForRendering(INode node, Viewport viewport);
+
+		/// <summary>
+		/// Render a specific node with a given detail level
+		/// </summary>
+		/// <param name="node">Node to render</param>
+		/// <param name="viewport">Viewport to render to</param>
+		/// <param name="detailLevel"><see cref="DetailLevel">DetailLevel</see> to use for rendering</param>
+		void RenderNode(INode node, Viewport viewport, DetailLevel detailLevel);
 	}
 }

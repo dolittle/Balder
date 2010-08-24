@@ -4,7 +4,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Media;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
 	public class MatrixToStringValueConverter : IValueConverter
 	{

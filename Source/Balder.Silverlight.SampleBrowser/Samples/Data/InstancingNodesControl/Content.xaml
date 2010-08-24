@@ -1,0 +1,65 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+    xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
+    xmlns:Controls="clr-namespace:Balder.Controls;assembly=Balder" 
+	xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl" 
+	xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
+    xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
+    xmlns:ValueConverters="clr-namespace:Balder.Silverlight.ValueConverters;assembly=Balder" 
+    xmlns:Core="clr-namespace:Balder;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
+	<UserControl.DataContext>
+		<local:ViewModel/>
+	</UserControl.DataContext>
+	<UserControl.Resources>
+		<ValueConverters:VectorToCoordinateValueConverter x:Key="VectorToCoordinateConverter"/>
+		<local:MatrixToStringValueConverter x:Key="MatrixToStringConverter"/>
+	</UserControl.Resources>
+	<Grid x:Name="LayoutRoot">
+		<StackPanel Orientation="Vertical" >
+			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="False">
+				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
+					<Controls:NodesControl.NodeTemplate>
+						<DataTemplate>
+							<Controls:NodesControl ItemsSource="{Binding Rows}">
+								<Controls:NodesControl.NodeTemplate>
+									<DataTemplate>
+										<Controls:InstancingNodes Data="{Binding Columns}">
+
+											<Controls:InstancingNodes.NodeTemplate>
+												<DataTemplate>
+													
+													<local:ColumnNode/>
+													
+												</DataTemplate>
+											</Controls:InstancingNodes.NodeTemplate>
+										</Controls:InstancingNodes>
+															   
+										
+									</DataTemplate>
+								</Controls:NodesControl.NodeTemplate>
+							</Controls:NodesControl>
+						</DataTemplate>
+					</Controls:NodesControl.NodeTemplate>
+				</Controls:NodesControl>
+
+				<Lighting:DirectionalLight Direction="0,0,1"/>
+
+				<Execution:Game.Camera>
+					<View:Camera x:Name="Camera" Position="0,250,-300"/>
+				</Execution:Game.Camera>
+
+			</Execution:Game>
+
+			<Slider x:Name="RotationSlider" Width="640" Minimum="-100" Maximum="100"  ValueChanged="RotationSlider_ValueChanged"/>
+			<StackPanel Orientation="Horizontal">
+				<Button Content="Generate Data" Click="Button_Click"/>
+				<Button Content="Add Data" Click="Button_Click_1"/>
+				<Button Content="Switch object" Click="Button_Click_2"/>
+			</StackPanel>
+		</StackPanel>
+
+
+
+	</Grid>
+</UserControl>

@@ -21,40 +21,32 @@
 
 using System.Collections.ObjectModel;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
-	public class ViewModel
+	public class Depth
 	{
-		public const int RowCount = 15;
-		public const int ColumnCount = 15;
-		public const int DepthCount = 15;
+		private readonly double _zPosition;
 
-		public const double RowSpace = 12;
-		public const double ColumnSpace = 12;
-		public const double DepthSpace = 12;
 
-		public ViewModel()
+		public Depth(double zPosition, int depth)
 		{
-			Depths = new ObservableCollection<Depth>();
+			_zPosition = zPosition;
+			Rows = new ObservableCollection<Row>();
 
-			GenerateData();
-		}
-
-		public ObservableCollection<Depth> Depths { get; private set; }
-
-		public void GenerateData()
-		{
-			var position = -(DepthSpace * (DepthCount / 2d));
-			for (var depthIndex = 0; depthIndex < DepthCount; depthIndex++)
+			var position = -(ViewModel.RowSpace * (ViewModel.RowCount / 2d));
+			for (var rowIndex = 0; rowIndex < ViewModel.RowCount; rowIndex++)
 			{
-				var row = new Depth(position, depthIndex);
-				Depths.Add(row);
-				position += DepthSpace;
+				var row = new Row(position, zPosition, depth, rowIndex);
+				Rows.Add(row);
+				position += ViewModel.RowSpace;
 			}
-
 		}
-			
-			
 
+		public ObservableCollection<Row> Rows { get; private set; }
+
+		public override string ToString()
+		{
+			return string.Format("Depth : {0}", _zPosition);
+		}
 	}
 }

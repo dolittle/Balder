@@ -42,6 +42,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.CameraManipulation
 			_game.Camera.Position.X = actualPosition.X;
 			_game.Camera.Position.Y = actualPosition.Y;
 			_game.Camera.Position.Z = actualPosition.Z;
+
+			_game.Camera.FieldOfView = _fovSlider.Value;
 		}
 	}
 }

@@ -23,7 +23,7 @@ using System.ComponentModel;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
 	public class Column : INotifyPropertyChanged
 	{
@@ -42,9 +42,34 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
 			}
 		}
 
+		private bool _isBox;
+		public bool IsBox
+		{
+			get { return _isBox; }
+			set
+			{
+				_isBox = value;
+				OnPropertyChanged("IsBox");
+			}
+		}
+
+		private bool _isCylinder;
+		public bool IsCylinder
+		{
+			get { return _isCylinder; }
+			set
+			{
+				_isCylinder = value;
+				OnPropertyChanged("IsCylinder");
+			}
+		}
+
 		public Column(int depth, int row, int column)
 		{
 			Name = string.Format("Node : {0}, {1}, {2}", depth, row, column);
+
+			IsBox = true;
+			IsCylinder = false;
 
 			var x = ViewModel.ColumnSpace*column;
 			var y = ViewModel.RowSpace * row;

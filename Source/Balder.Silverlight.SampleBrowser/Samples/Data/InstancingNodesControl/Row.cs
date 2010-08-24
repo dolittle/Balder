@@ -23,7 +23,7 @@ using System.Collections.ObjectModel;
 using Balder;
 using Balder.Math;
 
-namespace Balder.Silverlight.SampleBrowser.Samples.Data.HierarchicalNodesControl
+namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
 	public class Row
 	{

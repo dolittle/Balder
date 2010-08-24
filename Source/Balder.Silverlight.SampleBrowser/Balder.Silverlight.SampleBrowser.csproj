@@ -218,19 +218,22 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <Compile Include="Samples\Data\BarChart\ViewModel.cs" />
-    <Compile Include="Samples\Data\HierarchicalNodesControl\Column.cs" />
-    <Compile Include="Samples\Data\HierarchicalNodesControl\Content.xaml.cs">
+    <Compile Include="Samples\Data\InstancingNodesControl\Column.cs" />
+    <Compile Include="Samples\Data\InstancingNodesControl\ColumnNode.xaml.cs">
+      <DependentUpon>ColumnNode.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Data\InstancingNodesControl\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Data\HierarchicalNodesControl\Depth.cs" />
-    <Compile Include="Samples\Data\HierarchicalNodesControl\MatrixToStringValueConverter.cs" />
-    <Compile Include="Samples\Data\HierarchicalNodesControl\Resources.Designer.cs">
+    <Compile Include="Samples\Data\InstancingNodesControl\Depth.cs" />
+    <Compile Include="Samples\Data\InstancingNodesControl\MatrixToStringValueConverter.cs" />
+    <Compile Include="Samples\Data\InstancingNodesControl\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Samples\Data\HierarchicalNodesControl\Row.cs" />
-    <Compile Include="Samples\Data\HierarchicalNodesControl\ViewModel.cs" />
+    <Compile Include="Samples\Data\InstancingNodesControl\Row.cs" />
+    <Compile Include="Samples\Data\InstancingNodesControl\ViewModel.cs" />
     <Compile Include="Samples\Data\NodesControl\BusinessObject.cs" />
     <Compile Include="Samples\Data\NodesControl\MyGame.cs" />
     <Compile Include="Samples\Data\NodesControl\Resources.Designer.cs">
@@ -512,7 +515,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Samples\Data\HierarchicalNodesControl\Content.xaml">
+    <Page Include="Samples\Data\InstancingNodesControl\ColumnNode.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\Data\InstancingNodesControl\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
       <Generator>MSBuild:Compile</Generator>
@@ -722,7 +729,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Samples\Data\HierarchicalNodesControl\Resources.resx">
+    <EmbeddedResource Include="Samples\Data\InstancingNodesControl\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>

@@ -108,6 +108,7 @@
     <Compile Include="Content\Silverlight\FileLoader.cs" />
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
     <Compile Include="Controls\INodeModifier.cs" />
+    <Compile Include="Controls\InstancingNodes.cs" />
     <Compile Include="Controls\NodesControl.cs" />
     <Compile Include="Controls\NodesStack.cs" />
     <Compile Include="Converters\StringToTypeConverter.cs" />

@@ -524,7 +524,7 @@ namespace Balder.Rendering.Silverlight
 				face.TransformNormal(localView);
 				face.Transform(localView);
 
-				if (null != _textureCoordinates)
+				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{
 					face.Texture1TextureCoordinateA = _textureCoordinates[face.DiffuseA];
 					face.Texture1TextureCoordinateB = _textureCoordinates[face.DiffuseB];

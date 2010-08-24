@@ -188,6 +188,9 @@ namespace Balder
 		public static readonly Property<Node, ToolTip> ToolTipProperty =
 			Property<Node, ToolTip>.Register(o => o.ToolTip);
 
+		public virtual object DataItem { get; set; }
+
+
 		/// <summary>
 		/// Tooltip to use on node
 		/// </summary>
@@ -449,10 +452,10 @@ namespace Balder
 		public INode Parent { get; internal set; }
 #endif
 
-		public Matrix ActualWorld { get; private set; }
+		public Matrix ActualWorld { get; set; }
 		public Matrix RenderingWorld { get; set; }
 
-		private void PrepareActualWorld()
+		public void PrepareActualWorld()
 		{
 			var isWorldIdentity = World.IsIdentity;
 
