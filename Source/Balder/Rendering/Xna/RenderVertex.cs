@@ -50,6 +50,13 @@ namespace Balder.Rendering.Xna
             _normal = Vector3.Zero;
         }
 
+        public RenderVertex(Vertex vertex, Color color, Normal normal)
+        {
+            _position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+            _normal = new Vector3(normal.X, normal.Y, normal.Z);
+            _color = color;
+        }
+
 
         public static VertexElement[] VertexElements = {
                                                            new VertexElement(0, VertexElementFormat.Vector3,VertexElementUsage.Position, 0), 

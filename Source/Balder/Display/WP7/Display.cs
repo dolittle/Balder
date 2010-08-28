@@ -35,6 +35,7 @@ namespace Balder.Display.WP7
 {
     public class Display : IDisplay
     {
+        private readonly IRuntimeContext _runtimeContext;
         private static IntPtr _windowHandle;
         private static GraphicsDeviceManager _graphicsDeviceManager;
         private static GraphicsAdapter _graphicsAdapter;
@@ -50,6 +51,12 @@ namespace Balder.Display.WP7
         public bool ClearEnabled { get; set; }
         public bool Paused { get; set; }
         public bool Halted { get; set; }
+
+
+        public Display(IRuntimeContext runtimeContext)
+        {
+            _runtimeContext = runtimeContext;
+        }
 
 
         public static void Initialize()
@@ -89,8 +96,8 @@ namespace Balder.Display.WP7
         {
             GraphicsDevice.SetRenderTarget(_renderTarget);
             GraphicsDevice.Clear(BackgroundColor);
-            Messenger.DefaultContext.Send(PrepareMessage.Default);
-            Messenger.DefaultContext.Send(RenderMessage.Default);
+            _runtimeContext.MessengerContext.Send(PrepareMessage.Default);
+            _runtimeContext.MessengerContext.Send(RenderMessage.Default);
             GraphicsDevice.SetRenderTarget(null);
             CopyFromRenderTargetToWriteableBitmap();
         }
@@ -144,6 +151,12 @@ namespace Balder.Display.WP7
         public int[] GetCurrentFrame()
         {
             return null;
+        }
+
+
+        public void InitializeSkybox(Objects.Skybox skybox)
+        {
+            
         }
     }
 }

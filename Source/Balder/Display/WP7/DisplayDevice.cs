@@ -21,15 +21,15 @@ namespace Balder.Display.WP7
 {
     public class DisplayDevice : IDisplayDevice
     {
-        public IDisplay CreateDisplay()
-        {
-            var display = new Display();
-            return display;
-        }
-
         public void RemoveDisplay(IDisplay display)
         {
             
+        }
+
+        public IDisplay CreateDisplay(Rendering.IRuntimeContext runtimeContext)
+        {
+            var display = new Display(runtimeContext);
+            return display;
         }
     }
 }

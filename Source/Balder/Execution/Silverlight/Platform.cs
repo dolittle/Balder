@@ -26,11 +26,16 @@ using Balder.Input;
 using Balder.Display.Silverlight;
 using Balder.Input.Silverlight;
 using Balder.Materials.Silverlight;
-
-#if(WINDOWS_PHONE && !FORCESOFTWARE)
-using Balder.Rendering.Xna;
-#else
 using Balder.Rendering.Silverlight;
+#if(WINDOWS_PHONE && !FORCESOFTWARE)
+
+using GeometryContext = Balder.Rendering.Xna.GeometryContext;
+using ImageContext = Balder.Rendering.Xna.ImageContext;
+using ShapeContext = Balder.Rendering.Xna.ShapeContext;
+using SpriteContext = Balder.Rendering.Xna.SpriteContext;
+
+#else
+
 #endif
 
 namespace Balder.Execution.Silverlight

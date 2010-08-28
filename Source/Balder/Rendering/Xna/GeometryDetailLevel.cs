@@ -50,6 +50,9 @@ namespace Balder.Rendering.Xna
         private Vertex[] _originalVertices;
         private Face[] _originalFaces;
 
+        private Normal[] _originalNormals;
+        
+
         public GeometryDetailLevel()
         {
             _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
@@ -119,18 +122,9 @@ namespace Balder.Rendering.Xna
 
         public void AllocateNormals(int count)
         {
-            
+            _originalNormals = new Normal[count];
         }
 
-        public void SetNormal(int index, Vertex normal)
-        {
-            
-        }
-
-        public Vertex[] GetNormals()
-        {
-            throw new NotImplementedException();
-        }
 
         public void InvalidateNormal(int index)
         {
@@ -213,9 +207,11 @@ namespace Balder.Rendering.Xna
                 {
                     color = face.Material.Diffuse;
                 }
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C],color);
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color);
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color);
+
+
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC]);
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB]);
+                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA]);
             }
             if (null == _vertexBuffer)
             {
@@ -268,6 +264,18 @@ namespace Balder.Rendering.Xna
 
                 //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
             }
+        }
+
+
+        public void SetNormal(int index, Normal normal)
+        {
+
+            _originalNormals[index] = normal;
+        }
+
+        Normal[] IGeometryDetailLevel.GetNormals()
+        {
+            return _originalNormals;
         }
     }
 }
