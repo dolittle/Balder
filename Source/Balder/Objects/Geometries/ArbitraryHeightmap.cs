@@ -102,6 +102,7 @@ namespace Balder.Objects.Geometries
 			{
 				Point1Property.SetValue(this, value);
 				InvalidatePrepare();
+				InvalidateHeights();
 			}
 		}
 
@@ -113,6 +114,7 @@ namespace Balder.Objects.Geometries
 			{
 				Point2Property.SetValue(this, value);
 				InvalidatePrepare();
+				InvalidateHeights();
 			}
 		}
 
@@ -124,6 +126,7 @@ namespace Balder.Objects.Geometries
 			{
 				Point3Property.SetValue(this, value);
 				InvalidatePrepare();
+				InvalidateHeights();
 			}
 		}
 
@@ -135,6 +138,7 @@ namespace Balder.Objects.Geometries
 			{
 				Point4Property.SetValue(this, value);
 				InvalidatePrepare();
+				InvalidateHeights();
 			}
 		}
 
@@ -169,7 +173,6 @@ namespace Balder.Objects.Geometries
 		public void InvalidateHeights()
 		{
 			_heightsInvalidated = true;
-
 		}
 
 		private void ValidateArray(float[,] array)
