@@ -68,7 +68,7 @@
                            FontSize="24"/>
 			</StackPanel>
 
-			<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+			<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Collapsed">
 				<StackPanel Orientation="Vertical">
 					<Grid x:Name="InfoGrid">
 						<Grid.Background>
