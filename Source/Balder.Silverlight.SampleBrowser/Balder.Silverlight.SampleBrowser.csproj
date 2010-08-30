@@ -699,6 +699,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Rake\rake.ase" />
     <None Include="Samples\Creative\RubicsCube\Assets\RubicsTextures.psd" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
@@ -883,6 +884,7 @@
     <Resource Include="Assets\Skybox\skybox_top.JPG" />
   </ItemGroup>
   <ItemGroup>
+    <Resource Include="Assets\Rake\row_floor.png" />
     <Content Include="Controls\ColorPicker\License.txt" />
     <Content Include="Controls\ColorPicker\ReadMe.txt" />
     <Resource Include="Assets\mouse.png" />

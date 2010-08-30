@@ -21,6 +21,7 @@
 #if(SILVERLIGHT)
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
@@ -85,7 +86,7 @@ namespace Balder.Controls
 			}
 		}
 
-		private void PrepareDataItemInfos(IEnumerable enumerable)
+		private int GetDataLength(IEnumerable enumerable)
 		{
 			var length = 0;
 			if (enumerable is Array)
@@ -97,6 +98,13 @@ namespace Balder.Controls
 				length = ((ICollection)enumerable).Count;
 			}
 
+			return length;
+		}
+
+
+		private void PrepareDataItemInfos(IEnumerable enumerable)
+		{
+			var length = GetDataLength(enumerable);
 			_dataItemInfos = new DataItemInfo[length];
 			var index = 0;
 			foreach (var item in enumerable)
@@ -134,6 +142,12 @@ namespace Balder.Controls
 		{
 			if (null != Data && null != _actualNodeTemplate && null != _dataItemInfos)
 			{
+				var length = GetDataLength(Data);
+				if( length != _dataItemInfos.Length )
+				{
+					PrepareDataItemInfos(Data);
+				}
+
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
 					_actualNodeTemplate.DataItem = _dataItemInfos[index].DataItem;

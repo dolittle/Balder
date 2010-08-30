@@ -28,7 +28,7 @@
 		private void SetColumn(Column column)
 		{
 			Position = column.Position;
-			Box.IsVisible = column.IsBox;
+			Box.IsVisible = false; // column.IsBox;
 			Cylinder.IsVisible = column.IsCylinder;
 			
 			Color = column.Color;
