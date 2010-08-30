@@ -58,6 +58,7 @@ namespace Balder.Controls
 			var nodesControl = obj as NodesControl;
 			if( null != nodesControl )
 			{
+				nodesControl._contentPresenters.Clear();
 				if( null != e.OldValue && e.OldValue is INotifyCollectionChanged )
 				{
 					var notifyingItemsSource = e.OldValue as INotifyCollectionChanged;
@@ -115,7 +116,6 @@ namespace Balder.Controls
 		{
 			_childCount = 0;
 			_expectedCount = -1;
-			_contentPresenters.Clear();
 			Children.Clear();
 
 			if( null != ItemsSource && ItemsSource is ICollection )
