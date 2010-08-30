@@ -275,7 +275,7 @@ namespace Balder
 			InvalidateWorld();
 		}
 
-		public BoundingSphere BoundingSphere { get; set; }
+		public virtual BoundingSphere BoundingSphere { get; set; }
 		private Scene _scene;
 		public Scene Scene
 		{

@@ -25,6 +25,7 @@ using System.Windows.Markup;
 #endif
 
 using Balder.Collections;
+using Balder.Math;
 using Balder.Rendering;
 
 
@@ -35,17 +36,61 @@ namespace Balder
 #endif
 	public class HierarchicalNode : Node, IHaveChildren
 	{
-
 		protected HierarchicalNode()
 		{
 			Children = new NodeCollection(this);
 #if(SILVERLIGHT)
 			Children.CollectionChanged += ChildrenChanged;
 #endif
-		
+			BoundingSphereGenerated = false;
 		}
 
 		public NodeCollection Children { get; private set; }
+
+		private BoundingSphere _boundingSphere;
+		private bool _boundingSphereGenerated;
+		private bool BoundingSphereGenerated
+		{
+			get { return _boundingSphereGenerated; }
+			set { _boundingSphereGenerated = value; }
+		}
+
+		public override BoundingSphere BoundingSphere
+		{
+			get
+			{
+				if( !BoundingSphereGenerated )
+				{
+					BoundingSphereGenerated = true;
+					GenerateBoundingSphere(this,this);
+				}
+				return _boundingSphere;
+				
+			}
+			set
+			{
+				_boundingSphere = value;
+				BoundingSphereGenerated = true;
+			}
+		}
+
+
+		private static void GenerateBoundingSphere(INode root, INode current)
+		{
+			if( !root.Equals(current))
+			{
+				root.BoundingSphere = BoundingSphere.CreateMerged(root.BoundingSphere, current.BoundingSphere);
+			}
+
+			if( current is IHaveChildren )
+			{
+				foreach( var child in ((IHaveChildren)current).Children)
+				{
+					GenerateBoundingSphere(root, child);
+				}
+			}
+		}
+
 
 #if(SILVERLIGHT)
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)

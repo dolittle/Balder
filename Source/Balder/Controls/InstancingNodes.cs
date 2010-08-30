@@ -24,6 +24,7 @@ using System.Collections;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Math;
 using Balder.Rendering;
 using Ninject;
 
@@ -31,12 +32,25 @@ namespace Balder.Controls
 {
 	public class InstancingNodes : RenderableNode
 	{
+		private class DataItemInfo
+		{
+			public Vector Position;
+			public Vector Scale;
+			public Vector Rotation;
+			public Matrix Matrix;
+			public object DataItem;
+			public BoundingSphere BoundingSphere;
+		}
+
 		private readonly INodeRenderingService _nodeRenderingService;
+		private DataItemInfo[] _dataItemInfos;
+		private bool _boundingSpheresGenerated;
+
 
 		public InstancingNodes()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
-			
+
 		}
 
 		public InstancingNodes(INodeRenderingService nodeRenderingService)
@@ -51,7 +65,12 @@ namespace Balder.Controls
 		public IEnumerable Data
 		{
 			get { return DataProperty.GetValue(this); }
-			set { DataProperty.SetValue(this, value); }
+			set
+			{
+				DataProperty.SetValue(this, value);
+				PrepareDataItemInfos(value);
+				_boundingSpheresGenerated = false;
+			}
 		}
 
 		public static readonly Property<InstancingNodes, DataTemplate> NodeTemplateProperty =
@@ -63,6 +82,28 @@ namespace Balder.Controls
 			{
 				base.ItemTemplate = value;
 				LoadTemplate();
+			}
+		}
+
+		private void PrepareDataItemInfos(IEnumerable enumerable)
+		{
+			var length = 0;
+			if (enumerable is Array)
+			{
+				length = ((Array)enumerable).Length;
+			}
+			else if (enumerable is ICollection)
+			{
+				length = ((ICollection)enumerable).Count;
+			}
+
+			_dataItemInfos = new DataItemInfo[length];
+			var index = 0;
+			foreach (var item in enumerable)
+			{
+				var info = new DataItemInfo { DataItem = item };
+				_dataItemInfos[index] = info;
+				index++;
 			}
 		}
 
@@ -91,13 +132,12 @@ namespace Balder.Controls
 
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-			if (null != Data && null != _actualNodeTemplate)
+			if (null != Data && null != _actualNodeTemplate && null != _dataItemInfos)
 			{
-				foreach( var item in Data )
+				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
-					_actualNodeTemplate.DataItem = item;
-					_actualNodeTemplate.PrepareActualWorld();
-					_actualNodeTemplate.RenderingWorld = _actualNodeTemplate.ActualWorld;
+					_actualNodeTemplate.DataItem = _dataItemInfos[index].DataItem;
+					_actualNodeTemplate.ActualWorld = _actualNodeTemplate.RenderingWorld = GetRenderingWorld(_dataItemInfos[index], _actualNodeTemplate);
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
 					_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
 				}
@@ -106,6 +146,82 @@ namespace Balder.Controls
 			base.Render(viewport, detailLevel);
 		}
 
+		private Matrix GetRenderingWorld(DataItemInfo info, RenderableNode template)
+		{
+			Matrix matrix;
+			if ((!info.Position.Equals(template.Position)) ||
+				(!info.Rotation.Equals(template.Rotation)) ||
+				(!info.Scale.Equals(template.Scale)))
+			{
+				_actualNodeTemplate.PrepareActualWorld();
+				matrix = _actualNodeTemplate.ActualWorld;
+				SetDataItemInfo(info, template);
+			}
+			else
+			{
+				matrix = info.Matrix;
+			}
+
+			return matrix;
+		}
+
+		private void SetDataItemInfo(DataItemInfo info, RenderableNode template)
+		{
+			info.Position = template.Position;
+			info.Rotation = template.Rotation;
+			info.Scale = template.Scale;
+			info.Matrix = template.ActualWorld;
+		}
+
+		private void GenerateBoundingSpheres()
+		{
+			if( null == _actualNodeTemplate || null == _dataItemInfos)
+			{
+				return;
+			}
+			for (var index = 0; index < _dataItemInfos.Length; index++)
+			{
+				var info = _dataItemInfos[index];
+				info.BoundingSphere = _actualNodeTemplate.BoundingSphere.Transform(info.Matrix);
+				BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, info.BoundingSphere);
+			}
+			_boundingSpheresGenerated = true;
+		}
+
+
+		public override float? Intersects(Ray pickRay)
+		{
+			if( !_boundingSpheresGenerated )
+			{
+				GenerateBoundingSpheres();
+			}
+
+			var distance = pickRay.Intersects(BoundingSphere);
+			if( null != distance )
+			{
+				float? closestDistance = null;
+				var closestIndex = 0;
+
+				for (var index = 0; index < _dataItemInfos.Length; index++)
+				{
+					_actualNodeTemplate.ActualWorld = _actualNodeTemplate.RenderingWorld = _dataItemInfos[index].Matrix;
+					distance = _actualNodeTemplate.Intersects(pickRay);
+					if( distance < closestDistance )
+					{
+						closestDistance = distance;
+						closestIndex = index;
+					}
+				}
+
+				if( null != closestDistance )
+				{
+					return closestDistance;
+				}
+			}
+
+
+			return base.Intersects(pickRay);
+		}
 	}
 }
 #endif

@@ -128,6 +128,7 @@
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
     <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
     <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
     <Compile Include="Input\ManipulationDirection.cs" />
     <Compile Include="Input\MouseButtonEventArgs.cs" />

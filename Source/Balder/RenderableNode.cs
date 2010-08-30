@@ -28,7 +28,7 @@ using Balder.Silverlight.TypeConverters;
 
 namespace Balder
 {
-	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor
+	public abstract class RenderableNode : HierarchicalNode, ICanBeVisible, ICanRender, IHaveColor, ICanBeIntersected
 	{
 		protected RenderableNode()
 		{
@@ -74,6 +74,27 @@ namespace Balder
 
 		public virtual float? Intersects(Ray pickRay)
 		{
+			var distance = pickRay.Intersects(BoundingSphere);
+			if( null == distance &&
+				BoundingSphere.Radius <= 0 )
+			{
+				float? closestDistance = null;
+				foreach( var child in Children )
+				{
+					if( child is ICanBeIntersected )
+					{
+						distance = ((ICanBeIntersected) child).Intersects(pickRay);
+						if( distance < closestDistance )
+						{
+							closestDistance = distance;
+						}
+					}
+					
+				}
+
+				return closestDistance;
+			}
+
 			return null;
 		}
 	}

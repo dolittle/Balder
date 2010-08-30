@@ -43,6 +43,8 @@ namespace Balder.Objects.Geometries
 
 		private bool _materialSet = false;
 		private bool _boundingSphereGenerated = false;
+		private BoundingSphere _boundingSphere;
+
 
 		public event FaceInputHandler FaceMouseMove = (a) => { };
 		public event FaceInputHandler FaceMouseEnter = (a) => { };
@@ -77,6 +79,22 @@ namespace Balder.Objects.Geometries
 		private void InitializeProperties()
 		{
 			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
+		}
+
+		public override BoundingSphere BoundingSphere
+		{
+			get
+			{
+				// Todo : this really doesn't work in all scenarios - generated meshes and so forth will only hit this once.
+				// Read above comment - BoundingSphere generation should be put somewhere else
+				if (!_boundingSphereGenerated)
+				{
+					InitializeBoundingSphere();
+					_boundingSphereGenerated = true;
+				}
+				return _boundingSphere;
+			}
+			set { _boundingSphere = value; }
 		}
 
 		// TODO : Add boundingsphere automatically somewhere else..
@@ -121,7 +139,7 @@ namespace Balder.Objects.Geometries
 			var length = highestVector - lowestVector;
 			var center = lowestVector + (length / 2);
 
-			BoundingSphere = new BoundingSphere(center, length.Length / 2);
+			_boundingSphere = new BoundingSphere(center, length.Length / 2);
 		}
 		
 
@@ -137,13 +155,6 @@ namespace Balder.Objects.Geometries
 
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-			// Todo : this really doesn't work in all scenarios - generated meshes and so forth will only hit this once.
-			// Read above comment - BoundingSphere generation should be put somewhere else
-			if( !_boundingSphereGenerated )
-			{
-				InitializeBoundingSphere();
-				_boundingSphereGenerated = true;
-			}
 
 			if( null != Material && !_materialSet )
 			{
