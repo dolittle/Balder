@@ -53,9 +53,10 @@
 
 			<Slider x:Name="RotationSlider" Width="640" Minimum="-100" Maximum="100"  ValueChanged="RotationSlider_ValueChanged"/>
 			<StackPanel Orientation="Horizontal">
-				<Button Content="Generate Data" Click="Button_Click"/>
-				<Button Content="Add Data" Click="Button_Click_1"/>
-				<Button Content="Switch object" Click="Button_Click_2"/>
+				<Button Content="Generate Data" Click="GenerateDataClicked"/>
+				<Button Content="Clear Data" Click="ClearDataClicked"/>
+				<Button Content="Add Data" Click="AddDataClicked"/>
+				<Button Content="Switch object" Click="SwitchObjectClicked"/>
 			</StackPanel>
 		</StackPanel>
 

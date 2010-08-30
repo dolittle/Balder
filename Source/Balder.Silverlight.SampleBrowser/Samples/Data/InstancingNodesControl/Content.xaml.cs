@@ -34,13 +34,13 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 
 		}
 
-		private void Button_Click(object sender, System.Windows.RoutedEventArgs e)
+		private void GenerateDataClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
 			((ViewModel)DataContext).GenerateData();
 		}
 
 		private static Random rnd = new Random();
-		private void Button_Click_1(object sender, System.Windows.RoutedEventArgs e)
+		private void AddDataClicked(object sender, System.Windows.RoutedEventArgs e)
 		{
 			var viewModel = (ViewModel) DataContext;
 
@@ -52,7 +52,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 
 		}
 
-		private void Button_Click_2(object sender, RoutedEventArgs e)
+		private void SwitchObjectClicked(object sender, RoutedEventArgs e)
 		{
 			var viewModel = (ViewModel)DataContext;
 
@@ -70,6 +70,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 				
 			}
 			
+		}
+
+		private void ClearDataClicked(object sender, RoutedEventArgs e)
+		{
+			((ViewModel) DataContext).Clear();
 		}
 	}
 }

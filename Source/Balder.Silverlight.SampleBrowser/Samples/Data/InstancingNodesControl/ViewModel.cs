@@ -53,6 +53,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 			}
 
 		}
+
+
+		public void Clear()
+		{
+			Depths = null;
+		}
 			
 			
 
