@@ -15,7 +15,8 @@
 						 BottomRadius="5" 
 						 Size="4" 
 						 Segments="6" 
+						 
 						 IsVisible="False"
 						 />
-
+	
 </Balder:RenderableNode>

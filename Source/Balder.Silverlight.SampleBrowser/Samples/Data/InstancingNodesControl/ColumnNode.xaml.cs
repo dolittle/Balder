@@ -30,6 +30,7 @@
 			Position = column.Position;
 			Box.IsVisible = column.IsBox;
 			Cylinder.IsVisible = column.IsCylinder;
+			
 			Color = column.Color;
 		}
 	}

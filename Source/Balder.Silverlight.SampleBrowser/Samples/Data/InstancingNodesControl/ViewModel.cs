@@ -20,10 +20,12 @@
 #endregion
 
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using Balder.Extensions.Silverlight;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
-	public class ViewModel
+	public class ViewModel : INotifyPropertyChanged
 	{
 		public const int RowCount = 10;
 		public const int ColumnCount = 10;
@@ -33,17 +35,20 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 		public const double ColumnSpace = 12;
 		public const double DepthSpace = 12;
 
-		public ViewModel()
+		private ObservableCollection<Depth> _depths;
+		public ObservableCollection<Depth> Depths
 		{
-			Depths = new ObservableCollection<Depth>();
-
-			//GenerateData();
+			get { return _depths; }
+			private set
+			{
+				_depths = value;
+				PropertyChanged.Notify(() => Depths);
+			}
 		}
-
-		public ObservableCollection<Depth> Depths { get; private set; }
 
 		public void GenerateData()
 		{
+			Depths = new ObservableCollection<Depth>();
 			var position = -(DepthSpace * (DepthCount / 2d));
 			for (var depthIndex = 0; depthIndex < DepthCount; depthIndex++)
 			{
@@ -59,8 +64,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 		{
 			Depths = null;
 		}
-			
-			
 
+
+		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
 	}
 }
