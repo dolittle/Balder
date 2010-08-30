@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
-	xmlns:MVVM="clr-namespace:Balder.MVVM;assembly=Balder">
+	xmlns:MVVM="clr-namespace:Balder.MVVM;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
 	<UserControl.DataContext>
 		<local:ViewModel/>
 	</UserControl.DataContext>
@@ -34,17 +34,29 @@
 					</DataTemplate>
 				</Controls:NodesControl.NodeTemplate>
 			</Controls:NodesControl>
+			
+			<Lighting:OmniLight/>
 
 			<local:MyGame.Camera>
-				<View:Camera Position="0,250,-1000"/>
+				<View:Camera Position="0,250,-500"/>
 			</local:MyGame.Camera>
 		</local:MyGame>
 
-		<Button Content="Switch DataSource" 
-				MVVM:CommandService.Command="{Binding SwitchCommand}" 
+		<StackPanel>
+			<Button Content="Switch DataSource" 
+				Command="{Binding SwitchCommand}"
 				HorizontalAlignment="Left"
 				VerticalAlignment="Top"
 				Width="100" 
 				Height="30"/>
+
+			<Button Content="Clear DataSource" 
+				Command="{Binding ClearCommand}"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Top"
+				Width="100" 
+				Height="30"/>
+		</StackPanel>
+		
 	</Grid>
 </UserControl>

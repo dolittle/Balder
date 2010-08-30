@@ -115,6 +115,7 @@ namespace Balder.Controls
 		{
 			_childCount = 0;
 			_expectedCount = -1;
+			_contentPresenters.Clear();
 			Children.Clear();
 
 			if( null != ItemsSource && ItemsSource is ICollection )

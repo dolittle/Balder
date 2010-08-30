@@ -21,6 +21,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 			Objects = ManyObjects;
 
 			SwitchCommand = DelegateCommand.Create(Switch);
+			ClearCommand = DelegateCommand.Create(Clear);
 		}
 
 		private void Populate(ObservableCollection<BusinessObject> destination, int xCount, int zCount)
@@ -79,7 +80,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.NodesControl
 			{
 				Objects = ManyObjects;
 			}
-			
+		}
+
+		public ICommand ClearCommand { get; private set; }
+		public void Clear()
+		{
+			Objects = null;
 		}
 	}
 }
