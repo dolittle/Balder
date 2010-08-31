@@ -48,7 +48,8 @@
 				<View:Camera Position="0,60,-200" Target="0,20,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:OmniLight Position="0,40,-100" Diffuse="Blue"/>
+			<Lighting:DirectionalLight Direction="0,1,-1" Strength="0.5"/>
+			<Lighting:DirectionalLight Direction="0,-1,1" Strength="0.5"/>
 
 			<Geometries:Mesh x:Name="Hello" 
 							 AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/GettingStarted/HelloWorld/Assets/Hello.ASE"
