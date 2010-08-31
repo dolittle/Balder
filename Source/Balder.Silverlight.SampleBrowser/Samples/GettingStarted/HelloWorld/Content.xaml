@@ -45,7 +45,7 @@
 		</Grid.Triggers>
 		<Execution:Game Width="800" Height="600">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,60,-200" Target="0,20,0"/>
+				<View:Camera Position="0,60,-100" Target="0,20,0"/>
 			</Execution:Game.Camera>
 
 			<Lighting:DirectionalLight Direction="0,1,-1" Strength="0.5"/>
