@@ -19,7 +19,7 @@
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
 						<Animation:StoryboardExtensions.CoordinateAnimation>
-							<Animation:CoordinateAnimation TargetName="World" TargetProperty="(Node.Rotation)" From="0,0,0" To="0,359,0" Duration="00:00:05"/>
+							<Animation:CoordinateAnimation TargetName="World" TargetProperty="(Node.Rotation)" From="0,0,0" To="0,359,0" Duration="00:00:10"/>
 						</Animation:StoryboardExtensions.CoordinateAnimation>
 
 						<DoubleAnimationUsingKeyFrames Storyboard.TargetName="Hello" Storyboard.TargetProperty="(Node.Rotation).(Y)">
@@ -28,12 +28,12 @@
 									<ElasticEase/>
 								</EasingDoubleKeyFrame.EasingFunction>
 							</EasingDoubleKeyFrame>
-							<EasingDoubleKeyFrame KeyTime="00:00:02" Value="45">
+							<EasingDoubleKeyFrame KeyTime="00:00:05" Value="45">
 								<EasingDoubleKeyFrame.EasingFunction>
 									<ElasticEase/>
 								</EasingDoubleKeyFrame.EasingFunction>
 							</EasingDoubleKeyFrame>
-							<EasingDoubleKeyFrame KeyTime="00:00:05" Value="-46">
+							<EasingDoubleKeyFrame KeyTime="00:00:10" Value="-46">
 								<EasingDoubleKeyFrame.EasingFunction>
 									<ElasticEase/>
 								</EasingDoubleKeyFrame.EasingFunction>
@@ -44,12 +44,15 @@
 			</EventTrigger>
 		</Grid.Triggers>
 		<Execution:Game Width="800" Height="600">
+			<Execution:Game.Effect>
+				<DropShadowEffect Color="LightBlue" BlurRadius="100" Direction="0" ShadowDepth="0" Opacity="0.5"/>
+			</Execution:Game.Effect>
 			<Execution:Game.Camera>
-				<View:Camera Position="0,60,-100" Target="0,20,0"/>
+				<View:Camera Position="0,60,-140" Target="0,20,0"/>
 			</Execution:Game.Camera>
 
-			<Lighting:DirectionalLight Direction="0,1,-1" Strength="0.5"/>
-			<Lighting:DirectionalLight Direction="0,-1,1" Strength="0.5"/>
+			<Lighting:DirectionalLight Direction="0,0,-1" Strength="0.2" Specular="Blue"/>
+			<Lighting:DirectionalLight Direction="1,0,1" Strength="0.7" Specular="White"/>
 
 			<Geometries:Mesh x:Name="Hello" 
 							 AssetName="/Balder.Silverlight.SampleBrowser;component/Samples/GettingStarted/HelloWorld/Assets/Hello.ASE"

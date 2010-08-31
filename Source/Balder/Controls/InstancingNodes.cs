@@ -21,7 +21,6 @@
 #if(SILVERLIGHT)
 using System;
 using System.Collections;
-using System.Collections.Specialized;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
