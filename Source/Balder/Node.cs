@@ -53,11 +53,10 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
-		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
-
+ INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
 	{
 #if(SILVERLIGHT)
-		public event PropertyChangedEventHandler  PropertyChanged;
+		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
@@ -99,7 +98,7 @@ namespace Balder
 		public event BubbledEventHandler ContentPrepared = (s, e) => { };
 		public event ManipulationDeltaEventHandler ManipulationStarted = (s, e) => { };
 		public event BubbledEventHandler ManipulationStopped = (s, e) => { };
-		public event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { }; 
+		public event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { };
 
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
@@ -127,8 +126,8 @@ namespace Balder
 			if (InteractionEnabled)
 			{
 				var world = World;
-				var rotation = Matrix.CreateRotation((float) -args.DeltaY, (float) -args.DeltaX, 0);
-				World = world*rotation;
+				var rotation = Matrix.CreateRotation((float)-args.DeltaY, (float)-args.DeltaX, 0);
+				World = world * rotation;
 			}
 		}
 
@@ -275,7 +274,9 @@ namespace Balder
 			InvalidateWorld();
 		}
 
-		public virtual BoundingSphere BoundingSphere { get; set; }
+		public BoundingSphere BoundingSphere { get; set; }
+		public BoundingSphere ActualBoundingSphere { get; protected set; }
+
 		private Scene _scene;
 		public Scene Scene
 		{
@@ -289,9 +290,9 @@ namespace Balder
 
 		protected virtual void OnSceneSet(Scene scene)
 		{
-			if( this is IHaveChildren )
+			if (this is IHaveChildren)
 			{
-				foreach( var child in ((IHaveChildren)this).Children )
+				foreach (var child in ((IHaveChildren)this).Children)
 				{
 					child.Scene = scene;
 				}
@@ -440,7 +441,7 @@ namespace Balder
 
 		protected void SignalRendering()
 		{
-			if( null != Scene )
+			if (null != Scene)
 			{
 				Scene.RuntimeContext.SignalRendering();
 			}
@@ -452,21 +453,29 @@ namespace Balder
 		public INode Parent { get; internal set; }
 #endif
 
-		public Matrix ActualWorld { get; set; }
-		public Matrix RenderingWorld { get; set; }
+		public Matrix ActualWorld { get; internal set; }
 
-		public void PrepareActualWorld()
+
+		private Matrix _renderingWorld;
+		public Matrix RenderingWorld
+		{
+			get { return _renderingWorld; }
+			set
+			{
+				_renderingWorld = value;
+				ActualBoundingSphere = BoundingSphere.Transform(value);
+			}
+		}
+
+		// TODO: this method should be split up and renamed!
+		internal void PrepareActualWorld()
 		{
 			var isWorldIdentity = World.IsIdentity;
-
+			var matrix = Matrix.Identity;
 			if (!_isWorldInvalidated && isWorldIdentity)
 			{
 				return;
 			}
-
-			var matrix = Matrix.Identity;
-
-
 			if (_isForcePrepareMatrices || PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f)
 			{
 				var negativePivot = PivotPoint.ToVector().Negative();
@@ -536,6 +545,11 @@ namespace Balder
 
 		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
 
+		public virtual void PrepareBoundingSphere()
+		{
+
+		}
+
 		public virtual void Prepare(Viewport viewport)
 		{
 			OnPrepared();
@@ -594,23 +608,28 @@ namespace Balder
 			_isPrepared = true;
 			Prepare(viewport);
 		}
+
+		internal void OnPrepareBoundingSphere()
+		{
+			PrepareBoundingSphere();
+		}
 		#endregion
 
 		public IRuntimeContext RuntimeContext
 		{
 			get
 			{
-				if( null != Scene )
+				if (null != Scene)
 				{
 					return Scene.RuntimeContext;
-				} 
-#if(SILVERLIGHT)				
+				}
+#if(SILVERLIGHT)
 				else
 				{
 					var parent = VisualTreeHelper.GetParent(this);
-					if( parent is IHaveRuntimeContext )
+					if (parent is IHaveRuntimeContext)
 					{
-						return ((IHaveRuntimeContext) parent).RuntimeContext;
+						return ((IHaveRuntimeContext)parent).RuntimeContext;
 					}
 				}
 #endif

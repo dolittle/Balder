@@ -142,7 +142,7 @@ namespace Balder.Input.Silverlight
 				var faceU = 0f;
 				var faceV = 0f;
 
-				var distance = geometry.Intersects(pickRay, out face, out faceIndex, out faceU, out faceV);
+				var distance = geometry.Intersects(_viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
 				if (null != face)
 				{
 					var material = face.Material;

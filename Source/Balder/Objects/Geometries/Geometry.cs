@@ -81,24 +81,7 @@ namespace Balder.Objects.Geometries
 			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 
-		public override BoundingSphere BoundingSphere
-		{
-			get
-			{
-				// Todo : this really doesn't work in all scenarios - generated meshes and so forth will only hit this once.
-				// Read above comment - BoundingSphere generation should be put somewhere else
-				if (!_boundingSphereGenerated)
-				{
-					InitializeBoundingSphere();
-					_boundingSphereGenerated = true;
-				}
-				return _boundingSphere;
-			}
-			set { _boundingSphere = value; }
-		}
-
-		// TODO : Add boundingsphere automatically somewhere else..
-		public void InitializeBoundingSphere()
+		public override void PrepareBoundingSphere()
 		{
 			var lowestVector = Vector.Zero;
 			var highestVector = Vector.Zero;
@@ -139,10 +122,9 @@ namespace Balder.Objects.Geometries
 			var length = highestVector - lowestVector;
 			var center = lowestVector + (length / 2);
 
-			_boundingSphere = new BoundingSphere(center, length.Length / 2);
+			BoundingSphere = new BoundingSphere(center, length.Length / 2);
+			base.PrepareBoundingSphere();
 		}
-		
-
 
 		public override void Prepare(Viewport viewport)
 		{
@@ -215,19 +197,19 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
-		public override float? Intersects(Ray pickRay)
+		public override float? Intersects(Viewport viewport, Ray pickRay)
 		{
 			Face face;
 			int faceIndex;
 			float faceU;
 			float faceV;
 
-			var distance = Intersects(pickRay, out face, out faceIndex, out faceU, out faceV);
+			var distance = Intersects(viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
 			return distance;
 		}
 
 
-		public float? Intersects(Ray pickRay, out Face face, out int faceIndex, out float faceU, out float faceV)
+		public float? Intersects(Viewport viewport, Ray pickRay, out Face face, out int faceIndex, out float faceU, out float faceV)
 		{
 
 			face = null;

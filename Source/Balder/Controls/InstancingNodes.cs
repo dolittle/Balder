@@ -45,7 +45,7 @@ namespace Balder.Controls
 
 		private readonly INodeRenderingService _nodeRenderingService;
 		private DataItemInfo[] _dataItemInfos;
-		private bool _boundingSpheresGenerated;
+		private bool _boundingSpheresPrepared;
 
 
 		public InstancingNodes()
@@ -57,6 +57,7 @@ namespace Balder.Controls
 		public InstancingNodes(INodeRenderingService nodeRenderingService)
 		{
 			_nodeRenderingService = nodeRenderingService;
+			_boundingSpheresPrepared = false;
 		}
 
 
@@ -70,7 +71,7 @@ namespace Balder.Controls
 			{
 				DataProperty.SetValue(this, value);
 				PrepareDataItemInfos(value);
-				_boundingSpheresGenerated = false;
+				_boundingSpheresPrepared = false;
 			}
 		}
 
@@ -83,6 +84,8 @@ namespace Balder.Controls
 			{
 				base.ItemTemplate = value;
 				LoadTemplate();
+				_boundingSpheresPrepared = false;
+
 			}
 		}
 
@@ -151,9 +154,14 @@ namespace Balder.Controls
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
 					_actualNodeTemplate.DataItem = _dataItemInfos[index].DataItem;
-					_actualNodeTemplate.ActualWorld = _actualNodeTemplate.RenderingWorld = GetRenderingWorld(_dataItemInfos[index], _actualNodeTemplate);
+					_actualNodeTemplate.ActualWorld = GetRenderingWorld(_dataItemInfos[index], _actualNodeTemplate);
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
 					_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
+				}
+
+				if( !_boundingSpheresPrepared )
+				{
+					PrepareMergedBoundingSphere();
 				}
 			}
 
@@ -187,30 +195,28 @@ namespace Balder.Controls
 			info.Matrix = template.ActualWorld;
 		}
 
-		private void GenerateBoundingSpheres()
+
+		private void PrepareMergedBoundingSphere()
 		{
 			if( null == _actualNodeTemplate || null == _dataItemInfos)
 			{
 				return;
 			}
+			_actualNodeTemplate.PrepareBoundingSphere();
 			for (var index = 0; index < _dataItemInfos.Length; index++)
 			{
-				var info = _dataItemInfos[index];
-				info.BoundingSphere = _actualNodeTemplate.BoundingSphere.Transform(info.Matrix);
-				BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, info.BoundingSphere);
+				var boundingSphere = _actualNodeTemplate.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
+				BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
 			}
-			_boundingSpheresGenerated = true;
+			_boundingSpheresPrepared = true;
+
+			ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
 		}
 
 
-		public override float? Intersects(Ray pickRay)
+		public override float? Intersects(Viewport viewport, Ray pickRay)
 		{
-			if( !_boundingSpheresGenerated )
-			{
-				GenerateBoundingSpheres();
-			}
-
-			var distance = pickRay.Intersects(BoundingSphere);
+			var distance = pickRay.Intersects(ActualBoundingSphere);
 			if( null != distance )
 			{
 				float? closestDistance = null;
@@ -218,9 +224,10 @@ namespace Balder.Controls
 
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
-					_actualNodeTemplate.ActualWorld = _actualNodeTemplate.RenderingWorld = _dataItemInfos[index].Matrix;
-					distance = _actualNodeTemplate.Intersects(pickRay);
-					if( distance < closestDistance )
+					_actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
+					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+					distance = _actualNodeTemplate.Intersects(viewport, pickRay);
+					if( null != distance && (distance < closestDistance || closestDistance == null) )
 					{
 						closestDistance = distance;
 						closestIndex = index;
@@ -234,7 +241,7 @@ namespace Balder.Controls
 			}
 
 
-			return base.Intersects(pickRay);
+			return null;
 		}
 	}
 }

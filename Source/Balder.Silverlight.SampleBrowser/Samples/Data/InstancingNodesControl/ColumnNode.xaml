@@ -9,6 +9,7 @@
 
 	<Geometries:Box x:Name="Box" Dimension="10,10,10" IsVisible="False"/>
 
+	<!--
 	<Geometries:Cylinder x:Name="Cylinder" 
 						 InteractionEnabled="True"
 						 TopRadius="5" 
@@ -17,6 +18,6 @@
 						 Segments="6" 
 						 
 						 IsVisible="False"
-						 />
+						 />-->
 	
 </Balder:RenderableNode>

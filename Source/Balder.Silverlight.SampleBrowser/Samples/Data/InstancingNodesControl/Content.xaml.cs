@@ -76,5 +76,12 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 		{
 			((ViewModel) DataContext).Clear();
 		}
+
+		private void Nodes_MouseEnter(object sender, MouseEventArgs args)
+		{
+			int i = 0;
+			i++;
+
+		}
 	}
 }

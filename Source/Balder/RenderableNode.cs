@@ -72,10 +72,10 @@ namespace Balder
 		}
 
 
-		public virtual float? Intersects(Ray pickRay)
+		public virtual float? Intersects(Viewport viewport, Ray pickRay)
 		{
-			var distance = pickRay.Intersects(BoundingSphere);
-			if( null == distance &&
+			var distance = pickRay.Intersects(ActualBoundingSphere);
+			if( null != distance ||
 				BoundingSphere.Radius <= 0 )
 			{
 				float? closestDistance = null;
@@ -83,13 +83,12 @@ namespace Balder
 				{
 					if( child is ICanBeIntersected )
 					{
-						distance = ((ICanBeIntersected) child).Intersects(pickRay);
-						if( distance < closestDistance )
+						distance = ((ICanBeIntersected) child).Intersects(viewport, pickRay);
+						if (null != distance && (distance < closestDistance || closestDistance == null))
 						{
 							closestDistance = distance;
 						}
 					}
-					
 				}
 
 				return closestDistance;

@@ -258,7 +258,7 @@ namespace Balder.Display
 			{
 				var pickNode = node as RenderableNode;
 
-				var distance = pickNode.Intersects(pickRay);
+				var distance = pickNode.Intersects(this, pickRay);
 				if (null != distance && distance.Value < closestDistance)
 				{
 					closestDistance = distance.Value;

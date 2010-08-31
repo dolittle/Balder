@@ -25,7 +25,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.FacePicker
 			int faceIndex;
 			float faceU;
 			float faceV;
-			var distance = Box.Intersects(pickRay, out face, out faceIndex, out faceU, out faceV);
+			var distance = Box.Intersects(Game.Viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
 			if( null != distance )
 			{
 				Visualizer.FaceIndex = faceIndex;

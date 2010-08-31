@@ -140,6 +140,7 @@ namespace Balder.Rendering
 			}
 
 			PrepareChildren(viewport, node);
+			PrepareBoundingSphereForNode(node);
 		}
 
 		private void PrepareChildren(Viewport viewport, INode node)
@@ -150,6 +151,14 @@ namespace Balder.Rendering
 				{
 					PrepareNode(viewport, child);
 				}
+			}
+		}
+
+		private void PrepareBoundingSphereForNode(INode node)
+		{
+			if( node is Node )
+			{
+				((Node)node).OnPrepareBoundingSphere();
 			}
 		}
 

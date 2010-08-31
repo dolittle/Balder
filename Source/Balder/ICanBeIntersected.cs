@@ -16,12 +16,14 @@
 // limitations under the License.
 //
 #endregion
+
+using Balder.Display;
 using Balder.Math;
 
 namespace Balder
 {
 	public interface ICanBeIntersected
 	{
-		float? Intersects(Ray pickRay);
+		float? Intersects(Viewport viewport, Ray pickRay);
 	}
 }

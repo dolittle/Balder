@@ -18,7 +18,7 @@
 	<Grid x:Name="LayoutRoot">
 		<StackPanel Orientation="Vertical" >
 			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="False">
-				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}">
+				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}" MouseEnter="Nodes_MouseEnter">
 					<Controls:NodesControl.NodeTemplate>
 						<DataTemplate>
 							<Controls:NodesControl ItemsSource="{Binding Rows}">

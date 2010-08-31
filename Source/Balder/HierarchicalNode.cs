@@ -42,55 +42,41 @@ namespace Balder
 #if(SILVERLIGHT)
 			Children.CollectionChanged += ChildrenChanged;
 #endif
-			BoundingSphereGenerated = false;
 		}
 
 		public NodeCollection Children { get; private set; }
 
-		private BoundingSphere _boundingSphere;
-		private bool _boundingSphereGenerated;
-		private bool BoundingSphereGenerated
-		{
-			get { return _boundingSphereGenerated; }
-			set { _boundingSphereGenerated = value; }
-		}
 
-		public override BoundingSphere BoundingSphere
+		public override void PrepareBoundingSphere()
 		{
-			get
+			foreach( var child in Children )
 			{
-				if( !BoundingSphereGenerated )
-				{
-					BoundingSphereGenerated = true;
-					GenerateBoundingSphere(this,this);
-				}
-				return _boundingSphere;
-				
+				GenerateBoundingSphere(this, child);
 			}
-			set
-			{
-				_boundingSphere = value;
-				BoundingSphereGenerated = true;
-			}
+
+			base.PrepareBoundingSphere();
 		}
 
 
 		private static void GenerateBoundingSphere(INode root, INode current)
 		{
-			if( !root.Equals(current))
+			if (!root.Equals(current))
 			{
+				if( current is Node )
+				{
+					((Node)current).PrepareBoundingSphere();
+				}
 				root.BoundingSphere = BoundingSphere.CreateMerged(root.BoundingSphere, current.BoundingSphere);
 			}
 
-			if( current is IHaveChildren )
+			if (current is IHaveChildren)
 			{
-				foreach( var child in ((IHaveChildren)current).Children)
+				foreach (var child in ((IHaveChildren)current).Children)
 				{
 					GenerateBoundingSphere(root, child);
 				}
 			}
 		}
-
 
 #if(SILVERLIGHT)
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
