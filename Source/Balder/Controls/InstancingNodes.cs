@@ -24,13 +24,14 @@ using System.Collections;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Input;
 using Balder.Math;
 using Balder.Rendering;
 using Ninject;
 
 namespace Balder.Controls
 {
-	public class InstancingNodes : RenderableNode
+	public class InstancingNodes : RenderableNode, ICanGetNodeAtPosition
 	{
 		private class DataItemInfo
 		{
@@ -215,32 +216,41 @@ namespace Balder.Controls
 
 		public override float? Intersects(Viewport viewport, Ray pickRay)
 		{
-			var distance = pickRay.Intersects(ActualBoundingSphere);
-			if( null != distance )
-			{
-				float? closestDistance = null;
-				var closestIndex = 0;
+			RenderableNode node = null;
+			float? distance = null;
+			GetNodeAtPosition(viewport,pickRay, ref node, ref distance);
+			return distance;
+		}
 
+
+		public void GetNodeAtPosition(Viewport viewport, Ray pickRay, ref RenderableNode closestNode, ref float? closestDistance)
+		{
+			closestDistance = null;
+			closestNode = null;
+			var distance = pickRay.Intersects(ActualBoundingSphere);
+			if (null != distance)
+			{
+				var closestIndex = 0;
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
 					_actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
 					distance = _actualNodeTemplate.Intersects(viewport, pickRay);
-					if( null != distance && (distance < closestDistance || closestDistance == null) )
+					if (null != distance && (distance < closestDistance || closestDistance == null))
 					{
 						closestDistance = distance;
 						closestIndex = index;
 					}
 				}
 
-				if( null != closestDistance )
+				if (null != closestDistance)
 				{
-					return closestDistance;
+					_actualNodeTemplate.ActualWorld = _dataItemInfos[closestIndex].Matrix;
+					_actualNodeTemplate.Parent = this;
+					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+					closestNode = _actualNodeTemplate;
 				}
 			}
-
-
-			return null;
 		}
 	}
 }

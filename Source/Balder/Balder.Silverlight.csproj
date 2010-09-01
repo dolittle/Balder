@@ -107,6 +107,7 @@
     <Compile Include="Content\IContentCreator.cs" />
     <Compile Include="Content\Silverlight\FileLoader.cs" />
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
     <Compile Include="Controls\INodeModifier.cs" />
     <Compile Include="Controls\InstancingNodes.cs" />
     <Compile Include="Controls\NodesControl.cs" />

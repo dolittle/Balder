@@ -20,7 +20,7 @@
 
 using Balder.Debug;
 using Balder.Execution;
-
+using Balder.Input;
 using Balder.Math;
 using Balder.Objects;
 using Balder.Rendering;
@@ -253,26 +253,40 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
-			
-			if (node is RenderableNode)
+			if (node is ICanGetNodeAtPosition)
 			{
-				var pickNode = node as RenderableNode;
-
-				var distance = pickNode.Intersects(this, pickRay);
+				float? distance = null;
+				RenderableNode nodeAtPosition = null;
+				((ICanGetNodeAtPosition)node).GetNodeAtPosition(this, pickRay, ref nodeAtPosition, ref distance);
 				if (null != distance && distance.Value < closestDistance)
 				{
+					closestNode = nodeAtPosition;
 					closestDistance = distance.Value;
-					closestNode = pickNode;
 				}
 			}
-
-			if( node is IHaveChildren )
+			else
 			{
-				var childrenNode = node as IHaveChildren;
-				
-				foreach( var child in childrenNode.Children )
+
+				if (node is RenderableNode)
 				{
-					GetNodeAtPosition(child, pickRay, ref closestNode, ref closestDistance);
+					var pickNode = node as RenderableNode;
+
+					var distance = pickNode.Intersects(this, pickRay);
+					if (null != distance && distance.Value < closestDistance)
+					{
+						closestDistance = distance.Value;
+						closestNode = pickNode;
+					}
+				}
+
+				if (node is IHaveChildren)
+				{
+					var childrenNode = node as IHaveChildren;
+
+					foreach (var child in childrenNode.Children)
+					{
+						GetNodeAtPosition(child, pickRay, ref closestNode, ref closestDistance);
+					}
 				}
 			}
 		}
