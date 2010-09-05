@@ -41,6 +41,8 @@ namespace Balder.Silverlight.TypeConverters
 		{
 			var stringValue = value as string;
 			var trimmedStringValue = stringValue.Replace(" ", string.Empty);
+			trimmedStringValue = trimmedStringValue.Replace("(", string.Empty);
+			trimmedStringValue = trimmedStringValue.Replace(")", string.Empty);
 			var values = trimmedStringValue.Split(',');
 			if (values.Length != 3)
 			{
