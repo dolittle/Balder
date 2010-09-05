@@ -9,10 +9,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 {
 	public delegate void CubeBoxGroupSnappedEventHandler(CubeBoxGroup group, bool clockWize, int rotationCount);
 
+	/// <summary>
+	/// Represents a group of CubeBoxes used in the Rubiks Cube that can be rotated
+	/// </summary>
 	public class CubeBoxGroup
 	{
+		/// <summary>
+		/// Gets called when the group gets snapped to its nearest snappable location
+		/// </summary>
 		public event CubeBoxGroupSnappedEventHandler Snapped = (g, a, c) => { };
 
+		// Holds all the possible sides and which direction the side is pointing
 		private static readonly Dictionary<BoxSide, Vector> SideNormals = new Dictionary<BoxSide, Vector>
 		                                                                  	{
 		                                                                  		{BoxSide.Top, Vector.Up},
@@ -24,6 +31,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 																				{BoxSide.None, Vector.Zero}
 		                                                                  	};
 
+		
 		private double _angle;
 		private readonly List<BoxSide> _sideDefinitions;
 		private readonly List<CubeBox> _sideBoxes;
@@ -32,6 +40,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 
 		public CubeBoxGroup(BoxSide side)
 		{
+			// Initialize variables
 			Side = side;
 			Boxes = new List<CubeBox>();
 			_sideDefinitions = new List<BoxSide>();
@@ -39,10 +48,22 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			_normals = new Dictionary<BoxSide, Vector>();
 		}
 
+		/// <summary>
+		/// Get all the boxes associated with the group
+		/// </summary>
 		public List<CubeBox> Boxes { get; private set; }
+
+
+		/// <summary>
+		/// Get the side in the Cube the group represents
+		/// </summary>
 		public BoxSide Side { get; private set; }
 
 
+		/// <summary>
+		/// Get possible manipulation directions for the group
+		/// </summary>
+		/// <returns>Array of normalized directions</returns>
 		public Vector[] GetManipulationNormals()
 		{
 			var keys = (from k in _normals.Keys
@@ -59,6 +80,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			return normals.ToArray();
 		}
 
+		/// <summary>
+		/// 
+		/// </summary>
+		/// <param name="cubeBox"></param>
+		/// <param name="direction"></param>
+		/// <param name="faceNormal"></param>
+		/// <param name="viewMatrix"></param>
+		/// <returns></returns>
 		public float GetNearestDistanceForBoxManipulatedInGroup(CubeBox cubeBox, Vector direction, Vector faceNormal, Matrix viewMatrix)
 		{
 			var faceSide = GetSideFromNormal(faceNormal);
@@ -362,7 +391,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			}
 		}
 
-
+		#region Rotation Animation
 		private const int RotationFrames = 10;
 		private int _framesToRate;
 		private double _anglesPerFrame;
@@ -430,5 +459,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 				RotateColorsCounterClockWize(times);
 			}
 		}
+		#endregion
 	}
 }
