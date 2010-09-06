@@ -164,12 +164,14 @@
     <Compile Include="Extensions\Silverlight\VisualTreeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="HierarchicalNode.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
     <Compile Include="Imaging\IImageContext.cs" />
     <Compile Include="Imaging\Image.cs" />
     <Compile Include="Imaging\ImageFormat.cs" />
     <Compile Include="Imaging\ImageHelper.cs" />
     <Compile Include="Imaging\ImagePalette.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
     <Compile Include="Input\IMouseDevice.cs" />
     <Compile Include="Input\IMouseManager.cs" />
     <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
