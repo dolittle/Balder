@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Balder.Silverlight.Design.Controls.Properties {
+namespace Balder.Design.Controls.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]

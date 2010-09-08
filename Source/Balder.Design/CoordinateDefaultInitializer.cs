@@ -1,8 +1,8 @@
 ﻿using Microsoft.Windows.Design.Model;
 
-namespace Balder.Silverlight.Design
+namespace Balder.Design
 {
-	public class VectorDefaultInitializer : DefaultInitializer
+	public class CoordinateDefaultInitializer : DefaultInitializer
 	{
 		public override void InitializeDefaults(ModelItem item)
 		{
