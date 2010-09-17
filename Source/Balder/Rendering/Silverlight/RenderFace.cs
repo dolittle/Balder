@@ -20,6 +20,7 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
+using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -28,6 +29,8 @@ namespace Balder.Rendering.Silverlight
 	public class RenderFace : Face
 	{
 		public static readonly float DebugNormalLength = 5f;
+
+		public Material Material;
 
 		public UInt16 Index;
 
@@ -102,7 +105,7 @@ namespace Balder.Rendering.Silverlight
 		public RenderFace(Face face)
 			: this(face.A, face.B, face.C)
 		{
-			Material = face.Material;
+			//Material = face.Material;
 			ColorA = face.ColorA;
 			ColorB = face.ColorB;
 			ColorC = face.ColorC;

@@ -23,7 +23,7 @@ namespace Balder.Objects.Geometries
 {
 	public class Face
 	{
-		public Material Material;
+		//public Material Material;
 		public Color ColorA;
 		public Color ColorB;
 		public Color ColorC;
@@ -45,6 +45,8 @@ namespace Balder.Objects.Geometries
 		public int NormalC;
 
 		public int Opacity;
+
+		public int MaterialId;
 
 		public Face(int a, int b, int c)
 		{

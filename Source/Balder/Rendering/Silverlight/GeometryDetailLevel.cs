@@ -65,6 +65,7 @@ namespace Balder.Rendering.Silverlight
 		public void SetFace(int index, Face face)
 		{
 			var renderFace = new RenderFace(face) { Index = (UInt16)index };
+			renderFace.MaterialId = face.MaterialId;
 
 			var aVector = _vertices[renderFace.A].ToVector();
 			var bVector = _vertices[renderFace.A].ToVector();
@@ -83,24 +84,6 @@ namespace Balder.Rendering.Silverlight
 			_faces[index] = renderFace;
 		}
 
-
-		public void SetMaterial(int index, Material material)
-		{
-			_faces[index].Material = material;
-		}
-
-		public void SetMaterialForAllFaces(Material material)
-		{
-			if (null == _faces)
-			{
-				return;
-			}
-
-			for (var index = 0; index < _faces.Length; index++)
-			{
-				_faces[index].Material = material;
-			}
-		}
 
 		public Face[] GetFaces()
 		{
@@ -385,7 +368,6 @@ namespace Balder.Rendering.Silverlight
 
 		private RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
 		{
-			
 			if (null == _normals || null == _vertices)
 			{
 				return NullNormal;
@@ -396,7 +378,6 @@ namespace Balder.Rendering.Silverlight
 
 			if (!normal.IsColorCalculated)
 			{
-
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
 				normal.CalculatedColorAsInt =
 					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed,
@@ -429,19 +410,19 @@ namespace Balder.Rendering.Silverlight
 						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
 						face.CalculatedColorA = face.ColorA * normal.CalculatedColor;
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
-						face.DiffuseColorA = normal.DiffuseColor;
+						face.DiffuseColorA = face.ColorA * normal.DiffuseColor;
 						face.SpecularColorA = normal.SpecularColor;
 
 						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
 						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
-						face.DiffuseColorB = normal.DiffuseColor;
+						face.DiffuseColorB = face.ColorB * normal.DiffuseColor;
 						face.SpecularColorB = normal.SpecularColor;
 
 						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
 						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
-						face.DiffuseColorC = normal.DiffuseColor;
+						face.DiffuseColorC = face.ColorC * normal.DiffuseColor;
 						face.SpecularColorC = normal.SpecularColor;
 					}
 					break;
@@ -511,10 +492,16 @@ namespace Balder.Rendering.Silverlight
 
 			var faceCount = 0;
 			var localView = (world * view);
+
+			// Todo : Introduce IHaveMaterial or something... Bad assumption
+			var nodeMaterial = ((Geometry) node).Material;
+
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
 
+				var material = GetMaterialForFace(face, node, nodeMaterial);
+				face.Material = material;
 				bool visible = IsFaceVisible(face, viewport);
 				if (!visible)
 				{
@@ -531,7 +518,7 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1TextureCoordinateC = _textureCoordinates[face.DiffuseC];
 				}
 
-				var material = PrepareMaterialForFace(face, node);
+				
 				face.Opacity = material.CachedOpacityAsInt;
 				face.MaterialDiffuseAsInt = material.DiffuseAsInt;
 
@@ -574,22 +561,34 @@ namespace Balder.Rendering.Silverlight
 		
 		}
 
-		private Material PrepareMaterialForFace(RenderFace face, INode node)
+		private Material GetActualMaterialFromFace(Material material, RenderFace face)
 		{
-			Material material = face.Material;
-			if (null == material)
+			if( null != material &&
+				material.SubMaterials.Count >= face.MaterialId &&
+				material.SubMaterials.Count != 0 )
+			{
+				material = material.SubMaterials[face.MaterialId];
+			}
+			return material;
+		}
+
+		private Material GetMaterialForFace(RenderFace face, INode node, Material material)
+		{
+			var actualMaterial = GetActualMaterialFromFace(material, face);
+
+			if (null == actualMaterial)
 			{
 				if (node is IHaveColor)
 				{
-					material = _colorMaterial;
-					material.Diffuse = ((IHaveColor)node).Color;
+					actualMaterial = _colorMaterial;
+					actualMaterial.Diffuse = ((IHaveColor)node).Color;
 				}
 				else
 				{
-					material = Material.Default;
+					actualMaterial = Material.Default;
 				}
 			}
-			return material;
+			return actualMaterial;
 		}
 
 		private bool IsFaceVisible(RenderFace face, Viewport viewport)

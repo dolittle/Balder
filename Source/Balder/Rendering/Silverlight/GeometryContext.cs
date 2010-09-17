@@ -40,14 +40,6 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		public void SetMaterialForAllFaces(Material material)
-		{
-			foreach (var detailLevel in _detailLevels.Values)
-			{
-				detailLevel.SetMaterialForAllFaces(material);
-			}
-		}
-
 		public void GenerateDetailLevel(DetailLevel targetLevel, DetailLevel sourceLevel)
 		{
 			if( targetLevel == DetailLevel.BoundingBox )

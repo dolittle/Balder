@@ -75,5 +75,11 @@ namespace City
 			Camera.Position = position;
 			Camera.Target = position + rotatedForward;
 		}
+
+		private void City_MouseMove(object sender, Balder.Input.MouseEventArgs args)
+		{
+			MouseOverNodeTextBlock.Text = args.OriginalSource.Name;
+
+		}
 	}
 }

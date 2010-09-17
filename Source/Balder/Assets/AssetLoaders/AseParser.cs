@@ -119,10 +119,21 @@ namespace Balder.Assets.AssetLoaders
 		                                                                                     		{MATERIAL_LIST, MaterialListScopeHandler},
 		                                                                                     		{MATERIAL, MaterialScopeHandler},
 																									{SUBMATERIAL, MaterialScopeHandler},
+																									{MATERIAL_NAME, MaterialScopeHandler},
 		                                                                                     		{MAP_DIFFUSE, DiffuseScopeHandler}
 		                                                                                     	};
 
 
+		private static bool IsScopeStart(string line)
+		{
+			return line.EndsWith("{");
+		}
+
+
+		private static bool IsScopeEnd(string line)
+		{
+			return line.EndsWith("}");
+		}
 
 		public static Geometry[] Parse(string assetName, List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
@@ -149,7 +160,7 @@ namespace Balder.Assets.AssetLoaders
 
 				if (trimmedLine.StartsWith("*"))
 				{
-					if (trimmedLine.Contains("{"))
+					if (IsScopeStart(trimmedLine))
 					{
 						var startIndex = trimmedLine.IndexOf("*") + 1;
 						var endIndex = trimmedLine.IndexOf("{");
@@ -182,7 +193,7 @@ namespace Balder.Assets.AssetLoaders
 						HandleScopeProperty(globals, trimmedLine, currentScope, currentScopeObject);
 					}
 				}
-				if (trimmedLine.Contains("}"))
+				if (IsScopeEnd(trimmedLine))
 				{
 					HandleEndScope(globals, currentScope, currentScopeObject);
 					scopeStack.Pop();
@@ -276,26 +287,16 @@ namespace Balder.Assets.AssetLoaders
 						material.Shade = MaterialShade.Gouraud;
 						material.Specular = Colors.White;
 
-						if (scope == SUBMATERIAL)
+						if (scope == SUBMATERIAL && null != globals.CurrentParentMaterial)
 						{
-							Dictionary<int, Material> subMaterials;
-							if (!globals.SubMaterials.ContainsKey(globals.CurrentMaterial))
-							{
-								subMaterials = new Dictionary<int, Material>();
-							}
-							else
-							{
-								subMaterials = globals.SubMaterials[globals.CurrentMaterial];
-							}
-							globals.SubMaterials[globals.CurrentMaterial] = subMaterials;
-							subMaterials[materialIndex] = material;
-
+							globals.CurrentParentMaterial.SubMaterials.Add(material);
 						}
 						else
 						{
 							globals.Materials[materialIndex] = material;
-							globals.CurrentMaterial = material;
+							globals.CurrentParentMaterial = material;
 						}
+						globals.CurrentMaterial = material;
 
 						return material;
 					}
@@ -310,10 +311,16 @@ namespace Balder.Assets.AssetLoaders
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
 			{
+				case NODE_NAME:
+					{
+						geometry.Name = content;
+					}
+					break;
+
 				case MATERIAL_REF:
 					{
 						var materialRef = Convert.ToInt32(content);
-						globals.CurrentMaterialRef = materialRef;
+						geometry.Material = globals.Materials[materialRef];
 					}
 					break;
 				case TM_ROW0:
@@ -367,35 +374,14 @@ namespace Balder.Assets.AssetLoaders
 		private static void GeometryEndScopeHandler(AseGlobals globals, object scopeObject, string scopeName)
 		{
 			var geometry = scopeObject as Geometry;
-			var materialRef = globals.CurrentMaterialRef;
-			globals.CurrentMaterialRef = 0;
 
-			var subMaterialSet = false;
-			Material material = null;
 			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			geometryDetailLevel.AllocateFaces(globals.Faces.Length);
 
 			for (var faceIndex = 0; faceIndex < globals.Faces.Length; faceIndex++)
 			{
 				var face = globals.Faces[faceIndex];
-				if (null != globals.Materials && globals.Materials.ContainsKey(materialRef))
-				{
-					material = globals.Materials[materialRef];
-
-					if (globals.SubMaterials.ContainsKey(material))
-					{
-						if (globals.SubMaterials[material].ContainsKey(face.MaterialId))
-						{
-							face.Material = globals.SubMaterials[material][face.MaterialId];
-							subMaterialSet = true;
-						}
-					}
-				}
 				geometryDetailLevel.SetFace(faceIndex, face);
-			}
-			if (!subMaterialSet)
-			{
-				geometry.Material = material;
 			}
 		}
 
@@ -591,6 +577,19 @@ namespace Balder.Assets.AssetLoaders
 
 		private static void MaterialListScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
+			switch( propertyName)
+			{
+				case MATERIAL_COUNT:
+					{
+						int count;
+						if( int.TryParse(content,out count) )
+						{
+							globals.Materials = new Material[count];	
+						}
+					}
+					break;
+			}
+
 		}
 
 		private static void BeginMaterialScopeHandler(AseGlobals globals, object scopeobject, string scopename, string content)
@@ -606,10 +605,9 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (propertyName)
 			{
-				case MATERIAL:
+				case MATERIAL_NAME:
 					{
-						int i = 0;
-						i++;
+						globals.CurrentMaterial.Name = content.Trim();
 					}
 					break;
 			}

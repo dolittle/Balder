@@ -36,7 +36,7 @@ namespace Balder.Lighting
 
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal, out int diffuseResult, out int specularResult)
 		{
-			diffuseResult = 0;
+			diffuseResult = Color.AlphaFull | 0xffffff;
 			specularResult = 0;
 			if (null == _lights || _lights.Length == 0)
 			{
@@ -44,7 +44,7 @@ namespace Balder.Lighting
 			}
 
 			var color = 0; // _sceneAmbient;
-			var diffuse = 0;
+			var diffuse = Color.AlphaFull | 0xffffff;
 			var specular = 0;
 			var lightDiffuse = 0;
 			var lightSpecular = 0;

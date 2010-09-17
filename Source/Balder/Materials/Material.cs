@@ -97,10 +97,19 @@ namespace Balder.Materials
 			Wireframe = false;
 			Opacity = 1;
 			DoubleSided = false;
+
+			SubMaterials = new List<Material>();
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
 		}
+
+
+#if(!SILVERLIGHT)
+		public string Name { get; set; }
+#endif
+
+		public List<Material> SubMaterials { get; private set; }
 
 
 		public static readonly Property<Material, bool> SolidProperty =

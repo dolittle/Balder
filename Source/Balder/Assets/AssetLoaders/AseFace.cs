@@ -25,7 +25,5 @@ namespace Balder.Assets.AssetLoaders
 		public AseFace(int a, int b, int c) : base(a, b, c)
 		{
 		}
-
-		public int MaterialId;
 	}
 }

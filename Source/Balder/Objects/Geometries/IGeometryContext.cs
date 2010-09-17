@@ -18,14 +18,12 @@
 #endregion
 
 using Balder.Display;
-using Balder.Materials;
 using Balder.Rendering;
 
 namespace Balder.Objects.Geometries
 {
 	public interface IGeometryContext
 	{
-		void SetMaterialForAllFaces(Material material);
 		void GenerateDetailLevel(DetailLevel targetLevel, DetailLevel sourceLevel);
 		IGeometryDetailLevel GetDetailLevel(DetailLevel level);
 		void Render(Viewport viewport, INode node, DetailLevel detailLevel);

@@ -90,6 +90,7 @@
   <ItemGroup>
     <Resource Include="Assets\city_partly.ASE" />
     <Resource Include="Assets\road.ASE" />
+    <Resource Include="Assets\one_building.ASE" />
     <None Include="Properties\AppManifest.xml" />
   </ItemGroup>
   <ItemGroup />

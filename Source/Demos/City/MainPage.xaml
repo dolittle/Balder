@@ -26,7 +26,12 @@
 				<View:Camera x:Name="Camera" Position="-2000,100,900" Target="0,0,1"/>
 			</Execution:Game.Camera>
 			
-			<Geometries:Mesh x:Name="City" AssetName="/City;component/Assets/city_partly.ASE" InteractionEnabled="True"/>
+			<!--<Lighting:OmniLight/>-->
+			<Geometries:Mesh x:Name="City" 
+							 AssetName="/City;component/Assets/city_partly.ASE" 
+							 InteractionEnabled="True"
+							 MouseMove="City_MouseMove"
+							 />
 		</Execution:Game>
 
 		<Border BorderBrush="White" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
@@ -47,9 +52,12 @@
 					<RowDefinition Height="30"/>
 				</Grid.RowDefinitions>
 
+				
 
 				<TextBlock Grid.Column="0" Grid.Row="0" Text="Total Nodes Rendered"/>
 				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RenderedNodes}"/>
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Mouse over node"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" x:Name="MouseOverNodeTextBlock" />
 			</Grid>
 		</Border>
 

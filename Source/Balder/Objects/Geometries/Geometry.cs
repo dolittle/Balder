@@ -140,8 +140,6 @@ namespace Balder.Objects.Geometries
 
 			if( null != Material && !_materialSet )
 			{
-				GeometryContext.SetMaterialForAllFaces(Material);
-
 				// Todo : Due to the fact that setting a color on a RenderableNode will cause the
 				// OnColorChanged() to be called and it sets the material, this will affect all children
 				// Not sure we want that behavior

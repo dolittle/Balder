@@ -19,6 +19,7 @@
 
 #endregion
 
+using System;
 using System.Collections.Generic;
 using Balder.Display;
 using Balder.Execution;
@@ -73,13 +74,15 @@ namespace Balder.Objects.Geometries
 
 		public void SetMaterialOnSide(BoxSide side, Material material)
 		{
+			// TODO : Fix this!
+			throw new NotSupportedException("Due to rewrite - not working right now");
 			_materials[side] = material;
 			if (_facesBySide.ContainsKey(side))
 			{
 				var faces = _facesBySide[side];
 				foreach (var face in faces)
 				{
-					FullDetailLevel.SetMaterial(face, material);
+					
 				}
 			}
 		}
@@ -197,6 +200,9 @@ namespace Balder.Objects.Geometries
 			face.DiffuseC = diffuseC;
 
 			var boxSide = GetBoxSideFromNormal(normal);
+			// TODO : Fix this!
+			/*
+			
 			if (_materials.ContainsKey(boxSide))
 			{
 				var material = _materials[boxSide];
@@ -208,6 +214,7 @@ namespace Balder.Objects.Geometries
 			{
 				face.Material = Material;
 			}
+			 * */
 			face.SmoothingGroup = smoothingGroup;
 
 			AddFaceToSidesInfo(faceIndex, boxSide);

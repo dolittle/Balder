@@ -1,5 +1,4 @@
 using Balder.Display;
-using Balder.Materials;
 using Balder.Math;
 
 namespace Balder.Objects.Geometries
@@ -38,9 +37,6 @@ namespace Balder.Objects.Geometries
 		void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate);
 		void SetFaceTextureCoordinateIndex(int index, int a, int b, int c);
 		TextureCoordinate[] GetTextureCoordinates();
-
-		void SetMaterial(int index, Material material);
-		void SetMaterialForAllFaces(Material material);
 
 		void CalculateVertices(Viewport viewport, INode node);
 		void Render(Viewport viewport, INode node);

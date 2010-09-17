@@ -34,7 +34,6 @@ namespace Balder.Assets.AssetLoaders
 	{
 		private readonly IAssetLoaderService _assetLoaderService;
 
-
 		public AseLoader(IAssetLoaderService assetLoaderService, IFileLoader fileLoader, IContentManager contentManager)
 			: base(fileLoader, contentManager)
 		{

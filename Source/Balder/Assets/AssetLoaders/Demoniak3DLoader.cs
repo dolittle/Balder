@@ -152,7 +152,8 @@ namespace Balder.Assets.AssetLoaders
 					                 		DiffuseA = a,
 					                 		DiffuseB = b,
 					                 		DiffuseC = c,
-					                 		Material = materials[materialIndex]
+											// TODO : Handle materials!
+					                 		//Material = materials[materialIndex]
 					                 	};
 					geometryDetaillevel.SetFace(index, actualFace);
 				}

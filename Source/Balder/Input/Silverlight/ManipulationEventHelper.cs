@@ -145,7 +145,7 @@ namespace Balder.Input.Silverlight
 				var distance = geometry.Intersects(_viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
 				if (null != face)
 				{
-					var material = face.Material;
+					var material = geometry.Material;
 
 					_deltaEventArgs.Material = material;
 					_deltaEventArgs.Face = face;

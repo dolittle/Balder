@@ -435,19 +435,16 @@ namespace Balder.Objects.Geometries
 					var offsetNextLine = offset + actualLength;
 					var face = new Face(offsetNextLine, offset + 1, offset);
 					face.Normal = Vector.Up;
-					face.Material = Material;
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
 					FullDetailLevel.SetFace(faceIndex, face);
 					face = new Face(offset + 1, offsetNextLine, offsetNextLine + 1);
 					face.Normal = Vector.Up;
-					face.Material = Material;
 					face.DiffuseA = face.A;
 					face.DiffuseB = face.B;
 					face.DiffuseC = face.C;
 					FullDetailLevel.SetFace(faceIndex + 1, face);
-
 
 					faceIndex += 2;
 				}
