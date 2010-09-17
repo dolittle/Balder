@@ -32,7 +32,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 		private static void GenerateMaterials()
 		{
 			_black = new Material { Ambient = Colors.Black, Diffuse = Colors.Black, Specular = Colors.White, Shade=MaterialShade.Gouraud };
-			Materials[CubeColor.White] = GetMaterial(Colors.Gray);
+			Materials[CubeColor.White] = GetMaterial(Colors.White);
 			Materials[CubeColor.Yellow] = GetMaterial(Colors.Yellow);
 			Materials[CubeColor.Orange] = GetMaterial(Colors.Orange);
 			Materials[CubeColor.Red] = GetMaterial(Colors.Red);

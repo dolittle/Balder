@@ -44,7 +44,7 @@ namespace Balder.Lighting
 			}
 
 			var color = 0; // _sceneAmbient;
-			var diffuse = Color.AlphaFull | 0xffffff;
+			var diffuse = 0; // Color.AlphaFull | 0xffffff;
 			var specular = 0;
 			var lightDiffuse = 0;
 			var lightSpecular = 0;

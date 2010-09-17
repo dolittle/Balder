@@ -98,7 +98,7 @@ namespace Balder.Materials
 			Opacity = 1;
 			DoubleSided = false;
 
-			SubMaterials = new List<Material>();
+			SubMaterials = new Dictionary<int, Material>();
 #if(SILVERLIGHT)
 			Renderer = GouraudTriangleRenderer;
 #endif
@@ -109,7 +109,7 @@ namespace Balder.Materials
 		public string Name { get; set; }
 #endif
 
-		public List<Material> SubMaterials { get; private set; }
+		public Dictionary<int, Material> SubMaterials { get; private set; }
 
 
 		public static readonly Property<Material, bool> SolidProperty =

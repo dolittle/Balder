@@ -43,11 +43,7 @@ namespace Balder.Objects.Geometries
 
 	public class Box : GeneratedGeometry
 	{
-		private readonly Dictionary<BoxSide, Material> _materials;
 		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
-
-		
-
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Box()
@@ -61,32 +57,28 @@ namespace Balder.Objects.Geometries
 		public Box(IGeometryContext geometryContext)
 			: base(geometryContext)
 		{
-			_materials = new Dictionary<BoxSide, Material>();
 			_facesBySide = new Dictionary<BoxSide, List<int>>();
-			SetupDefaultMaterial();
 		}
 
-		private void SetupDefaultMaterial()
-		{
-			Material = new Material();
-			var nullMaterial = new Material();
-			Material.SubMaterials.Add(nullMaterial);
-		}
 
 		public Material GetMaterialOnSide(BoxSide side)
 		{
-			if (!_materials.ContainsKey(side))
+			var index = (int)side;
+			if (!Material.SubMaterials.ContainsKey(index))
 			{
 				return null;
 			}
-			return _materials[side];
+			return Material.SubMaterials[index];
 		}
 
 		public void SetMaterialOnSide(BoxSide side, Material material)
 		{
 			var index = (int) side;
-			Material.SubMaterials.RemoveAt(index);
-			Material.SubMaterials.Insert(index, material);
+			if( null == Material )
+			{
+				Material = new Material();
+			}
+			Material.SubMaterials[index] = material;
 		}
 
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);

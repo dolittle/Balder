@@ -567,7 +567,10 @@ namespace Balder.Rendering.Silverlight
 				material.SubMaterials.Count >= face.MaterialId &&
 				material.SubMaterials.Count != 0 )
 			{
-				material = material.SubMaterials[face.MaterialId];
+				if( material.SubMaterials.ContainsKey(face.MaterialId) )
+				{
+					material = material.SubMaterials[face.MaterialId];	
+				}
 			}
 			return material;
 		}

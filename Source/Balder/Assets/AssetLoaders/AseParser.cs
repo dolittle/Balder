@@ -289,7 +289,8 @@ namespace Balder.Assets.AssetLoaders
 
 						if (scope == SUBMATERIAL && null != globals.CurrentParentMaterial)
 						{
-							globals.CurrentParentMaterial.SubMaterials.Add(material);
+							var materialId = Convert.ToInt32(scopeParameter);
+							globals.CurrentParentMaterial.SubMaterials[materialId] = material;
 						}
 						else
 						{
@@ -320,7 +321,10 @@ namespace Balder.Assets.AssetLoaders
 				case MATERIAL_REF:
 					{
 						var materialRef = Convert.ToInt32(content);
-						geometry.Material = globals.Materials[materialRef];
+						if (globals.Materials.Length > materialRef)
+						{
+							geometry.Material = globals.Materials[materialRef];
+						}
 					}
 					break;
 				case TM_ROW0:
