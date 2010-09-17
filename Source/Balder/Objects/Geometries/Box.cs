@@ -19,7 +19,6 @@
 
 #endregion
 
-using System;
 using System.Collections.Generic;
 using Balder.Display;
 using Balder.Execution;
@@ -47,6 +46,9 @@ namespace Balder.Objects.Geometries
 		private readonly Dictionary<BoxSide, Material> _materials;
 		private readonly Dictionary<BoxSide, List<int>> _facesBySide;
 
+		
+
+
 #if(DEFAULT_CONSTRUCTOR)
 		public Box()
 			: this(Runtime.Instance.Kernel.Get<IGeometryContext>())
@@ -61,6 +63,14 @@ namespace Balder.Objects.Geometries
 		{
 			_materials = new Dictionary<BoxSide, Material>();
 			_facesBySide = new Dictionary<BoxSide, List<int>>();
+			SetupDefaultMaterial();
+		}
+
+		private void SetupDefaultMaterial()
+		{
+			Material = new Material();
+			var nullMaterial = new Material();
+			Material.SubMaterials.Add(nullMaterial);
 		}
 
 		public Material GetMaterialOnSide(BoxSide side)
@@ -74,17 +84,9 @@ namespace Balder.Objects.Geometries
 
 		public void SetMaterialOnSide(BoxSide side, Material material)
 		{
-			// TODO : Fix this!
-			throw new NotSupportedException("Due to rewrite - not working right now");
-			_materials[side] = material;
-			if (_facesBySide.ContainsKey(side))
-			{
-				var faces = _facesBySide[side];
-				foreach (var face in faces)
-				{
-					
-				}
-			}
+			var index = (int) side;
+			Material.SubMaterials.RemoveAt(index);
+			Material.SubMaterials.Insert(index, material);
 		}
 
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);
@@ -200,25 +202,9 @@ namespace Balder.Objects.Geometries
 			face.DiffuseC = diffuseC;
 
 			var boxSide = GetBoxSideFromNormal(normal);
-			// TODO : Fix this!
-			/*
-			
-			if (_materials.ContainsKey(boxSide))
-			{
-				var material = _materials[boxSide];
-				if (null != material)
-				{
-					face.Material = material;
-				}
-			} else
-			{
-				face.Material = Material;
-			}
-			 * */
+			face.MaterialId = (int) boxSide;
 			face.SmoothingGroup = smoothingGroup;
-
 			AddFaceToSidesInfo(faceIndex, boxSide);
-
 			FullDetailLevel.SetFace(faceIndex, face);
 		}
 
