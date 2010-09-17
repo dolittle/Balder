@@ -64,6 +64,18 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 			}
 		}
 
+		private bool _isHovering;
+		public bool IsHovering
+		{
+			get { return _isHovering; }
+			set
+			{
+				_isHovering = value;
+				OnPropertyChanged("IsHovering");
+			}
+		}
+
+
 		public Column(int depth, int row, int column)
 		{
 			Name = string.Format("Node : {0}, {1}, {2}", depth, row, column);

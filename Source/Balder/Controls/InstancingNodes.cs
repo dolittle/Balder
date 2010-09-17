@@ -240,6 +240,7 @@ namespace Balder.Controls
 					{
 						closestDistance = distance;
 						closestIndex = index;
+						
 					}
 				}
 
@@ -248,7 +249,9 @@ namespace Balder.Controls
 					_actualNodeTemplate.ActualWorld = _dataItemInfos[closestIndex].Matrix;
 					_actualNodeTemplate.Parent = this;
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+					
 					closestNode = _actualNodeTemplate;
+					closestNode.DataItem = _dataItemInfos[closestIndex].DataItem;
 				}
 			}
 		}

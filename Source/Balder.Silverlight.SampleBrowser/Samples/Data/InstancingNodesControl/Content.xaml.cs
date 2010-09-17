@@ -83,5 +83,17 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 			i++;
 
 		}
+
+		private void InstancingNodes_MouseEnter(object sender, MouseEventArgs args)
+		{
+			var column = ((Node)args.OriginalSource).DataItem as Column;
+			column.IsHovering = true;
+		}
+
+		private void InstancingNodes_MouseLeave(object sender, MouseEventArgs args)
+		{
+			var column = ((Node) args.OriginalSource).DataItem as Column;
+			column.IsHovering = false;
+		}
 	}
 }
