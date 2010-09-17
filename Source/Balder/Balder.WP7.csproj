@@ -46,7 +46,7 @@
     <Reference Include="Microsoft.Xna.Framework.Graphics" />
     <Reference Include="mscorlib" />
     <Reference Include="Ninject">
-      <HintPath>..\..\..\BalderWP7\Components\WP7\Ninject.dll</HintPath>
+      <HintPath>..\..\Components\WP7\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />

@@ -51,6 +51,8 @@ namespace Balder.Rendering.Xna
         private Face[] _originalFaces;
 
         private Normal[] _originalNormals;
+
+    	private Material _colorMaterial;
         
 
         public GeometryDetailLevel()
@@ -58,6 +60,7 @@ namespace Balder.Rendering.Xna
             _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
             _effect.EnableDefaultLighting();
             _effect.VertexColorEnabled = true;
+        	_colorMaterial = Material.FromColor(Colors.Blue);
         }
 
         public void AllocateFaces(int count)
@@ -176,36 +179,64 @@ namespace Balder.Rendering.Xna
             throw new NotImplementedException();
         }
 
-        public void SetMaterial(int index, Material material)
-        {
-            _originalFaces[index].Material = material;
-            _verticesPrepared = false;
-        }
+    	public void CalculateVertices(Viewport viewport, INode node)
+    	{
+    		
+    	}
 
-        public void SetMaterialForAllFaces(Material material)
-        {
-            
-        }
 
-        public void CalculateVertices(Viewport viewport, INode node)
-        {
-            
-        }
+    	private Material GetActualMaterialFromFace(Material material, Face face)
+		{
+			if (null != material &&
+				material.SubMaterials.Count >= face.MaterialId &&
+				material.SubMaterials.Count != 0)
+			{
+				if (material.SubMaterials.ContainsKey(face.MaterialId))
+				{
+					material = material.SubMaterials[face.MaterialId];
+				}
+			}
+			return material;
+		}
 
-        private void PrepareVertexBuffer()
+		private Material GetMaterialForFace(Face face, INode node, Material material)
+		{
+			var actualMaterial = GetActualMaterialFromFace(material, face);
+
+			if (null == actualMaterial)
+			{
+				if (node is IHaveColor)
+				{
+					actualMaterial = _colorMaterial;
+					actualMaterial.Diffuse = ((IHaveColor)node).Color;
+				}
+				else
+				{
+					actualMaterial = Material.Default;
+				}
+			}
+			return actualMaterial;
+		}
+
+
+        private void PrepareVertexBuffer(Geometry geometry)
         {
+        
             if (null == _vertices)
             {
                 _vertices = new RenderVertex[_originalFaces.Length*3];
             }
             var vertexIndex = 0;
 
+        	var nodeMaterial = geometry.Material;
+
             foreach( var face in _originalFaces )
             {
-                var color = Colors.Blue;
-                if( null != face.Material )
+            	var color = Colors.Blue;
+            	var material = GetMaterialForFace(face, geometry, nodeMaterial);
+                if( null != material )
                 {
-                    color = face.Material.Diffuse;
+                    color = material.Diffuse;
                 }
 
 
@@ -245,12 +276,13 @@ namespace Balder.Rendering.Xna
             if (!_verticesPrepared)
             {
                 _verticesPrepared = true;
-                PrepareVertexBuffer();
+                PrepareVertexBuffer(node as Geometry);
             }
 
             _effect.World = node.RenderingWorld;
             _effect.View = viewport.View.ViewMatrix;
             _effect.Projection = viewport.View.ProjectionMatrix;
+			
 
             var graphicsDevice = Display.WP7.Display.GraphicsDevice;
             //graphicsDevice.Indices = _indexBuffer;
@@ -259,7 +291,7 @@ namespace Balder.Rendering.Xna
             foreach( var pass in _effect.CurrentTechnique.Passes )
             {
                 pass.Apply();
-
+            
                 graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,_vertices.Length/3);
 
                 //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);

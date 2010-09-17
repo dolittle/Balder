@@ -77,8 +77,15 @@ namespace Balder.Display.WP7
             _presentationParameters.DeviceWindowHandle = _windowHandle;
             _presentationParameters.PresentationInterval = PresentInterval.Immediate;
             _presentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-            GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
-
+            
+			GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
+        	GraphicsDevice.DepthStencilState = new DepthStencilState
+        	                                   	{
+        	                                   		DepthBufferEnable = true,
+        	                                   		DepthBufferFunction = CompareFunction.Less,
+													DepthBufferWriteEnable = true
+        	                                   	};
+				
             game.Dispose();
         }
 
