@@ -43,8 +43,8 @@ namespace Balder.Assets.AssetLoaders
 		public override string[] FileExtensions { get { return new[] {"xml"}; } }
 		public override Type SupportedAssetType { get { return typeof (Mesh); } }
 
-		public Demoniak3DLoader(IAssetLoaderService assetLoaderService, IFileLoader fileLoader, IContentManager contentManager)
-			: base(fileLoader,contentManager)
+		public Demoniak3DLoader(IAssetLoaderService assetLoaderService, IFileLoaderManager fileLoaderManager, IContentManager contentManager)
+			: base(fileLoaderManager,contentManager)
 		{
 			_assetLoaderService = assetLoaderService;
 			
@@ -52,7 +52,8 @@ namespace Balder.Assets.AssetLoaders
 
 		public override IAssetPart[] Load(string assetName)
 		{
-			var stream = FileLoader.GetStream(assetName);
+			var fileLoader = FileLoaderManager.GetFileLoader(assetName);
+			var stream = fileLoader.GetStream(assetName);
 			if( null == stream )
 			{
 				throw new AssetNotFoundException(assetName);

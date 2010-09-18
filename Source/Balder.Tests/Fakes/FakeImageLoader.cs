@@ -7,8 +7,8 @@ namespace Balder.Tests.Fakes
 {
 	public class FakeImageLoader : AssetLoader
 	{
-		public FakeImageLoader(IFileLoader fileLoader, IContentManager contentManager)
-			: base(fileLoader, contentManager)
+		public FakeImageLoader(IFileLoaderManager fileLoaderManager, IContentManager contentManager)
+			: base(fileLoaderManager, contentManager)
 		{
 		}
 

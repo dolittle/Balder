@@ -24,13 +24,13 @@ namespace Balder.Assets
 {
 	public abstract class AssetLoader : IAssetLoader
 	{
-		protected AssetLoader(IFileLoader fileLoader, IContentManager contentManager)
+		protected AssetLoader(IFileLoaderManager fileLoaderManager, IContentManager contentManager)
 		{
-			FileLoader = fileLoader;
+			FileLoaderManager = fileLoaderManager;
 			ContentManager = contentManager;
 		}
 
-		protected IFileLoader FileLoader { get; private set; }
+		protected IFileLoaderManager FileLoaderManager { get; private set; }
 		protected IContentManager ContentManager { get; private set; }
 
 		public abstract string[] FileExtensions { get; }

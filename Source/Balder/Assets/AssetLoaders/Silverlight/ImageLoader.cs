@@ -26,8 +26,8 @@ namespace Balder.Assets.AssetLoaders.Silverlight
 {
 	public class ImageLoader : AssetLoader
 	{
-		public ImageLoader(IFileLoader fileLoader, IContentManager contentManager)
-			: base(fileLoader, contentManager)
+		public ImageLoader(IFileLoaderManager fileLoaderManager, IContentManager contentManager)
+			: base(fileLoaderManager, contentManager)
 		{
 		}
 
@@ -36,7 +36,8 @@ namespace Balder.Assets.AssetLoaders.Silverlight
 
 		public override IAssetPart[] Load(string assetName)
 		{
-			var stream = FileLoader.GetStream(assetName);
+			var fileLoader = FileLoaderManager.GetFileLoader(assetName);
+			var stream = fileLoader.GetStream(assetName);
 
 			var bitmapImage = new BitmapImage();
 			bitmapImage.SetSource(stream);

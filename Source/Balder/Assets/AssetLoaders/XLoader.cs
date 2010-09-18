@@ -24,8 +24,8 @@ namespace Balder.Assets.AssetLoaders
 {
 	public class XLoader : AssetLoader
 	{
-		public XLoader(IFileLoader fileLoader, IContentManager contentManager)
-			: base(fileLoader, contentManager)
+		public XLoader(IFileLoaderManager fileLoaderManager, IContentManager contentManager)
+			: base(fileLoaderManager, contentManager)
 		{
 		}
 

@@ -59,8 +59,10 @@ namespace Balder.Tests.Assets.AssetLoaders
 			mockContentManager.Expect(c => c.Creator).Returns(contentCreatorMock.Object);
 
 			var fileLoader = new StringFileLoader();
+			var fileLoaderManagerMock = new Mock<IFileLoaderManager>();
+			fileLoaderManagerMock.Expect(f => f.GetFileLoader(It.IsAny<string>())).Returns(fileLoader);
 
-			var fakeImageLoader = new FakeImageLoader(fileLoader, mockContentManager.Object);
+			var fakeImageLoader = new FakeImageLoader(fileLoaderManagerMock.Object, mockContentManager.Object);
 
 			var mockAssetLoaderService = new Mock<IAssetLoaderService>();
 			mockAssetLoaderService.Expect(a => a.GetLoader<Image>(It.IsAny<string>())).Returns(fakeImageLoader);
@@ -68,7 +70,7 @@ namespace Balder.Tests.Assets.AssetLoaders
 			var fileBytes = AseFiles.ResourceManager.GetObject(resourceName) as byte[];
 
 			fileLoader.StringToRead = GetResourceString(fileBytes);
-			var aseLoader = new AseLoader(mockAssetLoaderService.Object, fileLoader, mockContentManager.Object);
+			var aseLoader = new AseLoader(mockAssetLoaderService.Object, fileLoaderManagerMock.Object, mockContentManager.Object);
 			var geometries = aseLoader.Load(resourceName + ".ASE");
 			return geometries as Geometry[];
 		}
