@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2010, DoLittle Studios
@@ -16,34 +15,20 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
 
-using System;
-using System.IO;
-using Balder.Content;
-
-namespace Balder.Tests.Fakes
+namespace Balder.Content
 {
-	public class StringFileLoader : IFileLoader
+	/// <summary>
+	/// Represents FileLoaders registered in the system
+	/// </summary>
+	public interface IFileLoaderManager
 	{
-		public string StringToRead { get; set; }
-
-		public Stream GetStream(string fileName)
-		{
-			var bytes = System.Text.Encoding.UTF8.GetBytes(StringToRead);
-			var stream = new MemoryStream(bytes);
-			return stream;
-		}
-
-		public bool Exists(string fileName)
-		{
-			throw new NotImplementedException();
-		}
-
-		public string[] SupportedSchemes
-		{
-			get { throw new NotImplementedException(); }
-		}
+		/// <summary>
+		/// Get the appropriate <see cref="IFileLoader">fileloader</see> based on the filename
+		/// </summary>
+		/// <param name="fileName">FileName to get fileloader for</param>
+		/// <returns>The correct <see cref="IFileLoader">fileloader</see></returns>
+		IFileLoader GetFileLoader(string fileName);
 	}
 }

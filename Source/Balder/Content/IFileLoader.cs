@@ -32,5 +32,17 @@ namespace Balder.Content
 		/// <param name="fileName">Filename for the file you want to load</param>
 		/// <returns>A stream that can be used to retrieve the content</returns>
 		Stream GetStream(string fileName);
+
+		/// <summary>
+		/// Gets the status of a file exists or not
+		/// </summary>
+		/// <param name="fileName">Filename to check</param>
+		/// <returns>True if exists, false if not</returns>
+		bool Exists(string fileName);
+
+		/// <summary>
+		/// Gets the supported URI schemes
+		/// </summary>
+		string[] SupportedSchemes { get; }
 	}
 }

@@ -46,6 +46,16 @@ namespace Balder.Content.Silverlight
 			
 			return resourceStream.Stream;
 		}
+
+		public bool Exists(string fileName)
+		{
+			throw new NotImplementedException();
+		}
+
+		public string[] SupportedSchemes
+		{
+			get { throw new NotImplementedException(); }
+		}
 	}
 }
 #endif

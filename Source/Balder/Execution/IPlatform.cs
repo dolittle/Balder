@@ -47,7 +47,7 @@ namespace Balder.Execution
 		IMouseDevice MouseDevice { get; }
 
 
-		Type FileLoaderType { get; }
+		Type DefaultFileLoaderType { get; }
 		Type GeometryContextType { get; }
 		Type SpriteContextType { get; }
 		Type ImageContextType { get; }

@@ -43,7 +43,7 @@ namespace Balder.Execution
 			Bind<IPlatform>().ToConstant(platform);
 			Bind<IDisplayDevice>().ToConstant(platform.DisplayDevice);
 			Bind<IMouseDevice>().ToConstant(platform.MouseDevice);
-			Bind<IFileLoader>().To(platform.FileLoaderType).InSingletonScope();
+			Bind<IFileLoader>().To(platform.DefaultFileLoaderType).InSingletonScope();
 			Bind<IGeometryContext>().To(platform.GeometryContextType);
 			Bind<ISpriteContext>().To(platform.SpriteContextType);
 			Bind<IImageContext>().To(platform.ImageContextType);
