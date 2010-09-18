@@ -119,7 +119,7 @@ namespace Balder.Execution.Silverlight
 
 		public IDisplayDevice DisplayDevice { get; private set; }
 		public IMouseDevice MouseDevice { get; private set; }
-		public Type FileLoaderType { get { return typeof(FileLoader); } }
+		public Type DefaultFileLoaderType { get { return typeof(FileLoader); } }
 		public Type GeometryContextType { get { return typeof(GeometryContext); } }
 		public Type SpriteContextType { get { return typeof(SpriteContext); } }
 		public Type ImageContextType { get { return typeof(ImageContext); } }

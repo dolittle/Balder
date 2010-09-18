@@ -147,6 +147,7 @@
       <DependentUpon>AseFiles.resx</DependentUpon>
     </Compile>
     <Compile Include="Assets\AssetLoaders\AseLoaderTests.cs" />
+    <Compile Include="Content\FileLoaderManagerTests.cs" />
     <Compile Include="Content\Silverlight\FilePathHelperTests.cs" />
     <Compile Include="Controls\NodesControlTests.cs" />
     <Compile Include="Converters\StringToTypeConverterTests.cs" />

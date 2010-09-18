@@ -52,7 +52,7 @@ namespace Balder.Tests.Fakes
 
 		public IDisplayDevice DisplayDevice { get; set; }
 		public IMouseDevice MouseDevice { get; set; }
-		public Type FileLoaderType
+		public Type DefaultFileLoaderType
 		{
 			get { throw new NotImplementedException(); }
 		}

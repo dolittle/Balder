@@ -103,8 +103,10 @@
     <Compile Include="Color.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="Content\ContentCache.cs" />
+    <Compile Include="Content\FileLoaderManager.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Content\IContentCreator.cs" />
+    <Compile Include="Content\IFileLoaderManager.cs" />
     <Compile Include="Content\Silverlight\FileLoader.cs" />
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
     <Compile Include="Input\ICanGetNodeAtPosition.cs" />
