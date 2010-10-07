@@ -1,3 +1,38 @@
+Version 0.8.8.9 :
+
+- Perspective corrected texture mapping
+- perspective corrected Z buffering
+- Dual texture support with mixing
+- Enhanced material support
+- Shaded textures, flat + gouraud
+- Rewritten lighting code for rendering
+- New skybox, utilizing perspective projection in Silverlight
+- Bilinear filtering
+- Performance enhancements
+- Subpixel rendering
+- Multiple games in one page
+- Clearer exceptions
+- InstancingNodes - faster bindable solution
+- Extensible FileLoader support - one can load from anywhere
+- ChamferBox primitive type
+- Vertex coloring support - reads vertex colors from ASE files
+- Multi/Sub material rewritten - faces no longer has Material, but a Id reference instead
+- Wireframe support for Materials
+- Statistics added
+- Shine + ShineStrength for materials added
+- Color manipulation optimized, using integers
+- Smoothing group fix for primitives Cylinder and Ring
+- Optimized heightmap 
+- CLUT system removed - too slow
+- Frustum clipping of objects
+- Matrix optimized - going for the solution most use, public fields instead of array as before
+- Started implementation of MipMap levels for textures
+- Rewritten texture system - introducing the concept of map
+- More details on ManipulationEvents
+- Optimizations for Windows Phone 7
+- Added more unit tests
+- Optimized mouse intersection with objects
+
 Version 0.8.8.8 :
 
 - Major breaking changes in namespace : Balder.Core.* is now Balder.*, 
