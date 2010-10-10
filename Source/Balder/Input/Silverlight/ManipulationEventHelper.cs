@@ -17,84 +17,99 @@
 //
 #endregion
 #if(SILVERLIGHT)
-using System.ComponentModel;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
-using Balder.Extensions.Silverlight;
 using Balder.Objects.Geometries;
 
 
 namespace Balder.Input.Silverlight
 {
-	public class ManipulationInfo : INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => {};
-
-		private INode _node;
-		public INode Node
-		{
-			get { return _node; }
-			set
-			{
-				_node = value;
-				PropertyChanged.Notify(() => Node);
-			}
-		}
-
-		private int _deltaX;
-		public int DeltaX
-		{
-			get { return _deltaX; }
-			set
-			{
-				_deltaX = value;
-				PropertyChanged.Notify(() => DeltaX);
-			}
-		}
-
-		private int _deltaY;
-		public int DeltaY
-		{
-			get { return _deltaY; }
-			set
-			{
-				_deltaY = value;
-				PropertyChanged.Notify(() => DeltaY);
-			}
-		}
-
-		private bool _isManipulating;
-		public bool IsManipulating
-		{
-			get { return _isManipulating; }
-			set
-			{
-				_isManipulating = value;
-				PropertyChanged.Notify(() => IsManipulating);
-			}
-		}
-	}
-
-
 	public class ManipulationEventHelper
 	{
+		private static readonly Point ZeroPoint = new Point(0, 0);
 		private readonly Viewport _viewport;
-		private Point _previousPosition;
+		
 		private ManipulationDirection _manipulationDirection;
 		private bool _manipulating;
 		private Node _nodeBeingManipulated;
-		private bool _manipulationStarted;
+		
 		private ManipulationDeltaEventArgs _deltaEventArgs;
+
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
+		private Point _previousPosition;
+		private bool _manipulationStarted;
+#endif
 
 		public static ManipulationInfo	ManipulationInfo = new ManipulationInfo();
 
-		public ManipulationEventHelper(Viewport viewport)
+		public ManipulationEventHelper(Game game, Viewport viewport)
 		{
 			_viewport = viewport;
 			_deltaEventArgs = new ManipulationDeltaEventArgs();
+#if(SILVERLIGHT4 || WINDOWS_PHONE)
+			AddEvents(game);
+#else
 			ResetManipulation();
+#endif
 		}
+
+		public bool IsManipulating { get { return _manipulating; } }
+
+#if(SILVERLIGHT4 || WINDOWS_PHONE)
+		private void AddEvents(FrameworkElement element)
+		{
+			element.ManipulationStarted += ElementManipulationStarted;
+			element.ManipulationDelta += ElementManipulationDelta;
+			element.ManipulationCompleted += ElementManipulationCompleted;
+		}
+
+
+		void ElementManipulationCompleted(object sender, System.Windows.Input.ManipulationCompletedEventArgs e)
+		{
+			Node.ManipulationStoppedEvent.Raise(_nodeBeingManipulated, _nodeBeingManipulated, BubbledEventArgs.Empty);
+			_manipulating = false;
+			_nodeBeingManipulated = null;
+		}
+
+		void ElementManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+		{
+			if( _manipulating )
+			{
+				RaiseManipulationEvent(Node.ManipulationDeltaEvent, _nodeBeingManipulated, e.ManipulationOrigin, e.DeltaManipulation.Translation);
+			}
+		}
+
+		void ElementManipulationStarted(object sender, System.Windows.Input.ManipulationStartedEventArgs e)
+		{
+			var hitNode = _viewport.GetNodeAtPosition((int)e.ManipulationOrigin.X, (int)e.ManipulationOrigin.Y);
+			if( null != hitNode )
+			{
+				_nodeBeingManipulated = hitNode;
+				PopulateManipulationEvent(hitNode, e.ManipulationOrigin);
+				RaiseManipulationEvent(Node.ManipulationStartedEvent, hitNode, e.ManipulationOrigin, ZeroPoint);
+				_manipulating = true;
+			}
+		}
+
+		private void RaiseManipulationEvent(BubbledEvent<Node, ManipulationDeltaEventHandler> bubbledEvent, Node node, Point position, Point delta)
+		{
+			var deltaX = (int) delta.X;
+			var deltaY = (int)delta.Y;
+			ManipulationInfo.DeltaX = deltaX;
+			ManipulationInfo.DeltaY = deltaY;
+			HandleManipulationDirection(deltaX, deltaY);
+
+			_deltaEventArgs.DeltaX = deltaX;
+			_deltaEventArgs.DeltaY = deltaY;
+			_deltaEventArgs.Direction = _manipulationDirection;
+			_deltaEventArgs.Viewport = _viewport;
+
+			bubbledEvent.Raise(node, node, _deltaEventArgs);
+		}
+
+#else
+
 
 		private void RaiseManipulationEvent(BubbledEvent<Node, ManipulationDeltaEventHandler> bubbledEvent, Node node, Point position)
 		{
@@ -132,32 +147,10 @@ namespace Balder.Input.Silverlight
 			ManipulationInfo.IsManipulating = true;
 			ManipulationInfo.Node = node;
 
-			if (node is Geometry)
-			{
-				var pickRay = _viewport.GetPickRay((int)position.X, (int)position.Y);
-
-				var geometry = node as Geometry;
-				Face face = null;
-				var faceIndex = -1;
-				var faceU = 0f;
-				var faceV = 0f;
-
-				var distance = geometry.Intersects(_viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
-				if (null != face)
-				{
-					var material = geometry.Material;
-
-					_deltaEventArgs.Material = material;
-					_deltaEventArgs.Face = face;
-					_deltaEventArgs.FaceIndex = faceIndex;
-					_deltaEventArgs.FaceU = faceU;
-					_deltaEventArgs.FaceV = faceV;
-					_deltaEventArgs.Distance = distance.Value;
-				}
-			}
+			PopulateManipulationEvent(node, position);
 		}
 
-		public bool IsManipulating { get { return _manipulating; } }
+		
 
 		public void HandleManipulation(Point position)
 		{
@@ -179,7 +172,7 @@ namespace Balder.Input.Silverlight
 			ResetManipulation();
 		}
 
-
+#endif
 		private void HandleManipulationDirection(double deltaX, double deltaY)
 		{
 			if (_manipulationDirection == ManipulationDirection.None)
@@ -208,6 +201,34 @@ namespace Balder.Input.Silverlight
 					{
 						_manipulationDirection = ManipulationDirection.Down;
 					}
+				}
+			}
+		}
+
+
+		private void PopulateManipulationEvent(INode node, Point position)
+		{
+			if (node is Geometry)
+			{
+				var pickRay = _viewport.GetPickRay((int)position.X, (int)position.Y);
+
+				var geometry = node as Geometry;
+				Face face = null;
+				var faceIndex = -1;
+				var faceU = 0f;
+				var faceV = 0f;
+
+				var distance = geometry.Intersects(_viewport, pickRay, out face, out faceIndex, out faceU, out faceV);
+				if (null != face)
+				{
+					var material = geometry.Material;
+
+					_deltaEventArgs.Material = material;
+					_deltaEventArgs.Face = face;
+					_deltaEventArgs.FaceIndex = faceIndex;
+					_deltaEventArgs.FaceU = faceU;
+					_deltaEventArgs.FaceV = faceV;
+					_deltaEventArgs.Distance = distance.Value;
 				}
 			}
 		}

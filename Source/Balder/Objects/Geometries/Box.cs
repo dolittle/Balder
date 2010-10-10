@@ -79,6 +79,7 @@ namespace Balder.Objects.Geometries
 				Material = new Material();
 			}
 			Material.SubMaterials[index] = material;
+			InvalidatePrepare();
 		}
 
 		public static readonly Property<Box, Coordinate> DimensionProperty = Property<Box, Coordinate>.Register(p => p.Dimension);

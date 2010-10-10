@@ -187,6 +187,7 @@
     <Compile Include="Input\MouseEventHandler.cs" />
     <Compile Include="Input\MouseManager.cs" />
     <Compile Include="Input\Silverlight\ManipulationEventHelper.cs" />
+    <Compile Include="Input\Silverlight\ManipulationInfo.cs" />
     <Compile Include="Input\Silverlight\MouseDevice.cs" />
     <Compile Include="Input\Silverlight\NodeMouseEventHelper.cs" />
     <Compile Include="Interaction\ICommandSource.cs" />

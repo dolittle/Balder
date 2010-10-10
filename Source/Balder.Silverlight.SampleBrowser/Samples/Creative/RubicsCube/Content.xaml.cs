@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using Balder.Execution;
 using Balder.Input.Silverlight;
 using Balder.Math;
 
@@ -11,7 +12,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Creative.RubicsCube
 			InitializeComponent();
 
 			Loaded += Content_Loaded;
+			
 		}
+
+		public void GoBack()
+		{
+			Runtime.Instance.UnregisterGame(Game);
+		}
+
 
 		void Content_Loaded(object sender, RoutedEventArgs e)
 		{

@@ -20,5 +20,12 @@ namespace Balder.WP7.SampleBrowser
         {
             InitializeComponent();
         }
+
+		protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+		{
+			RubicsCube.GoBack();
+			
+			base.OnBackKeyPress(e);
+		}
     }
 }
