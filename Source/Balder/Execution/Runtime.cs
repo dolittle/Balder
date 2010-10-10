@@ -30,6 +30,9 @@ using Balder.Execution.Silverlight;
 #if(DESKTOP)
 using Balder.Execution.Desktop;
 #endif
+#if(IOS)
+using Balder.Execution.iOS;
+#endif
 using Ninject;
 
 namespace Balder.Execution

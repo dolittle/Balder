@@ -131,6 +131,10 @@ namespace Balder
 			}
 		}
 
+#if(!SILVERLIGHT)
+		public string Name { get; set; }
+#endif
+		
 		public bool InteractionEnabled { get; set; }
 		private NodeStatistics _statistics;
 		public NodeStatistics Statistics

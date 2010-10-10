@@ -53,7 +53,7 @@ namespace Balder.Display
 		}
 
 
-
+#if(SILVERLIGHT)
 		private void OnPropertyChanged(string propertyName)
 		{
 			if( null != PropertyChanged )
@@ -61,6 +61,7 @@ namespace Balder.Display
 				PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+#endif
 
 	}
 }

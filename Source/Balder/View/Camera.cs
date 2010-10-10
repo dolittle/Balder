@@ -23,9 +23,8 @@ using Balder.Execution;
 using Balder.Math;
 #if(SILVERLIGHT)
 using System.Windows;
-using Balder.Rendering;
-
 #endif
+using Balder.Rendering;
 
 
 namespace Balder.View

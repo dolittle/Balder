@@ -42,8 +42,10 @@ namespace Balder
 #endif
 #if(WINDOWS_PHONE)
 	[StructLayout(LayoutKind.Sequential, Size = 4)]
-#else
+#else 
+#if(!IOS)
 	[StructLayout(LayoutKind.Sequential, Pack = 1, Size = 4)]
+#endif
 #endif
 	public struct Color : IEquatable<Color>
 	{
@@ -271,11 +273,10 @@ namespace Balder
 
 			var newColor = new Color(
 					(byte)(redScaled < 0 ? 0 : redScaled > 0xff ? 0xff : redScaled),
-					(byte)(greenScaled < 0 ? 0 : greenScaled > 0xff ? 0xff : (byte)greenScaled),
-					(byte)(blueScaled < 0 ? 0 : blueScaled > 0xff ? 0xff : (byte)blueScaled),
-					(byte)(alphaScaled < 0 ? 0 : alphaScaled > 0xff ? 0xff : (byte)alphaScaled)
+					(byte)(greenScaled < 0 ? 0 : greenScaled > 0xff ? 0xff : greenScaled),
+					(byte)(blueScaled < 0 ? 0 : blueScaled > 0xff ? 0xff : blueScaled),
+					(byte)(alphaScaled < 0 ? 0 : alphaScaled > 0xff ? 0xff : alphaScaled)
 				);
-
 
 			return newColor;
 		}

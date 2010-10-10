@@ -8,7 +8,7 @@
     <ProjectGuid>{EE7FE8C8-2C68-4395-90B8-B52C9FE563A3}</ProjectGuid>
     <ProjectTypeGuids>{E613F3A2-FE9C-494F-B74E-F63BCB86FEA6};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
-    <RootNamespace>Balder.Core.iOS</RootNamespace>
+    <RootNamespace>Balder</RootNamespace>
     <AssemblyName>Balder_iOS</AssemblyName>
     <MtouchSdkVersion>3.0</MtouchSdkVersion>
     <MtouchMinimumOS>3.0</MtouchMinimumOS>
@@ -116,9 +116,6 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
-    <Compile Include="Execution\IdentityManager.cs" />
-    <Compile Include="Execution\IHaveIdentity.cs" />
-    <Compile Include="Execution\IIdentityManager.cs" />
     <Compile Include="Execution\IPlatform.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
@@ -196,7 +193,6 @@
     <Compile Include="Objects\Geometries\Line.cs" />
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Objects\Geometries\Mesh.cs" />
-    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />
@@ -225,14 +221,11 @@
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ColorAsFloats.cs" />
-    <Compile Include="ColorOperations.cs" />
     <Compile Include="ColorSpace.cs" />
     <Compile Include="ColorSpaces.cs" />
     <Compile Include="Container.cs" />
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="HierarchicalNode.cs" />
-    <Compile Include="IColor.cs" />
     <Compile Include="INode.cs" />
     <Compile Include="Node.cs" />
     <Compile Include="NodeCloneInfo.cs" />
@@ -251,5 +244,33 @@
     <Compile Include="Content\IFileLoader.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Colors.cs" />
+    <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
+    <Compile Include="Diagnostics\IStopwatch.cs" />
+    <Compile Include="Diagnostics\NullStopwatch.cs" />
+    <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
+    <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
+    <Compile Include="Content\FileLoaderManager.cs" />
+    <Compile Include="Content\IFileLoaderManager.cs" />
+    <Compile Include="Execution\IMessenger.cs" />
+    <Compile Include="Execution\IMessengerContext.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFace.cs" />
+    <Compile Include="Materials\ImageMap.cs" />
+    <Compile Include="Materials\IMap.cs" />
+    <Compile Include="Materials\MaterialFiltering.cs" />
+    <Compile Include="NodeStatistics.cs" />
+    <Compile Include="Display\ViewportStatistics.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
+    <Compile Include="Objects\Skybox.cs" />
+    <Compile Include="Objects\Geometries\Normal.cs" />
+    <Compile Include="Materials\IMaterialCalculator.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
+    <Compile Include="Execution\IOS\Platform.cs" />
+    <Compile Include="Objects\Geometries\GeometryStatistics.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Execution\IOS\" />
   </ItemGroup>
 </Project>

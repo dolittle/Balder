@@ -18,7 +18,6 @@
 #endregion
 
 #if(SILVERLIGHT)
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows;
 using Balder.Rendering.Silverlight;
@@ -26,6 +25,7 @@ using Balder.Rendering.Silverlight.Drawing;
 using Balder.Silverlight.TypeConverters;
 using Ninject;
 #endif
+using System.Collections.Generic;
 using Balder.Execution;
 
 
@@ -67,7 +67,7 @@ namespace Balder.Materials
 			Default.Diffuse = Colors.Blue;
 			Default.Specular = Colors.White;
 			Default.Shade = MaterialShade.Gouraud;
-
+			
 			Default.LinkAmbientAndDiffuse = true;
 		}
 
