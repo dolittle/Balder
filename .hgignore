@@ -11,6 +11,12 @@ glob:Source/**/obj/Release/*
 glob:Source/**/Obj/Debug/*
 glob:Source/**/Obj/Release/*
 glob:Source/**/obj/x86/**/*
+glob:**/obj/*
+glob:**/Obj/*
+glob:**/obj/**/*
+glob:**/Obj/**/*
+glob:**/bin/**/*
+glob:**/Bin/**/*
 glob:*.zip
 glob:*.DS_*
 glob:*.bak
