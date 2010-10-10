@@ -31,7 +31,7 @@
         </Grid.Background>
 
 
-        <RC:Content/>
+        <RC:Content x:Name="RubicsCube"/>
 
     </Grid>
 

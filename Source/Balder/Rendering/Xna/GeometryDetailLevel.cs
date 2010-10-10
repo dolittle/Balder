@@ -104,6 +104,7 @@ namespace Balder.Rendering.Xna
             //_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
             //_vertices = new RenderVertex[count];
             _originalVertices = new Vertex[count];
+        	_verticesPrepared = false;
         }
 
         public void SetVertex(int index, Vertex vertex)
@@ -287,6 +288,11 @@ namespace Balder.Rendering.Xna
             var graphicsDevice = Display.WP7.Display.GraphicsDevice;
             //graphicsDevice.Indices = _indexBuffer;
             graphicsDevice.SetVertexBuffer(_vertexBuffer);
+
+			if( null == _vertices )
+			{
+				return;
+			}
 
             foreach( var pass in _effect.CurrentTechnique.Passes )
             {

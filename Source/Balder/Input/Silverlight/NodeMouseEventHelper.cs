@@ -68,7 +68,7 @@ namespace Balder.Input.Silverlight
 		{
 			_game = game;
 			_viewport = viewport;
-			_manipulationEventHelper = new ManipulationEventHelper(viewport);
+			_manipulationEventHelper = new ManipulationEventHelper(game, viewport);
 			_previousNode = null;
 			AddEvents(_game);
 		}
@@ -164,20 +164,26 @@ namespace Balder.Input.Silverlight
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
 			HandleMouseMove((int)position.X, (int)position.Y, e);
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
 			_manipulationEventHelper.HandleManipulation(position);
+#endif
 		}
 
 		private void MouseEnter(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
 			HandleMouseEnter((int)position.X, (int)position.Y, e);
+#endif
 		}
 
 		private void MouseLeave(object sender, System.Windows.Input.MouseEventArgs e)
 		{
 			var position = e.GetPosition(e.OriginalSource as FrameworkElement);
 			HandleMouseLeave((int)position.X, (int)position.Y, e);
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
 			_manipulationEventHelper.StopManipulation();
+#endif
 		}
 
 		private void MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
@@ -187,10 +193,12 @@ namespace Balder.Input.Silverlight
 			if (null != hitNode)
 			{
 				RaiseEvent(Node.MouseLeftButtonDownEvent,hitNode,e);
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
 				if (!_manipulationEventHelper.IsManipulating)
 				{
 					_manipulationEventHelper.StartManipulation(hitNode, position);
 				}
+#endif
 			}
 		}
 
@@ -203,8 +211,10 @@ namespace Balder.Input.Silverlight
 			{
 				RaiseEvent(Node.MouseLeftButtonUpEvent, hitNode, e);
 			}
+#if(!SILVERLIGHT4 && !WINDOWS_PHONE)
 			_manipulationEventHelper.StopManipulation();
-		}
+#endif
+			}
 	}
 }
 #endif

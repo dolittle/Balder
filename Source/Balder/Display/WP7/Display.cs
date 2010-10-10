@@ -52,6 +52,7 @@ namespace Balder.Display.WP7
         public bool Paused { get; set; }
         public bool Halted { get; set; }
 
+    	private static Game _game;
 
         public Display(IRuntimeContext runtimeContext)
         {
@@ -61,11 +62,10 @@ namespace Balder.Display.WP7
 
         public static void Initialize()
         {
-            var game = new Game();
+            _game = new Game();
             
-
-            _windowHandle = game.Window.Handle;
-            _graphicsDeviceManager = new GraphicsDeviceManager(game);
+            _windowHandle = _game.Window.Handle;
+            _graphicsDeviceManager = new GraphicsDeviceManager(_game);
 
             _graphicsAdapter = GraphicsAdapter.DefaultAdapter;
 
@@ -86,7 +86,7 @@ namespace Balder.Display.WP7
 													DepthBufferWriteEnable = true
         	                                   	};
 				
-            game.Dispose();
+            _game.Dispose();
         }
 
         public void Initialize(int width, int height)
@@ -98,6 +98,13 @@ namespace Balder.Display.WP7
             _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.Depth16);
         }
 
+		public void Uninitialize()
+		{
+			CompositionTarget.Rendering -= CompositionTargetRendering;
+			GraphicsDevice.Dispose();
+			_game.Exit();
+		}
+
 
         private void CompositionTargetRendering(object sender, EventArgs e)
         {
@@ -107,11 +114,6 @@ namespace Balder.Display.WP7
             _runtimeContext.MessengerContext.Send(RenderMessage.Default);
             GraphicsDevice.SetRenderTarget(null);
             CopyFromRenderTargetToWriteableBitmap();
-        }
-
-        public void Uninitialize()
-        {
-            
         }
 
 
