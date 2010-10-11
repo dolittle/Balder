@@ -139,6 +139,7 @@
     <Compile Include="Execution\IMessenger.cs" />
     <Compile Include="Execution\IMessengerContext.cs" />
     <Compile Include="Execution\IPlatform.cs" />
+    <Compile Include="Execution\IProperty.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
@@ -149,6 +150,8 @@
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
+    <Compile Include="Execution\PropertyDescriptor.cs" />
+    <Compile Include="Execution\PropertyValueChanged.cs" />
     <Compile Include="Execution\Runtime.cs" />
     <Compile Include="Execution\Silverlight\Platform.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
@@ -164,6 +167,7 @@
     <Compile Include="Extensions\Silverlight\NotificationExtensions.cs" />
     <Compile Include="Extensions\Silverlight\VisualStateExtensions.cs" />
     <Compile Include="Extensions\Silverlight\VisualTreeExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="HierarchicalNode.cs" />
     <Compile Include="ICanBeIntersected.cs" />
@@ -189,6 +193,7 @@
     <Compile Include="Input\Silverlight\ManipulationEventHelper.cs" />
     <Compile Include="Input\Silverlight\ManipulationInfo.cs" />
     <Compile Include="Input\Silverlight\MouseDevice.cs" />
+    <Compile Include="Input\Silverlight\MouseInfo.cs" />
     <Compile Include="Input\Silverlight\NodeMouseEventHelper.cs" />
     <Compile Include="Interaction\ICommandSource.cs" />
     <Compile Include="Lighting\DirectionalLight.cs" />
