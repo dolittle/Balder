@@ -22,6 +22,7 @@ using System;
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
+using Balder.Execution;
 using Balder.Silverlight.TypeConverters;
 using SysColor = System.Windows.Media.Color;
 #else
@@ -295,6 +296,7 @@ namespace Balder
 			var colorAsString = string.Format("R: {0}, G: {1}, B: {2}, A: {3}", Red, Green, Blue, Alpha);
 			return colorAsString;
 		}
+
 		#endregion
 
 		#region Operators

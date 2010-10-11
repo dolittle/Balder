@@ -19,77 +19,137 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
-using System.Reflection;
-using Balder.Extensions;
 using Balder.Rendering;
-
 #if(SILVERLIGHT)
+using System.ComponentModel;
 using System.Windows;
-
 #endif
 
 namespace Balder.Execution
 {
-    public class Property<T,TP>
+	public class Property<T,TP> : IProperty
 #if(SILVERLIGHT)
 		where T:DependencyObject
 #endif
-    {
-		private readonly bool _canNotify;
-		private readonly PropertyInfo _propertyInfo;
+	{
+		private readonly PropertyDescriptor _propertyDescriptor;
 		private readonly Dictionary<object, ObjectProperty<TP>> _objectPropertyBag;
-		private readonly string _ownerTypeName;
 		private readonly TP _defaultValue;
-		private readonly Type _ownerType;
-		private readonly bool _isValueType;
-    	private readonly List<object> _childProperties;
+		private readonly PropertyValueChanged<TP> _propertyValueChanged;
 
-		private Property(Expression<Func<T, TP>> expression, TP defaultValue)
+		private Property(Expression<Func<T, TP>> expression, TP defaultValue, PropertyValueChanged<TP> propertyValueChanged)
 		{
-			_ownerType = typeof (T);
+			_propertyDescriptor = new PropertyDescriptor(typeof(T), typeof(TP), expression);
 			_objectPropertyBag = new Dictionary<object, ObjectProperty<TP>>();
-			_ownerTypeName = _ownerType.Name;
-			_propertyInfo = expression.GetPropertyInfo();
 			_defaultValue = defaultValue;
-			_isValueType = typeof(TP).IsValueType;
-			_childProperties = new List<object>();
-			PopulateChildProperties();
-
+			_propertyValueChanged = propertyValueChanged;
 			Initialize();
-			
-			if ( null != _ownerType.GetInterface(typeof(ICanNotifyChanges).Name,false))
+		}
+
+		#region Register
+		public static Property<T, TP> Register(Expression<Func<T, TP>> expression)
+		{
+			var property = Register(expression, default(TP));
+			return property;
+		}
+
+		public static Property<T, TP> Register(Expression<Func<T, TP>> expression, PropertyValueChanged<TP> propertyValueChanged)
+		{
+			var property = Register(expression, propertyValueChanged, default(TP));
+			return property;
+		}
+
+		public static Property<T, TP> Register(Expression<Func<T, TP>> expression, TP defaultValue)
+		{
+			var property = Register(expression, null, defaultValue);
+			return property;
+		}
+
+		public static Property<T, TP> Register(Expression<Func<T, TP>> expression, PropertyValueChanged<TP> propertyValueChanged, TP defaultValue)
+		{
+			var property = new Property<T, TP>(expression, defaultValue, propertyValueChanged);
+			return property;
+		}
+		#endregion
+
+		public TP GetValue(T obj)
+		{
+			var objectProperty = GetObjectProperty(obj);
+			return objectProperty.Value;
+		}
+
+		public void SetValue(T obj, TP value)
+		{
+			var objectProperty = GetObjectProperty(obj);
+
+			HandleRuntimeContext(obj, objectProperty, value);
+			var causesChange = objectProperty.DoesValueCauseChange(value);
+			if (causesChange)
 			{
-				_canNotify = true;
-			} else
+				objectProperty.SignalRendering();
+				CleanupChildren(objectProperty.Value);
+			}
+			if (objectProperty.CallFromExternal)
 			{
-				_canNotify = false;
+				return;
+			}
+
+			objectProperty.CallFromProperty = true;
+			if (causesChange)
+			{
+				HandleSetValue(obj, objectProperty, value);
+			}
+			objectProperty.CallFromProperty = false;
+		}
+
+		public void SetRuntimeContext(object obj, IRuntimeContext runtimeContext)
+		{
+			if (null == obj)
+			{
+				return;
+			}
+			var objectProperty = GetObjectProperty((T)obj);
+			if (null != objectProperty.RuntimeContext)
+			{
+				return;
+			}
+			objectProperty.RuntimeContext = runtimeContext;
+		}
+
+		public void RemoveObjectProperties(object obj)
+		{
+			var identifier = GetObjectIdentifier((T)obj);
+			if (_objectPropertyBag.ContainsKey(identifier))
+			{
+				var objectProperty = GetObjectProperty((T)obj);
+				CleanupChildren(objectProperty.Value);
+				_objectPropertyBag.Remove(identifier);
+
 			}
 		}
 
-		private void PopulateChildProperties()
+
+		public void CleanupChildren(object previousValue)
 		{
-			var type = typeof (TP);
-			var fields = type.GetFields(BindingFlags.Static | BindingFlags.Public);
-			var query = from p in fields
-						where p.Name.StartsWith("Property") || p.FieldType.IsGenericType
-			            select p;
-			foreach( var field in query )
+			if (null == previousValue)
 			{
-				var property = field.GetValue(null);
-				_childProperties.Add(property);
+				return;
+			}
+			foreach (var childProperty in _propertyDescriptor.ChildProperties)
+			{
+				childProperty.RemoveObjectProperties(previousValue);
 			}
 		}
+
 
 		private object GetObjectIdentifier(T obj)
 		{
 			object key;
-			if (obj is IAmUnique)
+			if (_propertyDescriptor.IsUnique)
 			{
 				key = ((IAmUnique)obj).GetIdentifier();
-			}
-			else
+			} else 
 			{
 				key = obj.GetHashCode();
 			}
@@ -105,125 +165,85 @@ namespace Balder.Execution
 				objectProperty = _objectPropertyBag[key];
 			} else
 			{
-				objectProperty = new ObjectProperty<TP>(obj, _isValueType, _defaultValue);
-				objectProperty.Value = _defaultValue;
+				objectProperty = new ObjectProperty<TP>(obj, _propertyDescriptor, _defaultValue, _propertyValueChanged);
 				_objectPropertyBag[key] = objectProperty;
 			}
 			return objectProperty;
 		}
 
 
-		public static Property<T, TP> Register(Expression<Func<T,TP>> expression)
-		{
-			var property = Register(expression, default(TP));
-			return property;
-		}
-
-		public static Property<T, TP> Register(Expression<Func<T,TP>> expression, TP defaultValue)
-		{
-			var property = new Property<T, TP>(expression, defaultValue);
-			return property;
-		}
-
-		public void SetRuntimeContext(T obj, IRuntimeContext runtimeContext)
-		{
-			if( null == obj )
-			{
-				return;
-			}
-			var objectProperty = GetObjectProperty(obj);
-			if( null != objectProperty.RuntimeContext)
-			{
-				return;
-			}
-			objectProperty.RuntimeContext = runtimeContext;
-		}
 
 		private void SetRuntimeContextOnChildren(TP obj, IRuntimeContext runtimeContext)
 		{
-			foreach( var childProperty in _childProperties )
+			foreach( var childProperty in _propertyDescriptor.ChildProperties )
 			{
-				var method = childProperty.GetType().GetMethod("SetRuntimeContext");
-				if( null != method )
-				{
-					method.Invoke(childProperty, new object[] {obj, runtimeContext});
-				}
+				childProperty.SetRuntimeContext(obj, runtimeContext);
 			}
 		}
 
-		public void SetValue(T obj, TP value)
-		{
-			var objectProperty = GetObjectProperty(obj);
-			var causesChange = objectProperty.DoesValueCauseChange(value);
 
-			if (null == objectProperty.RuntimeContext && obj is IHaveRuntimeContext)
+    	private void HandleSetValue(T obj, ObjectProperty<TP> objectProperty, TP value)
+    	{
+			var oldValue = objectProperty.Value;
+			if (_propertyDescriptor.IsCopyable && objectProperty.Value != null)
 			{
-				var runtimeContext = ((IHaveRuntimeContext)obj).RuntimeContext;
+				((ICopyable)value).CopyTo(objectProperty.Value);
+			}
+			else
+			{
+				objectProperty.Value = value;
+				OnSet(obj, value, objectProperty);
+			}
+    		HandleNotification(obj, value, oldValue);
+    	}
+
+    	private void HandleRuntimeContext(T obj, ObjectProperty<TP> objectProperty, TP value)
+    	{
+    		if (null == objectProperty.RuntimeContext && obj is IHaveRuntimeContext)
+    		{
+    			var runtimeContext = ((IHaveRuntimeContext)obj).RuntimeContext;
 #if(SILVERLIGHT)
-				if (null == runtimeContext && obj is FrameworkElement)
-				{
-					var frameworkElement = obj as FrameworkElement;
-					frameworkElement.Loaded += (s, e) =>
-					                                   	{
-					                                   		runtimeContext = ((IHaveRuntimeContext) obj).RuntimeContext;
-					                                   		SetRuntimeContext(obj, runtimeContext);
-															if (null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet)
-															{
-																SetRuntimeContextOnChildren(value, objectProperty.RuntimeContext);
-																objectProperty.ChildrenRuntimeContextSet = true;
-															}
-														};
-				}
+    			if (null == runtimeContext && obj is FrameworkElement)
+    			{
+    				var frameworkElement = obj as FrameworkElement;
+    				frameworkElement.Loaded += (s, e) =>
+    				                           	{
+    				                           		runtimeContext = ((IHaveRuntimeContext) obj).RuntimeContext;
+    				                           		SetRuntimeContext(obj, runtimeContext);
+    				                           		if (null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet)
+    				                           		{
+    				                           			SetRuntimeContextOnChildren(value, objectProperty.RuntimeContext);
+    				                           			objectProperty.ChildrenRuntimeContextSet = true;
+    				                           		}
+    				                           	};
+    			}
 #endif
 
-				if (null != runtimeContext)
-				{
-					SetRuntimeContext(obj, runtimeContext);
-				}
+    			if (null != runtimeContext)
+    			{
+    				SetRuntimeContext(obj, runtimeContext);
+    			}
+    		}
 
-			}
-
-			if( null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet )
+			if (null != objectProperty.RuntimeContext && !objectProperty.ChildrenRuntimeContextSet)
 			{
 				SetRuntimeContextOnChildren(value, objectProperty.RuntimeContext);
 				objectProperty.ChildrenRuntimeContextSet = true;
 			}
+    	}
 
-			if (causesChange)
-			{
-				objectProperty.SignalRendering();
-			}
-			if (objectProperty.CallFromExternal)
-			{
-				return;
-			}
-
-
-			objectProperty.CallFromProperty = true;
-			if (causesChange)
-			{
-				var oldValue = objectProperty.Value;
-				objectProperty.Value = value;
-				OnSet(obj, value, objectProperty);
-				HandleNotification(obj, value, oldValue);
-			}
-			objectProperty.CallFromProperty = false;
-		}
-
-
-		private void HandleNotification(T obj, TP newValue, TP oldValue)
+    	private void HandleNotification(T obj, TP newValue, TP oldValue)
 		{
-			if( _canNotify )
+			if (_propertyDescriptor.CanNotify)
 			{
-				((ICanNotifyChanges)obj).Notify(_propertyInfo.Name,oldValue,newValue);
+				((ICanNotifyChanges)obj).Notify(_propertyDescriptor.PropertyInfo.Name, oldValue, newValue);
+			}
+			if( null != _propertyValueChanged )
+			{
+				_propertyValueChanged(obj, oldValue, newValue);
 			}
 		}
 
-		public TP GetValue(T obj)
-		{
-			var objectProperty = GetObjectProperty(obj);
-			return objectProperty.Value;
-		}
 
 #if(SILVERLIGHT)
 
@@ -247,7 +267,7 @@ namespace Balder.Execution
 			if (!objectProperty.CallFromProperty)
 			{
 				objectProperty.CallFromExternal = true;
-				_propertyInfo.SetValue(obj, e.NewValue, null);
+				_propertyDescriptor.PropertyInfo.SetValue(obj, e.NewValue, null);
 				objectProperty.CallFromExternal = false;
 			}
 		}
@@ -256,9 +276,9 @@ namespace Balder.Execution
 		{
 			ActualDependencyProperty =
 				DependencyProperty.Register(
-					_propertyInfo.Name,
-					_propertyInfo.PropertyType,
-					_ownerType,
+					_propertyDescriptor.PropertyInfo.Name,
+					_propertyDescriptor.PropertyInfo.PropertyType,
+					_propertyDescriptor.OwnerType,
 					new PropertyMetadata(_defaultValue, PropertyChanged)
 				);
 		}
@@ -274,7 +294,6 @@ namespace Balder.Execution
 						() => obj.SetValue(ActualDependencyProperty, value));
 			}
 		}
-
 #else
 		private void Initialize()
 		{

@@ -53,7 +53,7 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
- INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
+		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
 	{
 #if(SILVERLIGHT)
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -306,36 +306,25 @@ namespace Balder
 
 		#region Transform
 
-		public static readonly Property<Node, Coordinate> PivotPointProperty = Property<Node, Coordinate>.Register(n => n.PivotPoint);
-		private Coordinate _pivotPoint;
+		public static readonly Property<Node, Coordinate> PivotPointProperty =
+			Property<Node, Coordinate>.Register(n => n.PivotPoint, TransformChanged);
 		public Coordinate PivotPoint
 		{
 			get { return PivotPointProperty.GetValue(this); }
 			set
 			{
-#if(SILVERLIGHT)
-				if (null != _pivotPoint)
-				{
-					_pivotPoint.PropertyChanged -= TransformChanged;
-				}
-#endif
 				if (null == value)
 				{
 					value = new Coordinate();
 				}
 				PivotPointProperty.SetValue(this, value);
-				_pivotPoint = value;
-#if(SILVERLIGHT)
-				_pivotPoint.PropertyChanged += TransformChanged;
-#endif
-				InvalidateWorld();
 			}
 		}
 
 
 
 		public static readonly Property<Node, Coordinate> PositionProp =
-			Property<Node, Coordinate>.Register(t => t.Position);
+			Property<Node, Coordinate>.Register(t => t.Position, TransformChanged);
 		private Coordinate _position;
 		/// <summary>
 		/// Gets or sets the position of the node in 3D space
@@ -345,28 +334,17 @@ namespace Balder
 			get { return PositionProp.GetValue(this); }
 			set
 			{
-#if(SILVERLIGHT)
-				if (null != _position)
-				{
-					_position.PropertyChanged -= TransformChanged;
-				}
-#endif
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				PositionProp.SetValue(this, value);
-				_position = value;
-#if(SILVERLIGHT)
-				_position.PropertyChanged += TransformChanged;
-#endif
-				InvalidateWorld();
 			}
 		}
 
 
 		public static readonly Property<Node, Coordinate> ScaleProp =
-			Property<Node, Coordinate>.Register(t => t.Scale);
+			Property<Node, Coordinate>.Register(t => t.Scale, TransformChanged);
 
 		private Coordinate _scale;
 
@@ -381,27 +359,16 @@ namespace Balder
 			get { return ScaleProp.GetValue(this); }
 			set
 			{
-#if(SILVERLIGHT)
-				if (null != _scale)
-				{
-					_scale.PropertyChanged -= TransformChanged;
-				}
-#endif
 				if (null == value)
 				{
 					value = new Coordinate(1, 1, 1);
 				}
 				ScaleProp.SetValue(this, value);
-				_scale = value;
-#if(SILVERLIGHT)
-				_scale.PropertyChanged += TransformChanged;
-#endif
-				InvalidateWorld();
 			}
 		}
 
 		public static readonly Property<Node, Coordinate> RotationProp =
-			Property<Node, Coordinate>.Register(t => t.Rotation);
+			Property<Node, Coordinate>.Register(t => t.Rotation, TransformChanged);
 
 		private Coordinate _rotation;
 
@@ -413,22 +380,11 @@ namespace Balder
 			get { return RotationProp.GetValue(this); }
 			set
 			{
-#if(SILVERLIGHT)
-				if (null != _rotation)
-				{
-					_rotation.PropertyChanged -= TransformChanged;
-				}
-#endif
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
 				RotationProp.SetValue(this, value);
-				_rotation = value;
-#if(SILVERLIGHT)
-				_rotation.PropertyChanged += TransformChanged;
-#endif
-				InvalidateWorld();
 			}
 		}
 
@@ -516,9 +472,9 @@ namespace Balder
 			_isWorldInvalidated = false;
 		}
 
-		private void TransformChanged(object sender, PropertyChangedEventArgs e)
+		private static void TransformChanged(object node, Coordinate oldCoordinate, Coordinate newCoordinate)
 		{
-			InvalidateWorld();
+			((Node)node).InvalidateWorld();
 		}
 		#endregion
 

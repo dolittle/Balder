@@ -63,7 +63,7 @@
 
 			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
-				<View:Camera Position="-90,15,-55"/>
+				<View:Camera Position="-90,15,-65"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
 

@@ -14,6 +14,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 
 			_redMaterial = Material.FromColor(Colors.Red);
 			_blueMaterial = Material.FromColor(Colors.Blue);
+			Box.Material = _redMaterial;
+			Box.IsVisible = true;
 		}
 
 		
@@ -36,14 +38,19 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 
 		private void SetColumn(Column column)
 		{
-			Position = column.Position;
-			Box.IsVisible = column.IsBox;
+			//Position = column.Position;
+			
+			Position.X = column.Position.X;
+			Position.Y = column.Position.Y;
+			Position.Z = column.Position.Z;
+			 
+			//Box.IsVisible = column.IsBox;
 			//Cylinder.IsVisible = column.IsCylinder;
 
 
-			Box.Material = column.IsHovering ? _redMaterial : _blueMaterial;
+			//Box.Material = column.IsHovering ? _redMaterial : _blueMaterial;
 
-			Color = column.Color;
+			//Color = column.Color;
 		}
 	}
 }
