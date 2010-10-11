@@ -29,6 +29,7 @@ namespace Balder.Objects.Geometries
 {
 	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
 	{
+		/*
 		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseMoveEvent =
 			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseMove);
 
@@ -37,7 +38,7 @@ namespace Balder.Objects.Geometries
 
 		internal static readonly BubbledEvent<Geometry, FaceInputHandler> FaceMouseLeaveEvent =
 			BubbledEvent<Geometry, FaceInputHandler>.Register(g => g.FaceMouseLeave);
-
+		*/
 		public IGeometryContext GeometryContext { get; set; }
 		public IGeometryDetailLevel FullDetailLevel { get; set; }
 
@@ -45,11 +46,11 @@ namespace Balder.Objects.Geometries
 		private bool _boundingSphereGenerated = false;
 		private BoundingSphere _boundingSphere;
 
-
+		/*
 		public event FaceInputHandler FaceMouseMove = (a) => { };
 		public event FaceInputHandler FaceMouseEnter = (a) => { };
 		public event FaceInputHandler FaceMouseLeave = (a) => { }; 
-
+		*/
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Geometry()
