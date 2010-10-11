@@ -20,41 +20,12 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using System.ComponentModel;
 using Balder.Display;
 using Balder.Execution;
 using System.Windows;
-using Balder.Extensions.Silverlight;
 
 namespace Balder.Input.Silverlight
 {
-	public class MouseInfo : INotifyPropertyChanged
-	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
-
-		private int _xPosition;
-		public int XPosition
-		{
-			get { return _xPosition; }
-			set
-			{
-				_xPosition = value;
-				PropertyChanged.Notify(() => XPosition);
-			}
-		}
-
-		private int _yPosition;
-		public int YPosition
-		{
-			get { return _yPosition; }
-			set
-			{
-				_yPosition = value;
-				PropertyChanged.Notify(() => YPosition);
-			}
-		}
-	}
-
 	public class NodeMouseEventHelper : IDisposable
 	{
 		private readonly Game _game;
@@ -127,6 +98,12 @@ namespace Balder.Input.Silverlight
 				{
 					RaiseEvent(Node.MouseEnterEvent, hitNode, e);
 				}
+
+				if (null != _previousNode &&
+					!hitNode.Equals(_previousNode))
+				{
+					HandleMouseLeave(xPosition, yPosition, e);
+				}
 				_previousNode = hitNode;
 			}
 			else if (null != _previousNode)
@@ -138,6 +115,7 @@ namespace Balder.Input.Silverlight
 
 		public void HandleMouseEnter(int xPosition, int yPosition, System.Windows.Input.MouseEventArgs e)
 		{
+			
 			var hitNode = _viewport.GetNodeAtPosition(xPosition, yPosition);
 			if (null != hitNode)
 			{

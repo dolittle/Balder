@@ -63,7 +63,7 @@
 
 			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
-				<View:Camera Position="-150,130,-380"/>
+				<View:Camera Position="-90,15,-55"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
 
@@ -77,7 +77,7 @@
 			</Grid.Background>
 			<Border BorderBrush="Black" BorderThickness="1">
 				<TextBlock Foreground="White">
-					<Run>X Position : </Run><Run x:Name="_xpos"/><LineBreak/>
+					 <Run>X Position : </Run><Run x:Name="_xpos"/><LineBreak/>
 					<Run>Y Position : </Run><Run x:Name="_ypos"/><LineBreak/>
 					<Run>Mouse Enter : </Run><Run x:Name="_mouseEnter"/><LineBreak/>
 					<Run>Mouse Over : </Run><Run x:Name="_mouseMove"/><LineBreak/>

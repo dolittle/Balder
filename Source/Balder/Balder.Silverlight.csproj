@@ -140,6 +140,7 @@
     <Compile Include="Input\MouseEventHandler.cs" />
     <Compile Include="Input\Silverlight\ManipulationInfo.cs" />
     <Compile Include="Input\Silverlight\MouseDevice.cs" />
+    <Compile Include="Input\Silverlight\MouseInfo.cs" />
     <Compile Include="Interaction\ICommandSource.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
     <Compile Include="Materials\ImageMap.cs" />
