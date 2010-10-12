@@ -14,6 +14,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Events.Mouse
 		{
 			InitializeComponent();
 
+
+
 			_originalNodeColors = new Dictionary<object, Color>();
 
 			/*

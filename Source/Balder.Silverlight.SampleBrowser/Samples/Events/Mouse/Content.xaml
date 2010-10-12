@@ -7,7 +7,7 @@
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder">
 	<Grid x:Name="LayoutRoot" MouseMove="LayoutRoot_MouseMove">
 		
-		<Execution:Game x:Name="_game" Width="800" Height="480" PassiveRendering="True">
+		<Execution:Game x:Name="_game" Width="800" Height="480" PassiveRendering="False">
 			<Execution:Game.DebugInfo>
 				<Debug:DebugInfo ShowMouseHitDetectionRay="True"
 								 BoundingSpheres="True"
@@ -63,7 +63,7 @@
 
 			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
-				<View:Camera Position="-90,15,-65"/>
+				<View:Camera Position="-90,15,-95"/>
 			</Execution:Game.Camera>
 		</Execution:Game>
 

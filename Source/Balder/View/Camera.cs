@@ -139,7 +139,7 @@ namespace Balder.View
 
 		private void UpdateDepthDivisor()
 		{
-			DepthDivisor = Far - Near;
+			DepthDivisor = (Far - Near);
 			DepthZero = Near / DepthDivisor;
 		}
 		#endregion
