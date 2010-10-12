@@ -57,10 +57,12 @@ namespace Balder.Rendering.Silverlight
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
 
-			var z = (((X * worldView.M13) + (Y * worldView.M23)) + (Z * worldView.M33)) + (worldView.M43);
-			z = (z / viewport.View.DepthDivisor) + viewport.View.DepthZero;
-			ProjectedVector.Z = z;
 
+			var zresult = (((X * worldView.M13) + (Y * worldView.M23)) + (Z * worldView.M33)) + (1f * worldView.M43);
+			var wresult = (((X * worldView.M14) + (Y * worldView.M24)) + (Z * worldView.M34)) + (1f * worldView.M44);
+			var z = zresult/wresult;
+			ProjectedVector.Z = (z / viewport.View.DepthDivisor);
+			
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
 

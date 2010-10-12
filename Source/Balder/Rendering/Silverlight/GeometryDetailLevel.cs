@@ -355,7 +355,7 @@ namespace Balder.Rendering.Silverlight
 
 		private void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			var worldView = (world * view);
+			var worldView = (world*view);
 			var worldViewProjection = worldView * projection;
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
@@ -452,7 +452,7 @@ namespace Balder.Rendering.Silverlight
 		private bool IsFaceInView(Viewport viewport, Face face)
 		{
 			var visible = true;
-
+			return true;
 			visible &= (_vertices[face.A].ProjectedVector.X < viewport.Width || 
 						_vertices[face.B].ProjectedVector.X < viewport.Width ||
 						_vertices[face.C].ProjectedVector.X < viewport.Width);
