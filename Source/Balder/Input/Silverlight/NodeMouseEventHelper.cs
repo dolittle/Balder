@@ -103,6 +103,7 @@ namespace Balder.Input.Silverlight
 					!hitNode.Equals(_previousNode))
 				{
 					HandleMouseLeave(xPosition, yPosition, e);
+					HandleMouseEnter(xPosition, yPosition, e);
 				}
 				_previousNode = hitNode;
 			}
