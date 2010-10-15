@@ -91,6 +91,10 @@ namespace Balder.Objects.Geometries
 			}
 
 			var vertices = FullDetailLevel.GetVertices();
+			if( null == vertices )
+			{
+				return;
+			}
             var minX = (from v in vertices
                           select v.X).Min();
             var minY = (from v in vertices
