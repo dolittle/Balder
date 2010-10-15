@@ -630,6 +630,11 @@ namespace Balder.Rendering.Silverlight
 					continue;
 				}
 
+				if( line.IsColorSet )
+				{
+					colorAsInt = line.Color.ToInt();
+				}
+
 				var a = _vertices[line.A];
 				var b = _vertices[line.B];
 				var xstart = a.ProjectedVector.X;

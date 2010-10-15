@@ -31,7 +31,18 @@ namespace Balder.Objects.Geometries
 	{
 		public int A;
 		public int B;
-		public Color Color;
+		private Color _color;
+		public Color Color
+		{
+			get { return _color; }
+			set
+			{
+				_color = value;
+				IsColorSet = true;
+			}
+		}
+
+		public bool IsColorSet { get; private set; }
 
 		public Line(int a, int b)
 			: this()
@@ -39,7 +50,7 @@ namespace Balder.Objects.Geometries
 			A = a;
 			B = b;
 			
-			Color = Colors.White;
+			_color = Colors.Black;
 		}
 	}
 }
