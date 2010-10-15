@@ -196,6 +196,14 @@ namespace Balder
 			{
 				_allNodes.Remove(node);
 			}
+
+#if(SILVERLIGHT)
+			if (null != Game && node is UIElement)
+			{
+				Game.RemoveNodeFromProgrammaticApproach(node);
+			}
+#endif
+
 		}
 
 		/// <summary>
@@ -227,6 +235,9 @@ namespace Balder
 			{
 				_allNodes.Clear();
 			}
+#if(SILVERLIGHT)
+			Game.ClearAllProgrammaticNodes();
+#endif
 		}
 
 		/// <summary>

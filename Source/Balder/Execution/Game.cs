@@ -106,6 +106,22 @@ namespace Balder.Execution
 			}
 		}
 
+		internal void RemoveNodeFromProgrammaticApproach(INode node)
+		{
+			if( node is UIElement )
+			{
+				if( _programmaticChildren.Children.Contains(node as UIElement))
+				{
+					_programmaticChildren.Children.Remove(node as UIElement);
+				}
+			}
+		}
+
+		internal void ClearAllProgrammaticNodes()
+		{
+			_programmaticChildren.Children.Clear();
+		}
+
 
 		public void Unload()
 		{
