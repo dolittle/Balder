@@ -123,7 +123,11 @@ namespace Balder.Objects.Geometries
 			var length = highestVector - lowestVector;
 			var center = lowestVector + (length / 2);
 
-			BoundingSphere = new BoundingSphere(center, length.Length / 2);
+			var diameter = System.Math.Max(System.Math.Max(length.X, length.Y), length.Z);
+
+			
+
+			BoundingSphere = new BoundingSphere(center, diameter/2);
 			base.PrepareBoundingSphere();
 		}
 
