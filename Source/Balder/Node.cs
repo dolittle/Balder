@@ -53,7 +53,7 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
-		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext
+		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel
 	{
 #if(SILVERLIGHT)
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -131,9 +131,7 @@ namespace Balder
 			}
 		}
 
-#if(!SILVERLIGHT)
-		public string Name { get; set; }
-#endif
+		public string Label { get; set; }
 		
 		public bool InteractionEnabled { get; set; }
 		private NodeStatistics _statistics;

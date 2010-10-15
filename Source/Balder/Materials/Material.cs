@@ -28,18 +28,18 @@ using Ninject;
 using System.Collections.Generic;
 using Balder.Execution;
 
-
-
 namespace Balder.Materials
 {
 	/// <summary>
 	/// Represents a material
 	/// </summary>
 #if(SILVERLIGHT)
-	public class Material : FrameworkElement
+	public class Material : FrameworkElement,
 #else
-	public class Material
+	public class Material :
 #endif
+		IHaveLabel
+
 	{
 		internal Color CachedAmbient;
 		internal Color CachedDiffuse;
@@ -104,10 +104,7 @@ namespace Balder.Materials
 #endif
 		}
 
-
-#if(!SILVERLIGHT)
-		public string Name { get; set; }
-#endif
+		public string Label { get; set; }
 
 		public Dictionary<int, Material> SubMaterials { get; private set; }
 
