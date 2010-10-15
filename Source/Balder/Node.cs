@@ -386,6 +386,7 @@ namespace Balder
 			}
 		}
 
+		private Matrix _previousWorld;
 		private Matrix _world;
 		public Matrix World
 		{
@@ -428,9 +429,15 @@ namespace Balder
 		// TODO: this method should be split up and renamed!
 		internal void PrepareActualWorld()
 		{
+			var isDifferent = false;
+			if( null == _previousWorld || !_previousWorld.EqualsTo(World))
+			{
+				isDifferent = true;
+				_previousWorld = World.Clone();
+			}
 			var isWorldIdentity = World.IsIdentity;
 			var matrix = Matrix.Identity;
-			if (!_isWorldInvalidated && isWorldIdentity)
+			if (!_isWorldInvalidated && isWorldIdentity && !isDifferent)
 			{
 				return;
 			}
