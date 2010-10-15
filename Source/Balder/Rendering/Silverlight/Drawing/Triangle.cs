@@ -19,6 +19,7 @@
 
 #endregion
 #if(SILVERLIGHT)
+using System;
 using Balder.Display;
 using Balder.Math;
 
@@ -175,6 +176,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected float Near;
 		protected float Far;
 		protected float DepthMultiplier;
+		protected float ZMultiplier;
 
 		static Triangle()
 		{
@@ -372,6 +374,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Near = viewport.View.Near;
 			Far = viewport.View.Far;
 			DepthMultiplier = viewport.View.DepthMultiplier;
+			ZMultiplier = DepthMultiplier * (float)UInt32.MaxValue;
 
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];

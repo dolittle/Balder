@@ -56,7 +56,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				{
 					z = 1f / zz;
 
-					var bufferZ = (UInt32)((1.0f - (z * DepthMultiplier)) * (float)UInt32.MaxValue);
+					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
 					if (bufferZ > DepthBuffer[offset] &&
 						z >= Near &&
 						z < Far
