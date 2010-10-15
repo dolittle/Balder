@@ -92,13 +92,11 @@ namespace Balder.Rendering.Silverlight
 
 			var actualLength = lengthX > lengthY ? lengthX : lengthY;
 
-			var slopeZ = deltaZ/actualLength;
-			
-
 			if (actualLength != 0)
 			{
 				var slopeX = deltaX / actualLength;
 				var slopeY = deltaY / actualLength;
+				var slopeZ = deltaZ / actualLength;
 
 				var currentX = xstart;
 				var currentY = ystart;
@@ -108,11 +106,12 @@ namespace Balder.Rendering.Silverlight
 				{
 					if (currentX > 0 && currentY > 0 && currentX < viewport.Width && currentY < viewport.Height)
 					{
+						
 						var bufferOffset = (stride * (int)currentY) + (int)currentX;
-						var bufferZ = (UInt32)((1.0f - currentZ) * (float)UInt32.MaxValue);
+						var bufferZ = (UInt32)((1.0f - (currentZ*viewport.View.DepthMultiplier)) * (float)UInt32.MaxValue);
 						if (bufferZ > depthbuffer[bufferOffset] &&
-							currentZ >= 0f &&
-							currentZ < 1f
+							currentZ >= viewport.View.Near &&
+							currentZ < viewport.View.Far
 							)
 						{
 							framebuffer[bufferOffset] = color;

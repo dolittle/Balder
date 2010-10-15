@@ -637,15 +637,13 @@ namespace Balder.Rendering.Silverlight
 
 				var a = _vertices[line.A];
 				var b = _vertices[line.B];
-				var xstart = a.ProjectedVector.X;
-				var ystart = a.ProjectedVector.Y;
-				var xend = b.ProjectedVector.X;
-				var yend = b.ProjectedVector.Y;
 				Shapes.DrawLine(viewport,
-								(int)xstart,
-								(int)ystart,
-								(int)xend,
-								(int)yend,
+								a.ProjectedVector.X,
+								a.ProjectedVector.Y,
+								a.ProjectedVector.Z,
+								b.ProjectedVector.X,
+								b.ProjectedVector.Y,
+								b.ProjectedVector.Z,
 								colorAsInt);
 				lineCount++;
 			}
