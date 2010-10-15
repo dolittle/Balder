@@ -17,6 +17,7 @@
 //
 #endregion
 
+using System.Linq;
 using Balder.Assets;
 using Balder.Display;
 using Balder.Execution;
@@ -84,52 +85,44 @@ namespace Balder.Objects.Geometries
 
 		public override void PrepareBoundingSphere()
 		{
-			var lowestVector = Vector.Zero;
-			var highestVector = Vector.Zero;
-			var vertices = FullDetailLevel.GetVertices();
-			if( null == vertices )
+			if( BoundingSphere.IsSet() )
 			{
 				return;
 			}
-			for (var vertexIndex = 0; vertexIndex < vertices.Length; vertexIndex++)
-			{
-				var vertex = vertices[vertexIndex];
-				if (vertex.X < lowestVector.X)
-				{
-					lowestVector.X = vertex.X;
-				}
-				if (vertex.Y < lowestVector.Y)
-				{
-					lowestVector.Y = vertex.Y;
-				}
-				if (vertex.Z < lowestVector.Z)
-				{
-					lowestVector.Z = vertex.Z;
-				}
-				if (vertex.X > highestVector.X)
-				{
-					highestVector.X = vertex.X;
-				}
-				if (vertex.Y > highestVector.Y)
-				{
-					highestVector.Y = vertex.Y;
-				}
-				if (vertex.Z > highestVector.Z)
-				{
-					highestVector.Z = vertex.Z;
-				}
-			}
 
-			var length = highestVector - lowestVector;
-			var center = lowestVector + (length / 2);
-
-			var diameter = System.Math.Max(System.Math.Max(length.X, length.Y), length.Z);
-
-			
-
-			BoundingSphere = new BoundingSphere(center, diameter/2);
+			var vertices = FullDetailLevel.GetVertices();
+            var minX = (from v in vertices
+                          select v.X).Min();
+            var minY = (from v in vertices
+                          select v.Y).Min();
+            var minZ = (from v in vertices
+                          select v.Z).Min();
+            var maxX = (from v in vertices
+                          select v.X).Max();
+            var maxY = (from v in vertices
+                          select v.Y).Max();
+            var maxZ = (from v in vertices
+                          select v.Z).Max();
+            var lowestVector = new Vector(minX, minY, minZ);
+            var highestVector = new Vector(maxX,maxY,maxZ);
+		    var center = Centroid(vertices);
+            var length = highestVector - lowestVector;
+			BoundingSphere = new BoundingSphere(center, length.Length / 2);
 			base.PrepareBoundingSphere();
 		}
+
+        public Vector Centroid(Vertex[] vertices)
+        {
+            Vector centroid = Vector.Zero;
+
+            centroid.X = (from v in vertices
+                          select v.X).Average();
+            centroid.Y = (from v in vertices
+                          select v.Y).Average();
+            centroid.Z = (from v in vertices
+                          select v.Z).Average();
+            return centroid;
+        }
 
 		public override void Prepare(Viewport viewport)
 		{
