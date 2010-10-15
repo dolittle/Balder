@@ -314,7 +314,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case NODE_NAME:
 					{
-						geometry.Name = content;
+						//geometry.Name = content;
 					}
 					break;
 
@@ -611,7 +611,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case MATERIAL_NAME:
 					{
-						globals.CurrentMaterial.Name = content.Trim();
+						//globals.CurrentMaterial.Name = content.Trim();
 					}
 					break;
 			}
