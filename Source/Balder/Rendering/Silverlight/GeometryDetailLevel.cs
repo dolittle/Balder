@@ -41,7 +41,6 @@ namespace Balder.Rendering.Silverlight
 
 		private Material _colorMaterial;
 
-
 		public GeometryDetailLevel(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
@@ -357,6 +356,7 @@ namespace Balder.Rendering.Silverlight
 		{
 			var worldView = (world*view);
 			var worldViewProjection = worldView * projection;
+
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
@@ -452,7 +452,7 @@ namespace Balder.Rendering.Silverlight
 		private bool IsFaceInView(Viewport viewport, Face face)
 		{
 			var visible = true;
-			return true;
+			//return true;
 			visible &= (_vertices[face.A].ProjectedVector.X < viewport.Width || 
 						_vertices[face.B].ProjectedVector.X < viewport.Width ||
 						_vertices[face.C].ProjectedVector.X < viewport.Width);
@@ -534,7 +534,7 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1Factor = material.DiffuseTextureFactor;
 					face.Texture2Factor = material.ReflectionTextureFactor;
 
-					material.Renderer.Draw(face, _vertices);
+					material.Renderer.Draw(viewport, face, _vertices);
 				}
 				if( material.CachedWireframe )
 				{

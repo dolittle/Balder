@@ -57,12 +57,12 @@ namespace Balder.Rendering.Silverlight
 
 			_vertex.TransformAndProject(viewport, worldView, worldViewProjection);
 
-			if (_vertex.ProjectedVector.Z < 0f || _vertex.ProjectedVector.Z >= 1f)
+			if (_vertex.ProjectedVector.Z < viewport.View.Near || _vertex.ProjectedVector.Z >= viewport.View.Far)
 			{
 				return;
 			}
 			var bufferSize = BufferContainer.Width * BufferContainer.Height;
-			var bufferZ = (UInt32)((1.0f - _vertex.ProjectedVector.Z) * (float)UInt32.MaxValue);
+			var bufferZ = (UInt32)((1.0f - (_vertex.ProjectedVector.Z*viewport.View.DepthMultiplier)) * (float)UInt32.MaxValue);
 
 			var xOriginOffset = (int)-((sprite.CurrentFrame.Width / 2f) * xScale);
 			var yOriginOffset = (int)-((sprite.CurrentFrame.Height / 2f) * yScale);

@@ -57,15 +57,11 @@ namespace Balder.View
 			_frustum = new Frustum();
 		}
 
-		#region Public Properties
 
 		public virtual Matrix ViewMatrix { get; protected set; }
 		public virtual Matrix ProjectionMatrix { get; protected set; }
 
 		public static readonly Property<Camera, Coordinate> PositionProp = Property<Camera, Coordinate>.Register(c => c.Position);
-		/// <summary>
-		/// Get and set the position for the Camera
-		/// </summary>
 		public Coordinate Position
 		{
 			get { return PositionProp.GetValue(this); }
@@ -74,9 +70,6 @@ namespace Balder.View
 
 
 		public static readonly Property<Camera, Coordinate> TargetProp = Property<Camera, Coordinate>.Register(c => c.Target);
-		/// <summary>
-		/// Get and set the target for the Camera - The location the camera is looking at
-		/// </summary>
 		public Coordinate Target
 		{
 			get { return TargetProp.GetValue(this); }
@@ -84,42 +77,18 @@ namespace Balder.View
 		}
 
 		public Vector Up { get; set; }
-
-		/// <summary>
-		/// Get the forward vector for the camera. This is calculated from the target and position
-		/// </summary>
 		public Vector Forward
 		{
 			get { return Target - Position; }
 		}
-
-		/// <summary>
-		/// Gets or sets the near distance clipping plane
-		/// </summary>
 		public float Near { get; set; }
-
-		/// <summary>
-		/// Gets or sets the far distance clipping plane
-		/// </summary>
 		public float Far { get; set; }
-
-		/// <summary>
-		/// Gets the divisor used for transforming Z values for purposes such as depth buffers
-		/// </summary>
 		public float DepthDivisor { get; private set; }
+		public float DepthMultiplier { get; private set; }
 
-		/// <summary>
-		/// Gets the value that indicates the actual zero/start of the depth, typically used by depth buffers
-		/// </summary>
 		public float DepthZero { get; private set; }
-
-
-		/// <summary>
-		/// Gets or sets the field of view for the camera
-		/// </summary>
 		public double FieldOfView { get; set; }
 
-		#endregion
 
 		#region Private Methods
 
@@ -140,6 +109,7 @@ namespace Balder.View
 		private void UpdateDepthDivisor()
 		{
 			DepthDivisor = (Far - Near);
+			DepthMultiplier = 1f/DepthDivisor;
 			DepthZero = Near / DepthDivisor;
 		}
 		#endregion

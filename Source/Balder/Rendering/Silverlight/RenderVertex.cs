@@ -33,7 +33,7 @@ namespace Balder.Rendering.Silverlight
 
 		}
 
-		public RenderVertex(Vertex vertex)
+		public RenderVertex(Vertex vertex)			
 			: this(vertex.X, vertex.Y, vertex.Z, vertex.NormalX, vertex.NormalY, vertex.NormalZ)
 		{
 
@@ -53,22 +53,23 @@ namespace Balder.Rendering.Silverlight
 
 		public void TransformAndProject(Viewport viewport, Matrix worldView, Matrix worldViewProjection)
 		{
-			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
-			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
-			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
-
-
-			var zresult = (((X * worldView.M13) + (Y * worldView.M23)) + (Z * worldView.M33)) + (1f * worldView.M43);
-			var wresult = (((X * worldView.M14) + (Y * worldView.M24)) + (Z * worldView.M34)) + (1f * worldView.M44);
-			var z = zresult/wresult;
-			ProjectedVector.Z = (z / viewport.View.DepthDivisor);
-			
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
 
 			TransformedVector = Vector.Transform(X, Y, Z, worldView);
 			TransformedVectorNormalized = TransformedVector;
 			TransformedVectorNormalized.Normalize();
+			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
+
+			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
+			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
+
+			var divisor = viewport.View.Far-viewport.View.Near;
+			var oneOver = 1f/divisor;
+			var near = viewport.View.Near*oneOver;
+
+			ProjectedVector.Z = TransformedVector.Z;
+			//(TransformedVector.Z - viewport.View.Near) * oneOver;
 		}
 
 		public Vector ProjectedVector;

@@ -61,6 +61,11 @@ namespace Balder.View
 		float DepthDivisor { get; }
 
 		/// <summary>
+		/// Gets or sets the depth multiplier, typically used by Z buffering
+		/// </summary>
+		float DepthMultiplier { get; }
+
+		/// <summary>
 		/// Gets the point in depth that represents Zero
 		/// </summary>
 		float DepthZero { get; }

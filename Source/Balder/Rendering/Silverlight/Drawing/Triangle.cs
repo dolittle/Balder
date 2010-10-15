@@ -19,6 +19,7 @@
 
 #endregion
 #if(SILVERLIGHT)
+using Balder.Display;
 using Balder.Math;
 
 
@@ -171,6 +172,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected static int GreenMask;
 		protected static int BlueMask;
 
+		protected float Near;
+		protected float Far;
+		protected float DepthMultiplier;
+
 		static Triangle()
 		{
 			uint g = 0xff000000;
@@ -187,20 +192,21 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var m = MathHelper.Sqrt((r.X * r.X) + (r.Y * r.Y) +
 									((r.Z + 0f) * (r.Z + 0f)));
 
-			var m1 = 1f/m;
+			var m1 = 1f / m;
 			var s = (r.X * m1);
 			var t = (r.Y * m1);
 
-			if( null == Texture2 )
+			if (null == Texture2)
 			{
 				vertex.U1 = -(s * 0.5f) + 0.5f;
 				vertex.V1 = (t * 0.5f) + 0.5f;
-				
-			} else
+
+			}
+			else
 			{
 				vertex.U2 = -(s * 0.5f) + 0.5f;
 				vertex.V2 = (t * 0.5f) + 0.5f;
-				
+
 			}
 		}
 
@@ -359,9 +365,13 @@ namespace Balder.Rendering.Silverlight.Drawing
 		}
 
 
-		public virtual void Draw(RenderFace face, RenderVertex[] vertices)
+		public virtual void Draw(Viewport viewport, RenderFace face, RenderVertex[] vertices)
 		{
 			Opacity = face.Opacity;
+
+			Near = viewport.View.Near;
+			Far = viewport.View.Far;
+			DepthMultiplier = viewport.View.DepthMultiplier;
 
 			var vertexA = vertices[face.A];
 			var vertexB = vertices[face.B];
@@ -423,10 +433,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 					Texture1 = Texture2;
 					Texture2 = null;
 				}
-				
-				
+
+
 				SetSphericalEnvironmentMapTextureCoordinate(vertexA);
-				
+
 				SetSphericalEnvironmentMapTextureCoordinate(vertexB);
 				SetSphericalEnvironmentMapTextureCoordinate(vertexC);
 
@@ -453,8 +463,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
 
-			var xa = vertexA.ProjectedVector.X;
-			var ya = vertexA.ProjectedVector.Y;
+			var xa = vertexA.ProjectedVector.X + 0.5f;
+			var ya = vertexA.ProjectedVector.Y + 0.5f;
 			var za = vertexA.ProjectedVector.Z;
 			var u1a = vertexA.U1 * texture1Width;
 			var v1a = vertexA.V1 * texture1Height;
@@ -473,8 +483,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var specularBa = ((float)face.SpecularColorA.Blue) / 255f;
 			var specularAa = ((float)face.SpecularColorA.Alpha) / 255f;
 
-			var xb = vertexB.ProjectedVector.X;
-			var yb = vertexB.ProjectedVector.Y;
+			var xb = vertexB.ProjectedVector.X + 0.5f;
+			var yb = vertexB.ProjectedVector.Y + 0.5f;
 			var zb = vertexB.ProjectedVector.Z;
 			var u1b = vertexB.U1 * texture1Width;
 			var v1b = vertexB.V1 * texture1Height;
@@ -493,8 +503,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var specularBb = ((float)face.SpecularColorB.Blue) / 255f;
 			var specularAb = ((float)face.SpecularColorB.Alpha) / 255f;
 
-			var xc = vertexC.ProjectedVector.X;
-			var yc = vertexC.ProjectedVector.Y;
+			var xc = vertexC.ProjectedVector.X + 0.5f;
+			var yc = vertexC.ProjectedVector.Y + 0.5f;
 			var zc = vertexC.ProjectedVector.Z;
 			var u1c = vertexC.U1 * texture1Width;
 			var v1c = vertexC.V1 * texture1Height;
@@ -606,11 +616,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var diffuseGInterpolateA = deltaDiffuseGA / deltaYA;
 			var diffuseGInterpolateB = deltaDiffuseGB / deltaYB;
 			var diffuseGInterpolateC = deltaDiffuseGC / deltaYC;
-							
+
 			var diffuseBInterpolateA = deltaDiffuseBA / deltaYA;
 			var diffuseBInterpolateB = deltaDiffuseBB / deltaYB;
 			var diffuseBInterpolateC = deltaDiffuseBC / deltaYC;
-							
+
 			var diffuseAInterpolateA = deltaDiffuseAA / deltaYA;
 			var diffuseAInterpolateB = deltaDiffuseAB / deltaYB;
 			var diffuseAInterpolateC = deltaDiffuseAC / deltaYC;
@@ -619,15 +629,15 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var specularRInterpolateA = deltaSpecularRA / deltaYA;
 			var specularRInterpolateB = deltaSpecularRB / deltaYB;
 			var specularRInterpolateC = deltaSpecularRC / deltaYC;
-				
+
 			var specularGInterpolateA = deltaSpecularGA / deltaYA;
 			var specularGInterpolateB = deltaSpecularGB / deltaYB;
 			var specularGInterpolateC = deltaSpecularGC / deltaYC;
-				
+
 			var specularBInterpolateA = deltaSpecularBA / deltaYA;
 			var specularBInterpolateB = deltaSpecularBB / deltaYB;
 			var specularBInterpolateC = deltaSpecularBC / deltaYC;
-				
+
 			var specularAInterpolateA = deltaSpecularAA / deltaYA;
 			var specularAInterpolateB = deltaSpecularAB / deltaYB;
 			var specularAInterpolateC = deltaSpecularAC / deltaYC;
@@ -1076,14 +1086,15 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected void SetPixel(int offset, int pixel)
 		{
-			if( Opacity < 256 )
+			if (Opacity < 256)
 			{
 				Framebuffer[offset] = Color.Blend(pixel, Framebuffer[offset], Opacity);
-			} else
-			{
-				Framebuffer[offset] = pixel;	
 			}
-			
+			else
+			{
+				Framebuffer[offset] = pixel;
+			}
+
 		}
 
 

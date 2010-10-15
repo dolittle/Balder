@@ -26,6 +26,7 @@ using Balder.Execution;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.Rendering.Silverlight;
+using Ninject;
 
 namespace Balder.Display.Silverlight
 {
@@ -59,6 +60,8 @@ namespace Balder.Display.Silverlight
 			_runtimeContext = runtimeContext;
 			ClearEnabled = true;
 		}
+
+		
 
 		public bool ClearEnabled { get; set; }
 		public bool Paused { get; set; }

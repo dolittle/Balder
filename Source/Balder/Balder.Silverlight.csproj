@@ -190,7 +190,9 @@
     <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryDebugInfo.cs" />
     <Compile Include="Rendering\Silverlight\GeometryRenderer.cs" />
+    <Compile Include="Rendering\Silverlight\IGeometryDebugInfo.cs" />
     <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
     <Compile Include="Rendering\Silverlight\IVertexModifier.cs" />
     <Compile Include="Rendering\Silverlight\RenderNormal.cs" />

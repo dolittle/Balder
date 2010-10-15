@@ -20,6 +20,7 @@
 using System.Collections.Generic;
 using Balder.Execution;
 using Balder.Rendering;
+using Balder.Rendering.Silverlight;
 
 namespace Balder.Display.Silverlight
 {
