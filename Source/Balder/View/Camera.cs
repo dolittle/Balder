@@ -34,7 +34,7 @@ namespace Balder.View
 #else
 	public class Camera :
 #endif
-		IView, IHaveRuntimeContext
+ IView, IHaveRuntimeContext
 	{
 		public const float DefaultFieldOfView = 45f;
 		public const float DefaultFar = 4000f;
@@ -83,11 +83,18 @@ namespace Balder.View
 		}
 		public float Near { get; set; }
 		public float Far { get; set; }
-		public float DepthDivisor { get; private set; }
-		public float DepthMultiplier { get; private set; }
+
+		public static readonly Property<Camera, double> FieldOfViewProperty =
+			Property<Camera, double>.Register(c => c.FieldOfView);
+		public double FieldOfView
+		{
+			get { return FieldOfViewProperty.GetValue(this); }
+			set { FieldOfViewProperty.SetValue(this, value); }
+		}
 
 		public float DepthZero { get; private set; }
-		public double FieldOfView { get; set; }
+		public float DepthDivisor { get; private set; }
+		public float DepthMultiplier { get; private set; }
 
 
 		#region Private Methods
@@ -109,7 +116,7 @@ namespace Balder.View
 		private void UpdateDepthDivisor()
 		{
 			DepthDivisor = (Far - Near);
-			DepthMultiplier = 1f/DepthDivisor;
+			DepthMultiplier = 1f / DepthDivisor;
 			DepthZero = Near / DepthDivisor;
 		}
 		#endregion
@@ -117,7 +124,7 @@ namespace Balder.View
 		#region Public Methods
 
 		public void Update(Viewport viewport)
-				{	
+		{
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 			SetupProjection(viewport);
 			UpdateDepthDivisor();
@@ -143,7 +150,7 @@ namespace Balder.View
 		{
 			var inFrustum = _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
 			return inFrustum == FrustumIntersection.Inside ||
-			       inFrustum == FrustumIntersection.Intersect;
+				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Vector position, float radius)
