@@ -89,7 +89,7 @@ namespace Balder.Input.Silverlight
 			MouseInfo.YPosition = yPosition;
 
 			var hitNode = _viewport.GetNodeAtPosition(xPosition, yPosition);
-			if (null != hitNode)
+			if (null != hitNode && hitNode.IsHitTestEnabled )
 			{
 				RaiseEvent(Node.MouseMoveEvent,hitNode,e);
 
@@ -116,7 +116,6 @@ namespace Balder.Input.Silverlight
 
 		public void HandleMouseEnter(int xPosition, int yPosition, System.Windows.Input.MouseEventArgs e)
 		{
-			
 			var hitNode = _viewport.GetNodeAtPosition(xPosition, yPosition);
 			if (null != hitNode)
 			{

@@ -234,13 +234,16 @@ namespace Balder.Controls
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
 					_actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
-					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
-					distance = _actualNodeTemplate.Intersects(viewport, pickRay);
-					if (null != distance && (distance < closestDistance || closestDistance == null))
+					if (_actualNodeTemplate.IsIntersectionTestEnabled)
 					{
-						closestDistance = distance;
-						closestIndex = index;
-						
+						_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+						distance = _actualNodeTemplate.Intersects(viewport, pickRay);
+						if (null != distance && (distance < closestDistance || closestDistance == null))
+						{
+							closestDistance = distance;
+							closestIndex = index;
+
+						}
 					}
 				}
 

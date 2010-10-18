@@ -41,6 +41,8 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public bool IsHitTestEnabled { get; set; }
+		public bool IsIntersectionTestEnabled { get; set; }
 
 		public NodeStatistics Statistics
 		{
@@ -68,6 +70,8 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public bool IsHitTestEnabled { get; set; }
+		public bool IsIntersectionTestEnabled { get; set; }
 
 		public NodeStatistics Statistics
 		{
@@ -95,6 +99,8 @@ namespace Balder.Tests.Execution
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
 		public Scene Scene { get; set; }
+		public bool IsHitTestEnabled { get; set; }
+		public bool IsIntersectionTestEnabled { get; set; }
 
 		public NodeStatistics Statistics
 		{

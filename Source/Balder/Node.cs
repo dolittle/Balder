@@ -53,7 +53,7 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
-		INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel
+ INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel
 	{
 #if(SILVERLIGHT)
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -132,7 +132,7 @@ namespace Balder
 		}
 
 		public string Label { get; set; }
-		
+
 		public bool InteractionEnabled { get; set; }
 		private NodeStatistics _statistics;
 		public NodeStatistics Statistics
@@ -168,7 +168,6 @@ namespace Balder
 		{
 			OnInitialize();
 		}
-
 
 		public static readonly Property<Node, ICommand> CommandProperty =
 			Property<Node, ICommand>.Register(o => o.Command);
@@ -302,6 +301,24 @@ namespace Balder
 		}
 
 
+		public static readonly Property<Node, bool> IsHitTestEnabledProperty =
+			Property<Node, bool>.Register(n => n.IsHitTestEnabled, true);
+		public bool IsHitTestEnabled
+		{
+			get { return IsHitTestEnabledProperty.GetValue(this); }
+			set { IsHitTestEnabledProperty.SetValue(this, value); }
+		}
+
+
+		public static readonly Property<Node, bool> IsIntersectionTestEnabledProperty =
+			Property<Node, bool>.Register(n => n.IsIntersectionTestEnabled, true);
+		public bool IsIntersectionTestEnabled
+		{
+			get { return IsIntersectionTestEnabledProperty.GetValue(this); }
+			set { IsIntersectionTestEnabledProperty.SetValue(this, value); }
+		}
+
+
 		#region Transform
 
 		public static readonly Property<Node, Coordinate> PivotPointProperty =
@@ -430,7 +447,7 @@ namespace Balder
 		internal void PrepareActualWorld()
 		{
 			var isDifferent = false;
-			if( null == _previousWorld || !_previousWorld.EqualsTo(World))
+			if (null == _previousWorld || !_previousWorld.EqualsTo(World))
 			{
 				isDifferent = true;
 				_previousWorld = World.Clone();

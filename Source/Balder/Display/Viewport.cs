@@ -253,6 +253,10 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
+			if( !node.IsIntersectionTestEnabled )
+			{
+				return;
+			}
 			if (node is ICanGetNodeAtPosition)
 			{
 				float? distance = null;
