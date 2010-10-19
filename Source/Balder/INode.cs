@@ -1,9 +1,10 @@
 using Balder.Display;
+using Balder.Execution;
 using Balder.Math;
 
 namespace Balder
 {
-	public interface INode
+	public interface INode : IHaveLabel
 	{
 		INode Parent { get; }
 

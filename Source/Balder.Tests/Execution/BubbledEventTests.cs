@@ -36,7 +36,7 @@ namespace Balder.Tests.Execution
 
 		public event BubbledEventHandler Event;
 
-		public string Name { get; set; }
+		public string Label { get; set; }
 		public INode Parent { get; set; }
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
@@ -65,7 +65,7 @@ namespace Balder.Tests.Execution
 			BubbledEvent<SimpleClassWithMouseEvents, MouseEventHandler>.Register(s => s.Mouse);
 
 		public event MouseEventHandler Mouse;
-		public string Name { get; set; }
+		public string Label { get; set; }
 		public INode Parent { get; set; }
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
@@ -94,7 +94,7 @@ namespace Balder.Tests.Execution
 			BubbledEvent<HierarchicalClass, BubbledEventHandler>.Register(s => s.SomeEvent);
 
 		public event BubbledEventHandler SomeEvent;
-		public string Name { get; set; }
+		public string Label { get; set; }
 		public INode Parent { get; set; }
 		public Matrix ActualWorld { get; private set; }
 		public Matrix RenderingWorld { get; set; }
