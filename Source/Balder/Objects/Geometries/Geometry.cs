@@ -191,6 +191,7 @@ namespace Balder.Objects.Geometries
 			if( assetPart is Geometry )
 			{
 				var geometry = assetPart as Geometry;
+				Material = geometry.Material;
 				World = geometry.World;
 				BoundingSphere = geometry.BoundingSphere;
 				FullDetailLevel = geometry.FullDetailLevel;
