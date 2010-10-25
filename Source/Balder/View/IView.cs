@@ -28,7 +28,6 @@ namespace Balder.View
 	{
 		Coordinate Position { get; set; }
 
-
 		/// <summary>
 		/// Gets the view <see cref="Matrix"/> for the view
 		/// </summary>

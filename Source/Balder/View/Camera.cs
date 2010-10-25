@@ -81,6 +81,7 @@ namespace Balder.View
 		{
 			get { return Target - Position; }
 		}
+
 		public float Near { get; set; }
 		public float Far { get; set; }
 
@@ -159,7 +160,6 @@ namespace Balder.View
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
-
 		#endregion
 
 		public IRuntimeContext RuntimeContext { get; internal set; }

@@ -469,9 +469,9 @@ namespace Balder.Rendering.Silverlight
 						_vertices[face.B].ProjectedVector.Y > 0 ||
 						_vertices[face.C].ProjectedVector.Y > 0);
 
-			var near = (_vertices[face.A].ProjectedVector.Z <= viewport.View.Near &&
-					 _vertices[face.B].ProjectedVector.Z <= viewport.View.Near &&
-					_vertices[face.C].ProjectedVector.Z <= viewport.View.Near);
+			var near = (_vertices[face.A].ProjectedVector.Z < viewport.View.Near &&
+					 _vertices[face.B].ProjectedVector.Z < viewport.View.Near &&
+					_vertices[face.C].ProjectedVector.Z < viewport.View.Near);
 
 			visible &= !near;
 			return visible;

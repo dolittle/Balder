@@ -69,7 +69,7 @@
 						<Image Source="/Balder.Silverlight.SampleBrowser;component/Assets/mouse.png" Stretch="None"/>
 						<TextBlock Text=" = Rotate object" Style="{StaticResource HelpText}"/>
 					</StackPanel>
-					
+
 
 					<TextBlock Text="Object Properties" Style="{StaticResource Category}"/>
 					<StackPanel Orientation="Horizontal">
@@ -97,14 +97,14 @@
 							<TextBlock Text="Use constant color for wireframe" Grid.Column="1" Grid.Row="0"/>
 						</StackPanel>
 
-						
+
 
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding MagnificationFiltering, Mode=TwoWay, Converter={StaticResource BilinearFilteringConverter}}"/>
 							<TextBlock Text="Bilinear filtering" Grid.Column="1" Grid.Row="0"/>
 						</StackPanel>
-						
-						
+
+
 
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock Text="Shading type" Grid.Column="0" Grid.Row="1"/>
@@ -140,7 +140,7 @@
 							<CheckBox Grid.Column="0" Grid.Row="1" IsChecked="{Binding DoubleSided, Mode=TwoWay}"/>
 							<TextBlock Text="Double sided" Grid.Column="1" Grid.Row="0"/>
 						</StackPanel>
-						
+
 						<StackPanel Orientation="Horizontal" VerticalAlignment="Center">
 							<TextBlock Text="Opacity"/>
 							<toolkit:NumericUpDown Minimum="0"
@@ -220,28 +220,70 @@
 			</Border>
 
 
-			<Execution:Game x:Name="Game" Grid.Column="1" Width="640" Height="480">
-				<Execution:Game.Camera>
-					<View:Camera Position="0,0,-100"/>
-				</Execution:Game.Camera>
+			<StackPanel Grid.Column="1" Orientation="Vertical">
+				<Execution:Game x:Name="Game" Width="640" Height="480">
+					<Execution:Game.Camera>
+						<View:Camera x:Name="Camera" Position="0,0,-100"/>
+					</Execution:Game.Camera>
 
-				<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
-				<Lighting:DirectionalLight x:Name="DirectionalLight" Direction="0,1,0" IsEnabled="False"/>
+					<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
+					<Lighting:DirectionalLight x:Name="DirectionalLight" Direction="0,1,0" IsEnabled="False"/>
 
-				<Geometries:Mesh x:Name="Mesh" 
+					<Geometries:Mesh x:Name="Mesh" 
 								 InteractionEnabled="True"
 								 PivotPoint="0,10,0"
 								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ASE">
-					<Geometries:Mesh.Material>
-						<Materials:Material 
+						<Geometries:Mesh.Material>
+							<Materials:Material 
 							Ambient="Black" 
 							Diffuse="Blue" 
 							Specular="White" 
 							Shade="Gouraud" 
 							/>
-					</Geometries:Mesh.Material>
-				</Geometries:Mesh>
-			</Execution:Game>
+						</Geometries:Mesh.Material>
+					</Geometries:Mesh>
+				</Execution:Game>
+
+				<Border BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+
+					<Grid Width="640">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="100"/>
+							<ColumnDefinition Width="*"/>
+							<ColumnDefinition Width="50"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
+						</Grid.RowDefinitions>
+
+						<Grid.Background>
+							<SolidColorBrush Opacity="0.5" Color="Gray"/>
+						</Grid.Background>
+
+						<TextBlock Text="Near Clipping" Grid.Column="0" Grid.Row="0"/>
+						<Slider x:Name="NearSlider" 
+						Grid.Column="1"
+						Grid.Row="0"
+						Minimum="1" 
+						Maximum="200" 
+						ValueChanged="SlidersValueChanged"/>
+						<TextBlock Text="{Binding ElementName=NearSlider, Path=Value}" Grid.Column="2" Grid.Row="0"/>
+
+						<TextBlock Text="Far Clipping" Grid.Column="0" Grid.Row="1"/>
+						<Slider x:Name="FarSlider" 
+						Grid.Column="1"
+						Grid.Row="1"
+						Minimum="{Binding ElementName=NearSlider, Path=Value}" 
+						Maximum="200" 
+						ValueChanged="SlidersValueChanged" 
+						Value="200"/>
+						<TextBlock Text="{Binding ElementName=FarSlider, Path=Value}" Grid.Column="2" Grid.Row="1"/>
+					</Grid>
+				</Border>
+
+			</StackPanel>
 		</Grid>
 
 

@@ -20,6 +20,7 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
+using System.Collections.Generic;
 using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
@@ -29,7 +30,10 @@ namespace Balder.Rendering.Silverlight
 {
 	public class RenderFace : Face
 	{
-		private static RenderVertex _vertexD = new RenderVertex();
+		private static readonly RenderVertex VertexA = new RenderVertex();
+		private static readonly RenderVertex VertexB = new RenderVertex();
+		private static readonly RenderVertex VertexC = new RenderVertex();
+		private static readonly RenderVertex VertexD = new RenderVertex();
 
 		public static readonly float DebugNormalLength = 5f;
 
@@ -240,6 +244,28 @@ namespace Balder.Rendering.Silverlight
 			vertexC = point3;
 		}
 
+		private static readonly List<RenderVertex> _sortList = new List<RenderVertex>();
+
+
+		protected void GetSortedPoints(ref RenderVertex vertexA,
+										ref RenderVertex vertexB,
+										ref RenderVertex vertexC,
+										ref RenderVertex vertexD,
+										Func<Vector, float> getComponent)
+		{
+			_sortList.Clear();
+			_sortList.Add(vertexA);
+			_sortList.Add(vertexB);
+			_sortList.Add(vertexC);
+			_sortList.Add(vertexD);
+			_sortList.Sort((a, b) => getComponent(a.ProjectedVector).CompareTo(getComponent(b.ProjectedVector)));
+
+			vertexA = _sortList[0];
+			vertexB = _sortList[1];
+			vertexC = _sortList[2];
+			vertexD = _sortList[3];
+		}
+
 		protected bool IsClippedAgainstNear(Viewport viewport, RenderVertex a, RenderVertex b, RenderVertex c)
 		{
 			var clipped =
@@ -300,7 +326,7 @@ namespace Balder.Rendering.Silverlight
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
 			var deltaV2 = vertexB.V2 - vertexA.V2;
-			var length = System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+			var length = delta.Z; // System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
 
 			var xAdd = (delta.X / length) * distance;
 			var yAdd = (delta.Y / length) * distance;
@@ -313,7 +339,8 @@ namespace Balder.Rendering.Silverlight
 			vertexA.TransformedVector = new Vector(
 					vertexA.TransformedVector.X + xAdd,
 					vertexA.TransformedVector.Y + yAdd,
-					vertexA.TransformedVector.Z + zAdd
+					viewport.View.Near
+					//vertexA.TransformedVector.Z + zAdd
 				);
 			vertexA.ProjectedVector = Vector.Transform(vertexA.TransformedVector, viewport.View.ProjectionMatrix);
 			vertexA.ConvertToScreenCoordinates(viewport);
@@ -334,6 +361,14 @@ namespace Balder.Rendering.Silverlight
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
+				vertexA.CopyTo(VertexA);
+				vertexB.CopyTo(VertexB);
+				vertexC.CopyTo(VertexC);
+
+				vertexA = VertexA;
+				vertexB = VertexB;
+				vertexC = VertexC;
+
 				GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Z);
 
 				if (vertexB.ProjectedVector.Z < viewport.View.Near)
@@ -346,23 +381,26 @@ namespace Balder.Rendering.Silverlight
 				}
 				else
 				{
-					var vertexD = _vertexD;
+					var vertexD = VertexD;
 					vertexA.CopyTo(vertexD);
 
 					ClipLine(viewport, vertexA, vertexB);
 					ClipLine(viewport, vertexD, vertexC);
-
+					
 					var originalA = vertexA;
+					var originalB = vertexB;
 					var originalC = vertexC;
 
 					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
 					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
 
+					
 					vertexA = originalA;
+					vertexB = originalB;
 					vertexC = originalC;
+					
 
 					GetSortedPoints(ref vertexA, ref vertexD, ref vertexC, (v) => v.Y);
-
 					material.Renderer.Draw(viewport, this, vertexA, vertexD, vertexC);
 				}
 			}

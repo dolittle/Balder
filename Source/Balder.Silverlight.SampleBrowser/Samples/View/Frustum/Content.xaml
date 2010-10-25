@@ -14,7 +14,7 @@
 						<View:Camera Position="0,0,-30" Target="0,0,0" FieldOfView="40" x:Name="Camera"/>
 					</Execution:Game.Camera>
 
-					<!--<Lighting:OmniLight Position="0,100,-60" Diffuse="Blue" Strength="0.1"/>-->
+					<Lighting:OmniLight Position="0,100,-60" Diffuse="Blue" Strength="0.1"/>
 					
 					<Frustum:SinglePoly x:Name="Poly">
 						<Frustum:SinglePoly.Material>
@@ -24,6 +24,7 @@
 
 					<!--
 					<Geometries:Box Dimension="5,5,5" Position="0,0,0" InteractionEnabled="True"/>
+					
 					
 					<Geometries:Box Dimension="100,100,100" Position="-3500,0,3900"/>
 					<Geometries:Box Dimension="100,100,100" Position="-2500,0,3900"/>
@@ -45,6 +46,8 @@
 
 			<Grid Background="Teal">
 				<Grid.RowDefinitions>
+					<RowDefinition Height="30"/>
+					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
@@ -104,6 +107,33 @@
 				<Slider Grid.Column="8" Grid.Row="2" Value="{Binding ElementName=Poly, Path=Vertex3.Z, Mode=TwoWay}" Minimum="-35" Maximum="35"/>
 				<TextBlock Grid.Column="9" Grid.Row="2" Text="{Binding ElementName=Poly, Path=Vertex3.Z}"/>
 
+
+				<TextBlock Grid.Column="0" Grid.Row="3" Text="Vertex4"/>
+				<TextBlock Grid.Column="1" Grid.Row="3" Text="X"/>
+				<Slider Grid.Column="2" Grid.Row="3" Value="{Binding ElementName=Poly, Path=Vertex4.X, Mode=TwoWay}" Minimum="-8" Maximum="8"/>
+				<TextBlock Grid.Column="3" Grid.Row="3" Text="{Binding ElementName=Poly, Path=Vertex4.X}"/>
+
+				<TextBlock Grid.Column="4" Grid.Row="3" Text="Y"/>
+				<Slider Grid.Column="5" Grid.Row="3" Value="{Binding ElementName=Poly, Path=Vertex4.Y, Mode=TwoWay}" Minimum="-8" Maximum="8"/>
+				<TextBlock Grid.Column="6" Grid.Row="3" Text="{Binding ElementName=Poly, Path=Vertex4.Y}"/>
+
+				<TextBlock Grid.Column="7" Grid.Row="3" Text="Z"/>
+				<Slider Grid.Column="8" Grid.Row="3" Value="{Binding ElementName=Poly, Path=Vertex4.Z, Mode=TwoWay}" Minimum="-35" Maximum="35"/>
+				<TextBlock Grid.Column="9" Grid.Row="3" Text="{Binding ElementName=Poly, Path=Vertex4.Z}"/>
+
+
+				<TextBlock Grid.Column="0" Grid.Row="4" Text="Vertex5"/>
+				<TextBlock Grid.Column="1" Grid.Row="4" Text="X"/>
+				<Slider Grid.Column="2" Grid.Row="4" Value="{Binding ElementName=Poly, Path=Vertex5.X, Mode=TwoWay}" Minimum="-8" Maximum="8"/>
+				<TextBlock Grid.Column="3" Grid.Row="4" Text="{Binding ElementName=Poly, Path=Vertex5.X}"/>
+
+				<TextBlock Grid.Column="4" Grid.Row="4" Text="Y"/>
+				<Slider Grid.Column="5" Grid.Row="4" Value="{Binding ElementName=Poly, Path=Vertex5.Y, Mode=TwoWay}" Minimum="-8" Maximum="8"/>
+				<TextBlock Grid.Column="6" Grid.Row="4" Text="{Binding ElementName=Poly, Path=Vertex5.Y}"/>
+
+				<TextBlock Grid.Column="7" Grid.Row="4" Text="Z"/>
+				<Slider Grid.Column="8" Grid.Row="4" Value="{Binding ElementName=Poly, Path=Vertex5.Z, Mode=TwoWay}" Minimum="-35" Maximum="35"/>
+				<TextBlock Grid.Column="9" Grid.Row="4" Text="{Binding ElementName=Poly, Path=Vertex5.Z}"/>
 
 
 			</Grid>
