@@ -258,7 +258,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Far = viewport.View.Far;
 			DepthMultiplier = viewport.View.DepthMultiplier;
 			ZMultiplier = DepthMultiplier * (float)UInt32.MaxValue;
-
+			
 			Texture1 = null;
 			if (null != face.Texture1 && face.Texture1Factor > 0)
 			{

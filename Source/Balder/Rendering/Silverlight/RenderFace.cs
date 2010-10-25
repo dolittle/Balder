@@ -29,6 +29,20 @@ namespace Balder.Rendering.Silverlight
 {
 	public class RenderFace : Face
 	{
+		private static RenderVertex _vertexA;
+		private static RenderVertex _vertexB;
+		private static RenderVertex _vertexC;
+		private static RenderVertex _vertexD;
+
+		private static RenderFace _face1;
+		private static RenderFace _face2;
+
+		static RenderFace()
+		{
+			_face1 = new RenderFace(0, 0, 0);
+			_face2 = new RenderFace(0, 0, 0);
+		}
+
 		public static readonly float DebugNormalLength = 5f;
 
 		public Material Material;
@@ -97,9 +111,9 @@ namespace Balder.Rendering.Silverlight
 		public Texture BumpMap;
 
 		public RenderFace(int a, int b, int c)
-			: base(a,b,c)
+			: base(a, b, c)
 		{
-			
+
 		}
 
 		public RenderFace(Face face)
@@ -143,12 +157,8 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private void Prepare(Viewport viewport, RenderVertex[] vertices, Material material)
+		private void Prepare(RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
-			var vertexA = vertices[A];
-			var vertexB = vertices[B];
-			var vertexC = vertices[C];
-
 			if (null != Texture1TextureCoordinateA)
 			{
 				vertexA.U1 = Texture1TextureCoordinateA.U;
@@ -189,7 +199,6 @@ namespace Balder.Rendering.Silverlight
 
 			vertexC.U2 = vertexC.U1;
 			vertexC.V2 = vertexC.V1;
-
 
 			vertexA.CalculatedColor = CalculatedColorA;
 			vertexA.DiffuseColor = DiffuseColorA;
@@ -241,18 +250,55 @@ namespace Balder.Rendering.Silverlight
 			vertexC = point3;
 		}
 
+		protected bool IsClippedAgainstNear(Viewport viewport, RenderVertex a, RenderVertex b, RenderVertex c)
+		{
+			var clipped =
+				a.ProjectedVector.Z < viewport.View.Near ||
+				b.ProjectedVector.Z < viewport.View.Near ||
+				c.ProjectedVector.Z < viewport.View.Near;
+
+			return clipped;
+		}
+
 
 		public void Draw(Viewport viewport, RenderVertex[] vertices, Material material)
 		{
-			Prepare(viewport, vertices, material);
-
 			var vertexA = vertices[A];
 			var vertexB = vertices[B];
 			var vertexC = vertices[C];
+			Prepare(vertexA, vertexB, vertexC);
 
+			Draw(viewport, vertexA, vertexB, vertexC, material);
+		}
+
+
+		private void Draw(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
+		{
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
+			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
+			{
 
-			material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+			}
+			else
+			{
+				material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+			}
+		}
+
+
+		private void SetFaceProperties(RenderFace targetFace)
+		{
+			targetFace.ColorAsInt = ColorAsInt;
+			targetFace.DiffuseAsInt = DiffuseAsInt;
+			targetFace.SpecularAsInt = SpecularAsInt;
+			targetFace.MaterialDiffuseAsInt = MaterialDiffuseAsInt;
+			targetFace.Texture1 = Texture1;
+			targetFace.Texture1Factor = Texture1Factor;
+			targetFace.Texture2 = Texture2;
+			targetFace.Texture2Factor = Texture2Factor;
+			targetFace.LightMap = LightMap;
+			targetFace.BumpMap = BumpMap;
+			targetFace.Material = Material;
 		}
 	}
 }
