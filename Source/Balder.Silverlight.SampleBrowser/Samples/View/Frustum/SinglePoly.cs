@@ -54,9 +54,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.Frustum
 			FullDetailLevel.SetVertex(1, new Vertex((float)Vertex2.X, (float)Vertex2.Y, (float)Vertex2.Z));
 			FullDetailLevel.SetVertex(2, new Vertex((float)Vertex3.X, (float)Vertex3.Y, (float)Vertex3.Z));
 
+			FullDetailLevel.AllocateTextureCoordinates(3);
+			FullDetailLevel.SetTextureCoordinate(0, new TextureCoordinate(0, 0));
+			FullDetailLevel.SetTextureCoordinate(1, new TextureCoordinate(1, 0));
+			FullDetailLevel.SetTextureCoordinate(2, new TextureCoordinate(0, 1));
 
 			FullDetailLevel.AllocateFaces(1);
 			FullDetailLevel.SetFace(0, new Face(0, 1, 2));
+
+			FullDetailLevel.SetFaceTextureCoordinateIndex(0,0,1,2);
 
 			base.Prepare(viewport);
 		}

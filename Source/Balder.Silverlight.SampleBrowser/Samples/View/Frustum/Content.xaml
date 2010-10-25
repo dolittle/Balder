@@ -18,7 +18,7 @@
 					
 					<Frustum:SinglePoly x:Name="Poly">
 						<Frustum:SinglePoly.Material>
-							<Materials:Material DoubleSided="True" Diffuse="Blue"/>
+							<Materials:Material DoubleSided="True" Diffuse="Blue" DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png"/>
 						</Frustum:SinglePoly.Material>
 					</Frustum:SinglePoly>
 

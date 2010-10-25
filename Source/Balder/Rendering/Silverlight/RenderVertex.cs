@@ -61,11 +61,17 @@ namespace Balder.Rendering.Silverlight
 			TransformedVectorNormalized.Normalize();
 
 			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
+			ConvertToScreenCoordinates(viewport);
+		}
 
+		public void ConvertToScreenCoordinates(Viewport viewport)
+		{
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
 			ProjectedVector.Z = TransformedVector.Z;
 		}
+
+		
 
 		public Vector ProjectedVector;
 		public Vector TransformedNormal;
@@ -81,6 +87,35 @@ namespace Balder.Rendering.Silverlight
 		public Color CalculatedColor;
 		public Color DiffuseColor;
 		public Color SpecularColor;
+
+
+		public void CopyTo(RenderVertex target)
+		{
+			target.X = X;
+			target.Y = Y;
+			target.Z = Z;
+
+			target.NormalX = NormalX;
+			target.NormalY = NormalY;
+			target.NormalZ = NormalZ;
+
+			target.Color = Color;
+
+			target.ProjectedVector = ProjectedVector;
+			target.TransformedNormal = TransformedNormal;
+			target.TransformedVector = TransformedVector;
+			target.TransformedVectorNormalized = TransformedVectorNormalized;
+
+			target.U1 = U1;
+			target.V1 = V1;
+
+			target.U2 = U2;
+			target.V2 = V2;
+
+			target.CalculatedColor = CalculatedColor;
+			target.DiffuseColor = DiffuseColor;
+			target.SpecularColor = SpecularColor;
+		}
 	}
 }
 #endif

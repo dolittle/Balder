@@ -29,19 +29,7 @@ namespace Balder.Rendering.Silverlight
 {
 	public class RenderFace : Face
 	{
-		private static RenderVertex _vertexA;
-		private static RenderVertex _vertexB;
-		private static RenderVertex _vertexC;
-		private static RenderVertex _vertexD;
-
-		private static RenderFace _face1;
-		private static RenderFace _face2;
-
-		static RenderFace()
-		{
-			_face1 = new RenderFace(0, 0, 0);
-			_face2 = new RenderFace(0, 0, 0);
-		}
+		private static RenderVertex _vertexD = new RenderVertex();
 
 		public static readonly float DebugNormalLength = 5f;
 
@@ -217,20 +205,22 @@ namespace Balder.Rendering.Silverlight
 
 		protected void GetSortedPoints(ref RenderVertex vertexA,
 										ref RenderVertex vertexB,
-										ref RenderVertex vertexC)
+										ref RenderVertex vertexC,
+										Func<Vector, float> getComponent)
 		{
 			var point1 = vertexA;
 			var point2 = vertexB;
 			var point3 = vertexC;
 
-			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
+
+			if (getComponent(point1.ProjectedVector) > getComponent(point2.ProjectedVector))
 			{
 				var p = point1;
 				point1 = point2;
 				point2 = p;
 			}
 
-			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
+			if (getComponent(point1.ProjectedVector) > getComponent(point3.ProjectedVector))
 			{
 				var p = point1;
 				point1 = point3;
@@ -238,7 +228,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 
-			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
+			if (getComponent(point2.ProjectedVector) > getComponent(point3.ProjectedVector))
 			{
 				var p = point2;
 				point2 = point3;
@@ -271,13 +261,84 @@ namespace Balder.Rendering.Silverlight
 			Draw(viewport, vertexA, vertexB, vertexC, material);
 		}
 
+		private void ClipLine(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB)
+		{
+			var distance = viewport.View.Near - vertexA.ProjectedVector.Z;
+			var delta = vertexB.TransformedVector - vertexA.TransformedVector;
+			var deltaU1 = vertexB.U1 - vertexA.U1;
+			var deltaV1 = vertexB.V1 - vertexA.V1;
+			var deltaU2 = vertexB.U2 - vertexA.U2;
+			var deltaV2 = vertexB.V2 - vertexA.V2;
+			var length = System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+
+			var xAdd = (delta.X / length) * distance;
+			var yAdd = (delta.Y / length) * distance;
+			var zAdd = (delta.Z / length) * distance;
+			var u1Add = (deltaU1 / length) * distance;
+			var v1Add = (deltaV1 / length) * distance;
+			var u2Add = (deltaU2 / length) * distance;
+			var v2Add = (deltaV2 / length) * distance;
+
+			vertexA.TransformedVector = new Vector(
+					vertexA.TransformedVector.X + xAdd,
+					vertexA.TransformedVector.Y + yAdd,
+					vertexA.TransformedVector.Z + zAdd
+				);
+			vertexA.ProjectedVector = Vector.Transform(vertexA.TransformedVector, viewport.View.ProjectionMatrix);
+			vertexA.ConvertToScreenCoordinates(viewport);
+
+			vertexA.U1 += u1Add;
+			vertexA.V1 += v1Add;
+			vertexA.U2 += u2Add;
+			vertexA.V2 += v2Add;
+		}
+
 
 		private void Draw(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
 		{
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
+			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
+				GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Z);
 
+				if (vertexB.ProjectedVector.Z < viewport.View.Near)
+				{
+					ClipLine(viewport, vertexA, vertexC);
+					ClipLine(viewport, vertexB, vertexC);
+
+					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
+					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+				}
+				else
+				{
+					var vertexD = _vertexD;
+					vertexA.CopyTo(vertexD);
+
+					ClipLine(viewport, vertexA, vertexB);
+					ClipLine(viewport, vertexD, vertexC);
+
+					var originalA = vertexA;
+					var originalB = vertexB;
+					var originalC = vertexC;
+
+					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
+					vertexA.CalculatedColor = new Color(0, 0, 255, 255);
+					vertexB.CalculatedColor = new Color(0, 0, 255, 255);
+					vertexC.CalculatedColor = new Color(0, 0, 255, 255);
+					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+
+					vertexA = originalA;
+					vertexB = originalB;
+					vertexC = originalC;
+
+					GetSortedPoints(ref vertexA, ref vertexD, ref vertexC, (v) => v.Y);
+
+					vertexA.CalculatedColor = new Color(255, 0, 0, 255);
+					vertexC.CalculatedColor = new Color(255, 0, 0, 255);
+					vertexD.CalculatedColor = new Color(255, 0, 0, 255);
+
+					material.Renderer.Draw(viewport, this, vertexA, vertexD, vertexC);
+				}
 			}
 			else
 			{
