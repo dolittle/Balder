@@ -261,6 +261,37 @@ namespace Balder.Rendering.Silverlight
 			Draw(viewport, vertexA, vertexB, vertexC, material);
 		}
 
+		private Color ClipColor(Color colorA, Color colorB, float length, float distance)
+		{
+			var colorARed = ((float)colorA.Red) / 255f;
+			var colorAGreen = ((float)colorA.Green) / 255f;
+			var colorABlue = ((float)colorA.Blue) / 255f;
+			var colorAAlpha = ((float)colorA.Alpha) / 255f;
+
+			var colorBRed = ((float)colorB.Red) / 255f;
+			var colorBGreen = ((float)colorB.Green) / 255f;
+			var colorBBlue = ((float)colorB.Blue) / 255f;
+			var colorBAlpha = ((float)colorB.Alpha) / 255f;
+
+			var redDelta = colorBRed - colorARed;
+			var greenDelta = colorBGreen - colorAGreen;
+			var blueDelta = colorBBlue - colorABlue;
+			var alphaDelta = colorBAlpha - colorAAlpha;
+
+			colorARed += ((redDelta / length) * distance);
+			colorAGreen += ((greenDelta / length) * distance);
+			colorABlue += ((blueDelta / length) * distance);
+			colorAAlpha += ((alphaDelta / length) * distance);
+
+			var color = new Color(
+				(byte) (colorARed*255f),
+				(byte) (colorAGreen*255f),
+				(byte) (colorABlue*255f),
+				(byte) (colorAAlpha*255f)
+				);
+			return color;
+		}
+
 		private void ClipLine(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB)
 		{
 			var distance = viewport.View.Near - vertexA.ProjectedVector.Z;
@@ -291,6 +322,10 @@ namespace Balder.Rendering.Silverlight
 			vertexA.V1 += v1Add;
 			vertexA.U2 += u2Add;
 			vertexA.V2 += v2Add;
+
+			vertexA.CalculatedColor = ClipColor(vertexA.CalculatedColor, vertexB.CalculatedColor, length, distance);
+			vertexA.DiffuseColor = ClipColor(vertexA.DiffuseColor, vertexB.DiffuseColor, length, distance);
+			vertexA.SpecularColor = ClipColor(vertexA.SpecularColor, vertexB.SpecularColor, length, distance);
 		}
 
 
@@ -318,24 +353,15 @@ namespace Balder.Rendering.Silverlight
 					ClipLine(viewport, vertexD, vertexC);
 
 					var originalA = vertexA;
-					var originalB = vertexB;
 					var originalC = vertexC;
 
 					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
-					vertexA.CalculatedColor = new Color(0, 0, 255, 255);
-					vertexB.CalculatedColor = new Color(0, 0, 255, 255);
-					vertexC.CalculatedColor = new Color(0, 0, 255, 255);
 					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
 
 					vertexA = originalA;
-					vertexB = originalB;
 					vertexC = originalC;
 
 					GetSortedPoints(ref vertexA, ref vertexD, ref vertexC, (v) => v.Y);
-
-					vertexA.CalculatedColor = new Color(255, 0, 0, 255);
-					vertexC.CalculatedColor = new Color(255, 0, 0, 255);
-					vertexD.CalculatedColor = new Color(255, 0, 0, 255);
 
 					material.Renderer.Draw(viewport, this, vertexA, vertexD, vertexC);
 				}
@@ -347,19 +373,19 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private void SetFaceProperties(RenderFace targetFace)
+		public void CopyTo(RenderFace target)
 		{
-			targetFace.ColorAsInt = ColorAsInt;
-			targetFace.DiffuseAsInt = DiffuseAsInt;
-			targetFace.SpecularAsInt = SpecularAsInt;
-			targetFace.MaterialDiffuseAsInt = MaterialDiffuseAsInt;
-			targetFace.Texture1 = Texture1;
-			targetFace.Texture1Factor = Texture1Factor;
-			targetFace.Texture2 = Texture2;
-			targetFace.Texture2Factor = Texture2Factor;
-			targetFace.LightMap = LightMap;
-			targetFace.BumpMap = BumpMap;
-			targetFace.Material = Material;
+			target.ColorAsInt = ColorAsInt;
+			target.DiffuseAsInt = DiffuseAsInt;
+			target.SpecularAsInt = SpecularAsInt;
+			target.MaterialDiffuseAsInt = MaterialDiffuseAsInt;
+			target.Texture1 = Texture1;
+			target.Texture1Factor = Texture1Factor;
+			target.Texture2 = Texture2;
+			target.Texture2Factor = Texture2Factor;
+			target.LightMap = LightMap;
+			target.BumpMap = BumpMap;
+			target.Material = Material;
 		}
 	}
 }
