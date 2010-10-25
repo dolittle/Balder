@@ -28,7 +28,7 @@ using NUnit.Framework;
 namespace Balder.Tests.Content
 {
 	[TestFixture]
-	public class ContentManagerTests : TestFixture
+	public class ContentManagerTests
 	{
 		public class MyAssetPart : IAssetPart
 		{

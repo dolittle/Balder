@@ -20,6 +20,7 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
+using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
@@ -85,7 +86,6 @@ namespace Balder.Rendering.Silverlight
 		public Color SpecularColorB;
 		public Color SpecularColorC;
 
-
 		public Texture Texture1;
 		public int Texture1Factor;
 
@@ -140,6 +140,119 @@ namespace Balder.Rendering.Silverlight
 			TransformedPosition = Vector.Transform(Position, world, view);
 
 			TransformedDebugNormal = TransformedPosition + (TransformedNormal); //*DebugNormalLength);
+		}
+
+
+		private void Prepare(Viewport viewport, RenderVertex[] vertices, Material material)
+		{
+			var vertexA = vertices[A];
+			var vertexB = vertices[B];
+			var vertexC = vertices[C];
+
+			if (null != Texture1TextureCoordinateA)
+			{
+				vertexA.U1 = Texture1TextureCoordinateA.U;
+				vertexA.V1 = Texture1TextureCoordinateA.V;
+			}
+			if (null != Texture1TextureCoordinateB)
+			{
+				vertexB.U1 = Texture1TextureCoordinateB.U;
+				vertexB.V1 = Texture1TextureCoordinateB.V;
+			}
+			if (null != Texture1TextureCoordinateC)
+			{
+				vertexC.U1 = Texture1TextureCoordinateC.U;
+				vertexC.V1 = Texture1TextureCoordinateC.V;
+			}
+
+			if (null != Texture2TextureCoordinateA)
+			{
+				vertexA.U2 = Texture2TextureCoordinateA.U;
+				vertexA.V2 = Texture2TextureCoordinateA.V;
+			}
+			if (null != Texture2TextureCoordinateB)
+			{
+				vertexB.U2 = Texture2TextureCoordinateB.U;
+				vertexB.V2 = Texture2TextureCoordinateB.V;
+			}
+			if (null != Texture2TextureCoordinateC)
+			{
+				vertexC.U2 = Texture2TextureCoordinateC.U;
+				vertexC.V2 = Texture2TextureCoordinateC.V;
+			}
+
+			vertexA.U2 = vertexA.U1;
+			vertexA.V2 = vertexA.V1;
+
+			vertexB.U2 = vertexB.U1;
+			vertexB.V2 = vertexB.V1;
+
+			vertexC.U2 = vertexC.U1;
+			vertexC.V2 = vertexC.V1;
+
+
+			vertexA.CalculatedColor = CalculatedColorA;
+			vertexA.DiffuseColor = DiffuseColorA;
+			vertexA.SpecularColor = SpecularColorA;
+
+
+			vertexB.CalculatedColor = CalculatedColorB;
+			vertexB.DiffuseColor = DiffuseColorB;
+			vertexB.SpecularColor = SpecularColorB;
+
+			vertexC.CalculatedColor = CalculatedColorC;
+			vertexC.DiffuseColor = DiffuseColorC;
+			vertexC.SpecularColor = SpecularColorC;
+		}
+
+
+		protected void GetSortedPoints(ref RenderVertex vertexA,
+										ref RenderVertex vertexB,
+										ref RenderVertex vertexC)
+		{
+			var point1 = vertexA;
+			var point2 = vertexB;
+			var point3 = vertexC;
+
+			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
+			{
+				var p = point1;
+				point1 = point2;
+				point2 = p;
+			}
+
+			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
+			{
+				var p = point1;
+				point1 = point3;
+				point3 = p;
+			}
+
+
+			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
+			{
+				var p = point2;
+				point2 = point3;
+				point3 = p;
+			}
+
+			vertexA = point1;
+			vertexB = point2;
+			vertexC = point3;
+		}
+
+
+		public void Draw(Viewport viewport, RenderVertex[] vertices, Material material)
+		{
+			Prepare(viewport, vertices, material);
+
+			var vertexA = vertices[A];
+			var vertexB = vertices[B];
+			var vertexC = vertices[C];
+
+			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC);
+
+			material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
 		}
 	}
 }

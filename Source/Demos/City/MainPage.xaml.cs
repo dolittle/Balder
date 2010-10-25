@@ -78,7 +78,7 @@ namespace City
 
 		private void City_MouseMove(object sender, Balder.Input.MouseEventArgs args)
 		{
-			MouseOverNodeTextBlock.Text = args.OriginalSource.Name;
+			MouseOverNodeTextBlock.Text = args.OriginalSource.Label;
 
 		}
 	}

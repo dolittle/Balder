@@ -59,17 +59,12 @@ namespace Balder.Rendering.Silverlight
 			TransformedVector = Vector.Transform(X, Y, Z, worldView);
 			TransformedVectorNormalized = TransformedVector;
 			TransformedVectorNormalized.Normalize();
+
 			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
 
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
-
-			var divisor = viewport.View.Far-viewport.View.Near;
-			var oneOver = 1f/divisor;
-			var near = viewport.View.Near*oneOver;
-
 			ProjectedVector.Z = TransformedVector.Z;
-			//(TransformedVector.Z - viewport.View.Near) * oneOver;
 		}
 
 		public Vector ProjectedVector;
@@ -82,6 +77,10 @@ namespace Balder.Rendering.Silverlight
 
 		public float U2;
 		public float V2;
+		
+		public Color CalculatedColor;
+		public Color DiffuseColor;
+		public Color SpecularColor;
 	}
 }
 #endif

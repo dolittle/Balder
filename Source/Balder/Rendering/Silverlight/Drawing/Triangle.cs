@@ -213,123 +213,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 		}
 
 
-		protected void GetSortedPoints(ref RenderVertex vertexA,
-										ref RenderVertex vertexB,
-										ref RenderVertex vertexC)
-		{
-			var point1 = vertexA;
-			var point2 = vertexB;
-			var point3 = vertexC;
-
-			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
-			{
-				var p = point1;
-				point1 = point2;
-				point2 = p;
-			}
-
-			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
-			{
-				var p = point1;
-				point1 = point3;
-				point3 = p;
-			}
-
-
-			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
-			{
-				var p = point2;
-				point2 = point3;
-				point3 = p;
-			}
-
-			vertexA = point1;
-			vertexB = point2;
-			vertexC = point3;
-		}
-
-		protected void GetSortedPoints(RenderFace face,
-										ref RenderVertex vertexA,
-										ref RenderVertex vertexB,
-										ref RenderVertex vertexC)
-		{
-			var point1 = vertexA;
-			var point2 = vertexB;
-			var point3 = vertexC;
-
-			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
-			{
-				var p = point1;
-				point1 = point2;
-				point2 = p;
-
-				var ca = face.CalculatedColorA;
-				var cb = face.CalculatedColorB;
-				face.CalculatedColorB = ca;
-				face.CalculatedColorA = cb;
-
-				ca = face.DiffuseColorA;
-				cb = face.DiffuseColorB;
-				face.DiffuseColorB = ca;
-				face.DiffuseColorA = cb;
-
-				ca = face.SpecularColorA;
-				cb = face.SpecularColorB;
-				face.SpecularColorB = ca;
-				face.SpecularColorA = cb;
-
-			}
-
-			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
-			{
-				var p = point1;
-				point1 = point3;
-				point3 = p;
-
-				var ca = face.CalculatedColorA;
-				var cc = face.CalculatedColorC;
-				face.CalculatedColorC = ca;
-				face.CalculatedColorA = cc;
-
-				ca = face.DiffuseColorA;
-				cc = face.DiffuseColorC;
-				face.DiffuseColorC = ca;
-				face.DiffuseColorA = cc;
-
-				ca = face.SpecularColorA;
-				cc = face.SpecularColorC;
-				face.SpecularColorC = ca;
-				face.SpecularColorA = cc;
-			}
-
-
-			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
-			{
-				var p = point2;
-				point2 = point3;
-				point3 = p;
-
-				var cb = face.CalculatedColorB;
-				var cc = face.CalculatedColorC;
-				face.CalculatedColorC = cb;
-				face.CalculatedColorB = cc;
-
-				cb = face.DiffuseColorB;
-				cc = face.DiffuseColorC;
-				face.DiffuseColorC = cb;
-				face.DiffuseColorB = cc;
-
-				cb = face.SpecularColorB;
-				cc = face.SpecularColorC;
-				face.SpecularColorC = cb;
-				face.SpecularColorB = cc;
-			}
-
-			vertexA = point1;
-			vertexB = point2;
-			vertexC = point3;
-		}
-
 
 		protected int Bilerp(TextureMipMapLevel map, int x, int y, float u, float v)
 		{
@@ -367,7 +250,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		}
 
 
-		public virtual void Draw(Viewport viewport, RenderFace face, RenderVertex[] vertices)
+		public virtual void Draw(Viewport viewport, RenderFace face, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
 			Opacity = face.Opacity;
 
@@ -375,51 +258,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Far = viewport.View.Far;
 			DepthMultiplier = viewport.View.DepthMultiplier;
 			ZMultiplier = DepthMultiplier * (float)UInt32.MaxValue;
-
-			var vertexA = vertices[face.A];
-			var vertexB = vertices[face.B];
-			var vertexC = vertices[face.C];
-
-			if (null != face.Texture1TextureCoordinateA)
-			{
-				vertexA.U1 = face.Texture1TextureCoordinateA.U;
-				vertexA.V1 = face.Texture1TextureCoordinateA.V;
-			}
-			if (null != face.Texture1TextureCoordinateB)
-			{
-				vertexB.U1 = face.Texture1TextureCoordinateB.U;
-				vertexB.V1 = face.Texture1TextureCoordinateB.V;
-			}
-			if (null != face.Texture1TextureCoordinateC)
-			{
-				vertexC.U1 = face.Texture1TextureCoordinateC.U;
-				vertexC.V1 = face.Texture1TextureCoordinateC.V;
-			}
-
-			if (null != face.Texture2TextureCoordinateA)
-			{
-				vertexA.U2 = face.Texture2TextureCoordinateA.U;
-				vertexA.V2 = face.Texture2TextureCoordinateA.V;
-			}
-			if (null != face.Texture2TextureCoordinateB)
-			{
-				vertexB.U2 = face.Texture2TextureCoordinateB.U;
-				vertexB.V2 = face.Texture2TextureCoordinateB.V;
-			}
-			if (null != face.Texture2TextureCoordinateC)
-			{
-				vertexC.U2 = face.Texture2TextureCoordinateC.U;
-				vertexC.V2 = face.Texture2TextureCoordinateC.V;
-			}
-
-			vertexA.U2 = vertexA.U1;
-			vertexA.V2 = vertexA.V1;
-
-			vertexB.U2 = vertexB.U1;
-			vertexB.V2 = vertexB.V1;
-
-			vertexC.U2 = vertexC.U1;
-			vertexC.V2 = vertexC.V1;
 
 			Texture1 = null;
 			if (null != face.Texture1 && face.Texture1Factor > 0)
@@ -464,7 +302,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				texture2Height = Texture2.Height;
 			}
 
-			GetSortedPoints(face, ref vertexA, ref vertexB, ref vertexC);
+			
 
 			var xa = vertexA.ProjectedVector.X + 0.5f;
 			var ya = vertexA.ProjectedVector.Y + 0.5f;
@@ -473,18 +311,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var v1a = vertexA.V1 * texture1Height;
 			var u2a = vertexA.U2 * texture2Width;
 			var v2a = vertexA.V2 * texture2Height;
-			var ra = ((float)face.CalculatedColorA.Red) / 255f;
-			var ga = ((float)face.CalculatedColorA.Green) / 255f;
-			var ba = ((float)face.CalculatedColorA.Blue) / 255f;
-			var aa = ((float)face.CalculatedColorA.Alpha) / 255f;
-			var diffuseRa = ((float)face.DiffuseColorA.Red) / 255f;
-			var diffuseGa = ((float)face.DiffuseColorA.Green) / 255f;
-			var diffuseBa = ((float)face.DiffuseColorA.Blue) / 255f;
-			var diffuseAa = ((float)face.DiffuseColorA.Alpha) / 255f;
-			var specularRa = ((float)face.SpecularColorA.Red) / 255f;
-			var specularGa = ((float)face.SpecularColorA.Green) / 255f;
-			var specularBa = ((float)face.SpecularColorA.Blue) / 255f;
-			var specularAa = ((float)face.SpecularColorA.Alpha) / 255f;
+			var ra = ((float)vertexA.CalculatedColor.Red) / 255f;
+			var ga = ((float)vertexA.CalculatedColor.Green) / 255f;
+			var ba = ((float)vertexA.CalculatedColor.Blue) / 255f;
+			var aa = ((float)vertexA.CalculatedColor.Alpha) / 255f;
+			var diffuseRa = ((float)vertexA.DiffuseColor.Red) / 255f;
+			var diffuseGa = ((float)vertexA.DiffuseColor.Green) / 255f;
+			var diffuseBa = ((float)vertexA.DiffuseColor.Blue) / 255f;
+			var diffuseAa = ((float)vertexA.DiffuseColor.Alpha) / 255f;
+			var specularRa = ((float)vertexA.SpecularColor.Red) / 255f;
+			var specularGa = ((float)vertexA.SpecularColor.Green) / 255f;
+			var specularBa = ((float)vertexA.SpecularColor.Blue) / 255f;
+			var specularAa = ((float)vertexA.SpecularColor.Alpha) / 255f;
 
 			var xb = vertexB.ProjectedVector.X + 0.5f;
 			var yb = vertexB.ProjectedVector.Y + 0.5f;
@@ -493,18 +331,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var v1b = vertexB.V1 * texture1Height;
 			var u2b = vertexB.U2 * texture2Width;
 			var v2b = vertexB.V2 * texture2Height;
-			var rb = ((float)face.CalculatedColorB.Red) / 255f;
-			var gb = ((float)face.CalculatedColorB.Green) / 255f;
-			var bb = ((float)face.CalculatedColorB.Blue) / 255f;
-			var ab = ((float)face.CalculatedColorB.Alpha) / 255f;
-			var diffuseRb = ((float)face.DiffuseColorB.Red) / 255f;
-			var diffuseGb = ((float)face.DiffuseColorB.Green) / 255f;
-			var diffuseBb = ((float)face.DiffuseColorB.Blue) / 255f;
-			var diffuseAb = ((float)face.DiffuseColorB.Alpha) / 255f;
-			var specularRb = ((float)face.SpecularColorB.Red) / 255f;
-			var specularGb = ((float)face.SpecularColorB.Green) / 255f;
-			var specularBb = ((float)face.SpecularColorB.Blue) / 255f;
-			var specularAb = ((float)face.SpecularColorB.Alpha) / 255f;
+			var rb = ((float)vertexB.CalculatedColor.Red) / 255f;
+			var gb = ((float)vertexB.CalculatedColor.Green) / 255f;
+			var bb = ((float)vertexB.CalculatedColor.Blue) / 255f;
+			var ab = ((float)vertexB.CalculatedColor.Alpha) / 255f;
+			var diffuseRb = ((float)vertexB.DiffuseColor.Red) / 255f;
+			var diffuseGb = ((float)vertexB.DiffuseColor.Green) / 255f;
+			var diffuseBb = ((float)vertexB.DiffuseColor.Blue) / 255f;
+			var diffuseAb = ((float)vertexB.DiffuseColor.Alpha) / 255f;
+			var specularRb = ((float)vertexB.SpecularColor.Red) / 255f;
+			var specularGb = ((float)vertexB.SpecularColor.Green) / 255f;
+			var specularBb = ((float)vertexB.SpecularColor.Blue) / 255f;
+			var specularAb = ((float)vertexB.SpecularColor.Alpha) / 255f;
 
 			var xc = vertexC.ProjectedVector.X + 0.5f;
 			var yc = vertexC.ProjectedVector.Y + 0.5f;
@@ -513,18 +351,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var v1c = vertexC.V1 * texture1Height;
 			var u2c = vertexC.U2 * texture2Width;
 			var v2c = vertexC.V2 * texture2Height;
-			var rc = ((float)face.CalculatedColorC.Red) / 255f;
-			var gc = ((float)face.CalculatedColorC.Green) / 255f;
-			var bc = ((float)face.CalculatedColorC.Blue) / 255f;
-			var ac = ((float)face.CalculatedColorC.Alpha) / 255f;
-			var diffuseRc = ((float)face.DiffuseColorC.Red) / 255f;
-			var diffuseGc = ((float)face.DiffuseColorC.Green) / 255f;
-			var diffuseBc = ((float)face.DiffuseColorC.Blue) / 255f;
-			var diffuseAc = ((float)face.DiffuseColorC.Alpha) / 255f;
-			var specularRc = ((float)face.SpecularColorC.Red) / 255f;
-			var specularGc = ((float)face.SpecularColorC.Green) / 255f;
-			var specularBc = ((float)face.SpecularColorC.Blue) / 255f;
-			var specularAc = ((float)face.SpecularColorC.Alpha) / 255f;
+			var rc = ((float)vertexC.CalculatedColor.Red) / 255f;
+			var gc = ((float)vertexC.CalculatedColor.Green) / 255f;
+			var bc = ((float)vertexC.CalculatedColor.Blue) / 255f;
+			var ac = ((float)vertexC.CalculatedColor.Alpha) / 255f;
+			var diffuseRc = ((float)vertexC.DiffuseColor.Red) / 255f;
+			var diffuseGc = ((float)vertexC.DiffuseColor.Green) / 255f;
+			var diffuseBc = ((float)vertexC.DiffuseColor.Blue) / 255f;
+			var diffuseAc = ((float)vertexC.DiffuseColor.Alpha) / 255f;
+			var specularRc = ((float)vertexC.SpecularColor.Red) / 255f;
+			var specularGc = ((float)vertexC.SpecularColor.Green) / 255f;
+			var specularBc = ((float)vertexC.SpecularColor.Blue) / 255f;
+			var specularAc = ((float)vertexC.SpecularColor.Alpha) / 255f;
 
 			var yaInt = (int)ya;
 			var ybInt = (int)yb;

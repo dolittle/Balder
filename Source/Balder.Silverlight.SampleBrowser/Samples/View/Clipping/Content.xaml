@@ -2,12 +2,13 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Balder="clr-namespace:Balder;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" mc:Ignorable="d"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Balder="clr-namespace:Balder;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Controls="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" mc:Ignorable="d"
     d:DesignHeight="300" d:DesignWidth="400">
 
 	<Grid x:Name="LayoutRoot">
 		
 		<Grid.Triggers>
+			<!--
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever">
@@ -17,7 +18,7 @@
 					</Storyboard>
 				</BeginStoryboard>
 
-			</EventTrigger>
+			</EventTrigger>-->
 		</Grid.Triggers>
 
 		<StackPanel Orientation="Vertical">
@@ -28,13 +29,13 @@
 
 				<Lighting:OmniLight Diffuse="Green" Strength="0.5"/>
 
-				
-				<Balder:Container x:Name="Container">
+
+				<Balder:Container x:Name="Container" Rotation="0,262,0">
 					<Geometries:Box Dimension="5,5,5" Position="0,0,20"/>
-					<Geometries:Box Dimension="5,5,5" Position="0,0,-20"/>
+					<!--<Geometries:Box Dimension="5,5,5" Position="0,0,-20"/>-->
 				</Balder:Container>
 
-				<Geometries:Box Dimension="2,2,2" Color="Red" Position="0,0,5" Rotation="-45,-45,0" InteractionEnabled="True"/>
+				<!--<Geometries:Box Dimension="2,2,2" Color="Red" Position="0,0,5" Rotation="-45,-45,0" InteractionEnabled="True"/>-->
 			</Execution:Game>
 
 			<Grid Width="640">
@@ -86,6 +87,15 @@
 
 				<TextBlock Grid.Column="0" Grid.Row="0" Text="Total Nodes Rendered"/>
 				<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding RenderedNodes}"/>
+				
+				<TextBlock Grid.Column="0" Grid.Row="1" Text="Rotation"/>
+				<TextBlock Grid.Column="1" Grid.Row="1" Text="{Binding ElementName=Container, Path=Rotation.Y}"/>
+
+				<TextBlock Grid.Column="0" Grid.Row="2" Text="Rotation"/>
+				<Controls:NumericUpDown Grid.Column="1" Grid.Row="2" Minimum="0" Maximum="360" Value="{Binding ElementName=Container, Path=Rotation.Y, Mode=TwoWay}"/>
+				
+				
+
 			</Grid>
 		</Border>
 

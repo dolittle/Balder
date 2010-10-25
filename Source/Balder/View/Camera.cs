@@ -38,7 +38,7 @@ namespace Balder.View
 	{
 		public const float DefaultFieldOfView = 45f;
 		public const float DefaultFar = 4000f;
-		public const float DefaultNear = 0.1f;
+		public const float DefaultNear = 1.0f;
 
 		private readonly Frustum _frustum;
 

@@ -25,7 +25,7 @@ using NUnit.Framework;
 namespace Balder.Tests.Content
 {
 	[TestFixture]
-	public class ContentCreatorTests : TestFixture
+	public class ContentCreatorTests
 	{
 
 	}

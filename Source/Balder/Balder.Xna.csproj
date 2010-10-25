@@ -8,20 +8,24 @@
     <ProjectGuid>{2E1F0FD0-72F6-4797-A809-327DB577E3E4}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Balder.Core</RootNamespace>
-    <AssemblyName>Balder.Core</AssemblyName>
+    <RootNamespace>Balder</RootNamespace>
+    <AssemblyName>Balder</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <SccProjectName>&lt;Project Location In Database&gt;</SccProjectName>
-    <SccLocalPath>&lt;Local Binding Root of Project&gt;</SccLocalPath>
-    <SccAuxPath>&lt;Source Control Database&gt;</SccAuxPath>
-    <SccProvider>Mercurial Source Control Package</SccProvider>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>XNABin\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -29,7 +33,7 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\Release\</OutputPath>
+    <OutputPath>XNABin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -55,6 +59,7 @@
     </Compile>
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
@@ -67,8 +72,6 @@
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Collections\NodeCollection.cs" />
     <Compile Include="Color.cs" />
-    <Compile Include="ColorAsFloats.cs" />
-    <Compile Include="ColorOperations.cs" />
     <Compile Include="Colors.cs" />
     <Compile Include="ColorSpace.cs" />
     <Compile Include="ColorSpaces.cs" />
@@ -76,20 +79,25 @@
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Content\FileLoaderManager.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Content\IContentCreator.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\IFileLoader.cs" />
+    <Compile Include="Content\IFileLoaderManager.cs" />
     <Compile Include="Debug\BoundingSphereDebugShape.cs" />
     <Compile Include="Debug\DebugInfo.cs" />
     <Compile Include="Debug\DebugRenderer.cs" />
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Diagnostics\IStopwatch.cs" />
+    <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
     <Compile Include="Display\IDisplay.cs" />
     <Compile Include="Display\IDisplayDevice.cs" />
     <Compile Include="Display\Viewport.cs" />
+    <Compile Include="Display\ViewportStatistics.cs" />
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
@@ -108,10 +116,13 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
-    <Compile Include="Execution\IdentityManager.cs" />
-    <Compile Include="Execution\IHaveIdentity.cs" />
-    <Compile Include="Execution\IIdentityManager.cs" />
+    <Compile Include="Execution\IHaveLabel.cs" />
+    <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="Execution\ILabelManager.cs" />
+    <Compile Include="Execution\IMessenger.cs" />
+    <Compile Include="Execution\IMessengerContext.cs" />
     <Compile Include="Execution\IPlatform.cs" />
+    <Compile Include="Execution\IProperty.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
@@ -122,6 +133,8 @@
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
+    <Compile Include="Execution\PropertyDescriptor.cs" />
+    <Compile Include="Execution\PropertyValueChanged.cs" />
     <Compile Include="Execution\Runtime.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\StateMachine.cs" />
@@ -131,9 +144,10 @@
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="HierarchicalNode.cs" />
-    <Compile Include="IColor.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
     <Compile Include="Imaging\IImageContext.cs" />
     <Compile Include="Imaging\Image.cs" />
     <Compile Include="Imaging\ImageFormat.cs" />
@@ -181,6 +195,7 @@
     <Compile Include="NodeClonePropertyInfo.cs" />
     <Compile Include="NodeCloner.cs" />
     <Compile Include="NodeExtensions.cs" />
+    <Compile Include="NodeStatistics.cs" />
     <Compile Include="Objects\Flat\ISpriteContext.cs" />
     <Compile Include="Objects\Flat\Sprite.cs" />
     <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
@@ -216,11 +231,19 @@
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\RenderingDetailLevel.cs" />
     <Compile Include="Rendering\RenderMessage.cs" />
     <Compile Include="Rendering\RuntimeContext.cs" />
     <Compile Include="Rendering\ShowMessage.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Rendering\Xna\GeometryContext.cs" />
+    <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\RenderVertex.cs" />
+    <Compile Include="Rendering\Xna\ShapeContext.cs" />
+    <Compile Include="Rendering\Xna\SkyboxContext.cs" />
+    <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Scene.cs" />
     <Compile Include="Utils\AssemblyHelper.cs" />
     <Compile Include="Utils\Cloner.cs" />

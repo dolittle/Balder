@@ -469,9 +469,11 @@ namespace Balder.Rendering.Silverlight
 						_vertices[face.B].ProjectedVector.Y > 0 ||
 						_vertices[face.C].ProjectedVector.Y > 0);
 
-			visible &= (_vertices[face.A].ProjectedVector.Z >= Viewport.MinDepth &&
-					 _vertices[face.B].ProjectedVector.Z >= Viewport.MinDepth) &&
-					_vertices[face.C].ProjectedVector.Z >= Viewport.MinDepth;
+			var near = (_vertices[face.A].ProjectedVector.Z <= viewport.View.Near &&
+					 _vertices[face.B].ProjectedVector.Z <= viewport.View.Near &&
+					_vertices[face.C].ProjectedVector.Z <= viewport.View.Near);
+
+			visible &= !near;
 			return visible;
 		}
 
@@ -534,7 +536,8 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1Factor = material.DiffuseTextureFactor;
 					face.Texture2Factor = material.ReflectionTextureFactor;
 
-					material.Renderer.Draw(viewport, face, _vertices);
+					
+					face.Draw(viewport, _vertices, material);
 				}
 				if( material.CachedWireframe )
 				{
@@ -554,6 +557,7 @@ namespace Balder.Rendering.Silverlight
 			}
 			return faceCount;
 		}
+
 
 		private bool ShouldCalculateVertexColorsForFace(Material material)
 		{

@@ -116,9 +116,6 @@ namespace Balder.Math
 			_planes[(int)FrustumLocation.Right].SetVectors(nearBottomRight, nearTopRight, farBottomRight);
 			_planes[(int)FrustumLocation.Near].SetVectors(nearTopLeft, nearTopRight, farBottomRight);
 			_planes[(int)FrustumLocation.Far].SetVectors(farTopRight, farTopLeft, farBottomLeft);
-
-			
-
 		}
 
 

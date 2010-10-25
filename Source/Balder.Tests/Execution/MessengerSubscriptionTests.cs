@@ -21,13 +21,12 @@
 
 using System;
 using Balder.Execution;
-using Balder.Testing;
 using NUnit.Framework;
 
 namespace Balder.Tests.Execution
 {
 	[TestFixture]
-	public class MessengerSubscriptionTests : TestFixture
+	public class MessengerSubscriptionTests
 	{
 		public class Message
 		{
