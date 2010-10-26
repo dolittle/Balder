@@ -116,6 +116,12 @@ namespace Balder.Rendering.Silverlight
 			target.DiffuseColor = DiffuseColor;
 			target.SpecularColor = SpecularColor;
 		}
+
+		public override string ToString()
+		{
+			var format = "[ {0:00.00} - {1:00.00} - {2:00.00} ])";
+			return string.Format(format, X, Y, Z);
+		}
 	}
 }
 #endif

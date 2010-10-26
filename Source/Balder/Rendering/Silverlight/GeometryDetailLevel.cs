@@ -606,12 +606,15 @@ namespace Balder.Rendering.Silverlight
 
 			var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
 							   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
-			var visible = mixedproduct < 0 && IsFaceInView(viewport, face);
-			//&& viewport.View.IsInView(a.TransformedVector);
+			var visible = mixedproduct < 0 && 
+							mixedproduct > -(viewport.Width*viewport.Height) &&
+							IsFaceInView(viewport, face);
 			if (null != face.Material)
 			{
 				visible |= face.Material.CachedDoubleSided;
 			}
+
+			
 
 			return visible;
 		}
