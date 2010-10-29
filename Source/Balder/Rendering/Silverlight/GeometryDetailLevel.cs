@@ -567,9 +567,7 @@ namespace Balder.Rendering.Silverlight
 
 		private Material GetActualMaterialFromFace(Material material, RenderFace face)
 		{
-			if( null != material &&
-				material.SubMaterials.Count >= face.MaterialId &&
-				material.SubMaterials.Count != 0 )
+			if( null != material  )
 			{
 				if( material.SubMaterials.ContainsKey(face.MaterialId) )
 				{
