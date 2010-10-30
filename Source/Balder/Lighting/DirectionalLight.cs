@@ -33,11 +33,17 @@ namespace Balder.Lighting
 	{
 		private Vector _direction;
 
+		public DirectionalLight()
+		{
+			Direction = new Coordinate();
+		}
+
+
 		/// <summary>
 		/// Direction Property
 		/// </summary>
 		public static readonly Property<DirectionalLight, Coordinate> DirectionProperty =
-			Property<DirectionalLight, Coordinate>.Register(l => l.Direction);
+			Property<DirectionalLight, Coordinate>.Register(l => l.Direction, DirectionValueChanged);
 		
 		/// <summary>
 		/// Gets or sets the direction of the light
@@ -48,12 +54,15 @@ namespace Balder.Lighting
 			set
 			{
 				DirectionProperty.SetValue(this, value);
-				_direction = value;
-				_direction.Normalize();
-
-				//_direction = -_direction;
-
+				DirectionValueChanged(this, value, value);
 			}
+		}
+
+		private static void DirectionValueChanged(object owner, Coordinate oldValue, Coordinate newValue)
+		{
+			var directionalLight = owner as DirectionalLight;
+			directionalLight._direction = directionalLight.Direction;
+			directionalLight._direction.Normalize();
 		}
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)

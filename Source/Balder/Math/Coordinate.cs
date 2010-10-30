@@ -118,6 +118,13 @@ namespace Balder.Math
 			Z = z;
 		}
 
+		public void Set(Vector vector)
+		{
+			X = vector.X;
+			Y = vector.Y;
+			Z = vector.Z;
+		}
+
 		public void Set(Coordinate coordinate)
 		{
 			if (null != coordinate)

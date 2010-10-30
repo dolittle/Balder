@@ -82,8 +82,9 @@ namespace Balder.Lighting
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			var combinedMatrix = viewport.View.ViewMatrix * _angleMatrix;
-			Direction = Vector.Transform(Vector.Forward, combinedMatrix);
-			
+			var transformed = Vector.Transform(Vector.Forward, combinedMatrix);
+			Direction.Set(transformed);
+
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 	
