@@ -63,7 +63,7 @@ namespace Balder.Objects.Flat
 		{
 			get
 			{
-				if( null == _frames )
+				if (null == _frames)
 				{
 					return null;
 				}
@@ -93,12 +93,21 @@ namespace Balder.Objects.Flat
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
 
-			var position = new Vector(0, 0, 0);
+			//var position = new Vector(0, 0, 0);
 			var actualPosition = new Vector(world.M41, world.M42, world.M43);
-			//data[12], world.data[13], world.data[14]);
-			var transformedPosition = Vector.Transform(position, world, view);
+			//var transformedPosition = Vector.Transform(position, world, view);
 			//var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
 
+			var scale = GetScale(viewport, actualPosition);
+
+			var xscale = scale;
+			var yscale = scale;
+
+			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
+		}
+
+		private float GetScale(Viewport viewport, Vector actualPosition)
+		{
 			var distanceVector = viewport.View.Position - actualPosition;
 			var distance = distanceVector.Length;
 			var n = 100.0f;
@@ -109,11 +118,7 @@ namespace Balder.Objects.Flat
 			{
 				scale = 0;
 			}
-
-			var xscale = scale;
-			var yscale = scale;
-
-			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
+			return scale;
 		}
 
 #if(SILVERLIGHT)
@@ -145,10 +150,55 @@ namespace Balder.Objects.Flat
 		public void SetAssetParts(IEnumerable<IAssetPart> assetParts)
 		{
 			var query = from a in assetParts
-			            where a is Image
-			            select a as Image;
+						where a is Image
+						select a as Image;
 			_frames = query.ToArray();
 		}
+
+		public override float? Intersects(Viewport viewport, Ray pickRay)
+		{
+			/*
+			var world = RenderingWorld;
+			var view = viewport.View.ViewMatrix;
+			var projection = viewport.View.ProjectionMatrix;
+
+			var worldViewProjection = world * view * projection;
+
+			
+			var actualPosition = new Vector(world.M41, world.M42, world.M43);
+
+			var scale = GetScale(viewport, actualPosition);
+			var screenPosition = viewport.Project(actualPosition, world);
+
+			var halfX = ((float) (CurrentFrame.Width >> 1)*scale);
+			var halfY = ((float) (CurrentFrame.Height >> 1)*scale);
+			var topX = screenPosition.X - halfX;
+			var topY = screenPosition.Y - halfY;
+			var bottomX = screenPosition.X + halfX;
+			var bottomY = screenPosition.Y + halfY;
+
+			var pixels = CurrentFrame.ImageContext.GetPixelsAs32BppARGB();
+
+			*/
+
+
+			return base.Intersects(viewport, pickRay);
+		}
+
+		public override void PrepareBoundingSphere()
+		{
+			if( null != CurrentFrame )
+			{
+				var size = (float)System.Math.Max(CurrentFrame.Width, CurrentFrame.Height);
+				var actualSize = size/10f;
+				BoundingSphere = new BoundingSphere(Vector.Zero, actualSize);	
+			}
+
+			
+			base.PrepareBoundingSphere();
+		}
+		
+		
 
 
 	}

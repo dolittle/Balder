@@ -78,20 +78,27 @@ namespace Balder
 			if( null != distance ||
 				BoundingSphere.Radius <= 0 )
 			{
-				float? closestDistance = null;
-				foreach( var child in Children )
+				if (Children.Count > 0)
 				{
-					if( child is ICanBeIntersected )
+
+					float? closestDistance = null;
+					foreach (var child in Children)
 					{
-						distance = ((ICanBeIntersected) child).Intersects(viewport, pickRay);
-						if (null != distance && (distance < closestDistance || closestDistance == null))
+						if (child is ICanBeIntersected)
 						{
-							closestDistance = distance;
+							distance = ((ICanBeIntersected) child).Intersects(viewport, pickRay);
+							if (null != distance && (distance < closestDistance || closestDistance == null))
+							{
+								closestDistance = distance;
+							}
 						}
 					}
-				}
 
-				return closestDistance;
+					return closestDistance;
+				} else
+				{
+					return distance;
+				}
 			}
 
 			return null;
