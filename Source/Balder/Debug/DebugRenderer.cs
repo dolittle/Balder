@@ -90,6 +90,7 @@ namespace Balder.Debug
 		{
 			_rectangleDebugShape.RenderingWorld = world;
 			_rectangleDebugShape.SetRectangle(upperLeft, upperRight, lowerLeft, lowerRight);
+			_rectangleDebugShape.Color = viewport.DebugInfo.Color;
 			_rectangleDebugShape.Render(viewport, DetailLevel.Full);
 		}
 

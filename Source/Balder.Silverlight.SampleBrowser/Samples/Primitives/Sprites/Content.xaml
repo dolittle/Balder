@@ -26,7 +26,7 @@
 
 		<Execution:Game Width="640" Height="480">
 			<Execution:Game.DebugInfo>
-				<Debug:DebugInfo BoundingSpheres="True"/>
+				<Debug:DebugInfo BoundingSpheres="True" BoundingRectangles="True"/>
 			</Execution:Game.DebugInfo>
 			<Execution:Game.Camera>
 				<View:Camera x:Name="Camera"  Position="-100,50,-200" Target="0,0,0"/>
