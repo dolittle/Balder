@@ -6,12 +6,5 @@
 		{
 			InitializeComponent();
 		}
-
-		private void Sprite_MouseEnter(object sender, Input.MouseEventArgs args)
-		{
-			int i = 0;
-			i++;
-
-		}
 	}
 }

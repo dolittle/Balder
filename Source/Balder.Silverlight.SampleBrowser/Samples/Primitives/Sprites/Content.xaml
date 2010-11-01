@@ -25,9 +25,6 @@
 		</Grid.Triggers>
 
 		<Execution:Game Width="640" Height="480">
-			<Execution:Game.DebugInfo>
-				<Debug:DebugInfo BoundingSpheres="True" BoundingRectangles="True"/>
-			</Execution:Game.DebugInfo>
 			<Execution:Game.Camera>
 				<View:Camera x:Name="Camera"  Position="-100,50,-200" Target="0,0,0"/>
 			</Execution:Game.Camera>
@@ -35,15 +32,10 @@
 			<Lighting:OmniLight Position="-100,100,0"/>
 			<Geometries:Box Dimension="20,20,20"/>
 			
-			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" 
-						 Position="-50,0,0"
-						 MouseEnter="Sprite_MouseEnter"
-						 />
-			
-			<!--
+			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="-50,0,0"/>
 			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="50,0,0"/>
 			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,-50"/>
-			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,50"/>-->
+			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,50"/>
 		</Execution:Game>
 
     </Grid>
