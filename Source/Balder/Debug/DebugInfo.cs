@@ -64,6 +64,11 @@ namespace Balder.Debug
 		public bool BoundingSpheres { get; set; }
 
 		/// <summary>
+		/// Get or set if the bounding rectangles should be rendered, typically used by sprites
+		/// </summary>
+		public bool BoundingRectangles { get; set; }
+
+		/// <summary>
 		/// Get or set if the vertices should be rendered
 		/// </summary>
 		public bool ShowVertices { get; set; }

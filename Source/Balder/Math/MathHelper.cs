@@ -30,9 +30,28 @@ namespace Balder.Math
 		public const float TwoPi = 6.283185f;
 
 		
-		public static float Barycentric(float value1, float value2, float value3, float amount1, float amount2)
+		public static float Barycentric(float planeValue1, float planeValue2, float planeValue3, float u, float v)
 		{
-			return ((value1 + (amount1 * (value2 - value1))) + (amount2 * (value3 - value1)));
+			return ((planeValue1 + (u * (planeValue2 - planeValue1))) + (v * (planeValue3 - planeValue1)));
+		}
+
+		public static Vector BarycentricToCartesian(Vector vector1, Vector vector2, Vector vector3, float u, float v)
+		{
+			var w = 1 - (u + v);
+			var cartesian = new Vector(
+				(u*vector1.X + v*vector2.X + w*vector3.X),
+				(u*vector1.Y + v*vector2.Y + w*vector3.Y),
+				(u*vector1.Z + v*vector2.Z + w*vector3.Z));
+
+			return cartesian;
+		}
+
+		public static void InterpolateBarycentric(float u0, float v0, float u1, float v1, float u2, float v2, float barycentricU, float barycentricV, out float u, out float v)
+		{
+			var w = 1 - (barycentricU + barycentricV);
+
+			u = w * u0 + barycentricU * u1 + barycentricV * u2;
+			v = w * v0 + barycentricU * v1 + barycentricV * v2;
 		}
 
 		public static float CatmullRom(float value1, float value2, float value3, float value4, float amount)

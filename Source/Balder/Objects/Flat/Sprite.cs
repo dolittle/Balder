@@ -20,8 +20,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 using Balder.Assets;
 using Balder.Content;
+using Balder.Debug;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Imaging;
@@ -41,6 +43,12 @@ namespace Balder.Objects.Flat
 	{
 		private readonly IContentManager _contentManager;
 		private readonly ISpriteContext _spriteContext;
+		private Vector _upperLeft;
+		private Vector _upperRight;
+		private Vector _lowerLeft;
+		private Vector _lowerRight;
+
+		private Image[] _frames;
 
 #if(DEFAULT_CONSTRUCTOR)
 		public Sprite()
@@ -56,9 +64,6 @@ namespace Balder.Objects.Flat
 			_spriteContext = spriteContext;
 		}
 
-
-		private Image[] _frames;
-
 		public Image CurrentFrame
 		{
 			get
@@ -71,55 +76,38 @@ namespace Balder.Objects.Flat
 			}
 		}
 
+
+
+		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		{
+			var size = (float)System.Math.Max(CurrentFrame.Width, CurrentFrame.Height);
+			var actualSize = size / 10f;
+
+			var inverseView = Matrix.Invert(view);
+			_upperLeft = Vector.TransformNormal(new Vector(-actualSize, actualSize, 0), inverseView);
+			_upperRight = Vector.TransformNormal(new Vector(actualSize, actualSize, 0), inverseView);
+			_lowerLeft = Vector.TransformNormal(new Vector(-actualSize, -actualSize, 0), inverseView);
+			_lowerRight = Vector.TransformNormal(new Vector(actualSize, -actualSize, 0), inverseView);
+			base.BeforeRendering(viewport, view, projection, world);
+		}
+
+
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-			/* From DirectX sample
-				w = width passed to D3DXMatrixPerspectiveLH
-				h = height passed to D3DXMatrixPerspectiveLH
-				n = z near passed to D3DXMatrixPerspectiveLH
-				f = z far passed to D3DXMatrixPerspectiveLH
-				d = distance of sprite from camera along Z
-				qw = width of sprite quad
-				qh = height of sprite quad
-				vw = viewport height
-				vh = viewport width
-				scale = n / d
-				(i.e. near/distance, such that at d = n, scale = 1.0)
-				renderedWidth = vw * qw * scale / w 
-				renderedHeight = vh * qh * scale / h
-			 */
-
 			var world = RenderingWorld;
 			var view = viewport.View.ViewMatrix;
 			var projection = viewport.View.ProjectionMatrix;
 
-			//var position = new Vector(0, 0, 0);
-			var actualPosition = new Vector(world.M41, world.M42, world.M43);
-			//var transformedPosition = Vector.Transform(position, world, view);
-			//var translatedPosition = Vector.Translate(transformedPosition, projection, viewport.Width, viewport.Height);
+			var upperLeft = viewport.Project(_upperLeft, world);
+			var upperRight = viewport.Project(_upperRight, world);
+			var lowerLeft = viewport.Project(_lowerLeft, world);
 
-			var scale = GetScale(viewport, actualPosition);
-
-			var xscale = scale;
-			var yscale = scale;
+			var xscale = (upperRight.X - upperLeft.X) / ((float)CurrentFrame.Width);
+			var yscale = (lowerLeft.Y - upperLeft.Y) / ((float)CurrentFrame.Height);
 
 			_spriteContext.Render(viewport, this, view, projection, world, xscale, yscale, 0f);
 		}
 
-		private float GetScale(Viewport viewport, Vector actualPosition)
-		{
-			var distanceVector = viewport.View.Position - actualPosition;
-			var distance = distanceVector.Length;
-			var n = 100.0f;
-			distance = MathHelper.Abs(distance);
-
-			var scale = 0.0f + (n / distance);
-			if (scale <= 0)
-			{
-				scale = 0;
-			}
-			return scale;
-		}
 
 #if(SILVERLIGHT)
 		public static DependencyProperty<Sprite, Uri> AssetNameProperty =
@@ -155,51 +143,116 @@ namespace Balder.Objects.Flat
 			_frames = query.ToArray();
 		}
 
+
+
 		public override float? Intersects(Viewport viewport, Ray pickRay)
 		{
-			/*
-			var world = RenderingWorld;
-			var view = viewport.View.ViewMatrix;
-			var projection = viewport.View.ProjectionMatrix;
 
-			var worldViewProjection = world * view * projection;
+			var world = RenderingWorld.Clone();
+			world.M11 = 1f;
+			world.M12 = 0f;
+			world.M13 = 0f;
 
-			
-			var actualPosition = new Vector(world.M41, world.M42, world.M43);
+			world.M21 = 0f;
+			world.M22 = 1f;
+			world.M23 = 0f;
 
-			var scale = GetScale(viewport, actualPosition);
-			var screenPosition = viewport.Project(actualPosition, world);
+			world.M31 = 0f;
+			world.M32 = 0f;
+			world.M33 = 1f;
 
-			var halfX = ((float) (CurrentFrame.Width >> 1)*scale);
-			var halfY = ((float) (CurrentFrame.Height >> 1)*scale);
-			var topX = screenPosition.X - halfX;
-			var topY = screenPosition.Y - halfY;
-			var bottomX = screenPosition.X + halfX;
-			var bottomY = screenPosition.Y + halfY;
+			var upperLeft = Vector.Transform(_upperLeft, world);
+			var upperRight = Vector.Transform(_upperRight, world);
+			var lowerLeft = Vector.Transform(_lowerLeft, world);
+			var lowerRight = Vector.Transform(_lowerRight, world);
 
-			var pixels = CurrentFrame.ImageContext.GetPixelsAs32BppARGB();
+			var u = 0f;
+			var v = 0f;
 
-			*/
+			var lowerTriangleU = 0f;
+			var lowerTriangleV = 0f;
 
-
-			return base.Intersects(viewport, pickRay);
-		}
-
-		public override void PrepareBoundingSphere()
-		{
-			if( null != CurrentFrame )
+			if( upperLeft.X > upperRight.X )
 			{
-				var size = (float)System.Math.Max(CurrentFrame.Width, CurrentFrame.Height);
-				var actualSize = size/10f;
-				BoundingSphere = new BoundingSphere(Vector.Zero, actualSize);	
+				var tmp = upperLeft;
+				upperLeft = upperRight;
+				upperRight = tmp;
 			}
 
-			
-			base.PrepareBoundingSphere();
+			if (lowerLeft.X > lowerRight.X)
+			{
+				var tmp = lowerLeft;
+				lowerLeft = lowerRight;
+				lowerRight = tmp;
+			}
+
+			var distance = pickRay.IntersectsTriangle(upperLeft, upperRight, lowerLeft, out u, out v);
+			var lowerTriangleDistance = pickRay.IntersectsTriangle(upperRight, lowerLeft, lowerRight, out lowerTriangleU, out lowerTriangleV);
+
+			if (null != distance || null != lowerTriangleDistance)
+			{
+				MathHelper.InterpolateBarycentric(
+					0,0,
+					1,0,
+					0,1,
+					u,v,
+					out u, out v);
+				
+				if (null == distance)
+				{
+					u = lowerTriangleU;
+					v = lowerTriangleV;
+					MathHelper.InterpolateBarycentric(
+						1, 0, 
+						0, 1, 
+						1, 1, 
+						u, v, 
+						out u, out v);
+					distance = lowerTriangleDistance;
+				}
+				if (IsWithinFrame(u, v))
+				{
+					return distance;
+				}
+			}
+
+			return null;
 		}
-		
-		
+
+		private bool IsWithinFrame(float u, float v)
+		{
+			var pixels = CurrentFrame.ImageContext.GetPixelsAs32BppARGB();
+
+			var x = (int)(CurrentFrame.Width * u);
+			var y = (int)(CurrentFrame.Height * v);
+
+			var offset = (CurrentFrame.Width * y) + x;
+			var pixel = pixels[offset];
+
+			var color = Color.FromInt(pixel);
+			if( color.Alpha != 0 )
+			{
+				return true;
+			}
+			return false;
+		}
 
 
+		public override void RenderDebugInfo(Viewport viewport, DetailLevel detailLevel)
+		{
+			if (viewport.DebugInfo.BoundingRectangles)
+			{
+				DebugRenderer.Instance.RenderRectangle(
+					_upperLeft,
+					_upperRight,
+					_lowerLeft,
+					_lowerRight,
+					viewport,
+					RenderingWorld
+					);
+			}
+
+			base.RenderDebugInfo(viewport, detailLevel);
+		}
 	}
 }

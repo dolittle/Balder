@@ -31,6 +31,7 @@ namespace Balder.Debug
 		private readonly IKernel _kernel;
 		private DebugShape _boundingSphereDebugShape;
 		private RayDebugShape _rayDebugShape;
+		private RectangleDebugShape _rectangleDebugShape;
 
 		public DebugRenderer(IKernel kernel)
 		{
@@ -45,15 +46,15 @@ namespace Balder.Debug
 		{
 			get
 			{
-				lock( InstanceLockObject )
+				lock (InstanceLockObject)
 				{
-					if( null == _instance )
+					if (null == _instance)
 					{
 						_instance = Runtime.Instance.Kernel.Get<IDebugRenderer>();
 					}
 					return _instance;
 				}
-				
+
 			}
 		}
 
@@ -63,6 +64,8 @@ namespace Balder.Debug
 			_boundingSphereDebugShape.OnInitialize();
 			_rayDebugShape = _kernel.Get<RayDebugShape>();
 			_rayDebugShape.OnInitialize();
+			_rectangleDebugShape = _kernel.Get<RectangleDebugShape>();
+			_rectangleDebugShape.OnInitialize();
 		}
 
 		public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world)
@@ -82,6 +85,14 @@ namespace Balder.Debug
 			_boundingSphereDebugShape.RenderingWorld = rotateXMatrix * scaleMatrix * translationMatrix;
 			_boundingSphereDebugShape.Render(viewport, detailLevel);
 		}
+
+		public void RenderRectangle(Vector upperLeft, Vector upperRight, Vector lowerLeft, Vector lowerRight, Viewport viewport, Matrix world)
+		{
+			_rectangleDebugShape.RenderingWorld = world;
+			_rectangleDebugShape.SetRectangle(upperLeft, upperRight, lowerLeft, lowerRight);
+			_rectangleDebugShape.Render(viewport, DetailLevel.Full);
+		}
+
 
 		public void RenderRay(Vector position, Vector direction, Viewport viewport)
 		{

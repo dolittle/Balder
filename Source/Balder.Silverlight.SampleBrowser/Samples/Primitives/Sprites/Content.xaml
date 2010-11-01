@@ -5,13 +5,15 @@
     xmlns:Flat="clr-namespace:Balder.Objects.Flat;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
-    xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
+    xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Debug="clr-namespace:Balder.Debug;assembly=Balder">
     <Grid x:Name="LayoutRoot">
+		
+		
 		<Grid.Triggers>
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard AutoReverse="true" RepeatBehavior="Forever">
-						<DoubleAnimation Storyboard.TargetName="Camera" Storyboard.TargetProperty="(Camera.Position).(X)" From="-100" To="100" Duration="00:00:05">
+						<DoubleAnimation Storyboard.TargetName="Camera" Storyboard.TargetProperty="(Camera.Position).(X)" From="-100" To="100" Duration="00:00:10">
 							<DoubleAnimation.EasingFunction>
 								<ElasticEase/>
 							</DoubleAnimation.EasingFunction>
@@ -23,17 +25,25 @@
 		</Grid.Triggers>
 
 		<Execution:Game Width="640" Height="480">
+			<Execution:Game.DebugInfo>
+				<Debug:DebugInfo BoundingSpheres="True"/>
+			</Execution:Game.DebugInfo>
 			<Execution:Game.Camera>
-				<View:Camera x:Name="Camera"  Position="0,50,-200" Target="0,0,0"/>
+				<View:Camera x:Name="Camera"  Position="-100,50,-200" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0"/>
 			<Geometries:Box Dimension="20,20,20"/>
 			
-			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="-50,0,0"/>
+			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" 
+						 Position="-50,0,0"
+						 MouseEnter="Sprite_MouseEnter"
+						 />
+			
+			<!--
 			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="50,0,0"/>
 			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,-50"/>
-			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,50"/>
+			<Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,50"/>-->
 		</Execution:Game>
 
     </Grid>
