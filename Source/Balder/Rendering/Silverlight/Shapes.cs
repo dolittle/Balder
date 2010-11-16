@@ -114,6 +114,7 @@ namespace Balder.Rendering.Silverlight
 							currentZ < viewport.View.Far
 							)
 						{
+							depthbuffer[bufferOffset] = bufferZ;
 							framebuffer[bufferOffset] = color;
 						}
 					}
