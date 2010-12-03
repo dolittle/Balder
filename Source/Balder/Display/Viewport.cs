@@ -253,24 +253,16 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
-			if( !node.IsIntersectionTestEnabled )
+			if( !node.IsIntersectionTestEnabled || !IsNodeVisible(node))
 			{
 				return;
 			}
 			if (node is ICanGetNodeAtPosition)
 			{
-				float? distance = null;
-				RenderableNode nodeAtPosition = null;
-				((ICanGetNodeAtPosition)node).GetNodeAtPosition(this, pickRay, ref nodeAtPosition, ref distance);
-				if (null != distance && distance.Value < closestDistance)
-				{
-					closestNode = nodeAtPosition;
-					closestDistance = distance.Value;
-				}
+				closestDistance = GetClosestDistanceFromNode(node, pickRay, closestDistance, ref closestNode);
 			}
 			else
 			{
-
 				if (node is RenderableNode)
 				{
 					var pickNode = node as RenderableNode;
@@ -285,14 +277,43 @@ namespace Balder.Display
 
 				if (node is IHaveChildren)
 				{
-					var childrenNode = node as IHaveChildren;
-
-					foreach (var child in childrenNode.Children)
-					{
-						GetNodeAtPosition(child, pickRay, ref closestNode, ref closestDistance);
-					}
+					closestDistance = GetClosestDistanceFromChildren(node, pickRay, closestDistance, ref closestNode);
 				}
 			}
+		}
+
+
+		private float GetClosestDistanceFromChildren(INode node, Ray pickRay, float closestDistance, ref RenderableNode closestNode)
+		{
+			var childrenNode = node as IHaveChildren;
+
+			foreach (var child in childrenNode.Children)
+			{
+				GetNodeAtPosition(child, pickRay, ref closestNode, ref closestDistance);
+			}
+			return closestDistance;
+		}
+
+		private float GetClosestDistanceFromNode(INode node, Ray pickRay, float closestDistance, ref RenderableNode closestNode)
+		{
+			float? distance = null;
+			RenderableNode nodeAtPosition = null;
+			((ICanGetNodeAtPosition)node).GetNodeAtPosition(this, pickRay, ref nodeAtPosition, ref distance);
+			if (null != distance && distance.Value < closestDistance)
+			{
+				closestNode = nodeAtPosition;
+				closestDistance = distance.Value;
+			}
+			return closestDistance;
+		}
+
+		private bool IsNodeVisible(INode node)
+		{
+			if( node is ICanBeVisible)
+			{
+				return ((ICanBeVisible)node).IsVisible;
+			}
+			return true;
 		}
 
 		public Ray GetPickRay(int x, int y)
