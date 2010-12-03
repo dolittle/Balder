@@ -162,7 +162,7 @@ namespace Balder.Display.Silverlight
 
 		public void PrepareRender()
 		{
-			if (_initialized )
+			if ((_initialized && !Paused || _forceShow) && !Halted)
 			{
 				_currentRenderBitmap = _bitmapQueue.CurrentRenderBitmap;
 					
@@ -249,7 +249,10 @@ namespace Balder.Display.Silverlight
 
 		public void Prepare()
 		{
-			_runtimeContext.MessengerContext.Send(_prepareMessage);
+			if ((_initialized && !Paused || _forceShow) && !Halted)
+			{
+				_runtimeContext.MessengerContext.Send(_prepareMessage);
+			}
 		}
 
 		public void Update()
