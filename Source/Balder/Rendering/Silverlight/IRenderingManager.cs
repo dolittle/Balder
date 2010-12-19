@@ -21,7 +21,15 @@ namespace Balder.Rendering.Silverlight
 {
 	public interface IRenderingManager
 	{
-		
+		event RenderEventHandler Updated;
+		event RenderEventHandler Render;
+		event RenderEventHandler Clear;
+		event RenderEventHandler Swapped;
+		event RenderEventHandler Show;
+		event RenderEventHandler Prepare;
+
+		IRenderingContext CurrentContext { get; }
+		void Start();
 	}
 }
 #endif

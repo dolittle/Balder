@@ -36,6 +36,7 @@ namespace Balder.Display.Silverlight
 
 		private readonly IPlatform _platform;
 		private readonly IRuntimeContext _runtimeContext;
+		readonly IRenderingManager _renderingManager;
 		private WriteableBitmapQueue _bitmapQueue;
 
 		private bool _initialized;
@@ -54,10 +55,11 @@ namespace Balder.Display.Silverlight
 		private int _height;
 		private int _width;
 
-		public Display(IPlatform platform, IRuntimeContext runtimeContext)
+		public Display(IPlatform platform, IRuntimeContext runtimeContext, IRenderingManager renderingManager)
 		{
 			_platform = platform;
 			_runtimeContext = runtimeContext;
+			_renderingManager = renderingManager;
 			ClearEnabled = true;
 		}
 
@@ -86,25 +88,25 @@ namespace Balder.Display.Silverlight
 
 		public void Uninitialize()
 		{
-			RenderingManager.Instance.Render -= Render;
-			RenderingManager.Instance.Show -= Show;
-			RenderingManager.Instance.Clear -= Clear;
-			RenderingManager.Instance.Swapped -= Swap;
-			RenderingManager.Instance.Updated -= Update;
-			RenderingManager.Instance.Prepare -= Prepare;
+			_renderingManager.Render -= Render;
+			_renderingManager.Show -= Show;
+			_renderingManager.Clear -= Clear;
+			_renderingManager.Swapped -= Swap;
+			_renderingManager.Updated -= Update;
+			_renderingManager.Prepare -= Prepare;
 
 			_runtimeContext.MessengerContext.SubscriptionsFor<ShowMessage>().RemoveListener(this, ShowMessage);
 		}
 
 		private void InitializeRendering()
 		{
-			RenderingManager.Instance.Render += Render;
-			RenderingManager.Instance.Show += Show;
-			RenderingManager.Instance.Clear += Clear;
-			RenderingManager.Instance.Swapped += Swap;
-			RenderingManager.Instance.Updated += Update;
-			RenderingManager.Instance.Prepare += Prepare;
-			RenderingManager.Instance.Start();
+			_renderingManager.Render += Render;
+			_renderingManager.Show += Show;
+			_renderingManager.Clear += Clear;
+			_renderingManager.Swapped += Swap;
+			_renderingManager.Updated += Update;
+			_renderingManager.Prepare += Prepare;
+			_renderingManager.Start();
 
 			_runtimeContext.MessengerContext.SubscriptionsFor<ShowMessage>().AddListener(this, ShowMessage);
 			_runtimeContext.MessengerContext.SubscriptionsFor<PrepareFrameMessage>().AddListener(this, PrepareFrame);

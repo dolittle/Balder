@@ -26,8 +26,8 @@ namespace Balder.Display.Silverlight
 {
 	public class WriteableBitmapQueue
 	{
-		private Queue<WriteableBitmap> _renderQueue;
-		private Stack<WriteableBitmap> _showStack;
+		private readonly Queue<WriteableBitmap> _renderQueue;
+		private readonly Stack<WriteableBitmap> _showStack;
 		private readonly int _width;
 		private readonly int _height;
 

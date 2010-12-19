@@ -20,7 +20,6 @@
 using System.Collections.Generic;
 using Balder.Display;
 using Balder.Lighting;
-using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -30,12 +29,10 @@ namespace Balder.Rendering.Silverlight
 	{
 		private readonly Dictionary<DetailLevel, IGeometryDetailLevel> _detailLevels;
 		private readonly ILightCalculator _lightCalculator;
-		private readonly ITextureManager _textureManager;
 
-		public GeometryContext(ILightCalculator lightCalculator, ITextureManager textureManager)
+		public GeometryContext(ILightCalculator lightCalculator)
 		{
 			_lightCalculator = lightCalculator;
-			_textureManager = textureManager;
 			_detailLevels = new Dictionary<DetailLevel, IGeometryDetailLevel>();
 		}
 

@@ -29,17 +29,19 @@ namespace Balder.Display.Silverlight
 	{
 		private readonly List<Display> _displays;
 		private readonly IPlatform _platform;
+		readonly IRenderingManager _renderingManager;
 
 		public DisplayDevice(IPlatform platform)
 		{
 			_platform = platform;
+			_renderingManager = new RenderingManager();
 			_displays = new List<Display>();
 		}
 
 
 		public IDisplay CreateDisplay(IRuntimeContext runtimeContext)
 		{
-			var display = new Display(_platform, runtimeContext);
+			var display = new Display(_platform, runtimeContext, _renderingManager);
 			lock( _displays )
 			{
 				_displays.Add(display);	

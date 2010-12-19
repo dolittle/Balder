@@ -24,6 +24,8 @@ namespace Balder.Rendering.Silverlight
 {
 	public interface IRenderingContext
 	{
+		IRenderingFrame Frame { get; }
+
 		Viewport viewport { get; }
 		int[] Framebuffer { get; }
 		UInt32[] DepthBuffer { get; }

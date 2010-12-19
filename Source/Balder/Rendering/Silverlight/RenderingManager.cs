@@ -20,15 +20,15 @@
 using System;
 using System.Threading;
 using System.Windows.Media;
+using Balder.Execution;
 
 namespace Balder.Rendering.Silverlight
 {
 	public delegate void RenderEventHandler();
 
-	public class RenderingManager
+	[Singleton]
+	public class RenderingManager : IRenderingManager
 	{
-		public static readonly RenderingManager Instance = new RenderingManager();
-
 		public event RenderEventHandler Updated = () => { };
 		public event RenderEventHandler Render = () => { };
 		public event RenderEventHandler Clear = () => { };
@@ -42,8 +42,13 @@ namespace Balder.Rendering.Silverlight
 		private ManualResetEvent _showStartedEvent;
 
 
-		private RenderingManager()
+		public RenderingManager()
 		{
+		}
+
+		public IRenderingContext CurrentContext
+		{
+			get { throw new NotImplementedException(); }
 		}
 
 		public void Start()
