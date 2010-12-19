@@ -26,7 +26,7 @@ namespace Balder.Rendering
 {
 	public class NodeRenderingService : INodeRenderingService
 	{
-		private IRuntimeContext _runtimeContext;
+		private readonly IRuntimeContext _runtimeContext;
 		private readonly ILightCalculator _lightCalculator;
 
 		private int _frameCounter;

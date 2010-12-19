@@ -198,6 +198,10 @@
     <Compile Include="Rendering\Silverlight\GeometryDebugInfo.cs" />
     <Compile Include="Rendering\Silverlight\GeometryRenderer.cs" />
     <Compile Include="Rendering\Silverlight\IGeometryDebugInfo.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderFrame.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingContext.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderTask.cs" />
     <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
     <Compile Include="Rendering\Silverlight\IVertexModifier.cs" />
     <Compile Include="Rendering\Silverlight\RenderNormal.cs" />

@@ -11,6 +11,8 @@ namespace Balder.Lighting
 	[Singleton]
 	public class LightCalculator : ILightCalculator
 	{
+		private readonly static uint White = 0xffffffff;
+		private readonly static int WhiteAsInt = (int)White;
 		private ILight[] _lights;
 		private int _sceneAmbient;
 
@@ -31,8 +33,6 @@ namespace Balder.Lighting
 			_lights = lightsToUse.ToArray();
 		}
 
-		private static uint White = 0xffffffff;
-		private static int WhiteAsInt = (int) White;
 
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal, out int diffuseResult, out int specularResult)
 		{
