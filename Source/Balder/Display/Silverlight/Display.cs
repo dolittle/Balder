@@ -18,23 +18,17 @@
 #endregion
 #if(SILVERLIGHT)
 using System;
-using System.ComponentModel;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using Balder.Execution;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.Rendering.Silverlight;
-using Ninject;
 
 namespace Balder.Display.Silverlight
 {
-	public class Display : IDisplay, INotifyPropertyChanged
+	public class Display : IDisplay
 	{
-		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { };
-
-		private readonly IPlatform _platform;
 		private readonly IRuntimeContext _runtimeContext;
 		readonly IRenderingManager _renderingManager;
 		private WriteableBitmapQueue _bitmapQueue;
@@ -55,9 +49,8 @@ namespace Balder.Display.Silverlight
 		private int _height;
 		private int _width;
 
-		public Display(IPlatform platform, IRuntimeContext runtimeContext, IRenderingManager renderingManager)
+		public Display(IRuntimeContext runtimeContext, IRenderingManager renderingManager)
 		{
-			_platform = platform;
 			_runtimeContext = runtimeContext;
 			_renderingManager = renderingManager;
 			ClearEnabled = true;
