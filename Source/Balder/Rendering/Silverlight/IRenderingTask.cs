@@ -21,7 +21,7 @@ using Balder.Math;
 
 namespace Balder.Rendering.Silverlight
 {
-	public interface IRenderTask
+	public interface IRenderingTask
 	{
 		void Render(IRenderingContext context, Matrix world, DetailLevel detailLevel);
 	}

@@ -198,14 +198,15 @@
     <Compile Include="Rendering\Silverlight\GeometryDebugInfo.cs" />
     <Compile Include="Rendering\Silverlight\GeometryRenderer.cs" />
     <Compile Include="Rendering\Silverlight\IGeometryDebugInfo.cs" />
-    <Compile Include="Rendering\Silverlight\IRenderFrame.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingFrame.cs" />
     <Compile Include="Rendering\Silverlight\IRenderingContext.cs" />
     <Compile Include="Rendering\Silverlight\IRenderingManager.cs" />
-    <Compile Include="Rendering\Silverlight\IRenderTask.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingTask.cs" />
     <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
     <Compile Include="Rendering\Silverlight\IVertexModifier.cs" />
     <Compile Include="Rendering\Silverlight\RenderNormal.cs" />
     <Compile Include="Rendering\Silverlight\SkyboxControl.cs" />
+    <Compile Include="Rendering\Silverlight\Tasks\GeometryRenderingTask.cs" />
     <Compile Include="Rendering\Silverlight\Texture.cs" />
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />
     <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
