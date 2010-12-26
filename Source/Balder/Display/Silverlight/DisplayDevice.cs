@@ -41,7 +41,7 @@ namespace Balder.Display.Silverlight
 
 		public IDisplay CreateDisplay(IRuntimeContext runtimeContext)
 		{
-			var display = new Display(_platform, runtimeContext, _renderingManager);
+			var display = new Display(runtimeContext, _renderingManager);
 			lock( _displays )
 			{
 				_displays.Add(display);	
