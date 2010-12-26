@@ -94,6 +94,7 @@ namespace Balder.Assets.AssetLoaders
 
 		private static readonly Dictionary<string, BeginScopeHandler> BeginScopeHandlers = new Dictionary<string, BeginScopeHandler>
 		                                                                                   	{
+																								{GEOMOBJECT, BeginGeometryScopeHandler},
 																								{MATERIAL, BeginMaterialScopeHandler},
 																								{SUBMATERIAL, BeginSubMaterialScopeHandler}
 		                                                                                   	};
@@ -181,12 +182,6 @@ namespace Balder.Assets.AssetLoaders
 
 						HandleBeginScope(globals, scope, scopeParameter, currentScopeObject);
 
-						if (null != currentScopeObject &&
-							currentScopeObject is Geometry &&
-							!geometries.Contains(currentScopeObject as Geometry))
-						{
-							geometries.Add(currentScopeObject as Geometry);
-						}
 					}
 					else
 					{
@@ -195,6 +190,14 @@ namespace Balder.Assets.AssetLoaders
 				}
 				if (IsScopeEnd(trimmedLine))
 				{
+					if (null != currentScopeObject &&
+						currentScopeObject is Geometry &&
+						!geometries.Contains(currentScopeObject as Geometry) &&
+						null != globals.Faces)
+					{
+						geometries.Add(currentScopeObject as Geometry);
+					}
+
 					HandleEndScope(globals, currentScope, currentScopeObject);
 					scopeStack.Pop();
 					scopeObjectStack.Pop();
@@ -306,6 +309,10 @@ namespace Balder.Assets.AssetLoaders
 		}
 
 
+		private static void BeginGeometryScopeHandler(AseGlobals globals, object scopeobject, string scopename, string content)
+		{
+			
+		}
 
 		private static void GeometryScopeHandler(AseGlobals globals, object scopeObject, string propertyName, string content)
 		{
@@ -329,7 +336,7 @@ namespace Balder.Assets.AssetLoaders
 					break;
 				case TM_ROW0:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						geometry.World.M11 = float.Parse(elements[0], CultureInfo.InvariantCulture);
 						geometry.World.M12 = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						geometry.World.M13 = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -338,7 +345,7 @@ namespace Balder.Assets.AssetLoaders
 
 				case TM_ROW2:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						geometry.World.M21 = float.Parse(elements[0], CultureInfo.InvariantCulture);
 						geometry.World.M22 = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						geometry.World.M23 = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -347,7 +354,7 @@ namespace Balder.Assets.AssetLoaders
 
 				case TM_ROW1:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						geometry.World.M31 = float.Parse(elements[0], CultureInfo.InvariantCulture);
 						geometry.World.M32 = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						geometry.World.M33 = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -356,7 +363,7 @@ namespace Balder.Assets.AssetLoaders
 
 				case TM_ROW3:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						geometry.World.M41 = float.Parse(elements[0], CultureInfo.InvariantCulture);
 						geometry.World.M42 = float.Parse(elements[2], CultureInfo.InvariantCulture);
 						geometry.World.M43 = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -379,6 +386,10 @@ namespace Balder.Assets.AssetLoaders
 		{
 			var geometry = scopeObject as Geometry;
 
+			if( null == globals.Faces )
+			{
+				return;
+			}
 			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			geometryDetailLevel.AllocateFaces(globals.Faces.Length);
 
@@ -431,7 +442,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case MESH_VERTEX:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						var vertexIndex = Convert.ToInt32(elements[0]);
 						var x = float.Parse(elements[1], CultureInfo.InvariantCulture);
 						var y = float.Parse(elements[3], CultureInfo.InvariantCulture);
@@ -456,7 +467,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case MESH_VERTCOL:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						var colorIndex = Convert.ToInt32(elements[0]);
 						var r = float.Parse(elements[1], CultureInfo.InvariantCulture);
 						var g = float.Parse(elements[3], CultureInfo.InvariantCulture);
@@ -476,7 +487,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case MESH_CFACE:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[1]);
 						var b = Convert.ToInt32(elements[2]);
@@ -553,7 +564,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				case MESH_TVERT:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 
 						var tvertIndex = Convert.ToInt32(elements[0]);
 						var u = float.Parse(elements[1], CultureInfo.InvariantCulture);
@@ -566,7 +577,7 @@ namespace Balder.Assets.AssetLoaders
 
 				case MESH_TFACE:
 					{
-						var elements = content.Split('\t', ' ');
+						var elements = GetValuesFromString(content);
 						var faceIndex = Convert.ToInt32(elements[0]);
 						var a = Convert.ToInt32(elements[1]);
 						var b = Convert.ToInt32(elements[2]);
@@ -640,6 +651,30 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 			}
+		}
+
+		private static string[] GetValuesFromString(string content)
+		{
+			var elements = content.Split('\t', ' ');
+			var count = 0;
+			for( var elementIndex=0; elementIndex<elements.Length; elementIndex++ )
+			{
+				if( !string.IsNullOrEmpty(elements[elementIndex]) )
+				{
+					count++;
+				}
+			}
+
+			var actualElements = new string[count];
+			count = 0;
+			for (var elementIndex = 0; elementIndex < elements.Length; elementIndex++)
+			{
+				if (!string.IsNullOrEmpty(elements[elementIndex]))
+				{
+					actualElements[count++] = elements[elementIndex];
+				}
+			}
+			return actualElements;
 		}
 	}
 }
