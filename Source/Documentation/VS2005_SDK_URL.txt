@@ -1,0 +1,6 @@
+Installing without VS2005 installed : 
+http://www.helpware.net/mshelp2/h2faq.htm#novsnet2
+
+
+V4 of the SDK : 
+http://www.microsoft.com/downloads/en/details.aspx?familyid=51a5c65b-c020-4e08-8ac0-3eb9c06996f4&displaylang=en

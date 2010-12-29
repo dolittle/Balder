@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ContentFile Version="2010" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET">
+  <RelatedProject>..\..\Documentation\Balder.Documentation.Silverlight.dxp</RelatedProject>
+  <State>
+    <Attributes>
+      <Attribute key="dtscrollpos" valuetype="integer">0</Attribute>
+      <Attribute key="lang_CS" valuetype="string">on</Attribute>
+      <Attribute key="inheritedMembers" valuetype="string">on</Attribute>
+      <Attribute key="protectedMembers" valuetype="string">on</Attribute>
+    </Attributes>
+  </State>
+  <LastSelectedItem>Balder~Balder.Color~Additive(Color)</LastSelectedItem>
+  <item qn="Balder~Balder.Color" />
+  <item qn="Balder~Balder.Color~Additive(Color)">
+    <exampleintro ChangeDateTime="2010-12-29T18:58:06.6523437Z">&lt;P&gt;var color = new Color(0xff,0,0,0); // Red Color&lt;BR&gt;var secondColor = new Color(0,0xff,0,0); // Blue Color&lt;BR&gt;var addedColor = color.Additive(secondColor); // Result should be a color combining the red and the blue&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</exampleintro>
+  </item>
+  <Filters>
+    <CONTENTSTORECOMMON>
+      <IsIncludedItemsOnly>true</IsIncludedItemsOnly>
+    </CONTENTSTORECOMMON>
+    <DX.NETCONTENTSTOREFILTER>
+      <ShowProtectedMembers>true</ShowProtectedMembers>
+      <ShowProtectedFriendMembers>true</ShowProtectedFriendMembers>
+      <ShowFriendMembers>false</ShowFriendMembers>
+      <ShowPrivateMembers>false</ShowPrivateMembers>
+      <ShowInheritedMembers>false</ShowInheritedMembers>
+      <IsSourceCodeContentVisible>true</IsSourceCodeContentVisible>
+    </DX.NETCONTENTSTOREFILTER>
+  </Filters>
+</ContentFile>

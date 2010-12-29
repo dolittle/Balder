@@ -65,7 +65,7 @@ namespace Balder.Execution
 	/// See the example for more information
 	/// </remarks>
 	/// <example>
-	/// 
+	/// <![CDATA[
 	/// public enum MyStates
 	/// {
 	///		Idle=1,
@@ -111,7 +111,7 @@ namespace Balder.Execution
 	///		public MyStates DefaultState { get { return MyStates.Idle; } }
 	/// 
 	/// }
-	/// 
+	/// ]]>
 	/// </example>
 	public abstract class StateMachine<T> : IStateMachine, IDisposable
 	{

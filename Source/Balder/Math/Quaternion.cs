@@ -55,7 +55,7 @@ namespace Balder.Math
 		 * */
 
         /// <summary>
-        /// Converts a vector & a w value to a Quaternion
+        /// Converts a vector and a w value to a Quaternion
         /// </summary>
         /// <param name="vector"></param>
         /// <param name="w"></param>

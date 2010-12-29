@@ -415,7 +415,7 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
-		private new Face CreateFace(int a, int b, int c, int smoothingGroup)
+		private Face CreateFace(int a, int b, int c, int smoothingGroup)
 		{
 			var face = base.CreateFace(a, b, c);
 			face.DiffuseA = a;
