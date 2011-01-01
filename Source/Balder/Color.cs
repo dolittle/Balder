@@ -17,8 +17,6 @@
 //
 #endregion
 using System;
-
-
 #if(SILVERLIGHT)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
@@ -36,7 +34,7 @@ using Balder.Math;
 namespace Balder
 {
 	/// <summary>
-	/// Represents a color
+	/// Represents a color used throughout Balder
 	/// </summary>
 #if(SILVERLIGHT)
 	[TypeConverter(typeof(ColorConverter))]
@@ -212,6 +210,11 @@ namespace Balder
 			return (int)ToUInt32();
 		}
 
+		/// <summary>
+		/// Adds a color with this color and returns a new color
+		/// </summary>
+		/// <param name="secondColor">The color to add with this color</param>
+		/// <returns>A new color with the two colors added together</returns>
 		public Color Additive(Color secondColor)
 		{
 			var red = (int)Red + (int)secondColor.Red;

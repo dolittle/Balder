@@ -31,7 +31,6 @@ namespace Balder.Content
 		/// Creates a new ContentCreator and provides functionality for creating content
 		/// </summary>
 		/// <param name="kernel">Kernel that the ContentCreator will use for creating content</param>
-		/// <param name="identityManager">IdentityManager used during creation of certain content</param>
 		public ContentCreator(IKernel kernel)
 		{
 			_kernel = kernel;

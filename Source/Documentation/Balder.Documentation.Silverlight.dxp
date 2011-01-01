@@ -1,52 +1,407 @@
-﻿<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<DocumentXProject Version="5.0" CompileHelpFile="True" RefreshIfExists="False" DocumentSourceCode="False" AlwaysCopySupportFiles="True" PropertyCommentsFrom="0" RelationshipsFrom="2" DefaultRelsOnlyForCollections="True" ProjectGroupName="" HTMLHelpVersion="2" HHNamespace="Balder.Documentation.Silverlight" HHIdentifier="Balder.Documentation.Silverlight" H2PlugIn="False" H2PlugInNamespace="" LocaleID="0" ExcludeFiltersRegExp="False" OutputFileExtension=".html">
-    <OutputLocation OutputFolder="DocumentX\" HelpFileName="Balder.Documentation.Silverlight.hxs" UseFilenameAliases="False" StripMetadata="False" ClearBeforeBuild="False" RemoveOutputFilesAfterCompile="False"/>
-    <HTMLHelpOptions UseALinkMenus="False"/>
-    <OtherOptions CreateContextLinks="True" WriteHelpDescriptions="True" CopySourceCode="False" CreateWinHelpStub="False" Language="English"/>
-    <IncludeFilters IncludePrivate="False" IncludeFriend="False" IncludeProtected="True" IdentifyVisibility="False">
-        <Namespaces>
-            <Property Name="DX.NET:Method">True</Property>
-            <Property Name="DX.NET:Property">True</Property>
-            <Property Name="DX.NET:Field">True</Property>
-            <Property Name="DX.NET:Event">True</Property>
-            <Property Name="DX.NET:Constructor">True</Property>
-            <Property Name="DX.NET:Operator">True</Property>
-        </Namespaces>
-    </IncludeFilters>
-    <CommentExtraction UnTaggedBlocks="False" UnTaggedEnumerations="False" UnTaggedEvents="False" UnTaggedModules="False" UnTaggedUDTs="False" UnTaggedVariables="False" HelpDescriptionImport="1"/>
-    <Diagrams PageNestingLevels="2" OverviewNestingLevels="3" SupressSingleObjectDiagrams="True" DiagramStyleSource="0" ObjFillColor="0" ObjTextColor="0" ObjBorderColor="0" ColFillColor="0" ColTextColor="0" ColBorderColor="0" UseDropShadow="False" CenterCaptions="False" DiagramBold="False" BorderWidth="0" UseDiagramShapes="False"/>
-    <VariableValues>
-        <VariableValue Name="CopyrightNotice" Value="&amp;copy; %%year%% All Rights Reserved."/>
-        <VariableValue Name="FeedbackLink" Value="&lt;a href=&quot;mailto:support@company.com?subject=Documentation Feedback: %%FileName%%&quot;&gt;Send Feedback&lt;/a&gt;"/>
-        <VariableValue Name="DefaultTypeRequirements" Value="&lt;h4 class=dxh4&gt;$$Requirements$$&lt;/h4&gt;&lt;p&gt;&lt;b&gt;Namespace: &lt;/b&gt;%%linkedcurrentnamespace%%&lt;/b&gt;&lt;/p&gt;&lt;p&gt;&lt;b&gt;Platforms:&lt;/b&gt; Windows 98, Windows NT 4.0, Windows Millennium Edition, Windows 2000, Windows XP Home Edition, Windows XP Professional, Windows Server 2003 family, Windows Vista, Windows Server 2008 family&lt;/p&gt;&lt;p&gt;&lt;b&gt;Assembly: &lt;/b&gt;%%assemblyname%% (in %%assemblyfilename%%)&lt;/p&gt;"/>
-        <VariableValue Name="DefaultMemberRequirements" Value="&lt;h4 class=dxh4&gt;$$Requirements$$&lt;/h4&gt;&lt;p&gt;&lt;b&gt;Platforms:&lt;/b&gt; Windows 98, Windows NT 4.0, Windows Millennium Edition, Windows 2000, Windows XP Home Edition, Windows XP Professional, Windows Server 2003 family, Windows Vista, Windows Server 2008 family&lt;/p&gt;"/>
-    </VariableValues>
-    <AdditionalFiles/>
-    <ModelComments/>
-    <IgnoreRelationships/>
-    <NamespaceExclusions>
-        <e>Balder.Core~__Delegates</e>
-        <e>Balder.Core~Balder.Core.ReadableRex.LinqToRegex.PatternVisitor</e>
-        <e>Balder.Core~Balder.Core.Execution.StateMachine`1+StateMethods</e>
-        <e>Balder.Core~Balder.Core.Math.Gjk</e>
-        <e>Balder.Silverlight~__Delegates</e>
-        <e>Balder.Core~Balder.Silverlight.Extensions_namespace</e>
-    </NamespaceExclusions>
-    <DotNetProperties IncludeRelationshipDiagrams="True" IncludeInheritanceHierarchies="True" IncludeBaseMembers="False" StandardInterfaces="System.*,Microsoft.*" OnlyLinkInherited="True" ExternalDocs="True" UseCommentFiles="True" DrillCommentFiles="True" GenerateXMLLinks="False" XMLIsland="" NoInheritedTopics="True" NoInheritedInLists="False" CreateXMLCommentFile="False" ExcludedLanguages="VB,VBUsage,Delphi,JScript,CPP,CPP2005" GenerateAttributes="True" AttributeFilter="" AttributeFilterInclude="False" VBNETDefaultConstructor="False" LinkOverridenMembersToBaseImplementation="False" UseOverloadSummaryForMasterSummary="True" ExcludeEditorBrowsable="True" GenerateBreadCrumbs="True" IncludeAssemblyBreadCrumb="False"/>
-    <DatabaseProperties DocumentViewSource="True" DocumentTriggerSource="True" DocumentProcedureSource="True" RetainTaggedComments="False"/>
-    <XSDProperties UseCustomSettings="False" PageNestingLevels="2" SuppressSingleObjectDiagrams="True" ElementFillColor="15780518" ElementTextColor="0" ElementBorderColor="10789024" ElementBorders="True" ElementRefFillColor="12648447" ElementRefTextColor="0" ElementRefBorderColor="10789024" ElementRefBorders="True" ComplexTypeFillColor="15780518" ComplexTypeTextColor="0" ComplexTypeBorderColor="10789024" ComplexTypeBorders="True" AnyFillColor="13421772" AnyTextColor="0" AnyBorderColor="10789024" AnyBorders="True" NotationTextColor="8421504" RootLinesColor="10789024" DropShadows="False" BoldCaptions="True" GroupParticleSequenceImageFilename="C:\Program Files\Innovasys\documentx5\Configuration\Templates\XMLSchema\xDiagramImages\sequence.gif" GroupParticleChoiceImageFilename="C:\Program Files\Innovasys\documentx5\Configuration\Templates\XMLSchema\xDiagramImages\choice.gif" GroupParticleAllImageFilename="C:\Program Files\Innovasys\documentx5\Configuration\Templates\XMLSchema\xDiagramImages\all.gif"/>
-    <CommentFiles>
-        <CommentFile FileName="..\Balder.Core\Balder.Core.dxc" DocType="dx.net" ItemMoniker="Bin\Release\Balder.Core.dll"/>
-        <CommentFile FileName="..\Balder.Silverlight\Balder.Silverlight.dxc" DocType="dx.net" ItemMoniker="Bin\Release\Balder.Silverlight.dll"/>
-    </CommentFiles>
-    <CommunityExtensions CommunityProjectKey="" Enabled="false" ServerType="0" URL="" HostingId="" UseLocalProxyURL="false" LocalProxyURL=""/>
-    <DocType Name="dx.net" Template="Visual Studio 2008 Style" UseHelpTemplates="False">
-        <TOCSource TOCSource="0" SpecificTOCName=""/>
-        <ModelCommentProfile Version="6.0" Namespace="dx.net" Name="" Description=""/>
-    </DocType>
-    <NetAssemblies RootAssemblyName="">
-        <Assembly Version="5.0" FileName="..\Balder.Core\Bin\Release\Balder.Core.dll" mRootModule="" AssemblyName="Balder.Core" AssemblyType="1" ExamplesOnly="False" LoadIncludeFilter="" LoadExcludeFilter="" LoadPrivateItems="True"/>
-        <Assembly Version="5.0" FileName="..\Balder.Silverlight\Bin\Release\Balder.Silverlight.dll" mRootModule="" AssemblyName="Balder.Silverlight" AssemblyType="1" ExamplesOnly="False" LoadIncludeFilter="" LoadExcludeFilter="" LoadPrivateItems="True"/>
-    </NetAssemblies>
-    <PropertyBag/>
+﻿<?xml version="1.0" encoding="utf-8"?>
+<DocumentXProject Id="5b45fac9-47e8-49aa-a26e-220d6682652e" Version="2010.1">
+  <SeparateFiles>false</SeparateFiles>
+  <Flags>
+    <Flag Id="{46CEF21D-3301-4517-A875-A0906828390E}" HighlightColor="#FFA1FFD0">Exclude from Online</Flag>
+    <Flag Id="{4AAE0FD4-7313-4FEE-A25F-0785B885F736}" HighlightColor="#FFFFFFA1">Exclude from Booklet</Flag>
+  </Flags>
+  <PropertyDefinitions />
+  <PropertyDefinitionValues />
+  <Title />
+  <ContentFiles>
+    <ContentFile FileName="..\Balder\Documentation\Balder.dxc" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET" />
+  </ContentFiles>
+  <ContentFromProjectPlugin />
+  <Filters>
+    <ExcludedItems>
+      <ExcludedItem>BALDER.CORE~__DELEGATES</ExcludedItem>
+      <ExcludedItem>BALDER.CORE~BALDER.CORE.READABLEREX.LINQTOREGEX.PATTERNVISITOR</ExcludedItem>
+      <ExcludedItem>BALDER.CORE~BALDER.CORE.EXECUTION.STATEMACHINE`1+STATEMETHODS</ExcludedItem>
+      <ExcludedItem>BALDER.CORE~BALDER.CORE.MATH.GJK</ExcludedItem>
+      <ExcludedItem>BALDER.SILVERLIGHT~__DELEGATES</ExcludedItem>
+      <ExcludedItem>BALDER.CORE~BALDER.SILVERLIGHT.EXTENSIONS_NAMESPACE</ExcludedItem>
+      <ExcludedItem>Ninject~Ninject.Activation.Caching.Cache+CacheEntry</ExcludedItem>
+      <ExcludedItem>Ninject~Ninject.Infrastructure.Introspection_namespace</ExcludedItem>
+      <ExcludedItem>Ninject~Ninject.Infrastructure.Language_namespace</ExcludedItem>
+      <ExcludedItem>Ninject~Ninject.Infrastructure.Ensure</ExcludedItem>
+      <ExcludedItem>Ninject~Ninject.Planning.Targets.Target`1+--c__DisplayClass2+--c__DisplayClass4</ExcludedItem>
+      <ExcludedItem>Balder~Balder.Execution.StateMachine`1+StateMethods</ExcludedItem>
+      <ExcludedItem>Balder~Balder.Silverlight.Helpers.DependencyPropertyHelper+--c__DisplayClass2+--c__DisplayClass5</ExcludedItem>
+      <ExcludedItem>Balder~Balder.Controls.InstancingNodes+DataItemInfo</ExcludedItem>
+      <ExcludedItem>Balder~-_namespace</ExcludedItem>
+    </ExcludedItems>
+  </Filters>
+  <ComProjectPlugin />
+  <AjaxProjectPlugin />
+  <DotNetAssemblies>
+    <Assembly FileName="..\Balder\Bin\Release\Balder.dll" RootTypeName="" />
+  </DotNetAssemblies>
+  <DatabaseProjectPlugin>
+    <Databases />
+  </DatabaseProjectPlugin>
+  <XsdProjectPlugin>
+    <XsdSchemas />
+  </XsdProjectPlugin>
+  <GlossaryProjectPlugin>
+    <IsGlossaryOutputEnabled>true</IsGlossaryOutputEnabled>
+    <Glossary>
+      <GlossaryItems />
+      <Title />
+    </Glossary>
+  </GlossaryProjectPlugin>
+  <HelpProjectPlugin ShowGettingStartedPage="true" />
+  <OtherFilesProjectPlugin>
+    <OtherFiles />
+    <DefaultStylesheet></DefaultStylesheet>
+    <DefaultCaptureDirectory></DefaultCaptureDirectory>
+  </OtherFilesProjectPlugin>
+  <SourceControlProjectPlugin />
+  <TasksProjectPlugin>
+    <Tasks>
+      <TaskItems />
+    </Tasks>
+  </TasksProjectPlugin>
+  <TableOfContents>
+    <TocLayout Id="966b4220-b3c2-4f60-b343-c9fa95e79ca1">
+      <Name />
+      <Description />
+      <RootNodes>
+        <TocNode Name="" Id="a5a4d354-422f-412b-b3a2-0cb111ac5d6e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+          <CaptionTemplate />
+          <ChildNodes />
+          <TargetItemId>c6098b54-00b2-4bb8-bde0-94d114c09256</TargetItemId>
+          <TargetItemBookmark></TargetItemBookmark>
+        </TocNode>
+      </RootNodes>
+    </TocLayout>
+  </TableOfContents>
+  <TopicsProjectPlugin>
+    <TopicCategories>
+      <TopicCategory Id="-" AutoIndex="false">
+        <Caption>(Un-categorized)</Caption>
+        <ChildTopicCategories />
+        <Topics />
+      </TopicCategory>
+      <TopicCategory Id="6778f09c-ca3e-4e88-843f-c403fb5376e7" AutoIndex="true">
+        <Caption m="2010-12-29T21:57:18.0585938Z">General</Caption>
+        <ChildTopicCategories />
+        <Topics>
+          <Topic Id="c6098b54-00b2-4bb8-bde0-94d114c09256" Status="New Topic" CreatedOn="2010-12-29T19:50:50.9199218Z" ModifiedOn="2010-12-29T19:54:22.3701171Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="About" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2010-12-29T19:54:22.3701171Z">&lt;P&gt;Balder started off in 2007, at the same time as Silverlight 1.1 Alpha was released. The goal back then was not to create a project like Balder has evolved into today, but rather just prove that 3D would be possible with Silverlight.&lt;/P&gt;
+&lt;H1&gt;Primary Objective&lt;/H1&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+        </Topics>
+      </TopicCategory>
+      <TopicCategory Id="3c980771-200a-48f8-864f-ee3654ab8363" AutoIndex="true">
+        <Caption m="2010-12-29T19:01:16.7929687Z">Getting Started</Caption>
+        <ChildTopicCategories />
+        <Topics />
+      </TopicCategory>
+      <TopicCategory Id="8545d190-17d6-440b-90f9-c291e230fe3e" AutoIndex="true">
+        <Caption m="2010-12-29T19:02:10.5693359Z">Architecture</Caption>
+        <ChildTopicCategories />
+        <Topics />
+      </TopicCategory>
+    </TopicCategories>
+    <CustomTopicPropertyDefinitions />
+    <PropertyDefinitionValues />
+    <AutoNameDigits>0</AutoNameDigits>
+    <AutoNameLastNumber>0</AutoNameLastNumber>
+    <AutoNameEnabled>false</AutoNameEnabled>
+    <AutoNamePrefix></AutoNamePrefix>
+    <IncludeTopicNameInTitle>false</IncludeTopicNameInTitle>
+    <TopicEditorState>
+      <Attributes>
+        <Attribute key="dtscrollpos" valuetype="integer">0</Attribute>
+      </Attributes>
+    </TopicEditorState>
+  </TopicsProjectPlugin>
+  <WidgetsProjectPlugin>
+    <WidgetTypes Version="2010.0" />
+  </WidgetsProjectPlugin>
+  <ProjectProfiles>
+    <ProjectProfile Id="1efc9ae8-48f2-4850-b021-474b86f8befa" Name="Balder">
+      <DefaultItemQualifiedName>About</DefaultItemQualifiedName>
+      <StripMetadata>true</StripMetadata>
+      <AlwaysCopyTemplateFiles>true</AlwaysCopyTemplateFiles>
+      <OutputFileExtension>.html</OutputFileExtension>
+      <Title m="2010-12-29T21:44:42.5234375Z">Documentation for Balder</Title>
+      <ClearOutputDirectoryBeforeBuild>true</ClearOutputDirectoryBeforeBuild>
+      <IsNewIndicatorEnabled>true</IsNewIndicatorEnabled>
+      <IsNewDateTime></IsNewDateTime>
+      <PropertyDefinitionValues>
+        <PropertyDefinitionValue PropertyDefinitionId="07847df9-498c-45c9-9f2e-ca97e7f3e900">
+          <PropertyValue m="2010-12-29T22:14:54.1181641Z">(C)2007-2011 DoLittle Studios</PropertyValue>
+        </PropertyDefinitionValue>
+      </PropertyDefinitionValues>
+      <IsTidyXhtmlEnabled>true</IsTidyXhtmlEnabled>
+      <CommunityOptions UseLocalProxyUrl="false" Enabled="false">
+        <ServerType>PublicEvaluation</ServerType>
+        <LocalProxyUrl></LocalProxyUrl>
+        <HostingAccessKey></HostingAccessKey>
+        <PrivateServerUrl></PrivateServerUrl>
+        <PrivateServerAccessKey></PrivateServerAccessKey>
+        <ProjectKey />
+      </CommunityOptions>
+      <DotNet>
+        <IncludeRelationshipDiagrams>true</IncludeRelationshipDiagrams>
+        <IncludeInheritanceHierarchies>true</IncludeInheritanceHierarchies>
+        <IncludeSystemObjectMembers>false</IncludeSystemObjectMembers>
+        <InterfacesToIgnoreInSyntax>System.*,Microsoft.*</InterfacesToIgnoreInSyntax>
+        <NoInheritedMemberTopicsInternal>true</NoInheritedMemberTopicsInternal>
+        <LinkToExternalDocs>true</LinkToExternalDocs>
+        <UseXmlCommentFile>true</UseXmlCommentFile>
+        <UseExternalXmlCommentFiles>true</UseExternalXmlCommentFiles>
+        <NoInheritedMemberTopicsExternal>true</NoInheritedMemberTopicsExternal>
+        <NoInheritedInLists>false</NoInheritedInLists>
+        <ExcludeEditorBrowsable>true</ExcludeEditorBrowsable>
+        <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
+        <ExcludeObsolete>false</ExcludeObsolete>
+        <GenerateXmlCommentFile>false</GenerateXmlCommentFile>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <IncludeAssemblyBreadcrumb>false</IncludeAssemblyBreadcrumb>
+        <IncludePrivateMembers>false</IncludePrivateMembers>
+        <IncludeFriendMembers>false</IncludeFriendMembers>
+        <IncludeProtectedFriendMembers>false</IncludeProtectedFriendMembers>
+        <IncludeProtectedMembers>true</IncludeProtectedMembers>
+        <IncludeAttributes>true</IncludeAttributes>
+        <AttributeFilterType>Exclude</AttributeFilterType>
+        <AttributeFilter></AttributeFilter>
+        <XmlIsland></XmlIsland>
+        <IdentifyAccessInTitles>false</IdentifyAccessInTitles>
+        <XmlCommentUsage>UseIfBlank</XmlCommentUsage>
+        <DiagramSettings OverviewNestingLevels="3" PageNestingLevels="2" DiagramStyleSource="Template">
+          <SuppressSingleObjectDiagrams>false</SuppressSingleObjectDiagrams>
+          <DiagramStyle>
+            <CommonStyle OuterMargin="4" ShareSize="false">
+              <IsNewBrush>#FFFF0000</IsNewBrush>
+              <IsNewSize>10</IsNewSize>
+              <UseDropShadow>false</UseDropShadow>
+              <DropShadowOpacity>0.3</DropShadowOpacity>
+              <DropShadowDepth>3</DropShadowDepth>
+              <DropShadowColor>#FF000000</DropShadowColor>
+              <DropShadowDirection>300</DropShadowDirection>
+              <Connector Brush="#FF808080" Thickness="1.5" StyleName="Solid" Indent="20" />
+            </CommonStyle>
+            <ObjectItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FF000000" BorderBrush="#FF000000" BorderThickness="0" EndCap="Rounded" />
+            <CollectionItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FF000000" BorderBrush="#FF000000" BorderThickness="-0" EndCap="Point" />
+          </DiagramStyle>
+          <DiagramRelationshipsFrom>PropertiesOnly</DiagramRelationshipsFrom>
+          <DiagramDefaultCollectionMemberOnly>true</DiagramDefaultCollectionMemberOnly>
+        </DiagramSettings>
+        <IncludeVbNetDefaultConstructor>false</IncludeVbNetDefaultConstructor>
+        <UseOverloadSummaryForMasterSummary>true</UseOverloadSummaryForMasterSummary>
+        <LinkOverriddenMembersToBaseImplementation>false</LinkOverriddenMembersToBaseImplementation>
+        <GenericIndicator>ArgumentsInBrackets</GenericIndicator>
+        <RootAssemblyName></RootAssemblyName>
+        <IncludeConstructorsOnAbstractTypes>false</IncludeConstructorsOnAbstractTypes>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <ExcludeAllPrivateTypes>true</ExcludeAllPrivateTypes>
+        <ExcludeAllFriendTypes>true</ExcludeAllFriendTypes>
+        <ExcludeAllProtectedTypes>false</ExcludeAllProtectedTypes>
+        <ExcludeAllProtectedFriendTypes>false</ExcludeAllProtectedFriendTypes>
+        <SyntaxSectionStyle>TemplateDefault</SyntaxSectionStyle>
+        <IsVbSyntaxMerged>true</IsVbSyntaxMerged>
+        <IncludeMemberIndexKeywords>false</IncludeMemberIndexKeywords>
+        <ExcludedLanguages>
+          <ExcludedLanguage>VB</ExcludedLanguage>
+          <ExcludedLanguage>VBUsage</ExcludedLanguage>
+          <ExcludedLanguage>Delphi</ExcludedLanguage>
+          <ExcludedLanguage>JScript</ExcludedLanguage>
+          <ExcludedLanguage>CPP</ExcludedLanguage>
+          <ExcludedLanguage>CPP2005</ExcludedLanguage>
+        </ExcludedLanguages>
+      </DotNet>
+      <Ajax>
+        <IncludeRelationshipDiagrams>false</IncludeRelationshipDiagrams>
+        <IncludeInheritanceHierarchies>true</IncludeInheritanceHierarchies>
+        <NoInheritedMemberTopicsInternal>true</NoInheritedMemberTopicsInternal>
+        <UseXmlCommentFile>true</UseXmlCommentFile>
+        <NoInheritedInLists>false</NoInheritedInLists>
+        <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <IncludeComponentBreadcrumb>false</IncludeComponentBreadcrumb>
+        <XmlIsland></XmlIsland>
+        <XmlCommentUsage>Merge</XmlCommentUsage>
+        <DiagramSettings OverviewNestingLevels="0" PageNestingLevels="0" DiagramStyleSource="Template">
+          <SuppressSingleObjectDiagrams>false</SuppressSingleObjectDiagrams>
+          <DiagramStyle>
+            <CommonStyle OuterMargin="10" ShareSize="true">
+              <IsNewBrush>#FFFF0000</IsNewBrush>
+              <IsNewSize>10</IsNewSize>
+              <UseDropShadow>false</UseDropShadow>
+              <DropShadowOpacity>0.3</DropShadowOpacity>
+              <DropShadowDepth>3</DropShadowDepth>
+              <DropShadowColor>#FF000000</DropShadowColor>
+              <DropShadowDirection>300</DropShadowDirection>
+              <Connector Brush="#FF808080" Thickness="1.5" StyleName="Solid" Indent="30" />
+            </CommonStyle>
+            <ObjectItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FFADD8E6" BorderBrush="#FF808080" BorderThickness="0" EndCap="Rounded" />
+            <CollectionItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FFADD8E6" BorderBrush="#FF808080" BorderThickness="0" EndCap="Rounded" />
+          </DiagramStyle>
+          <DiagramRelationshipsFrom>All</DiagramRelationshipsFrom>
+          <DiagramDefaultCollectionMemberOnly>false</DiagramDefaultCollectionMemberOnly>
+        </DiagramSettings>
+        <RootComponentName></RootComponentName>
+        <IncludeConstructorsOnAbstractTypes>false</IncludeConstructorsOnAbstractTypes>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <ExcludeAllPrivateTypes>true</ExcludeAllPrivateTypes>
+        <ExcludeAllFriendTypes>true</ExcludeAllFriendTypes>
+        <ExcludeAllProtectedTypes>false</ExcludeAllProtectedTypes>
+        <ExcludeAllProtectedFriendTypes>false</ExcludeAllProtectedFriendTypes>
+        <IncludeMemberIndexKeywords>false</IncludeMemberIndexKeywords>
+      </Ajax>
+      <Com>
+        <IncludeRelationshipDiagrams>true</IncludeRelationshipDiagrams>
+        <UseHelpStrings>true</UseHelpStrings>
+        <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <IncludeProjectBreadcrumb>false</IncludeProjectBreadcrumb>
+        <IncludePrivateMembers>false</IncludePrivateMembers>
+        <HelpStringUsage>UseIfBlank</HelpStringUsage>
+        <DiagramSettings OverviewNestingLevels="3" PageNestingLevels="2" DiagramStyleSource="Template">
+          <SuppressSingleObjectDiagrams>false</SuppressSingleObjectDiagrams>
+          <DiagramStyle>
+            <CommonStyle OuterMargin="4" ShareSize="false">
+              <IsNewBrush>#FFFF0000</IsNewBrush>
+              <IsNewSize>10</IsNewSize>
+              <UseDropShadow>false</UseDropShadow>
+              <DropShadowOpacity>0.3</DropShadowOpacity>
+              <DropShadowDepth>3</DropShadowDepth>
+              <DropShadowColor>#FF000000</DropShadowColor>
+              <DropShadowDirection>300</DropShadowDirection>
+              <Connector Brush="#FF808080" Thickness="1.5" StyleName="Solid" Indent="20" />
+            </CommonStyle>
+            <ObjectItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FF000000" BorderBrush="#FF000000" BorderThickness="0" EndCap="Rounded" />
+            <CollectionItemStyle Font="Tahoma" FontSize="12" FontBrush="#FF000000" FontWeight="Normal" FontStyle="Normal" TextPadding="5" HorizontalAlignment="Left" BackgroundBrush="#FF000000" BorderBrush="#FF000000" BorderThickness="-0" EndCap="Point" />
+          </DiagramStyle>
+          <DiagramRelationshipsFrom>PropertiesOnly</DiagramRelationshipsFrom>
+          <DiagramDefaultCollectionMemberOnly>true</DiagramDefaultCollectionMemberOnly>
+        </DiagramSettings>
+        <RootProjectName></RootProjectName>
+        <IncludeConstructorsOnAbstractTypes>false</IncludeConstructorsOnAbstractTypes>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <ExcludeAllPrivateTypes>true</ExcludeAllPrivateTypes>
+        <IncludeMemberIndexKeywords>false</IncludeMemberIndexKeywords>
+      </Com>
+      <Database>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <IncludeSqlServerSystemObjects>false</IncludeSqlServerSystemObjects>
+        <IncludeSourceForViews>true</IncludeSourceForViews>
+        <IncludeSourceForTriggers>true</IncludeSourceForTriggers>
+        <IncludeSourceForUserDefinedFunctions>true</IncludeSourceForUserDefinedFunctions>
+        <IncludeSourceForStoredProcedures>true</IncludeSourceForStoredProcedures>
+        <IncludeScriptForTables>true</IncludeScriptForTables>
+        <IncludeScriptForOtherItems>true</IncludeScriptForOtherItems>
+        <RemoveTaggedCommentsFromSource>true</RemoveTaggedCommentsFromSource>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <IncludeSchemaInformation>true</IncludeSchemaInformation>
+        <SourceContentUsage>UseIfBlank</SourceContentUsage>
+        <UseSourceContent>true</UseSourceContent>
+        <MaximumDependencyLevel>5</MaximumDependencyLevel>
+      </Database>
+      <Xsd>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <SourceContentUsage>Merge</SourceContentUsage>
+        <UseSourceContent>true</UseSourceContent>
+        <IncludeOverview>true</IncludeOverview>
+        <IncludeOverviewReferencedChildren>false</IncludeOverviewReferencedChildren>
+        <OverviewLevels>5</OverviewLevels>
+        <DiagramStyle>
+          <DefaultTextOptions></DefaultTextOptions>
+          <Options></Options>
+        </DiagramStyle>
+        <IncludeAttributesInDiagrams>true</IncludeAttributesInDiagrams>
+        <SuppressSingleObjectDiagrams>false</SuppressSingleObjectDiagrams>
+        <DiagramItemMaxExtendedRecurse>3</DiagramItemMaxExtendedRecurse>
+        <DiagramItemMaxRecurse>2</DiagramItemMaxRecurse>
+        <GenerateDiagrams>true</GenerateDiagrams>
+        <IsOverrideTemplateDiagramStyleEnabled>false</IsOverrideTemplateDiagramStyleEnabled>
+      </Xsd>
+      <Filters />
+      <HelpCompiler CompileHelpFile="false" IsWebOutputEnabled="true" IsMarkOfTheWebEnabled="false">
+        <MarkOfTheWebDomain>(0014)about:internet</MarkOfTheWebDomain>
+        <HelpFileVersion>Help3</HelpFileVersion>
+        <Help2Namespace>Balder.Documentation.Silverlight</Help2Namespace>
+        <Help2FileId>Balder.Documentation.Silverlight</Help2FileId>
+        <Help2PluginToNamespaces></Help2PluginToNamespaces>
+        <Help2Plugin>false</Help2Plugin>
+        <RuntimeMerge></RuntimeMerge>
+        <IncludeTextPopupFile>false</IncludeTextPopupFile>
+        <Help3BuildIdentifier></Help3BuildIdentifier>
+        <Help3VendorName>DoLittle Studios</Help3VendorName>
+        <Help3CatalogName>VS</Help3CatalogName>
+        <Help3CatalogVersion>100</Help3CatalogVersion>
+        <Help3CatalogLocaleText>en-US</Help3CatalogLocaleText>
+        <Help3TemplateName></Help3TemplateName>
+        <Help3ProductName>Balder</Help3ProductName>
+        <Help3BookName>Balder</Help3BookName>
+        <IsHelp3CreateRegistrationScriptEnabled>true</IsHelp3CreateRegistrationScriptEnabled>
+        <IsHelp3RegisterLocallyEnabled>true</IsHelp3RegisterLocallyEnabled>
+        <IsHelp3SigningEnabled>false</IsHelp3SigningEnabled>
+        <IsHelp3ValidationEnabled>false</IsHelp3ValidationEnabled>
+        <IsHelp3KeywordsEnabled>false</IsHelp3KeywordsEnabled>
+        <HelpFileName>Balder.mshc</HelpFileName>
+      </HelpCompiler>
+      <RuleEngine>
+        <Rules Caption="" MatchType="All" IsReadOnly="false" Id="root">
+          <Rules>
+            <RuleGroup Caption="" MatchType="All" IsReadOnly="false" Id="standard">
+              <Rules>
+                <Rule Caption="" MatchType="All" IsReadOnly="false" Id="outputtype">
+                  <Conditions>
+                    <RuleCondition BuildFlagMatchType="None" Caption="" IsReadOnly="false" Id="2552496a-c5a9-4de0-b012-551cc9a7b02d" Designer="BUILDFLAGS">
+                      <BuildFlags>{46CEF21D-3301-4517-A875-A0906828390E}</BuildFlags>
+                    </RuleCondition>
+                  </Conditions>
+                </Rule>
+              </Rules>
+            </RuleGroup>
+            <RuleGroup Caption="" MatchType="All" IsReadOnly="false" Id="custom">
+              <Rules />
+            </RuleGroup>
+          </Rules>
+        </Rules>
+      </RuleEngine>
+      <ShortFileNames GenerateShortFileNames="false" />
+      <TopicsProjectProfilePlugin>
+        <TemplateName>Visual Studio 2008 Style</TemplateName>
+        <IncludeBreadcrumbs>false</IncludeBreadcrumbs>
+        <AutoGenerateTopicIndexEntries>false</AutoGenerateTopicIndexEntries>
+        <AutoGenerateCategoryIndexEntries>false</AutoGenerateCategoryIndexEntries>
+        <IncludeOnlyCompletedTopics>false</IncludeOnlyCompletedTopics>
+        <IsNewSource>CreationDateTime</IsNewSource>
+        <IsNewCustomTopicPropertyId></IsNewCustomTopicPropertyId>
+      </TopicsProjectProfilePlugin>
+      <WidgetsProjectProfilePlugin>
+        <WidgetTypes Version="2010.0" />
+      </WidgetsProjectProfilePlugin>
+      <OtherFiles>
+        <IsLogoEnabled>false</IsLogoEnabled>
+        <LogoOtherFileName></LogoOtherFileName>
+      </OtherFiles>
+      <OutputDirectory>DocumentX\</OutputDirectory>
+    </ProjectProfile>
+  </ProjectProfiles>
+  <HelpContextIDHeaderFile></HelpContextIDHeaderFile>
+  <PrimaryLocale CultureId="-">
+    <ExportDateTime></ExportDateTime>
+    <Dictionary></Dictionary>
+    <Notes></Notes>
+    <PhraseCultureId></PhraseCultureId>
+    <EncodingCulture></EncodingCulture>
+  </PrimaryLocale>
 </DocumentXProject>

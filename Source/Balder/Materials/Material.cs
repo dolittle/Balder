@@ -358,7 +358,7 @@ namespace Balder.Materials
 			Property<Material, IMap>.Register(m => m.DiffuseMap);
 
 		/// <summary>
-		/// Gets or sets the diffuse map <see cref="Image"/>
+		/// Gets or sets the diffuse map <see cref="IMap"/>
 		/// </summary>
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
@@ -398,7 +398,7 @@ namespace Balder.Materials
 			Property<Material, IMap>.Register(m => m.ReflectionMap);
 
 		/// <summary>
-		/// Gets or sets the reflection map <see cref="Image"/>
+		/// Gets or sets the reflection map <see cref="IMap"/>
 		/// </summary>
 #if(SILVERLIGHT)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]

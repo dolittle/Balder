@@ -79,13 +79,14 @@ namespace Balder.Rendering.Silverlight
 			_showStartedEvent.WaitOne();
 
 			return;
+			/*
 			while( _active )
 			{
 				Clear();
 				Render();
 				
 				Swapped();
-			}
+			}*/
 		}
 
 		private void ShowTimer(object sender, EventArgs e)
