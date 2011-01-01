@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ContentFile Version="2010" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET">
-  <RelatedProject>..\..\Documentation\Balder.Documentation.Silverlight.dxp</RelatedProject>
+  <RelatedProject>Balder.Documentation.Silverlight.dxp</RelatedProject>
   <State>
     <Attributes>
       <Attribute key="dtscrollpos" valuetype="integer">0</Attribute>

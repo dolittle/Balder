@@ -9,7 +9,7 @@
   <PropertyDefinitionValues />
   <Title />
   <ContentFiles>
-    <ContentFile FileName="..\Balder\Documentation\Balder.dxc" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET" />
+    <ContentFile FileName="Balder.dxc" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
