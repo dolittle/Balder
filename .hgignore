@@ -1,5 +1,6 @@
 glob:*.user
 glob:*.chm
+glob:*.orig
 glob:Source/**/SLBin/**/*
 glob:Source/**/WP7Bin/**/*
 glob:Source/**/Bin/Debug/*
