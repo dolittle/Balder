@@ -1,1 +1,4 @@
+To build Balder, go to the Source\Solutions folder and pick a solution to build it.
+
+If you want to build from command line, you can simply run the build.cmd script with "All" as parameter : "build.cmd All".
 
