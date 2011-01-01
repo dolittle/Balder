@@ -102,6 +102,10 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Components\nunit.framework.dll</HintPath>
     </Reference>
+    <Reference Include="machine.specifications">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\MSpec\dotNet\machine.specifications.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib">
       <Private>True</Private>
     </Reference>
@@ -252,7 +256,7 @@
     </ProjectReference>
     <ProjectReference Include="..\Balder\Balder.Silverlight.csproj">
       <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
-      <Name>Balder.Core.Silverlight</Name>
+      <Name>Balder.Silverlight</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

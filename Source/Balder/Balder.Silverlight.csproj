@@ -91,6 +91,7 @@
     </Compile>
     <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
     <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />

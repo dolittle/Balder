@@ -33,108 +33,40 @@ namespace Balder.Assets.AssetLoaders
 	public delegate void EndScopeHandler(AseGlobals globals, object scopeObject, string scopeName);
 	public delegate void AddPropertyHandler(AseGlobals globals, object scopeObject, string propertyName, string content);
 
+
 	public class AseParser
 	{
-		// ReSharper disable InconsistentNaming
-		public const string GEOMOBJECT = "GEOMOBJECT";
-
-		public const string NODE_NAME = "NODE_NAME";
-		public const string MESH = "MESH";
-
-		public const string MATERIAL_LIST = "MATERIAL_LIST";
-		public const string MATERIAL_COUNT = "MATERIAL_COUNT";
-		public const string MATERIAL = "MATERIAL";
-		public const string MAP_DIFFUSE = "MAP_DIFFUSE";
-		public const string BITMAP = "BITMAP";
-		public const string MATERIAL_REF = "MATERIAL_REF";
-		public const string NUMSUBMTLS = "NUMSUBMTLS";
-		public const string SUBMATERIAL = "SUBMATERIAL";
-		public const string MATERIAL_NAME = "MATERIAL_NAME";
-
-		public const string MESH_NUMVERTEX = "MESH_NUMVERTEX";
-		public const string MESH_NUMFACES = "MESH_NUMFACES";
-		public const string MESH_NUMTVERTEX = "MESH_NUMTVERTEX";
-		public const string MESH_NUMTVFACES = "MESH_NUMTVFACES";
-		public const string MESH_NUMCVERTEX = "MESH_NUMCVERTEX";
-		public const string MESH_NUMCVFACES = "MESH_NUMCVFACES";
-
-		public const string MESH_VERTEX_LIST = "MESH_VERTEX_LIST";
-		public const string MESH_FACE_LIST = "MESH_FACE_LIST";
-		public const string MESH_TVERTLIST = "MESH_TVERTLIST";
-		public const string MESH_TFACELIST = "MESH_TFACELIST";
-		public const string MESH_NORMALS = "MESH_NORMALS";
-		public const string MESH_CVERTLIST = "MESH_CVERTLIST";
-		public const string MESH_CFACELIST = "MESH_CFACELIST";
-
-		public const string MESH_VERTEX = "MESH_VERTEX";
-		public const string MESH_FACE = "MESH_FACE";
-		public const string MESH_TVERT = "MESH_TVERT";
-		public const string MESH_TFACE = "MESH_TFACE";
-		public const string MESH_FACENORMAL = "MESH_FACENORMAL";
-		public const string MESH_VERTEXNORMAL = "MESH_VERTEXNORMAL";
-		public const string MESH_VERTCOL = "MESH_VERTCOL";
-		public const string MESH_CFACE = "MESH_CFACE";
-
-		public const string MESH_SMOOTHING = "MESH_SMOOTHING";
-		public const string MESH_MTLID = "MESH_MTLID";
-
-
-
-
-		public const string NODE_TM = "NODE_TM";
-		public const string TM_ROW0 = "TM_ROW0";
-		public const string TM_ROW1 = "TM_ROW1";
-		public const string TM_ROW2 = "TM_ROW2";
-		public const string TM_ROW3 = "TM_ROW3";
-		public const string TM_POS = "TM_POS";
-		public const string TM_ROTAXIS = "TM_ROTAXIS";
-		public const string TM_ROTANGLE = "TM_ROTANGLE";
-		public const string TM_SCALE = "TM_SCALE";
-		// ReSharper restore InconsistentNaming
-
 		private static readonly Dictionary<string, BeginScopeHandler> BeginScopeHandlers = new Dictionary<string, BeginScopeHandler>
 		                                                                                   	{
-																								{GEOMOBJECT, BeginGeometryScopeHandler},
-																								{MATERIAL, BeginMaterialScopeHandler},
-																								{SUBMATERIAL, BeginSubMaterialScopeHandler}
+																								{AseConstants.GEOMOBJECT, BeginGeometryScopeHandler},
+																								{AseConstants.MATERIAL, BeginMaterialScopeHandler},
+																								{AseConstants.SUBMATERIAL, BeginSubMaterialScopeHandler}
 		                                                                                   	};
 
 		private static readonly Dictionary<string, EndScopeHandler> EndScopeHandlers = new Dictionary<string, EndScopeHandler>
 		                                                                               	{
-																							{GEOMOBJECT, GeometryEndScopeHandler}
-
+																							{AseConstants.GEOMOBJECT, GeometryEndScopeHandler}
 		                                                                               	};
 
 
 		private static readonly Dictionary<string, AddPropertyHandler> AddPropertyHandlers = new Dictionary<string, AddPropertyHandler>
 		                                                                                     	{
-		                                                                                     		{GEOMOBJECT,GeometryScopeHandler},
-																									{NODE_TM,GeometryScopeHandler},
-		                                                                                     		{MESH, MeshScopeHandler},
-		                                                                                     		{MESH_VERTEX_LIST, VertexScopeHandler},
-		                                                                                     		{MESH_FACE_LIST, FaceScopeHandler},
-		                                                                                     		{MESH_TVERTLIST, TextureCoordinateScopeHandler},
-		                                                                                     		{MESH_TFACELIST, TextureCoordinateScopeHandler},
-																									{MESH_CVERTLIST, ColorVertexScopeHandler},
-																									{MESH_CFACELIST, ColorFaceScopeHandler},
-		                                                                                     		{MATERIAL_LIST, MaterialListScopeHandler},
-		                                                                                     		{MATERIAL, MaterialScopeHandler},
-																									{SUBMATERIAL, MaterialScopeHandler},
-																									{MATERIAL_NAME, MaterialScopeHandler},
-		                                                                                     		{MAP_DIFFUSE, DiffuseScopeHandler}
+		                                                                                     		{AseConstants.GEOMOBJECT,GeometryScopeHandler},
+																									{AseConstants.NODE_TM,GeometryScopeHandler},
+		                                                                                     		{AseConstants.MESH, MeshScopeHandler},
+		                                                                                     		{AseConstants.MESH_VERTEX_LIST, VertexScopeHandler},
+		                                                                                     		{AseConstants.MESH_FACE_LIST, FaceScopeHandler},
+		                                                                                     		{AseConstants.MESH_TVERTLIST, TextureCoordinateScopeHandler},
+		                                                                                     		{AseConstants.MESH_TFACELIST, TextureCoordinateScopeHandler},
+																									{AseConstants.MESH_CVERTLIST, ColorVertexScopeHandler},
+																									{AseConstants.MESH_CFACELIST, ColorFaceScopeHandler},
+		                                                                                     		{AseConstants.MATERIAL_LIST, MaterialListScopeHandler},
+		                                                                                     		{AseConstants.MATERIAL, MaterialScopeHandler},
+																									{AseConstants.SUBMATERIAL, MaterialScopeHandler},
+																									{AseConstants.MATERIAL_NAME, MaterialScopeHandler},
+		                                                                                     		{AseConstants.MAP_DIFFUSE, DiffuseScopeHandler}
 		                                                                                     	};
 
-
-		private static bool IsScopeStart(string line)
-		{
-			return line.EndsWith("{");
-		}
-
-
-		private static bool IsScopeEnd(string line)
-		{
-			return line.EndsWith("}");
-		}
 
 		public static Geometry[] Parse(string assetName, List<string> lines, IAssetLoaderService assetLoaderService, IContentManager contentManager)
 		{
@@ -277,20 +209,20 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (scope)
 			{
-				case GEOMOBJECT:
+				case AseConstants.GEOMOBJECT:
 					{
 						return contentManager.CreateAssetPart<Geometry>();
 					}
 
-				case MATERIAL:
-				case SUBMATERIAL:
+				case AseConstants.MATERIAL:
+				case AseConstants.SUBMATERIAL:
 					{
 						var materialIndex = Convert.ToInt32(scopeParameter);
 						var material = contentManager.Creator.CreateMaterial();
 						material.Shade = MaterialShade.Gouraud;
 						material.Specular = Colors.White;
 
-						if (scope == SUBMATERIAL && null != globals.CurrentParentMaterial)
+						if (scope == AseConstants.SUBMATERIAL && null != globals.CurrentParentMaterial)
 						{
 							var materialId = Convert.ToInt32(scopeParameter);
 							globals.CurrentParentMaterial.SubMaterials[materialId] = material;
@@ -319,13 +251,13 @@ namespace Balder.Assets.AssetLoaders
 			var geometry = scopeObject as Geometry;
 			switch (propertyName)
 			{
-				case NODE_NAME:
+				case AseConstants.NODE_NAME:
 					{
 						geometry.Label = content;
 					}
 					break;
 
-				case MATERIAL_REF:
+				case AseConstants.MATERIAL_REF:
 					{
 						var materialRef = Convert.ToInt32(content);
 						if (globals.Materials.Length > materialRef)
@@ -334,7 +266,7 @@ namespace Balder.Assets.AssetLoaders
 						}
 					}
 					break;
-				case TM_ROW0:
+				case AseConstants.TM_ROW0:
 					{
 						var elements = GetValuesFromString(content);
 						geometry.World.M11 = float.Parse(elements[0], CultureInfo.InvariantCulture);
@@ -343,7 +275,7 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-				case TM_ROW2:
+				case AseConstants.TM_ROW2:
 					{
 						var elements = GetValuesFromString(content);
 						geometry.World.M21 = float.Parse(elements[0], CultureInfo.InvariantCulture);
@@ -352,7 +284,7 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-				case TM_ROW1:
+				case AseConstants.TM_ROW1:
 					{
 						var elements = GetValuesFromString(content);
 						geometry.World.M31 = float.Parse(elements[0], CultureInfo.InvariantCulture);
@@ -361,7 +293,7 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-				case TM_ROW3:
+				case AseConstants.TM_ROW3:
 					{
 						var elements = GetValuesFromString(content);
 						geometry.World.M41 = float.Parse(elements[0], CultureInfo.InvariantCulture);
@@ -370,9 +302,7 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-
-
-				case TM_POS:
+				case AseConstants.TM_POS:
 					{
 						// TODO : Introduce some kinda "out-of-scope" callback mechanism - this is kinda hacky
 						globals.CurrentObjectsInvertedMatrix = Matrix.Invert(geometry.World);
@@ -407,25 +337,25 @@ namespace Balder.Assets.AssetLoaders
 			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
-				case MESH_NUMVERTEX:
+				case AseConstants.MESH_NUMVERTEX:
 					{
 						var numVertices = Convert.ToInt32(content);
 						geometryDetailLevel.AllocateVertices(numVertices);
 					}
 					break;
-				case MESH_NUMFACES:
+				case AseConstants.MESH_NUMFACES:
 					{
 						var numFaces = Convert.ToInt32(content);
 						globals.Faces = new AseFace[numFaces];
 					}
 					break;
-				case MESH_NUMTVERTEX:
+				case AseConstants.MESH_NUMTVERTEX:
 					{
 						var numTVertices = Convert.ToInt32(content);
 						geometryDetailLevel.AllocateTextureCoordinates(numTVertices);
 					}
 					break;
-				case MESH_NUMCVERTEX:
+				case AseConstants.MESH_NUMCVERTEX:
 					{
 						var numCVertices = Convert.ToInt32(content);
 						globals.CurrentObjectVertexColors = new Color[numCVertices];
@@ -440,7 +370,7 @@ namespace Balder.Assets.AssetLoaders
 			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
-				case MESH_VERTEX:
+				case AseConstants.MESH_VERTEX:
 					{
 						var elements = GetValuesFromString(content);
 						var vertexIndex = Convert.ToInt32(elements[0]);
@@ -465,7 +395,7 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (propertyName)
 			{
-				case MESH_VERTCOL:
+				case AseConstants.MESH_VERTCOL:
 					{
 						var elements = GetValuesFromString(content);
 						var colorIndex = Convert.ToInt32(elements[0]);
@@ -485,7 +415,7 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (propertyName)
 			{
-				case MESH_CFACE:
+				case AseConstants.MESH_CFACE:
 					{
 						var elements = GetValuesFromString(content);
 						var faceIndex = Convert.ToInt32(elements[0]);
@@ -508,11 +438,10 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (propertyName)
 			{
-
-				case MESH_FACE:
+				case AseConstants.MESH_FACE:
 					{
-						var smoothingGroup = GetFaceParameter(content, MESH_SMOOTHING);
-						var materialId = GetFaceParameter(content, MESH_MTLID);
+						var smoothingGroup = GetFaceParameter(content, AseConstants.MESH_SMOOTHING);
+						var materialId = GetFaceParameter(content, AseConstants.MESH_MTLID);
 						content = content.Replace(" ", string.Empty);
 						var elements = content.Split(':');
 
@@ -562,7 +491,7 @@ namespace Balder.Assets.AssetLoaders
 			var geometryDetailLevel = geometry.GeometryContext.GetDetailLevel(DetailLevel.Full);
 			switch (propertyName)
 			{
-				case MESH_TVERT:
+				case AseConstants.MESH_TVERT:
 					{
 						var elements = GetValuesFromString(content);
 
@@ -575,7 +504,7 @@ namespace Balder.Assets.AssetLoaders
 					}
 					break;
 
-				case MESH_TFACE:
+				case AseConstants.MESH_TFACE:
 					{
 						var elements = GetValuesFromString(content);
 						var faceIndex = Convert.ToInt32(elements[0]);
@@ -594,7 +523,7 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch( propertyName)
 			{
-				case MATERIAL_COUNT:
+				case AseConstants.MATERIAL_COUNT:
 					{
 						int count;
 						if( int.TryParse(content,out count) )
@@ -620,7 +549,7 @@ namespace Balder.Assets.AssetLoaders
 		{
 			switch (propertyName)
 			{
-				case MATERIAL_NAME:
+				case AseConstants.MATERIAL_NAME:
 					{
 						globals.CurrentMaterial.Label = content.Trim();
 					}
@@ -635,7 +564,7 @@ namespace Balder.Assets.AssetLoaders
 
 			switch (propertyName)
 			{
-				case BITMAP:
+				case AseConstants.BITMAP:
 					{
 						var file = content.Replace("\"", string.Empty);
 						var relativeFile = Path.GetFileName(file);
@@ -676,5 +605,17 @@ namespace Balder.Assets.AssetLoaders
 			}
 			return actualElements;
 		}
+
+		private static bool IsScopeStart(string line)
+		{
+			return line.EndsWith("{");
+		}
+
+
+		private static bool IsScopeEnd(string line)
+		{
+			return line.EndsWith("}");
+		}
+
 	}
 }
