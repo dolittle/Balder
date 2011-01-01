@@ -9,7 +9,7 @@ Commercial license(s) can be obtained from DoLittle Studios; license@dolittle.co
 Balder is developed by DoLittle Studios (http://www.dolittle.com) 
 Balder uses NInject; http://ninject.org/ - its license, Apache License v2.0 : http://github.com/ninject/ninject/blob/master/LICENSE.txt
 
-Copyright (c) 2007-2010 DoLittle Studios
+Copyright (c) 2007-2011 DoLittle Studios
 
 [Ms-PL license text]
 Microsoft Permissive License (Ms-PL) v1.1
