@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ContentFile Version="2010" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET">
+<ContentFile Version="2010" Moniker="..\Balder\Bin\Release\Balder.dll" DocType="DX.NET">
   <RelatedProject>Balder.Documentation.Silverlight.dxp</RelatedProject>
   <State>
     <Attributes>

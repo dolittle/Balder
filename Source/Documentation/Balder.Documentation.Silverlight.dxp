@@ -9,7 +9,7 @@
   <PropertyDefinitionValues />
   <Title />
   <ContentFiles>
-    <ContentFile FileName="Balder.dxc" Moniker="..\Bin\Release\Balder.dll" DocType="DX.NET" />
+    <ContentFile FileName="Balder.dxc" Moniker="..\Balder\Bin\Release\Balder.dll" DocType="DX.NET" />
   </ContentFiles>
   <ContentFromProjectPlugin />
   <Filters>
@@ -66,11 +66,89 @@
       <Name />
       <Description />
       <RootNodes>
-        <TocNode Name="" Id="a5a4d354-422f-412b-b3a2-0cb111ac5d6e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+        <TocNode Name="" Id="05b44c03-2a3f-4ff3-998b-be048dfbba4e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
           <CaptionTemplate />
-          <ChildNodes />
-          <TargetItemId>c6098b54-00b2-4bb8-bde0-94d114c09256</TargetItemId>
+          <ChildNodes>
+            <TocNode Name="" Id="a5a4d354-422f-412b-b3a2-0cb111ac5d6e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>c6098b54-00b2-4bb8-bde0-94d114c09256</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="dbaee468-2339-4f0a-bdf8-02839f72cd64" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>7c339c41-d351-4f22-b100-b2ecb0ea38e6</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="a2ff05ca-4dd4-459f-af6a-30abe00d3cf0" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>49d9f468-f7de-4aee-88c7-6cfac514c658</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+          </ChildNodes>
+          <TargetItemId></TargetItemId>
           <TargetItemBookmark></TargetItemBookmark>
+        </TocNode>
+        <TocNode Name="" Id="e6d7af30-2358-4b57-91d1-0b4b28c0ceb2" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+          <CaptionTemplate />
+          <ChildNodes>
+            <TocNode Name="" Id="fb395d2e-feb5-4d79-b4cc-2c49f5bf40dd" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>61d8b4ac-e1de-4025-af06-fd375c0c2eec</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+          </ChildNodes>
+          <TargetItemId></TargetItemId>
+          <TargetItemBookmark></TargetItemBookmark>
+        </TocNode>
+        <TocNode Name="" Id="7f4f1107-dc91-491b-8483-57925b917d27" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+          <CaptionTemplate />
+          <ChildNodes>
+            <TocNode Name="" Id="4d82d62a-9516-4814-b67a-f4b2f1b5d3a3" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>252da0e5-d941-4235-9197-9d32aea58041</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="a5043fa2-92a3-4f5f-bec6-81912f9e9438" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>45390060-e592-4db3-bed8-83a0027cdf4f</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="4807d6b6-ac33-40b7-ba89-5c96df012c74" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>53a97631-711a-48db-b221-04c0547cf142</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="3e437776-f357-4005-8e89-7d226586c0b8" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>f3169a2c-c39f-4484-b79b-63d4137fd345</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="56dae2fe-6a30-4dec-b6ee-d892fb394c6c" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>79f4a346-f740-460c-aa11-542af9d7cc5f</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+            <TocNode Name="" Id="a1088294-7f2e-4da8-b77a-c3a402aed28b" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
+              <CaptionTemplate />
+              <ChildNodes />
+              <TargetItemId>35ce5a2c-ff8e-4db0-9989-20ee82f93b93</TargetItemId>
+              <TargetItemBookmark></TargetItemBookmark>
+            </TocNode>
+          </ChildNodes>
+          <TargetItemId></TargetItemId>
+          <TargetItemBookmark></TargetItemBookmark>
+        </TocNode>
+        <TocNode Name="" Id="a0033c6c-3da3-43a6-b4c1-2b171614ba3e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" DependsOnItemTypeName="" NodeType="ALLTEMPLATETOCS">
+          <ChildNodes />
         </TocNode>
       </RootNodes>
     </TocLayout>
@@ -102,17 +180,181 @@
             <TopicKeywords />
             <PropertyDefinitionValues />
           </Topic>
+          <Topic Id="7c339c41-d351-4f22-b100-b2ecb0ea38e6" Status="New Topic" CreatedOn="2011-01-01T10:02:10.9794922Z" ModifiedOn="2011-01-01T10:03:16.3544922Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="License" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T10:03:16.3544922Z">&lt;ADDRESS&gt;Balder is free to use in all scenarios under the Ms-PL license with exception of what is described in the Exception section.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;[Exception]&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;Commercial libraries that is based partly or fully on Balder and is sold commercially, must obtain a commercial license.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;Commercial license(s) can be obtained from DoLittle Studios; license@dolittle.com.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;[Copyrights]&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;Balder is developed by DoLittle Studios (http://www.dolittle.com) Balder uses NInject; http://ninject.org/ - its license, Apache License v2.0 : http://github.com/ninject/ninject/blob/master/LICENSE.txt&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;Copyright (c) 2007-2011 DoLittle Studios&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;[Ms-PL license text]&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;Microsoft Permissive License (Ms-PL) v1.1&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;This license governs use of the accompanying software. If you use the software, you accept this license. If you do not accept the license, do not use the software.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;1. Definitions&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;The terms "reproduce," "reproduction," "derivative works," and "distribution" have the same meaning here as under U.S. copyright law.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;A "contribution" is the original software, or any additions or changes to the software.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;A "contributor" is any person that distributes its contribution under this license.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;"Licensed patents" are a contributor's patent claims that read directly on its contribution.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;2. Grant of Rights&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(A) Copyright Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free copyright license to reproduce its contribution, prepare derivative works of its contribution, and distribute its contribution or any derivative works that you create.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(B) Patent Grant- Subject to the terms of this license, including the license conditions and limitations in section 3, each contributor grants you a non-exclusive, worldwide, royalty-free license under its licensed patents to make, have made, use, sell, offer for sale, import, and/or otherwise dispose of its contribution in the software or derivative works of the contribution in the software.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;3. Conditions and Limitations&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(A) No Trademark License- This license does not grant you rights to use any contributors' name, logo, or trademarks.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(B) If you bring a patent claim against any contributor over patents that you claim are infringed by the software, your patent license from such contributor to the software ends automatically.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(C) If you distribute any portion of the software, you must retain all copyright, patent, trademark, and attribution notices that are present in the software.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(D) If you distribute any portion of the software in source code form, you may do so only under this license by including a complete copy of this license with your distribution. If you distribute any portion of the software in compiled or object code form, you may only do so under a license that complies with this license.&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;&amp;nbsp;&lt;/ADDRESS&gt;
+&lt;ADDRESS&gt;(E) The software is licensed "as-is." You bear the risk of using it. The contributors give no express warranties, guarantees or conditions. You may have additional consumer rights under your local laws which this license cannot change. To the extent permitted under your local laws, the contributors exclude the implied warranties of merchantability, fitness for a particular purpose and non-infringement.&lt;/ADDRESS&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="49d9f468-f7de-4aee-88c7-6cfac514c658" Status="New Topic" CreatedOn="2011-01-01T09:57:29.6972657Z" ModifiedOn="2011-01-01T09:57:33.0146485Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Contributing" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:57:29.6982422Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
         </Topics>
       </TopicCategory>
       <TopicCategory Id="3c980771-200a-48f8-864f-ee3654ab8363" AutoIndex="true">
         <Caption m="2010-12-29T19:01:16.7929687Z">Getting Started</Caption>
         <ChildTopicCategories />
-        <Topics />
+        <Topics>
+          <Topic Id="61d8b4ac-e1de-4025-af06-fd375c0c2eec" Status="New Topic" CreatedOn="2011-01-01T09:57:17.0771485Z" ModifiedOn="2011-01-01T09:57:22Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Compiling" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:57:17.078125Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+        </Topics>
       </TopicCategory>
       <TopicCategory Id="8545d190-17d6-440b-90f9-c291e230fe3e" AutoIndex="true">
         <Caption m="2010-12-29T19:02:10.5693359Z">Architecture</Caption>
         <ChildTopicCategories />
-        <Topics />
+        <Topics>
+          <Topic Id="252da0e5-d941-4235-9197-9d32aea58041" Status="New Topic" CreatedOn="2011-01-01T09:58:03.0078125Z" ModifiedOn="2011-01-01T09:59:58.8310547Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="General" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:59:58.8310547Z">&lt;H1&gt;Runtime&lt;/H1&gt;
+&lt;H1&gt;Platform&lt;/H1&gt;
+&lt;H1&gt;Dependency Injection&lt;/H1&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="45390060-e592-4db3-bed8-83a0027cdf4f" Status="New Topic" CreatedOn="2011-01-01T09:59:55.6074219Z" ModifiedOn="2011-01-01T09:59:58.5107422Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Display" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:59:55.6083985Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="53a97631-711a-48db-b221-04c0547cf142" Status="New Topic" CreatedOn="2011-01-01T09:55:24.3779297Z" ModifiedOn="2011-01-01T09:55:36.6074219Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Rendering (Silverlight)" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:55:24.381836Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="f3169a2c-c39f-4484-b79b-63d4137fd345" Status="New Topic" CreatedOn="2011-01-01T09:55:47.7939454Z" ModifiedOn="2011-01-01T09:55:54.25Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Scene Management" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:55:47.7939454Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="79f4a346-f740-460c-aa11-542af9d7cc5f" Status="New Topic" CreatedOn="2011-01-01T09:56:06.2285157Z" ModifiedOn="2011-01-01T09:56:10.7988282Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Properties" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:56:06.2285157Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+          <Topic Id="35ce5a2c-ff8e-4db0-9989-20ee82f93b93" Status="New Topic" CreatedOn="2011-01-01T09:56:17.0722657Z" ModifiedOn="2011-01-01T09:56:19.7226563Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Objects" BuildFlags="">
+            <Title />
+            <ContentsTitle />
+            <Notes></Notes>
+            <TopicSections>
+              <TopicSection Name="BodyText">
+                <Content m="2011-01-01T09:56:17.0722657Z">&lt;p&gt; &lt;/p&gt;</Content>
+              </TopicSection>
+            </TopicSections>
+            <TopicLinks />
+            <TopicKeywords />
+            <PropertyDefinitionValues />
+          </Topic>
+        </Topics>
       </TopicCategory>
     </TopicCategories>
     <CustomTopicPropertyDefinitions />
@@ -332,9 +574,9 @@
         <IsOverrideTemplateDiagramStyleEnabled>false</IsOverrideTemplateDiagramStyleEnabled>
       </Xsd>
       <Filters />
-      <HelpCompiler CompileHelpFile="false" IsWebOutputEnabled="true" IsMarkOfTheWebEnabled="false">
+      <HelpCompiler CompileHelpFile="true" IsWebOutputEnabled="true" IsMarkOfTheWebEnabled="false">
         <MarkOfTheWebDomain>(0014)about:internet</MarkOfTheWebDomain>
-        <HelpFileVersion>Help3</HelpFileVersion>
+        <HelpFileVersion>HtmlHelp1</HelpFileVersion>
         <Help2Namespace>Balder.Documentation.Silverlight</Help2Namespace>
         <Help2FileId>Balder.Documentation.Silverlight</Help2FileId>
         <Help2PluginToNamespaces></Help2PluginToNamespaces>
@@ -354,7 +596,7 @@
         <IsHelp3SigningEnabled>false</IsHelp3SigningEnabled>
         <IsHelp3ValidationEnabled>false</IsHelp3ValidationEnabled>
         <IsHelp3KeywordsEnabled>false</IsHelp3KeywordsEnabled>
-        <HelpFileName>Balder.mshc</HelpFileName>
+        <HelpFileName>Balder.chm</HelpFileName>
       </HelpCompiler>
       <RuleEngine>
         <Rules Caption="" MatchType="All" IsReadOnly="false" Id="root">
