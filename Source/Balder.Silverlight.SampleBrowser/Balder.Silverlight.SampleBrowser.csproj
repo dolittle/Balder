@@ -178,6 +178,13 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Sample.resx</DependentUpon>
     </Compile>
+    <Compile Include="Samples\Creative\CoverFlow\Cover.cs" />
+    <Compile Include="Samples\Creative\CoverFlow\CoverFlow.xaml.cs">
+      <DependentUpon>CoverFlow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Samples\Creative\CoverFlow\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\Creative\RubicsCube\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -487,6 +494,14 @@
     <Page Include="MainPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:MarkupCompilePass1</Generator>
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Creative\CoverFlow\CoverFlow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Samples\Creative\CoverFlow\Content.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -901,6 +916,7 @@
     <Content Include="Controls\ColorPicker\License.txt" />
     <Content Include="Controls\ColorPicker\ReadMe.txt" />
     <Resource Include="Assets\mouse.png" />
+    <Resource Include="Samples\Creative\CoverFlow\Empty.png" />
     <Content Include="Samples\View\Skybox\Readme.txt" />
   </ItemGroup>
   <ItemGroup>

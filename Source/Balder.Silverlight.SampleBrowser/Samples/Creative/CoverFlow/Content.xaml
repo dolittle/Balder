@@ -1,0 +1,52 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Creative.CoverFlow.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:CoverFlow="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Creative.CoverFlow" xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:Silverlight="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder">
+
+	<!--<CoverFlow:CoverFlow x:Name="_flow"/>-->
+
+	<Grid>
+		<VisualStateManager.VisualStateGroups>
+			<VisualStateGroup x:Name="Common">
+				<VisualStateGroup.Transitions>
+					<VisualTransition GeneratedDuration="0:0:0.2"/>
+				</VisualStateGroup.Transitions>
+				<VisualState x:Name="Normal">
+					<Storyboard>
+						<DoubleAnimation Duration="0" To="0" Storyboard.TargetProperty="(Node.Rotation).(Y)" Storyboard.TargetName="Box"/>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="Left">
+					<Storyboard>
+						<DoubleAnimation Duration="0" To="45" Storyboard.TargetProperty="(Node.Rotation).(Y)" Storyboard.TargetName="Box"/>
+					</Storyboard>
+				</VisualState>
+				<VisualState x:Name="Right">
+					<Storyboard>
+						<DoubleAnimation Duration="0" To="-45" Storyboard.TargetProperty="(Node.Rotation).(Y)" Storyboard.TargetName="Box"/>
+					</Storyboard>
+				</VisualState>
+			</VisualStateGroup>
+		</VisualStateManager.VisualStateGroups>
+
+		<StackPanel Orientation="Vertical">
+			<Execution:Game x:Name="_game" Width="640" Height="480">
+				<Execution:Game.Camera>
+					<View:Camera x:Name="_camera" Position="0,2,-10" Target="0,0,0"/>
+				</Execution:Game.Camera>
+
+				<Geometries:Box x:Name="Box" Dimension="5,5,5"/>
+				
+				<Lighting:OmniLight/>
+			</Execution:Game>
+			
+			<StackPanel Orientation="Horizontal">
+				<Button x:Name="NormalButton" Width="100" Height="30" Content="Go Normal" Click="NormalClick"/>
+				<Button x:Name="LeftButton" Width="100" Height="30" Content="Go Left" Click="LeftClick"/>
+				<Button x:Name="RightButton" Width="100" Height="30" Content="Go Right" Click="RightClick"/>
+			</StackPanel>
+			
+		</StackPanel>
+	</Grid>
+
+</UserControl>

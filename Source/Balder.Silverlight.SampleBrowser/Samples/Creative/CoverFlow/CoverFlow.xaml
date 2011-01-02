@@ -1,0 +1,13 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.Creative.CoverFlow.CoverFlow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" 
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" 
+	xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
+	xmlns:View="clr-namespace:Balder.View;assembly=Balder">
+	
+	<Execution:Game x:Name="_game" Width="640" Height="480">
+		<Execution:Game.Camera>
+			<View:Camera x:Name="_camera"/>
+		</Execution:Game.Camera>
+	</Execution:Game>
+	
+</UserControl>
