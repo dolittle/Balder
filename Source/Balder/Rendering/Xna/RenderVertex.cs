@@ -17,12 +17,38 @@
 //
 #endregion
 #if(WINDOWS_PHONE)
+using System;
 using Balder.Objects.Geometries;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 namespace Balder.Rendering.Xna
 {
+	public struct LineRenderVertex : IVertexType
+	{
+		private Vector3 _position;
+		private Microsoft.Xna.Framework.Color _color;
+
+        public LineRenderVertex(Vertex vertex, Color color)
+        {
+            _position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+            _color = color;
+        }
+
+		public static VertexElement[] VertexElements = {
+                                                           new VertexElement(0, VertexElementFormat.Vector3,VertexElementUsage.Position, 0), 
+                                                           new VertexElement(sizeof(float)*6,VertexElementFormat.Color,VertexElementUsage.Color,0), 
+                                                       };
+
+		public static VertexDeclaration Declaration = new VertexDeclaration(VertexElements);
+
+		public VertexDeclaration VertexDeclaration
+		{
+			get { return Declaration; }
+		}
+	}
+
+
     public struct RenderVertex : IVertexType
     {
         private Vector3 _position;

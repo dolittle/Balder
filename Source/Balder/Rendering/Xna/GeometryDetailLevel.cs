@@ -28,165 +28,168 @@ using Viewport = Balder.Display.Viewport;
 
 namespace Balder.Rendering.Xna
 {
-    public class GeometryDetailLevel : IGeometryDetailLevel
-    {
-        private BasicEffect _effect;
+	public class GeometryDetailLevel : IGeometryDetailLevel
+	{
+		private BasicEffect _effect;
 
-        public int FaceCount { get; private set; }
-        public int VertexCount { get; private set; }
-        public int TextureCoordinateCount { get; private set; }
-        public int LineCount { get; private set; }
-        public int NormalCount { get; private set; }
+		public int FaceCount { get; private set; }
+		public int VertexCount { get; private set; }
+		public int TextureCoordinateCount { get; private set; }
+		public int LineCount { get; private set; }
+		public int NormalCount { get; private set; }
 
-        private VertexBuffer _vertexBuffer;
-        private IndexBuffer _indexBuffer;
+		private VertexBuffer _vertexBuffer;
+		private IndexBuffer _indexBuffer;
 
-        private RenderVertex[] _vertices;
-        private ushort[] _indices;
+		private RenderVertex[] _vertices;
+		private LineRenderVertex[] _lineVertices;
+		private ushort[] _indices;
 
-        private bool _verticesPrepared;
-        private bool _indicesPrepared;
+		private bool _verticesPrepared;
+		private bool _indicesPrepared;
 
-        private Vertex[] _originalVertices;
-        private Face[] _originalFaces;
+		private Vertex[] _originalVertices;
+		private Face[] _originalFaces;
+		private Line[] _originalLines;
 
-        private Normal[] _originalNormals;
+		private Normal[] _originalNormals;
 
-    	private Material _colorMaterial;
-        
-
-        public GeometryDetailLevel()
-        {
-            _effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
-            _effect.EnableDefaultLighting();
-            _effect.VertexColorEnabled = true;
-        	_colorMaterial = Material.FromColor(Colors.Blue);
-        }
-
-        public void AllocateFaces(int count)
-        {
-            var actualCount = count*3;
-            _indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
-            
-            _indices = new ushort[actualCount];
-            _originalFaces = new Face[count];
-
-            if( null != _vertexBuffer )
-            {
-                _vertexBuffer.Dispose();
-                _vertexBuffer = null;
-            }
-            _vertices = null;
-        }
-
-        public void SetFace(int index, Face face)
-        {
-            var actualIndex = index*3;
-            _indices[actualIndex+2] = (ushort)face.A;
-            _indices[actualIndex+1] = (ushort)face.B;
-            _indices[actualIndex] = (ushort)face.C;
-
-            _originalFaces[index] = face;
-        }
-
-        public Face[] GetFaces()
-        {
-            return _originalFaces;
-        }
-
-        public void InvalidateFace(int index)
-        {
-            SetFace(index, _originalFaces[index]);
-        }
-
-        public void AllocateVertices(int count)
-        {
-            //_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
-            //_vertices = new RenderVertex[count];
-            _originalVertices = new Vertex[count];
-        	_verticesPrepared = false;
-        }
-
-        public void SetVertex(int index, Vertex vertex)
-        {
-            //var renderVertex = new RenderVertex(vertex);
-            //_vertices[index] = renderVertex;
-            _originalVertices[index] = vertex;
-        }
-
-        public Vertex[] GetVertices()
-        {
-            return _originalVertices;
-        }
-
-        public void InvalidateVertex(int index)
-        {
-            SetVertex(index, _originalVertices[index]);
-        }
-
-        public void AllocateNormals(int count)
-        {
-            _originalNormals = new Normal[count];
-        }
+		private Material _colorMaterial;
 
 
-        public void InvalidateNormal(int index)
-        {
-            
-        }
+		public GeometryDetailLevel()
+		{
+			_effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
+			_effect.EnableDefaultLighting();
+			_effect.VertexColorEnabled = true;
+			_colorMaterial = Material.FromColor(Colors.Blue);
+		}
 
-        public void AllocateLines(int count)
-        {
-            
-        }
+		public void AllocateFaces(int count)
+		{
+			var actualCount = count * 3;
+			_indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
 
-        public void SetLine(int index, Line line)
-        {
-            
-        }
+			_indices = new ushort[actualCount];
+			_originalFaces = new Face[count];
 
-        public Line[] GetLines()
-        {
-            throw new NotImplementedException();
-        }
+			if (null != _vertexBuffer)
+			{
+				_vertexBuffer.Dispose();
+				_vertexBuffer = null;
+			}
+			_vertices = null;
+		}
 
-        public Face GetFace(int index)
-        {
-            throw new NotImplementedException();
-        }
+		public void SetFace(int index, Face face)
+		{
+			var actualIndex = index * 3;
+			_indices[actualIndex + 2] = (ushort)face.A;
+			_indices[actualIndex + 1] = (ushort)face.B;
+			_indices[actualIndex] = (ushort)face.C;
 
-        public Vector GetFaceNormal(int index)
-        {
-            throw new NotImplementedException();
-        }
+			_originalFaces[index] = face;
+		}
 
-        public void AllocateTextureCoordinates(int count)
-        {
-            
-        }
+		public Face[] GetFaces()
+		{
+			return _originalFaces;
+		}
 
-        public void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate)
-        {
-            
-        }
+		public void InvalidateFace(int index)
+		{
+			SetFace(index, _originalFaces[index]);
+		}
 
-        public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
-        {
-            
-        }
+		public void AllocateVertices(int count)
+		{
+			//_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
+			//_vertices = new RenderVertex[count];
+			_originalVertices = new Vertex[count];
+			_verticesPrepared = false;
+		}
 
-        public TextureCoordinate[] GetTextureCoordinates()
-        {
-            throw new NotImplementedException();
-        }
+		public void SetVertex(int index, Vertex vertex)
+		{
+			//var renderVertex = new RenderVertex(vertex);
+			//_vertices[index] = renderVertex;
+			_originalVertices[index] = vertex;
+		}
 
-    	public void CalculateVertices(Viewport viewport, INode node)
-    	{
-    		
-    	}
+		public Vertex[] GetVertices()
+		{
+			return _originalVertices;
+		}
+
+		public void InvalidateVertex(int index)
+		{
+			SetVertex(index, _originalVertices[index]);
+		}
+
+		public void AllocateNormals(int count)
+		{
+			_originalNormals = new Normal[count];
+		}
 
 
-    	private Material GetActualMaterialFromFace(Material material, Face face)
+		public void InvalidateNormal(int index)
+		{
+
+		}
+
+		public void AllocateLines(int count)
+		{
+			_originalLines = new Line[count];
+
+		}
+
+		public void SetLine(int index, Line line)
+		{
+			_originalLines[index] = line;
+		}
+
+		public Line[] GetLines()
+		{
+			return _originalLines;
+		}
+
+		public Face GetFace(int index)
+		{
+			return _originalFaces[index];
+		}
+
+		public Vector GetFaceNormal(int index)
+		{
+			throw new NotImplementedException();
+		}
+
+		public void AllocateTextureCoordinates(int count)
+		{
+
+		}
+
+		public void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate)
+		{
+
+		}
+
+		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
+		{
+
+		}
+
+		public TextureCoordinate[] GetTextureCoordinates()
+		{
+			throw new NotImplementedException();
+		}
+
+		public void CalculateVertices(Viewport viewport, INode node)
+		{
+
+		}
+
+
+		private Material GetActualMaterialFromFace(Material material, Face face)
 		{
 			if (null != material &&
 				material.SubMaterials.Count >= face.MaterialId &&
@@ -219,102 +222,137 @@ namespace Balder.Rendering.Xna
 			return actualMaterial;
 		}
 
+		private void PrepareVertexBufferForLines(Geometry geometry)
+		{
+			if (null == _lineVertices)
+			{
+				_lineVertices = new LineRenderVertex[_originalLines.Length * 2];
+			}
 
-        private void PrepareVertexBuffer(Geometry geometry)
-        {
-        
-            if (null == _vertices)
-            {
-                _vertices = new RenderVertex[_originalFaces.Length*3];
-            }
-            var vertexIndex = 0;
+			var vertexIndex = 0;
+			foreach (var line in _originalLines)
+			{
+				_lineVertices[vertexIndex++] = new LineRenderVertex(_originalVertices[line.A], Colors.White);
+				_lineVertices[vertexIndex++] = new LineRenderVertex(_originalVertices[line.B], Colors.White);
+			}
+			if (null == _vertexBuffer)
+			{
+				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
+			}
 
-        	var nodeMaterial = geometry.Material;
+		}
 
-            foreach( var face in _originalFaces )
-            {
-            	var color = Colors.Blue;
-            	var material = GetMaterialForFace(face, geometry, nodeMaterial);
-                if( null != material )
-                {
-                    color = material.Diffuse;
-                }
+		private void PrepareVertexBufferForFaces(Geometry geometry)
+		{
+			if (null == _vertices)
+			{
+				_vertices = new RenderVertex[_originalFaces.Length * 3];
+			}
+			var vertexIndex = 0;
+
+			var nodeMaterial = geometry.Material;
+
+			foreach (var face in _originalFaces)
+			{
+				var color = Colors.Blue;
+				var material = GetMaterialForFace(face, geometry, nodeMaterial);
+				if (null != material)
+				{
+					color = material.Diffuse;
+				}
 
 
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC]);
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB]);
-                _vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA]);
-            }
-            if (null == _vertexBuffer)
-            {
-                _vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof (RenderVertex), vertexIndex,
-                                                 BufferUsage.WriteOnly);
-            }
-            _vertexBuffer.SetData(_vertices);
-        }
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC]);
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB]);
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA]);
+			}
+			if (null == _vertexBuffer)
+			{
+				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex,
+												 BufferUsage.WriteOnly);
+			}
+			_vertexBuffer.SetData(_vertices);
+		}
 
-        public void Render(Viewport viewport, INode node)
-        {
-            /*
-            if( !_indicesPrepared )
-            {
-                if (null == _indices)
-                {
-                    return;
-                }
-                _indicesPrepared = true;
-                _indexBuffer.SetData(_indices);
-            }
-            if( !_verticesPrepared )
-            {
-                if( null == _vertices )
-                {
-                    return;
-                }
-                _verticesPrepared = true;
-                _vertexBuffer.SetData(_vertices);
-            }*/
-            if (!_verticesPrepared)
-            {
-                _verticesPrepared = true;
-                PrepareVertexBuffer(node as Geometry);
-            }
+		public void Render(Viewport viewport, INode node)
+		{
+			/*
+			if( !_indicesPrepared )
+			{
+				if (null == _indices)
+				{
+					return;
+				}
+				_indicesPrepared = true;
+				_indexBuffer.SetData(_indices);
+			}
+			if( !_verticesPrepared )
+			{
+				if( null == _vertices )
+				{
+					return;
+				}
+				_verticesPrepared = true;
+				_vertexBuffer.SetData(_vertices);
+			}*/
 
-            _effect.World = node.RenderingWorld;
-            _effect.View = viewport.View.ViewMatrix;
-            _effect.Projection = viewport.View.ProjectionMatrix;
-			
+			var drawFaces = null != _originalFaces;
+			var drawLines = null != _originalLines;
+			if (!_verticesPrepared)
+			{
+				_verticesPrepared = true;
+				if (null != _originalFaces)
+				{
+					PrepareVertexBufferForFaces(node as Geometry);
+				}
+				else if (null != _originalLines)
+				{
+					PrepareVertexBufferForLines(node as Geometry);
+				}
+			}
 
-            var graphicsDevice = Display.WP7.Display.GraphicsDevice;
-            //graphicsDevice.Indices = _indexBuffer;
-            graphicsDevice.SetVertexBuffer(_vertexBuffer);
+			_effect.World = node.RenderingWorld;
+			_effect.View = viewport.View.ViewMatrix;
+			_effect.Projection = viewport.View.ProjectionMatrix;
 
-			if( null == _vertices )
+
+			var graphicsDevice = Display.WP7.Display.GraphicsDevice;
+			//graphicsDevice.Indices = _indexBuffer;
+			graphicsDevice.SetVertexBuffer(_vertexBuffer);
+
+			if (null == _vertices)
 			{
 				return;
 			}
 
-            foreach( var pass in _effect.CurrentTechnique.Passes )
-            {
-                pass.Apply();
-            
-                graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList,0,_vertices.Length/3);
+			foreach (var pass in _effect.CurrentTechnique.Passes)
+			{
+				pass.Apply();
 
-                //graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
-            }
-        }
+				if (drawFaces)
+				{
+					graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
+				}
+				if (drawLines)
+				{
+					graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, _lineVertices.Length / 2);
+				}
+
+				//graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
+			}
+		}
 
 
-        public void SetNormal(int index, Normal normal)
-        {
+		public void SetNormal(int index, Normal normal)
+		{
 
-            _originalNormals[index] = normal;
-        }
+			_originalNormals[index] = normal;
+		}
 
-        Normal[] IGeometryDetailLevel.GetNormals()
-        {
-            return _originalNormals;
-        }
-    }
+		Normal[] IGeometryDetailLevel.GetNormals()
+		{
+			return _originalNormals;
+		}
+	}
 }
-#endif
+#endif	
