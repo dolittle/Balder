@@ -66,6 +66,7 @@
     <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
     <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
@@ -105,6 +106,7 @@
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Debug\RectangleDebugShape.cs" />
     <Compile Include="Diagnostics\IStopwatch.cs" />
     <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
@@ -135,6 +137,7 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\IHaveRuntimeContext.cs" />
     <Compile Include="Execution\IMessenger.cs" />
     <Compile Include="Execution\IMessengerContext.cs" />
@@ -217,6 +220,8 @@
     <Compile Include="Math\Core.cs" />
     <Compile Include="Math\Dimension.cs" />
     <Compile Include="Math\Frustum.cs" />
+    <Compile Include="Math\FrustumIntersection.cs" />
+    <Compile Include="Math\FrustumLocation.cs" />
     <Compile Include="Math\Interpolator.cs" />
     <Compile Include="Math\MathHelper.cs" />
     <Compile Include="Math\Matrix.cs" />
@@ -314,6 +319,10 @@
     <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
     <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Silverlight\ImageContext.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingContext.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingFrame.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingTask.cs" />
     <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
     <Compile Include="Rendering\Silverlight\IVertexModifier.cs" />
     <Compile Include="Rendering\Silverlight\RenderFace.cs" />
@@ -324,6 +333,7 @@
     <Compile Include="Rendering\Silverlight\Shapes.cs" />
     <Compile Include="Rendering\Silverlight\SkyboxControl.cs" />
     <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
+    <Compile Include="Rendering\Silverlight\Tasks\GeometryRenderingTask.cs" />
     <Compile Include="Rendering\Silverlight\Texture.cs" />
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />
     <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
