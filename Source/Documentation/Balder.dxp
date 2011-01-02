@@ -51,7 +51,10 @@
   </GlossaryProjectPlugin>
   <HelpProjectPlugin ShowGettingStartedPage="true" />
   <OtherFilesProjectPlugin>
-    <OtherFiles />
+    <OtherFiles>
+      <OtherFile Id="4649d75c-9f68-456f-8544-a17479a01d0e" FileName="BalderLogoVersion2_small.png" SourceData="" BuildFlags="" />
+      <OtherFile Id="bed4b6f3-07c1-4596-8086-fd9cdc7eddd9" FileName="BalderLogoVersion2VerySmall.PNG" SourceData="" BuildFlags="" />
+    </OtherFiles>
     <DefaultStylesheet></DefaultStylesheet>
     <DefaultCaptureDirectory></DefaultCaptureDirectory>
   </OtherFilesProjectPlugin>
@@ -66,8 +69,11 @@
       <Name />
       <Description />
       <RootNodes>
-        <TocNode Name="" Id="05b44c03-2a3f-4ff3-998b-be048dfbba4e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
-          <CaptionTemplate />
+        <TocNode Name="" Id="a0033c6c-3da3-43a6-b4c1-2b171614ba3e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" DependsOnItemTypeName="" NodeType="ALLTEMPLATETOCS">
+          <ChildNodes />
+        </TocNode>
+        <TocNode Name="" Id="05b44c03-2a3f-4ff3-998b-be048dfbba4e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="NOLINK">
+          <CaptionTemplate m="2011-01-01T14:59:00.2998046Z">General</CaptionTemplate>
           <ChildNodes>
             <TocNode Name="" Id="a5a4d354-422f-412b-b3a2-0cb111ac5d6e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
               <CaptionTemplate />
@@ -88,11 +94,9 @@
               <TargetItemBookmark></TargetItemBookmark>
             </TocNode>
           </ChildNodes>
-          <TargetItemId></TargetItemId>
-          <TargetItemBookmark></TargetItemBookmark>
         </TocNode>
-        <TocNode Name="" Id="e6d7af30-2358-4b57-91d1-0b4b28c0ceb2" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
-          <CaptionTemplate />
+        <TocNode Name="" Id="e6d7af30-2358-4b57-91d1-0b4b28c0ceb2" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="NOLINK">
+          <CaptionTemplate m="2011-01-01T14:59:35.8300781Z">Getting Started</CaptionTemplate>
           <ChildNodes>
             <TocNode Name="" Id="fb395d2e-feb5-4d79-b4cc-2c49f5bf40dd" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
               <CaptionTemplate />
@@ -101,11 +105,9 @@
               <TargetItemBookmark></TargetItemBookmark>
             </TocNode>
           </ChildNodes>
-          <TargetItemId></TargetItemId>
-          <TargetItemBookmark></TargetItemBookmark>
         </TocNode>
-        <TocNode Name="" Id="7f4f1107-dc91-491b-8483-57925b917d27" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
-          <CaptionTemplate />
+        <TocNode Name="" Id="7f4f1107-dc91-491b-8483-57925b917d27" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="NOLINK">
+          <CaptionTemplate m="2011-01-01T14:59:28.5810546Z">Architecture</CaptionTemplate>
           <ChildNodes>
             <TocNode Name="" Id="4d82d62a-9516-4814-b67a-f4b2f1b5d3a3" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeName="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" NodeType="PROJECTITEM">
               <CaptionTemplate />
@@ -144,11 +146,6 @@
               <TargetItemBookmark></TargetItemBookmark>
             </TocNode>
           </ChildNodes>
-          <TargetItemId></TargetItemId>
-          <TargetItemBookmark></TargetItemBookmark>
-        </TocNode>
-        <TocNode Name="" Id="a0033c6c-3da3-43a6-b4c1-2b171614ba3e" IconIndex="-1" IsNew="false" Target="" DependsOnItemTypeFilter="" DependsOnMinimumCount="0" DependsOnStillProcessChildNodes="false" BuildFlags="" DependsOnItemTypeName="" NodeType="ALLTEMPLATETOCS">
-          <ChildNodes />
         </TocNode>
       </RootNodes>
     </TocLayout>
@@ -236,13 +233,23 @@
             <TopicKeywords />
             <PropertyDefinitionValues />
           </Topic>
-          <Topic Id="49d9f468-f7de-4aee-88c7-6cfac514c658" Status="New Topic" CreatedOn="2011-01-01T09:57:29.6972657Z" ModifiedOn="2011-01-01T09:57:33.0146485Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Contributing" BuildFlags="">
+          <Topic Id="49d9f468-f7de-4aee-88c7-6cfac514c658" Status="New Topic" CreatedOn="2011-01-01T09:57:29.6972657Z" ModifiedOn="2011-01-01T14:48:21.0703125Z" PageTypeName="" AutoIndex="true" HelpContextIds="" Name="Contributing" BuildFlags="">
             <Title />
             <ContentsTitle />
             <Notes></Notes>
             <TopicSections>
               <TopicSection Name="BodyText">
-                <Content m="2011-01-01T09:57:29.6982422Z">&lt;p&gt; &lt;/p&gt;</Content>
+                <Content m="2011-01-01T14:48:21.0683594Z">&lt;P&gt;Contributions&amp;nbsp;to the&amp;nbsp;repository of Balder&amp;nbsp;are always welcome. There are a couple of ways one can do this. Since Balder is hosted on CodePlex and is using the Mercurial source control option at CodePlex, one can utilize functionality within Mercurial to pick out changes one wants to contribute into the project.&lt;/P&gt;
+&lt;P&gt;Any contributions done might undergo changes before they are committed into the main repository of Balder, and also the Balder team can chose not to welcome a contribution if it does not fall into the plans for Balder.&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;H1&gt;Forking&lt;/H1&gt;
+&lt;P&gt;One of the options you might want to consider is using the fork option at CodePlex. You simply go to the source control tab of the Balder project and you can use the "Create Fork" link at the top. Whenever you have changes you would like to be considered included in the main Balder repository, you simply use the "Send Pull Request" when going back to Balders source control and selecting your fork. It might be a good idea to start a discussion around the change before doing it, so that your time is not wasted if someone else has the same change already done, or there are other plans that will result in your change not accepted.&lt;/P&gt;
+&lt;H1&gt;Patches&lt;/H1&gt;
+&lt;P&gt;Mercurial supports the creation of patches from your commits. This is a second route one can take instead of using the forking option. You simply clone Balders source repository and start doing your changes and commit locally, then you can create patches from Mercurial. The patches can then be attached to an Issue on the Balders CodePlex site either to an existing issue or create a new one with a good description of the problem and attach the patch to it.&lt;/P&gt;
+&lt;H1&gt;Becoming a member on the team&lt;/H1&gt;
+&lt;P&gt;You might be asked to join the team, and you can certainly ask to join the team as well. Balder is not at this stage open for letting anyone in on the team. The main reason for this is that the library is still at a critical stage as for architecture and documentation concerns. So until all the guidelines for the project, architectural blueprints and full documentation is in place, it is vital to keep a certain level of control as to who can commit directly into the main repository.&lt;/P&gt;
+&lt;P&gt;&amp;nbsp;&lt;/P&gt;
+&lt;P&gt;For more details about source control at CodePlex, please go &lt;A href="http://codeplex.codeplex.com/wikipage?title=Source%20Control&amp;amp;referringTitle=Documentation"&gt;here&lt;/A&gt;.&lt;/P&gt;</Content>
               </TopicSection>
             </TopicSections>
             <TopicLinks />
@@ -411,7 +418,7 @@
         <ExcludeEditorBrowsable>true</ExcludeEditorBrowsable>
         <ExcludeBrowsableFalse>false</ExcludeBrowsableFalse>
         <ExcludeObsolete>false</ExcludeObsolete>
-        <GenerateXmlCommentFile>false</GenerateXmlCommentFile>
+        <GenerateXmlCommentFile>true</GenerateXmlCommentFile>
         <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
         <IncludeAssemblyBreadcrumb>false</IncludeAssemblyBreadcrumb>
         <IncludePrivateMembers>false</IncludePrivateMembers>
@@ -423,7 +430,7 @@
         <AttributeFilter></AttributeFilter>
         <XmlIsland></XmlIsland>
         <IdentifyAccessInTitles>false</IdentifyAccessInTitles>
-        <XmlCommentUsage>UseIfBlank</XmlCommentUsage>
+        <XmlCommentUsage>Merge</XmlCommentUsage>
         <DiagramSettings OverviewNestingLevels="3" PageNestingLevels="2" DiagramStyleSource="Template">
           <SuppressSingleObjectDiagrams>false</SuppressSingleObjectDiagrams>
           <DiagramStyle>
@@ -458,7 +465,6 @@
         <IsVbSyntaxMerged>true</IsVbSyntaxMerged>
         <IncludeMemberIndexKeywords>false</IncludeMemberIndexKeywords>
         <ExcludedLanguages>
-          <ExcludedLanguage>VB</ExcludedLanguage>
           <ExcludedLanguage>VBUsage</ExcludedLanguage>
           <ExcludedLanguage>Delphi</ExcludedLanguage>
           <ExcludedLanguage>JScript</ExcludedLanguage>
@@ -621,8 +627,8 @@
       <ShortFileNames GenerateShortFileNames="false" />
       <TopicsProjectProfilePlugin>
         <TemplateName>Visual Studio 2008 Style</TemplateName>
-        <IncludeBreadcrumbs>false</IncludeBreadcrumbs>
-        <AutoGenerateTopicIndexEntries>false</AutoGenerateTopicIndexEntries>
+        <IncludeBreadcrumbs>true</IncludeBreadcrumbs>
+        <AutoGenerateTopicIndexEntries>true</AutoGenerateTopicIndexEntries>
         <AutoGenerateCategoryIndexEntries>false</AutoGenerateCategoryIndexEntries>
         <IncludeOnlyCompletedTopics>false</IncludeOnlyCompletedTopics>
         <IsNewSource>CreationDateTime</IsNewSource>
@@ -632,8 +638,8 @@
         <WidgetTypes Version="2010.0" />
       </WidgetsProjectProfilePlugin>
       <OtherFiles>
-        <IsLogoEnabled>false</IsLogoEnabled>
-        <LogoOtherFileName></LogoOtherFileName>
+        <IsLogoEnabled>true</IsLogoEnabled>
+        <LogoOtherFileName>BalderLogoVersion2VerySmall.PNG</LogoOtherFileName>
       </OtherFiles>
       <OutputDirectory>DocumentX\</OutputDirectory>
     </ProjectProfile>
