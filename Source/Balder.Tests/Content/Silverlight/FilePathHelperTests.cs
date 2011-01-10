@@ -18,9 +18,9 @@
 #endregion
 #if(SILVERLIGHT)
 using Balder.Content;
+using Balder.Content.Silverlight;
 using Balder.Execution;
 using Balder.Utils;
-using Balder.Silverlight.Content;
 using Moq;
 using NUnit.Framework;
 

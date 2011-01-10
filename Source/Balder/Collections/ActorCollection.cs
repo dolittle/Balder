@@ -22,7 +22,7 @@ using Balder.Execution;
 namespace Balder.Collections
 {
 	/// <summary>
-	/// Collection holding actors - actors can be Game or any other actor type.
+	/// Represents a collection holding <see cref="Actor">actors</see>
 	/// </summary>
 	public class ActorCollection : List<Actor>
 	{

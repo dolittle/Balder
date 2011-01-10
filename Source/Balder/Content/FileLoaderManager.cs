@@ -23,6 +23,9 @@ using Ninject;
 
 namespace Balder.Content
 {
+	/// <summary>
+	/// Represents a <see cref="IFileLoaderManager"/>
+	/// </summary>	
 	public class FileLoaderManager : IFileLoaderManager
 	{
 		private readonly IFileLoader _defaultFileLoader;
@@ -30,7 +33,16 @@ namespace Balder.Content
 		private readonly IKernel _kernel;
 		private IFileLoader[] _fileLoaders;
 
-		public FileLoaderManager(IFileLoader defaultFileLoader, ITypeDiscoverer typeDiscoverer, IKernel kernel)
+		/// <summary>
+		/// Initializes a new instance of <see cref="FileLoaderManager"/>
+		/// </summary>
+		/// <param name="defaultFileLoader">Default <see cref="IFileLoader"/> to use</param>
+		/// <param name="typeDiscoverer"><see cref="ITypeDiscoverer"/> to use for discovering types</param>
+		/// <param name="kernel"><see cref="IKernel"/> to use for object creation</param>
+		public FileLoaderManager(
+			IFileLoader defaultFileLoader, 
+			ITypeDiscoverer typeDiscoverer, 
+			IKernel kernel)
 		{
 			_defaultFileLoader = defaultFileLoader;
 			_typeDiscoverer = typeDiscoverer;
@@ -50,6 +62,7 @@ namespace Balder.Content
 		}
 
 
+#pragma warning disable 1591
 		public IFileLoader GetFileLoader(string fileName)
 		{
 			if (fileName.Contains("://"))
@@ -73,5 +86,6 @@ namespace Balder.Content
 
 			return _defaultFileLoader;
 		}
+#pragma warning restore 1591
 	}
 }

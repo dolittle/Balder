@@ -22,10 +22,12 @@ using Balder.Assets;
 
 namespace Balder.Content
 {
-#pragma warning disable 1591
+	/// <summary>
+	/// Represents a <see cref="IContentCache"/>
+	/// </summary>
 	public class ContentCache : IContentCache
 	{
-		public static class TypeCache<T>
+		static class TypeCache<T>
 			where T : IAsset
 		{
 			public static Dictionary<object, IEnumerable<IAssetPart>> Cache { get; private set; }
@@ -37,6 +39,7 @@ namespace Balder.Content
 			
 		}
 
+#pragma warning disable 1591
 		public bool Exists<T>(object key)
 			where T:IAsset
 		{
@@ -58,6 +61,7 @@ namespace Balder.Content
 		{
 			TypeCache<T>.Cache[key] = content;
 		}
-	}
 #pragma warning restore 1591
+	}
+
 }

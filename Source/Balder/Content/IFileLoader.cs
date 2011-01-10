@@ -21,8 +21,7 @@ using System.IO;
 namespace Balder.Content
 {
 	/// <summary>
-	/// To load files in Balder, you should go through the fileloader. 
-	/// Loading of files is a platform specific operation.
+	/// Defines a system for loading files from different locations
 	/// </summary>
 	public interface IFileLoader
 	{
@@ -34,7 +33,7 @@ namespace Balder.Content
 		Stream GetStream(string fileName);
 
 		/// <summary>
-		/// Gets the status of a file exists or not
+		/// Checks if a file exists or not
 		/// </summary>
 		/// <param name="fileName">Filename to check</param>
 		/// <returns>True if exists, false if not</returns>

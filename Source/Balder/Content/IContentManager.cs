@@ -21,7 +21,7 @@ using Balder.Assets;
 namespace Balder.Content
 {
 	/// <summary>
-	/// Manages content
+	/// Defines a manager for content
 	/// </summary>
 	public interface IContentManager
 	{

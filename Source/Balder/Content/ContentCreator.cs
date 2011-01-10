@@ -16,19 +16,22 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Execution;
+
 using Balder.Materials;
 using Balder.Objects.Geometries;
 using Ninject;
 
 namespace Balder.Content
 {
+	/// <summary>
+	/// Represents a <see cref="IContentCreator"/>
+	/// </summary>
 	public class ContentCreator : IContentCreator
 	{
 		private readonly IKernel _kernel;
 
 		/// <summary>
-		/// Creates a new ContentCreator and provides functionality for creating content
+		/// Initializes an instance of <see cref="ContentCreator"/>
 		/// </summary>
 		/// <param name="kernel">Kernel that the ContentCreator will use for creating content</param>
 		public ContentCreator(IKernel kernel)
@@ -36,6 +39,7 @@ namespace Balder.Content
 			_kernel = kernel;
 		}
 
+#pragma warning disable 1591
 		public T CreateGeometry<T>() where T : Geometry
 		{
 			var geometry = _kernel.Get<T>();
@@ -47,5 +51,6 @@ namespace Balder.Content
 			var material = _kernel.Get<Material>();
 			return material;
 		}
+#pragma warning restore 1591
 	}
 }

@@ -16,27 +16,19 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Materials;
-using Balder.Objects.Geometries;
 
-namespace Balder.Content
+namespace Balder.Content.Silverlight
 {
 	/// <summary>
-	/// Defines a creator that can create content
+	/// Defines a helper for working with filenames and paths
 	/// </summary>
-	public interface IContentCreator
+	public interface IFilePathHelper
 	{
 		/// <summary>
-		/// Creates a geometry based on the geometry type
+		/// Get filename from an assetname
 		/// </summary>
-		/// <typeparam name="T">Type of geometry to create</typeparam>
-		/// <returns>An instance of the geometry created</returns>
-		T CreateGeometry<T>() where T : Geometry;
-
-		/// <summary>
-		/// Creates a material
-		/// </summary>
-		/// <returns>An instance of a Material</returns>
-		Material CreateMaterial();
+		/// <param name="assetName">Assetname to get from</param>
+		/// <returns>The filename within the assetname</returns>
+		string GetFileNameForAsset(string assetName);
 	}
 }

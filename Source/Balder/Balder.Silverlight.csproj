@@ -96,6 +96,7 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Animation\Silverlight\CoordinateAnimation.cs" />
     <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
     <Compile Include="Assets\AssetLoaders\AseConstants.cs" />

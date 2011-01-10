@@ -20,7 +20,7 @@
 namespace Balder.Content
 {
 	/// <summary>
-	/// Represents FileLoaders registered in the system
+	/// Defines a manager for <see cref="IFileLoader">FileLoaders</see> registered in the system
 	/// </summary>
 	public interface IFileLoaderManager
 	{
@@ -28,7 +28,7 @@ namespace Balder.Content
 		/// Get the appropriate <see cref="IFileLoader">fileloader</see> based on the filename
 		/// </summary>
 		/// <param name="fileName">FileName to get fileloader for</param>
-		/// <returns>The correct <see cref="IFileLoader">fileloader</see></returns>
+		/// <returns>The <see cref="IFileLoader">fileloader</see>, null if no fileloader exists for the given file</returns>
 		IFileLoader GetFileLoader(string fileName);
 	}
 }

@@ -20,16 +20,22 @@
 using System;
 using System.IO;
 using System.Windows;
-using Balder.Silverlight.Content;
 
 namespace Balder.Content.Silverlight
 {
+	/// <summary>
+	/// Represents a <see cref="IFileLoader"/> for loading files from within the current Silverlight application
+	/// </summary>
 	public class FileLoader : IFileLoader
 	{
 		private readonly IContentManager _contentManager;
 		private readonly FilePathHelper _filePathHelper;
 
-
+		/// <summary>
+		/// Initializes a new instance of a <see cref="FileLoader"/>
+		/// </summary>
+		/// <param name="contentManager"><see cref="IContentManager"/> to use for managing the content</param>
+		/// <param name="filePathHelper"><see cref="FilePathHelper"/> </param>
 		public FileLoader(IContentManager contentManager, FilePathHelper filePathHelper)
 		{
 			_contentManager = contentManager;
@@ -37,6 +43,7 @@ namespace Balder.Content.Silverlight
 		}
 
 
+#pragma warning disable 1591
 		public Stream GetStream(string assetName)
 		{
 			var filename = _filePathHelper.GetFileNameForAsset(assetName);
@@ -56,6 +63,7 @@ namespace Balder.Content.Silverlight
 		{
 			get { throw new NotImplementedException(); }
 		}
+#pragma warning restore 1591
 	}
 }
 #endif

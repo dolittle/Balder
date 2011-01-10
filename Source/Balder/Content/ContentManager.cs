@@ -21,11 +21,13 @@ using System.Collections.Generic;
 using Balder.Assets;
 using Balder.Execution;
 using Ninject;
-using Ninject.Parameters;
 
-#pragma warning disable 1591
+
 namespace Balder.Content
 {
+	/// <summary>
+	/// Represents a <see cref="IContentManager"/>
+	/// </summary>
 	[Singleton]
 	public class ContentManager : IContentManager
 	{
@@ -34,6 +36,13 @@ namespace Balder.Content
 		private readonly IContentCache _contentCache;
 		private readonly IAssetLoaderService _assetLoaderService;
 
+		/// <summary>
+		/// Initializes a new instance of <see cref="ContentManager"/>
+		/// </summary>
+		/// <param name="kernel"><see cref="IKernel"/> to use for object creation</param>
+		/// <param name="contentCache"><see cref="IContentCache"/> to use for caching</param>
+		/// <param name="assetLoaderService"><see cref="IAssetLoaderService"/> for resolving asset loaders</param>
+		/// <param name="contentCreator"><see cref="IContentCreator"/> for creating new content</param>
 		public ContentManager(
 			IKernel kernel, 
 			IContentCache contentCache, 
@@ -47,6 +56,7 @@ namespace Balder.Content
 			Creator = contentCreator;
 		}
 
+#pragma warning disable 1591
 		public T Load<T>(string assetName)
 			where T : IAsset
 		{
@@ -102,6 +112,6 @@ namespace Balder.Content
 		public IContentCreator Creator { get; private set; }
 
 		public string AssetsRoot { get; set; }
+#pragma warning restore 1591
 	}
 }
-#pragma warning restore 1591

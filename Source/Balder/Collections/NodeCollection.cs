@@ -28,7 +28,7 @@ namespace Balder.Collections
 {
 #if(SILVERLIGHT)
 	/// <summary>
-	/// Collection of nodes	- any node type can be added to this collection type
+	/// Represents a collection holding <see cref="INode">nodes</see>
 	/// </summary>
 	public class NodeCollection : ObservableCollection<INode>
 #else
@@ -38,16 +38,65 @@ namespace Balder.Collections
 		private readonly object _owner;
 		private Scene _ownersScene;
 
+		/// <summary>
+		/// Initializes a new instance of <see cref="NodeCollection"/> with a specific owner
+		/// </summary>
+		/// <param name="owner">Owner of the collection</param>
 		public NodeCollection(object owner)
 		{
 			_owner = owner;
+		}
+
+
+		/// <summary>
+		/// Add a node to the collection
+		/// </summary>
+		/// <param name="node"><see cref="INode"/> to add</param>
+		public new void Add(INode node)
+		{
+			if (node is Node && _owner is INode)
+			{
+				((Node) node).Scene = OwnersScene;
+				((Node)node).Parent = _owner as INode;
+			}
+			base.Add(node);
+		}
+
+		/// <summary>
+		/// Add a range of nodes to the collection
+		/// </summary>
+		/// <param name="nodes"><see cref="IEnumerable{INode}">Nodes</see> to add</param>
+		public void AddRange(IEnumerable<INode> nodes)
+		{
+			foreach( var node in nodes )
+			{
+				Add(node);
+			}
+		}
+
+		/// <summary>
+		/// Merge collection with a range of nodes
+		/// </summary>
+		/// <param name="nodes"><see cref="IEnumerable{INode}">Nodes</see> to merge into the collection</param>
+		/// <remarks>
+		/// Nodes are added if the collection does not already contain a node
+		/// </remarks>
+		public void Merge(IEnumerable<INode> nodes)
+		{
+			foreach( var node in nodes )
+			{
+				if( !Contains(node) )
+				{
+					Add(node);
+				}
+			}
 		}
 
 		private Scene OwnersScene
 		{
 			get
 			{
-				if( null == _ownersScene )
+				if (null == _ownersScene)
 				{
 					if (_owner is Node)
 					{
@@ -63,34 +112,6 @@ namespace Balder.Collections
 			}
 		}
 
-		public new void Add(INode node)
-		{
-			if (node is Node && _owner is INode)
-			{
-				((Node) node).Scene = OwnersScene;
-				((Node)node).Parent = _owner as INode;
-			}
-			base.Add(node);
-		}
-
-		public void AddRange(IEnumerable<INode> nodes)
-		{
-			foreach( var node in nodes )
-			{
-				Add(node);
-			}
-		}
-
-		public void Merge(IEnumerable<INode> nodes)
-		{
-			foreach( var node in nodes )
-			{
-				if( !Contains(node) )
-				{
-					Add(node);
-				}
-			}
-		}
 
 	}
 }

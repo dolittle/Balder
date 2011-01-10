@@ -16,23 +16,32 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Content;
+
 using Balder.Execution;
 using Balder.Utils;
 
-namespace Balder.Silverlight.Content
+namespace Balder.Content.Silverlight
 {
-	public class FilePathHelper
+	/// <summary>
+	/// Represents a <see cref="IFilePathHelper"/>
+	/// </summary>
+	public class FilePathHelper : IFilePathHelper
 	{
 		private readonly IContentManager _contentManager;
 		private readonly IPlatform _platform;
 
+		/// <summary>
+		/// Initializes an instance of <see cref="FilePathHelper"/>
+		/// </summary>
+		/// <param name="contentManager"><see cref="IContentManager"/> used during resolving complete filenames</param>
+		/// <param name="platform">An instance of the <see cref="IPlatform"/> for getting information about execution context</param>
 		public FilePathHelper(IContentManager contentManager, IPlatform platform)
 		{
 			_contentManager = contentManager;
 			_platform = platform;
 		}
 
+#pragma warning disable 1591
 		public string GetFileNameForAsset(string assetName)
 		{
 			var fullAssemblyName = _platform.EntryAssemblyName;
@@ -52,5 +61,6 @@ namespace Balder.Silverlight.Content
 			
 			return filename;
 		}
+#pragma warning restore 1591
 	}
 }
