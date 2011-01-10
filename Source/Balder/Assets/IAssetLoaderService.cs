@@ -19,10 +19,27 @@
 
 namespace Balder.Assets
 {
+	/// <summary>
+	/// Defines a service for loading assets
+	/// </summary>
 	public interface IAssetLoaderService
 	{
+		/// <summary>
+		/// Initialize the service
+		/// </summary>
 		void Initialize();
-		IAssetLoader GetLoader<T>(string assetName) where T : IAsset;
+
+		/// <summary>
+		/// Get a loader based upon type and the name of the asset
+		/// </summary>
+		/// <typeparam name="T">Type of the <see cref="IAsset">asset</see> to load</typeparam>
+		/// <param name="assetName">Name of the <see cref="IAsset">asset</see> to load</param>
+		/// <returns>The <see cref="IAssetLoader"/> for the type and file, null if none was registered</returns>
+		IAssetLoader GetLoader<T>(string assetName) where T : IAsset; // Todo: inconsistency - IAsset uses URI
+
+		/// <summary>
+		/// Get all available <see cref="IAssetLoader">asset loaders</see>
+		/// </summary>
 		IAssetLoader[] AvailableLoaders { get; }
 	}
 }

@@ -21,10 +21,26 @@ using System;
 
 namespace Balder.Assets
 {
+	/// <summary>
+	/// Defines a loader that load a specific asset type
+	/// </summary>
 	public interface IAssetLoader
 	{
+		/// <summary>
+		/// Get the file extensions supported by the loader
+		/// </summary>
 		string[] FileExtensions { get; }
+
+		/// <summary>
+		/// Get the supported asset type for the loader
+		/// </summary>
 		Type SupportedAssetType { get; }
-		IAssetPart[] Load(string assetName);
+
+		/// <summary>
+		/// Load assets based on an assetname
+		/// </summary>
+		/// <param name="assetName">Name of the asset to load</param>
+		/// <returns>An array of <see cref="IAssetPart">asset parts</see> loaded</returns>
+		IAssetPart[] Load(string assetName); // Todo: Inconcistency - IAsset is using an Uri!
 	}
 }

@@ -16,16 +16,31 @@
 // limitations under the License.
 //
 #endregion
-
 using System;
 using System.Collections.Generic;
 
 namespace Balder.Assets
 {
+	/// <summary>
+	/// Defines an asset
+	/// </summary>
 	public interface IAsset
 	{
+		/// <summary>
+		/// Gets or sets the asset name in the form of a <see cref="Uri"/>
+		/// </summary>
 		Uri AssetName { get; set; }
+
+		/// <summary>
+		/// Get all <see cref="IAssetPart">asset parts</see> in the asset
+		/// </summary>
+		/// <returns>An array of <see cref="IAssetPart"/></returns>
 		IAssetPart[] GetAssetParts();
+
+		/// <summary>
+		/// Set all <see cref="IAssetPart">asset parts</see> for the asset
+		/// </summary>
+		/// <param name="assetParts"><see cref="IEnumerable{T}"/> of <see cref="IAssetPart"/> to set</param>
 		void SetAssetParts(IEnumerable<IAssetPart> assetParts);
 	}
 }

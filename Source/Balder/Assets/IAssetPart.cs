@@ -18,12 +18,32 @@
 #endregion
 namespace Balder.Assets
 {
+	/// <summary>
+	/// Defines an asset part
+	/// </summary>
 	public interface IAssetPart
 	{
+		/// <summary>
+		/// Gets or sets the name of the <see cref="IAssetPart"/>
+		/// </summary>
 		string Name { get; set; }
 
+		/// <summary>
+		/// Get context object for the <see cref="IAssetPart"/>
+		/// </summary>
+		/// <returns>The context object</returns>
 		object GetContext();
+
+		/// <summary>
+		/// Set the context object for the <see cref="IAssetPart"/>
+		/// </summary>
+		/// <param name="context"></param>
 		void SetContext(object context);
+
+		/// <summary>
+		/// Initialize from a different <see cref="IAssetPart"/>
+		/// </summary>
+		/// <param name="assetPart"><see cref="IAssetPart"/> to initialize from</param>
 		void InitializeFromAssetPart(IAssetPart assetPart);
 	}
 }

@@ -23,7 +23,6 @@ namespace Balder.Lighting
 			var lightsToUse = new List<ILight>();
 			foreach( ILight light in lights )
 			{
-				
 				if( light.IsEnabled )
 				{
 					lightsToUse.Add(light);

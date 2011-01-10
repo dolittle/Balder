@@ -19,39 +19,32 @@
 
 #endregion
 #if(SILVERLIGHT)
-using System;
 using System.Windows;
 using System.Windows.Media.Animation;
 using Balder.Math;
 
 namespace Balder.Animation.Silverlight
 {
-	public class CoordinateAnimation
-	{
-		public string TargetName { get; set; }
-		public string TargetProperty { get; set; }
-		public DependencyObject Target { get; set; }
-
-
-		public Coordinate From { get; set; }
-		public Coordinate To { get; set; }
-
-		public IEasingFunction EasingFunction { get; set; }
-
-		public TimeSpan? BeginTime { get; set; }
-		public Duration Duration { get; set; }
-	}
-
-
+	/// <summary>
+	/// Provides extensions for working with <see cref="Coordinate"/> animation in Silverlight
+	/// </summary>
 	public static class StoryboardExtensions
 	{
+		/// <summary>
+		/// Identifies the Coordinate Animation dependency property 
+		/// </summary>
 		public static readonly DependencyProperty CoordinateAnimationProperty =
 			DependencyProperty.RegisterAttached("CoordinateAnimation", typeof (CoordinateAnimation),
 			                                    typeof (StoryboardExtensions), null);
 
-		public static void SetCoordinateAnimation(DependencyObject obj, CoordinateAnimation coordinateAnimation)
+		/// <summary>
+		/// Set a <see cref="Coordinate"/> animation for a specific dependency object
+		/// </summary>
+		/// <param name="dependencyObject"><see cref="DependencyObject"/> to set <see cref="CoordinateAnimation"/> for</param>
+		/// <param name="coordinateAnimation">An instance of a <see cref="CoordinateAnimation"/> to set</param>
+		public static void SetCoordinateAnimation(DependencyObject dependencyObject, CoordinateAnimation coordinateAnimation)
 		{
-			var storyboard = obj as Storyboard;
+			var storyboard = dependencyObject as Storyboard;
 
 			var xAnimation = new DoubleAnimation();
 			xAnimation.From = coordinateAnimation.From.X;
@@ -98,7 +91,7 @@ namespace Balder.Animation.Silverlight
 			Storyboard.SetTargetProperty(zAnimation, new PropertyPath(string.Format("{0}.(Z)", coordinateAnimation.TargetProperty)));
 			storyboard.Children.Add(zAnimation);
 			
-			obj.SetValue(CoordinateAnimationProperty,coordinateAnimation);
+			dependencyObject.SetValue(CoordinateAnimationProperty,coordinateAnimation);
 		}
 
 		public static CoordinateAnimation GetCoordinateAnimation(DependencyObject obj)
@@ -106,7 +99,6 @@ namespace Balder.Animation.Silverlight
 			var animation = obj.GetValue(CoordinateAnimationProperty) as CoordinateAnimation;
 			return animation;
 		}
-		
 	}
 }
 #endif
