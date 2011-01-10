@@ -23,8 +23,18 @@ using Balder.Math;
 
 namespace Balder.Input
 {
+	/// <summary>
+	/// Defines the behavior of getting a <see cref="RenderableNode"/> at a particular position
+	/// </summary>
 	public interface ICanGetNodeAtPosition
 	{
+		/// <summary>
+		/// Get the nearest <see cref="RenderableNode"/> at a specific position and direction based upon a Ray
+		/// </summary>
+		/// <param name="viewport">The <see cref="Viewport"/> the node is within </param>
+		/// <param name="pickRay"><see cref="Ray"/> to use for defining the position and direction to start the search</param>
+		/// <param name="closestNode">Returns the <see cref="RenderableNode">closest node</see> found, null if it didn't hit any node</param>
+		/// <param name="closestDistance">Returns the closest distance of the node it finds, if any. Will return null if it didn't find any node</param>
 		void GetNodeAtPosition(Viewport viewport, Ray pickRay, ref RenderableNode closestNode, ref float? closestDistance);
 	}
 }

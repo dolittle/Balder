@@ -31,6 +31,9 @@ using Ninject;
 
 namespace Balder.Controls
 {
+	/// <summary>
+	/// Represents a control that can take one node and instantiate it during rendering based upon data given to it
+	/// </summary>
 	public class InstancingNodes : RenderableNode, ICanGetNodeAtPosition
 	{
 		private class DataItemInfo
@@ -48,12 +51,18 @@ namespace Balder.Controls
 		private bool _boundingSpheresPrepared;
 
 
+		/// <summary>
+		/// Initializes an instance of <see cref="InstancingNodes"/>
+		/// </summary>
 		public InstancingNodes()
 			: this(Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 
 		}
 
+		/// <summary>
+		/// Initializes an instance of <see cref="InstancingNodes"/>
+		/// </summary>
 		public InstancingNodes(INodeRenderingService nodeRenderingService)
 		{
 			_nodeRenderingService = nodeRenderingService;

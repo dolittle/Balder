@@ -21,8 +21,17 @@
 #if(SILVERLIGHT)
 namespace Balder.Controls
 {
+	/// <summary>
+	/// Defines a modifier of nodes during binding for some control types
+	/// </summary>
 	public interface INodeModifier
 	{
+		/// <summary>
+		/// Apply modification based upon a particular index and datacontext
+		/// </summary>
+		/// <param name="node"><see cref="INode"/> to apply for</param>
+		/// <param name="nodeIndex">Index within the binding</param>
+		/// <param name="dataContext">DataContext for the node</param>
 		void Apply(INode node, int nodeIndex, object dataContext);
 	}
 }
