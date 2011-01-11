@@ -33,6 +33,7 @@ namespace Balder.Execution.Desktop
 		public bool IsInDesignMode { get; private set; }
 		public IDisplayDevice DisplayDevice { get; private set; }
 		public IMouseDevice MouseDevice { get; private set; }
+		public Type DefaultFileLoaderType { get { return null;  }}
 		public Type FileLoaderType { get; private set; }
 		public Type GeometryContextType { get; private set; }
 		public Type SpriteContextType { get; private set; }

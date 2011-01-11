@@ -16,8 +16,7 @@
 // limitations under the License.
 //
 #endregion
-
-using System;
+#if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
@@ -69,3 +68,4 @@ namespace Balder.Rendering.Silverlight
 		public UIElement DisplayElement { get { return _frontDisplayElement; }}
 	}
 }
+#endif

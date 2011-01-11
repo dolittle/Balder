@@ -36,9 +36,10 @@
 		<setenv name="BalderVersion" value="${Build.Version}"/>
 		
 		<call target="Configure"/>
-		<!--<call target="Desktop"/>-->
+		<call target="Desktop"/>
+		<!--
 		<call target="Silverlight3"/>
-		<call target="Silverlight4"/>
+		<call target="Silverlight4"/>-->
 
 		<call target="Drop"/>
 

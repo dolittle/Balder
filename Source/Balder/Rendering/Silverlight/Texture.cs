@@ -18,10 +18,12 @@
 //
 
 #endregion
+#if(SILVERLIGHT)
 using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
 {
+
 	public class Texture
 	{
 		public TextureMipMapLevel FullDetailLevel;
@@ -44,3 +46,4 @@ namespace Balder.Rendering.Silverlight
 		}
 	}
 }
+#endif

@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
-using Balder.Input;
+using System.Windows.Input;
 using Balder.Objects.Geometries;
+using MouseEventArgs = Balder.Input.MouseEventArgs;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
@@ -79,8 +80,7 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 
 		private void Nodes_MouseEnter(object sender, MouseEventArgs args)
 		{
-			int i = 0;
-			i++;
+			Game.Cursor = Cursors.Hand;
 
 		}
 
@@ -94,6 +94,11 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 		{
 			var column = ((Node) args.OriginalSource).DataItem as Column;
 			column.IsHovering = false;
+		}
+
+		private void Nodes_MouseLeave(object sender, MouseEventArgs args)
+		{
+			Game.Cursor = Cursors.Arrow;
 		}
 	}
 }

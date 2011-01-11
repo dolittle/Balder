@@ -25,7 +25,7 @@ namespace Balder.Execution
 #if(SILVERLIGHT)
         internal ObjectProperty(DependencyObject obj, PropertyDescriptor propertyDescriptor, T defaultValue, PropertyValueChanged<T> propertyValueChanged)
 #else
-		internal ObjectProperty(object obj, PropertyDescriptor propertyDescriptor, T defaultValue)
+		internal ObjectProperty(object obj, PropertyDescriptor propertyDescriptor, T defaultValue, PropertyValueChanged<T> propertyValueChanged)
 #endif
 		{
         	_propertyDescriptor = propertyDescriptor;
