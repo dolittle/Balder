@@ -19,11 +19,13 @@
 
 #if(SILVERLIGHT)
 using System.ComponentModel;
-using Balder.Extensions.Silverlight;
 #endif
 
 namespace Balder.Display
 {
+	/// <summary>
+	/// Represents statistics for a viewport
+	/// </summary>
 	public class ViewportStatistics 
 #if(SILVERLIGHT)
 		: INotifyPropertyChanged
@@ -34,6 +36,10 @@ namespace Balder.Display
 #endif
 
 		private int _renderedNodes;
+
+		/// <summary>
+		/// Gets or sets the amount of rendered nodes inside the viewport
+		/// </summary>
 		public int RenderedNodes
 		{
 			get { return _renderedNodes; }
@@ -47,6 +53,9 @@ namespace Balder.Display
 		}
 
 
+		/// <summary>
+		/// Reset counters
+		/// </summary>
 		public void Reset()
 		{
 			RenderedNodes = 0;

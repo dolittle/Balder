@@ -29,7 +29,18 @@ namespace Balder.Execution
 	{
 		public static new readonly BubbledEventArgs	Empty = new BubbledEventArgs();
 
+		/// <summary>
+		/// Gets the original source of the event in the form of <see cref="INode"/>
+		/// </summary>
 		public INode OriginalSource { get; internal set; }
+
+		/// <summary>
+		/// Gets or sets wether or not the event was handled
+		/// </summary>
+		/// <remarks>
+		/// Setting this to true in an event handler will make the bubbling of the event
+		/// stop from that point
+		/// </remarks>
 		public bool Handled { get; set; }
 	}
 }
