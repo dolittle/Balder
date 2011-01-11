@@ -63,6 +63,7 @@
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
       <Link>GlobalAssemblyInfo.cs</Link>
     </Compile>
+    <Compile Include="Animation\Silverlight\CoordinateAnimation.cs" />
     <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
@@ -96,6 +97,7 @@
     <Compile Include="Content\IFileLoaderManager.cs" />
     <Compile Include="Content\Silverlight\FileLoader.cs" />
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
+    <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
     <Compile Include="Controls\INodeModifier.cs" />
     <Compile Include="Controls\NodesControl.cs" />
     <Compile Include="Controls\NodesStack.cs" />
