@@ -118,6 +118,7 @@
     <Compile Include="Content\IFileLoaderManager.cs" />
     <Compile Include="Content\Silverlight\FileLoader.cs" />
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
+    <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
     <Compile Include="Debug\RectangleDebugShape.cs" />
     <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\ILabelManager.cs" />

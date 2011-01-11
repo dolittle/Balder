@@ -34,52 +34,52 @@ namespace Balder.Debug
 		}
 
 		/// <summary>
-		/// Get or set if the geometry should be visualized in a debug manner
+		/// Gets or sets if the geometry should be visualized in a debug manner
 		/// </summary>
 		public bool Geometry { get; set; }
 
 		/// <summary>
-		/// Get or set if the normals of every face in a geometry should be rendered
+		/// Gets or sets if the normals of every face in a geometry should be rendered
 		/// </summary>
 		public bool FaceNormals { get; set; }
 
 		/// <summary>
-		/// Get or set if the normals of every vertex in a geometry should be rendered
+		/// Gets or sets if the normals of every vertex in a geometry should be rendered
 		/// </summary>
 		public bool VertexNormals { get; set; }
 
 		/// <summary>
-		/// Get or set if the lights should be visualized
+		/// Gets or sets if the lights should be visualized
 		/// </summary>
 		public bool Lights { get; set; }
 
 		/// <summary>
-		/// Get or set if the bounding boxes for objects should be rendered
+		/// Gets or sets if the bounding boxes for objects should be rendered
 		/// </summary>
 		public bool BoundingBoxes { get; set; }
 
 		/// <summary>
-		/// Get or set if the bounding spheres for objects should be rendered
+		/// Gets or sets if the bounding spheres for objects should be rendered
 		/// </summary>
 		public bool BoundingSpheres { get; set; }
 
 		/// <summary>
-		/// Get or set if the bounding rectangles should be rendered, typically used by sprites
+		/// Gets or sets if the bounding rectangles should be rendered, typically used by sprites
 		/// </summary>
 		public bool BoundingRectangles { get; set; }
 
 		/// <summary>
-		/// Get or set if the vertices should be rendered
+		/// Gets or sets if the vertices should be rendered
 		/// </summary>
 		public bool ShowVertices { get; set; }
 
 		/// <summary>
-		/// Get or set if the ray that is used for mouse hit detection should show or not
+		/// Gets or sets if the ray that is used for mouse hit detection should show or not
 		/// </summary>
 		public bool ShowMouseHitDetectionRay { get; set; }
 
 		/// <summary>
-		/// Get or set the debug information color used for all debug info
+		/// Gets or sets the debug information color used for all debug info
 		/// </summary>
 		public Color Color { get; set; } 
 	}

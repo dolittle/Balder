@@ -39,7 +39,7 @@ namespace Balder.Content
 			_kernel = kernel;
 		}
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public T CreateGeometry<T>() where T : Geometry
 		{
 			var geometry = _kernel.Get<T>();
@@ -51,6 +51,6 @@ namespace Balder.Content
 			var material = _kernel.Get<Material>();
 			return material;
 		}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 }

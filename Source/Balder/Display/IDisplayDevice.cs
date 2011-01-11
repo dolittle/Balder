@@ -17,25 +17,27 @@
 //
 #endregion
 
+using Balder.Execution;
 using Balder.Rendering;
 
 namespace Balder.Display
 {
 	/// <summary>
-	/// Represents the display device for a platform
+	/// Defines the display device for a <see cref="IPlatform">platform</see>
 	/// </summary>
 	public interface IDisplayDevice
 	{
 		/// <summary>
 		/// Create a display from the display device
 		/// </summary>
-		/// <returns>Created display</returns>
+		/// <param name="runtimeContext"><see cref="IRuntimeContext"/> that the display will be created for</param>
+		/// <returns>Created a <see cref="IDisplay"/></returns>
 		IDisplay CreateDisplay(IRuntimeContext runtimeContext);
 
 		/// <summary>
 		/// Remove a created display
 		/// </summary>
-		/// <param name="display">Display to remove</param>
+		/// <param name="display"><see cref="IDisplay"/> to remove</param>
 		void RemoveDisplay(IDisplay display);
 	}
 }

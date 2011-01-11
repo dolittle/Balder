@@ -87,17 +87,17 @@ namespace Balder.Display
 		}
 
 		/// <summary>
-		/// Get or set the x position in pixelsof the viewport within the display, where 0 is the left
+		/// Gets or sets the x position in pixelsof the viewport within the display, where 0 is the left
 		/// </summary>
 		public int XPosition { get; set; }
 
 		/// <summary>
-		/// Get or set the y position in pixels of the viewport within the display, where 0 is the top.
+		/// Gets or sets the y position in pixels of the viewport within the display, where 0 is the top.
 		/// </summary>
 		public int YPosition { get; set; }
 
 		/// <summary>
-		/// Get or set the width in pixels of the viewport within the display
+		/// Gets or sets the width in pixels of the viewport within the display
 		/// </summary>
 #if(SILVERLIGHT)
 		public new int Width { get; set; }
@@ -106,7 +106,7 @@ namespace Balder.Display
 #endif
 
 		/// <summary>
-		/// Get or set the height in pixels of the viewport within the display
+		/// Gets or sets the height in pixels of the viewport within the display
 		/// </summary>
 #if(SILVERLIGHT)
 		public new int Height { get; set; }
@@ -115,17 +115,17 @@ namespace Balder.Display
 #endif
 
 		/// <summary>
-		/// Get or set the scene to use during rendering
+		/// Gets or sets the scene to use during rendering
 		/// </summary>
 		public Scene Scene { get; set; }
 
 		/// <summary>
-		/// Get or set the view to be used during rendering
+		/// Gets or sets the view to be used during rendering
 		/// </summary>
 		public IView View { get; set; }
 
 		/// <summary>
-		/// Get or set the debug info for the Viewport
+		/// Gets or sets the debug info for the Viewport
 		/// </summary>
 		public DebugInfo DebugInfo { get; set; }
 
@@ -135,7 +135,7 @@ namespace Balder.Display
 		public IDisplay Display { get; internal set; }
 
 		/// <summary>
-		/// Get or set the Skybox for the display
+		/// Gets or sets the Skybox for the display
 		/// </summary>
 		public Skybox Skybox { get; set; }
 
@@ -166,16 +166,30 @@ namespace Balder.Display
 		public ViewportStatistics Statistics { get; private set; }
 
 
+		/// <summary>
+		/// Identifies the MousePickRayStart property
+		/// </summary>
 		public static readonly Property<Viewport, Coordinate> MousePickRayStartProperty =
 			Property<Viewport, Coordinate>.Register(v => v.MousePickRayStart);
+
+		/// <summary>
+		/// Gets or sets the ray start for a mouse
+		/// </summary>
 		public Coordinate MousePickRayStart
 		{
 			get { return MousePickRayStartProperty.GetValue(this); }
 			set { MousePickRayStartProperty.SetValue(this, value); }
 		}
 
+		/// <summary>
+		/// Identifies the MousePickRayDirection property
+		/// </summary>
 		public static readonly Property<Viewport, Coordinate> MousePickRayDirectionProperty =
 			Property<Viewport, Coordinate>.Register(v => v.MousePickRayDirection);
+
+		/// <summary>
+		/// Gets or sets the ray direction for a mouse
+		/// </summary>
 		public Coordinate MousePickRayDirection
 		{
 			get { return MousePickRayDirectionProperty.GetValue(this); }

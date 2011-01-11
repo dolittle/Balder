@@ -62,5 +62,5 @@ namespace Balder.Lighting
 			return color | Color.AlphaFull;
 		}
 	}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 }

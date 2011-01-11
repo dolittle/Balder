@@ -2,8 +2,14 @@
 
 namespace Balder.Diagnostics
 {
+	/// <summary>
+	/// Represents a null implementation of a <see cref="IStopwatch"/>
+	/// 
+	/// It does in fact nothing
+	/// </summary>
 	public class NullStopwatch : IStopwatch
 	{
+#pragma warning disable 1591 // Xml Comments
 		public TimeSpan Elapsed { get; private set; }
 		public long ElapsedTicks { get; private set; }
 		public long ElapsedMilliseconds { get; private set; }
@@ -23,4 +29,5 @@ namespace Balder.Diagnostics
 			
 		}
 	}
+#pragma warning restore 1591 // Xml Comments
 }

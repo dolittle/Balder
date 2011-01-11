@@ -116,5 +116,5 @@ namespace Balder.Lighting
 		}
 
 	}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 }

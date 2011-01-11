@@ -39,7 +39,7 @@ namespace Balder.Content
 			
 		}
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public bool Exists<T>(object key)
 			where T:IAsset
 		{
@@ -61,7 +61,7 @@ namespace Balder.Content
 		{
 			TypeCache<T>.Cache[key] = content;
 		}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 
 }

@@ -54,7 +54,7 @@ namespace Balder.Content
 		IContentCreator Creator { get; }
 
 		/// <summary>
-		/// Get or set root of assets - typically a folder relative to current directory or a specific folder
+		/// Gets or sets root of assets - typically a folder relative to current directory or a specific folder
 		/// </summary>
 		string AssetsRoot { get; set; }
 	}

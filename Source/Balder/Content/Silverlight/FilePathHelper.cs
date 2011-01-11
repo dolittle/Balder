@@ -41,7 +41,7 @@ namespace Balder.Content.Silverlight
 			_platform = platform;
 		}
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public string GetFileNameForAsset(string assetName)
 		{
 			var fullAssemblyName = _platform.EntryAssemblyName;
@@ -61,6 +61,6 @@ namespace Balder.Content.Silverlight
 			
 			return filename;
 		}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 }
