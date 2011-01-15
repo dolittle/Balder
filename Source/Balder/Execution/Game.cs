@@ -62,6 +62,7 @@ namespace Balder.Execution
 #endif
 
 		public Game(IRuntimeContext runtimeContext, INodeRenderingService nodeRenderingService)
+			: base(runtimeContext)
 		{
 			RuntimeContext = runtimeContext;
 			Viewport = new Viewport(runtimeContext); 
@@ -73,7 +74,7 @@ namespace Balder.Execution
 			PassiveRendering = Runtime.Instance.Platform.IsInDesignMode;
 			runtimeContext.MessengerContext.SubscriptionsFor<UpdateMessage>().AddListener(this, UpdateAction);
 		}
-
+		
 		public void Uninitialize()
 		{
 			RuntimeContext.MessengerContext.SubscriptionsFor<UpdateMessage>().RemoveListener(this, UpdateAction);

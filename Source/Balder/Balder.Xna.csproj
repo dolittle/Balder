@@ -41,11 +41,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter">
+      <HintPath>..\..\Components\Ninject\dotNet\extensions\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Components\CommonServiceLocator\dotNet\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
-    <Reference Include="Ninject">
-      <HintPath>..\..\Components\Ninject.dll</HintPath>
+    <Reference Include="Ninject, Version=2.0.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\Components\Ninject\dotNet\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -85,6 +92,7 @@
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Content\Desktop\FileLoader.cs" />
     <Compile Include="Content\FileLoaderManager.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Content\IContentCreator.cs" />
@@ -190,6 +198,7 @@
     <Compile Include="Materials\Material.cs" />
     <Compile Include="Materials\MaterialFiltering.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
+    <Compile Include="Materials\Xna\MaterialCalculator.cs" />
     <Compile Include="Math\BoundingBox.cs" />
     <Compile Include="Math\BoundingSphere.cs" />
     <Compile Include="Math\ContainmentType.cs" />
@@ -276,6 +285,9 @@
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\IView.cs" />
     <Compile Include="View\OrthographicCamera.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <WCFMetadata Include="Service References\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

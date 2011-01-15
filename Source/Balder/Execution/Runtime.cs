@@ -37,6 +37,8 @@ using Balder.Execution.Desktop;
 #if(IOS)
 using Balder.Execution.iOS;
 #endif
+using CommonServiceLocator.NinjectAdapter;
+using Microsoft.Practices.ServiceLocation;
 using Ninject;
 
 namespace Balder.Execution
@@ -85,6 +87,8 @@ namespace Balder.Execution
 		private static IRuntime GetRuntime()
 		{
 			var kernel = new PlatformKernel(typeof(Platform));
+			var serviceLocator = new NinjectServiceLocator(kernel);
+			ServiceLocator.SetLocatorProvider(() => serviceLocator);
 			return kernel.Get<IRuntime>();
 		}
 

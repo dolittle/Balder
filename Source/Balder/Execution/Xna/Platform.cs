@@ -18,9 +18,12 @@
 #endregion
 #if(XNA)
 using System;
+using Balder.Content.Desktop;
 using Balder.Display;
 using Balder.Display.Xna;
 using Balder.Input;
+using Balder.Materials.Xna;
+using Balder.Rendering.Xna;
 
 
 namespace Balder.Execution.Xna
@@ -30,6 +33,15 @@ namespace Balder.Execution.Xna
 		public Platform()
 		{
 			DisplayDevice = new DisplayDevice();
+
+			DefaultFileLoaderType = typeof (FileLoader);
+			FileLoaderType = typeof (FileLoader);
+			GeometryContextType = typeof (GeometryContext);
+			SpriteContextType = typeof (SpriteContext);
+			ImageContextType = typeof (ImageContext);
+			ShapeContextType = typeof (ShapeContext);
+			MaterialCalculatorType = typeof (MaterialCalculator);
+			SkyboxContextType = typeof (SkyboxContext);
 		}
 
 		public event PlatformStateChange BeforeStateChange;
@@ -40,11 +52,7 @@ namespace Balder.Execution.Xna
 		public IDisplayDevice DisplayDevice { get; private set; }
 		public IMouseDevice MouseDevice { get; private set; }
 
-		public Type DefaultFileLoaderType 
-		{ 
-			get { throw new NotImplementedException(); }
-		}
-
+		public Type DefaultFileLoaderType { get; private set; }
 		public Type FileLoaderType { get; private set; }
 		public Type GeometryContextType { get; private set; }
 		public Type SpriteContextType { get; private set; }
