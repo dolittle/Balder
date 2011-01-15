@@ -16,16 +16,22 @@
 // limitations under the License.
 //
 #endregion
-
+#if(XNA)
 using System;
 using Balder.Display;
+using Balder.Display.Xna;
 using Balder.Input;
 
-#if(DESKTOP)
-namespace Balder.Execution.Desktop
+
+namespace Balder.Execution.Xna
 {
 	public class Platform : IPlatform
 	{
+		public Platform()
+		{
+			DisplayDevice = new DisplayDevice();
+		}
+
 		public event PlatformStateChange BeforeStateChange;
 		public event PlatformStateChange StateChanged;
 		public string PlatformName { get; private set; }

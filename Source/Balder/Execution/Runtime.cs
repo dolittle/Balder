@@ -28,7 +28,11 @@ using Balder.Display;
 using Balder.Execution.Silverlight;
 #endif
 #if(DESKTOP)
+#if(XNA)
+using Balder.Execution.Xna;
+#else
 using Balder.Execution.Desktop;
+#endif
 #endif
 #if(IOS)
 using Balder.Execution.iOS;

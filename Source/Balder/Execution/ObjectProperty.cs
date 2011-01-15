@@ -29,7 +29,9 @@ namespace Balder.Execution
 #endif
 		{
         	_propertyDescriptor = propertyDescriptor;
+#if(SILVERLIGHT)
         	_propertyValueChanged = propertyValueChanged;
+#endif
         	Value = defaultValue;
             Object = new WeakReference(obj);
             CallFromExternal = false;

@@ -24,6 +24,11 @@ using Balder.Objects.Geometries;
 using Microsoft.Xna.Framework.Graphics;
 using Viewport = Balder.Display.Viewport;
 
+#if(WINDOWS_PHONE)
+using D = Balder.Display.WP7.Display;
+#else
+using D = Balder.Display.Xna.Display;
+#endif
 
 
 namespace Balder.Rendering.Xna
@@ -59,7 +64,7 @@ namespace Balder.Rendering.Xna
 
 		public GeometryDetailLevel()
 		{
-			_effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
+			_effect = new BasicEffect(D.GraphicsDevice);
 			_effect.EnableDefaultLighting();
 			_effect.VertexColorEnabled = true;
 			_colorMaterial = Material.FromColor(Colors.Blue);
@@ -68,7 +73,7 @@ namespace Balder.Rendering.Xna
 		public void AllocateFaces(int count)
 		{
 			var actualCount = count * 3;
-			_indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
+			_indexBuffer = new IndexBuffer(D.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
 
 			_indices = new ushort[actualCount];
 			_originalFaces = new Face[count];
@@ -237,7 +242,7 @@ namespace Balder.Rendering.Xna
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
+				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
 			}
 
 		}
@@ -268,7 +273,7 @@ namespace Balder.Rendering.Xna
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex,
+				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(RenderVertex), vertexIndex,
 												 BufferUsage.WriteOnly);
 			}
 			_vertexBuffer.SetData(_vertices);
@@ -316,7 +321,7 @@ namespace Balder.Rendering.Xna
 			_effect.Projection = viewport.View.ProjectionMatrix;
 
 
-			var graphicsDevice = Display.WP7.Display.GraphicsDevice;
+			var graphicsDevice = D.GraphicsDevice;
 			//graphicsDevice.Indices = _indexBuffer;
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 

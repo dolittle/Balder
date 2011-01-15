@@ -26,19 +26,24 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>XNABin\Debug\</OutputPath>
-    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;DESKTOP, XNA</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>false</AllowUnsafeBlocks>
+    <RegisterForComInterop>true</RegisterForComInterop>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>XNABin\Release\</OutputPath>
+    <OutputPath>bin\Release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Xna.Framework, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
+    <Reference Include="Microsoft.Xna.Framework.Graphics, Version=4.0.0.0, Culture=neutral, PublicKeyToken=842cf8be1de50553, processorArchitecture=x86" />
     <Reference Include="Ninject">
       <HintPath>..\..\Components\Ninject.dll</HintPath>
     </Reference>
@@ -59,6 +64,7 @@
     </Compile>
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
     <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
@@ -91,6 +97,7 @@
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Debug\RectangleDebugShape.cs" />
     <Compile Include="Diagnostics\IStopwatch.cs" />
     <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
@@ -98,6 +105,8 @@
     <Compile Include="Display\IDisplayDevice.cs" />
     <Compile Include="Display\Viewport.cs" />
     <Compile Include="Display\ViewportStatistics.cs" />
+    <Compile Include="Display\Xna\Display.cs" />
+    <Compile Include="Display\Xna\DisplayDevice.cs" />
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
@@ -140,6 +149,7 @@
     <Compile Include="Execution\StateMachine.cs" />
     <Compile Include="Execution\StateMachineManager.cs" />
     <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Execution\Xna\Platform.cs" />
     <Compile Include="Extensions\ExpressionExtensions.cs" />
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
@@ -154,6 +164,7 @@
     <Compile Include="Imaging\ImageHelper.cs" />
     <Compile Include="Imaging\ImagePalette.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
     <Compile Include="Input\IMouseDevice.cs" />
     <Compile Include="Input\IMouseManager.cs" />
     <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
@@ -173,7 +184,11 @@
     <Compile Include="Lighting\LightCalculator.cs" />
     <Compile Include="Lighting\OmniLight.cs" />
     <Compile Include="Lighting\ViewLight.cs" />
+    <Compile Include="Materials\ImageMap.cs" />
+    <Compile Include="Materials\IMap.cs" />
+    <Compile Include="Materials\IMaterialCalculator.cs" />
     <Compile Include="Materials\Material.cs" />
+    <Compile Include="Materials\MaterialFiltering.cs" />
     <Compile Include="Materials\MaterialShade.cs" />
     <Compile Include="Math\BoundingBox.cs" />
     <Compile Include="Math\BoundingSphere.cs" />
@@ -182,6 +197,8 @@
     <Compile Include="Math\Core.cs" />
     <Compile Include="Math\Dimension.cs" />
     <Compile Include="Math\Frustum.cs" />
+    <Compile Include="Math\FrustumIntersection.cs" />
+    <Compile Include="Math\FrustumLocation.cs" />
     <Compile Include="Math\Interpolator.cs" />
     <Compile Include="Math\MathHelper.cs" />
     <Compile Include="Math\Matrix.cs" />
@@ -203,8 +220,12 @@
     <Compile Include="Objects\Geometries\ChamferBox.cs" />
     <Compile Include="Objects\Geometries\Cylinder.cs" />
     <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
+    <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
     <Compile Include="Objects\Geometries\Geometry.cs" />
     <Compile Include="Objects\Geometries\GeometryHelper.cs" />
+    <Compile Include="Objects\Geometries\GeometryStatistics.cs" />
     <Compile Include="Objects\Geometries\Heightmap.cs" />
     <Compile Include="Objects\Geometries\HeightmapEventArgs.cs" />
     <Compile Include="Objects\Geometries\IGeometryContext.cs" />
@@ -212,10 +233,12 @@
     <Compile Include="Objects\Geometries\Line.cs" />
     <Compile Include="Objects\Geometries\MergedGeometry.cs" />
     <Compile Include="Objects\Geometries\Mesh.cs" />
-    <Compile Include="Objects\Geometries\Mesh.Silverlight.cs" />
+    <Compile Include="Objects\Geometries\Normal.cs" />
     <Compile Include="Objects\Geometries\Ring.cs" />
     <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
     <Compile Include="Objects\Geometries\Vertex.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
+    <Compile Include="Objects\Skybox.cs" />
     <Compile Include="PixelFormat.cs" />
     <Compile Include="RenderableNode.cs" />
     <Compile Include="Rendering\ICanBeVisible.cs" />
@@ -240,6 +263,7 @@
     <Compile Include="Rendering\Xna\GeometryContext.cs" />
     <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
     <Compile Include="Rendering\Xna\RenderVertex.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
     <Compile Include="Rendering\Xna\SkyboxContext.cs" />
@@ -251,6 +275,7 @@
     <Compile Include="Utils\NInjectExtensions.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\IView.cs" />
+    <Compile Include="View\OrthographicCamera.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

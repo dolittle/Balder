@@ -165,7 +165,11 @@ namespace Balder.Execution
 				objectProperty = _objectPropertyBag[key];
 			} else
 			{
+#if(SILVERLIGHT)
 				objectProperty = new ObjectProperty<TP>(obj, _propertyDescriptor, _defaultValue, _propertyValueChanged);
+#else
+				objectProperty = new ObjectProperty<TP>(obj, _propertyDescriptor, _defaultValue);
+#endif
 				_objectPropertyBag[key] = objectProperty;
 			}
 			return objectProperty;
