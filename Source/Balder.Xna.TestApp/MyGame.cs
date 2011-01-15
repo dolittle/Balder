@@ -1,4 +1,5 @@
 ﻿using Balder.Execution;
+using Balder.Objects.Geometries;
 using Balder.Rendering;
 
 namespace Balder.Xna.TestApp
@@ -10,6 +11,12 @@ namespace Balder.Xna.TestApp
 			
 		}
 
+
+		public override void OnLoadContent()
+		{
+			var teapot = ContentManager.Load<Mesh>("Assets/teapot.ASE");
+			base.OnLoadContent();
+		}
 		
 	}
 }
