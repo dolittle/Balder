@@ -42,10 +42,20 @@ namespace Balder.Execution.Xna
 			ShapeContextType = typeof (ShapeContext);
 			MaterialCalculatorType = typeof (MaterialCalculator);
 			SkyboxContextType = typeof (SkyboxContext);
+
 		}
 
+		public void Start()
+		{
+			StateChanged(this, PlatformState.Initialize);
+			StateChanged(this, PlatformState.Load);
+			StateChanged(this, PlatformState.Run);
+			
+		}
+
+
 		public event PlatformStateChange BeforeStateChange;
-		public event PlatformStateChange StateChanged;
+		public event PlatformStateChange StateChanged = (p, s) => { }; 
 		public string PlatformName { get; private set; }
 		public string EntryAssemblyName { get; private set; }
 		public bool IsInDesignMode { get; private set; }
