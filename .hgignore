@@ -3,6 +3,7 @@ glob:*.chm
 glob:*.orig
 glob:Source/**/SLBin/**/*
 glob:Source/**/WP7Bin/**/*
+glob:Source/**/XNABin/**/*
 glob:Source/**/Bin/Debug/*
 glob:Source/**/bin/Debug/*
 glob:Source/**/Bin/Release/*
@@ -19,6 +20,7 @@ glob:**/obj/**/*
 glob:**/Obj/**/*
 glob:**/bin/**/*
 glob:**/Bin/**/*
+glob:**/XNABin/**/*
 glob:*.zip
 glob:*.DS_*
 glob:*.bak
