@@ -86,14 +86,19 @@ namespace Balder.Execution
 #else
 		private void CollectTypes()
 		{
-			
+			var assemblies = AppDomain.CurrentDomain.GetAssemblies();
+			var query = from a in assemblies
+						where ShouldAddAssembly(a.FullName)
+						select a;
+
+			foreach (var assembly in query)
+				_types.AddRange(assembly.GetTypes());
 		}
 #endif
 #endif
 		private bool ShouldAddAssembly(string name)
 		{
 			return !name.Contains("System.");
-
 		}
 
 
