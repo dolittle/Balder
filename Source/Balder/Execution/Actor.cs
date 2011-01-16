@@ -26,7 +26,6 @@ using Balder.Display;
 using Balder.Input;
 using Balder.Rendering;
 using Microsoft.Practices.ServiceLocation;
-using Ninject;
 
 namespace Balder.Execution
 {

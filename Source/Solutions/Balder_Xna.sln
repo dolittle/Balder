@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Xna", "..\Balder\Bal
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Xna.TestApp", "..\Balder.Xna.TestApp\Balder.Xna.TestApp.csproj", "{D66B3E0A-BC54-4B70-B607-868F8913765A}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Balder.Specifications.Xna", "..\Balder.Specifications\Balder.Specifications.Xna.csproj", "{3F563701-B14B-4DAE-BE89-05B4B36195E8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -35,6 +37,16 @@ Global
 		{D66B3E0A-BC54-4B70-B607-868F8913765A}.Release|Mixed Platforms.Build.0 = Release|x86
 		{D66B3E0A-BC54-4B70-B607-868F8913765A}.Release|x86.ActiveCfg = Release|x86
 		{D66B3E0A-BC54-4B70-B607-868F8913765A}.Release|x86.Build.0 = Release|x86
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{3F563701-B14B-4DAE-BE89-05B4B36195E8}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

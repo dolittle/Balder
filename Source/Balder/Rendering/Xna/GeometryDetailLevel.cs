@@ -330,9 +330,12 @@ namespace Balder.Rendering.Xna
 				return;
 			}
 
+
+			
 			foreach (var pass in _effect.CurrentTechnique.Passes)
 			{
 				pass.Apply();
+				
 
 				if (drawFaces)
 				{

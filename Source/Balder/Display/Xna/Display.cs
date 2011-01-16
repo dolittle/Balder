@@ -18,6 +18,8 @@
 #endregion
 #if(XNA)
 using System;
+using System.Drawing;
+using System.Windows.Forms;
 using Balder.Execution;
 using Balder.Materials;
 using Balder.Objects.Geometries;
@@ -25,21 +27,19 @@ using Balder.Rendering;
 using Balder.Rendering.Xna;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Game = Microsoft.Xna.Framework.Game;
 using Matrix = Microsoft.Xna.Framework.Matrix;
 
 namespace Balder.Display.Xna
 {
     public class Display : IDisplay
     {
+    	public static Form Window;
 		internal static GraphicsDevice GraphicsDevice;
 		private readonly IRuntimeContext _runtimeContext;
 
         private static IntPtr _windowHandle;
-        private static GraphicsDeviceManager _graphicsDeviceManager;
         private static GraphicsAdapter _graphicsAdapter;
         private static PresentationParameters _presentationParameters;
-        private RenderTarget2D _renderTarget;
         private int _width;
         private int _height;
 
@@ -48,54 +48,66 @@ namespace Balder.Display.Xna
         public bool Paused { get; set; }
         public bool Halted { get; set; }
 
-    	private static Game _game;
-
         public Display(IRuntimeContext runtimeContext)
         {
             _runtimeContext = runtimeContext;
+			Initialize();
         }
 
 
-        public static void Initialize()
-        {
-            _game = new Game();
-            
-            _windowHandle = _game.Window.Handle;
-            _graphicsDeviceManager = new GraphicsDeviceManager(_game);
+        private void Initialize()
+		{
+			_graphicsAdapter = GraphicsAdapter.DefaultAdapter;
+			_presentationParameters = new PresentationParameters();
+			
+			Window = new Form();
+			Window.Size = new Size(800,600);
+			Window.Paint += WindowPaint;
 
-            _graphicsAdapter = GraphicsAdapter.DefaultAdapter;
+        	_windowHandle = Window.Handle;
 
-            _presentationParameters = new PresentationParameters();
-            _presentationParameters.BackBufferWidth = _graphicsDeviceManager.PreferredBackBufferWidth;
-            _presentationParameters.BackBufferHeight = _graphicsDeviceManager.PreferredBackBufferHeight;
-            _presentationParameters.DepthStencilFormat = _graphicsDeviceManager.PreferredDepthStencilFormat;
-            _presentationParameters.BackBufferFormat = _graphicsDeviceManager.PreferredBackBufferFormat;
+        	_presentationParameters.BackBufferWidth = 800;
+        	_presentationParameters.BackBufferHeight = 600;
+        	_presentationParameters.DepthStencilFormat = DepthFormat.Depth16;
+        	_presentationParameters.BackBufferFormat = SurfaceFormat.Color;
             _presentationParameters.DeviceWindowHandle = _windowHandle;
             _presentationParameters.PresentationInterval = PresentInterval.Immediate;
-            _presentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
-            
+        	_presentationParameters.IsFullScreen = false;
+
 			GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
+			
         	GraphicsDevice.DepthStencilState = new DepthStencilState
         	                                   	{
-        	                                   		DepthBufferEnable = true,
+        	                                   		DepthBufferEnable = true,	
         	                                   		DepthBufferFunction = CompareFunction.Less,
 													DepthBufferWriteEnable = true
         	                                   	};
-				
-            _game.Dispose();
-        }
+		}
+
+		private void WindowPaint(object sender, PaintEventArgs e)
+		{
+			GraphicsDevice.Clear(
+				ClearOptions.Target | ClearOptions.DepthBuffer,
+				new Microsoft.Xna.Framework.Color(0xff, 0, 0, 0xff),
+				1f,
+				0);
+			
+			_runtimeContext.MessengerContext.Send(PrepareMessage.Default);
+			_runtimeContext.MessengerContext.Send(RenderMessage.Default);
+			
+
+			GraphicsDevice.Present();
+		}
 
         public void Initialize(int width, int height)
         {
             _width = width;
             _height = height;
-            _renderTarget = new RenderTarget2D(GraphicsDevice, width, height, false, SurfaceFormat.Rg32, DepthFormat.Depth16);
         }
 
 		public void Uninitialize()
 		{
 			GraphicsDevice.Dispose();
-			_game.Exit();
 		}
 
         public INode GetNodeAtPosition(int xPosition, int yPosition)

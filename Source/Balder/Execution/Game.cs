@@ -23,6 +23,7 @@ using Balder.Display;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
+using Microsoft.Practices.ServiceLocation;
 
 #if(SILVERLIGHT)
 using System.Windows;
@@ -51,15 +52,11 @@ namespace Balder.Execution
 		private NodeMouseEventHelper _nodeMouseEventHelper;
 #endif
 
-#if(DEFAULT_CONSTRUCTOR)
 		public Game()
-			: this(
-				Runtime.Instance.Kernel.Get<IRuntimeContext>(),
-			Runtime.Instance.Kernel.Get<INodeRenderingService>()
-			)
+			: this(ServiceLocator.Current.GetInstance<IRuntimeContext>(),
+			ServiceLocator.Current.GetInstance<INodeRenderingService>())
 		{
 		}
-#endif
 
 		public Game(IRuntimeContext runtimeContext, INodeRenderingService nodeRenderingService)
 			: base(runtimeContext)

@@ -1,4 +1,5 @@
-﻿using Balder.Execution;
+﻿using System.Windows.Forms;
+using Balder.Execution;
 using Balder.Execution.Xna;
 
 namespace Balder.Xna.TestApp
@@ -7,11 +8,11 @@ namespace Balder.Xna.TestApp
 	{
 		static void Main(string[] args)
 		{
-			Display.Xna.Display.Initialize();
 			var game = Runtime.Instance.CreateGame<MyGame>();
 			((Platform) Runtime.Instance.Platform).Start();
 			Runtime.Instance.RegisterGame(game.Display, game);
 
+			Application.Run(Display.Xna.Display.Window);
 
 
 		}
