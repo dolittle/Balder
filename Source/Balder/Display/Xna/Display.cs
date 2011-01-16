@@ -18,30 +18,25 @@
 #endregion
 #if(XNA)
 using System;
-using System.Drawing;
+using System.IO;
 using System.Windows.Forms;
-using Balder.Execution;
 using Balder.Materials;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
-using Balder.Rendering.Xna;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Matrix = Microsoft.Xna.Framework.Matrix;
+using Rectangle = Microsoft.Xna.Framework.Rectangle;
 
 namespace Balder.Display.Xna
 {
-    public class Display : IDisplay
+	public class Display : IDisplay
     {
-    	public static Form Window;
+    	public static XnaWindow Window;
 		internal static GraphicsDevice GraphicsDevice;
 		private readonly IRuntimeContext _runtimeContext;
 
         private static IntPtr _windowHandle;
         private static GraphicsAdapter _graphicsAdapter;
         private static PresentationParameters _presentationParameters;
-        private int _width;
-        private int _height;
 
         public Color BackgroundColor { get; set; }
         public bool ClearEnabled { get; set; }
@@ -54,24 +49,24 @@ namespace Balder.Display.Xna
 			Initialize();
         }
 
-
         private void Initialize()
 		{
 			_graphicsAdapter = GraphicsAdapter.DefaultAdapter;
 			_presentationParameters = new PresentationParameters();
 			
-			Window = new Form();
-			Window.Size = new Size(800,600);
-			Window.Paint += WindowPaint;
+			Window = new XnaWindow();
+        	Window.Render += WindowRender;
 
         	_windowHandle = Window.Handle;
 
         	_presentationParameters.BackBufferWidth = 800;
         	_presentationParameters.BackBufferHeight = 600;
-        	_presentationParameters.DepthStencilFormat = DepthFormat.Depth16;
+        	_presentationParameters.DepthStencilFormat = DepthFormat.Depth24;
         	_presentationParameters.BackBufferFormat = SurfaceFormat.Color;
             _presentationParameters.DeviceWindowHandle = _windowHandle;
             _presentationParameters.PresentationInterval = PresentInterval.Immediate;
+        	_presentationParameters.RenderTargetUsage = RenderTargetUsage.DiscardContents;
+			
         	_presentationParameters.IsFullScreen = false;
 
 			GraphicsDevice = new GraphicsDevice(_graphicsAdapter, GraphicsProfile.Reach, _presentationParameters);
@@ -82,27 +77,49 @@ namespace Balder.Display.Xna
         	                                   		DepthBufferFunction = CompareFunction.Less,
 													DepthBufferWriteEnable = true
         	                                   	};
+
+			GraphicsDevice.Viewport = new Microsoft.Xna.Framework.Graphics.Viewport(0, 0, 800, 600);
+
+        	//GraphicsDevice.BlendState = BlendState.Opaque;
+
+			_spriteBatch = new SpriteBatch(GraphicsDevice);
+        	var texture = File.OpenRead(@"C:\Projects\Balder\Source\Balder.Silverlight.SampleBrowser\Assets\BalderLogo.png");
+        	_texture = Texture2D.FromStream(GraphicsDevice, texture);
 		}
 
-		private void WindowPaint(object sender, PaintEventArgs e)
+    	private SpriteBatch _spriteBatch;
+    	private Texture2D _texture;
+
+    	private double sin;
+
+
+		private void WindowRender(object sender, PaintEventArgs e)
 		{
-			GraphicsDevice.Clear(
-				ClearOptions.Target | ClearOptions.DepthBuffer,
-				new Microsoft.Xna.Framework.Color(0xff, 0, 0, 0xff),
-				1f,
-				0);
+			//if (ClearEnabled)
+			{
+				GraphicsDevice.Clear(
+					ClearOptions.Target | ClearOptions.DepthBuffer,
+					new Microsoft.Xna.Framework.Color(BackgroundColor.Red, BackgroundColor.Green, BackgroundColor.Blue, 0xff),
+					1f,
+					0);
+			}
+
+			var size = (int) ((System.Math.Sin(sin)*128) + 128);
+			/*
+			_spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
+			_spriteBatch.Draw(_texture, new Rectangle(0,0,size,size), new Microsoft.Xna.Framework.Color(0xff,0xff,0xff,0xff));
+			_spriteBatch.End();
+			*/
+			sin += 0.05d;
 			
 			_runtimeContext.MessengerContext.Send(PrepareMessage.Default);
 			_runtimeContext.MessengerContext.Send(RenderMessage.Default);
-			
 
 			GraphicsDevice.Present();
 		}
 
         public void Initialize(int width, int height)
         {
-            _width = width;
-            _height = height;
         }
 
 		public void Uninitialize()

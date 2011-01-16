@@ -1,7 +1,7 @@
 ﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
-// Copyright (c) 2007-2011, DoLittle Studios
+// Copyright (c) 2007-2010, DoLittle Studios
 //
 // Licensed under the Microsoft Permissive License (Ms-PL), Version 1.1 (the "License")
 // you may not use this file except in compliance with the License.
@@ -16,19 +16,28 @@
 // limitations under the License.
 //
 #endregion
-namespace Balder.Imaging
+#if(XNA && DESKTOP)
+using System.Drawing;
+using System.Windows.Forms;
+
+namespace Balder.Display.Xna
 {
-	/// <summary>
-	/// The context image data lives in - device specific
-	/// </summary>
-	public interface IImageContext
+	public class XnaWindow : Form
 	{
-		void SetFrame(byte[] frameBytes, int width, int height);
-		void SetFrame(ImageFormat format, byte[] frameBytes);
-		void SetFrame(ImageFormat format, byte[] frameBytes, ImagePalette palette);
+		public event PaintEventHandler Render = (s, e) => { }; 
 
-		int[] GetPixelsAs32BppARGB();
+		public XnaWindow()
+		{
+			Size = new Size(800, 600);
+			SetStyle(ControlStyles.AllPaintingInWmPaint|ControlStyles.Opaque, false);
+		}
 
-		ImageFormat[] SupportedImageFormats { get; }
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			Render(this, e);
+			Invalidate();
+			base.OnPaint(e);
+		}
 	}
 }
+#endif

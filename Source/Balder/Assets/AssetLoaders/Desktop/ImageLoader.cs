@@ -16,13 +16,15 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(DESKTOP)
 using System;
-using System.Windows.Media.Imaging;
+using System.Drawing;
+using System.Drawing.Imaging;
+using System.Runtime.InteropServices;
 using Balder.Content;
-using Balder.Imaging;
+using Image = Balder.Imaging.Image;
 
-namespace Balder.Assets.AssetLoaders.Silverlight
+namespace Balder.Assets.AssetLoaders.Desktop
 {
 	public class ImageLoader : AssetLoader
 	{
@@ -39,22 +41,23 @@ namespace Balder.Assets.AssetLoaders.Silverlight
 			var fileLoader = FileLoaderManager.GetFileLoader(assetName);
 			var stream = fileLoader.GetStream(assetName);
 
-			var bitmapImage = new BitmapImage();
-			bitmapImage.SetSource(stream);
+			var bitmap = (Bitmap)Bitmap.FromStream(stream);
 
+			var width = bitmap.Width;
+			var height = bitmap.Height;
+			var bitmapData = bitmap.LockBits(new Rectangle(0, 0, width, height), ImageLockMode.ReadOnly,
+			                                 System.Drawing.Imaging.PixelFormat.Format32bppArgb);
 
-			var writeableBitmap = new WriteableBitmap(bitmapImage);
-			var width = writeableBitmap.PixelWidth;
-			var height = writeableBitmap.PixelHeight;
 			var frame = ContentManager.CreateAssetPart<Image>();
 			frame.Width = width;
 			frame.Height = height;
 
 			var imageAsBytes = new byte[width * height * 4];
-
-			Buffer.BlockCopy(writeableBitmap.Pixels, 0, imageAsBytes, 0, imageAsBytes.Length);
+			Marshal.Copy(bitmapData.Scan0, imageAsBytes, 0, imageAsBytes.Length);
 
 			frame.ImageContext.SetFrame(imageAsBytes, width, height);
+
+			bitmap.UnlockBits(bitmapData);
 
 			return new[] { frame };
 		}

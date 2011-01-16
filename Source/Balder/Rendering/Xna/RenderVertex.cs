@@ -29,12 +29,14 @@ namespace Balder.Rendering.Xna
         private Vector3 _position;
         private Vector3 _normal;
         private Microsoft.Xna.Framework.Color _color;
+		private Vector2 _textureCoordinate;
 
         public RenderVertex(Vertex vertex)
         {
             _position = new Vector3(vertex.X,vertex.Y,vertex.Z);
             _normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
             _color = Microsoft.Xna.Framework.Color.Blue;
+        	_textureCoordinate = Vector2.Zero;
         }
 
         public RenderVertex(Vertex vertex, Color color)
@@ -42,6 +44,7 @@ namespace Balder.Rendering.Xna
             _position = new Vector3(vertex.X, vertex.Y, vertex.Z);
             _normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
             _color = color;
+			_textureCoordinate = Vector2.Zero;
         }
 
         public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color)
@@ -49,20 +52,47 @@ namespace Balder.Rendering.Xna
             _position = position;
             _color = color;
             _normal = Vector3.Zero;
+			_textureCoordinate = Vector2.Zero;
         }
+
+		public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color, Vector3 normal)
+		{
+			_position = position;
+			_color = color;
+			_normal = normal;
+			_textureCoordinate = Vector2.Zero;
+		}
+
+		public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color, Vector3 normal, Vector2 textureCoordinate)
+		{
+			_position = position;
+			_color = color;
+			_normal = normal;
+			_textureCoordinate = textureCoordinate;
+		}
 
         public RenderVertex(Vertex vertex, Color color, Normal normal)
         {
             _position = new Vector3(vertex.X, vertex.Y, vertex.Z);
             _normal = new Vector3(normal.X, normal.Y, normal.Z);
             _color = color;
+			_textureCoordinate = Vector2.Zero;
         }
+
+		public RenderVertex(Vertex vertex, Color color, Normal normal, TextureCoordinate textureCoordinate)
+		{
+			_position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+			_normal = new Vector3(normal.X, normal.Y, normal.Z);
+			_color = color;
+			_textureCoordinate = new Vector2(textureCoordinate.U, textureCoordinate.V);
+		}
 
 
         public static VertexElement[] VertexElements = {
                                                            new VertexElement(0, VertexElementFormat.Vector3,VertexElementUsage.Position, 0), 
                                                            new VertexElement(sizeof(float)*3, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
                                                            new VertexElement(sizeof(float)*6,VertexElementFormat.Color,VertexElementUsage.Color,0), 
+														   new VertexElement((sizeof(float)*6)+sizeof(UInt32), VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
                                                        };
 
         public static VertexDeclaration Declaration = new VertexDeclaration(VertexElements);

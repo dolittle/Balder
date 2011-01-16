@@ -64,6 +64,7 @@
     <Reference Include="System.Xml.Linq" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Assets\AssetLoaders\Xna\" />
     <Folder Include="Properties\" />
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +79,7 @@
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\Desktop\ImageLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAsset.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
@@ -116,6 +118,9 @@
     <Compile Include="Display\ViewportStatistics.cs" />
     <Compile Include="Display\Xna\Display.cs" />
     <Compile Include="Display\Xna\DisplayDevice.cs" />
+    <Compile Include="Display\Xna\XnaWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
@@ -270,6 +275,7 @@
     <Compile Include="Rendering\RuntimeContext.cs" />
     <Compile Include="Rendering\ShowMessage.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Rendering\Xna\FaceTextureCoordinate.cs" />
     <Compile Include="Rendering\Xna\GeometryContext.cs" />
     <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Xna\ImageContext.cs" />

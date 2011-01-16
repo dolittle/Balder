@@ -26,17 +26,17 @@ namespace Balder.Materials
 {
 	public class ImageMap : IMap
 	{
-		private readonly Image _image;
-
 		public ImageMap(Image image)
 		{
-			_image = image;
+			Image = image;
 		}
+
+		public Image Image { get; private set; }
 
 
 		public int[] GetPixelsAs32BppARGB()
 		{
-			return _image.ImageContext.GetPixelsAs32BppARGB();
+			return Image.ImageContext.GetPixelsAs32BppARGB();
 		}
 
 		public bool HasPixelChanges
@@ -46,12 +46,12 @@ namespace Balder.Materials
 
 		public int Width
 		{
-			get { return _image.Width; }
+			get { return Image.Width; }
 		}
 
 		public int Height
 		{
-			get { return _image.Height; }
+			get { return Image.Height; }
 		}
 
 		public bool IsDynamic
