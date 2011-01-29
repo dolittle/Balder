@@ -79,6 +79,7 @@ namespace Balder.Rendering.Silverlight
 		public Color Color;
 		public int ColorAsInt;
 
+		public int MaterialAmbientAsInt;
 		public int MaterialDiffuseAsInt;
 
 		public int DiffuseAsInt;

@@ -167,6 +167,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected int ColorAsInt;
 		protected int DiffuseAsInt;
 		protected int SpecularAsInt;
+		protected int MaterialAmbientAsInt;
 		protected int MaterialDiffuseAsInt;
 
 		protected static int RedMask;
@@ -533,6 +534,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			ColorAsInt = face.ColorAsInt;
 			DiffuseAsInt = face.DiffuseAsInt;
 			SpecularAsInt = face.SpecularAsInt;
+			MaterialAmbientAsInt = face.MaterialAmbientAsInt;
 			MaterialDiffuseAsInt = face.MaterialDiffuseAsInt;
 
 

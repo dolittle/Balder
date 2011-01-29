@@ -522,6 +522,7 @@ namespace Balder.Rendering.Silverlight
 
 				
 				face.Opacity = material.CachedOpacityAsInt;
+				face.MaterialAmbientAsInt = material.AmbientAsInt;
 				face.MaterialDiffuseAsInt = material.DiffuseAsInt;
 
 				if( ShouldCalculateVertexColorsForFace(material))
