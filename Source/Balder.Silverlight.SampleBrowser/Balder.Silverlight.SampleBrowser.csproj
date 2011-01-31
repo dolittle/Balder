@@ -452,6 +452,9 @@
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
     <Compile Include="Samples\View\Frustum\SinglePoly.cs" />
+    <Compile Include="Samples\View\Orthographic\Content.xaml.cs">
+      <DependentUpon>Content.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Samples\View\Skybox\Content.xaml.cs">
       <DependentUpon>Content.xaml</DependentUpon>
     </Compile>
@@ -712,6 +715,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Samples\View\Frustum\Content.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Samples\View\Orthographic\Content.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
