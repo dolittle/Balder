@@ -18,19 +18,28 @@
 #endregion
 #if(XNA)
 using System;
+using System.IO;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Viewport = Balder.Display.Viewport;
 
+#if(WINDOWS_PHONE)
+using D = Balder.Display.WP7.Display;
+#else
+using D = Balder.Display.Xna.Display;
+#endif
+using MathHelper = Microsoft.Xna.Framework.MathHelper;
+using Matrix = Microsoft.Xna.Framework.Matrix;
 
 
 namespace Balder.Rendering.Xna
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
-		private BasicEffect _effect;
+		private readonly BasicEffect _effect;
 
 		public int FaceCount { get; private set; }
 		public int VertexCount { get; private set; }
@@ -51,15 +60,16 @@ namespace Balder.Rendering.Xna
 		private Vertex[] _originalVertices;
 		private Face[] _originalFaces;
 		private Line[] _originalLines;
-
 		private Normal[] _originalNormals;
+		private TextureCoordinate[] _originalTextureCoordinates;
+		private FaceTextureCoordinate[] _textureCoordinateForFaces;
 
 		private Material _colorMaterial;
 
 
 		public GeometryDetailLevel()
 		{
-			_effect = new BasicEffect(Display.WP7.Display.GraphicsDevice);
+			_effect = new BasicEffect(D.GraphicsDevice);
 			_effect.EnableDefaultLighting();
 			_effect.VertexColorEnabled = true;
 			_colorMaterial = Material.FromColor(Colors.Blue);
@@ -68,7 +78,7 @@ namespace Balder.Rendering.Xna
 		public void AllocateFaces(int count)
 		{
 			var actualCount = count * 3;
-			_indexBuffer = new IndexBuffer(Display.WP7.Display.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
+			_indexBuffer = new IndexBuffer(D.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
 
 			_indices = new ushort[actualCount];
 			_originalFaces = new Face[count];
@@ -79,6 +89,9 @@ namespace Balder.Rendering.Xna
 				_vertexBuffer = null;
 			}
 			_vertices = null;
+
+
+			_textureCoordinateForFaces = new FaceTextureCoordinate[count];
 		}
 
 		public void SetFace(int index, Face face)
@@ -103,16 +116,12 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateVertices(int count)
 		{
-			//_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice,typeof(RenderVertex),count,BufferUsage.WriteOnly);
-			//_vertices = new RenderVertex[count];
 			_originalVertices = new Vertex[count];
 			_verticesPrepared = false;
 		}
 
 		public void SetVertex(int index, Vertex vertex)
 		{
-			//var renderVertex = new RenderVertex(vertex);
-			//_vertices[index] = renderVertex;
 			_originalVertices[index] = vertex;
 		}
 
@@ -165,22 +174,22 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateTextureCoordinates(int count)
 		{
-
+			_originalTextureCoordinates = new TextureCoordinate[count];
 		}
 
 		public void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate)
 		{
-
+			_originalTextureCoordinates[index] = textureCoordinate;
 		}
 
 		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
 		{
-
+			_textureCoordinateForFaces[index] = new FaceTextureCoordinate {A = a, B = b, C = c};
 		}
 
 		public TextureCoordinate[] GetTextureCoordinates()
 		{
-			throw new NotImplementedException();
+			return _originalTextureCoordinates;
 		}
 
 		public void CalculateVertices(Viewport viewport, INode node)
@@ -237,7 +246,7 @@ namespace Balder.Rendering.Xna
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
+				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
 			}
 
 		}
@@ -249,6 +258,7 @@ namespace Balder.Rendering.Xna
 				_vertices = new RenderVertex[_originalFaces.Length * 3];
 			}
 			var vertexIndex = 0;
+			var faceIndex = 0;
 
 			var nodeMaterial = geometry.Material;
 
@@ -261,41 +271,28 @@ namespace Balder.Rendering.Xna
 					color = material.Diffuse;
 				}
 
-
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC]);
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB]);
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA]);
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC], _originalTextureCoordinates[face.DiffuseC]);
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB], _originalTextureCoordinates[face.DiffuseB]);
+				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA], _originalTextureCoordinates[face.DiffuseA]);
+				faceIndex++;
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(Display.WP7.Display.GraphicsDevice, typeof(RenderVertex), vertexIndex,
+				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(RenderVertex), vertexIndex,
 												 BufferUsage.WriteOnly);
 			}
 			_vertexBuffer.SetData(_vertices);
+
+			/*
+			var texture = File.OpenRead(@"C:\Projects\Balder\Source\Balder.Silverlight.SampleBrowser\Assets\BalderLogo.png");
+			_texture = Texture2D.FromStream(D.GraphicsDevice, texture);
+			*/
 		}
+
+		//private Texture2D _texture;
 
 		public void Render(Viewport viewport, INode node)
 		{
-			/*
-			if( !_indicesPrepared )
-			{
-				if (null == _indices)
-				{
-					return;
-				}
-				_indicesPrepared = true;
-				_indexBuffer.SetData(_indices);
-			}
-			if( !_verticesPrepared )
-			{
-				if( null == _vertices )
-				{
-					return;
-				}
-				_verticesPrepared = true;
-				_vertexBuffer.SetData(_vertices);
-			}*/
-
 			var drawFaces = null != _originalFaces;
 			var drawLines = null != _originalLines;
 			if (!_verticesPrepared)
@@ -316,8 +313,7 @@ namespace Balder.Rendering.Xna
 			_effect.Projection = viewport.View.ProjectionMatrix;
 
 
-			var graphicsDevice = Display.WP7.Display.GraphicsDevice;
-			//graphicsDevice.Indices = _indexBuffer;
+			var graphicsDevice = D.GraphicsDevice;
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 
 			if (null == _vertices)
@@ -325,10 +321,25 @@ namespace Balder.Rendering.Xna
 				return;
 			}
 
+			var geometry = node as Geometry;
+			if( null != geometry.Material )
+			{
+				if( null != geometry.Material.DiffuseMap &&
+					geometry.Material.DiffuseMap is ImageMap )
+				{
+					var imageMap = geometry.Material.DiffuseMap as ImageMap;
+					var image = imageMap.Image;
+
+					var imageContext = image.ImageContext as ImageContext;
+
+					_effect.TextureEnabled = true;
+					_effect.Texture = imageContext.Texture;
+				}
+			}
+
 			foreach (var pass in _effect.CurrentTechnique.Passes)
 			{
 				pass.Apply();
-
 				if (drawFaces)
 				{
 					graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
@@ -337,8 +348,6 @@ namespace Balder.Rendering.Xna
 				{
 					graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, _lineVertices.Length / 2);
 				}
-
-				//graphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, _vertices.Length, 0, _indices.Length / 3);
 			}
 		}
 

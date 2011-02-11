@@ -24,7 +24,8 @@ using Balder.Collections;
 using Balder.Content;
 using Balder.Display;
 using Balder.Input;
-using Ninject;
+using Balder.Rendering;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Balder.Execution
 {
@@ -37,9 +38,10 @@ namespace Balder.Execution
 	public class Actor : IActor
 #endif
 	{
-		protected Actor()
+		protected Actor(IRuntimeContext runtimeContext)
 		{
 			Actors = new ActorCollection();
+			Display = runtimeContext.Display;
 		}
 
 		/// <summary>
@@ -149,20 +151,11 @@ namespace Balder.Execution
 
 
 		#region Services
-		[Inject]
-		public IContentManager ContentManager { get; set; }
-
-		[Inject]
-		public IDisplay Display { get; set; }
-
-		[Inject]
-		public IMouseManager MouseManager { get; set; }
-
-		[Inject]
-		public Mouse Mouse { get; set; }
-
-		[Inject]
-		public IPlatform Platform { get; set; }
+		public IContentManager ContentManager { get { return ServiceLocator.Current.GetInstance<IContentManager>(); } }
+		public IDisplay Display { get; private set; }
+		public IMouseManager MouseManager { get { return ServiceLocator.Current.GetInstance<IMouseManager>(); } }
+		public Mouse Mouse { get { return ServiceLocator.Current.GetInstance<Mouse>(); } }
+		public IPlatform Platform { get { return ServiceLocator.Current.GetInstance<IPlatform>(); } }
 		#endregion
 	}
 }

@@ -10,7 +10,7 @@ namespace Balder.Tests.Fakes
 		                                                     		new ImageFormat {PixelFormat = PixelFormat.RGBAlpha, Depth = 32}
 		                                                     	};
 
-		public void SetFrame(byte[] frameBytes)
+		public void SetFrame(byte[] frameBytes, int width, int height)
 		{
 
 		}

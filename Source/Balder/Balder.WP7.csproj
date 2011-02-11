@@ -41,12 +41,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter">
+      <HintPath>..\..\Components\Ninject\Silverlight\extensions\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Components\CommonServiceLocator\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Xna.Framework" />
     <Reference Include="Microsoft.Xna.Framework.Game" />
     <Reference Include="Microsoft.Xna.Framework.Graphics" />
     <Reference Include="mscorlib" />
     <Reference Include="Ninject">
-      <HintPath>..\..\Components\WP7\Ninject.dll</HintPath>
+      <HintPath>..\..\Components\Ninject\Silverlight\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="System.Windows" />
     <Reference Include="system" />
@@ -341,9 +347,11 @@
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />
     <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
     <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Rendering\Xna\FaceTextureCoordinate.cs" />
     <Compile Include="Rendering\Xna\GeometryContext.cs" />
     <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
     <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
     <Compile Include="Rendering\Xna\RenderVertex.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
     <Compile Include="Rendering\Xna\SkyboxContext.cs" />

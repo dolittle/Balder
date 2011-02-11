@@ -24,12 +24,13 @@ using Balder.Assets;
 using Balder.Content;
 using Balder.Debug;
 using Balder.Display;
-using Balder.Execution;
 using Balder.Imaging;
 using Balder.Math;
 using Balder.Rendering;
 #if(SILVERLIGHT)
+using System.Windows;
 using Balder.Silverlight.Helpers;
+using Balder.Execution;
 #endif
 
 #if(DEFAULT_CONSTRUCTOR)

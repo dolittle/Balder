@@ -19,14 +19,23 @@
 #if(XNA)
 using System;
 using Balder.Imaging;
+using Microsoft.Xna.Framework.Graphics;
+#if(WINDOWS_PHONE)
+using D = Balder.Display.WP7.Display;
+#else
+using D = Balder.Display.Xna.Display;
+#endif
 
 namespace Balder.Rendering.Xna
 {
     public class ImageContext : IImageContext
     {
-        public void SetFrame(byte[] frameBytes)
+		public Texture2D Texture { get; private set; } 
+
+        public void SetFrame(byte[] frameBytes, int width, int height)
         {
-            throw new NotImplementedException();
+            Texture = new Texture2D(D.GraphicsDevice, width, height);
+			Texture.SetData(frameBytes);
         }
 
         public void SetFrame(ImageFormat format, byte[] frameBytes)

@@ -74,9 +74,15 @@
     <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter">
+      <HintPath>..\..\Components\Ninject\Silverlight\extensions\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Components\CommonServiceLocator\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
     <Reference Include="mscorlib" />
     <Reference Include="Ninject">
-      <HintPath>..\..\Components\Silverlight\Ninject.dll</HintPath>
+      <HintPath>..\..\Components\Ninject\Silverlight\Ninject.dll</HintPath>
     </Reference>
     <Reference Include="system">
       <Private>True</Private>

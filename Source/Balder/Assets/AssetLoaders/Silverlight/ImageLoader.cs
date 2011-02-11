@@ -54,7 +54,7 @@ namespace Balder.Assets.AssetLoaders.Silverlight
 
 			Buffer.BlockCopy(writeableBitmap.Pixels, 0, imageAsBytes, 0, imageAsBytes.Length);
 
-			frame.ImageContext.SetFrame(imageAsBytes);
+			frame.ImageContext.SetFrame(imageAsBytes, width, height);
 
 			return new[] { frame };
 		}

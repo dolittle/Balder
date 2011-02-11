@@ -57,7 +57,8 @@ namespace Balder.Execution
 
 		private IRuntimeContext RuntimeContextResolver(IContext context)
 		{
-			if( context.Request.ParentContext == null )
+			if( context.Request.ParentContext == null ||
+				_currentRuntimeContext == null)
 			{
 				_currentRuntimeContext = context.Kernel.Get<RuntimeContext>();
 			} 

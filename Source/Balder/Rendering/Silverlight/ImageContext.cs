@@ -32,7 +32,7 @@ namespace Balder.Rendering.Silverlight
 		                                                     	};
 		public int[] Pixels { get; private set; }
 
-		public void SetFrame(byte[] frameBytes)
+		public void SetFrame(byte[] frameBytes, int width, int height)
 		{
 			Pixels = new int[frameBytes.Length>>2];
 			Buffer.BlockCopy(frameBytes,0,Pixels,0,frameBytes.Length);
@@ -55,11 +55,11 @@ namespace Balder.Rendering.Silverlight
 			// Special case - no need to convert
 			if( targetFormat.Equals(format))
 			{
-				SetFrame(frameBytes);
+				SetFrame(frameBytes,0,0);
 			} else
 			{
 				var convertedFrameBytes = ImageHelper.Convert(targetFormat, frameBytes, format);
-				SetFrame(convertedFrameBytes);
+				SetFrame(convertedFrameBytes,0,0);
 			}
 		}
 
