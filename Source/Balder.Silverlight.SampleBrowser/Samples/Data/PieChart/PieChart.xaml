@@ -12,9 +12,12 @@
 									 StartAngle="{Binding StartAngle}" 
 									 EndAngle="{Binding EndAngle}" 
 									 Spokes="False"
-									 Segments="16" 
-									 ToolTip="{Binding Value}"
-									 >
+									 Segments="16">
+					<Geometries:Cylinder.ToolTip>
+						<ToolTip>
+							<TextBlock Text="{Binding Value}"/>
+						</ToolTip>
+					</Geometries:Cylinder.ToolTip>
 				</Geometries:Cylinder>
 			</DataTemplate>
 		</Controls:NodesControl.NodeTemplate>
