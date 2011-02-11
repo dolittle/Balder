@@ -9,8 +9,7 @@
     xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
     xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
-    xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" xmlns:Controls="clr-namespace:Balder.Controls;assembly=Balder" FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -20,14 +19,24 @@
     <!--LayoutRoot contains the root grid where all other page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Green">
         
+		
         <Execution:Game Width="480" Height="768">
             <Execution:Game.Camera>
                 <View:Camera Position="30,30,-150"/>
             </Execution:Game.Camera>
             <Lighting:OmniLight Position="0,30,-10"/>
             <!--<Geometries:Box x:Name="Box" Dimension="20,20,20"/>-->
-            <Geometries:Mesh x:Name="Object" AssetName="teapot.ase"/>
+            <!--<Geometries:Mesh x:Name="Object" AssetName="teapot.ase"/>-->
+			<Controls:NodesControl x:Name="Nodes">
+				<Controls:NodesControl.NodeTemplate>
+					<DataTemplate>
+						<Geometries:Box Dimension="20,20,20" Position="{Binding Position}"/>
+					</DataTemplate>
+				</Controls:NodesControl.NodeTemplate>
+			</Controls:NodesControl>
         </Execution:Game>
+		<Button Content="Add" Click="Button_Click"/>
+		
         
         
         <TextBlock Text="Hello world"/>
