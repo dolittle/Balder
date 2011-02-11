@@ -199,38 +199,6 @@ namespace Balder.Display
 
 
 
-		/// <summary>
-		/// Unproject a 2D coordinate into 3D. Basically convert a 2D point with depth
-		/// information (Z) into a real 3D coordinate.
-		/// </summary>
-		/// <param name="source">Point to unproject</param>
-		/// <param name="projection">Projection matrix</param>
-		/// <param name="view">View matrix</param>
-		/// <param name="world">World matrix</param>
-		/// <returns>Unprojected 3D coordinate</returns>
-		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
-		{
-			var combinedMatrix = (world * view) * projection;
-			var matrix = Matrix.Invert(combinedMatrix);
-
-			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
-			source.Y = -((source.Y / ((float)Height)) * 2f) - 1f;
-			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
-			source.W = 1f;
-			var vector = Vector.TransformNormal(source, matrix);
-
-			var a = (source.X * matrix.M14) +
-						(source.Y * matrix.M24) +
-						(source.Z * matrix.M34) +
-						(matrix.M44);
-
-			if (!WithinEpsilon(a, 1f))
-			{
-				vector = (Vector)(vector / (a));
-			}
-
-			return vector;
-		}
 
 
 
@@ -257,7 +225,7 @@ namespace Balder.Display
 			RenderableNode closestNode = null;
 			var closestDistance = float.MaxValue;
 
-			foreach ( var node in Scene.RenderableNodes)
+			foreach (var node in Scene.RenderableNodes)
 			{
 				GetNodeAtPosition(node, pickRay, ref closestNode, ref closestDistance);
 			}
@@ -267,7 +235,7 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
-			if( !node.IsIntersectionTestEnabled || !IsNodeVisible(node))
+			if (!node.IsIntersectionTestEnabled || !IsNodeVisible(node))
 			{
 				return;
 			}
@@ -323,7 +291,7 @@ namespace Balder.Display
 
 		private bool IsNodeVisible(INode node)
 		{
-			if( node is ICanBeVisible)
+			if (node is ICanBeVisible)
 			{
 				return ((ICanBeVisible)node).IsVisible;
 			}
@@ -333,41 +301,30 @@ namespace Balder.Display
 		public Ray GetPickRay(int x, int y)
 		{
 			var view = View.ViewMatrix;
-			var world = Matrix.Identity;
 			var projection = View.ProjectionMatrix;
+			var inverseView = Matrix.Invert(view);
 
 			var v = new Vector
 						{
-							X = (((2.0f * x) / Width) - 1) / (projection.M11),
-							Y = -(((2.0f * y) / Height) - 1) / (projection.M22),
-							Z = 1f
+							X = (((2.0f * x) / Width) - 1f) / (projection.M11),
+							Y = -(((2.0f * y) / Height) - 1f) / (projection.M22),
+							Z = 1f,
+							W = 1f
 						};
 
+			var position = new Vector
+			           	{
+			           		X = inverseView.M41,
+			           		Y = inverseView.M42,
+			           		Z = inverseView.M43,
+			           		W = 1f
+			           	};
 
-			var inverseView = Matrix.Invert(view);
+			var direction = Vector.TransformNormal(v, inverseView);
+			direction.Normalize();
+			position += (direction * View.Near);
 
-			var ray = new Ray
-						{
-							Direction = new Vector
-											{
-												X = (v.X * inverseView.M11) + (v.Y * inverseView.M21) + (v.Z * inverseView.M31),
-												Y = (v.X * inverseView.M12) + (v.Y * inverseView.M22) + (v.Z * inverseView.M32),
-												Z = (v.X * inverseView.M13) + (v.Y * inverseView.M23) + (v.Z * inverseView.M33),
-												W = 1f
-											}
-						};
-			ray.Direction.Normalize();
-
-			ray.Position = new Vector
-							{
-								X = inverseView.M41,
-								Y = inverseView.M42,
-								Z = inverseView.M43,
-								W = 1f
-							};
-
-			ray.Position += (ray.Direction * View.Near);
-
+			var ray = new Ray(position, direction);
 			return ray;
 		}
 
@@ -382,13 +339,13 @@ namespace Balder.Display
 		public void Render(RenderMessage renderMessage)
 		{
 			ScreenMatrix = Matrix.CreateScreenTranslation(Width, Height);
-			ViewProjectionScreenMatrix = View.ViewMatrix*View.ProjectionMatrix*ScreenMatrix;
+
+			ViewProjectionScreenMatrix = View.ViewMatrix * View.ProjectionMatrix * ScreenMatrix;
 			if (null != View)
 			{
 				View.Update(this);
 
-				
-				if (null != Skybox && 
+				if (null != Skybox &&
 					Skybox.IsEnabled &&
 					(_render || !_runtimeContext.PassiveRendering))
 				{
@@ -405,6 +362,40 @@ namespace Balder.Display
 
 			_runtimeContext.MessengerContext.Send(RenderDoneMessage.Default);
 			_render = false;
+		}
+
+
+		/// <summary>
+		/// Unproject a 2D coordinate into 3D. Basically convert a 2D point with depth
+		/// information (Z) into a real 3D coordinate.
+		/// </summary>
+		/// <param name="source">Point to unproject</param>
+		/// <param name="projection">Projection matrix</param>
+		/// <param name="view">View matrix</param>
+		/// <param name="world">World matrix</param>
+		/// <returns>Unprojected 3D coordinate</returns>
+		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
+		{
+			var combinedMatrix = (world * view) * projection;
+			var matrix = Matrix.Invert(combinedMatrix);
+
+			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
+			source.Y = -((source.Y / ((float)Height)) * 2f) - 1f;
+			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
+			source.W = 1f;
+			var vector = Vector.TransformNormal(source, matrix);
+
+			var a = (source.X * matrix.M14) +
+						(source.Y * matrix.M24) +
+						(source.Z * matrix.M34) +
+						(matrix.M44);
+
+			if (!WithinEpsilon(a, 1f))
+			{
+				vector = vector / (a);
+			}
+
+			return vector;
 		}
 
 		/// <summary>
@@ -429,9 +420,9 @@ namespace Balder.Display
 
 		public Vector ProjectWithMatrix(float x, float y, float z, Matrix matrix)
 		{
-			var vector = Vector.TransformNormal(x,y,z, matrix);
+			var vector = Vector.TransformNormal(x, y, z, matrix);
 			var a = (((x * matrix.M14) + (y * matrix.M24)) + (z * matrix.M34)) + matrix.M44;
-			
+
 			if (!WithinEpsilon(a, 1f))
 			{
 				vector = vector / (a);
