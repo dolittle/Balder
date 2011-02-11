@@ -109,6 +109,21 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.Orthographic
 			var position = e.GetPosition(LayoutRoot);
 			_xpos.Text = position.X.ToString();
 			_ypos.Text = position.Y.ToString();
+
+
+			var rayPosition = (Vector)_game.Viewport.MousePickRayStart;
+			_rayXPos.Text = rayPosition.X.ToString();
+			_rayYPos.Text = rayPosition.Y.ToString();
+			_rayZPos.Text = rayPosition.Z.ToString();
+
+			var rayDirection = (Vector)_game.Viewport.MousePickRayDirection;
+			_rayXDir.Text = rayDirection.X.ToString();
+			_rayYDir.Text = rayDirection.Y.ToString();
+			_rayZDir.Text = rayDirection.Z.ToString();
+			//rayPosition += 500*pickRay.Direction;
+
+
+			//positionSprite.Position.Set(rayPosition);
 		}
 
 		private void Mesh_MouseMove(object sender, MouseEventArgs e)
