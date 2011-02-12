@@ -301,28 +301,14 @@ namespace Balder.Display
 		public Ray GetPickRay(int x, int y)
 		{
 			var view = View.ViewMatrix;
+			var world = Matrix.Identity;
 			var projection = View.ProjectionMatrix;
-			var inverseView = Matrix.Invert(view);
+			var nearPoint = Unproject(new Vector(x, y, View.Near), projection, view, world);
+			var farPoint = Unproject(new Vector(x, y, View.Far), projection, view, world);
+			var position = nearPoint;
 
-			var v = new Vector
-						{
-							X = (((2.0f * x) / Width) - 1f) / (projection.M11),
-							Y = -(((2.0f * y) / Height) - 1f) / (projection.M22),
-							Z = 1f,
-							W = 1f
-						};
-
-			var position = new Vector
-			           	{
-			           		X = inverseView.M41,
-			           		Y = inverseView.M42,
-			           		Z = inverseView.M43,
-			           		W = 1f
-			           	};
-
-			var direction = Vector.TransformNormal(v, inverseView);
+			var direction = farPoint - nearPoint;
 			direction.Normalize();
-			position += (direction * View.Near);
 
 			var ray = new Ray(position, direction);
 			return ray;
@@ -380,10 +366,10 @@ namespace Balder.Display
 			var matrix = Matrix.Invert(combinedMatrix);
 
 			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
-			source.Y = -((source.Y / ((float)Height)) * 2f) - 1f;
-			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
+			source.Y = -(((source.Y / ((float)Height)) * 2f) - 1f);
+			source.Z = (source.Z - View.Near) / (View.Far - View.Near);
 			source.W = 1f;
-			var vector = Vector.TransformNormal(source, matrix);
+			var vector = Vector.Transform(source, matrix);
 
 			var a = (source.X * matrix.M14) +
 						(source.Y * matrix.M24) +
