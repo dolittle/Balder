@@ -1,7 +1,7 @@
 ﻿using System;
 using Balder.Rendering;
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows;
 #endif
@@ -22,14 +22,14 @@ namespace Balder.Execution
 		private T _value;
     	private T _oldValue;
 
-#if(SILVERLIGHT)
+#if(XAML)
         internal ObjectProperty(DependencyObject obj, PropertyDescriptor propertyDescriptor, T defaultValue, PropertyValueChanged<T> propertyValueChanged)
 #else
 		internal ObjectProperty(object obj, PropertyDescriptor propertyDescriptor, T defaultValue, PropertyValueChanged<T> propertyValueChanged)
 #endif
 		{
         	_propertyDescriptor = propertyDescriptor;
-#if(SILVERLIGHT)
+#if(XAML)
         	_propertyValueChanged = propertyValueChanged;
 #endif
         	Value = defaultValue;
@@ -53,7 +53,7 @@ namespace Balder.Execution
 
 		private void HandleValueSet()
 		{
-#if(SILVERLIGHT)
+#if(XAML)
 			if (_propertyDescriptor.IsValueNotifyPropertyChanged)
 			{
 				if (null != _oldValue)
@@ -68,7 +68,7 @@ namespace Balder.Execution
 #endif
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private void HandleNotification(object obj, PropertyChangedEventArgs e)
 		{
 			if (null != _propertyValueChanged)

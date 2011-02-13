@@ -32,7 +32,7 @@ namespace Balder.Objects.Geometries
 			set
 			{
 				_renderedFaces = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("RenderedFaces");
 #endif
 			}
@@ -45,7 +45,7 @@ namespace Balder.Objects.Geometries
 			set
 			{
 				_renderedLines = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("RenderedLines");
 #endif
 			}
@@ -59,7 +59,7 @@ namespace Balder.Objects.Geometries
 			set
 			{
 				_timeSpentInVertices = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("TimeSpentInVertices");
 #endif
 			}
@@ -72,7 +72,7 @@ namespace Balder.Objects.Geometries
 			set
 			{
 				_timeSpentInLighting = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("TimeSpentInLighting");
 #endif
 			}
@@ -85,7 +85,7 @@ namespace Balder.Objects.Geometries
 			set
 			{
 				_timeSpentInRendering = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("TimeSpentInRendering");
 #endif
 			}

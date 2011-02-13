@@ -21,15 +21,15 @@ using System;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 #endif
 using Balder.Rendering;
-
+using Vector = Balder.Math.Vector;
 
 namespace Balder.View
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Camera : FrameworkElement,
 #else
 	public class Camera :

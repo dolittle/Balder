@@ -30,7 +30,7 @@ using Ninject;
 #endif
 using Matrix = Balder.Math.Matrix;
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows.Controls;
 using MouseButtonEventHandler = Balder.Input.MouseButtonEventHandler;
 using MouseEventHandler = Balder.Input.MouseEventHandler;
@@ -48,19 +48,19 @@ namespace Balder
 	/// <summary>
 	/// Abstract class representing a node in a scene
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public abstract class Node : ItemsControl, INotifyPropertyChanged,
 #else
 	public abstract partial class Node :
 #endif
  INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel
 	{
-#if(SILVERLIGHT)
+#if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 		private static readonly EventArgs DefaultEventArgs = new EventArgs();
 
-#if(SILVERLIGHT)
+#if(XAML)
 		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseMoveEvent =
 			BubbledEvent<Node, MouseEventHandler>.Register(n => n.MouseMove);
 		internal static readonly BubbledEvent<Node, MouseEventHandler> MouseEnterEvent =
@@ -141,7 +141,7 @@ namespace Balder
 			private set
 			{
 				_statistics = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				PropertyChanged.Notify(() => Statistics);
 #endif
 			}
@@ -155,7 +155,7 @@ namespace Balder
 
 		private void Construct()
 		{
-#if(SILVERLIGHT)
+#if(XAML)
 			Loaded += NodeLoaded;
 			Width = 0;
 			Height = 0;
@@ -163,7 +163,7 @@ namespace Balder
 #endif
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private void NodeLoaded(object sender, RoutedEventArgs e)
 		{
 			OnInitialize();
@@ -423,7 +423,7 @@ namespace Balder
 			}
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public new INode Parent { get; internal set; }
 #else
 		public INode Parent { get; internal set; }
@@ -605,7 +605,7 @@ namespace Balder
 				{
 					return Scene.RuntimeContext;
 				}
-#if(SILVERLIGHT)
+#if(XAML)
 				else
 				{
 					var parent = VisualTreeHelper.GetParent(this);

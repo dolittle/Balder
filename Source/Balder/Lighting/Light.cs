@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using Balder.Silverlight.TypeConverters;
 #endif
@@ -48,7 +48,7 @@ namespace Balder.Lighting
 			Specular = Colors.White;
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Diffuse
@@ -63,7 +63,7 @@ namespace Balder.Lighting
 
 		public static readonly Property<Light, Color> SpecularProperty = Property<Light, Color>.Register(l => l.Specular);
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Specular
@@ -78,7 +78,7 @@ namespace Balder.Lighting
 
 		public static readonly Property<Light, Color> AmbientProperty = Property<Light, Color>.Register(l => l.Ambient);
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Ambient

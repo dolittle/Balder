@@ -22,7 +22,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Balder.Assets;
 using Balder.Execution;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using Balder.Silverlight.TypeConverters;
 using Ninject;
@@ -30,12 +30,12 @@ using Ninject;
 
 namespace Balder.Imaging
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	[TypeConverter(typeof(UriToImageTypeConverter))]
 #endif
 	public class Image : IAsset, IAssetPart
 	{
-#if(SILVERLIGHT)
+#if(XAML)
 		public Image()
 			: this(Runtime.Instance.Kernel.Get<IImageContext>())
 		{

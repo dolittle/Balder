@@ -17,13 +17,15 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows;
-using Balder.Rendering.Silverlight;
-using Balder.Rendering.Silverlight.Drawing;
 using Balder.Silverlight.TypeConverters;
 using Ninject;
+#endif
+#if(SILVERLIGHT)
+using Balder.Rendering.Silverlight;
+using Balder.Rendering.Silverlight.Drawing;
 #endif
 using System.Collections.Generic;
 using Balder.Execution;
@@ -33,7 +35,7 @@ namespace Balder.Materials
 	/// <summary>
 	/// Represents a material
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Material : FrameworkElement,
 #else
 	public class Material :
@@ -166,7 +168,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the ambient <see cref="Color"/> of the material
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Ambient
@@ -189,7 +191,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the Diffuse <see cref="Color"/> for wireframe when constant coloring for wireframe is enabled
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color DiffuseWireframe
@@ -210,7 +212,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the diffuse <see cref="Color"/> of the material
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Diffuse
@@ -235,7 +237,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the specular <see cref="Color"/> of the material
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Specular
@@ -360,7 +362,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the diffuse map <see cref="IMap"/>
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap DiffuseMap
@@ -400,7 +402,7 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gets or sets the reflection map <see cref="IMap"/>
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap ReflectionMap

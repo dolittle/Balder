@@ -21,7 +21,7 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
 using Balder.Rendering;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using Balder.Silverlight.TypeConverters;
 #endif
@@ -43,7 +43,7 @@ namespace Balder
 		}
 
 		public static readonly Property<RenderableNode, Color> ColorProp = Property<RenderableNode, Color>.Register(n => n.Color);
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
 #endif
 		public Color Color

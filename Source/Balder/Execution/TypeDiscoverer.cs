@@ -22,7 +22,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 #endif
 using Ninject;

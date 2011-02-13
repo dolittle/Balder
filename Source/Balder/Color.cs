@@ -17,7 +17,7 @@
 //
 #endregion
 using System;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Runtime.InteropServices;
 using Balder.Execution;
@@ -36,7 +36,7 @@ namespace Balder
 	/// <summary>
 	/// Represents a color used throughout Balder
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	[TypeConverter(typeof(ColorConverter))]
 #endif
 #if(WINDOWS_PHONE)

@@ -16,8 +16,6 @@
 // limitations under the License.
 //
 #endregion
-
-
 using Balder.Debug;
 using Balder.Execution;
 using Balder.Input;
@@ -25,11 +23,11 @@ using Balder.Math;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using Ninject;
-
 #endif
+using Vector = Balder.Math.Vector;
 
 namespace Balder.Display
 {
@@ -38,7 +36,7 @@ namespace Balder.Display
 	/// The viewport also holds the view used to render and also holds the scene that contains the objects that
 	/// will be rendered within the viewport
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Viewport : FrameworkElement
 #else
 	public class Viewport
@@ -50,7 +48,7 @@ namespace Balder.Display
 
 		private Ray _mousePickRay;
 
-#if(SILVERLIGHT)
+#if(XAML)
 		/// <summary>
 		/// Creates a viewport
 		/// </summary>
@@ -99,7 +97,7 @@ namespace Balder.Display
 		/// <summary>
 		/// Gets or sets the width in pixels of the viewport within the display
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		public new int Width { get; set; }
 #else
 		public int Width { get; set; }
@@ -108,7 +106,7 @@ namespace Balder.Display
 		/// <summary>
 		/// Gets or sets the height in pixels of the viewport within the display
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		public new int Height { get; set; }
 #else
 		public int Height { get; set; }

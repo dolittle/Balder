@@ -66,7 +66,7 @@
 
 			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
-				<View:OrthographicCamera Position="-90,15,-95" XSize="160" YSize="120" />
+				<View:OrthographicCamera Position="-90,15,-95" XSize="320" YSize="240" />
 				<!--<View:Camera Position="-90,15,-95"/>-->
 			</Execution:Game.Camera>
 		</Execution:Game>

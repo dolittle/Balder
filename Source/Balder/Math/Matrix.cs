@@ -512,7 +512,7 @@ namespace Balder.Math
         }
 #endif
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public System.Windows.Media.Media3D.Matrix3D	ToMatrix3D()
 		{
 			var m3d = new System.Windows.Media.Media3D.Matrix3D

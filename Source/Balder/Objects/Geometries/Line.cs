@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows.Media;
 #else
 #if(!IOS)

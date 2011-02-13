@@ -17,14 +17,14 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using Balder.Silverlight.TypeConverters;
 #endif
 
 namespace Balder.Math
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	[TypeConverter(typeof(DimensionTypeConverter))]
 #endif
 	public class Dimension

@@ -68,7 +68,7 @@ namespace Balder.Objects.Geometries
 		public override void Prepare(Viewport viewport)
 		{
 			var nodes = new NodeCollection(this);
-#if(SILVERLIGHT)
+#if(XAML)
 			foreach (var item in Items)
 			{
 				if (item is INode)

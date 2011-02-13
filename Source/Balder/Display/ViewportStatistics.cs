@@ -17,7 +17,7 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 #endif
 
@@ -27,11 +27,11 @@ namespace Balder.Display
 	/// Represents statistics for a viewport
 	/// </summary>
 	public class ViewportStatistics 
-#if(SILVERLIGHT)
+#if(XAML)
 		: INotifyPropertyChanged
 #endif
 	{
-#if(SILVERLIGHT)
+#if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
@@ -46,7 +46,7 @@ namespace Balder.Display
 			set
 			{
 				_renderedNodes = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("RenderedNodes");
 #endif
 			}
@@ -62,7 +62,7 @@ namespace Balder.Display
 		}
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private void OnPropertyChanged(string propertyName)
 		{
 			if( null != PropertyChanged )

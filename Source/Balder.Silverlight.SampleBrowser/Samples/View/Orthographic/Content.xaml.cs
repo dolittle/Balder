@@ -14,8 +14,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.Orthographic
 		{
 			InitializeComponent();
 
-
-
 			_originalNodeColors = new Dictionary<object, Color>();
 
 			/*

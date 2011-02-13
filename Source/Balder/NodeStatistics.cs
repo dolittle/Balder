@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System;
 using System.ComponentModel;
 using System.Linq.Expressions;
@@ -28,11 +28,11 @@ using Balder.Diagnostics;
 namespace Balder
 {
 	public class NodeStatistics
-#if(SILVERLIGHT)
+#if(XAML)
 			: INotifyPropertyChanged
 #endif
 	{
-#if(SILVERLIGHT)
+#if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged = (s, e) => { }; 
 #endif
 		private long _nodeStartTime;
@@ -51,7 +51,7 @@ namespace Balder
 			set
 			{
 				_timeSpentInNode = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("TimeSpentInNode");
 #endif
 			}
@@ -64,7 +64,7 @@ namespace Balder
 			set
 			{
 				_timeSpentInChildren = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("TimeSpentInChildren");
 #endif
 			}
@@ -91,7 +91,7 @@ namespace Balder
 		}
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 		protected void OnPropertyChanged(string propertyName)
 		{
 			if( null != PropertyChanged )

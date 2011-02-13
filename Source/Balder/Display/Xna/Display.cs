@@ -87,6 +87,13 @@ namespace Balder.Display.Xna
         	_texture = Texture2D.FromStream(GraphicsDevice, texture);
 		}
 
+#if(XAML)
+		public void InitializeContainer(object container)
+		{
+			
+		}
+#endif
+
     	private SpriteBatch _spriteBatch;
     	private Texture2D _texture;
 

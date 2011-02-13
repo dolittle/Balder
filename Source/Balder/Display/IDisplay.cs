@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 
 #endif
 using Balder.Objects;
@@ -62,7 +62,7 @@ namespace Balder.Display
 		/// </summary>
 		void Uninitialize();
 
-#if(SILVERLIGHT)
+#if(XAML)
 		/// <summary>
 		/// Initialize display container
 		/// </summary>

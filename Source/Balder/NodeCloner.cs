@@ -1,6 +1,6 @@
 using System;
 using System.Collections.Generic;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 #endif
 
@@ -45,7 +45,7 @@ namespace Balder
 			var clone = Activator.CreateInstance(type) as INode;
 
 			ClonePropertyValues(source, cloneInfo, clone);
-#if(SILVERLIGHT)
+#if(XAML)
 			CloneBindingExpressions(source, cloneInfo, clone);
 #endif
 
@@ -144,7 +144,7 @@ namespace Balder
 
 		
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private static void CloneBindingExpressions(INode source, NodeCloneInfo cloneInfo, INode clone)
 		{
 			if (source is FrameworkElement &&

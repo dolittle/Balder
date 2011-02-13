@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System;
 using System.Windows;
 using System.Windows.Controls;

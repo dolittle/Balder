@@ -52,7 +52,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>SLBin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -64,7 +64,7 @@
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>Bin\Release\</OutputPath>
-    <DefineConstants>TRACE;SILVERLIGHT, DEFAULT_CONSTRUCTOR</DefineConstants>
+    <DefineConstants>TRACE;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>

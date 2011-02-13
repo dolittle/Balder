@@ -27,11 +27,12 @@ using Balder.Display;
 using Balder.Imaging;
 using Balder.Math;
 using Balder.Rendering;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using Balder.Silverlight.Helpers;
 using Balder.Execution;
 #endif
+using Vector = Balder.Math.Vector;
 
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
@@ -109,7 +110,7 @@ namespace Balder.Objects.Flat
 		}
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public static DependencyProperty<Sprite, Uri> AssetNameProperty =
 			DependencyProperty<Sprite, Uri>.Register(o => o.AssetName);
 		public Uri AssetName

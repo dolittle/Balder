@@ -36,14 +36,19 @@ namespace Balder
 
 		public NodeCollection Children { get; private set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public override void Prepare(Viewport viewport)
 		{
+#if(DESKTOP)
+			// Todo
+#else
 			var query = from i in Items
 						where i is INode
 						select i as INode;
 
+
 			Children.Merge(query);
+#endif
 			base.Prepare(viewport);
 		}
 #endif

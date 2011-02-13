@@ -17,19 +17,17 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
 using System.Collections.Generic;
+#if(XAML)
 using System.Collections.ObjectModel;
-#else
-using System.Collections.Generic;
 #endif
 
 namespace Balder.Collections
 {
-#if(SILVERLIGHT)
 	/// <summary>
 	/// Represents a collection holding <see cref="INode">nodes</see>
 	/// </summary>
+#if(XAML)
 	public class NodeCollection : ObservableCollection<INode>
 #else
 	public class NodeCollection : List<INode>
