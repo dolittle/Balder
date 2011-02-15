@@ -34,9 +34,7 @@ using System.Windows.Controls;
 using Balder.Input.Silverlight;
 #endif
 
-#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
-#endif
 
 namespace Balder.Execution
 {
@@ -56,8 +54,8 @@ namespace Balder.Execution
 #endif
 
 		public Game()
-			: this(ServiceLocator.Current.GetInstance<IRuntimeContext>(),
-			ServiceLocator.Current.GetInstance<INodeRenderingService>())
+			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>(),
+			Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 		}
 
