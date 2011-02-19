@@ -16,8 +16,6 @@
 // limitations under the License.
 //
 #endregion
-
-
 using Balder.Debug;
 using Balder.Execution;
 using Balder.Input;
@@ -25,11 +23,11 @@ using Balder.Math;
 using Balder.Objects;
 using Balder.Rendering;
 using Balder.View;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using Ninject;
-
 #endif
+using Vector = Balder.Math.Vector;
 
 namespace Balder.Display
 {
@@ -38,7 +36,7 @@ namespace Balder.Display
 	/// The viewport also holds the view used to render and also holds the scene that contains the objects that
 	/// will be rendered within the viewport
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Viewport : FrameworkElement
 #else
 	public class Viewport
@@ -50,7 +48,7 @@ namespace Balder.Display
 
 		private Ray _mousePickRay;
 
-#if(SILVERLIGHT)
+#if(XAML)
 		/// <summary>
 		/// Creates a viewport
 		/// </summary>
@@ -87,45 +85,45 @@ namespace Balder.Display
 		}
 
 		/// <summary>
-		/// Get or set the x position in pixelsof the viewport within the display, where 0 is the left
+		/// Gets or sets the x position in pixelsof the viewport within the display, where 0 is the left
 		/// </summary>
 		public int XPosition { get; set; }
 
 		/// <summary>
-		/// Get or set the y position in pixels of the viewport within the display, where 0 is the top.
+		/// Gets or sets the y position in pixels of the viewport within the display, where 0 is the top.
 		/// </summary>
 		public int YPosition { get; set; }
 
 		/// <summary>
-		/// Get or set the width in pixels of the viewport within the display
+		/// Gets or sets the width in pixels of the viewport within the display
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		public new int Width { get; set; }
 #else
 		public int Width { get; set; }
 #endif
 
 		/// <summary>
-		/// Get or set the height in pixels of the viewport within the display
+		/// Gets or sets the height in pixels of the viewport within the display
 		/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 		public new int Height { get; set; }
 #else
 		public int Height { get; set; }
 #endif
 
 		/// <summary>
-		/// Get or set the scene to use during rendering
+		/// Gets or sets the scene to use during rendering
 		/// </summary>
 		public Scene Scene { get; set; }
 
 		/// <summary>
-		/// Get or set the view to be used during rendering
+		/// Gets or sets the view to be used during rendering
 		/// </summary>
 		public IView View { get; set; }
 
 		/// <summary>
-		/// Get or set the debug info for the Viewport
+		/// Gets or sets the debug info for the Viewport
 		/// </summary>
 		public DebugInfo DebugInfo { get; set; }
 
@@ -135,7 +133,7 @@ namespace Balder.Display
 		public IDisplay Display { get; internal set; }
 
 		/// <summary>
-		/// Get or set the Skybox for the display
+		/// Gets or sets the Skybox for the display
 		/// </summary>
 		public Skybox Skybox { get; set; }
 
@@ -166,16 +164,30 @@ namespace Balder.Display
 		public ViewportStatistics Statistics { get; private set; }
 
 
+		/// <summary>
+		/// Identifies the MousePickRayStart property
+		/// </summary>
 		public static readonly Property<Viewport, Coordinate> MousePickRayStartProperty =
 			Property<Viewport, Coordinate>.Register(v => v.MousePickRayStart);
+
+		/// <summary>
+		/// Gets or sets the ray start for a mouse
+		/// </summary>
 		public Coordinate MousePickRayStart
 		{
 			get { return MousePickRayStartProperty.GetValue(this); }
 			set { MousePickRayStartProperty.SetValue(this, value); }
 		}
 
+		/// <summary>
+		/// Identifies the MousePickRayDirection property
+		/// </summary>
 		public static readonly Property<Viewport, Coordinate> MousePickRayDirectionProperty =
 			Property<Viewport, Coordinate>.Register(v => v.MousePickRayDirection);
+
+		/// <summary>
+		/// Gets or sets the ray direction for a mouse
+		/// </summary>
 		public Coordinate MousePickRayDirection
 		{
 			get { return MousePickRayDirectionProperty.GetValue(this); }
@@ -185,38 +197,6 @@ namespace Balder.Display
 
 
 
-		/// <summary>
-		/// Unproject a 2D coordinate into 3D. Basically convert a 2D point with depth
-		/// information (Z) into a real 3D coordinate.
-		/// </summary>
-		/// <param name="source">Point to unproject</param>
-		/// <param name="projection">Projection matrix</param>
-		/// <param name="view">View matrix</param>
-		/// <param name="world">World matrix</param>
-		/// <returns>Unprojected 3D coordinate</returns>
-		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
-		{
-			var combinedMatrix = (world * view) * projection;
-			var matrix = Matrix.Invert(combinedMatrix);
-
-			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
-			source.Y = -((source.Y / ((float)Height)) * 2f) - 1f;
-			source.Z = (source.Z - MinDepth) / (MaxDepth - MinDepth);
-			source.W = 1f;
-			var vector = Vector.TransformNormal(source, matrix);
-
-			var a = (source.X * matrix.M14) +
-						(source.Y * matrix.M24) +
-						(source.Z * matrix.M34) +
-						(matrix.M44);
-
-			if (!WithinEpsilon(a, 1f))
-			{
-				vector = (Vector)(vector / (a));
-			}
-
-			return vector;
-		}
 
 
 
@@ -243,7 +223,7 @@ namespace Balder.Display
 			RenderableNode closestNode = null;
 			var closestDistance = float.MaxValue;
 
-			foreach ( var node in Scene.RenderableNodes)
+			foreach (var node in Scene.RenderableNodes)
 			{
 				GetNodeAtPosition(node, pickRay, ref closestNode, ref closestDistance);
 			}
@@ -253,7 +233,7 @@ namespace Balder.Display
 
 		private void GetNodeAtPosition(INode node, Ray pickRay, ref RenderableNode closestNode, ref float closestDistance)
 		{
-			if( !node.IsIntersectionTestEnabled || !IsNodeVisible(node))
+			if (!node.IsIntersectionTestEnabled || !IsNodeVisible(node))
 			{
 				return;
 			}
@@ -309,7 +289,7 @@ namespace Balder.Display
 
 		private bool IsNodeVisible(INode node)
 		{
-			if( node is ICanBeVisible)
+			if (node is ICanBeVisible)
 			{
 				return ((ICanBeVisible)node).IsVisible;
 			}
@@ -321,39 +301,14 @@ namespace Balder.Display
 			var view = View.ViewMatrix;
 			var world = Matrix.Identity;
 			var projection = View.ProjectionMatrix;
+			var nearPoint = Unproject(new Vector(x, y, View.Near), projection, view, world);
+			var farPoint = Unproject(new Vector(x, y, View.Far), projection, view, world);
+			var position = nearPoint;
 
-			var v = new Vector
-						{
-							X = (((2.0f * x) / Width) - 1) / (projection.M11),
-							Y = -(((2.0f * y) / Height) - 1) / (projection.M22),
-							Z = 1f
-						};
+			var direction = farPoint - nearPoint;
+			direction.Normalize();
 
-
-			var inverseView = Matrix.Invert(view);
-
-			var ray = new Ray
-						{
-							Direction = new Vector
-											{
-												X = (v.X * inverseView.M11) + (v.Y * inverseView.M21) + (v.Z * inverseView.M31),
-												Y = (v.X * inverseView.M12) + (v.Y * inverseView.M22) + (v.Z * inverseView.M32),
-												Z = (v.X * inverseView.M13) + (v.Y * inverseView.M23) + (v.Z * inverseView.M33),
-												W = 1f
-											}
-						};
-			ray.Direction.Normalize();
-
-			ray.Position = new Vector
-							{
-								X = inverseView.M41,
-								Y = inverseView.M42,
-								Z = inverseView.M43,
-								W = 1f
-							};
-
-			ray.Position += (ray.Direction * View.Near);
-
+			var ray = new Ray(position, direction);
 			return ray;
 		}
 
@@ -368,13 +323,13 @@ namespace Balder.Display
 		public void Render(RenderMessage renderMessage)
 		{
 			ScreenMatrix = Matrix.CreateScreenTranslation(Width, Height);
-			ViewProjectionScreenMatrix = View.ViewMatrix*View.ProjectionMatrix*ScreenMatrix;
+
+			ViewProjectionScreenMatrix = View.ViewMatrix * View.ProjectionMatrix * ScreenMatrix;
 			if (null != View)
 			{
 				View.Update(this);
 
-				
-				if (null != Skybox && 
+				if (null != Skybox &&
 					Skybox.IsEnabled &&
 					(_render || !_runtimeContext.PassiveRendering))
 				{
@@ -391,6 +346,40 @@ namespace Balder.Display
 
 			_runtimeContext.MessengerContext.Send(RenderDoneMessage.Default);
 			_render = false;
+		}
+
+
+		/// <summary>
+		/// Unproject a 2D coordinate into 3D. Basically convert a 2D point with depth
+		/// information (Z) into a real 3D coordinate.
+		/// </summary>
+		/// <param name="source">Point to unproject</param>
+		/// <param name="projection">Projection matrix</param>
+		/// <param name="view">View matrix</param>
+		/// <param name="world">World matrix</param>
+		/// <returns>Unprojected 3D coordinate</returns>
+		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
+		{
+			var combinedMatrix = (world * view) * projection;
+			var matrix = Matrix.Invert(combinedMatrix);
+
+			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
+			source.Y = -(((source.Y / ((float)Height)) * 2f) - 1f);
+			source.Z = (source.Z - View.Near) / (View.Far - View.Near);
+			source.W = 1f;
+			var vector = Vector.Transform(source, matrix);
+
+			var a = (source.X * matrix.M14) +
+						(source.Y * matrix.M24) +
+						(source.Z * matrix.M34) +
+						(matrix.M44);
+
+			if (!WithinEpsilon(a, 1f))
+			{
+				vector = vector / (a);
+			}
+
+			return vector;
 		}
 
 		/// <summary>
@@ -415,9 +404,9 @@ namespace Balder.Display
 
 		public Vector ProjectWithMatrix(float x, float y, float z, Matrix matrix)
 		{
-			var vector = Vector.TransformNormal(x,y,z, matrix);
+			var vector = Vector.TransformNormal(x, y, z, matrix);
 			var a = (((x * matrix.M14) + (y * matrix.M24)) + (z * matrix.M34)) + matrix.M44;
-			
+
 			if (!WithinEpsilon(a, 1f))
 			{
 				vector = vector / (a);

@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 
 #endif
 using Balder.Objects;
@@ -24,28 +24,28 @@ using Balder.Objects;
 namespace Balder.Display
 {
 	/// <summary>
-	/// Represents a display on the device
+	/// Defines a display on the device
 	/// </summary>
 	public interface IDisplay
 	{
 		/// <summary>
-		/// Get or set the background color used on the display
+		/// Gets or sets the background color used on the display
 		/// </summary>
 		Color BackgroundColor { get; set; }
 
 		/// <summary>
-		/// Get or set wether or not clear should occur
+		/// Gets or sets wether or not clear should occur
 		/// </summary>
 		bool ClearEnabled { get; set; }
 
 		/// <summary>
-		/// Get or set wether or not the display is paused
+		/// Gets or sets wether or not the display is paused
 		/// By paused, this means that it won't clear or swap next buffer
 		/// </summary>
 		bool Paused { get; set; }
 
 		/// <summary>
-		/// Get or set wether or not the entire display + rendering events
+		/// Gets or sets wether or not the entire display + rendering events
 		/// should be halted
 		/// </summary>
 		bool Halted { get; set; }
@@ -62,7 +62,7 @@ namespace Balder.Display
 		/// </summary>
 		void Uninitialize();
 
-#if(SILVERLIGHT)
+#if(XAML)
 		/// <summary>
 		/// Initialize display container
 		/// </summary>
@@ -70,6 +70,10 @@ namespace Balder.Display
 		void InitializeContainer(object container);
 #endif
 
+		/// <summary>
+		/// Intializes the skybox for the display
+		/// </summary>
+		/// <param name="skybox">Skybox to use</param>
 		void InitializeSkybox(Skybox skybox);
 
 		/// <summary>

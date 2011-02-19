@@ -1,4 +1,4 @@
-﻿#if(SILVERLIGHT)
+﻿#if(XAML)
 using System.Windows;
 using System.Windows.Input;
 #else
@@ -16,7 +16,7 @@ namespace Balder.Input
 		{
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private readonly System.Windows.Input.MouseEventArgs _originalMouseEventArgs;
 
 		internal MouseEventArgs(System.Windows.Input.MouseEventArgs originalMouseEventArgs, Point position)

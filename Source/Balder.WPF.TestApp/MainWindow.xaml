@@ -1,0 +1,14 @@
+﻿<Window x:Class="Balder.WPF.TestApp.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" xmlns:View="clr-namespace:Balder.View;assembly=Balder" Title="MainWindow" Height="350" Width="525">
+    <Grid>
+		<Execution:Game Width="800" Height="600">
+			
+			<Execution:Game.Camera>
+				<View:Camera Position="0,0,-10"/>
+			</Execution:Game.Camera>
+			
+			<Geometries:Box Dimension="5,5,5"/>
+		</Execution:Game>
+	</Grid>
+</Window>

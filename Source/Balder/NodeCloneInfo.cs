@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Balder.Execution;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using Balder.Silverlight.Helpers;
 #endif
@@ -15,7 +15,7 @@ namespace Balder
 		public Type Type { get; private set; }
 		public Dictionary<PropertyInfo,NodeClonePropertyInfo> Properties { get; private set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public DependencyProperty[] DependencyProperties { get; private set; }
 		private FieldInfo[] _dependencyPropertyFields;
 #endif
@@ -25,7 +25,7 @@ namespace Balder
 		{
 			Type = type;
 			Properties = new Dictionary<PropertyInfo, NodeClonePropertyInfo>();
-#if(SILVERLIGHT)
+#if(XAML)
 			PrepareDependencyProperties();
 #endif
 			PrepareProperties();
@@ -81,7 +81,7 @@ namespace Balder
 
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private bool IsPropertyDependencyProperty(PropertyInfo property)
 		{
 			var propName = string.Format("{0}Prop", property.Name);

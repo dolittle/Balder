@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System;
 using System.Collections.Generic;
 using System.Windows;
@@ -63,11 +63,17 @@ namespace Balder.Silverlight.Helpers
 				ToolTipService.SetToolTip(node, node.ToolTip);
 				ToolTipService.SetToolTip(node, null);
 
+				
+#if(DESKTOP)
+				// Todo : WPF
+#else
 				_rootVisual = Application.Current.RootVisual;
 				if (null != _rootVisual)
 				{
 					_rootVisual.MouseLeave += (s, e) => CloseOpenToolTips();
 				}
+#endif
+
 			}
 		}
 

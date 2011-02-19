@@ -21,7 +21,6 @@ using System.Collections.Generic;
 using Ninject;
 using Ninject.Activation;
 using Ninject.Modules;
-using Ninject.Planning.Bindings;
 
 
 namespace Balder.Execution

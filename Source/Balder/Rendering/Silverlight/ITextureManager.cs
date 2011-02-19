@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using Balder.Materials;
 
 namespace Balder.Rendering.Silverlight
@@ -28,3 +28,4 @@ namespace Balder.Rendering.Silverlight
 		Texture GetTextureForMap(IMap map);
 	}
 }
+#endif

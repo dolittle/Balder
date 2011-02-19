@@ -19,7 +19,7 @@
 
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 #else
 #if(!IOS)
 using Colors = System.Drawing.Color;

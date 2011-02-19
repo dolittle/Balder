@@ -21,7 +21,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
 using Balder.Rendering;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows;
 #endif
@@ -29,7 +29,7 @@ using System.Windows;
 namespace Balder.Execution
 {
 	public class Property<T,TP> : IProperty
-#if(SILVERLIGHT)
+#if(XAML)
 		where T:DependencyObject
 #endif
 	{
@@ -165,11 +165,7 @@ namespace Balder.Execution
 				objectProperty = _objectPropertyBag[key];
 			} else
 			{
-#if(SILVERLIGHT)
 				objectProperty = new ObjectProperty<TP>(obj, _propertyDescriptor, _defaultValue, _propertyValueChanged);
-#else
-				objectProperty = new ObjectProperty<TP>(obj, _propertyDescriptor, _defaultValue);
-#endif
 				_objectPropertyBag[key] = objectProperty;
 			}
 			return objectProperty;
@@ -206,7 +202,7 @@ namespace Balder.Execution
     		if (null == objectProperty.RuntimeContext && obj is IHaveRuntimeContext)
     		{
     			var runtimeContext = ((IHaveRuntimeContext)obj).RuntimeContext;
-#if(SILVERLIGHT)
+#if(XAML)
     			if (null == runtimeContext && obj is FrameworkElement)
     			{
     				var frameworkElement = obj as FrameworkElement;
@@ -249,7 +245,7 @@ namespace Balder.Execution
 		}
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 
 		public DependencyProperty ActualDependencyProperty { get; private set; }
 
@@ -289,6 +285,9 @@ namespace Balder.Execution
 
 		private void OnSet(T obj, TP value, ObjectProperty<TP> objectProperty)
 		{
+#if(DESKTOP)
+			// Todo : WPF
+#else
 			if( null == Deployment.Current || Deployment.Current.Dispatcher.CheckAccess())
 			{
 				obj.SetValue(ActualDependencyProperty, value);
@@ -297,6 +296,7 @@ namespace Balder.Execution
 				Deployment.Current.Dispatcher.BeginInvoke(
 						() => obj.SetValue(ActualDependencyProperty, value));
 			}
+#endif
 		}
 #else
 		private void Initialize()

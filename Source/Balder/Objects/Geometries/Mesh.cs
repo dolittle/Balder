@@ -48,7 +48,7 @@ namespace Balder.Objects.Geometries
 			_contentManager = contentManager;
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 
 		public override void Prepare(Viewport viewport)
 		{

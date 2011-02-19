@@ -62,7 +62,7 @@ namespace Balder.Content
 		}
 
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public IFileLoader GetFileLoader(string fileName)
 		{
 			if (fileName.Contains("://"))
@@ -86,6 +86,6 @@ namespace Balder.Content
 
 			return _defaultFileLoader;
 		}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 }

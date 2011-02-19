@@ -17,7 +17,7 @@
 //
 #endregion
 using System;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
@@ -29,7 +29,7 @@ using Balder.Execution;
 
 namespace Balder.Math
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	[TypeConverter(typeof(CoordinateTypeConverter))]
 	public class Coordinate : DependencyObject, INotifyPropertyChanged,
 #else
@@ -67,7 +67,7 @@ namespace Balder.Math
 			}
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
@@ -78,7 +78,7 @@ namespace Balder.Math
 			set
 			{
 				XProp.SetValue(this, value);
-#if(SILVERLIGHT)
+#if(XAML)
 				PropertyChanged.Notify(() => X);
 #endif
 			}
@@ -91,7 +91,7 @@ namespace Balder.Math
 			set
 			{
 				YProp.SetValue(this, value);
-#if(SILVERLIGHT)
+#if(XAML)
 				PropertyChanged.Notify(() => Y);
 #endif
 			}
@@ -104,7 +104,7 @@ namespace Balder.Math
 			set
 			{
 				ZProp.SetValue(this, value);
-#if(SILVERLIGHT)
+#if(XAML)
 				PropertyChanged.Notify(() => Z);
 #endif
 			}
@@ -256,6 +256,7 @@ namespace Balder.Math
 			}
 		}
 
+#if(!(XAML && DESKTOP))
 		public override bool Equals(object obj)
 		{
 			var coordinate = obj as Coordinate;
@@ -267,6 +268,7 @@ namespace Balder.Math
 			}
 			return false;
 		}
+#endif
 
 		public object GetIdentifier()
 		{

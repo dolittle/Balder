@@ -220,28 +220,6 @@ namespace Balder.Math
 			return matrix;
 		}
 
-		public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
-		{
-			var matrix = new Matrix();
-			var viewAngle = (float)System.Math.Tan((double)(fieldOfView * 0.5f));
-			var yscale = 1f / viewAngle;
-			var xscale = 1f / aspectRatio * yscale;
-
-			matrix.M11 = xscale;
-			matrix.M12 = matrix.M13 = matrix.M14 = 0f;
-
-			matrix.M22 = yscale;
-			matrix.M21 = matrix.M23 = matrix.M24 = 0f;
-
-			matrix.M31 = matrix.M32 = 0f;
-			matrix.M33 = farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
-			matrix.M34 = 1f;
-
-			matrix.M41 = matrix.M42 = matrix.M44 = 0f;
-			matrix.M43 = -nearPlaneDistance * farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
-
-			return matrix;
-		}
 
 		public static Matrix CreateScreenTranslation(int width, int height)
 		{
@@ -378,17 +356,39 @@ namespace Balder.Math
 			return matrix;
 		}
 
+		public static Matrix CreatePerspectiveFieldOfView(float fieldOfView, float aspectRatio, float nearPlaneDistance, float farPlaneDistance)
+		{
+			var matrix = new Matrix();
+			var viewAngle = (float)System.Math.Tan((double)(fieldOfView * 0.5f));
+			var yscale = 1f / viewAngle;
+			var xscale = 1f / aspectRatio * yscale;
 
+			matrix.M11 = xscale;
+			matrix.M12 = matrix.M13 = matrix.M14 = 0f;
 
+			matrix.M22 = yscale;
+			matrix.M21 = matrix.M23 = matrix.M24 = 0f;
+
+			matrix.M31 = matrix.M32 = 0f;
+			matrix.M33 = farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+			matrix.M34 = 1f;
+
+			matrix.M41 = matrix.M42 = matrix.M44 = 0f;
+			matrix.M43 = -nearPlaneDistance * farPlaneDistance / (farPlaneDistance - nearPlaneDistance);
+
+			return matrix;
+		}
 
 		public static Matrix CreateOrthographic(float width, float height, float nearPlane, float farPlane)
 		{
-			var matrix = new Matrix();
-			matrix.M11 = 2f / width;
-			matrix.M22 = 2f / height;
-			matrix.M33 = 1f / (farPlane - nearPlane);
-			matrix.M43 = nearPlane / (nearPlane - farPlane);
-			matrix.M44 = 1f;
+			var matrix = new Matrix
+			             	{
+			             		M11 = 2f/width,
+			             		M22 = 2f/height,
+			             		M33 = 1f/(farPlane - nearPlane),
+			             		M43 = -nearPlane/(farPlane - nearPlane),
+			             		M44 = 1f
+			             	};
 			return matrix;
 		}
 
@@ -399,7 +399,7 @@ namespace Balder.Math
 
 		public static Matrix CreateScale(Vector scales)
 		{
-			var matrix = Matrix.Identity;
+			var matrix = Identity;
 			var x = scales.X;
 			var y = scales.Y;
 			var z = scales.Z;
@@ -512,7 +512,7 @@ namespace Balder.Math
         }
 #endif
 
-#if(SILVERLIGHT)
+#if(XAML)
 		public System.Windows.Media.Media3D.Matrix3D	ToMatrix3D()
 		{
 			var m3d = new System.Windows.Media.Media3D.Matrix3D

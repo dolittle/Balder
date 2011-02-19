@@ -22,7 +22,7 @@
 using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows;
 using Balder.Silverlight.TypeConverters;
@@ -33,7 +33,7 @@ using Ninject;
 
 namespace Balder.Objects
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Skybox : FrameworkElement
 #else
 	public class Skybox
@@ -59,32 +59,32 @@ namespace Balder.Objects
 			set { IsEnabledProperty.SetValue(this, value); }
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Front { get; set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Back { get; set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Top { get; set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Bottom { get; set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Left { get; set; }
 
-#if(SILVERLIGHT)
+#if(XAML)
 		[TypeConverter(typeof(UriToImageMapTypeConverter))]
 #endif
 		public IMap Right { get; set; }

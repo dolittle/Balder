@@ -43,7 +43,7 @@ namespace Balder.Content.Silverlight
 		}
 
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public Stream GetStream(string assetName)
 		{
 			var filename = _filePathHelper.GetFileNameForAsset(assetName);
@@ -63,7 +63,7 @@ namespace Balder.Content.Silverlight
 		{
 			get { throw new NotImplementedException(); }
 		}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 }
 #endif

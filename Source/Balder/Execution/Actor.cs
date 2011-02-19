@@ -17,7 +17,7 @@
 //
 #endregion
 using System;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows.Controls;
 #endif
 using Balder.Collections;
@@ -30,9 +30,9 @@ using Microsoft.Practices.ServiceLocation;
 namespace Balder.Execution
 {
 	/// <summary>
-	/// Base class for all actors.
+	/// Represents a base class for all actors.
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Actor : Grid, IActor
 #else
 	public class Actor : IActor

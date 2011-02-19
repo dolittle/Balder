@@ -56,7 +56,7 @@ namespace Balder.Content
 			Creator = contentCreator;
 		}
 
-#pragma warning disable 1591
+#pragma warning disable 1591 // Xml Comments
 		public T Load<T>(string assetName)
 			where T : IAsset
 		{
@@ -112,6 +112,6 @@ namespace Balder.Content
 		public IContentCreator Creator { get; private set; }
 
 		public string AssetsRoot { get; set; }
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 	}
 }

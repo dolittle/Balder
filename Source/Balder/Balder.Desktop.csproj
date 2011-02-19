@@ -61,6 +61,8 @@
     </Compile>
     <Compile Include="Assets\AssetLoader.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
@@ -70,7 +72,6 @@
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Assets\IAssetLoaderService.cs" />
     <Compile Include="Assets\IAssetPart.cs" />
-    <Compile Include="Cluts.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
     <Compile Include="Collections\NodeCollection.cs" />
     <Compile Include="Color.cs" />
@@ -81,22 +82,26 @@
     <Compile Include="Content\ContentCache.cs" />
     <Compile Include="Content\ContentCreator.cs" />
     <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Content\FileLoaderManager.cs" />
     <Compile Include="Content\IContentCache.cs" />
     <Compile Include="Content\IContentCreator.cs" />
     <Compile Include="Content\IContentManager.cs" />
     <Compile Include="Content\IFileLoader.cs" />
+    <Compile Include="Content\IFileLoaderManager.cs" />
     <Compile Include="Debug\BoundingSphereDebugShape.cs" />
     <Compile Include="Debug\DebugInfo.cs" />
     <Compile Include="Debug\DebugRenderer.cs" />
     <Compile Include="Debug\DebugShape.cs" />
     <Compile Include="Debug\IDebugRenderer.cs" />
     <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Debug\RectangleDebugShape.cs" />
     <Compile Include="Diagnostics\IStopwatch.cs" />
     <Compile Include="Diagnostics\NullStopwatch.cs" />
     <Compile Include="Diagnostics\Stopwatch.cs" />
     <Compile Include="Display\IDisplay.cs" />
     <Compile Include="Display\IDisplayDevice.cs" />
     <Compile Include="Display\Viewport.cs" />
+    <Compile Include="Display\ViewportStatistics.cs" />
     <Compile Include="EnvironmentalNode.cs" />
     <Compile Include="Exceptions\AssetNotFoundException.cs" />
     <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
@@ -116,10 +121,13 @@
     <Compile Include="Execution\ICanHandleCloning.cs" />
     <Compile Include="Execution\ICanNotifyChanges.cs" />
     <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="Execution\ILabelManager.cs" />
     <Compile Include="Execution\IMessenger.cs" />
     <Compile Include="Execution\IMessengerContext.cs" />
     <Compile Include="Execution\IPlatform.cs" />
+    <Compile Include="Execution\IProperty.cs" />
     <Compile Include="Execution\IRuntime.cs" />
     <Compile Include="Execution\IStateMachine.cs" />
     <Compile Include="Execution\ITypeDiscoverer.cs" />
@@ -130,6 +138,8 @@
     <Compile Include="Execution\ObjectProperty.cs" />
     <Compile Include="Execution\PlatformKernel.cs" />
     <Compile Include="Execution\Property.cs" />
+    <Compile Include="Execution\PropertyDescriptor.cs" />
+    <Compile Include="Execution\PropertyValueChanged.cs" />
     <Compile Include="Execution\Runtime.cs" />
     <Compile Include="Execution\SingletonAttribute.cs" />
     <Compile Include="Execution\StateMachine.cs" />
@@ -139,14 +149,17 @@
     <Compile Include="Extensions\ICollectionExtensions.cs" />
     <Compile Include="Extensions\IListExtensions.cs" />
     <Compile Include="Extensions\ImageFormatExtensions.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Extensions\WaitHandleExtensions.cs" />
     <Compile Include="HierarchicalNode.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
     <Compile Include="Imaging\IImageContext.cs" />
     <Compile Include="Imaging\Image.cs" />
     <Compile Include="Imaging\ImageFormat.cs" />
     <Compile Include="Imaging\ImageHelper.cs" />
     <Compile Include="Imaging\ImagePalette.cs" />
     <Compile Include="INode.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
     <Compile Include="Input\IMouseDevice.cs" />
     <Compile Include="Input\IMouseManager.cs" />
     <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
@@ -179,6 +192,8 @@
     <Compile Include="Math\Core.cs" />
     <Compile Include="Math\Dimension.cs" />
     <Compile Include="Math\Frustum.cs" />
+    <Compile Include="Math\FrustumIntersection.cs" />
+    <Compile Include="Math\FrustumLocation.cs" />
     <Compile Include="Math\Interpolator.cs" />
     <Compile Include="Math\MathHelper.cs" />
     <Compile Include="Math\Matrix.cs" />
@@ -247,6 +262,7 @@
     <Compile Include="Utils\NInjectExtensions.cs" />
     <Compile Include="View\Camera.cs" />
     <Compile Include="View\IView.cs" />
+    <Compile Include="View\OrthographicCamera.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

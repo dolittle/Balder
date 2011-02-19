@@ -19,7 +19,7 @@
 
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Collections.Specialized;
 using System.Windows.Markup;
 #endif
@@ -31,7 +31,7 @@ using Balder.Rendering;
 
 namespace Balder
 {
-#if(SILVERLIGHT)
+#if(XAML)
 	[ContentProperty("Children")]
 #endif
 	public class HierarchicalNode : Node, IHaveChildren
@@ -39,7 +39,7 @@ namespace Balder
 		protected HierarchicalNode()
 		{
 			Children = new NodeCollection(this);
-#if(SILVERLIGHT)
+#if(XAML)
 			Children.CollectionChanged += ChildrenChanged;
 #endif
 		}
@@ -78,7 +78,7 @@ namespace Balder
 			}
 		}
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private void ChildrenChanged(object sender, NotifyCollectionChangedEventArgs e)
 		{
 			switch (e.Action)

@@ -2,12 +2,28 @@ using System;
 
 namespace Balder.Diagnostics
 {
-	// Based upon Tiaan Gelenhuys Stopwatch : http://blog.tiaan.com/link/2009/02/03/stopwatch-silverlight
+		/// <summary>
+	/// Represents a <see cref="IStopwatch"/> implementation
+	/// 
+	/// Based upon Tiaan Gelenhuys Stopwatch : http://blog.tiaan.com/link/2009/02/03/stopwatch-silverlight
+	/// </summary>
 	public class Stopwatch : IStopwatch
 	{
-		public static readonly bool IsHighResolution = false;
-		public static readonly long Frequency = TimeSpan.TicksPerSecond;
+		/// <summary>
+		/// Gets or sets wether or not to use high resolution.
+		/// 
+		/// Default is false
+		/// </summary>
+		public static bool IsHighResolution = false;
 
+		/// <summary>
+		/// Gets or sets the frequency for the stopwatch
+		/// 
+		/// Default is <see cref="TimeSpan.TicksPerSecond"/>
+		/// </summary>
+		public static long Frequency = TimeSpan.TicksPerSecond;
+
+#pragma warning disable 1591 // Xml Comments
 		public TimeSpan Elapsed
 		{
 			get
@@ -85,5 +101,7 @@ namespace Balder.Diagnostics
 			stopwatch.Start();
 			return stopwatch;
 		}
+
+#pragma warning restore 1591 // Xml Comments
 	}
 }

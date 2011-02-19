@@ -18,7 +18,7 @@
 //
 
 #endregion
-
+#if(SILVERLIGHT)
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -163,3 +163,4 @@ namespace Balder.Rendering.Silverlight
 		}
 	}
 }
+#endif

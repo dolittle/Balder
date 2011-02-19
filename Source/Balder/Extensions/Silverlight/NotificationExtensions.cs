@@ -16,7 +16,7 @@
 // limitations under the License.
 //
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System;
 using System.ComponentModel;
 using System.Reflection;
@@ -66,6 +66,9 @@ namespace Balder.Extensions.Silverlight
 
 						if (e.PropertyName.Equals(propertyInfo.Name))
 						{
+#if(DESKTOP)
+							// Todo : WPF
+#else
 							var dispatcher = Application.Current.RootVisual.Dispatcher;
 							if (null == dispatcher)
 							{
@@ -75,6 +78,7 @@ namespace Balder.Extensions.Silverlight
 							{
 								dispatcher.BeginInvoke(handler);
 							}
+#endif
 						}
 					};
 		}

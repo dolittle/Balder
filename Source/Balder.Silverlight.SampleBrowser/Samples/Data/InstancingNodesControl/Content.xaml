@@ -17,8 +17,8 @@
 	</UserControl.Resources>
 	<Grid x:Name="LayoutRoot">
 		<StackPanel Orientation="Vertical" >
-			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="False">
-				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}" MouseEnter="Nodes_MouseEnter">
+			<Execution:Game x:Name="Game" Width="640" Height="480" PassiveRendering="True">
+				<Controls:NodesControl x:Name="Nodes" ItemsSource="{Binding Depths}" MouseEnter="Nodes_MouseEnter" MouseLeave="Nodes_MouseLeave">
 					<Controls:NodesControl.NodeTemplate>
 						<DataTemplate>
 							<Controls:NodesControl ItemsSource="{Binding Rows}">

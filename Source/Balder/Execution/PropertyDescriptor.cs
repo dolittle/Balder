@@ -18,7 +18,7 @@ namespace Balder.Execution
 		public bool CanNotify { get; private set; }
 		public bool IsValueType { get; private set; }
 		public bool IsCopyable { get; private set; }
-#if(SILVERLIGHT)
+#if(XAML)
 		public bool IsValueNotifyPropertyChanged { get; private set; }
 #endif
 
@@ -34,7 +34,7 @@ namespace Balder.Execution
 			CanNotify = OwnerType.HasInterface<ICanNotifyChanges>();
 			IsUnique = OwnerType.HasInterface<IAmUnique>();
 				
-#if(SILVERLIGHT)
+#if(XAML)
 			IsValueNotifyPropertyChanged = PropertyType.HasInterface<INotifyPropertyChanged>();
 #endif
 			PopulateChildProperties();

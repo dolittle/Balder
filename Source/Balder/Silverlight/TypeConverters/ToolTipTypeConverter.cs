@@ -18,7 +18,7 @@
 //
 
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
 using System.Windows.Controls;
 

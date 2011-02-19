@@ -18,6 +18,7 @@
 //
 
 #endregion
+#if(SILVERLIGHT)
 
 using System.Collections.Generic;
 using Balder.Materials;
@@ -54,3 +55,4 @@ namespace Balder.Rendering.Silverlight
 		}
 	}
 }
+#endif

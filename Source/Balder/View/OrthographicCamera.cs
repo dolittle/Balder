@@ -20,6 +20,7 @@
 #endregion
 
 using Balder.Display;
+using Balder.Execution;
 using Balder.Math;
 
 namespace Balder.View
@@ -28,8 +29,34 @@ namespace Balder.View
 	{
 		protected override void SetupProjection(Viewport viewport)
 		{
-			ProjectionMatrix = Matrix.CreateOrthographic(viewport.Width, viewport.Height, Near, Far);
+			if( XSize == 0 )
+			{
+				XSize = viewport.Width;
+			}
+			if( YSize == 0 )
+			{
+				YSize = viewport.Height;
+			}
+			
+			ProjectionMatrix = Matrix.CreateOrthographic((float)XSize, (float)YSize, Near, Far);
 		}
-		
+
+
+		public static readonly Property<OrthographicCamera, double> XSizeProperty =
+			Property<OrthographicCamera, double>.Register(c => c.XSize);
+		public double XSize
+		{
+			get { return XSizeProperty.GetValue(this); }
+			set { XSizeProperty.SetValue(this, value); }
+		}
+
+		public static readonly Property<OrthographicCamera, double> YSizeProperty =
+			Property<OrthographicCamera, double>.Register(c => c.YSize);
+		public double YSize
+		{
+			get { return YSizeProperty.GetValue(this); }
+			set { YSizeProperty.SetValue(this, value); }
+		}
+
 	}
 }

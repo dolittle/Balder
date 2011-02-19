@@ -42,7 +42,7 @@ namespace Balder.Lighting
 				return WhiteAsInt;
 			}
 
-			var color = 0; // _sceneAmbient;
+			var color = material.AmbientAsInt; //0; // _sceneAmbient;
 			var diffuse = 0; // Color.AlphaFull | 0xffffff;
 			var specular = 0;
 			var lightDiffuse = 0;
@@ -62,5 +62,5 @@ namespace Balder.Lighting
 			return color | Color.AlphaFull;
 		}
 	}
-#pragma warning restore 1591
+#pragma warning restore 1591 // Xml Comments
 }

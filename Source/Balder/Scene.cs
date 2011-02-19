@@ -23,7 +23,7 @@ using Balder.Execution;
 using Balder.Lighting;
 using Balder.Objects.Flat;
 using Balder.Rendering;
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 #endif
 #if(DEFAULT_CONSTRUCTOR)
@@ -38,7 +38,7 @@ namespace Balder
 	/// scene and the scene will handle the management and rendering 
 	/// of the nodes
 	/// </summary>
-#if(SILVERLIGHT)
+#if(XAML)
 	public class Scene : FrameworkElement
 #else
 	public class Scene
@@ -148,7 +148,7 @@ namespace Balder
 			}
 
 			RuntimeContext.SignalRendering();
-#if(SILVERLIGHT)
+#if(XAML)
 			if (null != Game && node is UIElement)
 			{
 				Game.AddChildFromProgrammaticApproach(node);
@@ -197,7 +197,7 @@ namespace Balder
 				_allNodes.Remove(node);
 			}
 
-#if(SILVERLIGHT)
+#if(XAML)
 			if (null != Game && node is UIElement)
 			{
 				Game.RemoveNodeFromProgrammaticApproach(node);
@@ -235,7 +235,7 @@ namespace Balder
 			{
 				_allNodes.Clear();
 			}
-#if(SILVERLIGHT)
+#if(XAML)
 			Game.ClearAllProgrammaticNodes();
 #endif
 		}

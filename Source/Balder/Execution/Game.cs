@@ -25,15 +25,16 @@ using Balder.Rendering;
 using Balder.View;
 using Microsoft.Practices.ServiceLocation;
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using System.Windows.Controls;
+#endif
+
+#if(XAML)
 using Balder.Input.Silverlight;
 #endif
 
-#if(DEFAULT_CONSTRUCTOR)
 using Ninject;
-#endif
 
 namespace Balder.Execution
 {
@@ -47,14 +48,14 @@ namespace Balder.Execution
 		public event GameEventHandler Initialize = (s) => { };
 		public event GameEventHandler LoadContent = (s) => { };
 
-#if(SILVERLIGHT)
-		private bool _loaded = false;
+#if(XAML)
+		
 		private NodeMouseEventHelper _nodeMouseEventHelper;
 #endif
 
 		public Game()
-			: this(ServiceLocator.Current.GetInstance<IRuntimeContext>(),
-			ServiceLocator.Current.GetInstance<INodeRenderingService>())
+			: this(Runtime.Instance.Kernel.Get<IRuntimeContext>(),
+			Runtime.Instance.Kernel.Get<INodeRenderingService>())
 		{
 		}
 
@@ -79,7 +80,7 @@ namespace Balder.Execution
 
 		private void Constructed()
 		{
-#if(SILVERLIGHT)
+#if(XAML)
 			_programmaticChildren = new Grid();
 			Children.Add(_programmaticChildren);
 
@@ -87,8 +88,8 @@ namespace Balder.Execution
 #endif
 		}
 
-#if(SILVERLIGHT)
-
+#if(XAML)
+		private bool _loaded = false;
 		private Grid _programmaticChildren { get; set; }
 		private bool _nodeAddedFromXaml;
 
@@ -124,7 +125,9 @@ namespace Balder.Execution
 		public void Unload()
 		{
 			Runtime.Instance.UnregisterGame(this);
+#if(XAML)
 			_nodeMouseEventHelper.Dispose();
+#endif
 		}
 
 		private void GameLoaded(object sender, RoutedEventArgs e)
@@ -133,13 +136,15 @@ namespace Balder.Execution
 			{
 				return;
 			}
+
 			_loaded = true;
 			Validate();
 			RegisterGame();
 			AddNodesToScene();
 			InitializeViewport();
-			
+#if(XAML)
 			_nodeMouseEventHelper = new NodeMouseEventHelper(this, Viewport);
+#endif
 		}
 
 		private void InitializeViewport()
@@ -154,7 +159,9 @@ namespace Balder.Execution
 		{
 			RuntimeContext.Display.Initialize((int)Width,(int)Height);
 			Runtime.Instance.RegisterGame(RuntimeContext.Display, this);
+#if(XAML)
 			RuntimeContext.Display.InitializeContainer(this);
+#endif
 			if( null != Skybox )
 			{
 				RuntimeContext.Display.InitializeSkybox(Skybox);
@@ -191,7 +198,7 @@ namespace Balder.Execution
 			set
 			{
 				var previousCamera = Camera;
-#if(SILVERLIGHT)
+#if(XAML)
 				if (null != previousCamera)
 				{
 					if (Children.Contains(previousCamera))

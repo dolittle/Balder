@@ -17,43 +17,52 @@
 //
 #endregion
 
-#if(SILVERLIGHT)
+#if(XAML)
 using System.ComponentModel;
-using Balder.Extensions.Silverlight;
 #endif
 
 namespace Balder.Display
 {
+	/// <summary>
+	/// Represents statistics for a viewport
+	/// </summary>
 	public class ViewportStatistics 
-#if(SILVERLIGHT)
+#if(XAML)
 		: INotifyPropertyChanged
 #endif
 	{
-#if(SILVERLIGHT)
+#if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
 		private int _renderedNodes;
+
+		/// <summary>
+		/// Gets or sets the amount of rendered nodes inside the viewport
+		/// </summary>
 		public int RenderedNodes
 		{
 			get { return _renderedNodes; }
 			set
 			{
 				_renderedNodes = value;
-#if(SILVERLIGHT)
+#if(XAML)
 				OnPropertyChanged("RenderedNodes");
 #endif
 			}
 		}
 
 
+		/// <summary>
+		/// Reset counters
+		/// </summary>
 		public void Reset()
 		{
 			RenderedNodes = 0;
 		}
 
 
-#if(SILVERLIGHT)
+#if(XAML)
 		private void OnPropertyChanged(string propertyName)
 		{
 			if( null != PropertyChanged )
