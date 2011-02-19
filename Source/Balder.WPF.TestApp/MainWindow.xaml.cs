@@ -13,7 +13,7 @@ namespace Balder.WPF.TestApp
 
         void CompositionTarget_Rendering(object sender, System.EventArgs e)
         {
-            _box.Rotation.Y += 0.5;
+            _object.Rotation.Y += 0.5;
         }
 	}
 }
