@@ -28,6 +28,7 @@
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
 					<RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
 				</Grid.RowDefinitions>
 				
 				<TextBlock Text="X Axis" Grid.Row="0" Grid.Column="0" Foreground="White" />
@@ -45,6 +46,11 @@
 				<TextBlock Text="Field of View" Grid.Row="3" Grid.Column="0" Foreground="White"/>
 				<Slider x:Name="_fovSlider" HorizontalAlignment="Stretch" Grid.Row="3" Grid.Column="1" Minimum="40" Maximum="150" ValueChanged="Slider_ValueChanged"/>
 				<TextBlock Text="{Binding Path=Value, ElementName=_fovSlider, Mode=OneWay}" Grid.Row="3" Grid.Column="2" Foreground="White"/>
+                
+                <StackPanel Orientation="Horizontal" Grid.Row="4" Grid.ColumnSpan="3">
+                    <Button Content="Perspective Camera" Click="PerspectiveCameraButtonClick"/>
+                    <Button Content="Orthographic Camera" Click="OrthographicCameraButtonClick"/>
+                </StackPanel>
 			</Grid>
 			
 		</StackPanel>
