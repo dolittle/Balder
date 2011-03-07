@@ -25,11 +25,9 @@ namespace Balder.Math
 	public class Frustum
 	{
 		private readonly Plane[] _planes = new Plane[(int)FrustumLocation.Total];
-		private Vector nearTopLeft, nearTopRight, nearBottomLeft, nearBottomRight, farTopLeft, farTopRight, farBottomLeft, farBottomRight;
+		private Vector _nearTopLeft, _nearTopRight, _nearBottomLeft, _nearBottomRight, _farTopLeft, _farTopRight, _farBottomLeft, _farBottomRight;
 		private float _near;
 		private float _far;
-		private float _aspectRatio;
-		private float _fieldOfView;
 		private float _tang;
 		private float _nearWidth;
 		private float _nearHeight;
@@ -46,12 +44,8 @@ namespace Balder.Math
 		}
 
 
-		private const double ANG2RAD = 3.14159265358979323846/180.0;
-
 		public void SetCameraInternals(float fieldOfView, float aspectRatio, float near, float far)
 		{
-			_fieldOfView = fieldOfView;
-			_aspectRatio = aspectRatio;
 			_near = near;
 			_far = far;
 
@@ -79,25 +73,25 @@ namespace Balder.Math
 
 			var nearClip = camera.Position - (z * _near);
 
-			nearTopLeft = nearClip + (y * _nearHeight) - (x * _nearWidth);
-			nearTopRight = nearClip + (y * _nearHeight) + (x * _nearWidth);
-			nearBottomLeft = nearClip - (y * _nearHeight) - (x * _nearWidth);
-			nearBottomRight = nearClip - (y * _nearHeight) + (x * _nearWidth);
+			_nearTopLeft = nearClip + (y * _nearHeight) - (x * _nearWidth);
+			_nearTopRight = nearClip + (y * _nearHeight) + (x * _nearWidth);
+			_nearBottomLeft = nearClip - (y * _nearHeight) - (x * _nearWidth);
+			_nearBottomRight = nearClip - (y * _nearHeight) + (x * _nearWidth);
 
 			var farClip = camera.Position - (z * _far);
 
-			farTopLeft = farClip + (y * _farHeight) - (x * _farWidth);
-			farTopRight = farClip + (y * _farHeight) + (x * _farWidth);
-			farBottomLeft = farClip - (y * _farHeight) - (x * _farWidth);
-			farBottomRight = farClip - (y * _farHeight) + (x * _farWidth);
+			_farTopLeft = farClip + (y * _farHeight) - (x * _farWidth);
+			_farTopRight = farClip + (y * _farHeight) + (x * _farWidth);
+			_farBottomLeft = farClip - (y * _farHeight) - (x * _farWidth);
+			_farBottomRight = farClip - (y * _farHeight) + (x * _farWidth);
 
 
-			_planes[(int)FrustumLocation.Top].SetVectors(nearTopRight, nearTopLeft, farTopLeft);
-			_planes[(int)FrustumLocation.Bottom].SetVectors(nearBottomLeft, nearBottomRight, farBottomRight);
-			_planes[(int)FrustumLocation.Left].SetVectors(nearTopLeft, nearBottomLeft, farBottomLeft);
-			_planes[(int)FrustumLocation.Right].SetVectors(nearBottomRight, nearTopRight, farBottomRight);
-			_planes[(int)FrustumLocation.Near].SetVectors(nearTopLeft, nearTopRight, farBottomRight);
-			_planes[(int)FrustumLocation.Far].SetVectors(farTopRight, farTopLeft, farBottomLeft);
+			_planes[(int)FrustumLocation.Top].SetVectors(_nearTopRight, _nearTopLeft, _farTopLeft);
+			_planes[(int)FrustumLocation.Bottom].SetVectors(_nearBottomLeft, _nearBottomRight, _farBottomRight);
+			_planes[(int)FrustumLocation.Left].SetVectors(_nearTopLeft, _nearBottomLeft, _farBottomLeft);
+			_planes[(int)FrustumLocation.Right].SetVectors(_nearBottomRight, _nearTopRight, _farBottomRight);
+			_planes[(int)FrustumLocation.Near].SetVectors(_nearTopLeft, _nearTopRight, _nearBottomRight);
+			_planes[(int)FrustumLocation.Far].SetVectors(_farTopRight, _farTopLeft, _farBottomLeft);
 		}
 
 

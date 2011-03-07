@@ -1,4 +1,5 @@
 ﻿using Balder.Math;
+using Balder.View;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.View.CameraManipulation
 {
@@ -45,5 +46,23 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.CameraManipulation
 
 			_game.Camera.FieldOfView = _fovSlider.Value;
 		}
-	}
+
+        private void PerspectiveCameraButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var currentPosition = _game.Camera.Position.ToVector();
+            var currentTarget = _game.Camera.Target.ToVector();
+            _game.Camera = new Camera();
+            _game.Camera.Position = currentPosition;
+            _game.Camera.Target = currentTarget;
+        }
+
+        private void OrthographicCameraButtonClick(object sender, System.Windows.RoutedEventArgs e)
+        {
+            var currentPosition = _game.Camera.Position.ToVector();
+            var currentTarget = _game.Camera.Target.ToVector();
+            _game.Camera = new OrthographicCamera();
+            _game.Camera.Position = currentPosition;
+            _game.Camera.Target = currentTarget;
+        }
+    }
 }

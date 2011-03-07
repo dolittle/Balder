@@ -18,8 +18,6 @@
 #endregion
 #if(XNA)
 using System;
-using System.IO;
-using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -27,10 +25,8 @@ using Balder.Materials;
 using Balder.Objects.Geometries;
 using Balder.Rendering;
 using Microsoft.Xna.Framework.Graphics;
-using Rectangle = Microsoft.Xna.Framework.Rectangle;
 #if(XAML)
 using System.Windows.Controls;
-using System.Windows.Forms;
 using System.Windows.Media;
 #endif
 
@@ -60,7 +56,7 @@ namespace Balder.Display.Xna
 
 		WriteableBitmap _writeableBitmap;
 		RenderTarget2D _renderTarget;
-		int[] _pixels;
+		byte[] _pixels;
 #endif
 
         public Display(IRuntimeContext runtimeContext)
@@ -104,14 +100,10 @@ namespace Balder.Display.Xna
 
 			//GraphicsDevice.BlendState = BlendState.Opaque;
 
-			_spriteBatch = new SpriteBatch(GraphicsDevice);
-			var texture = File.OpenRead(@"C:\Projects\Balder\Source\Balder.Silverlight.SampleBrowser\Assets\BalderLogo.png");
-			_texture = Texture2D.FromStream(GraphicsDevice, texture);
-
 #if(XAML)
-			_writeableBitmap = new WriteableBitmap(800, 600, 72, 72, PixelFormats.Bgr32, BitmapPalettes.WebPalette);
-			_renderTarget = new RenderTarget2D(GraphicsDevice, 800, 600, false, SurfaceFormat.Rg32, DepthFormat.Depth16);
-			_pixels = new int[800*600];
+			_writeableBitmap = new WriteableBitmap(800, 600, 96, 96, PixelFormats.Bgra32, BitmapPalettes.WebPalette);
+			_renderTarget = new RenderTarget2D(GraphicsDevice, 800, 600, false, SurfaceFormat.Color, DepthFormat.Depth16);
+			_pixels = new byte[800*600*4];
 #endif
 			
 		}
@@ -140,19 +132,19 @@ namespace Balder.Display.Xna
 		private void CopyFromRenderTargetToWriteableBitmap()
 		{
 			_renderTarget.GetData(_pixels);
-			_writeableBitmap.Lock();
-			_writeableBitmap.WritePixels(_fullScreenRect, _pixels, 800*4,0);
-			_writeableBitmap.AddDirtyRect(_fullScreenRect);
-			_writeableBitmap.Unlock();
+
+            for (var pixelIndex = 0; pixelIndex < _pixels.Length; pixelIndex+=4 )
+            {
+                var red = _pixels[pixelIndex];
+                _pixels[pixelIndex] = _pixels[pixelIndex + 2];
+                _pixels[pixelIndex + 2] = red;
+            }
+
+            _writeableBitmap.WritePixels(_fullScreenRect, _pixels, 800 * 4, 0);
 		}
 
 
 #endif
-
-    	private SpriteBatch _spriteBatch;
-    	private Texture2D _texture;
-
-    	private double sin;
 
 #if(XAML)
 		void Render(object sender, EventArgs e)
@@ -160,32 +152,27 @@ namespace Balder.Display.Xna
 		private void WindowRender(object sender, PaintEventArgs e)
 #endif
 		{
+            GraphicsDevice.SetRenderTarget(_renderTarget);
 			//if (ClearEnabled)
 			{
 				GraphicsDevice.Clear(
 					ClearOptions.Target | ClearOptions.DepthBuffer,
-					Microsoft.Xna.Framework.Color.AliceBlue,
-					//new Microsoft.Xna.Framework.Color(BackgroundColor.Red, BackgroundColor.Green, BackgroundColor.Blue, 0xff),
+					new Microsoft.Xna.Framework.Color(BackgroundColor.Red, BackgroundColor.Green, BackgroundColor.Blue, 0xff),
 					1f,
 					0);
 			}
-
-			var size = (int) ((System.Math.Sin(sin)*128) + 128);
-			
-			_spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend);
-			_spriteBatch.Draw(_texture, new Rectangle(0,0,size,size), new Microsoft.Xna.Framework.Color(0xff,0xff,0xff,0xff));
-			_spriteBatch.End();
-			
-			sin += 0.05d;
 			
 			_runtimeContext.MessengerContext.Send(PrepareMessage.Default);
 			_runtimeContext.MessengerContext.Send(RenderMessage.Default);
+
+            GraphicsDevice.SetRenderTarget(null);
 
 			GraphicsDevice.Present();
 
 #if(XAML)
 			CopyFromRenderTargetToWriteableBitmap();
 #endif
+            
 		}
 
         public void Initialize(int width, int height)

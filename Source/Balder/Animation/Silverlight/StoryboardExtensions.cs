@@ -18,7 +18,7 @@
 //
 
 #endregion
-#if(SILVERLIGHT)
+#if(XAML)
 using System.Windows;
 using System.Windows.Media.Animation;
 using Balder.Math;
