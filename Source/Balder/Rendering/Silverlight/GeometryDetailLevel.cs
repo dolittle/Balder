@@ -269,78 +269,6 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-		private void SetRenderedFaces(INode node, int renderedFaces)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.RenderedFaces = renderedFaces;
-			}
-		}
-
-		private void SetRenderedLines(INode node, int renderedLines)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.RenderedLines = renderedLines;
-			}
-		}
-
-		private void BeginVerticesTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.BeginVerticesTiming();
-			}
-		}
-
-		private void EndVerticesTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.EndVerticesTiming();
-			}
-		}
-
-		private void BeginLightingTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.BeginLightingTiming();
-			}
-		}
-
-		private void EndLightingTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.EndLightingTiming();
-			}
-		}
-
-		private void BeginRenderingTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.BeginRenderingTiming();
-			}
-		}
-
-		private void EndRenderingTiming(INode node)
-		{
-			var geometryStatistics = node.Statistics as GeometryStatistics;
-			if (null != geometryStatistics)
-			{
-				geometryStatistics.EndRenderingTiming();
-			}
-		}
-
 
 		private static Color GetColorFromNode(INode node)
 		{
@@ -449,33 +377,6 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-		private bool IsFaceInView(Viewport viewport, Face face)
-		{
-			var visible = true;
-			//return true;
-			visible &= (_vertices[face.A].ProjectedVector.X < viewport.Width || 
-						_vertices[face.B].ProjectedVector.X < viewport.Width ||
-						_vertices[face.C].ProjectedVector.X < viewport.Width);
-
-			visible &= (_vertices[face.A].ProjectedVector.X > 0 || 
-						_vertices[face.B].ProjectedVector.X > 0 || 
-						_vertices[face.C].ProjectedVector.X > 0);
-
-			visible &= (_vertices[face.A].ProjectedVector.Y < viewport.Height ||
-						_vertices[face.B].ProjectedVector.Y < viewport.Height ||
-						_vertices[face.C].ProjectedVector.Y < viewport.Height);
-
-			visible &= (_vertices[face.A].ProjectedVector.Y > 0 ||
-						_vertices[face.B].ProjectedVector.Y > 0 ||
-						_vertices[face.C].ProjectedVector.Y > 0);
-
-			var near = (_vertices[face.A].ProjectedVector.Z < viewport.View.Near &&
-					 _vertices[face.B].ProjectedVector.Z < viewport.View.Near &&
-					_vertices[face.C].ProjectedVector.Z < viewport.View.Near);
-
-			visible &= !near;
-			return visible;
-		}
 
 		private bool IsLineInView(Viewport viewport, Line line)
 		{
@@ -502,9 +403,12 @@ namespace Balder.Rendering.Silverlight
 			{
 				var face = _faces[faceIndex];
 
+				face.Transform(world, view);
+
 				var material = GetMaterialForFace(face, node, nodeMaterial);
 				face.Material = material;
-				bool visible = IsFaceVisible(face, viewport);
+				var visible = face.IsVisible(viewport, _vertices);
+				//var visible = IsFaceInView(viewport, face);
 				if (!visible)
 				{
 					continue;
@@ -597,26 +501,7 @@ namespace Balder.Rendering.Silverlight
 			return actualMaterial;
 		}
 
-		private bool IsFaceVisible(RenderFace face, Viewport viewport)
-		{
-			var a = _vertices[face.A];
-			var b = _vertices[face.B];
-			var c = _vertices[face.C];
-
-			var mixedproduct = (b.ProjectedVector.X - a.ProjectedVector.X) * (c.ProjectedVector.Y - a.ProjectedVector.Y) -
-							   (c.ProjectedVector.X - a.ProjectedVector.X) * (b.ProjectedVector.Y - a.ProjectedVector.Y);
-			var visible = mixedproduct < 0 && 
-							mixedproduct > -(viewport.Width*viewport.Height) &&
-							IsFaceInView(viewport, face);
-			if (null != face.Material)
-			{
-				visible |= face.Material.CachedDoubleSided;
-			}
-
-			
-
-			return visible;
-		}
+		
 
 		private int RenderLines(Viewport viewport, Color color)
 		{
@@ -712,6 +597,83 @@ namespace Balder.Rendering.Silverlight
 							face.CalculatedColorCAsInt);
 #endif
 		}
+
+		#region Statistics
+		private void SetRenderedFaces(INode node, int renderedFaces)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.RenderedFaces = renderedFaces;
+			}
+		}
+
+		private void SetRenderedLines(INode node, int renderedLines)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.RenderedLines = renderedLines;
+			}
+		}
+
+		private void BeginVerticesTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.BeginVerticesTiming();
+			}
+		}
+
+		private void EndVerticesTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndVerticesTiming();
+			}
+		}
+
+		private void BeginLightingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.BeginLightingTiming();
+			}
+		}
+
+		private void EndLightingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndLightingTiming();
+			}
+		}
+
+		private void BeginRenderingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.BeginRenderingTiming();
+			}
+		}
+
+		private void EndRenderingTiming(INode node)
+		{
+			var geometryStatistics = node.Statistics as GeometryStatistics;
+			if (null != geometryStatistics)
+			{
+				geometryStatistics.EndRenderingTiming();
+			}
+		}
+		#endregion
+
+
+
 	}
 }
 #endif

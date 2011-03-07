@@ -130,6 +130,50 @@ namespace Balder.Rendering.Silverlight
 			CalculatedColorC = Colors.Black;
 		}
 
+		public bool IsVisible(Viewport viewport, RenderVertex[] vertices)
+		{
+			var dot = Vector.Dot(TransformedPosition, TransformedNormal);
+			var visible = dot < 0 && IsInView(viewport, vertices);
+
+			if (null != Material)
+			{
+				visible |= Material.CachedDoubleSided;
+			}
+
+			return visible;
+		}
+
+		private bool IsInView(Viewport viewport, RenderVertex[] vertices)
+		{
+			var visible = true;
+		
+			visible &= (vertices[A].ProjectedVector.X < viewport.Width || 
+						vertices[B].ProjectedVector.X < viewport.Width ||
+						vertices[C].ProjectedVector.X < viewport.Width);
+
+			
+			visible &= (vertices[A].ProjectedVector.X > 0 || 
+						vertices[B].ProjectedVector.X > 0 || 
+						vertices[C].ProjectedVector.X > 0);
+
+			visible &= (vertices[A].ProjectedVector.Y < viewport.Height ||
+						vertices[B].ProjectedVector.Y < viewport.Height ||
+						vertices[C].ProjectedVector.Y < viewport.Height);
+
+			visible &= (vertices[A].ProjectedVector.Y > 0 ||
+						vertices[B].ProjectedVector.Y > 0 ||
+						vertices[C].ProjectedVector.Y > 0);
+			
+			var near = (vertices[A].ProjectedVector.Z < viewport.View.Near &&
+						vertices[B].ProjectedVector.Z < viewport.View.Near &&
+						vertices[C].ProjectedVector.Z < viewport.View.Near);
+
+			visible &= !near;
+			return visible;
+		}
+
+
+
 		public void TransformNormal(Matrix matrix)
 		{
 			TransformedNormal = Vector.TransformNormal(Normal, matrix);
@@ -359,17 +403,17 @@ namespace Balder.Rendering.Silverlight
 
 		private void Draw(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
 		{
+			vertexA.CopyTo(VertexA);
+			vertexB.CopyTo(VertexB);
+			vertexC.CopyTo(VertexC);
+
+			vertexA = VertexA;
+			vertexB = VertexB;
+			vertexC = VertexC;
+
 			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
-				vertexA.CopyTo(VertexA);
-				vertexB.CopyTo(VertexB);
-				vertexC.CopyTo(VertexC);
-
-				vertexA = VertexA;
-				vertexB = VertexB;
-				vertexC = VertexC;
-
 				GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Z);
 
 				if (vertexB.ProjectedVector.Z < viewport.View.Near)
@@ -378,10 +422,11 @@ namespace Balder.Rendering.Silverlight
 					ClipLine(viewport, vertexB, vertexC);
 
 					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
-					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+					Draw(viewport, this, material, vertexA, vertexB, vertexC);
 				}
 				else
 				{
+					
 					var vertexD = VertexD;
 					vertexA.CopyTo(vertexD);
 
@@ -389,26 +434,32 @@ namespace Balder.Rendering.Silverlight
 					ClipLine(viewport, vertexD, vertexC);
 					
 					var originalA = vertexA;
-					var originalB = vertexB;
 					var originalC = vertexC;
 
 					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
 					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
-
 					
 					vertexA = originalA;
-					vertexB = originalB;
 					vertexC = originalC;
 					
-
 					GetSortedPoints(ref vertexA, ref vertexD, ref vertexC, (v) => v.Y);
-					material.Renderer.Draw(viewport, this, vertexA, vertexD, vertexC);
+					Draw(viewport, this, material, vertexA, vertexD, vertexC);
 				}
 			}
 			else
 			{
-				material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
+				Draw(viewport, this, material, vertexA, vertexB, vertexC);
 			}
+		}
+
+		private void Draw(Viewport viewport, RenderFace face, Material material, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
+		{
+			/*
+			var mixedproduct = (vertexB.ProjectedVector.X - vertexA.ProjectedVector.X) * (vertexC.ProjectedVector.Y - vertexA.ProjectedVector.Y) -
+							   (vertexC.ProjectedVector.X - vertexA.ProjectedVector.X) * (vertexB.ProjectedVector.Y - vertexA.ProjectedVector.Y);
+			var visible = mixedproduct < 0;
+			if( visible )*/
+				material.Renderer.Draw(viewport, face, vertexA, vertexB, vertexC);
 		}
 
 
