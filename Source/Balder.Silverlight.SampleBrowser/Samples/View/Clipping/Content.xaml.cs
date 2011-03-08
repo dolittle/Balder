@@ -9,7 +9,6 @@ namespace Balder.Silverlight.SampleBrowser.Samples.View.Clipping
 			InitializeComponent();
 
 			SlidersValueChanged(this, new RoutedPropertyChangedEventArgs<double>(0,0));
-			
 		}
 
 		private void SlidersValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
