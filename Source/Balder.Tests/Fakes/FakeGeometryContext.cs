@@ -35,5 +35,10 @@ namespace Balder.Tests.Fakes
 		{
 			return true;
 		}
+
+		public void SetMaterial(Material material, INode node)
+		{
+			
+		}
 	}
 }

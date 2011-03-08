@@ -1,4 +1,5 @@
-﻿using Balder.Display;
+﻿using System;
+using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
@@ -131,6 +132,11 @@ namespace Balder.Tests.Fakes
 		public TextureCoordinate[] GetTextureCoordinates()
 		{
 			return _textureCoordinates;
+		}
+
+		public void SetMaterial(Material material, INode node)
+		{
+			
 		}
 
 		public void SetMaterial(int index, Material material)

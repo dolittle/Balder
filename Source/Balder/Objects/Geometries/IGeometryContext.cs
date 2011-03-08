@@ -18,6 +18,7 @@
 #endregion
 
 using Balder.Display;
+using Balder.Materials;
 using Balder.Rendering;
 
 namespace Balder.Objects.Geometries
@@ -28,5 +29,6 @@ namespace Balder.Objects.Geometries
 		IGeometryDetailLevel GetDetailLevel(DetailLevel level);
 		void Render(Viewport viewport, INode node, DetailLevel detailLevel);
 		bool HasDetailLevel(DetailLevel level);
+		void SetMaterial(Material material, INode node);
 	}
 }

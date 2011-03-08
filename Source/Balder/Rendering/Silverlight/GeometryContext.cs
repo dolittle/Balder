@@ -17,9 +17,11 @@
 //
 #endregion
 #if(SILVERLIGHT)
+using System;
 using System.Collections.Generic;
 using Balder.Display;
 using Balder.Lighting;
+using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
 
@@ -72,6 +74,14 @@ namespace Balder.Rendering.Silverlight
 		public bool HasDetailLevel(DetailLevel level)
 		{
 			return _detailLevels.ContainsKey(level);
+		}
+
+		public void SetMaterial(Material material, INode node)
+		{
+			foreach( var geometryDetailLevel in _detailLevels.Values )
+			{
+				geometryDetailLevel.SetMaterial(material, node);
+			}
 		}
 
 		private void GenerateBoundingBoxDetailLevel(DetailLevel sourceLevel)

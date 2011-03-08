@@ -103,6 +103,10 @@ namespace Balder.Rendering.Silverlight
 
 		public Texture BumpMap;
 
+		public bool DrawSolid;
+		public bool DrawWireframe;
+		public bool WireframeHasConstantColor;
+
 		public RenderFace(int a, int b, int c)
 			: base(a, b, c)
 		{
@@ -454,12 +458,7 @@ namespace Balder.Rendering.Silverlight
 
 		private void Draw(Viewport viewport, RenderFace face, Material material, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
-			/*
-			var mixedproduct = (vertexB.ProjectedVector.X - vertexA.ProjectedVector.X) * (vertexC.ProjectedVector.Y - vertexA.ProjectedVector.Y) -
-							   (vertexC.ProjectedVector.X - vertexA.ProjectedVector.X) * (vertexB.ProjectedVector.Y - vertexA.ProjectedVector.Y);
-			var visible = mixedproduct < 0;
-			if( visible )*/
-				material.Renderer.Draw(viewport, face, vertexA, vertexB, vertexC);
+			material.Renderer.Draw(viewport, face, vertexA, vertexB, vertexC);
 		}
 
 

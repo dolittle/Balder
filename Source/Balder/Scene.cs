@@ -115,37 +115,21 @@ namespace Balder
 			node.Scene = this;
 			if (node is ICanBeVisible)
 			{
-				lock (_renderableNodes)
-				{
-					_renderableNodes.Add(node);
-
-				}
+				_renderableNodes.Add(node);
 				if (node is Sprite)
 				{
-					lock (_flatNodes)
-					{
-						_flatNodes.Add(node);
-					}
+					_flatNodes.Add(node);
 				}
 			}
 			else
 			{
-				lock (_environmentalNodes)
-				{
-					_environmentalNodes.Add(node);
-				}
+				_environmentalNodes.Add(node);
 				if (node is ILight)
 				{
-					lock (_lights)
-					{
-						_lights.Add(node);
-					}
+					_lights.Add(node);
 				}
 			}
-			lock (_allNodes)
-			{
-				_allNodes.Add(node);
-			}
+			_allNodes.Add(node);
 
 			RuntimeContext.SignalRendering();
 #if(XAML)
@@ -165,37 +149,21 @@ namespace Balder
 		{
 			if (node is ICanBeVisible)
 			{
-				lock (_renderableNodes)
-				{
-					_renderableNodes.Remove(node);
-
-				}
+				_renderableNodes.Remove(node);
 				if (node is Sprite)
 				{
-					lock (_flatNodes)
-					{
-						_flatNodes.Remove(node);
-					}
+					_flatNodes.Remove(node);
 				}
 			}
 			else
 			{
-				lock (_environmentalNodes)
-				{
-					_environmentalNodes.Remove(node);
-				}
+				_environmentalNodes.Remove(node);
 				if (node is ILight)
 				{
-					lock (_lights)
-					{
-						_lights.Remove(node);
-					}
+					_lights.Remove(node);
 				}
 			}
-			lock (_allNodes)
-			{
-				_allNodes.Remove(node);
-			}
+			_allNodes.Remove(node);
 
 #if(XAML)
 			if (null != Game && node is UIElement)
@@ -211,30 +179,11 @@ namespace Balder
 		/// </summary>
 		public void Clear()
 		{
-			lock (_renderableNodes)
-			{
-				_renderableNodes.Clear();
-			}
-
-			lock (_flatNodes)
-			{
-				_flatNodes.Clear();
-			}
-
-			lock (_environmentalNodes)
-			{
-				_environmentalNodes.Clear();
-			}
-
-			lock (_lights)
-			{
-				_lights.Clear();
-			}
-
-			lock (_allNodes)
-			{
-				_allNodes.Clear();
-			}
+			_renderableNodes.Clear();
+			_flatNodes.Clear();
+			_environmentalNodes.Clear();
+			_lights.Clear();
+			_allNodes.Clear();
 #if(XAML)
 			Game.ClearAllProgrammaticNodes();
 #endif
@@ -261,15 +210,9 @@ namespace Balder
 				viewport.Display.Halted = true;
 				return;
 			}
-			lock (_renderableNodes)
-			{
-				lock (_allNodes)
-				{
-					_nodeRenderingService.PrepareForRendering(viewport, _allNodes);
-				}
+			_nodeRenderingService.PrepareForRendering(viewport, _allNodes);
 
-				_nodeRenderingService.Render(viewport, _renderableNodes);
-			}
+			_nodeRenderingService.Render(viewport, _renderableNodes);
 		}
 
 		public void Prepare(Viewport viewport)
@@ -278,10 +221,7 @@ namespace Balder
 			{
 				return;
 			}
-			lock (_allNodes)
-			{
-				_nodeRenderingService.Prepare(viewport, _allNodes);
-			}
+			_nodeRenderingService.Prepare(viewport, _allNodes);
 		}
 	}
 }

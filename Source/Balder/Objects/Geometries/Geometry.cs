@@ -150,6 +150,7 @@ namespace Balder.Objects.Geometries
 			{
 				MaterialProperty.SetValue(this, value);
 				_materialSet = false;
+				GeometryContext.SetMaterial(value, this);
 			}
 		}
 
