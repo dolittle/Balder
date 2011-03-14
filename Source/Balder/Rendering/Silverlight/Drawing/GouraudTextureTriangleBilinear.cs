@@ -63,39 +63,36 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+				var bufferZ = (UInt32)(1.0f - (z * ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						u = uu * z;
-						v = vv * z;
+					u = uu * z;
+					v = vv * z;
 
-						var diffuseRed = (diffuseRr >> 8) & 0xff;
-						var diffuseGreen = (diffuseGg >> 8) & 0xff;
-						var diffuseBlue = (diffuseBb >> 8) & 0xff;
+					var diffuseRed = (diffuseRr >> 8) & 0xff;
+					var diffuseGreen = (diffuseGg >> 8) & 0xff;
+					var diffuseBlue = (diffuseBb >> 8) & 0xff;
 
-						var specularRed = (specularRr >> 8) & 0xff;
-						var specularGreen = (specularGg >> 8) & 0xff;
-						var specularBlue = (specularBb >> 8) & 0xff;
+					var specularRed = (specularRr >> 8) & 0xff;
+					var specularGreen = (specularGg >> 8) & 0xff;
+					var specularBlue = (specularBb >> 8) & 0xff;
 
-						var diffuse = (diffuseRed << 16) | (diffuseGreen << 8) | diffuseBlue;
-						var specular = (specularRed << 16) | (specularGreen << 8) | specularBlue;
+					var diffuse = (diffuseRed << 16) | (diffuseGreen << 8) | diffuseBlue;
+					var specular = (specularRed << 16) | (specularGreen << 8) | specularBlue;
 
-						var intu = (int)(u) & (textureWidth - 1);
-						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] =
-							Color.Additive(MaterialAmbientAsInt,
-							Color.Additive(Color.Multiply(
-								Color.Blend(Bilerp(Texture1, intu, intv, u,v), MaterialDiffuseAsInt, Texture1Factor), diffuse), specular))
-								|Color.AlphaFull;
+					var intu = (int)(u) & (textureWidth - 1);
+					var intv = (int)(v) & (textureHeight - 1);
+					Framebuffer[offset] =
+						Color.Additive(MaterialAmbientAsInt,
+						Color.Additive(Color.Multiply(
+							Color.Blend(Bilerp(Texture1, intu, intv, u, v), MaterialDiffuseAsInt, Texture1Factor), diffuse), specular))
+							| Color.AlphaFull;
 
-						DepthBuffer[offset] = bufferZ;
-					}
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;

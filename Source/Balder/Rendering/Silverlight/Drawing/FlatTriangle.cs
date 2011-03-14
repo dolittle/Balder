@@ -37,19 +37,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+				var bufferZ = (UInt32)(1.0f - (z * ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						SetPixel(offset,ColorAsInt);
-						//Framebuffer[offset] = ColorAsInt;
-						DepthBuffer[offset] = bufferZ;
-					}
+					SetPixel(offset, ColorAsInt);
+					//Framebuffer[offset] = ColorAsInt;
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;

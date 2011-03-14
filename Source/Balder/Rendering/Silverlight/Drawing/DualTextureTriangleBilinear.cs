@@ -52,36 +52,33 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+
+				var bufferZ = (UInt32)(1.0f - (z * ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
+					u1 = uu1 * z;
+					v1 = vv1 * z;
 
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						u1 = uu1 * z;
-						v1 = vv1 * z;
+					u2 = uu2 * z;
+					v2 = vv2 * z;
 
-						u2 = uu2 * z;
-						v2 = vv2 * z;
+					var intu1 = (int)(u1) & (texture1Width - 1);
+					var intv1 = (int)(v1) & (texture1Height - 1);
 
-						var intu1 = (int)(u1) & (texture1Width - 1);
-						var intv1 = (int)(v1) & (texture1Height - 1);
+					var intu2 = (int)(u2) & (texture2Width - 1);
+					var intv2 = (int)(v2) & (texture2Height - 1);
+					Framebuffer[offset] =
 
-						var intu2 = (int)(u2) & (texture2Width - 1);
-						var intv2 = (int)(v2) & (texture2Height - 1);
-						Framebuffer[offset] =
-
-							Color.Additive(
-									Color.Scale(Bilerp(Texture1, intu1, intv1, u1, v1), Texture1Factor),
-									Color.Scale(Bilerp(Texture2, intu2, intv2, u2, v2), Texture2Factor)) | Color.AlphaFull;
+						Color.Additive(
+								Color.Scale(Bilerp(Texture1, intu1, intv1, u1, v1), Texture1Factor),
+								Color.Scale(Bilerp(Texture2, intu2, intv2, u2, v2), Texture2Factor)) | Color.AlphaFull;
 
 
-						DepthBuffer[offset] = bufferZ;
-					}
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;
