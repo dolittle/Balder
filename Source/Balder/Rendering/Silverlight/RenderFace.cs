@@ -377,7 +377,7 @@ namespace Balder.Rendering.Silverlight
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
 			var deltaV2 = vertexB.V2 - vertexA.V2;
-			var length = delta.Z; // System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+			var length = System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
 
 			var xAdd = (delta.X / length) * distance;
 			var yAdd = (delta.Y / length) * distance;

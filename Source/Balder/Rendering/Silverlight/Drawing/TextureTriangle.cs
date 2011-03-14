@@ -34,15 +34,12 @@ namespace Balder.Rendering.Silverlight.Drawing
 			float v;
 			float z;
 
-			var subPixelX = 1f - (X1 - (int)X1);
+			var subPixelX = 1f - (X1 - X1Int);
 			var zz = Z1 + subPixelX * ZInterpolateX;
 			var uu = U1 + subPixelX * U1zInterpolateX;
 			var vv = V1 + subPixelX * V1zInterpolateX;
 
-			var x1Int = (int)X1;
-			var x2Int = (int)X2;
-
-			for (var x = x1Int; x < x2Int; x++)
+			for (var x = X1Int; x < X2Int; x++)
 			{
 				if (x >= 0 && x < BufferContainer.Width)
 				{
