@@ -849,14 +849,58 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		private void DrawSubTriangleSegment()
 		{
+			var originalHeight = Y2Int - Y1Int;
 			if (Y1Int > BufferContainer.Height || Y2Int < 0)
+			{
+				X1 += (XInterpolate1 * originalHeight);
+				X2 += (XInterpolate2 * originalHeight);
+
+				R1 += (RInterpolate1 * originalHeight);
+				G1 += (GInterpolate1 * originalHeight);
+				B1 += (BInterpolate1 * originalHeight);
+				A1 += (AInterpolate1 * originalHeight);
+
+				R2 += (RInterpolate2 * originalHeight);
+				G2 += (GInterpolate2 * originalHeight);
+				B2 += (BInterpolate2 * originalHeight);
+				A2 += (AInterpolate2 * originalHeight);
+
+				DiffuseR1 += (DiffuseRInterpolate1 * originalHeight);
+				DiffuseG1 += (DiffuseGInterpolate1 * originalHeight);
+				DiffuseB1 += (DiffuseBInterpolate1 * originalHeight);
+				DiffuseA1 += (DiffuseAInterpolate1 * originalHeight);
+
+				DiffuseR2 += (DiffuseRInterpolate2 * originalHeight);
+				DiffuseG2 += (DiffuseGInterpolate2 * originalHeight);
+				DiffuseB2 += (DiffuseBInterpolate2 * originalHeight);
+				DiffuseA2 += (DiffuseAInterpolate2 * originalHeight);
+
+				SpecularR1 += (SpecularRInterpolate1 * originalHeight);
+				SpecularG1 += (SpecularGInterpolate1 * originalHeight);
+				SpecularB1 += (SpecularBInterpolate1 * originalHeight);
+				SpecularA1 += (SpecularAInterpolate1 * originalHeight);
+
+				SpecularR2 += (SpecularRInterpolate2 * originalHeight);
+				SpecularG2 += (SpecularGInterpolate2 * originalHeight);
+				SpecularB2 += (SpecularBInterpolate2 * originalHeight);
+				SpecularA2 += (SpecularAInterpolate2 * originalHeight);
+
+				Z1 += (ZInterpolateY1 * originalHeight);
+
+				U1 += (U1InterpolateY1 * originalHeight);
+				V1 += (V1InterpolateY1 * originalHeight);
+
+				U2 += (U2InterpolateY1 * originalHeight);
+				V2 += (V2InterpolateY1 * originalHeight);
+
 				return;
+			}
 
 			var amountToClip = 0f;
 
 			var originalY1Int = Y1Int;
 			var originalY2Int = Y2Int;
-			var originalHeight = Y2Int - Y1Int;
+			
 			var exitX1 = X1 + (XInterpolate1 * originalHeight);
 			var exitX2 = X2 + (XInterpolate2 * originalHeight);
 
