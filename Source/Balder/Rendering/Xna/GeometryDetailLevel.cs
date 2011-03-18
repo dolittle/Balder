@@ -19,17 +19,24 @@
 #if(XNA)
 using System;
 using System.IO;
+using System.Windows;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
+using Balder.Rendering.Silverlight5;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Silverlight;
 using Viewport = Balder.Display.Viewport;
 
 #if(WINDOWS_PHONE)
 using D = Balder.Display.WP7.Display;
 #else
+#if(SILVERLIGHT)
+using D = Balder.Display.Silverlight5.Display;
+#else
 using D = Balder.Display.Xna.Display;
+#endif
 #endif
 using MathHelper = Microsoft.Xna.Framework.MathHelper;
 using Matrix = Microsoft.Xna.Framework.Matrix;
@@ -39,8 +46,7 @@ namespace Balder.Rendering.Xna
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
-		private readonly BasicEffect _effect;
-
+		private readonly IRenderingManager _renderingManager;
 		public int FaceCount { get; private set; }
 		public int VertexCount { get; private set; }
 		public int TextureCoordinateCount { get; private set; }
@@ -66,12 +72,13 @@ namespace Balder.Rendering.Xna
 
 		private Material _colorMaterial;
 
+		private GraphicsDevice _graphicsDevice;
 
-		public GeometryDetailLevel()
+
+		public GeometryDetailLevel(IRenderingManager renderingManager)
 		{
-			_effect = new BasicEffect(D.GraphicsDevice);
-			_effect.EnableDefaultLighting();
-			_effect.VertexColorEnabled = true;
+			_renderingManager = renderingManager;
+			_graphicsDevice = D.GraphicsDevice;
 			_colorMaterial = Material.FromColor(Colors.Blue);
 		}
 
@@ -85,7 +92,9 @@ namespace Balder.Rendering.Xna
 
 			if (null != _vertexBuffer)
 			{
+#if(!SILVERLIGHT)
 				_vertexBuffer.Dispose();
+#endif
 				_vertexBuffer = null;
 			}
 			_vertices = null;
@@ -192,6 +201,10 @@ namespace Balder.Rendering.Xna
 			return _originalTextureCoordinates;
 		}
 
+		public void SetMaterial(Material material, INode node)
+		{
+		}
+
 		public void CalculateVertices(Viewport viewport, INode node)
 		{
 
@@ -246,7 +259,7 @@ namespace Balder.Rendering.Xna
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(LineRenderVertex), vertexIndex, BufferUsage.WriteOnly);
+				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, LineRenderVertex.Declaration, vertexIndex, BufferUsage.WriteOnly);
 			}
 
 		}
@@ -278,20 +291,39 @@ namespace Balder.Rendering.Xna
 			}
 			if (null == _vertexBuffer)
 			{
-				_vertexBuffer = new VertexBuffer(D.GraphicsDevice, typeof(RenderVertex), vertexIndex,
+				_vertexBuffer = new VertexBuffer(_graphicsDevice, RenderVertex.VertexDeclaration, _vertices.Length,
 												 BufferUsage.WriteOnly);
 			}
-			_vertexBuffer.SetData(_vertices);
-
-			/*
-			var texture = File.OpenRead(@"C:\Projects\Balder\Source\Balder.Silverlight.SampleBrowser\Assets\BalderLogo.png");
-			_texture = Texture2D.FromStream(D.GraphicsDevice, texture);
-			*/
+			_vertexBuffer.SetData(0,_vertices,0,_vertices.Length, 0);
 		}
 
-		//private Texture2D _texture;
-
 		public void Render(Viewport viewport, INode node)
+		{
+			_renderingManager.RegisterForRendering(
+				this, 
+				node, 
+				viewport.View.ViewMatrix, 
+				viewport.View.ProjectionMatrix, 
+				node.RenderingWorld);
+		}
+
+		static VertexShader vertexShader;
+		static PixelShader pixelShader;
+		static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
+
+		static GeometryDetailLevel()
+		{
+			Stream shaderStream = Application.GetResourceStream(new Uri(@"Balder;component/Rendering/Silverlight5/Shaders/Triangle.vs", UriKind.Relative)).Stream;
+			vertexShader = VertexShader.FromStream(resourceDevice, shaderStream);
+
+			shaderStream = Application.GetResourceStream(new Uri(@"Balder;component/Rendering/Silverlight5/Shaders/Triangle.ps", UriKind.Relative)).Stream;
+			pixelShader = PixelShader.FromStream(resourceDevice, shaderStream);
+			
+		}
+
+
+
+		internal void ActualRender(GraphicsDevice graphicsDevice, INode node, Matrix view, Matrix projection, Matrix world)
 		{
 			var drawFaces = null != _originalFaces;
 			var drawLines = null != _originalLines;
@@ -308,19 +340,20 @@ namespace Balder.Rendering.Xna
 				}
 			}
 
-			_effect.World = node.RenderingWorld;
-			_effect.View = viewport.View.ViewMatrix;
-			_effect.Projection = viewport.View.ProjectionMatrix;
+			var matrix = world  * view * projection;
 
-
-			var graphicsDevice = D.GraphicsDevice;
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
+			graphicsDevice.SetVertexShader(vertexShader);
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); // pass the transform to the shader
+
+			graphicsDevice.SetPixelShader(pixelShader);
 
 			if (null == _vertices)
 			{
 				return;
 			}
 
+			/*
 			var geometry = node as Geometry;
 			if( null != geometry.Material )
 			{
@@ -330,26 +363,25 @@ namespace Balder.Rendering.Xna
 					var imageMap = geometry.Material.DiffuseMap as ImageMap;
 					var image = imageMap.Image;
 
+
 					var imageContext = image.ImageContext as ImageContext;
 
 					_effect.TextureEnabled = true;
 					_effect.Texture = imageContext.Texture;
 				}
-			}
+			}*/
 
-			foreach (var pass in _effect.CurrentTechnique.Passes)
+			if (drawFaces)
 			{
-				pass.Apply();
-				if (drawFaces)
-				{
-					graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
-				}
-				if (drawLines)
-				{
-					graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, _lineVertices.Length / 2);
-				}
+				graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertices.Length / 3);
+			}
+			if (drawLines)
+			{
+				graphicsDevice.DrawPrimitives(PrimitiveType.LineList, 0, _lineVertices.Length / 2);
 			}
 		}
+
+		
 
 
 		public void SetNormal(int index, Normal normal)

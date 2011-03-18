@@ -19,12 +19,14 @@
 #if(XNA)
 using System;
 using Balder.Imaging;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-#if(WINDOWS_PHONE)
-using D = Balder.Display.WP7.Display;
+#if(SILVERLIGHT)
+using D = Balder.Display.Silverlight5.Display;
 #else
 using D = Balder.Display.Xna.Display;
 #endif
+
 
 namespace Balder.Rendering.Xna
 {
@@ -34,8 +36,8 @@ namespace Balder.Rendering.Xna
 
         public void SetFrame(byte[] frameBytes, int width, int height)
         {
-            Texture = new Texture2D(D.GraphicsDevice, width, height);
-			Texture.SetData(frameBytes);
+            Texture = new Texture2D(D.GraphicsDevice, width, height, true, SurfaceFormat.Color);
+			Texture.SetData(0, new Rectangle(0,0,width,height), frameBytes, 0, frameBytes.Length);
         }
 
         public void SetFrame(ImageFormat format, byte[] frameBytes)

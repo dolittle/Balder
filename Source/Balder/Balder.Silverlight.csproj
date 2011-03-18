@@ -14,7 +14,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Balder</RootNamespace>
     <AssemblyName>Balder</AssemblyName>
-    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
     <SilverlightApplication>false</SilverlightApplication>
     <SccProjectName>
     </SccProjectName>
@@ -52,7 +52,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>SLBin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML,XNA</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -97,6 +97,9 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="XnaMath">
+      <HintPath>..\..\Components\Silverlight\XnaMath.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\Common\GlobalAssemblyInfo.cs">
@@ -126,6 +129,8 @@
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
     <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
     <Compile Include="Debug\RectangleDebugShape.cs" />
+    <Compile Include="Display\Silverlight5\Display.cs" />
+    <Compile Include="Display\Silverlight5\DisplayDevice.cs" />
     <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\ILabelManager.cs" />
     <Compile Include="Execution\IProperty.cs" />
@@ -198,6 +203,9 @@
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
+    <Compile Include="Rendering\Silverlight5\IRenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingGeometry.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingManager.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\DualTextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatDualTextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudDualTextureTriangleBilinear.cs" />
@@ -226,6 +234,15 @@
     <Compile Include="Rendering\Silverlight\Texture.cs" />
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />
     <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
+    <Compile Include="Rendering\Xna\FaceTextureCoordinate.cs" />
+    <Compile Include="Rendering\Xna\GeometryContext.cs" />
+    <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
+    <Compile Include="Rendering\Xna\RenderVertex.cs" />
+    <Compile Include="Rendering\Xna\ShapeContext.cs" />
+    <Compile Include="Rendering\Xna\SkyboxContext.cs" />
+    <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
@@ -423,6 +440,13 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Rendering\Silverlight5\Shaders\Source\CompileShaders.bat" />
+    <Resource Include="Rendering\Silverlight5\Shaders\Triangle.ps" />
+    <None Include="Rendering\Silverlight5\Shaders\Source\Triangle.ps.hlsl" />
+    <Resource Include="Rendering\Silverlight5\Shaders\Triangle.vs" />
+    <None Include="Rendering\Silverlight5\Shaders\Source\Triangle.vs.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -22,6 +22,7 @@ using System.Collections.Generic;
 using Balder.Display;
 using Balder.Materials;
 using Balder.Objects.Geometries;
+using Microsoft.Practices.ServiceLocation;
 
 namespace Balder.Rendering.Xna
 {
@@ -53,7 +54,7 @@ namespace Balder.Rendering.Xna
             }
             else
             {
-                detailLevel = new GeometryDetailLevel();
+				detailLevel = ServiceLocator.Current.GetInstance<GeometryDetailLevel>();
                 _detailLevels[level] = detailLevel;
             }
             return detailLevel;
@@ -73,6 +74,12 @@ namespace Balder.Rendering.Xna
         {
             return _detailLevels.ContainsKey(level);
         }
+
+    	public void SetMaterial(Material material, INode node)
+    	{
+			foreach( var level in _detailLevels.Values )
+				level.SetMaterial(material, node);
+    	}
     }
 }
 #endif

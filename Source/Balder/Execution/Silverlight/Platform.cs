@@ -23,10 +23,10 @@ using System.Windows;
 using Balder.Content.Silverlight;
 using Balder.Display;
 using Balder.Input;
-using Balder.Display.Silverlight;
+using Balder.Display.Silverlight5;
 using Balder.Input.Silverlight;
 using Balder.Materials.Silverlight;
-using Balder.Rendering.Silverlight;
+using Balder.Rendering.Xna;
 #if(WINDOWS_PHONE && !FORCESOFTWARE)
 
 using GeometryContext = Balder.Rendering.Xna.GeometryContext;
@@ -125,7 +125,7 @@ namespace Balder.Execution.Silverlight
 		public Type ImageContextType { get { return typeof(ImageContext); } }
 		public Type ShapeContextType { get { return typeof(ShapeContext); } }
 		public Type MaterialCalculatorType { get { return typeof(MaterialCalculator); } }
-		public Type SkyboxContextType { get { return typeof(SkyboxControl); } }
+		public Type SkyboxContextType { get { return typeof(Rendering.Silverlight.SkyboxControl); } }
 
 		public PlatformState CurrentState { get; private set; }
 
