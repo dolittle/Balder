@@ -119,20 +119,6 @@ namespace Balder.Objects.Geometries
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
-		/*
-		protected override void OnColorChanged()
-		{
-			if (null == Material)
-			{
-				Material = Material.FromColor(Color);
-			}
-			else
-			{
-				Material.Diffuse = Color;
-			}
-			base.OnColorChanged();
-		}*/
-
 
 		public Property<Mesh, Material> MaterialProperty = Property<Mesh, Material>.Register(g => g.Material);
 		public Material Material
