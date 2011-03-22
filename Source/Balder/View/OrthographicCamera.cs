@@ -18,7 +18,6 @@
 //
 
 #endregion
-
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
@@ -58,5 +57,19 @@ namespace Balder.View
 			set { YSizeProperty.SetValue(this, value); }
 		}
 
-	}
+		public override Ray GetPickRay(int x, int y)
+		{
+			var view = ViewMatrix;
+			var world = Matrix.Identity;
+			var projection = ProjectionMatrix;
+			var nearPoint = Unproject(new Vector(x, y, Near), projection, view, world);
+			var farPoint = Unproject(new Vector(x, y, Far), projection, view, world);
+			var position = nearPoint;
+
+			var direction = farPoint - nearPoint;
+			direction.Normalize();
+
+			var ray = new Ray(position, direction);
+			return ray;
+		}	}
 }

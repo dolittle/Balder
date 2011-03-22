@@ -149,5 +149,11 @@ namespace Balder.Math
 		{
 			return (float)System.Math.Sqrt(value);
 		}
+
+		public static bool WithinEpsilon(float a, float b)
+		{
+			var num = a - b;
+			return ((-1.401298E-45f <= num) && (num <= float.Epsilon));
+		}
 	}
 }

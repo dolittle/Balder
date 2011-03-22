@@ -41,6 +41,8 @@ namespace Balder.View
 		public const float DefaultNear = 1.0f;
 
 		private readonly Frustum _frustum;
+		int _viewportWidth;
+		int _viewportHeight;
 
 		public Camera()
 		{
@@ -105,6 +107,9 @@ namespace Balder.View
 		/// </summary>
 		protected virtual void SetupProjection(Viewport viewport)
 		{
+			_viewportWidth = viewport.Width;
+			_viewportHeight = viewport.Height;
+
 			var projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
 				MathHelper.ToRadians((float)FieldOfView),
 				viewport.AspectRatio,
@@ -123,6 +128,77 @@ namespace Balder.View
 		#endregion
 
 		#region Public Methods
+
+		public virtual Ray GetPickRay(int x, int y)
+		{
+			var view = ViewMatrix;
+			var world = Matrix.Identity;
+			var projection = ProjectionMatrix;
+
+			var v = new Vector
+			{
+				X = (((2.0f * x) / _viewportWidth) - 1) / (projection.M11),
+				Y = -(((2.0f * y) / _viewportHeight) - 1) / (projection.M22),
+				Z = 1f
+			};
+
+
+			var inverseView = Matrix.Invert(view);
+
+			var ray = new Ray
+			{
+				Direction = new Vector
+				{
+					X = (v.X * inverseView.M11) + (v.Y * inverseView.M21) + (v.Z * inverseView.M31),
+					Y = (v.X * inverseView.M12) + (v.Y * inverseView.M22) + (v.Z * inverseView.M32),
+					Z = (v.X * inverseView.M13) + (v.Y * inverseView.M23) + (v.Z * inverseView.M33),
+					W = 1f
+				}
+			};
+			ray.Direction.Normalize();
+
+			ray.Position = new Vector
+			{
+				X = inverseView.M41,
+				Y = inverseView.M42,
+				Z = inverseView.M43,
+				W = 1f
+			};
+
+			ray.Position += (ray.Direction * Near);
+
+			return ray;
+		}
+
+		public Vector Unproject(Vector source, Matrix world)
+		{
+			return Unproject(source, ProjectionMatrix, ViewMatrix, world);
+		}
+
+		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
+		{
+			var combinedMatrix = (world * view) * projection;
+			var matrix = Matrix.Invert(combinedMatrix);
+
+			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
+			source.Y = -(((source.Y / ((float)Height)) * 2f) - 1f);
+			source.Z = (source.Z - Near) / (Far - Near);
+			source.W = 1f;
+			var vector = Vector.Transform(source, matrix);
+
+			var a = (source.X * matrix.M14) +
+						(source.Y * matrix.M24) +
+						(source.Z * matrix.M34) +
+						(matrix.M44);
+
+			if (!MathHelper.WithinEpsilon(a, 1f))
+			{
+				vector = vector / (a);
+			}
+
+			return vector;
+
+		}
 
 		public void Update(Viewport viewport)
 		{
