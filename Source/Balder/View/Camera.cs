@@ -17,7 +17,6 @@
 //
 #endregion
 
-using System;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
@@ -107,9 +106,6 @@ namespace Balder.View
 		/// </summary>
 		protected virtual void SetupProjection(Viewport viewport)
 		{
-			_viewportWidth = viewport.Width;
-			_viewportHeight = viewport.Height;
-
 			var projectionMatrix = Matrix.CreatePerspectiveFieldOfView(
 				MathHelper.ToRadians((float)FieldOfView),
 				viewport.AspectRatio,
@@ -180,8 +176,8 @@ namespace Balder.View
 			var combinedMatrix = (world * view) * projection;
 			var matrix = Matrix.Invert(combinedMatrix);
 
-			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
-			source.Y = -(((source.Y / ((float)Height)) * 2f) - 1f);
+			source.X = ((source.X / ((float)_viewportWidth)) * 2f) - 1f;
+			source.Y = -(((source.Y / ((float)_viewportHeight)) * 2f) - 1f);
 			source.Z = (source.Z - Near) / (Far - Near);
 			source.W = 1f;
 			var vector = Vector.Transform(source, matrix);
@@ -202,6 +198,9 @@ namespace Balder.View
 
 		public void Update(Viewport viewport)
 		{
+			_viewportWidth = viewport.Width;
+			_viewportHeight = viewport.Height;
+
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 			SetupProjection(viewport);
 			UpdateDepthDivisor();
