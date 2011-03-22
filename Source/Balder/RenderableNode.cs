@@ -52,7 +52,13 @@ namespace Balder
 			set
 			{
 				ColorProp.SetValue(this, value);
+				OnColorChanged(value);
 			}
+		}
+
+		protected virtual void OnColorChanged(Color color)
+		{
+			
 		}
 
 		public static readonly Property<RenderableNode, bool> IsVisibleProp = Property<RenderableNode, bool>.Register(n => n.IsVisible, true);
