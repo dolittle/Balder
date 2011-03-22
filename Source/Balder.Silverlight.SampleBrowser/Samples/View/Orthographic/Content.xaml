@@ -61,17 +61,14 @@
 				ToolTip="Blue"
 				/>
 
-			<!--
-			<Flat:Sprite x:Name="positionSprite" AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="0,0,-50"/>-->
 
 			<Lighting:OmniLight Position="0,0,-80"/>
 			<Execution:Game.Camera>
 				<View:OrthographicCamera Position="-90,15,-95" XSize="320" YSize="240" />
-				<!--<View:Camera Position="-90,15,-95"/>-->
 			</Execution:Game.Camera>
 		</Execution:Game>
 
-		<Grid x:Name="_infoBox" Width="300" Height="200" HorizontalAlignment="Left" VerticalAlignment="Top">
+		<Grid x:Name="_infoBox" Width="300" Height="250" HorizontalAlignment="Left" VerticalAlignment="Top">
 
 			<Grid.RenderTransform>
 				<TranslateTransform x:Name="_infoBoxTranslation"/>
