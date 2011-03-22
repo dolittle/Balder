@@ -119,8 +119,6 @@ namespace Balder.Display.Silverlight
 			}
 		}
 
-
-		
 		public void InitializeContainer(object container)
 		{
 			if (container is Grid)
@@ -146,8 +144,8 @@ namespace Balder.Display.Silverlight
 
 		public int[] GetCurrentFrame()
 		{
-			var frame = new int[BufferContainer.Framebuffer.Length];
-			Buffer.BlockCopy(BufferContainer.Framebuffer,0,frame,0,frame.Length*4);
+			var frame = new int[_currentFrontBitmap.Pixels.Length];
+			Buffer.BlockCopy(_currentFrontBitmap.Pixels,0,frame,0,frame.Length*4);
 			return frame;
 		}
 
