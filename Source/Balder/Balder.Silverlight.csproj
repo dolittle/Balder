@@ -173,6 +173,7 @@
     <Compile Include="Materials\Silverlight\MaterialCalculator.cs" />
     <Compile Include="Math\FrustumIntersection.cs" />
     <Compile Include="Math\FrustumLocation.cs" />
+    <Compile Include="Math\OrthographicFrustum.cs" />
     <Compile Include="MVVM\CommandManager.cs" />
     <Compile Include="MVVM\CommandService.cs" />
     <Compile Include="MVVM\CommandSubscription.cs" />
