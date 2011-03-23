@@ -342,10 +342,17 @@ namespace Balder.Rendering.Xna
 
 			var matrix = world  * view * projection;
 
-			graphicsDevice.SetVertexBuffer(_vertexBuffer);
-			graphicsDevice.SetVertexShader(vertexShader);
-			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); // pass the transform to the shader
+			var inverseWorld = Matrix.Invert(world);
+			
 
+			graphicsDevice.SetVertexBuffer(_vertexBuffer);
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); // pass the transform to the shader
+			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); // pass the transform to the shader
+
+			var lightDirection = new Vector4(0f, 0, -1f, 1f);
+			graphicsDevice.SetVertexShaderConstantFloat4(8, ref lightDirection);
+
+			graphicsDevice.SetVertexShader(vertexShader);
 			graphicsDevice.SetPixelShader(pixelShader);
 
 			if (null == _vertices)
