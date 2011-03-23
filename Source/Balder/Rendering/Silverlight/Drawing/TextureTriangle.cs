@@ -34,35 +34,29 @@ namespace Balder.Rendering.Silverlight.Drawing
 			float v;
 			float z;
 
-			var subPixelX = 1f - (X1 - (int)X1);
+			var subPixelX = 1f - (X1 - X1Int);
 			var zz = Z1 + subPixelX * ZInterpolateX;
 			var uu = U1 + subPixelX * U1zInterpolateX;
 			var vv = V1 + subPixelX * V1zInterpolateX;
 
-			var x1Int = (int)X1;
-			var x2Int = (int)X2;
-
-			for (var x = x1Int; x < x2Int; x++)
+			for (var x = X1Int; x < X2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+
+				var bufferZ = (UInt32)(1.0f - (z * ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
+					u = uu * z;
+					v = vv * z;
 
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						u = uu * z;
-						v = vv * z;
-
-						var intu = (int)(u) & (textureWidth - 1);
-						var intv = (int)(v) & (textureHeight - 1);
-						Framebuffer[offset] = 
-							Color.Blend(Texture1.Pixels[intu, intv],MaterialDiffuseAsInt,Texture1Factor) | Color.AlphaFull;
-						DepthBuffer[offset] = bufferZ;
-					}
+					var intu = (int)(u) & (textureWidth - 1);
+					var intv = (int)(v) & (textureHeight - 1);
+					Framebuffer[offset] =
+						Color.Blend(Texture1.Pixels[intu, intv], MaterialDiffuseAsInt, Texture1Factor) | Color.AlphaFull;
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;

@@ -17,7 +17,6 @@
 //
 #endregion
 
-using System;
 using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
@@ -40,7 +39,8 @@ namespace Balder.View
 		public const float DefaultFar = 4000f;
 		public const float DefaultNear = 1.0f;
 
-		private readonly Frustum _frustum;
+		int _viewportWidth;
+		int _viewportHeight;
 
 		public Camera()
 		{
@@ -54,9 +54,10 @@ namespace Balder.View
 			UpdateDepthDivisor();
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 
-			_frustum = new Frustum();
+			Frustum = new Frustum();
 		}
 
+		public Frustum Frustum { get; protected set; }
 
 		public virtual Matrix ViewMatrix { get; protected set; }
 		public virtual Matrix ProjectionMatrix { get; protected set; }
@@ -124,39 +125,113 @@ namespace Balder.View
 
 		#region Public Methods
 
+		public virtual Ray GetPickRay(int x, int y)
+		{
+			var view = ViewMatrix;
+			var world = Matrix.Identity;
+			var projection = ProjectionMatrix;
+
+			var v = new Vector
+			{
+				X = (((2.0f * x) / _viewportWidth) - 1) / (projection.M11),
+				Y = -(((2.0f * y) / _viewportHeight) - 1) / (projection.M22),
+				Z = 1f
+			};
+
+
+			var inverseView = Matrix.Invert(view);
+
+			var ray = new Ray
+			{
+				Direction = new Vector
+				{
+					X = (v.X * inverseView.M11) + (v.Y * inverseView.M21) + (v.Z * inverseView.M31),
+					Y = (v.X * inverseView.M12) + (v.Y * inverseView.M22) + (v.Z * inverseView.M32),
+					Z = (v.X * inverseView.M13) + (v.Y * inverseView.M23) + (v.Z * inverseView.M33),
+					W = 1f
+				}
+			};
+			ray.Direction.Normalize();
+
+			ray.Position = new Vector
+			{
+				X = inverseView.M41,
+				Y = inverseView.M42,
+				Z = inverseView.M43,
+				W = 1f
+			};
+
+			ray.Position += (ray.Direction * Near);
+
+			return ray;
+		}
+
+		public Vector Unproject(Vector source, Matrix world)
+		{
+			return Unproject(source, ProjectionMatrix, ViewMatrix, world);
+		}
+
+		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
+		{
+			var combinedMatrix = (world * view) * projection;
+			var matrix = Matrix.Invert(combinedMatrix);
+
+			source.X = ((source.X / ((float)_viewportWidth)) * 2f) - 1f;
+			source.Y = -(((source.Y / ((float)_viewportHeight)) * 2f) - 1f);
+			source.Z = (source.Z - Near) / (Far - Near);
+			source.W = 1f;
+			var vector = Vector.Transform(source, matrix);
+
+			var a = (source.X * matrix.M14) +
+						(source.Y * matrix.M24) +
+						(source.Z * matrix.M34) +
+						(matrix.M44);
+
+			if (!MathHelper.WithinEpsilon(a, 1f))
+			{
+				vector = vector / (a);
+			}
+
+			return vector;
+
+		}
+
 		public void Update(Viewport viewport)
 		{
+			_viewportWidth = viewport.Width;
+			_viewportHeight = viewport.Height;
+
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 			SetupProjection(viewport);
 			UpdateDepthDivisor();
-			_frustum.SetCameraDefinition(viewport, this);
+			Frustum.SetCameraDefinition(viewport, this);
 		}
 
 
 		public bool IsInView(Vector vector)
 		{
-			var inFrustum = _frustum.IsPointInFrustum(vector);
+			var inFrustum = Frustum.IsPointInFrustum(vector);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Coordinate coordinate)
 		{
-			var inFrustum = _frustum.IsPointInFrustum(coordinate);
+			var inFrustum = Frustum.IsPointInFrustum(coordinate);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(BoundingSphere boundingSphere)
 		{
-			var inFrustum = _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
+			var inFrustum = Frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Vector position, float radius)
 		{
-			var inFrustum = _frustum.IsSphereInFrustum(position, radius);
+			var inFrustum = Frustum.IsSphereInFrustum(position, radius);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}

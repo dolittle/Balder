@@ -438,8 +438,8 @@ namespace Balder.Rendering.Silverlight
 				if( face.Material == null )
 				{
 					face.Material = GetMaterialForFace(face, node, ((Geometry) node).Material);
-					UpdateMaterialForFace(face);
 				}
+				UpdateMaterialForFace(face);
 
 				if (ShouldCalculateVertexColorsForFace(face))
 				{

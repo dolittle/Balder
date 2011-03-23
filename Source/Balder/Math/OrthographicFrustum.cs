@@ -1,5 +1,4 @@
-#region License
-
+﻿#region License
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
 // Copyright (c) 2007-2011, DoLittle Studios
@@ -16,24 +15,25 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 //
-
 #endregion
-#if(SILVERLIGHT)
-namespace Balder.Rendering.Silverlight.Drawing
+namespace Balder.Math
 {
-	public class FlatTriangleNoDepth : Triangle
+	public class OrthographicFrustum : Frustum
 	{
-		protected override void DrawSpan(int offset)
-		{
-			var x1Int = (int)X1;
-			var x2Int = (int)X2;
+		public float XSize { get; set; }
+		public float YSize { get; set; }
 
-			for (var x = x1Int; x < x2Int; x++)
-			{
-				Framebuffer[offset] = ColorAsInt;
-				offset++;
-			}
+		public override void SetCameraInternals(float fieldOfView, float aspectRatio, float near, float far)
+		{
+			_near = near;
+			_far = far;
+
+			var fieldOfViewRadians = MathHelper.ToRadians(fieldOfView);
+			_tang = (float)System.Math.Tan(fieldOfViewRadians * 0.5);
+			_nearHeight = YSize;
+			_nearWidth = XSize;
+			_farHeight = YSize;
+			_farWidth = XSize;
 		}
 	}
 }
-#endif

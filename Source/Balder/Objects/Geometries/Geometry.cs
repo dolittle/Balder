@@ -154,6 +154,13 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
+		protected override void OnColorChanged(Color color)
+		{
+			if( GeometryContext != null )
+				GeometryContext.SetMaterial(Material, this);
+			base.OnColorChanged(color);
+		}
+
 
 #if(!SILVERLIGHT)
 		public string Name { get; set; }

@@ -40,11 +40,17 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		protected int PixelOffset;
 
+		protected int X1Int;
+		protected int X2Int;
+
 		protected int Y1Int;
 		protected int Y2Int;
 
 		protected float X1;
 		protected float X2;
+
+		protected float Y1;
+		protected float Y2;
 
 		protected float XInterpolate1;
 		protected float XInterpolate2;
@@ -259,7 +265,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Far = viewport.View.Far;
 			DepthMultiplier = viewport.View.DepthMultiplier;
 			ZMultiplier = DepthMultiplier * (float)UInt32.MaxValue;
-			
+
 			Texture1 = null;
 			if (null != face.Texture1 && face.Texture1Factor > 0)
 			{
@@ -303,7 +309,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				texture2Height = Texture2.Height;
 			}
 
-			
+
 
 			var xa = vertexA.ProjectedVector.X + 0.5f;
 			var ya = vertexA.ProjectedVector.Y + 0.5f;
@@ -632,9 +638,11 @@ namespace Balder.Rendering.Silverlight.Drawing
 					SpecularBInterpolate2 = specularBInterpolateA;
 					SpecularAInterpolate2 = specularAInterpolateA;
 
-
 					Y1Int = yaInt;
 					Y2Int = ybInt;
+
+					Y1 = ya;
+					Y2 = yb;
 
 					DrawSubTriangleSegment();
 				}
@@ -676,6 +684,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					Y1Int = ybInt;
 					Y2Int = ycInt;
+
+					Y1 = yb;
+					Y2 = yc;
 
 					DrawSubTriangleSegment();
 				}
@@ -767,6 +778,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 					Y1Int = yaInt;
 					Y2Int = ybInt;
 
+					Y1 = ya;
+					Y2 = yb;
+
 					DrawSubTriangleSegment();
 				}
 				if (ybInt < ycInt)
@@ -823,6 +837,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 					Y1Int = ybInt;
 					Y2Int = ycInt;
 
+					Y1 = yb;
+					Y2 = yc;
+
 					DrawSubTriangleSegment();
 				}
 			}
@@ -832,52 +849,234 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		private void DrawSubTriangleSegment()
 		{
+			var originalHeight = Y2Int - Y1Int;
+			if (Y1Int > BufferContainer.Height || Y2Int < 0)
+			{
+				X1 += (XInterpolate1 * originalHeight);
+				X2 += (XInterpolate2 * originalHeight);
+
+				R1 += (RInterpolate1 * originalHeight);
+				G1 += (GInterpolate1 * originalHeight);
+				B1 += (BInterpolate1 * originalHeight);
+				A1 += (AInterpolate1 * originalHeight);
+
+				R2 += (RInterpolate2 * originalHeight);
+				G2 += (GInterpolate2 * originalHeight);
+				B2 += (BInterpolate2 * originalHeight);
+				A2 += (AInterpolate2 * originalHeight);
+
+				DiffuseR1 += (DiffuseRInterpolate1 * originalHeight);
+				DiffuseG1 += (DiffuseGInterpolate1 * originalHeight);
+				DiffuseB1 += (DiffuseBInterpolate1 * originalHeight);
+				DiffuseA1 += (DiffuseAInterpolate1 * originalHeight);
+
+				DiffuseR2 += (DiffuseRInterpolate2 * originalHeight);
+				DiffuseG2 += (DiffuseGInterpolate2 * originalHeight);
+				DiffuseB2 += (DiffuseBInterpolate2 * originalHeight);
+				DiffuseA2 += (DiffuseAInterpolate2 * originalHeight);
+
+				SpecularR1 += (SpecularRInterpolate1 * originalHeight);
+				SpecularG1 += (SpecularGInterpolate1 * originalHeight);
+				SpecularB1 += (SpecularBInterpolate1 * originalHeight);
+				SpecularA1 += (SpecularAInterpolate1 * originalHeight);
+
+				SpecularR2 += (SpecularRInterpolate2 * originalHeight);
+				SpecularG2 += (SpecularGInterpolate2 * originalHeight);
+				SpecularB2 += (SpecularBInterpolate2 * originalHeight);
+				SpecularA2 += (SpecularAInterpolate2 * originalHeight);
+
+				Z1 += (ZInterpolateY1 * originalHeight);
+
+				U1 += (U1InterpolateY1 * originalHeight);
+				V1 += (V1InterpolateY1 * originalHeight);
+
+				U2 += (U2InterpolateY1 * originalHeight);
+				V2 += (V2InterpolateY1 * originalHeight);
+
+				return;
+			}
+
+			var amountToClip = 0f;
+
+			var originalY1Int = Y1Int;
+			var originalY2Int = Y2Int;
+			
+			var exitX1 = X1 + (XInterpolate1 * originalHeight);
+			var exitX2 = X2 + (XInterpolate2 * originalHeight);
+
+			if (Y1Int < 0)
+			{
+				amountToClip = (float)System.Math.Abs(Y1Int);
+
+				X1 += (XInterpolate1 * amountToClip);
+				X2 += (XInterpolate2 * amountToClip);
+
+				R1 += (RInterpolate1 * amountToClip);
+				G1 += (GInterpolate1 * amountToClip);
+				B1 += (BInterpolate1 * amountToClip);
+				A1 += (AInterpolate1 * amountToClip);
+
+				R2 += (RInterpolate2 * amountToClip);
+				G2 += (GInterpolate2 * amountToClip);
+				B2 += (BInterpolate2 * amountToClip);
+				A2 += (AInterpolate2 * amountToClip);
+
+				DiffuseR1 += (DiffuseRInterpolate1 * amountToClip);
+				DiffuseG1 += (DiffuseGInterpolate1 * amountToClip);
+				DiffuseB1 += (DiffuseBInterpolate1 * amountToClip);
+				DiffuseA1 += (DiffuseAInterpolate1 * amountToClip);
+
+				DiffuseR2 += (DiffuseRInterpolate2 * amountToClip);
+				DiffuseG2 += (DiffuseGInterpolate2 * amountToClip);
+				DiffuseB2 += (DiffuseBInterpolate2 * amountToClip);
+				DiffuseA2 += (DiffuseAInterpolate2 * amountToClip);
+
+				SpecularR1 += (SpecularRInterpolate1 * amountToClip);
+				SpecularG1 += (SpecularGInterpolate1 * amountToClip);
+				SpecularB1 += (SpecularBInterpolate1 * amountToClip);
+				SpecularA1 += (SpecularAInterpolate1 * amountToClip);
+
+				SpecularR2 += (SpecularRInterpolate2 * amountToClip);
+				SpecularG2 += (SpecularGInterpolate2 * amountToClip);
+				SpecularB2 += (SpecularBInterpolate2 * amountToClip);
+				SpecularA2 += (SpecularAInterpolate2 * amountToClip);
+
+				Z1 += (ZInterpolateY1 * amountToClip);
+
+				U1 += (U1InterpolateY1 * amountToClip);
+				V1 += (V1InterpolateY1 * amountToClip);
+
+				U2 += (U2InterpolateY1 * amountToClip);
+				V2 += (V2InterpolateY1 * amountToClip);
+
+				Y1Int = 0;
+			}
+
+
+			if (Y2Int > BufferContainer.Height)
+				Y2Int = BufferContainer.Height;
+
 			var yoffset = BufferContainer.Width * Y1Int;
+
+			var leftClip = false;
+
+			var originalX1 = 0f;
+			var originalX2 = 0f;
+			var originalZ1 = 0f;
+			var originalU1 = 0f;
+			var originalV1 = 0f;
+			var originalU2 = 0f;
+			var originalV2 = 0f;
+			var clipLength = 0f;
 
 			for (var y = Y1Int; y < Y2Int; y++)
 			{
-				if (y >= 0 && y < BufferContainer.Height)
+				leftClip = false;
+				if ((int)X1 < (int)X2)
 				{
-					if ((int)X1 < (int)X2)
+					X1Int = (int)X1;
+					X2Int = (int)X2;
+
+					originalX1 = X1;
+					originalX2 = X2;
+
+					originalZ1 = Z1;
+
+					originalU1 = U1;
+					originalV1 = V1;
+
+					originalU2 = U2;
+					originalV2 = V2;
+
+					var oneOverLength = 1f / (X2-X1);
+
+					if (X1 < 0)
 					{
-						PixelOffset = yoffset + (int)X1;
+						clipLength = System.Math.Abs(X1);
+						Z1 += ZInterpolateX * clipLength;
+						U1 += U1zInterpolateX * clipLength;
+						V1 += V1zInterpolateX * clipLength;
 
-						RScanline = R1;
-						GScanline = G1;
-						BScanline = B1;
-						AScanline = A1;
+						U2 += U2zInterpolateX * clipLength;
+						V2 += V2zInterpolateX * clipLength;
 
-						DiffuseRScanline = DiffuseR1;
-						DiffuseGScanline = DiffuseG1;
-						DiffuseBScanline = DiffuseB1;
-						DiffuseAScanline = DiffuseA1;
-
-						SpecularRScanline = SpecularR1;
-						SpecularGScanline = SpecularG1;
-						SpecularBScanline = SpecularB1;
-						SpecularAScanline = SpecularA1;
-
-						var length = (X2 - X1);
-
-						var oneOverLength = 1f / length;
-
-						RScanlineInterpolate = (R2 - R1) * oneOverLength;
-						GScanlineInterpolate = (G2 - G1) * oneOverLength;
-						BScanlineInterpolate = (B2 - B1) * oneOverLength;
-						AScanlineInterpolate = (A2 - A1) * oneOverLength;
-
-						DiffuseRScanlineInterpolate = (DiffuseR2 - DiffuseR1) * oneOverLength;
-						DiffuseGScanlineInterpolate = (DiffuseG2 - DiffuseG1) * oneOverLength;
-						DiffuseBScanlineInterpolate = (DiffuseB2 - DiffuseB1) * oneOverLength;
-						DiffuseAScanlineInterpolate = (DiffuseA2 - DiffuseA1) * oneOverLength;
-
-						SpecularRScanlineInterpolate = (SpecularR2 - SpecularR1) * oneOverLength;
-						SpecularGScanlineInterpolate = (SpecularG2 - SpecularG1) * oneOverLength;
-						SpecularBScanlineInterpolate = (SpecularB2 - SpecularB1) * oneOverLength;
-						SpecularAScanlineInterpolate = (SpecularA2 - SpecularA1) * oneOverLength;
-
-						DrawSpan(PixelOffset);
+						X1 = 0;
+						X1Int = 0;
+						leftClip = true;
 					}
+					
+					if (X2 > BufferContainer.Width)
+					{
+						X2 = BufferContainer.Width;
+						X2Int = BufferContainer.Width;
+					}
+
+					var length = (X2 - X1);
+					var intLength = X2Int - X1Int;
+
+					PixelOffset = yoffset + X1Int;
+
+					RScanlineInterpolate = (R2 - R1) * oneOverLength;
+					GScanlineInterpolate = (G2 - G1) * oneOverLength;
+					BScanlineInterpolate = (B2 - B1) * oneOverLength;
+					AScanlineInterpolate = (A2 - A1) * oneOverLength;
+
+					DiffuseRScanlineInterpolate = (DiffuseR2 - DiffuseR1) * oneOverLength;
+					DiffuseGScanlineInterpolate = (DiffuseG2 - DiffuseG1) * oneOverLength;
+					DiffuseBScanlineInterpolate = (DiffuseB2 - DiffuseB1) * oneOverLength;
+					DiffuseAScanlineInterpolate = (DiffuseA2 - DiffuseA1) * oneOverLength;
+
+					SpecularRScanlineInterpolate = (SpecularR2 - SpecularR1) * oneOverLength;
+					SpecularGScanlineInterpolate = (SpecularG2 - SpecularG1) * oneOverLength;
+					SpecularBScanlineInterpolate = (SpecularB2 - SpecularB1) * oneOverLength;
+					SpecularAScanlineInterpolate = (SpecularA2 - SpecularA1) * oneOverLength;
+
+					RScanline = R1;
+					GScanline = G1;
+					BScanline = B1;
+					AScanline = A1;
+
+					DiffuseRScanline = DiffuseR1;
+					DiffuseGScanline = DiffuseG1;
+					DiffuseBScanline = DiffuseB1;
+					DiffuseAScanline = DiffuseA1;
+
+					SpecularRScanline = SpecularR1;
+					SpecularGScanline = SpecularG1;
+					SpecularBScanline = SpecularB1;
+					SpecularAScanline = SpecularA1;
+
+					if( leftClip )
+					{
+						RScanline += RScanlineInterpolate * clipLength;
+						GScanline += GScanlineInterpolate * clipLength;
+						BScanline += BScanlineInterpolate * clipLength;
+						AScanline += AScanlineInterpolate * clipLength;
+
+						DiffuseRScanline += DiffuseRScanlineInterpolate * clipLength;
+						DiffuseGScanline += DiffuseGScanlineInterpolate * clipLength;
+						DiffuseBScanline += DiffuseBScanlineInterpolate * clipLength;
+						DiffuseAScanline += DiffuseAScanlineInterpolate * clipLength;
+
+						SpecularRScanline += SpecularRScanlineInterpolate * clipLength;
+						SpecularGScanline += SpecularGScanlineInterpolate * clipLength;
+						SpecularBScanline += SpecularBScanlineInterpolate * clipLength;
+						SpecularAScanline += SpecularAScanlineInterpolate * clipLength;
+					}
+
+
+					DrawSpan(PixelOffset);
+
+					X1 = originalX1;
+					X2 = originalX2;
+
+					Z1 = originalZ1;
+
+					U1 = originalU1;
+					V1 = originalV1;
+
+					U2 = originalU2;
+					V2 = originalV2;
 				}
 				X1 += XInterpolate1;
 				X2 += XInterpolate2;
@@ -921,6 +1120,12 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 				yoffset += BufferContainer.Width;
 			}
+
+			Y1Int = originalY1Int;
+			Y2Int = originalY2Int;
+
+			X1 = exitX1;
+			X2 = exitX2;
 		}
 
 		protected virtual void DrawSpan(int offset)
