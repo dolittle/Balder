@@ -221,7 +221,7 @@
 
 
 			<StackPanel Grid.Column="1" Orientation="Vertical">
-				<Execution:Game x:Name="Game" Width="640" Height="480">
+				<Execution:Game x:Name="Game" Width="640" Height="480" >
 					<Execution:Game.Camera>
 						<View:Camera x:Name="Camera" Position="0,0,-100"/>
 					</Execution:Game.Camera>

@@ -64,6 +64,7 @@
     <Content Include="Balder.Silverlight.SampleBrowserTestPage.aspx" />
     <Content Include="Balder.Silverlight.SampleBrowserTestPage.html" />
     <Content Include="ClientBin\Balder.Silverlight.SampleBrowser.xap" />
+    <Content Include="ClientBin\BalderTest.xap" />
     <Content Include="Default.aspx" />
     <Content Include="Silverlight.js" />
     <Content Include="Web.config" />
