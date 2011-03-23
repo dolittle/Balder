@@ -26,6 +26,12 @@ namespace Balder.View
 {
 	public class OrthographicCamera : Camera
 	{
+		public OrthographicCamera()
+		{
+			Frustum = new OrthographicFrustum();
+		}
+
+
 		protected override void SetupProjection(Viewport viewport)
 		{
 			if( XSize == 0 )
@@ -46,7 +52,11 @@ namespace Balder.View
 		public double XSize
 		{
 			get { return XSizeProperty.GetValue(this); }
-			set { XSizeProperty.SetValue(this, value); }
+			set
+			{
+				XSizeProperty.SetValue(this, value);
+				((OrthographicFrustum)Frustum).XSize = (float)value;
+			}
 		}
 
 		public static readonly Property<OrthographicCamera, double> YSizeProperty =
@@ -54,7 +64,11 @@ namespace Balder.View
 		public double YSize
 		{
 			get { return YSizeProperty.GetValue(this); }
-			set { YSizeProperty.SetValue(this, value); }
+			set
+			{
+				YSizeProperty.SetValue(this, value);
+				((OrthographicFrustum) Frustum).YSize = (float)value;
+			}
 		}
 
 		public override Ray GetPickRay(int x, int y)
@@ -71,5 +85,6 @@ namespace Balder.View
 
 			var ray = new Ray(position, direction);
 			return ray;
-		}	}
+		}
+	}
 }

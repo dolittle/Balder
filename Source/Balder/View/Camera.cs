@@ -39,7 +39,6 @@ namespace Balder.View
 		public const float DefaultFar = 4000f;
 		public const float DefaultNear = 1.0f;
 
-		private readonly Frustum _frustum;
 		int _viewportWidth;
 		int _viewportHeight;
 
@@ -55,9 +54,10 @@ namespace Balder.View
 			UpdateDepthDivisor();
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 
-			_frustum = new Frustum();
+			Frustum = new Frustum();
 		}
 
+		public Frustum Frustum { get; protected set; }
 
 		public virtual Matrix ViewMatrix { get; protected set; }
 		public virtual Matrix ProjectionMatrix { get; protected set; }
@@ -204,34 +204,34 @@ namespace Balder.View
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 			SetupProjection(viewport);
 			UpdateDepthDivisor();
-			_frustum.SetCameraDefinition(viewport, this);
+			Frustum.SetCameraDefinition(viewport, this);
 		}
 
 
 		public bool IsInView(Vector vector)
 		{
-			var inFrustum = _frustum.IsPointInFrustum(vector);
+			var inFrustum = Frustum.IsPointInFrustum(vector);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Coordinate coordinate)
 		{
-			var inFrustum = _frustum.IsPointInFrustum(coordinate);
+			var inFrustum = Frustum.IsPointInFrustum(coordinate);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(BoundingSphere boundingSphere)
 		{
-			var inFrustum = _frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
+			var inFrustum = Frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Vector position, float radius)
 		{
-			var inFrustum = _frustum.IsSphereInFrustum(position, radius);
+			var inFrustum = Frustum.IsSphereInFrustum(position, radius);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
