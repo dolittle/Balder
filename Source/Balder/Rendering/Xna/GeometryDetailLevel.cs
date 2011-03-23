@@ -360,7 +360,6 @@ namespace Balder.Rendering.Xna
 				return;
 			}
 
-			/*
 			var geometry = node as Geometry;
 			if( null != geometry.Material )
 			{
@@ -373,10 +372,12 @@ namespace Balder.Rendering.Xna
 
 					var imageContext = image.ImageContext as ImageContext;
 
-					_effect.TextureEnabled = true;
-					_effect.Texture = imageContext.Texture;
+					graphicsDevice.Textures[0] = imageContext.Texture;
+
+					//_effect.TextureEnabled = true;
+					//_effect.Texture = imageContext.Texture;
 				}
-			}*/
+			}
 
 			if (drawFaces)
 			{

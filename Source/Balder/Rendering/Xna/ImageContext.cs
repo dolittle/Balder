@@ -26,6 +26,7 @@ using D = Balder.Display.Silverlight5.Display;
 #else
 using D = Balder.Display.Xna.Display;
 #endif
+using Microsoft.Xna.Framework.Silverlight;
 
 
 namespace Balder.Rendering.Xna
@@ -36,7 +37,14 @@ namespace Balder.Rendering.Xna
 
         public void SetFrame(byte[] frameBytes, int width, int height)
         {
-            Texture = new Texture2D(D.GraphicsDevice, width, height, true, SurfaceFormat.Color);
+			for (var pixelIndex = 0; pixelIndex < frameBytes.Length; pixelIndex += 4)
+			{
+				var red = frameBytes[pixelIndex];
+				frameBytes[pixelIndex] = frameBytes[pixelIndex + 2];
+				frameBytes[pixelIndex + 2] = red;
+			}
+
+			Texture = new Texture2D(GraphicsDeviceManager.Current.GraphicsDevice, width, height, false, SurfaceFormat.Color);
 			Texture.SetData(0, new Rectangle(0,0,width,height), frameBytes, 0, frameBytes.Length);
         }
 
