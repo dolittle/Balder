@@ -241,6 +241,7 @@
     <Compile Include="Rendering\Xna\ImageContext.cs" />
     <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
     <Compile Include="Rendering\Xna\RenderVertex.cs" />
+    <Compile Include="Rendering\Xna\Shaders\Shaders.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
     <Compile Include="Rendering\Xna\SkyboxContext.cs" />
     <Compile Include="Rendering\Xna\SpriteContext.cs" />
@@ -444,10 +445,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CompileShaders.cmd" />
-    <Resource Include="Rendering\Silverlight5\Shaders\Triangle.ps" />
-    <None Include="Rendering\Silverlight5\Shaders\Source\Triangle.ps.hlsl" />
-    <Resource Include="Rendering\Silverlight5\Shaders\Triangle.vs" />
-    <None Include="Rendering\Silverlight5\Shaders\Source\Triangle.vs.hlsl" />
+    <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Lighting.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Lighting.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\RenderVertex.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Triangle.ps.hlsl" />
+    <Resource Include="Rendering\Xna\Shaders\Triangle.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Triangle.vs.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

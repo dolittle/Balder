@@ -18,6 +18,7 @@
 #endregion
 #if(XNA)
 using System;
+using System.Runtime.InteropServices;
 using Balder.Imaging;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -33,7 +34,8 @@ namespace Balder.Rendering.Xna
 {
     public class ImageContext : IImageContext
     {
-		public Texture2D Texture { get; private set; } 
+		public Texture2D Texture { get; private set; }
+    	private int[] _texels;
 
         public void SetFrame(byte[] frameBytes, int width, int height)
         {
@@ -43,6 +45,9 @@ namespace Balder.Rendering.Xna
 				frameBytes[pixelIndex] = frameBytes[pixelIndex + 2];
 				frameBytes[pixelIndex + 2] = red;
 			}
+			_texels = new int[width*height];
+
+			Array.Copy(frameBytes, _texels, _texels.Length);
 
 			Texture = new Texture2D(GraphicsDeviceManager.Current.GraphicsDevice, width, height, false, SurfaceFormat.Color);
 			Texture.SetData(0, new Rectangle(0,0,width,height), frameBytes, 0, frameBytes.Length);
@@ -60,7 +65,7 @@ namespace Balder.Rendering.Xna
 
         public int[] GetPixelsAs32BppARGB()
         {
-            throw new NotImplementedException();
+        	return _texels;
         }
 
         public ImageFormat[] SupportedImageFormats

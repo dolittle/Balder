@@ -46,6 +46,8 @@ namespace Balder.Rendering.Xna
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
+		private static object VertexLock = new object();
+
 		private readonly IRenderingManager _renderingManager;
 		public int FaceCount { get; private set; }
 		public int VertexCount { get; private set; }
@@ -84,23 +86,25 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateFaces(int count)
 		{
-			var actualCount = count * 3;
-			_indexBuffer = new IndexBuffer(D.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
-
-			_indices = new ushort[actualCount];
-			_originalFaces = new Face[count];
-
-			if (null != _vertexBuffer)
+			lock (VertexLock)
 			{
+				var actualCount = count*3;
+				_indexBuffer = new IndexBuffer(D.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
+
+				_indices = new ushort[actualCount];
+				_originalFaces = new Face[count];
+
+				if (null != _vertexBuffer)
+				{
 #if(!SILVERLIGHT)
 				_vertexBuffer.Dispose();
 #endif
-				_vertexBuffer = null;
+					_vertexBuffer = null;
+				}
+				_vertices = null;
+
+				_textureCoordinateForFaces = new FaceTextureCoordinate[count];
 			}
-			_vertices = null;
-
-
-			_textureCoordinateForFaces = new FaceTextureCoordinate[count];
 		}
 
 		public void SetFace(int index, Face face)
@@ -125,8 +129,11 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateVertices(int count)
 		{
-			_originalVertices = new Vertex[count];
-			_verticesPrepared = false;
+			lock (VertexLock)
+			{
+				_originalVertices = new Vertex[count];
+				_verticesPrepared = false;
+			}
 		}
 
 		public void SetVertex(int index, Vertex vertex)
@@ -146,7 +153,10 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateNormals(int count)
 		{
-			_originalNormals = new Normal[count];
+			lock (VertexLock)
+			{
+				_originalNormals = new Normal[count];
+			}
 		}
 
 
@@ -157,7 +167,10 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateLines(int count)
 		{
-			_originalLines = new Line[count];
+			lock (VertexLock)
+			{
+				_originalLines = new Line[count];
+			}
 
 		}
 
@@ -183,7 +196,10 @@ namespace Balder.Rendering.Xna
 
 		public void AllocateTextureCoordinates(int count)
 		{
-			_originalTextureCoordinates = new TextureCoordinate[count];
+			lock (VertexLock)
+			{
+				_originalTextureCoordinates = new TextureCoordinate[count];
+			}
 		}
 
 		public void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate)
@@ -266,35 +282,41 @@ namespace Balder.Rendering.Xna
 
 		private void PrepareVertexBufferForFaces(Geometry geometry)
 		{
-			if (null == _vertices)
+			lock (VertexLock)
 			{
-				_vertices = new RenderVertex[_originalFaces.Length * 3];
-			}
-			var vertexIndex = 0;
-			var faceIndex = 0;
-
-			var nodeMaterial = geometry.Material;
-
-			foreach (var face in _originalFaces)
-			{
-				var color = Colors.Blue;
-				var material = GetMaterialForFace(face, geometry, nodeMaterial);
-				if (null != material)
+				if (null == _vertices)
 				{
-					color = material.Diffuse;
+					_vertices = new RenderVertex[_originalFaces.Length*3];
 				}
+				var vertexIndex = 0;
+				var faceIndex = 0;
 
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC], _originalTextureCoordinates[face.DiffuseC]);
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB], _originalTextureCoordinates[face.DiffuseB]);
-				_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA], _originalTextureCoordinates[face.DiffuseA]);
-				faceIndex++;
+				var nodeMaterial = geometry.Material;
+
+				foreach (var face in _originalFaces)
+				{
+					var color = Colors.Blue;
+					var material = GetMaterialForFace(face, geometry, nodeMaterial);
+					if (null != material)
+					{
+						color = material.Diffuse;
+					}
+
+					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC],
+					                                            _originalTextureCoordinates[face.DiffuseC]);
+					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB],
+					                                            _originalTextureCoordinates[face.DiffuseB]);
+					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA],
+					                                            _originalTextureCoordinates[face.DiffuseA]);
+					faceIndex++;
+				}
+				if (null == _vertexBuffer)
+				{
+					_vertexBuffer = new VertexBuffer(_graphicsDevice, RenderVertex.VertexDeclaration, _vertices.Length,
+					                                 BufferUsage.WriteOnly);
+				}
+				_vertexBuffer.SetData(0, _vertices, 0, _vertices.Length, 0);
 			}
-			if (null == _vertexBuffer)
-			{
-				_vertexBuffer = new VertexBuffer(_graphicsDevice, RenderVertex.VertexDeclaration, _vertices.Length,
-												 BufferUsage.WriteOnly);
-			}
-			_vertexBuffer.SetData(0,_vertices,0,_vertices.Length, 0);
 		}
 
 		public void Render(Viewport viewport, INode node)
@@ -305,20 +327,6 @@ namespace Balder.Rendering.Xna
 				viewport.View.ViewMatrix, 
 				viewport.View.ProjectionMatrix, 
 				node.RenderingWorld);
-		}
-
-		static VertexShader vertexShader;
-		static PixelShader pixelShader;
-		static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
-
-		static GeometryDetailLevel()
-		{
-			Stream shaderStream = Application.GetResourceStream(new Uri(@"Balder;component/Rendering/Silverlight5/Shaders/Triangle.vs", UriKind.Relative)).Stream;
-			vertexShader = VertexShader.FromStream(resourceDevice, shaderStream);
-
-			shaderStream = Application.GetResourceStream(new Uri(@"Balder;component/Rendering/Silverlight5/Shaders/Triangle.ps", UriKind.Relative)).Stream;
-			pixelShader = PixelShader.FromStream(resourceDevice, shaderStream);
-			
 		}
 
 
@@ -340,6 +348,9 @@ namespace Balder.Rendering.Xna
 				}
 			}
 
+			if (_vertexBuffer == null)
+				return;
+
 			var matrix = world  * view * projection;
 
 			var inverseWorld = Matrix.Invert(world);
@@ -352,8 +363,8 @@ namespace Balder.Rendering.Xna
 			var lightDirection = new Vector4(0f, 0, -1f, 1f);
 			graphicsDevice.SetVertexShaderConstantFloat4(8, ref lightDirection);
 
-			graphicsDevice.SetVertexShader(vertexShader);
-			graphicsDevice.SetPixelShader(pixelShader);
+			graphicsDevice.SetVertexShader(Shaders.Instance.Triangle.Vertex);
+			graphicsDevice.SetPixelShader(Shaders.Instance.Triangle.Pixel);
 
 			if (null == _vertices)
 			{

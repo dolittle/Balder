@@ -28,7 +28,7 @@ float4 main(VertexShaderOutput vertex) : COLOR
 
 	// Ambient light
 	float Ai = 0.5f;
-	float4 Ac = vertex.Color;
+	float4 Ac = texel;
 	//float4(0.075, 0.075, 0.2, 1.0);
 	
 	// Diffuse light

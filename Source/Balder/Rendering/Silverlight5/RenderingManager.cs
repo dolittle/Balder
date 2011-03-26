@@ -34,7 +34,8 @@ namespace Balder.Rendering.Silverlight5
 				                    		Geometry = geometry,
 											Node = node
 				                    	};
-				_geometries[node] = renderingGeometry;
+				lock( _geometries )
+					_geometries[node] = renderingGeometry;
 			}
 
 			renderingGeometry.View = view;
@@ -45,9 +46,12 @@ namespace Balder.Rendering.Silverlight5
 
 		public void Render(GraphicsDevice graphicsDevice)
 		{
-			foreach( var renderingGeometry in _geometries.Values )
+			lock (_geometries)
 			{
-				renderingGeometry.Render(graphicsDevice);
+				foreach (var renderingGeometry in _geometries.Values)
+				{
+					renderingGeometry.Render(graphicsDevice);
+				}
 			}
 		}
 	}
