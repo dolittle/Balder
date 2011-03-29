@@ -850,7 +850,12 @@ namespace Balder.Rendering.Silverlight.Drawing
 		private void DrawSubTriangleSegment()
 		{
 			var originalHeight = Y2Int - Y1Int;
-			if (Y1Int > BufferContainer.Height || Y2Int < 0)
+
+			if (
+				(Y1Int > BufferContainer.Height || Y2Int < 0) ||
+				(Y1Int > BufferContainer.Height && Y2Int > BufferContainer.Height) ||
+				(Y1Int < 0 && Y2Int < 0)
+				)
 			{
 				X1 += (XInterpolate1 * originalHeight);
 				X2 += (XInterpolate2 * originalHeight);
@@ -897,16 +902,16 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 			var amountToClip = 0f;
-
 			var originalY1Int = Y1Int;
 			var originalY2Int = Y2Int;
-			
+
+
 			var exitX1 = X1 + (XInterpolate1 * originalHeight);
 			var exitX2 = X2 + (XInterpolate2 * originalHeight);
 
 			if (Y1Int < 0)
 			{
-				amountToClip = (float)System.Math.Abs(Y1Int);
+				amountToClip = (float)-Y1Int;
 
 				X1 += (XInterpolate1 * amountToClip);
 				X2 += (XInterpolate2 * amountToClip);
@@ -969,14 +974,24 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var originalV2 = 0f;
 			var clipLength = 0f;
 
+			var scanlineClip = false;
+
 			for (var y = Y1Int; y < Y2Int; y++)
 			{
 				leftClip = false;
-				if ((int)X1 < (int)X2)
-				{
-					X1Int = (int)X1;
-					X2Int = (int)X2;
+				X1Int = (int)X1;
+				X2Int = (int)X2;
+				scanlineClip = false;
 
+				
+				if (X1Int > BufferContainer.Width && X2Int > BufferContainer.Width)
+					scanlineClip = true;
+
+				if (X1Int < 0 && X2Int < 0)
+					scanlineClip = true;
+
+				if (((int)X1 < (int)X2) && !scanlineClip)
+				{
 					originalX1 = X1;
 					originalX2 = X2;
 
@@ -992,7 +1007,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 					if (X1 < 0)
 					{
-						clipLength = System.Math.Abs(X1);
+						clipLength = -X1;
 						Z1 += ZInterpolateX * clipLength;
 						U1 += U1zInterpolateX * clipLength;
 						V1 += V1zInterpolateX * clipLength;
@@ -1010,9 +1025,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 						X2 = BufferContainer.Width;
 						X2Int = BufferContainer.Width;
 					}
-
-					var length = (X2 - X1);
-					var intLength = X2Int - X1Int;
 
 					PixelOffset = yoffset + X1Int;
 
@@ -1078,6 +1090,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 					U2 = originalU2;
 					V2 = originalV2;
 				}
+
 				X1 += XInterpolate1;
 				X2 += XInterpolate2;
 
@@ -1144,14 +1157,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 		}
-
-
-		/*
-		protected abstract bool UsesTexture1 { get; }
-		protected abstract bool UsesTexture2 { get; }
-		protected abstract bool UsesZ { get; }
-		protected abstract bool UsesColoring { get; }
-		 */
 	}
 }
 #endif

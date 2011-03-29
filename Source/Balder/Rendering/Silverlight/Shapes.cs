@@ -83,6 +83,11 @@ namespace Balder.Rendering.Silverlight
 				return;
 			}
 
+			if( float.IsNaN(xstart) || float.IsInfinity(xstart) ||
+				float.IsNaN(ystart) || float.IsInfinity(ystart) ||
+				float.IsNaN(zstart) || float.IsInfinity(zstart))
+				return;
+
 			var deltaX = xend - xstart;
 			var deltaY = yend - ystart;
 			var deltaZ = zend - zstart;

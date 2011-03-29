@@ -137,14 +137,15 @@ namespace Balder.Rendering.Silverlight
 		public bool IsVisible(Viewport viewport, RenderVertex[] vertices)
 		{
 			var dot = Vector.Dot(TransformedPosition, TransformedNormal);
-			var visible = dot < 0 && IsInView(viewport, vertices);
+			var visible = dot < 0;
 
 			if (null != Material)
 			{
 				visible |= Material.CachedDoubleSided;
 			}
 
-			return visible;
+
+			return visible && IsInView(viewport, vertices);
 		}
 
 		private bool IsInView(Viewport viewport, RenderVertex[] vertices)
