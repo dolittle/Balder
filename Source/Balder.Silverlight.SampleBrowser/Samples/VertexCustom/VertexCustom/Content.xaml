@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="Balder.Silverlight.SampleBrowser.Samples.VertexCustom.VertexCustom.Content"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+	xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
+	xmlns:Custom="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.VertexCustom.VertexCustom" 
+	xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
+	xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder"
+	mc:Ignorable="d"
+    d:DesignHeight="300" d:DesignWidth="400">
+    
+    <Grid x:Name="LayoutRoot">
+		<Execution:Game x:Name="Game" Width="640" Height="480">
+			<Execution:Game.Camera>
+				<View:Camera Position="0,0,-25"/>
+			</Execution:Game.Camera>
+			<Lighting:OmniLight Position="0,2,-10" Strength="1.0" Diffuse="White"/>
+		</Execution:Game>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top" x:Name="stackPanel">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" x:Name="stackDetails">
+                <TextBlock Text="Vertex Details:"  x:Name="txtBox"/>
+                <ListBox x:Name="lstBox" Width="100" Height="70"/>
+                <Button Content="Get Info" Click="Button_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" x:Name="stackVertexV1" Loaded="spValueV1_Loaded">
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" x:Name="stackVertexV2" Loaded="spValueV2_Loaded">
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" x:Name="stackButton">
+                <Button Content="Generate Vertex" Click="btnGenerate_Click"/>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Top" x:Name="stackException">
+                <TextBlock Text="Message!" TextWrapping="Wrap" x:Name="txtException" Foreground="Red" Width="200" Height="200" ScrollViewer.VerticalScrollBarVisibility="Visible"/>
+            </StackPanel>
+        </StackPanel>
+
+        
+    </Grid>
+</UserControl>
