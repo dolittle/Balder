@@ -205,6 +205,7 @@
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\Silverlight5\IRenderingManager.cs" />
+    <Compile Include="Rendering\Xna\Shaders\LightInfo.cs" />
     <Compile Include="Rendering\Silverlight5\RenderingGeometry.cs" />
     <Compile Include="Rendering\Silverlight5\RenderingManager.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\DualTextureTriangleBilinear.cs" />
@@ -241,7 +242,12 @@
     <Compile Include="Rendering\Xna\ImageContext.cs" />
     <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
     <Compile Include="Rendering\Xna\RenderVertex.cs" />
-    <Compile Include="Rendering\Xna\Shaders\Shaders.cs" />
+    <Compile Include="Rendering\Xna\GraphicsDeviceExtensions.cs" />
+    <Compile Include="Rendering\Xna\Shader.cs" />
+    <Compile Include="Rendering\Xna\ShaderManager.cs" />
+    <Compile Include="Rendering\Xna\Shaders\LightType.cs" />
+    <Compile Include="Rendering\Xna\Shaders\Material.cs" />
+    <Compile Include="Rendering\Xna\Shaders\MaterialExtensions.cs" />
     <Compile Include="Rendering\Xna\ShapeContext.cs" />
     <Compile Include="Rendering\Xna\SkyboxContext.cs" />
     <Compile Include="Rendering\Xna\SpriteContext.cs" />
@@ -448,6 +454,7 @@
     <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Material.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Flat.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\Lighting.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Lighting.ps.hlsl" />

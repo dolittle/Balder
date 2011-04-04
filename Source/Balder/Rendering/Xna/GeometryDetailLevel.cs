@@ -323,6 +323,7 @@ namespace Balder.Rendering.Xna
 		{
 			_renderingManager.RegisterForRendering(
 				this, 
+				viewport,
 				node, 
 				viewport.View.ViewMatrix, 
 				viewport.View.ProjectionMatrix, 
@@ -331,7 +332,7 @@ namespace Balder.Rendering.Xna
 
 
 
-		internal void ActualRender(GraphicsDevice graphicsDevice, INode node, Matrix view, Matrix projection, Matrix world)
+		internal void ActualRender(GraphicsDevice graphicsDevice, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
 			var drawFaces = null != _originalFaces;
 			var drawLines = null != _originalLines;
@@ -354,17 +355,14 @@ namespace Balder.Rendering.Xna
 			var matrix = world  * view * projection;
 
 			var inverseWorld = Matrix.Invert(world);
-			
+			var material = ((Geometry)node).Material;
 
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
-			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); // pass the transform to the shader
-			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); // pass the transform to the shader
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); 
+			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); 
+			_renderingManager.HandleLights(graphicsDevice, viewport);
 
-			var lightDirection = new Vector4(0f, 0, -1f, 1f);
-			graphicsDevice.SetVertexShaderConstantFloat4(8, ref lightDirection);
-
-			graphicsDevice.SetVertexShader(Shaders.Instance.Triangle.Vertex);
-			graphicsDevice.SetPixelShader(Shaders.Instance.Triangle.Pixel);
+			graphicsDevice.SetShader(ShaderManager.Instance.Flat);
 
 			if (null == _vertices)
 			{

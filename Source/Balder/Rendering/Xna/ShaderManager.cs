@@ -18,23 +18,15 @@
 #endregion
 #if(XNA)
 using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Windows;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Silverlight;
 
 namespace Balder.Rendering.Xna
 {
-	public class Shaders
+	public class ShaderManager
 	{
-		public class Shader
-		{
-			public VertexShader Vertex;
-			public PixelShader Pixel;
-		}
-
 		const string Path = @"Balder;component/Rendering/Xna/Shaders/";
 
 		static readonly GraphicsDevice resourceDevice = GraphicsDeviceManager.Current.GraphicsDevice;
@@ -62,9 +54,9 @@ namespace Balder.Rendering.Xna
 		}
 
 
-		public static readonly Shaders Instance = new Shaders();
+		public static readonly ShaderManager Instance = new ShaderManager();
 
-		private Shaders()
+		private ShaderManager()
 		{
 			var properties = GetType().GetProperties();
 			foreach( var property in properties )

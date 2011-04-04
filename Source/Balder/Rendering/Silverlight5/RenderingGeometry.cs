@@ -1,4 +1,5 @@
-﻿using Balder.Math;
+﻿using Balder.Display;
+using Balder.Math;
 using Balder.Rendering.Xna;
 using Microsoft.Xna.Framework.Graphics;
 
@@ -11,6 +12,7 @@ namespace Balder.Rendering.Silverlight5
 		public Matrix View;
 		public Matrix Projection;
 		public INode Node;
+		public Viewport Viewport;
 
 		public bool IsVisible;
 
@@ -20,7 +22,7 @@ namespace Balder.Rendering.Silverlight5
 			if (!IsVisible)
 				return;
 
-			Geometry.ActualRender(graphicsDevice, Node, View, Projection, World);
+			Geometry.ActualRender(graphicsDevice, Viewport, Node, View, Projection, World);
 		}
 	}
 }
