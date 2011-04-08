@@ -454,6 +454,7 @@
     <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Defaults.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Material.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Flat.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\Lighting.vs.hlsl" />

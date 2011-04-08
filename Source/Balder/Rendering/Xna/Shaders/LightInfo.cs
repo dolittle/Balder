@@ -15,7 +15,6 @@ namespace Balder.Rendering.Xna.Shaders
 		public float[] Range;
 		public LightType[] LightType;
 
-
 		public static LightInfo Create()
 		{
 			var lightInfo = new LightInfo

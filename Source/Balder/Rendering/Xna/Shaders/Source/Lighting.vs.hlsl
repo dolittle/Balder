@@ -1,4 +1,4 @@
-#define MaxLights 7
+#define MaxLights 5
 
 // Size = 20
 struct Light
@@ -7,8 +7,9 @@ struct Light
 	float4 Ambient : COLOR;
 	float4 Diffuse : COLOR;
 	float4 Specular : COLOR;
-	float4 Details; // x = strength, y = range, z = light type
+	float4 Details; // x = strength, y = range, z = light type, w = 0
 };
+
 
 float4x4 InverseWorld : register(c4);
 float4 ViewPosition : register(c8);
@@ -27,44 +28,54 @@ float4 CalculateOmni(RenderVertex vertex, float4 normal, Light light) : COLOR
 
 float4 CalculateLighting(RenderVertex vertex)
 {
-	float3 normal = normalize(vertex.Normal).xyz;
-	float4 resultDiffuse = float4(1,0,0,1);
+	float4 resultDiffuse = float4(0,0,0,1);
 	float4 diffuse = float4(0,0,0,0);
+
+	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
+	float4 normal = mul(vertex.Normal, WorldViewProj);
+	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
 	{
 		Light light = Lights[lightIndex];
-
+		
 		if( Lights[lightIndex].Details.x > 0 ) 
 		{
 			// Omni light
 			if( Lights[lightIndex].Details.z == 0 ) 
 			{
 				//diffuse = CalculateOmni(vertex, normal, Lights[lightIndex]);
-				float3 direction = light.PositionOrDirection.xyz - vertex.Position;
-				float3 normalizedDirection = normalize(direction); 
 
-				float normalDot = dot(direction, normal);
-				diffuse = (light.Diffuse * normalDot)*light.Details.x;
+				float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
+				float directionDot = dot(lightDirection, normal);
 
-				float3 reflection = normalize(2 * normalDot * (normal - direction));
+				float3 reflection = normalize(position * (normal - lightDirection));
 
-				float3 view = normalize(ViewPosition - vertex.Position);
+				float3 view = normalize(ViewPosition- position);
 
-				float3 viewDot = dot(reflection,view);
+				float viewDot = saturate(dot(reflection, view));
 
+				float specularPower = saturate(CurrentMaterial.Details.y * pow(viewDot, CurrentMaterial.Details.x));
+				float4 specular = saturate(((light.Specular * specularPower) * light.Details.x)*CurrentMaterial.Specular);
+
+				float attenuation = 1 - saturate(dot(lightDirection / light.Details.y, lightDirection / light.Details.y));
+
+				diffuse = saturate(((light.Diffuse * directionDot)*light.Details.x)*CurrentMaterial.Diffuse);
+
+				resultDiffuse = resultDiffuse + saturate((diffuse + specular)); // ((diffuse + specular)*attenuation);
 			}
 
 			// Directional light
-			if( Lights[lightIndex].Details.z == 1 ) 
+			if( light.Details.z == 1 ) 
 			{
 				//diffuse = CalculateDirectional(vertex, normal, Lights[lightIndex]);
 			}
 
-			resultDiffuse = resultDiffuse + diffuse;
+			
 		}
 	}
 
+	resultDiffuse = saturate(resultDiffuse);
 	resultDiffuse.w = 1;
 	return resultDiffuse;
 }

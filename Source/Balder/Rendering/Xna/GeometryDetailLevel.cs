@@ -372,6 +372,7 @@ namespace Balder.Rendering.Xna
 			var geometry = node as Geometry;
 			if( null != geometry.Material )
 			{
+				_renderingManager.SetMaterial(graphicsDevice, geometry.Material);
 				if( null != geometry.Material.DiffuseMap &&
 					geometry.Material.DiffuseMap is ImageMap )
 				{
@@ -385,6 +386,8 @@ namespace Balder.Rendering.Xna
 
 					//_effect.TextureEnabled = true;
 					//_effect.Texture = imageContext.Texture;
+
+					
 				}
 			}
 

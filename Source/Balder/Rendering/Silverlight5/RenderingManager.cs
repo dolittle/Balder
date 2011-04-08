@@ -71,13 +71,29 @@ namespace Balder.Rendering.Silverlight5
 
 			var viewPosition = (Vector4)viewport.View.Position;
 			graphicsDevice.SetVertexShaderConstantFloat4(8, ref viewPosition);
-			graphicsDevice.SetVertexShaderConstantFloat4(13, ref lightInfo.PositionOrDirection);
+
+			var registerOffset = 13;
+			for( var lightIndex=0; lightIndex<LightInfo.MaxLights; lightIndex++ )
+			{
+				graphicsDevice.SetVertexShaderConstantFloat4(registerOffset, ref lightInfo.PositionOrDirection[lightIndex]);
+				graphicsDevice.SetVertexShaderConstant(registerOffset + 1, lightInfo.Ambient[lightIndex]);
+				graphicsDevice.SetVertexShaderConstant(registerOffset + 2, lightInfo.Diffuse[lightIndex]);
+				graphicsDevice.SetVertexShaderConstant(registerOffset + 3, lightInfo.Specular[lightIndex]);
+				graphicsDevice.SetVertexShaderLightingDetails(registerOffset + 4, lightInfo.Strength[lightIndex],
+				                                              lightInfo.Range[lightIndex], lightInfo.LightType[lightIndex]);
+				registerOffset += 5;
+			}
 		}
+
+
 
 		public void SetMaterial(GraphicsDevice graphicsDevice, Materials.Material material)
 		{
 			var shaderMaterial = material.ToMaterial();
-			//graphicsDevice.SetVertexShaderConstantFloat4(9, ref shaderMaterial);
+			graphicsDevice.SetVertexShaderConstant(9, shaderMaterial.Ambient);
+			graphicsDevice.SetVertexShaderConstant(10, shaderMaterial.Diffuse);
+			graphicsDevice.SetVertexShaderConstant(11, shaderMaterial.Specular);
+			graphicsDevice.SetVertexShaderMaterialDetails(12, shaderMaterial);
 		}
 
 		static void SetLightInfo(ref LightInfo lightInfo, int lightNumber, Lighting.ILight light)

@@ -1,0 +1,1 @@
+float4x4 WorldViewProj : register(c0);
