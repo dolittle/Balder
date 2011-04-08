@@ -362,7 +362,8 @@ namespace Balder.Rendering.Xna
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); 
 			_renderingManager.HandleLights(graphicsDevice, viewport);
 
-			graphicsDevice.SetShader(ShaderManager.Instance.Flat);
+			//graphicsDevice.SetShader(ShaderManager.Instance.Flat);
+			graphicsDevice.SetShader(ShaderManager.Instance.GouraudTexture);
 
 			if (null == _vertices)
 			{

@@ -75,6 +75,7 @@ namespace Balder.Rendering.Xna
 
 
 		public Shader Flat { get; private set; }
+		public Shader GouraudTexture { get; private set; }
 		public Shader Triangle { get; private set; }
 	}
 }
