@@ -63,7 +63,7 @@ namespace Balder.Rendering.Silverlight5
 
 		public void HandleLights(GraphicsDevice graphicsDevice, Viewport viewport)
 		{
-			var lightInfo = new LightInfo();
+			var lightInfo = LightInfo.Create();
 			var lightCount = 0;
 
 			foreach (Lighting.ILight light in viewport.Scene.Lights)
@@ -71,7 +71,7 @@ namespace Balder.Rendering.Silverlight5
 
 			var viewPosition = (Vector4)viewport.View.Position;
 			graphicsDevice.SetVertexShaderConstantFloat4(8, ref viewPosition);
-			graphicsDevice.SetVertexShaderConstantFloat4(13, ref lightInfo);
+			graphicsDevice.SetVertexShaderConstantFloat4(13, ref lightInfo.PositionOrDirection);
 		}
 
 		public void SetMaterial(GraphicsDevice graphicsDevice, Materials.Material material)
@@ -82,26 +82,22 @@ namespace Balder.Rendering.Silverlight5
 
 		static void SetLightInfo(ref LightInfo lightInfo, int lightNumber, Lighting.ILight light)
 		{
-			object li = lightInfo;
-			LightInfo.SetField(li, lightNumber, "Ambient", (XnaColor)light.Ambient);
-
-			LightInfo.SetField(li, lightNumber, "Diffuse", (XnaColor)light.Diffuse);
-			LightInfo.SetField(li, lightNumber, "Specular", (XnaColor)light.Specular);
-			LightInfo.SetField(li, lightNumber, "Strength", (float)light.Strength);
+			lightInfo.Ambient[lightNumber] = light.Ambient;
+			lightInfo.Diffuse[lightNumber] = light.Diffuse;
+			lightInfo.Specular[lightNumber] = light.Specular;
+			lightInfo.Strength[lightNumber] = (float)light.Strength;
 
 			if (light is Lighting.DirectionalLight)
 			{
-				LightInfo.SetField(li, lightNumber, "PositionOrDirection", (Vector4)((Lighting.DirectionalLight)light).Direction);
-				LightInfo.SetField(li, lightNumber, "LightType", LightType.Directional);
+				lightInfo.LightType[lightNumber] = LightType.Directional;
+				lightInfo.PositionOrDirection[lightNumber] = ((Lighting.DirectionalLight)light).Direction;
 			}
 			if (light is Lighting.OmniLight)
 			{
-				LightInfo.SetField(li, lightNumber, "PositionOrDirection", (Vector4)((Lighting.OmniLight)light).Position);
-				LightInfo.SetField(li, lightNumber, "Range", (float)((Lighting.OmniLight)light).Range);
-				LightInfo.SetField(li, lightNumber, "LightType", LightType.Omni);
+				lightInfo.LightType[lightNumber] = LightType.Omni;
+				lightInfo.PositionOrDirection[lightNumber] = ((Lighting.OmniLight)light).Position;
+				lightInfo.Range[lightNumber] = (float)((Lighting.OmniLight)light).Range;
 			}
-
-			lightInfo = (LightInfo) li;
 		}
 	}
 }
