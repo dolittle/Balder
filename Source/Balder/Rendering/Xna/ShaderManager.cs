@@ -73,10 +73,17 @@ namespace Balder.Rendering.Xna
 			}
 		}
 
-
 		public Shader Flat { get; private set; }
+		public Shader Gouraud { get; private set; }
+
+		public Shader FlatTexture { get; private set; }
 		public Shader GouraudTexture { get; private set; }
-		public Shader Triangle { get; private set; }
+
+		public Shader FlatDualTexture { get; private set; }
+		public Shader GouraudDualTexture { get; private set; }
+
+		public Shader Texture { get; private set; }
+		public Shader DualTexture { get; private set; }
 	}
 }
 #endif

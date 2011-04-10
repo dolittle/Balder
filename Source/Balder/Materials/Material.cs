@@ -20,6 +20,7 @@
 #if(XAML)
 using System.ComponentModel;
 using System.Windows;
+using Balder.Rendering.Xna;
 using Balder.Silverlight.TypeConverters;
 using Ninject;
 #endif
@@ -448,6 +449,114 @@ namespace Balder.Materials
 			SpecularLevelAsFloat = (float)SpecularLevel;
 		}
 
+#if(XNA)
+		internal Shader Shader;
+
+		public Shader CustomShader { get; set; }
+		private void MaterialPropertiesChanged()
+		{
+			UpdateColors();
+			SetShader();
+			SetTextures();
+		}
+
+
+		private void SetShader()
+		{
+			if (CustomShader != null)
+			{
+				Shader = CustomShader;
+				return;
+			}
+
+			switch (Shade)
+			{
+				case MaterialShade.None:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Flat;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.Texture;
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.DualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.Texture;
+							}
+						}
+
+					}
+					break;
+
+				case MaterialShade.Flat:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Flat;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.FlatTexture;
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.FlatDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.FlatTexture;
+							}
+						}
+					}
+					break;
+
+				case MaterialShade.Gouraud:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Gouraud;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudTexture;
+
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.GouraudDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudTexture;
+							}
+						}
+					}
+					break;
+			}
+
+		}
+#endif
 
 #if(SILVERLIGHT)
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
@@ -475,13 +584,14 @@ namespace Balder.Materials
 		internal int DiffuseTextureFactor;
 		internal int ReflectionTextureFactor;
 
-
+#if(!XNA)
 		private void MaterialPropertiesChanged()
 		{
 			UpdateColors();
 			SetRenderer();
 			SetTextures();
 		}
+#endif
 
 		private static ITextureManager _textureManager;
 		private void SetTextures()

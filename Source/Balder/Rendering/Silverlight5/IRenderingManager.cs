@@ -10,7 +10,5 @@ namespace Balder.Rendering.Silverlight5
 		void Initialize();
 		void RegisterForRendering(GeometryDetailLevel geometry, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world);
 		void Render(GraphicsDevice graphicsDevice);
-		void HandleLights(GraphicsDevice graphicsDevice, Viewport viewport);
-		void SetMaterial(GraphicsDevice graphicsDevice, Materials.Material material);
 	}
 }

@@ -360,20 +360,17 @@ namespace Balder.Rendering.Xna
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); 
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); 
-			_renderingManager.HandleLights(graphicsDevice, viewport);
-
-			//graphicsDevice.SetShader(ShaderManager.Instance.Flat);
-			graphicsDevice.SetShader(ShaderManager.Instance.GouraudTexture);
 
 			if (null == _vertices)
 			{
 				return;
 			}
 
+			var shader = ShaderManager.Instance.Gouraud;
+
 			var geometry = node as Geometry;
 			if( null != geometry.Material )
 			{
-				_renderingManager.SetMaterial(graphicsDevice, geometry.Material);
 				if( null != geometry.Material.DiffuseMap &&
 					geometry.Material.DiffuseMap is ImageMap )
 				{
@@ -382,15 +379,12 @@ namespace Balder.Rendering.Xna
 
 
 					var imageContext = image.ImageContext as ImageContext;
-
 					graphicsDevice.Textures[0] = imageContext.Texture;
-
-					//_effect.TextureEnabled = true;
-					//_effect.Texture = imageContext.Texture;
-
-					
 				}
 			}
+			shader.HandleLighting(graphicsDevice, viewport);
+			shader.HandleMaterial(graphicsDevice, geometry.Material);
+			graphicsDevice.SetShader(shader);
 
 			if (drawFaces)
 			{

@@ -17,9 +17,9 @@ namespace Balder.Rendering.Xna
 		{
 			var vector = new Vector4(
 				
-					((float)color.R)/255f,
-					((float)color.G)/255f,
 					((float)color.B)/255f,
+					((float)color.G)/255f,
+					((float)color.R)/255f,
 					((float)color.A)/255f
 				);
 
