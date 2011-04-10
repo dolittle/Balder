@@ -4,6 +4,7 @@ using Balder.Lighting;
 using Balder.Rendering.Xna.Shaders;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using XnaColor = Microsoft.Xna.Framework.Color;
 
 namespace Balder.Rendering.Xna
 {
@@ -29,6 +30,8 @@ namespace Balder.Rendering.Xna
 
 			var lightInfo = LightInfo.Create();
 			var lightCount = 0;
+
+			
 
 			foreach (ILight light in viewport.Scene.Lights )
 				SetLightInfo(ref lightInfo, lightCount++, light);
@@ -64,6 +67,7 @@ namespace Balder.Rendering.Xna
 			graphicsDevice.SetVertexShaderConstant(11, shaderMaterial.Specular);
 			graphicsDevice.SetVertexShaderMaterialDetails(12, shaderMaterial);
 		}
+
 
 		static void SetLightInfo(ref LightInfo lightInfo, int lightNumber, Lighting.ILight light)
 		{

@@ -27,6 +27,17 @@ namespace Balder.Rendering.Xna.Shaders
 			                		Range = new float[MaxLights],
 			                		LightType = new LightType[MaxLights]
 			                	};
+
+			for (var lightIndex = 0; lightIndex < MaxLights; lightIndex++)
+			{
+				lightInfo.Ambient[lightIndex] = XnaColor.Black;
+				lightInfo.Diffuse[lightIndex] = XnaColor.Black;
+				lightInfo.Specular[lightIndex] = XnaColor.Black;
+				lightInfo.Strength[lightIndex] = 0;
+				lightInfo.Range[lightIndex] = 0;
+				lightInfo.LightType[lightIndex] = 0;
+			}
+
 			return lightInfo;
 		}
 	}

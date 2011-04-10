@@ -1,4 +1,6 @@
-﻿namespace Balder.Rendering.Xna.Shaders
+﻿using XnaColor = Microsoft.Xna.Framework.Color;
+
+namespace Balder.Rendering.Xna.Shaders
 {
 	public static class MaterialExtensions
 	{
