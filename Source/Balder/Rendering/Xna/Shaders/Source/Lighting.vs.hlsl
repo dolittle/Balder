@@ -11,7 +11,7 @@ struct Light
 };
 
 
-float4x4 WorldView : register(c4);
+
 float4 ViewPosition : register(c8);
 Material CurrentMaterial : register(c9);
 Light Lights[MaxLights] : register(c13);	// Size = 20 * 7 = 140
