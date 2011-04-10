@@ -1,5 +1,5 @@
 struct VertexShaderOutput
 {
   float4 Position : POSITION;
-  float4 Color : COLOR;
+  float2 UV : TEXCOORD0;
 };
