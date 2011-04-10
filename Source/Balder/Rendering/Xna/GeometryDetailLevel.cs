@@ -374,6 +374,7 @@ namespace Balder.Rendering.Xna
 				if( null != geometry.Material.DiffuseMap &&
 					geometry.Material.DiffuseMap is ImageMap )
 				{
+					shader = geometry.Material.Shader;
 					var imageMap = geometry.Material.DiffuseMap as ImageMap;
 					var image = imageMap.Image;
 
