@@ -371,14 +371,20 @@ namespace Balder.Rendering.Xna
 			var geometry = node as Geometry;
 			if( null != geometry.Material )
 			{
-				if( null != geometry.Material.DiffuseMap &&
+				shader = geometry.Material.Shader;
+				if( geometry.Material.DiffuseMap != null &&
 					geometry.Material.DiffuseMap is ImageMap )
 				{
-					shader = geometry.Material.Shader;
 					var imageMap = geometry.Material.DiffuseMap as ImageMap;
 					var image = imageMap.Image;
-
-
+					var imageContext = image.ImageContext as ImageContext;
+					graphicsDevice.Textures[0] = imageContext.Texture;
+				}
+				if( geometry.Material.ReflectionMap != null &&
+					geometry.Material.ReflectionMap is ImageMap)
+				{
+					var imageMap = geometry.Material.ReflectionMap as ImageMap;
+					var image = imageMap.Image;
 					var imageContext = image.ImageContext as ImageContext;
 					graphicsDevice.Textures[0] = imageContext.Texture;
 				}

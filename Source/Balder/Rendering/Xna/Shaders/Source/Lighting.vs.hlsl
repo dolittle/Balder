@@ -129,7 +129,7 @@ float4 CalculateDiffuse(RenderVertex vertex)
 			{
 				float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
 				float directionDot = dot(lightDirection, normal);
-				diffuse = saturate(((light.Diffuse * directionDot)*light.Details.x)*CurrentMaterial.Diffuse);
+				diffuse = saturate((light.Diffuse * directionDot)*light.Details.x);
 
 				resultDiffuse = resultDiffuse + saturate(diffuse);
 			}

@@ -6,6 +6,7 @@ fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\DualTexture.ps Rendering\Xna\Sh
 
 
 
+
 fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Flat.vs Rendering\Xna\Shaders\Source\Flat.vs.hlsl
 fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Flat.ps Rendering\Xna\Shaders\Source\Flat.ps.hlsl
 
@@ -25,3 +26,8 @@ fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\GouraudTexture.ps Rendering\Xna
 
 fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\GouraudDualTexture.vs Rendering\Xna\Shaders\Source\GouraudDualTexture.vs.hlsl
 fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\GouraudDualTexture.ps Rendering\Xna\Shaders\Source\GouraudDualTexture.ps.hlsl
+
+
+
+fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\EnvironmentMap.vs Rendering\Xna\Shaders\Source\EnvironmentMap.vs.hlsl
+fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\EnvironmentMap.ps Rendering\Xna\Shaders\Source\EnvironmentMap.ps.hlsl

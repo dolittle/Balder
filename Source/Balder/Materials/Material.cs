@@ -481,7 +481,7 @@ namespace Balder.Materials
 							}
 							else
 							{
-								Shader = ShaderManager.Instance.Texture;
+								Shader = ShaderManager.Instance.EnvironmentMap;
 							}
 						}
 						else

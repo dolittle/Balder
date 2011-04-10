@@ -84,6 +84,8 @@ namespace Balder.Rendering.Xna
 
 		public Shader Texture { get; private set; }
 		public Shader DualTexture { get; private set; }
+
+		public Shader EnvironmentMap { get; private set; }
 	}
 }
 #endif
