@@ -11,7 +11,7 @@ struct Light
 };
 
 
-float4x4 InverseWorld : register(c4);
+float4x4 WorldView : register(c4);
 float4 ViewPosition : register(c8);
 Material CurrentMaterial : register(c9);
 Light Lights[MaxLights] : register(c13);	// Size = 20 * 7 = 140
@@ -32,7 +32,7 @@ float4 CalculateLighting(RenderVertex vertex)
 	float4 diffuse = float4(0,0,0,0);
 
 	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = normalize(mul(vertex.Normal, WorldViewProj));
+	float4 normal = normalize(mul(vertex.Normal, WorldView));
 	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
@@ -115,7 +115,7 @@ float4 CalculateDiffuse(RenderVertex vertex)
 	float4 diffuse = float4(0,0,0,0);
 
 	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = mul(vertex.Normal, WorldViewProj);
+	float4 normal = mul(vertex.Normal, WorldView);
 	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
@@ -148,7 +148,7 @@ float4 CalculateSpecular(RenderVertex vertex)
 	float4 diffuse = float4(0,0,0,0);
 
 	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = mul(vertex.Normal, WorldViewProj);
+	float4 normal = mul(vertex.Normal, WorldView);
 	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )

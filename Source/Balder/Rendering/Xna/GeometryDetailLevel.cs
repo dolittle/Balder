@@ -352,14 +352,12 @@ namespace Balder.Rendering.Xna
 			if (_vertexBuffer == null)
 				return;
 
-			var matrix = world  * view * projection;
-
-			var inverseWorld = Matrix.Invert(world);
-			var material = ((Geometry)node).Material;
-
+			var worldView = world*view;
+			var matrix = worldView * projection;
+			
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); 
-			graphicsDevice.SetVertexShaderConstantFloat4(4, ref inverseWorld); 
+			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView); 
 
 			if (null == _vertices)
 			{
