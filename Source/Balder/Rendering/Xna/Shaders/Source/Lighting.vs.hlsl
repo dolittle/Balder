@@ -26,6 +26,43 @@ float4 CalculateOmni(RenderVertex vertex, float4 normal, Light light) : COLOR
 	return vertex.Color;
 }
 
+float4 CalculateDiffuseForLight(Light light, float4 position, float4 normal)
+{
+	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
+	float directionDot = saturate(dot(normal, lightDirection));
+
+	float lightDirRanged = lightDirection / light.Details.y;
+	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
+
+	float shadow = saturate(4*directionDot);
+
+	float4 diffuse = (((light.Diffuse * directionDot) * light.Details.x)*shadow)*attenuation;
+	return diffuse;
+}
+
+float4 CalculateSpecularForLight(Light light, float4 position, float4 normal)
+{
+	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
+	float directionDot = saturate(dot(normal, lightDirection));
+	float3 view = normalize(ViewPosition - position);
+	float3 reflection = normalize(2 * directionDot * normal - lightDirection);
+	float viewDot = saturate(dot(reflection, view));
+
+	float lightDirRanged = lightDirection / light.Details.y;
+	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
+
+	float specularPower = 
+				CurrentMaterial.Details.y * 
+				pow(viewDot, CurrentMaterial.Details.x);
+						
+	float4 specular = 
+				((light.Specular * specularPower) * light.Details.x) *
+				attenuation;
+
+	return specular;
+}
+
+
 float4 CalculateLighting(float4 position, float4 normal)
 {
 	float4 resultDiffuse = float4(0,0,0,1);
@@ -39,29 +76,9 @@ float4 CalculateLighting(float4 position, float4 normal)
 			// Omni light
 			if( light.Details.z == 1 ) 
 			{
-				float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-				float directionDot = saturate(dot(normal, lightDirection));
-
-				float3 view = normalize(ViewPosition - position);
-				float3 reflection = normalize(2 * directionDot * normal - lightDirection);
-
-				float viewDot = saturate(dot(reflection, view));
-
-				float specularPower = 
-							CurrentMaterial.Details.y * 
-							pow(viewDot, CurrentMaterial.Details.x);
-						
-				float4 specular = 
-							((light.Specular * specularPower) * light.Details.x) *
-							CurrentMaterial.Specular;
-
-				float lightDirRanged = lightDirection / light.Details.y;
-				float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
-
-				float shadow = saturate(4*directionDot);
-
-				diffuse = (((light.Diffuse * directionDot) * light.Details.x)*CurrentMaterial.Diffuse)*shadow;
-				resultDiffuse = resultDiffuse + ((diffuse + specular) * attenuation);
+				float4 diffuse = CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
+				float4 specular = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
+				resultDiffuse = resultDiffuse + (diffuse + specular); // * attenuation);
 			}
 
 			// Directional light
@@ -78,29 +95,24 @@ float4 CalculateLighting(float4 position, float4 normal)
 	return resultDiffuse;
 }
 
-float4 CalculateDiffuse(RenderVertex vertex)
+
+
+float4 CalculateDiffuse(float4 position, float4 normal)
 {
 	float4 resultDiffuse = float4(0,0,0,1);
 	float4 diffuse = float4(0,0,0,0);
-
-	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = mul(vertex.Normal, WorldView);
-	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
 	{
 		Light light = Lights[lightIndex];
 		
-		if( Lights[lightIndex].Details.x > 0 ) 
+		if( light.Details.x > 0 ) 
 		{
 			// Omni light
-			if( Lights[lightIndex].Details.z == 1 ) 
+			if( light.Details.z == 1 ) 
 			{
-				float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-				float directionDot = dot(lightDirection, normal);
-				diffuse = saturate((light.Diffuse * directionDot)*light.Details.x);
-
-				resultDiffuse = resultDiffuse + saturate(diffuse);
+				diffuse = CalculateDiffuseForLight(light, position, normal);
+				resultDiffuse = resultDiffuse + diffuse;
 			}
 		}
 	}
@@ -111,34 +123,21 @@ float4 CalculateDiffuse(RenderVertex vertex)
 }
 
 
-float4 CalculateSpecular(RenderVertex vertex)
+float4 CalculateSpecular(float4 position, float4 normal)
 {
 	float4 result = float4(0,0,0,1);
 	float4 diffuse = float4(0,0,0,0);
-
-	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = mul(vertex.Normal, WorldView);
-	
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
 	{
 		Light light = Lights[lightIndex];
 		
-		if( Lights[lightIndex].Details.x > 0 ) 
+		if( light.Details.x > 0 ) 
 		{
 			// Omni light
-			if( Lights[lightIndex].Details.z == 1 ) 
+			if( light.Details.z == 1 ) 
 			{
-				float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-
-				float3 reflection = normalize(position * (normal - lightDirection));
-
-				float3 view = normalize(ViewPosition- position);
-
-				float viewDot = saturate(dot(reflection, view));
-
-				float specularPower = saturate(CurrentMaterial.Details.y * pow(viewDot, CurrentMaterial.Details.x));
-				float4 specular = saturate(((light.Specular * specularPower) * light.Details.x)*CurrentMaterial.Specular);
+				float4 specular = CalculateSpecularForLight(light, position, normal);
 
 				result = result + specular;
 			}
