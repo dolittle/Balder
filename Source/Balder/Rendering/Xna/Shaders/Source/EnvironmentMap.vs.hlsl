@@ -34,7 +34,7 @@ VertexShaderOutput main(RenderVertex vertex)
 
 	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
 	float4 normalizedPosition = normalize(mul(float4(vertex.Position,1), WorldView));
-	float4 transformedNormal = mul(float4(vertex.Normal,1), WorldView);
+	float4 transformedNormal = mul(vertex.Normal, WorldView);
 	float4 reflection = reflect(transformedNormal, normalizedPosition);
 
 	float m = 1 / length(reflection);
