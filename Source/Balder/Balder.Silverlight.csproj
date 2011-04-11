@@ -470,6 +470,12 @@
     <Resource Include="Rendering\Xna\Shaders\FlatTexture.vs" />
     <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.ps" />
     <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMapping.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.vs.hlsl" />

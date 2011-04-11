@@ -1,0 +1,7 @@
+struct VertexShaderOutput
+{
+  float4 Position : POSITION;
+  float4 Diffuse : COLOR0;
+  float4 Specular : COLOR1;
+  float2 UV : TEXCOORD0;
+};

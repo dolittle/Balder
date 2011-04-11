@@ -1,5 +1,5 @@
 #include "Lighting.ps.hlsl"
-#include "FlatTexture.VertexOutput"
+#include "FlatEnvironmentMap.VertexOutput"
 
 sampler2D TextureSampler = sampler_state
 {
