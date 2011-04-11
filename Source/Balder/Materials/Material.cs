@@ -536,7 +536,7 @@ namespace Balder.Materials
 							}
 							else
 							{
-								Shader = ShaderManager.Instance.GouraudTexture;
+								Shader = ShaderManager.Instance.GouraudEnvironmentMap;
 
 							}
 						}

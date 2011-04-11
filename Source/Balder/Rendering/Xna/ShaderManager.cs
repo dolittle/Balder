@@ -87,6 +87,7 @@ namespace Balder.Rendering.Xna
 
 		public Shader EnvironmentMap { get; private set; }
 		public Shader FlatEnvironmentMap { get; private set; }
+		public Shader GouraudEnvironmentMap { get; private set; }
 	}
 }
 #endif
