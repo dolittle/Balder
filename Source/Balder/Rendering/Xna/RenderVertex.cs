@@ -31,6 +31,7 @@ namespace Balder.Rendering.Xna
     {
         public Vector3 Position;
 		public Vector3 Normal;
+		public Vector3 FaceNormal;
 		public Microsoft.Xna.Framework.Color Color;
 		public Vector2 TextureCoordinate;
 
@@ -40,6 +41,7 @@ namespace Balder.Rendering.Xna
             Normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
             Color = new Microsoft.Xna.Framework.Color(0,0,0xff,0xff);
         	TextureCoordinate = Vector2.Zero;
+        	FaceNormal = Vector3.Zero;
         }
 
         public RenderVertex(Vertex vertex, Color color)
@@ -48,6 +50,7 @@ namespace Balder.Rendering.Xna
             Normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
             Color = color;
 			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
         }
 
         public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color)
@@ -56,6 +59,7 @@ namespace Balder.Rendering.Xna
             Color = color;
             Normal = Vector3.Zero;
 			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
         }
 
 		public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color, Vector3 normal)
@@ -64,6 +68,7 @@ namespace Balder.Rendering.Xna
 			Color = color;
 			Normal = normal;
 			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
 		}
 
 		public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color, Vector3 normal, Vector2 textureCoordinate)
@@ -72,6 +77,7 @@ namespace Balder.Rendering.Xna
 			Color = color;
 			Normal = normal;
 			TextureCoordinate = textureCoordinate;
+			FaceNormal = Vector3.Zero;
 		}
 
         public RenderVertex(Vertex vertex, Color color, Normal normal)
@@ -80,6 +86,7 @@ namespace Balder.Rendering.Xna
             Normal = new Vector3(normal.X, normal.Y, normal.Z);
             Color = color;
 			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
         }
 
 		public RenderVertex(Vertex vertex, Color color, Normal normal, TextureCoordinate textureCoordinate)
@@ -88,6 +95,7 @@ namespace Balder.Rendering.Xna
 			Normal = new Vector3(normal.X, normal.Y, normal.Z);
 			Color = color;
 			TextureCoordinate = new Vector2(textureCoordinate.U, textureCoordinate.V);
+			FaceNormal = Vector3.Zero;
 		}
 
 
@@ -95,8 +103,9 @@ namespace Balder.Rendering.Xna
 			(
 				new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
 				new VertexElement(12, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0),
-				new VertexElement(24, VertexElementFormat.Color, VertexElementUsage.Color, 0),
-				new VertexElement(28, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
+				new VertexElement(24, VertexElementFormat.Vector3, VertexElementUsage.Normal, 1),
+				new VertexElement(36, VertexElementFormat.Color, VertexElementUsage.Color, 0),
+				new VertexElement(40, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
 			);
 
 #if(!SILVERLIGHT)

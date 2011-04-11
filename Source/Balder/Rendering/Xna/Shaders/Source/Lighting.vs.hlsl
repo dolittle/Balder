@@ -26,13 +26,10 @@ float4 CalculateOmni(RenderVertex vertex, float4 normal, Light light) : COLOR
 	return vertex.Color;
 }
 
-float4 CalculateLighting(RenderVertex vertex)
+float4 CalculateLighting(float4 position, float4 normal)
 {
 	float4 resultDiffuse = float4(0,0,0,1);
 	float4 diffuse = float4(0,0,0,0);
-
-	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = normalize(mul(vertex.Normal, WorldView));
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
 	{

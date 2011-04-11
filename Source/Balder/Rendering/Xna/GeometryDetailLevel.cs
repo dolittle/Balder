@@ -46,7 +46,7 @@ namespace Balder.Rendering.Xna
 {
 	public class GeometryDetailLevel : IGeometryDetailLevel
 	{
-		private static object VertexLock = new object();
+		private static readonly object VertexLock = new object();
 
 		private readonly IRenderingManager _renderingManager;
 		public int FaceCount { get; private set; }
@@ -88,7 +88,7 @@ namespace Balder.Rendering.Xna
 		{
 			lock (VertexLock)
 			{
-				var actualCount = count*3;
+				var actualCount = count * 3;
 				_indexBuffer = new IndexBuffer(D.GraphicsDevice, IndexElementSize.SixteenBits, actualCount, BufferUsage.WriteOnly);
 
 				_indices = new ushort[actualCount];
@@ -209,7 +209,7 @@ namespace Balder.Rendering.Xna
 
 		public void SetFaceTextureCoordinateIndex(int index, int a, int b, int c)
 		{
-			_textureCoordinateForFaces[index] = new FaceTextureCoordinate {A = a, B = b, C = c};
+			_textureCoordinateForFaces[index] = new FaceTextureCoordinate { A = a, B = b, C = c };
 		}
 
 		public TextureCoordinate[] GetTextureCoordinates()
@@ -286,7 +286,7 @@ namespace Balder.Rendering.Xna
 			{
 				if (null == _vertices)
 				{
-					_vertices = new RenderVertex[_originalFaces.Length*3];
+					_vertices = new RenderVertex[_originalFaces.Length * 3];
 				}
 				var vertexIndex = 0;
 				var faceIndex = 0;
@@ -303,17 +303,17 @@ namespace Balder.Rendering.Xna
 					}
 
 					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.C], color, _originalNormals[face.NormalC],
-					                                            _originalTextureCoordinates[face.DiffuseC]);
+																_originalTextureCoordinates[face.DiffuseC]) { FaceNormal = face.Normal };
 					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.B], color, _originalNormals[face.NormalB],
-					                                            _originalTextureCoordinates[face.DiffuseB]);
+																_originalTextureCoordinates[face.DiffuseB]) { FaceNormal = face.Normal };
 					_vertices[vertexIndex++] = new RenderVertex(_originalVertices[face.A], color, _originalNormals[face.NormalA],
-					                                            _originalTextureCoordinates[face.DiffuseA]);
+																_originalTextureCoordinates[face.DiffuseA]) { FaceNormal = face.Normal };
 					faceIndex++;
 				}
 				if (null == _vertexBuffer)
 				{
 					_vertexBuffer = new VertexBuffer(_graphicsDevice, RenderVertex.VertexDeclaration, _vertices.Length,
-					                                 BufferUsage.WriteOnly);
+													 BufferUsage.WriteOnly);
 				}
 				_vertexBuffer.SetData(0, _vertices, 0, _vertices.Length, 0);
 			}
@@ -322,11 +322,11 @@ namespace Balder.Rendering.Xna
 		public void Render(Viewport viewport, INode node)
 		{
 			_renderingManager.RegisterForRendering(
-				this, 
+				this,
 				viewport,
-				node, 
-				viewport.View.ViewMatrix, 
-				viewport.View.ProjectionMatrix, 
+				node,
+				viewport.View.ViewMatrix,
+				viewport.View.ProjectionMatrix,
 				node.RenderingWorld);
 		}
 
@@ -352,12 +352,12 @@ namespace Balder.Rendering.Xna
 			if (_vertexBuffer == null)
 				return;
 
-			var worldView = world*view;
+			var worldView = world * view;
 			var matrix = worldView * projection;
-			
+
 			graphicsDevice.SetVertexBuffer(_vertexBuffer);
-			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix); 
-			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView); 
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
+			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
 
 			if (null == _vertices)
 			{
@@ -367,18 +367,18 @@ namespace Balder.Rendering.Xna
 			var shader = ShaderManager.Instance.Gouraud;
 
 			var geometry = node as Geometry;
-			if( null != geometry.Material )
+			if (null != geometry.Material)
 			{
 				shader = geometry.Material.Shader;
-				if( geometry.Material.DiffuseMap != null &&
-					geometry.Material.DiffuseMap is ImageMap )
+				if (geometry.Material.DiffuseMap != null &&
+					geometry.Material.DiffuseMap is ImageMap)
 				{
 					var imageMap = geometry.Material.DiffuseMap as ImageMap;
 					var image = imageMap.Image;
 					var imageContext = image.ImageContext as ImageContext;
 					graphicsDevice.Textures[0] = imageContext.Texture;
 				}
-				if( geometry.Material.ReflectionMap != null &&
+				if (geometry.Material.ReflectionMap != null &&
 					geometry.Material.ReflectionMap is ImageMap)
 				{
 					var imageMap = geometry.Material.ReflectionMap as ImageMap;
@@ -401,7 +401,7 @@ namespace Balder.Rendering.Xna
 			}
 		}
 
-		
+
 
 
 		public void SetNormal(int index, Normal normal)

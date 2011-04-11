@@ -11,8 +11,10 @@ VertexShaderOutput main(RenderVertex vertex)
 {
 	VertexShaderOutput output;
 
-	output.Position = mul(float4(vertex.Position,1), WorldViewProj);
-	output.Color = CalculateLighting(vertex);
+	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
+	float4 normal = mul(float4(vertex.Normal,1), WorldView);
+	output.Position = position;
+	output.Color = CalculateLighting(position, normal);
 
 	return output;
 }
