@@ -55,6 +55,18 @@ namespace Balder.Rendering.Xna
 			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
 		}
 
+		public static void SetVertexShaderMaterialMapOpacities(this GraphicsDevice graphicsDevice, int register, Material material)
+		{
+			var vector = new Vector4
+				(
+				material.DiffuseMapOpacity,
+				material.ReflectionMapOpacity,
+				0,
+				0
+				);
+			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
+		}
+
 		public static void SetVertexShaderLightingDetails(this GraphicsDevice graphicsDevice, int register, float strength, float range, LightType type)
 		{
 			var vector = new Vector4

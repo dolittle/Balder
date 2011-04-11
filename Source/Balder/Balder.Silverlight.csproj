@@ -451,6 +451,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CompileShaders.cmd" />
+    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.vs" />
     <Resource Include="Rendering\Xna\Shaders\Texture.ps" />
     <Resource Include="Rendering\Xna\Shaders\Texture.vs" />
     <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
@@ -474,6 +476,9 @@
     <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.vs" />
     <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.ps" />
     <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.vs.hlsl" />

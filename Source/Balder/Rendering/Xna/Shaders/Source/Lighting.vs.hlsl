@@ -12,19 +12,10 @@ struct Light
 
 
 
-float4 ViewPosition : register(c8);
-Material CurrentMaterial : register(c9);
-Light Lights[MaxLights] : register(c13);	// Size = 20 * 7 = 140
+float4 ViewPosition : register(c13);
 
-float4 CalculateDirectional(RenderVertex vertex, float4 normal, Light light)
-{
-	return vertex.Color;
-}
+Light Lights[MaxLights] : register(c14);	// Size = 20 * 7 = 140
 
-float4 CalculateOmni(RenderVertex vertex, float4 normal, Light light) : COLOR
-{
-	return vertex.Color;
-}
 
 float4 CalculateDiffuseForLight(Light light, float4 position, float4 normal)
 {

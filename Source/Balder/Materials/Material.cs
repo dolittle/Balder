@@ -488,7 +488,7 @@ namespace Balder.Materials
 						{
 							if (null != ReflectionMap && ReflectionMapOpacity != 0)
 							{
-								Shader = ShaderManager.Instance.DualTexture;
+								Shader = ShaderManager.Instance.TextureEnvironmentMap;
 							}
 							else
 							{

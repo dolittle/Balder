@@ -1,0 +1,7 @@
+struct VertexShaderOutput
+{
+  float4 Position : POSITION;
+  float2 UV : TEXCOORD0;
+  float2 EnvMapUV : TEXCOORD1;
+  float2 TextureFactors : TEXCOORD2;
+};

@@ -13,7 +13,9 @@ namespace Balder.Rendering.Xna.Shaders
 								Specular = inputMaterial.CachedSpecular,
 								Glossiness = inputMaterial.GlossinessAsFloat,
 								SpecularLevel = inputMaterial.SpecularLevelAsFloat,
-								Opacity = 1f
+								Opacity = 1f,
+								DiffuseMapOpacity = ((float)inputMaterial.DiffuseTextureFactor)/255f,
+								ReflectionMapOpacity = ((float)inputMaterial.ReflectionTextureFactor) / 255f,
 							};
 
 			return material;

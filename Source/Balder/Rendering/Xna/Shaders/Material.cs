@@ -9,9 +9,11 @@ namespace Balder.Rendering.Xna.Shaders
 		                                 		Ambient = XnaColor.Black, 
 												Diffuse = XnaColor.FromNonPremultiplied(0, 0, 0xff, 0xff), 
 												Specular = XnaColor.White, 
-												Glossiness = 1, 
-												Opacity = 1, 
-												SpecularLevel = 1
+												Glossiness = 1f, 
+												Opacity = 1f, 
+												SpecularLevel = 1f,
+												DiffuseMapOpacity = 1f,
+												ReflectionMapOpacity = 1f
 		                                 	};
 
 		public XnaColor Ambient;
@@ -20,5 +22,7 @@ namespace Balder.Rendering.Xna.Shaders
 		public float Glossiness;
 		public float SpecularLevel;
 		public float Opacity;
+		public float DiffuseMapOpacity;
+		public float ReflectionMapOpacity;
 	}
 }

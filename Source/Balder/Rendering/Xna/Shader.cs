@@ -31,15 +31,13 @@ namespace Balder.Rendering.Xna
 			var lightInfo = LightInfo.Create();
 			var lightCount = 0;
 
-			
-
 			foreach (ILight light in viewport.Scene.Lights )
 				SetLightInfo(ref lightInfo, lightCount++, light);
 
 			var viewPosition = (Vector4)viewport.View.Position;
-			graphicsDevice.SetVertexShaderConstantFloat4(8, ref viewPosition);
+			graphicsDevice.SetVertexShaderConstantFloat4(13, ref viewPosition);
 
-			var registerOffset = 13;
+			var registerOffset = 14;
 			for (var lightIndex = 0; lightIndex < LightInfo.MaxLights; lightIndex++)
 			{
 				graphicsDevice.SetVertexShaderConstantFloat4(registerOffset, ref lightInfo.PositionOrDirection[lightIndex]);
@@ -62,10 +60,11 @@ namespace Balder.Rendering.Xna
 			else
 				shaderMaterial = Material.Default;
 
-			graphicsDevice.SetVertexShaderConstant(9, shaderMaterial.Ambient);
-			graphicsDevice.SetVertexShaderConstant(10, shaderMaterial.Diffuse);
-			graphicsDevice.SetVertexShaderConstant(11, shaderMaterial.Specular);
-			graphicsDevice.SetVertexShaderMaterialDetails(12, shaderMaterial);
+			graphicsDevice.SetVertexShaderConstant(8, shaderMaterial.Ambient);
+			graphicsDevice.SetVertexShaderConstant(9, shaderMaterial.Diffuse);
+			graphicsDevice.SetVertexShaderConstant(10, shaderMaterial.Specular);
+			graphicsDevice.SetVertexShaderMaterialDetails(11, shaderMaterial);
+			graphicsDevice.SetVertexShaderMaterialMapOpacities(12, shaderMaterial);
 		}
 
 

@@ -20,12 +20,14 @@ namespace Balder.Objects.Geometries
 {
 	public class TextureCoordinate
 	{
+		public static readonly TextureCoordinate	Zero = new TextureCoordinate(0,0);
+
+
 		public TextureCoordinate(float u, float v)
 		{
 			U = u;
 			V = v;
 		}
-
 
 		public float U { get; set; }
 		public float V { get; set; }
