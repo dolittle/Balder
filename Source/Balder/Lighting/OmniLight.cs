@@ -90,7 +90,11 @@ namespace Balder.Lighting
 			var spDot = reflection.Dot(view);
 			spDot = MathHelper.Saturate(spDot);
 
-			var specularPower = MathHelper.Saturate((material.SpecularLevelAsFloat * (float)System.Math.Pow(spDot, material.GlossinessAsFloat)));
+			var specularPower = 
+				MathHelper.Saturate(
+					(material.SpecularLevelAsFloat * 
+					(float)System.Math.Pow(spDot, material.GlossinessAsFloat)));
+
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
 			// Compute self shadowing

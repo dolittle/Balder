@@ -44,13 +44,15 @@
 			</EventTrigger>
 		</Grid.Triggers>
 		<Execution:Game Width="800" Height="600">
+			<!--
 			<Execution:Game.Effect>
 				<DropShadowEffect Color="LightBlue" BlurRadius="100" Direction="0" ShadowDepth="0" Opacity="0.5"/>
-			</Execution:Game.Effect>
+			</Execution:Game.Effect>-->
 			<Execution:Game.Camera>
 				<View:Camera Position="0,60,-140" Target="0,20,0"/>
 			</Execution:Game.Camera>
 
+			<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
 			<Lighting:DirectionalLight Direction="0,0,-1" Strength="0.2" Specular="Blue"/>
 			<Lighting:DirectionalLight Direction="1,0,1" Strength="0.7" Specular="White"/>
 

@@ -25,6 +25,9 @@ using Balder.Extensions.Silverlight;
 using Balder.Silverlight.TypeConverters;
 #endif
 using Balder.Execution;
+#if(XNA)
+using Microsoft.Xna.Framework;
+#endif
 
 
 namespace Balder.Math
@@ -38,6 +41,8 @@ namespace Balder.Math
 		ICanBeCloned, ICopyable, IAmUnique
 	{
 		private readonly Guid _identifier = Guid.NewGuid();
+
+		double _x, _y, _z;
 
 
 		public Coordinate()
@@ -78,6 +83,7 @@ namespace Balder.Math
 			set
 			{
 				XProp.SetValue(this, value);
+				_x = value;
 #if(XAML)
 				PropertyChanged.Notify(() => X);
 #endif
@@ -91,6 +97,7 @@ namespace Balder.Math
 			set
 			{
 				YProp.SetValue(this, value);
+				_y = value;
 #if(XAML)
 				PropertyChanged.Notify(() => Y);
 #endif
@@ -104,6 +111,7 @@ namespace Balder.Math
 			set
 			{
 				ZProp.SetValue(this, value);
+				_z = value;
 #if(XAML)
 				PropertyChanged.Notify(() => Z);
 #endif
@@ -158,6 +166,25 @@ namespace Balder.Math
 			var vector = coordinate.ToVector();
 			return vector;
 		}
+
+#if(XNA)
+		public static implicit operator Vector3(Coordinate coordinate)
+		{
+			return new Vector3(
+				(float)coordinate._x,
+				(float)coordinate._y,
+				(float)coordinate._z);
+		}
+
+		public static implicit operator Vector4(Coordinate coordinate)
+		{
+			return new Vector4(
+				(float)coordinate._x, 
+				(float)coordinate._y, 
+				(float)coordinate._z, 1f);
+		}
+#endif
+
 
 		public static Vector operator +(Coordinate c1, Vector v2)
 		{

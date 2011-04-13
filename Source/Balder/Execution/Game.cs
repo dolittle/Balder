@@ -157,11 +157,11 @@ namespace Balder.Execution
 
 		private void RegisterGame()
 		{
-			RuntimeContext.Display.Initialize((int)Width,(int)Height);
-			Runtime.Instance.RegisterGame(RuntimeContext.Display, this);
 #if(XAML)
 			RuntimeContext.Display.InitializeContainer(this);
 #endif
+			RuntimeContext.Display.Initialize((int)Width, (int)Height);
+			Runtime.Instance.RegisterGame(RuntimeContext.Display, this);
 			if( null != Skybox )
 			{
 				RuntimeContext.Display.InitializeSkybox(Skybox);

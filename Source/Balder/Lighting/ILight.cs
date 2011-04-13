@@ -44,6 +44,11 @@ namespace Balder.Lighting
 		Color Specular { get; set; }
 
 		/// <summary>
+		/// Gets or sets the strength of the light
+		/// </summary>
+		double Strength { get; set; }
+
+		/// <summary>
 		/// Calculate color for the light in a viewport for a specified point and normal of the point
 		/// </summary>
 		/// <param name="viewport"><see cref="Viewport"/> that holds the point</param>

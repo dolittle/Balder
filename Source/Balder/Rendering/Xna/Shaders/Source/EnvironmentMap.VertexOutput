@@ -1,0 +1,5 @@
+struct VertexShaderOutput
+{
+  float4 Position : POSITION;
+  float2 UV : TEXCOORD0;
+};

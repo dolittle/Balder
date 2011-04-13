@@ -28,7 +28,7 @@ namespace Balder.Rendering.Xna
     {
         public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
