@@ -41,10 +41,10 @@ namespace Balder.Rendering.Xna
 			for (var lightIndex = 0; lightIndex < LightInfo.MaxLights; lightIndex++)
 			{
 				graphicsDevice.SetVertexShaderConstantFloat4(registerOffset, ref lightInfo.PositionOrDirection[lightIndex]);
-				graphicsDevice.SetVertexShaderConstant(registerOffset + 1, lightInfo.Ambient[lightIndex]);
-				graphicsDevice.SetVertexShaderConstant(registerOffset + 2, lightInfo.Diffuse[lightIndex]);
-				graphicsDevice.SetVertexShaderConstant(registerOffset + 3, lightInfo.Specular[lightIndex]);
-				graphicsDevice.SetVertexShaderLightingDetails(registerOffset + 4, lightInfo.Strength[lightIndex],
+				graphicsDevice.SetShaderConstant(registerOffset + 1, lightInfo.Ambient[lightIndex]);
+				graphicsDevice.SetShaderConstant(registerOffset + 2, lightInfo.Diffuse[lightIndex]);
+				graphicsDevice.SetShaderConstant(registerOffset + 3, lightInfo.Specular[lightIndex]);
+				graphicsDevice.SetShaderLightingDetails(registerOffset + 4, lightInfo.Strength[lightIndex],
 															  lightInfo.Range[lightIndex], lightInfo.LightType[lightIndex]);
 				registerOffset += 5;
 			}
@@ -60,11 +60,11 @@ namespace Balder.Rendering.Xna
 			else
 				shaderMaterial = Material.Default;
 
-			graphicsDevice.SetVertexShaderConstant(8, shaderMaterial.Ambient);
-			graphicsDevice.SetVertexShaderConstant(9, shaderMaterial.Diffuse);
-			graphicsDevice.SetVertexShaderConstant(10, shaderMaterial.Specular);
-			graphicsDevice.SetVertexShaderMaterialDetails(11, shaderMaterial);
-			graphicsDevice.SetVertexShaderMaterialMapOpacities(12, shaderMaterial);
+			graphicsDevice.SetShaderConstant(8, shaderMaterial.Ambient);
+			graphicsDevice.SetShaderConstant(9, shaderMaterial.Diffuse);
+			graphicsDevice.SetShaderConstant(10, shaderMaterial.Specular);
+			graphicsDevice.SetShaderMaterialDetails(11, shaderMaterial);
+			graphicsDevice.SetShaderMaterialMapOpacities(12, shaderMaterial);
 		}
 
 

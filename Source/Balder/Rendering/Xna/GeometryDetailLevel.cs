@@ -391,7 +391,6 @@ namespace Balder.Rendering.Xna
 
 			if (drawFaces)
 			{
-
 				graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertexBuffer.VertexCount / 3);
 			}
 			if (drawLines)

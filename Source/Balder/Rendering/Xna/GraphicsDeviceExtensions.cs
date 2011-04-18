@@ -13,7 +13,7 @@ namespace Balder.Rendering.Xna
 			graphicsDevice.SetPixelShader(shader.Pixel);
 		}
 
-		public static void SetVertexShaderConstant(this GraphicsDevice graphicsDevice, int register, XnaColor color)
+		public static void SetShaderConstant(this GraphicsDevice graphicsDevice, int register, XnaColor color)
 		{
 			var vector = new Vector4(
 				
@@ -24,26 +24,30 @@ namespace Balder.Rendering.Xna
 				);
 
 			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
+			graphicsDevice.SetPixelShaderConstantFloat4(register, ref vector);
 		}
 
 
-		public static int SetVertexShaderConstant(this GraphicsDevice graphicsDevice, int startRegister, Vector4[] vectors)
+		public static int SetShaderConstant(this GraphicsDevice graphicsDevice, int startRegister, Vector4[] vectors)
 		{
-			for( var vectorIndex=0; vectorIndex<vectors.Length; vectorIndex++)
+			for (var vectorIndex = 0; vectorIndex < vectors.Length; vectorIndex++)
+			{
 				graphicsDevice.SetVertexShaderConstantFloat4(startRegister + (vectorIndex*4), ref vectors[vectorIndex]);
+				graphicsDevice.SetPixelShaderConstantFloat4(startRegister + (vectorIndex*4), ref vectors[vectorIndex]);
+			}
 
 			return startRegister + (vectors.Length*4);
 		}
 
-		public static int SetVertexShaderConstant(this GraphicsDevice graphicsDevice, int startRegister, XnaColor[] colors)
+		public static int SetShaderConstant(this GraphicsDevice graphicsDevice, int startRegister, XnaColor[] colors)
 		{
 			for (var colorIndex = 0; colorIndex < colors.Length; colorIndex++)
-				graphicsDevice.SetVertexShaderConstant(startRegister + (colorIndex * 4), colors[colorIndex]);
+				graphicsDevice.SetShaderConstant(startRegister + (colorIndex * 4), colors[colorIndex]);
 
 			return startRegister + (colors.Length*4);
 		}
 
-		public static void SetVertexShaderMaterialDetails(this GraphicsDevice graphicsDevice, int register, Material material)
+		public static void SetShaderMaterialDetails(this GraphicsDevice graphicsDevice, int register, Material material)
 		{
 			var vector = new Vector4
 				(
@@ -53,9 +57,10 @@ namespace Balder.Rendering.Xna
 				0
 				);
 			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
+			graphicsDevice.SetPixelShaderConstantFloat4(register, ref vector);
 		}
 
-		public static void SetVertexShaderMaterialMapOpacities(this GraphicsDevice graphicsDevice, int register, Material material)
+		public static void SetShaderMaterialMapOpacities(this GraphicsDevice graphicsDevice, int register, Material material)
 		{
 			var vector = new Vector4
 				(
@@ -65,9 +70,10 @@ namespace Balder.Rendering.Xna
 				0
 				);
 			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
+			graphicsDevice.SetPixelShaderConstantFloat4(register, ref vector);
 		}
 
-		public static void SetVertexShaderLightingDetails(this GraphicsDevice graphicsDevice, int register, float strength, float range, LightType type)
+		public static void SetShaderLightingDetails(this GraphicsDevice graphicsDevice, int register, float strength, float range, LightType type)
 		{
 			var vector = new Vector4
 				(
@@ -77,15 +83,18 @@ namespace Balder.Rendering.Xna
 				0
 				);
 			graphicsDevice.SetVertexShaderConstantFloat4(register, ref vector);
+			graphicsDevice.SetPixelShaderConstantFloat4(register, ref vector);
 		}
 
-		public static int SetVertexShaderLightingDetails(this GraphicsDevice graphicsDevice, int startRegister, LightInfo lightInfo)
+		public static int SetShaderLightingDetails(this GraphicsDevice graphicsDevice, int startRegister, LightInfo lightInfo)
 		{
 			for( var lightIndex=0; lightIndex<LightInfo.MaxLights; lightIndex++ )
-				graphicsDevice.SetVertexShaderLightingDetails(startRegister + (lightIndex * 4), lightInfo.Strength[lightIndex], lightInfo.Range[lightIndex], lightInfo.LightType[lightIndex]);
+				graphicsDevice.SetShaderLightingDetails(startRegister + (lightIndex * 4), lightInfo.Strength[lightIndex], lightInfo.Range[lightIndex], lightInfo.LightType[lightIndex]);
 
 			return startRegister + (LightInfo.MaxLights*4);
 		}
-		
+
+
+
 	}
 }

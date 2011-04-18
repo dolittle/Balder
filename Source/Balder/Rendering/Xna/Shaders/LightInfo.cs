@@ -5,7 +5,7 @@ namespace Balder.Rendering.Xna.Shaders
 {
 	public struct LightInfo
 	{
-		public const int MaxLights = 5;
+		public const int MaxLights = 3;
 
 		public Vector4[] PositionOrDirection;
 		public XnaColor[] Ambient;

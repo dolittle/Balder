@@ -29,6 +29,13 @@ fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\GouraudDualTexture.ps Rendering
 
 
 
+fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Phong.vs Rendering\Xna\Shaders\Source\Phong.vs.hlsl
+fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Phong.ps Rendering\Xna\Shaders\Source\Phong.ps.hlsl
+
+fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\PhongTexture.vs Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl
+fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\PhongTexture.ps Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl
+
+
 
 fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\EnvironmentMap.vs Rendering\Xna\Shaders\Source\EnvironmentMap.vs.hlsl
 fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\EnvironmentMap.ps Rendering\Xna\Shaders\Source\EnvironmentMap.ps.hlsl

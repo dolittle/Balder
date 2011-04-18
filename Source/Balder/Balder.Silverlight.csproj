@@ -476,6 +476,16 @@
     <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.vs" />
     <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.ps" />
     <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Phong.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Phong.vs" />
+    <Resource Include="Rendering\Xna\Shaders\PhongTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\PhongTexture.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.vs.hlsl" />

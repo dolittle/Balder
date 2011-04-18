@@ -18,6 +18,11 @@ namespace Balder.Materials
 		/// <summary>
 		/// Gouraud - smooth shading - linearly interpolated
 		/// </summary>
-		Gouraud
+		Gouraud,
+
+		/// <summary>
+		/// Phong smooth shading
+		/// </summary>
+		Phong
 	}
 }

@@ -553,6 +553,35 @@ namespace Balder.Materials
 						}
 					}
 					break;
+
+				case MaterialShade.Phong:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Phong;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudEnvironmentMap;
+
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.GouraudDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.PhongTexture;
+							}
+						}
+					}
+					break;
+
 			}
 
 		}

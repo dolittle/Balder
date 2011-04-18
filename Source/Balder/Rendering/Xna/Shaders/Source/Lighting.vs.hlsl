@@ -1,4 +1,4 @@
-#define MaxLights 5
+#define MaxLights 3
 
 // Size = 20
 struct Light
@@ -42,9 +42,7 @@ float4 CalculateSpecularForLight(Light light, float4 position, float4 normal)
 	float lightDirRanged = lightDirection / light.Details.y;
 	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
 
-	float specularPower = 
-				CurrentMaterial.Details.y * 
-				pow(viewDot, CurrentMaterial.Details.x);
+	float specularPower = CurrentMaterial.Details.y * pow(viewDot, CurrentMaterial.Details.x);
 						
 	float4 specular = 
 				((light.Specular * specularPower) * light.Details.x) *
@@ -73,11 +71,10 @@ float4 CalculateLighting(float4 position, float4 normal)
 			}
 
 			// Directional light
-			if( light.Details.z == 0 ) 
-			{
-			
+			//if( light.Details.z == 0 ) 
+			//{
 				//diffuse = CalculateDirectional(vertex, normal, Lights[lightIndex]);
-			}
+			//}
 		}
 	}
 
@@ -134,12 +131,10 @@ float4 CalculateSpecular(float4 position, float4 normal)
 			}
 
 			// Directional light
-			if( light.Details.z == 0 ) 
-			{
+			//if( light.Details.z == 0 ) 
+			//{
 				//diffuse = CalculateDirectional(vertex, normal, Lights[lightIndex]);
-			}
-
-			
+			//}
 		}
 	}
 

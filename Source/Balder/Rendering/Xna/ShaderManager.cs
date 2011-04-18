@@ -74,22 +74,23 @@ namespace Balder.Rendering.Xna
 		}
 
 		public Shader Flat { get; private set; }
-		public Shader Gouraud { get; private set; }
-
 		public Shader FlatTexture { get; private set; }
-		public Shader GouraudTexture { get; private set; }
-
 		public Shader FlatDualTexture { get; private set; }
+		public Shader FlatEnvironmentMap { get; private set; }
+
+		public Shader Gouraud { get; private set; }
+		public Shader GouraudTexture { get; private set; }
 		public Shader GouraudDualTexture { get; private set; }
+		public Shader GouraudEnvironmentMap { get; private set; }
+
+		public Shader Phong { get; private set; }
+		public Shader PhongTexture { get; private set; }
 
 		public Shader Texture { get; private set; }
 		public Shader DualTexture { get; private set; }
-
 		public Shader EnvironmentMap { get; private set; }
-		public Shader FlatEnvironmentMap { get; private set; }
-		public Shader GouraudEnvironmentMap { get; private set; }
-
 		public Shader TextureEnvironmentMap { get; private set; }
+
 	}
 }
 #endif

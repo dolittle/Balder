@@ -112,6 +112,7 @@
 								<ComboBoxItem Content="None"/>
 								<ComboBoxItem Content="Flat"/>
 								<ComboBoxItem Content="Gouraud"/>
+								<ComboBoxItem Content="Phong"/>
 							</ComboBox>
 						</StackPanel>
 
