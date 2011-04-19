@@ -23,10 +23,15 @@ using System.Windows;
 using Balder.Content.Silverlight;
 using Balder.Display;
 using Balder.Input;
-using Balder.Display.Silverlight5;
 using Balder.Input.Silverlight;
 using Balder.Materials.Silverlight;
+#if(XNA)
+using Balder.Display.Silverlight5;
 using Balder.Rendering.Xna;
+#else
+using Balder.Display.Silverlight;
+using Balder.Rendering.Silverlight;
+#endif
 #if(WINDOWS_PHONE && !FORCESOFTWARE)
 
 using GeometryContext = Balder.Rendering.Xna.GeometryContext;

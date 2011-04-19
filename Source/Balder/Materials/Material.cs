@@ -20,7 +20,6 @@
 #if(XAML)
 using System.ComponentModel;
 using System.Windows;
-using Balder.Rendering.Xna;
 using Balder.Silverlight.TypeConverters;
 using Ninject;
 #endif
@@ -30,6 +29,9 @@ using Balder.Rendering.Silverlight.Drawing;
 #endif
 using System.Collections.Generic;
 using Balder.Execution;
+#if(XNA)
+using Balder.Rendering.Xna;
+#endif
 
 namespace Balder.Materials
 {

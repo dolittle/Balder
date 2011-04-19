@@ -52,7 +52,7 @@
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
     <OutputPath>SLBin\Debug\</OutputPath>
-    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML,XNA</DefineConstants>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML</DefineConstants>
     <NoStdLib>true</NoStdLib>
     <NoConfig>true</NoConfig>
     <ErrorReport>prompt</ErrorReport>
@@ -129,8 +129,6 @@
     <Compile Include="Content\Silverlight\FilePathHelper.cs" />
     <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
     <Compile Include="Debug\RectangleDebugShape.cs" />
-    <Compile Include="Display\Silverlight5\Display.cs" />
-    <Compile Include="Display\Silverlight5\DisplayDevice.cs" />
     <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\ILabelManager.cs" />
     <Compile Include="Execution\IProperty.cs" />
@@ -204,10 +202,6 @@
     <Compile Include="Rendering\IRuntimeContext.cs" />
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
-    <Compile Include="Rendering\Silverlight5\IRenderingManager.cs" />
-    <Compile Include="Rendering\Xna\Shaders\LightInfo.cs" />
-    <Compile Include="Rendering\Silverlight5\RenderingGeometry.cs" />
-    <Compile Include="Rendering\Silverlight5\RenderingManager.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\DualTextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\FlatDualTextureTriangleBilinear.cs" />
     <Compile Include="Rendering\Silverlight\Drawing\GouraudDualTextureTriangleBilinear.cs" />
@@ -236,21 +230,6 @@
     <Compile Include="Rendering\Silverlight\Texture.cs" />
     <Compile Include="Rendering\Silverlight\TextureManager.cs" />
     <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
-    <Compile Include="Rendering\Xna\FaceTextureCoordinate.cs" />
-    <Compile Include="Rendering\Xna\GeometryContext.cs" />
-    <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
-    <Compile Include="Rendering\Xna\ImageContext.cs" />
-    <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
-    <Compile Include="Rendering\Xna\RenderVertex.cs" />
-    <Compile Include="Rendering\Xna\GraphicsDeviceExtensions.cs" />
-    <Compile Include="Rendering\Xna\Shader.cs" />
-    <Compile Include="Rendering\Xna\ShaderManager.cs" />
-    <Compile Include="Rendering\Xna\Shaders\LightType.cs" />
-    <Compile Include="Rendering\Xna\Shaders\Material.cs" />
-    <Compile Include="Rendering\Xna\Shaders\MaterialExtensions.cs" />
-    <Compile Include="Rendering\Xna\ShapeContext.cs" />
-    <Compile Include="Rendering\Xna\SkyboxContext.cs" />
-    <Compile Include="Rendering\Xna\SpriteContext.cs" />
     <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
     <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
     <Compile Include="Rendering\PassiveRenderingSignal.cs" />
@@ -451,86 +430,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CompileShaders.cmd" />
-    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.ps" />
-    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.vs" />
-    <Resource Include="Rendering\Xna\Shaders\Texture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\Texture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
-    <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
-    <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudTexture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\DualTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\DualTexture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\FlatDualTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\FlatDualTexture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\Gouraud.ps" />
-    <Resource Include="Rendering\Xna\Shaders\Gouraud.vs" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudDualTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudDualTexture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\FlatTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\FlatTexture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.ps" />
-    <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.vs" />
-    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.ps" />
-    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.vs" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.ps" />
-    <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.vs" />
-    <Resource Include="Rendering\Xna\Shaders\Phong.ps" />
-    <Resource Include="Rendering\Xna\Shaders\Phong.vs" />
-    <Resource Include="Rendering\Xna\Shaders\PhongTexture.ps" />
-    <Resource Include="Rendering\Xna\Shaders\PhongTexture.vs" />
-    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Phong.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Phong.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\Phong.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMapping.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\DualTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\DualTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\DualTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Texture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Texture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\Texture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Gouraud.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Gouraud.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\Gouraud.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Defaults.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Material.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Flat.VertexOutput" />
-    <None Include="Rendering\Xna\Shaders\Source\Lighting.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Lighting.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Flat.ps.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Flat.vs.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\RenderVertex.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Triangle.ps.hlsl" />
-    <Resource Include="Rendering\Xna\Shaders\Triangle.vs" />
-    <None Include="Rendering\Xna\Shaders\Source\Triangle.vs.hlsl" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
