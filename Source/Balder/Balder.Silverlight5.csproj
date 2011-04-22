@@ -113,6 +113,7 @@
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
+    <Compile Include="Assets\AssetLoaders\ColladaLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
@@ -480,6 +481,11 @@
     <Resource Include="Rendering\Xna\Shaders\Phong.vs" />
     <Resource Include="Rendering\Xna\Shaders\PhongTexture.ps" />
     <Resource Include="Rendering\Xna\Shaders\PhongTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Bump.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Bump.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl" />

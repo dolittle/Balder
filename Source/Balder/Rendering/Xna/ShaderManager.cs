@@ -91,6 +91,8 @@ namespace Balder.Rendering.Xna
 		public Shader EnvironmentMap { get; private set; }
 		public Shader TextureEnvironmentMap { get; private set; }
 
+		public Shader Bump { get; private set; }
+
 	}
 }
 #endif

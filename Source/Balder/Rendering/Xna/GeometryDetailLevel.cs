@@ -384,6 +384,15 @@ namespace Balder.Rendering.Xna
 
 					graphicsDevice.Textures[reflectionIndex] = imageContext.Texture;
 				}
+				if (geometry.Material.BumpMap != null &&
+					geometry.Material.BumpMap is ImageMap)
+				{
+					var imageMap = geometry.Material.ReflectionMap as ImageMap;
+					var image = imageMap.Image;
+					var imageContext = image.ImageContext as ImageContext;
+
+					graphicsDevice.Textures[2] = imageContext.Texture;
+				}
 				shader.HandleMaterial(graphicsDevice, geometry.Material);
 			}
 			shader.HandleLighting(graphicsDevice, viewport);
