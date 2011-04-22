@@ -49,3 +49,8 @@ fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\GouraudEnvironmentMap.ps Render
 
 fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\TextureEnvironmentMap.vs Rendering\Xna\Shaders\Source\TextureEnvironmentMap.vs.hlsl
 fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\TextureEnvironmentMap.ps Rendering\Xna\Shaders\Source\TextureEnvironmentMap.ps.hlsl
+
+
+
+fxc /T vs_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Bump.vs Rendering\Xna\Shaders\Source\Bump.vs.hlsl
+fxc /T ps_2_0 /O3 /Zpr /Fo Rendering\Xna\Shaders\Bump.ps Rendering\Xna\Shaders\Source\Bump.ps.hlsl

@@ -436,6 +436,45 @@ namespace Balder.Materials
 			}
 		}
 
+		/// <summary>
+		/// BumpMap Property
+		/// </summary>
+		public static readonly Property<Material, IMap> BumpMapProperty =
+			Property<Material, IMap>.Register(m => m.BumpMap);
+
+		/// <summary>
+		/// Gets or sets the reflection map <see cref="IMap"/>
+		/// </summary>
+#if(XAML)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap BumpMap
+		{
+			get { return BumpMapProperty.GetValue(this); }
+			set
+			{
+				BumpMapProperty.SetValue(this, value);
+#if(SILVERLIGHT)
+				MaterialPropertiesChanged();
+#endif
+			}
+		}
+
+
+		public static readonly Property<Material, double> BumpMapStrengthProperty =
+			Property<Material, double>.Register(m => m.BumpMapStrength);
+		public double BumpMapStrength
+		{
+			get { return BumpMapStrengthProperty.GetValue(this); }
+			set
+			{
+				BumpMapStrengthProperty.SetValue(this, value);
+#if(SILVERLIGHT)
+				MaterialPropertiesChanged();
+#endif
+			}
+		}
+
 
 		private void UpdateColors()
 		{
@@ -479,7 +518,10 @@ namespace Balder.Materials
 						{
 							if (null == ReflectionMap || ReflectionMapOpacity == 0)
 							{
-								Shader = ShaderManager.Instance.Flat;
+								if (BumpMap == null || BumpMapStrength == 0)
+									Shader = ShaderManager.Instance.Flat;
+								else 
+									Shader = ShaderManager.Instance.Bump;
 							}
 							else
 							{
