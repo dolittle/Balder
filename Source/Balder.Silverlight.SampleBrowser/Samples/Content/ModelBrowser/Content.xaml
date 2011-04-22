@@ -12,10 +12,10 @@
     <Grid x:Name="LayoutRoot">
 		<Execution:Game Width="800" Height="600">
 			<Execution:Game.Camera>
-				<View:Camera Position="0,0,-150" Target="0,0,0"/>
+				<View:Camera Position="0,0,-3000" Target="0,0,0"/>
 			</Execution:Game.Camera>
 			
-			<Geometries:Mesh AssetName="cube.dae" InteractionEnabled="True"/>
+			<Geometries:Mesh AssetName="duck.dae" InteractionEnabled="True"/>
 			
 			<Lighting:OmniLight/>
 		</Execution:Game>

@@ -749,6 +749,7 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Assets\cube.dae" />
+    <Resource Include="Assets\duck.dae" />
     <None Include="Samples\Creative\RubicsCube\Assets\RubicsTextures.psd" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
