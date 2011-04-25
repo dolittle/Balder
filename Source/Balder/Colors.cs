@@ -28,6 +28,7 @@ namespace Balder
 		public static Color Blue = new Color(0,0,0xff,0xff);
 		public static Color Yellow = new Color(0xff,0xff,0,0xff);
 		public static Color Orange = new Color(0xff,0xa5,0,0xff);
+		public static Color Transparent = new Color(0,0,0,0);
 	}
 }
 
