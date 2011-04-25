@@ -39,9 +39,9 @@ namespace Balder.Rendering.Silverlight5
 					_geometries[node] = renderingGeometry;
 			}
 
-			renderingGeometry.View = view;
-			renderingGeometry.Projection = projection;
-			renderingGeometry.World = world;
+			renderingGeometry.View = view ?? Matrix.Identity;
+			renderingGeometry.Projection = projection ?? Matrix.Identity;
+			renderingGeometry.World = world ?? Matrix.Identity;
 			renderingGeometry.Viewport = viewport;
 			renderingGeometry.IsVisible = true;
 		}
