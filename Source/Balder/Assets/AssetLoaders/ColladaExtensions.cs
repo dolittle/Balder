@@ -69,8 +69,8 @@ namespace Balder.Assets.AssetLoaders
 							var vertex = new Vertex
 											{
 												X = float.Parse(values[valueIndex], CultureInfo.InvariantCulture),
-												Y = -float.Parse(values[valueIndex + 1], CultureInfo.InvariantCulture),
-												Z = -float.Parse(values[valueIndex + 2], CultureInfo.InvariantCulture),
+												Y = float.Parse(values[valueIndex + 1], CultureInfo.InvariantCulture),
+												Z = float.Parse(values[valueIndex + 2], CultureInfo.InvariantCulture),
 											};
 							vertices.Add(vertex);
 						}
