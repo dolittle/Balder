@@ -108,8 +108,6 @@
     <Compile Include="Animation\Silverlight\CoordinateAnimation.cs" />
     <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
     <Compile Include="Assets\AssetLoaderService.cs" />
-    <Compile Include="Assets\AssetLoaders\StudioChunk.cs" />
-    <Compile Include="Assets\AssetLoaders\StudioLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
     <Compile Include="Assets\AssetLoaders\AseFace.cs" />
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
