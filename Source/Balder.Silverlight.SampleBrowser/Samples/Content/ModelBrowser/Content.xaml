@@ -17,7 +17,7 @@
 
 			<Geometries:Mesh AssetName="Dog.3ds" InteractionEnabled="True">
 				<Geometries:Mesh.Material>
-					<Materials:Material Diffuse="Green" Specular="White" Shade="Phong"/>
+					<Materials:Material Diffuse="Green" Specular="White" Shade="Gouraud"/>
 				</Geometries:Mesh.Material>
 			</Geometries:Mesh>
 			

@@ -750,6 +750,9 @@
   <ItemGroup>
     <Resource Include="Assets\cube.dae" />
     <Resource Include="Assets\duck.dae" />
+    <Resource Include="Assets\box.3ds" />
+    <Resource Include="Assets\DinoRider.3ds" />
+    <Resource Include="Assets\Dog.3ds" />
     <None Include="Samples\Creative\RubicsCube\Assets\RubicsTextures.psd" />
     <None Include="Effects\Reflection.fx" />
     <Resource Include="Effects\Reflection.ps" />
