@@ -113,6 +113,8 @@
     <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
     <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
     <Compile Include="Assets\AssetLoaders\AseParser.cs" />
+    <Compile Include="Assets\AssetLoaders\ColladaExtensions.cs" />
+    <Compile Include="Assets\AssetLoaders\ColladaLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
