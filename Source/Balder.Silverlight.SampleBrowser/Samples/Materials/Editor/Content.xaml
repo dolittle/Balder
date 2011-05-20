@@ -232,7 +232,7 @@
 			<StackPanel Grid.Column="1" Orientation="Vertical">
 				<Execution:Game x:Name="Game" Width="640" Height="480" >
 					<Execution:Game.Camera>
-						<View:Camera x:Name="Camera" Position="0,0,-100"/>
+						<View:Camera x:Name="Camera" Position="0,0,-1000"/>
 					</Execution:Game.Camera>
 
 					<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
@@ -241,7 +241,7 @@
 					<Geometries:Mesh x:Name="Mesh" 
 								 InteractionEnabled="True"
 								 PivotPoint="0,10,0"
-								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ASE">
+								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/Dog.3ds">
 						<Geometries:Mesh.Material>
 							<Materials:Material 
 							Ambient="Black" 

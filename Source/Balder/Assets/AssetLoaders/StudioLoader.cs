@@ -218,7 +218,10 @@ namespace Balder.Assets.AssetLoaders
 
 		private Vector ReadVector(BinaryReader reader)
 		{
-			return new Vector(reader.ReadSingle(), reader.ReadSingle(), reader.ReadSingle());
+			var x = reader.ReadSingle();
+			var z = reader.ReadSingle();
+			var y = -reader.ReadSingle();
+			return new Vector(x,y,z);
 		}
 
 		private void ReadVertices(BinaryReader reader, IGeometryDetailLevel geometryDetailLevel)
@@ -229,8 +232,9 @@ namespace Balder.Assets.AssetLoaders
 			for (var i = 0; i < size; i++)
 			{
 				var x = reader.ReadSingle();
+                var y = reader.ReadSingle();
 				var z = reader.ReadSingle();
-				var y = -reader.ReadSingle();
+				
 				var vertex = new Vertex(x, y, z);
 				geometryDetailLevel.SetVertex(i, vertex);
 			}
