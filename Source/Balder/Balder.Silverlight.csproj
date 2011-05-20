@@ -117,6 +117,8 @@
     <Compile Include="Assets\AssetLoaders\ColladaLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
     <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\StudioChunk.cs" />
+    <Compile Include="Assets\AssetLoaders\StudioLoader.cs" />
     <Compile Include="Assets\AssetLoaders\XLoader.cs" />
     <Compile Include="Assets\IAssetLoader.cs" />
     <Compile Include="Collections\ActorCollection.cs" />
