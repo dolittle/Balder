@@ -45,16 +45,16 @@ namespace Balder.Animation.Silverlight
         /// <summary>
         /// Gets or sets the duration of the animation
         /// </summary>
-        public Duration Duration { get; set; }
+        Duration Duration { get; set; }
 
         /// <summary>
         /// Gets or sets the target mesh name of the object
         /// </summary>
-        public string TargetMeshAnimation { get; set; }
+        string TargetMeshAnimation { get; set; }
 
         /// <summary>
         /// Gets or sets the keyframe <see cref="keyframe"/> to animate
         /// </summary>
-        public string[] keysFrame { get; set; }
+        string[] keysFrame { get; set; }
     }
 }
