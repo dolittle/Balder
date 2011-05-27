@@ -58,7 +58,7 @@ namespace Balder.Assets.AssetLoaders
 			{
 				throw new AssetNotFoundException(assetName);
 			}
-#if(XAML)
+#if(SILVERLIGHT)
 			var xmlDocument = XDocument.Load(stream);
 #else
 			var xmlDocument = XDocument.Load(new StreamReader(stream));

@@ -1,0 +1,9 @@
+struct VertexShaderOutput
+{
+	float4 Position : POSITION;
+	float2 UV : TEXCOORD0;
+	float3 WorldNormal : TEXCOORD1;
+	float3 WorldTangent	: TEXCOORD2;
+	float3 WorldBinormal : TEXCOORD3;
+	//float3 WorldView : TEXCOORD4;
+};

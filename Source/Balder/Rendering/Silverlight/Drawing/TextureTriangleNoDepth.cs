@@ -42,16 +42,13 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
-				{
-					z = 1f / zz;
-					u = uu * z;
-					v = vv * z;
+				z = 1f / zz;
+				u = uu * z;
+				v = vv * z;
 
-					var intu = (int)(u) & (textureWidth - 1);
-					var intv = (int)(v) & (textureHeight - 1);
-					Framebuffer[offset] = Texture1.Pixels[intu, intv] | Color.AlphaFull;
-				}
+				var intu = (int)(u) & (textureWidth - 1);
+				var intv = (int)(v) & (textureHeight - 1);
+				Framebuffer[offset] = Texture1.Pixels[intu, intv] | Color.AlphaFull;
 
 				offset++;
 

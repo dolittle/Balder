@@ -20,7 +20,6 @@
 #endregion
 
 using System;
-using System.ComponentModel;
 using System.Globalization;
 using System.Windows.Data;
 using Balder.Materials;
@@ -46,6 +45,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 					{
 						return 2;
 					}
+				case MaterialShade.Phong:
+					{
+						return 3;
+					}
 			}
 
 			return 0;
@@ -67,6 +70,10 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 				case 2:
 					{
 						return MaterialShade.Gouraud;
+					}
+				case 3:
+					{
+						return MaterialShade.Phong;
 					}
 			}
 

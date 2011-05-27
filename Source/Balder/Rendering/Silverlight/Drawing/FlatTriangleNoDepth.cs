@@ -30,11 +30,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
-				{
-					Framebuffer[offset] = ColorAsInt;
-				}
-
+				Framebuffer[offset] = ColorAsInt;
 				offset++;
 			}
 		}

@@ -137,19 +137,27 @@ namespace Balder.Rendering.Silverlight
 		public bool IsVisible(Viewport viewport, RenderVertex[] vertices)
 		{
 			var dot = Vector.Dot(TransformedPosition, TransformedNormal);
-			var visible = dot < 0 && IsInView(viewport, vertices);
+			var visible = dot < 0;
 
 			if (null != Material)
 			{
 				visible |= Material.CachedDoubleSided;
 			}
 
-			return visible;
+
+			return visible && IsInView(viewport, vertices);
 		}
 
 		private bool IsInView(Viewport viewport, RenderVertex[] vertices)
 		{
 			var visible = true;
+
+			var nearClipped = (vertices[A].ProjectedVector.Z < viewport.View.Near &&
+			                   vertices[B].ProjectedVector.Z < viewport.View.Near &&
+			                   vertices[C].ProjectedVector.Z < viewport.View.Near);
+			if (nearClipped)
+				return false;
+
 		
 			visible &= (vertices[A].ProjectedVector.X < viewport.Width || 
 						vertices[B].ProjectedVector.X < viewport.Width ||
@@ -167,12 +175,7 @@ namespace Balder.Rendering.Silverlight
 			visible &= (vertices[A].ProjectedVector.Y > 0 ||
 						vertices[B].ProjectedVector.Y > 0 ||
 						vertices[C].ProjectedVector.Y > 0);
-			
-			var near = (vertices[A].ProjectedVector.Z < viewport.View.Near &&
-						vertices[B].ProjectedVector.Z < viewport.View.Near &&
-						vertices[C].ProjectedVector.Z < viewport.View.Near);
 
-			visible &= !near;
 			return visible;
 		}
 
@@ -375,7 +378,8 @@ namespace Balder.Rendering.Silverlight
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
 			var deltaV2 = vertexB.V2 - vertexA.V2;
-			var length = delta.Z; // System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+			var length = delta.Z;
+				//System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
 
 			var xAdd = (delta.X / length) * distance;
 			var yAdd = (delta.Y / length) * distance;

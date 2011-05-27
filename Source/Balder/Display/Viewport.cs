@@ -298,18 +298,7 @@ namespace Balder.Display
 
 		public Ray GetPickRay(int x, int y)
 		{
-			var view = View.ViewMatrix;
-			var world = Matrix.Identity;
-			var projection = View.ProjectionMatrix;
-			var nearPoint = Unproject(new Vector(x, y, View.Near), projection, view, world);
-			var farPoint = Unproject(new Vector(x, y, View.Far), projection, view, world);
-			var position = nearPoint;
-
-			var direction = farPoint - nearPoint;
-			direction.Normalize();
-
-			var ray = new Ray(position, direction);
-			return ray;
+			return View.GetPickRay(x, y);
 		}
 
 		private bool _render;
@@ -360,26 +349,7 @@ namespace Balder.Display
 		/// <returns>Unprojected 3D coordinate</returns>
 		public Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world)
 		{
-			var combinedMatrix = (world * view) * projection;
-			var matrix = Matrix.Invert(combinedMatrix);
-
-			source.X = ((source.X / ((float)Width)) * 2f) - 1f;
-			source.Y = -(((source.Y / ((float)Height)) * 2f) - 1f);
-			source.Z = (source.Z - View.Near) / (View.Far - View.Near);
-			source.W = 1f;
-			var vector = Vector.Transform(source, matrix);
-
-			var a = (source.X * matrix.M14) +
-						(source.Y * matrix.M24) +
-						(source.Z * matrix.M34) +
-						(matrix.M44);
-
-			if (!WithinEpsilon(a, 1f))
-			{
-				vector = vector / (a);
-			}
-
-			return vector;
+			return View.Unproject(source, projection, view, world);
 		}
 
 		/// <summary>
@@ -407,7 +377,7 @@ namespace Balder.Display
 			var vector = Vector.TransformNormal(x, y, z, matrix);
 			var a = (((x * matrix.M14) + (y * matrix.M24)) + (z * matrix.M34)) + matrix.M44;
 
-			if (!WithinEpsilon(a, 1f))
+			if (!MathHelper.WithinEpsilon(a, 1f))
 			{
 				vector = vector / (a);
 			}
@@ -424,10 +394,5 @@ namespace Balder.Display
 		}
 
 
-		public static bool WithinEpsilon(float a, float b)
-		{
-			var num = a - b;
-			return ((-1.401298E-45f <= num) && (num <= float.Epsilon));
-		}
 	}
 }

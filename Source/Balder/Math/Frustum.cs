@@ -24,15 +24,15 @@ namespace Balder.Math
 {
 	public class Frustum
 	{
-		private readonly Plane[] _planes = new Plane[(int)FrustumLocation.Total];
-		private Vector _nearTopLeft, _nearTopRight, _nearBottomLeft, _nearBottomRight, _farTopLeft, _farTopRight, _farBottomLeft, _farBottomRight;
-		private float _near;
-		private float _far;
-		private float _tang;
-		private float _nearWidth;
-		private float _nearHeight;
-		private float _farWidth;
-		private float _farHeight;
+		protected readonly Plane[] _planes = new Plane[(int)FrustumLocation.Total];
+		protected Vector _nearTopLeft, _nearTopRight, _nearBottomLeft, _nearBottomRight, _farTopLeft, _farTopRight, _farBottomLeft, _farBottomRight;
+		protected float _near;
+		protected float _far;
+		protected float _tang;
+		protected float _nearWidth;
+		protected float _nearHeight;
+		protected float _farWidth;
+		protected float _farHeight;
 
 
 		public Frustum()
@@ -44,7 +44,7 @@ namespace Balder.Math
 		}
 
 
-		public void SetCameraInternals(float fieldOfView, float aspectRatio, float near, float far)
+		public virtual void SetCameraInternals(float fieldOfView, float aspectRatio, float near, float far)
 		{
 			_near = near;
 			_far = far;

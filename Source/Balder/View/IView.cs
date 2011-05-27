@@ -99,6 +99,18 @@ namespace Balder.View
 		bool IsInView(Vector position, float radius);
 
 		/// <summary>
+		/// Get a pick ray that goes directly forward from the given 2D coordinates into the view
+		/// </summary>
+		/// <param name="x">X position</param>
+		/// <param name="y">Y position</param>
+		/// <returns></returns>
+		Ray GetPickRay(int x, int y);
+
+		Vector Unproject(Vector source, Matrix world);
+ 
+		Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world);
+
+		/// <summary>
 		/// Update view - typically called before rendering to update all data view is holding
 		/// based upon any changes.
 		/// </summary>

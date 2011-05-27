@@ -1,0 +1,564 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition="'$(MSBuildToolsVersion)' == '3.5'">
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</ProjectGuid>
+    <ProjectTypeGuids>{A1591282-1198-4647-A2B1-27E5FF5F6F3B};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Balder</RootNamespace>
+    <AssemblyName>Balder</AssemblyName>
+    <TargetFrameworkVersion>v5.0</TargetFrameworkVersion>
+    <SilverlightApplication>false</SilverlightApplication>
+    <SccProjectName>
+    </SccProjectName>
+    <SccLocalPath>
+    </SccLocalPath>
+    <SccAuxPath>
+    </SccAuxPath>
+    <SccProvider>
+    </SccProvider>
+    <TargetFrameworkIdentifier>Silverlight</TargetFrameworkIdentifier>
+    <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation />
+    <TargetFrameworkProfile />
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>SLBin\Debug\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML,XNA</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>Bin\Release\</OutputPath>
+    <DefineConstants>TRACE;SILVERLIGHT, DEFAULT_CONSTRUCTOR, XAML</DefineConstants>
+    <NoStdLib>true</NoStdLib>
+    <NoConfig>true</NoConfig>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <LangVersion>default</LangVersion>
+    <DocumentationFile>Bin\Release\Balder.xml</DocumentationFile>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="CommonServiceLocator.NinjectAdapter">
+      <HintPath>..\..\Components\Ninject\Silverlight\extensions\CommonServiceLocator.NinjectAdapter.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Practices.ServiceLocation">
+      <HintPath>..\..\Components\CommonServiceLocator\Silverlight\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    </Reference>
+    <Reference Include="mscorlib" />
+    <Reference Include="Ninject">
+      <HintPath>..\..\Components\Ninject\Silverlight\Ninject.dll</HintPath>
+    </Reference>
+    <Reference Include="system">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Core">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Windows">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml">
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="XnaMath">
+      <HintPath>..\..\Components\Silverlight\XnaMath.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\Common\GlobalAssemblyInfo.cs">
+      <Link>GlobalAssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="Animation\Silverlight\CoordinateAnimation.cs" />
+    <Compile Include="Animation\Silverlight\StoryboardExtensions.cs" />
+    <Compile Include="Assets\AssetLoaderService.cs" />
+    <Compile Include="Assets\AssetLoaders\StudioChunk.cs" />
+    <Compile Include="Assets\AssetLoaders\StudioLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\AseConstants.cs" />
+    <Compile Include="Assets\AssetLoaders\AseFace.cs" />
+    <Compile Include="Assets\AssetLoaders\AseGlobals.cs" />
+    <Compile Include="Assets\AssetLoaders\AseLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\AseParser.cs" />
+    <Compile Include="Assets\AssetLoaders\ColladaExtensions.cs" />
+    <Compile Include="Assets\AssetLoaders\ColladaLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\Demoniak3DLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\Silverlight\ImageLoader.cs" />
+    <Compile Include="Assets\AssetLoaders\XLoader.cs" />
+    <Compile Include="Assets\IAssetLoader.cs" />
+    <Compile Include="Collections\ActorCollection.cs" />
+    <Compile Include="Color.cs" />
+    <Compile Include="Colors.cs" />
+    <Compile Include="Content\ContentCache.cs" />
+    <Compile Include="Content\FileLoaderManager.cs" />
+    <Compile Include="Content\IContentCache.cs" />
+    <Compile Include="Content\IContentCreator.cs" />
+    <Compile Include="Content\IFileLoaderManager.cs" />
+    <Compile Include="Content\Silverlight\FileLoader.cs" />
+    <Compile Include="Content\Silverlight\FilePathHelper.cs" />
+    <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
+    <Compile Include="Debug\RectangleDebugShape.cs" />
+    <Compile Include="Display\Silverlight5\Display.cs" />
+    <Compile Include="Display\Silverlight5\DisplayDevice.cs" />
+    <Compile Include="Execution\IHaveLabel.cs" />
+    <Compile Include="Execution\ILabelManager.cs" />
+    <Compile Include="Execution\IProperty.cs" />
+    <Compile Include="Execution\PropertyDescriptor.cs" />
+    <Compile Include="Execution\PropertyValueChanged.cs" />
+    <Compile Include="Extensions\TypeExtensions.cs" />
+    <Compile Include="Input\ICanGetNodeAtPosition.cs" />
+    <Compile Include="Controls\INodeModifier.cs" />
+    <Compile Include="Controls\InstancingNodes.cs" />
+    <Compile Include="Controls\NodesControl.cs" />
+    <Compile Include="Controls\NodesStack.cs" />
+    <Compile Include="Converters\StringToTypeConverter.cs" />
+    <Compile Include="Debug\RayDebugShape.cs" />
+    <Compile Include="Diagnostics\IStopwatch.cs" />
+    <Compile Include="Diagnostics\NullStopwatch.cs" />
+    <Compile Include="Display\Silverlight\Display.cs" />
+    <Compile Include="Display\Silverlight\DisplayDevice.cs" />
+    <Compile Include="Display\Silverlight\WriteableBitmapQueue.cs" />
+    <Compile Include="Display\ViewportStatistics.cs" />
+    <Compile Include="Execution\IAmUnique.cs" />
+    <Compile Include="Execution\IMessenger.cs" />
+    <Compile Include="Execution\IMessengerContext.cs" />
+    <Compile Include="Execution\ITypeDiscoverer.cs" />
+    <Compile Include="Execution\ObjectProperty.cs" />
+    <Compile Include="Execution\Silverlight\Platform.cs" />
+    <Compile Include="Execution\SingletonAttribute.cs" />
+    <Compile Include="Execution\TypeDiscoverer.cs" />
+    <Compile Include="Execution\IHaveRuntimeContext.cs" />
+    <Compile Include="ICanBeIntersected.cs" />
+    <Compile Include="Input\ManipulationDeltaEventHandler.cs" />
+    <Compile Include="Input\ManipulationDirection.cs" />
+    <Compile Include="Input\MouseButtonEventArgs.cs" />
+    <Compile Include="Input\MouseButtonEventHandler.cs" />
+    <Compile Include="Input\MouseEventArgs.cs" />
+    <Compile Include="Input\MouseEventHandler.cs" />
+    <Compile Include="Input\Silverlight\ManipulationInfo.cs" />
+    <Compile Include="Input\Silverlight\MouseDevice.cs" />
+    <Compile Include="Input\Silverlight\MouseInfo.cs" />
+    <Compile Include="Interaction\ICommandSource.cs" />
+    <Compile Include="Lighting\ViewLight.cs" />
+    <Compile Include="Materials\ImageMap.cs" />
+    <Compile Include="Materials\IMap.cs" />
+    <Compile Include="Materials\IMaterialCalculator.cs" />
+    <Compile Include="Materials\MaterialFiltering.cs" />
+    <Compile Include="Materials\Silverlight\MaterialCalculator.cs" />
+    <Compile Include="Math\FrustumIntersection.cs" />
+    <Compile Include="Math\FrustumLocation.cs" />
+    <Compile Include="Math\OrthographicFrustum.cs" />
+    <Compile Include="MVVM\CommandManager.cs" />
+    <Compile Include="MVVM\CommandService.cs" />
+    <Compile Include="MVVM\CommandSubscription.cs" />
+    <Compile Include="MVVM\DelegateCommand.cs" />
+    <Compile Include="MVVM\ICanBeEnabled.cs" />
+    <Compile Include="MVVM\ICanExecuteCommand.cs" />
+    <Compile Include="NodeStatistics.cs" />
+    <Compile Include="Notification\Dispatcher.cs" />
+    <Compile Include="Notification\DispatcherManager.cs" />
+    <Compile Include="Notification\IDispatcher.cs" />
+    <Compile Include="Notification\IgnoreChangesAttribute.cs" />
+    <Compile Include="Notification\NotifyChangesForAttribute.cs" />
+    <Compile Include="Notification\NotifyingObjectWeaver.cs" />
+    <Compile Include="Notification\ViewModelModule.cs" />
+    <Compile Include="Objects\Geometries\ChamferBox.cs" />
+    <Compile Include="Objects\Geometries\FaceInputArgs.cs" />
+    <Compile Include="Objects\Geometries\FaceInputHandler.cs" />
+    <Compile Include="Objects\Geometries\GeneratedGeometry.cs" />
+    <Compile Include="Objects\Geometries\GeometryStatistics.cs" />
+    <Compile Include="Objects\Geometries\Normal.cs" />
+    <Compile Include="Objects\ISkyboxContext.cs" />
+    <Compile Include="Objects\Skybox.cs" />
+    <Compile Include="Rendering\IRuntimeContext.cs" />
+    <Compile Include="Rendering\PrepareFrameMessage.cs" />
+    <Compile Include="Rendering\RenderDoneMessage.cs" />
+    <Compile Include="Rendering\Silverlight5\IRenderingManager.cs" />
+    <Compile Include="Rendering\Xna\Shaders\LightInfo.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingGeometry.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\DualTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatDualTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudDualTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\DualTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudDualTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatDualTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleBilinear.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\TextureTriangleNoDepth.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryDebugInfo.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryRenderer.cs" />
+    <Compile Include="Rendering\Silverlight\IGeometryDebugInfo.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingFrame.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingContext.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\IRenderingTask.cs" />
+    <Compile Include="Rendering\Silverlight\ITextureManager.cs" />
+    <Compile Include="Rendering\Silverlight\IVertexModifier.cs" />
+    <Compile Include="Rendering\Silverlight\RenderNormal.cs" />
+    <Compile Include="Rendering\Silverlight\SkyboxControl.cs" />
+    <Compile Include="Rendering\Silverlight\Tasks\GeometryRenderingTask.cs" />
+    <Compile Include="Rendering\Silverlight\Texture.cs" />
+    <Compile Include="Rendering\Silverlight\TextureManager.cs" />
+    <Compile Include="Rendering\Silverlight\TextureMipMapLevel.cs" />
+    <Compile Include="Rendering\Xna\FaceTextureCoordinate.cs" />
+    <Compile Include="Rendering\Xna\GeometryContext.cs" />
+    <Compile Include="Rendering\Xna\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Xna\ImageContext.cs" />
+    <Compile Include="Rendering\Xna\LineRenderVertex.cs" />
+    <Compile Include="Rendering\Xna\RenderVertex.cs" />
+    <Compile Include="Rendering\Xna\GraphicsDeviceExtensions.cs" />
+    <Compile Include="Rendering\Xna\Shader.cs" />
+    <Compile Include="Rendering\Xna\ShaderManager.cs" />
+    <Compile Include="Rendering\Xna\Shaders\LightType.cs" />
+    <Compile Include="Rendering\Xna\Shaders\Material.cs" />
+    <Compile Include="Rendering\Xna\Shaders\MaterialExtensions.cs" />
+    <Compile Include="Rendering\Xna\ShapeContext.cs" />
+    <Compile Include="Rendering\Xna\SkyboxContext.cs" />
+    <Compile Include="Rendering\Xna\SpriteContext.cs" />
+    <Compile Include="Silverlight\Helpers\NodeTooltipHelper.cs" />
+    <Compile Include="Objects\Geometries\IGeometryDetailLevel.cs" />
+    <Compile Include="Rendering\PassiveRenderingSignal.cs" />
+    <Compile Include="Rendering\RenderingDetailLevel.cs" />
+    <Compile Include="Rendering\RuntimeContext.cs" />
+    <Compile Include="Rendering\PassiveRenderingMode.cs" />
+    <Compile Include="Execution\BubbledEvent.cs" />
+    <Compile Include="Execution\BubbledEventArgs.cs" />
+    <Compile Include="Execution\ICanBeUnique.cs" />
+    <Compile Include="Execution\ICanHandleCloning.cs" />
+    <Compile Include="Execution\ICopyable.cs" />
+    <Compile Include="Execution\MessageAction.cs" />
+    <Compile Include="Execution\MessageSubscriptions.cs" />
+    <Compile Include="Execution\Messenger.cs" />
+    <Compile Include="Execution\MessengerContext.cs" />
+    <Compile Include="HierarchicalNode.cs" />
+    <Compile Include="Rendering\ICanBeVisible.cs" />
+    <Compile Include="Rendering\ICanPrepare.cs" />
+    <Compile Include="Rendering\ICanRender.cs" />
+    <Compile Include="Rendering\IHaveChildren.cs" />
+    <Compile Include="Rendering\IHaveColor.cs" />
+    <Compile Include="INode.cs" />
+    <Compile Include="Lighting\LightCalculator.cs" />
+    <Compile Include="Content\ContentCreator.cs" />
+    <Compile Include="Debug\BoundingSphereDebugShape.cs" />
+    <Compile Include="Debug\DebugRenderer.cs" />
+    <Compile Include="Debug\DebugShape.cs" />
+    <Compile Include="Debug\IDebugRenderer.cs" />
+    <Compile Include="Diagnostics\Stopwatch.cs" />
+    <Compile Include="Input\ManipulationDeltaEventArgs.cs" />
+    <Compile Include="Math\Dimension.cs" />
+    <Compile Include="Execution\DisplayActivationContext.cs" />
+    <Compile Include="Display\IDisplayDevice.cs" />
+    <Compile Include="Display\Viewport.cs" />
+    <Compile Include="Exceptions\AssetNotFoundException.cs" />
+    <Compile Include="Exceptions\UnsupportedImageFormatException.cs" />
+    <Compile Include="Execution\ActorState.cs" />
+    <Compile Include="Execution\ICanNotifyChanges.cs" />
+    <Compile Include="Execution\PlatformKernel.cs" />
+    <Compile Include="Execution\Property.cs" />
+    <Compile Include="Math\Interpolator.cs" />
+    <Compile Include="NodeClonePropertyInfo.cs" />
+    <Compile Include="Container.cs" />
+    <Compile Include="NodeExtensions.cs" />
+    <Compile Include="Objects\Geometries\ArbitraryHeightmap.cs" />
+    <Compile Include="Objects\Geometries\MergedGeometry.cs" />
+    <Compile Include="Rendering\INodeRenderingService.cs" />
+    <Compile Include="Rendering\NodeRenderingService.cs" />
+    <Compile Include="Rendering\PrepareMessage.cs" />
+    <Compile Include="Rendering\RenderMessage.cs" />
+    <Compile Include="Rendering\ShowMessage.cs" />
+    <Compile Include="Rendering\UpdateMessage.cs" />
+    <Compile Include="Extensions\Silverlight\DependencyPropertyExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\DependencyPropertySubscription.cs" />
+    <Compile Include="Extensions\ExpressionExtensions.cs" />
+    <Compile Include="Extensions\ICollectionExtensions.cs" />
+    <Compile Include="Extensions\IListExtensions.cs" />
+    <Compile Include="Extensions\ImageFormatExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\NotificationExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\VisualStateExtensions.cs" />
+    <Compile Include="Extensions\Silverlight\VisualTreeExtensions.cs" />
+    <Compile Include="Extensions\WaitHandleExtensions.cs" />
+    <Compile Include="Silverlight\Helpers\DependencyProperty.cs" />
+    <Compile Include="Silverlight\Helpers\DependencyPropertyHelper.cs" />
+    <Compile Include="Lighting\ILightCalculator.cs" />
+    <Compile Include="Input\IMouseDevice.cs" />
+    <Compile Include="Input\IMouseManager.cs" />
+    <Compile Include="Input\Mouse.cs" />
+    <Compile Include="Input\MouseButtonState.cs" />
+    <Compile Include="Input\MouseManager.cs" />
+    <Compile Include="Lighting\DirectionalLight.cs" />
+    <Compile Include="Materials\MaterialShade.cs" />
+    <Compile Include="Math\BoundingBox.cs" />
+    <Compile Include="Math\BoundingSphere.cs" />
+    <Compile Include="Math\ContainmentType.cs" />
+    <Compile Include="Math\Coordinate.cs" />
+    <Compile Include="Math\PlaneIntersectionType.cs" />
+    <Compile Include="Math\Ray.cs" />
+    <Compile Include="NodeCloneInfo.cs" />
+    <Compile Include="NodeCloner.cs" />
+    <Compile Include="Objects\Flat\ISpriteContext.cs" />
+    <Compile Include="ColorSpace.cs" />
+    <Compile Include="ColorSpaces.cs" />
+    <Compile Include="Imaging\IImageContext.cs" />
+    <Compile Include="Objects\Flat\Sprite.cs" />
+    <Compile Include="Imaging\Image.cs" />
+    <Compile Include="Objects\Geometries\Box.cs" />
+    <Compile Include="Objects\Geometries\Cylinder.cs" />
+    <Compile Include="Objects\Geometries\GeometryHelper.cs" />
+    <Compile Include="Assets\AssetLoader.cs" />
+    <Compile Include="Imaging\ImageFormat.cs" />
+    <Compile Include="Imaging\ImageHelper.cs" />
+    <Compile Include="Imaging\ImagePalette.cs" />
+    <Compile Include="Objects\Geometries\Line.cs" />
+    <Compile Include="Objects\Geometries\Heightmap.cs" />
+    <Compile Include="Objects\Geometries\HeightmapEventArgs.cs" />
+    <Compile Include="Objects\Geometries\Ring.cs" />
+    <Compile Include="Rendering\IShapeContext.cs" />
+    <Compile Include="Execution\ConstructorArgument.cs" />
+    <Compile Include="Execution\IPlatform.cs" />
+    <Compile Include="Execution\IRuntime.cs" />
+    <Compile Include="Input\Silverlight\ManipulationEventHelper.cs" />
+    <Compile Include="Input\Silverlight\NodeMouseEventHelper.cs" />
+    <Compile Include="Rendering\Silverlight\BoundingGeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Silverlight\BufferContainer.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\FlatTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTextureTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\GouraudTriangle.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\Point.cs" />
+    <Compile Include="Rendering\Silverlight\Drawing\Triangle.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryContext.cs" />
+    <Compile Include="Rendering\Silverlight\GeometryDetailLevel.cs" />
+    <Compile Include="Rendering\Silverlight\ImageContext.cs" />
+    <Compile Include="Rendering\Silverlight\RenderFace.cs" />
+    <Compile Include="Rendering\Silverlight\RenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight\RenderVertex.cs" />
+    <Compile Include="Rendering\Silverlight\ShapeContext.cs" />
+    <Compile Include="Rendering\Silverlight\Shapes.cs" />
+    <Compile Include="Rendering\Silverlight\SpriteContext.cs" />
+    <Compile Include="Silverlight\TypeConverters\ColorConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\CoordinateTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\DimensionTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\ToolTipTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\UriToImageMapTypeConverter.cs" />
+    <Compile Include="Silverlight\TypeConverters\UriToImageTypeConverter.cs" />
+    <Compile Include="Silverlight\ValueConverters\VectorToCoordinateValueConverter.cs" />
+    <Compile Include="Utils\Cloner.cs" />
+    <Compile Include="Utils\NInjectExtensions.cs" />
+    <Compile Include="PixelFormat.cs" />
+    <Compile Include="Content\ContentManager.cs" />
+    <Compile Include="Assets\IAssetPart.cs" />
+    <Compile Include="Content\IFileLoader.cs" />
+    <Compile Include="Lighting\Light.cs" />
+    <Compile Include="Lighting\OmniLight.cs" />
+    <Compile Include="Materials\Material.cs" />
+    <Compile Include="Execution\Actor.cs" />
+    <Compile Include="Execution\AutoKernel.cs" />
+    <Compile Include="Debug\DebugInfo.cs" />
+    <Compile Include="Execution\Game.cs" />
+    <Compile Include="Objects\Geometries\IGeometryContext.cs" />
+    <Compile Include="Objects\Geometries\Mesh.cs" />
+    <Compile Include="Execution\IActor.cs" />
+    <Compile Include="Assets\IAssetLoaderService.cs" />
+    <Compile Include="Content\IContentManager.cs" />
+    <Compile Include="Display\IDisplay.cs" />
+    <Compile Include="Assets\IAsset.cs" />
+    <Compile Include="Math\MathHelper.cs" />
+    <Compile Include="Collections\NodeCollection.cs" />
+    <Compile Include="View\Camera.cs" />
+    <Compile Include="Execution\Runtime.cs" />
+    <Compile Include="Scene.cs" />
+    <Compile Include="Utils\EnumHelper.cs" />
+    <Compile Include="EnvironmentalNode.cs" />
+    <Compile Include="Lighting\ILight.cs" />
+    <Compile Include="Math\Core.cs" />
+    <Compile Include="Math\Frustum.cs" />
+    <Compile Include="Math\Matrix.cs" />
+    <Compile Include="Math\Plane.cs" />
+    <Compile Include="Math\Quaternion.cs" />
+    <Compile Include="Math\Vector.cs" />
+    <Compile Include="Objects\Geometries\Vertex.cs" />
+    <Compile Include="Node.cs" />
+    <Compile Include="Objects\Geometries\Face.cs" />
+    <Compile Include="Objects\Geometries\Geometry.cs" />
+    <Compile Include="Objects\Geometries\TextureCoordinate.cs" />
+    <Compile Include="RenderableNode.cs" />
+    <Compile Include="Execution\ICanBeCloned.cs" />
+    <Compile Include="Execution\IStateMachine.cs" />
+    <Compile Include="Execution\StateMachine.cs" />
+    <Compile Include="Execution\StateMachineManager.cs" />
+    <Compile Include="Utils\AssemblyHelper.cs" />
+    <Compile Include="View\IView.cs" />
+    <Compile Include="View\OrthographicCamera.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{B4F97281-0DBD-4835-9ED8-7DFB966E87FF}" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="CompileShaders.cmd" />
+    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Texture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Texture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\DualTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\DualTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\FlatDualTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\FlatDualTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Gouraud.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Gouraud.vs" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudDualTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudDualTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\FlatTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\FlatTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\EnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\FlatEnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.ps" />
+    <Resource Include="Rendering\Xna\Shaders\GouraudEnvironmentMap.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Phong.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Phong.vs" />
+    <Resource Include="Rendering\Xna\Shaders\PhongTexture.ps" />
+    <Resource Include="Rendering\Xna\Shaders\PhongTexture.vs" />
+    <Resource Include="Rendering\Xna\Shaders\Bump.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Bump.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Bump.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Phong.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\TextureEnvironmentMap.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudEnvironmentMap.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMapping.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatEnvironmentMap.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\EnvironmentMap.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudDualTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\DualTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\DualTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\DualTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Texture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Texture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Texture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\FlatDualTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Gouraud.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Gouraud.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Gouraud.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\GouraudTexture.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Defaults.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Material.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Lighting.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Lighting.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Flat.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\RenderVertex.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Triangle.ps.hlsl" />
+    <Resource Include="Rendering\Xna\Shaders\Triangle.vs" />
+    <None Include="Rendering\Xna\Shaders\Source\Triangle.vs.hlsl" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{A1591282-1198-4647-A2B1-27E5FF5F6F3B}">
+        <SilverlightProjectProperties />
+      </FlavorProperties>
+      <UserProperties DocumentXCommentEditorState="&lt;HtmlEditState&gt;&#xA;  &lt;Attributes&gt;&#xA;    &lt;Attribute key=&quot;lang_VB&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_VBUsage&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CS&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_Delphi&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_JScript&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CPP&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;lang_CPP2005&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;inheritedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;protectedMembers&quot; valuetype=&quot;string&quot;&gt;on&lt;/Attribute&gt;&#xA;    &lt;Attribute key=&quot;SyntaxGroup_SelectedTab&quot; valuetype=&quot;string&quot;&gt;SyntaxTab_CS&lt;/Attribute&gt;&#xA;  &lt;/Attributes&gt;&#xA;&lt;/HtmlEditState&gt;" />
+    </VisualStudio>
+  </ProjectExtensions>
+  <PropertyGroup>
+    <PreBuildEvent>cd $(ProjectDir)
+cmd /C CompileShaders.cmd</PreBuildEvent>
+  </PropertyGroup>
+</Project>

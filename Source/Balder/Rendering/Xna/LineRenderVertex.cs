@@ -23,7 +23,10 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Balder.Rendering.Xna
 {
-	public struct LineRenderVertex : IVertexType
+	public struct LineRenderVertex 
+#if(!SILVERLIGHT)
+		: IVertexType
+#endif
 	{
 		private Vector3 _position;
 		private Microsoft.Xna.Framework.Color _color;

@@ -123,6 +123,16 @@ namespace Balder.Math
 			return Result;
 		}
 
+		public static Vector operator *(Quaternion q, Vector v)
+		{
+			// From NVIDIA SDK
+			var qvec = new Vector(q.X, q.Y, q.Z);
+			var uv = qvec.Cross(v);
+			var uuv = qvec.Cross(uv);
+			uv *= (2.0f * q.W);
+			uuv *= 2.0f;
+			return v + uv + uuv;
+		}
 
 		public static Quaternion operator *(Quaternion A, Quaternion B)
 		{
@@ -212,6 +222,18 @@ namespace Balder.Math
 		public static Quaternion IdentityMultiplication()
 		{
 			return new Quaternion(0f, 0f, 0f, 1f);
+		}
+
+		public static Quaternion FromAngleAxis(float angle, Vector axis)
+		{
+			var halfAngle = 0.5f * angle;
+			var sin = (float)System.Math.Sin(halfAngle);
+			var w = (float)System.Math.Cos(halfAngle);
+			var x = sin * axis.X;
+			var y = sin * axis.Y;
+			var z = sin * axis.Z;
+
+			return new Quaternion(x, y, z, w);
 		}
 	}
 }

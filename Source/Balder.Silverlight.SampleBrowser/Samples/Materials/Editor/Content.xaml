@@ -112,6 +112,7 @@
 								<ComboBoxItem Content="None"/>
 								<ComboBoxItem Content="Flat"/>
 								<ComboBoxItem Content="Gouraud"/>
+								<ComboBoxItem Content="Phong"/>
 							</ComboBox>
 						</StackPanel>
 
@@ -173,6 +174,7 @@
 						<Grid.RowDefinitions>
 							<RowDefinition Height="30"/>
 							<RowDefinition Height="30"/>
+							<RowDefinition Height="30"/>
 						</Grid.RowDefinitions>
 
 						<local:MapEditor Grid.Row="0" 
@@ -188,6 +190,13 @@
 									 MapItems="{Binding Source={StaticResource ViewModels}, Path=MaterialEditor.Maps}"
 									 MapItemDisplayMemberPath="Name"
 									 SelectedMapItem="{Binding ReflectionMap, Mode=TwoWay, Converter={StaticResource MapConverter}}"
+									 />
+						<local:MapEditor Grid.Row="2" 
+									 MapName="Bump" 
+									 Opacity="{Binding BumpMapStrength, Mode=TwoWay}"
+									 MapItems="{Binding Source={StaticResource ViewModels}, Path=MaterialEditor.Maps}"
+									 MapItemDisplayMemberPath="Name"
+									 SelectedMapItem="{Binding BumpMap, Mode=TwoWay, Converter={StaticResource MapConverter}}"
 									 />
 					</Grid>
 
@@ -221,9 +230,9 @@
 
 
 			<StackPanel Grid.Column="1" Orientation="Vertical">
-				<Execution:Game x:Name="Game" Width="640" Height="480">
+				<Execution:Game x:Name="Game" Width="640" Height="480" >
 					<Execution:Game.Camera>
-						<View:Camera x:Name="Camera" Position="0,0,-100"/>
+						<View:Camera x:Name="Camera" Position="0,0,-1000"/>
 					</Execution:Game.Camera>
 
 					<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
@@ -232,7 +241,7 @@
 					<Geometries:Mesh x:Name="Mesh" 
 								 InteractionEnabled="True"
 								 PivotPoint="0,10,0"
-								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/teapot.ASE">
+								 AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/Dog.3ds">
 						<Geometries:Mesh.Material>
 							<Materials:Material 
 							Ambient="Black" 

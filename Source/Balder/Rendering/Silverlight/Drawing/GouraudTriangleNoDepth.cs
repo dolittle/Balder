@@ -42,22 +42,18 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
-				{
-					var red = (rr >> 8) & 0xff;
-					var green = (gg >> 8) & 0xff;
-					var blue = (bb >> 8) & 0xff;
+				var red = (rr >> 8) & 0xff;
+				var green = (gg >> 8) & 0xff;
+				var blue = (bb >> 8) & 0xff;
 
-					//var alpha = (uint)(aStart >> 8) & 0xff;
+				//var alpha = (uint)(aStart >> 8) & 0xff;
 
-					var colorAsInt = Color.AlphaFull |
-										(red << 16) |
-										(green << 8) |
-										blue;
+				var colorAsInt = Color.AlphaFull |
+									(red << 16) |
+									(green << 8) |
+									blue;
 
-					Framebuffer[offset] = colorAsInt;
-				}
-
+				Framebuffer[offset] = colorAsInt;
 				offset++;
 
 				rr += rInterpolate;

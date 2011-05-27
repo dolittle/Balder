@@ -29,7 +29,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 		{
 			float z;
 
-			var subPixelX = 1f - (X1 - (int)X1);
+			var subPixelX = 1f - (X1 - X1Int);
 			var zz = Z1 + subPixelX * ZInterpolateX;
 
 			var rr = (int)((RScanline + subPixelX * RScanlineInterpolate) * 65535f);
@@ -41,38 +41,29 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var bInterpolate = (int)(BScanlineInterpolate * 65535f);
 			var aInterpolate = (int)(AScanlineInterpolate * 65535f);
 
-
-			var x1Int = (int)X1;
-			var x2Int = (int)X2;
-
-			
-
-			for (var x = x1Int; x < x2Int; x++)
+			for (var x = X1Int; x < X2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+				var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						var red = (rr >> 8) & 0xff;
-						var green = (gg >> 8) & 0xff;
-						var blue = (bb >> 8) & 0xff;
+					var red = (rr >> 8) & 0xff;
+					var green = (gg >> 8) & 0xff;
+					var blue = (bb >> 8) & 0xff;
 
-						//var alpha = (uint)(aStart >> 8) & 0xff;
+					//var alpha = (uint)(aStart >> 8) & 0xff;
 
-						var colorAsInt = Color.AlphaFull |
-										  (red << 16) |
-										  (green << 8) |
-										  blue;
+					var colorAsInt = Color.AlphaFull |
+										(red << 16) |
+										(green << 8) |
+										blue;
 
-						SetPixel(offset,colorAsInt);
-						//Framebuffer[offset] = colorAsInt;
-						DepthBuffer[offset] = bufferZ;
-					}
+					SetPixel(offset,colorAsInt);
+					//Framebuffer[offset] = colorAsInt;
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;

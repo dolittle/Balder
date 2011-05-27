@@ -69,51 +69,48 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			for (var x = x1Int; x < x2Int; x++)
 			{
-				if (x >= 0 && x < BufferContainer.Width)
+				z = 1f / zz;
+				var bufferZ = (UInt32)(1.0f - (z * ZMultiplier));
+				if (bufferZ > DepthBuffer[offset] &&
+					z >= Near &&
+					z < Far
+					)
 				{
-					z = 1f / zz;
-					var bufferZ = (UInt32)(1.0f - (z*ZMultiplier));
-					if (bufferZ > DepthBuffer[offset] &&
-						z >= Near &&
-						z < Far
-						)
-					{
-						u1 = uu1 * z;
-						v1 = vv1 * z;
-						u2 = uu2 * z;
-						v2 = vv2 * z;
+					u1 = uu1 * z;
+					v1 = vv1 * z;
+					u2 = uu2 * z;
+					v2 = vv2 * z;
 
-						var diffuseRed = (diffuseRr >> 8) & 0xff;
-						var diffuseGreen = (diffuseGg >> 8) & 0xff;
-						var diffuseBlue = (diffuseBb >> 8) & 0xff;
+					var diffuseRed = (diffuseRr >> 8) & 0xff;
+					var diffuseGreen = (diffuseGg >> 8) & 0xff;
+					var diffuseBlue = (diffuseBb >> 8) & 0xff;
 
-						var specularRed = (specularRr >> 8) & 0xff;
-						var specularGreen = (specularGg >> 8) & 0xff;
-						var specularBlue = (specularBb >> 8) & 0xff;
+					var specularRed = (specularRr >> 8) & 0xff;
+					var specularGreen = (specularGg >> 8) & 0xff;
+					var specularBlue = (specularBb >> 8) & 0xff;
 
-						var diffuse = (diffuseRed << 16) | (diffuseGreen << 8) | diffuseBlue;
-						var specular = (specularRed << 16) | (specularGreen << 8) | specularBlue;
+					var diffuse = (diffuseRed << 16) | (diffuseGreen << 8) | diffuseBlue;
+					var specular = (specularRed << 16) | (specularGreen << 8) | specularBlue;
 
-						var intu1 = (int)(u1) & (texture1Width - 1);
-						var intv1 = (int)(v1) & (texture1Height - 1);
-						var intu2 = (int)(u2) & (texture2Width - 1);
-						var intv2 = (int)(v2) & (texture2Height - 1);
-						Framebuffer[offset] =
-							Color.Additive(MaterialAmbientAsInt,
+					var intu1 = (int)(u1) & (texture1Width - 1);
+					var intv1 = (int)(v1) & (texture1Height - 1);
+					var intu2 = (int)(u2) & (texture2Width - 1);
+					var intv2 = (int)(v2) & (texture2Height - 1);
+					Framebuffer[offset] =
+						Color.Additive(MaterialAmbientAsInt,
+						Color.Additive(
 							Color.Additive(
-								Color.Additive(
-									Color.Multiply(
-										Color.Blend(Texture1.Pixels[intu1, intv1], MaterialDiffuseAsInt, Texture1Factor),
-										diffuse),
-									specular
-								),
-									Color.Multiply(
-										Color.Scale(Texture2.Pixels[intu2, intv2], Texture2Factor),
-										diffuse)))
-									| Color.AlphaFull;
+								Color.Multiply(
+									Color.Blend(Texture1.Pixels[intu1, intv1], MaterialDiffuseAsInt, Texture1Factor),
+									diffuse),
+								specular
+							),
+								Color.Multiply(
+									Color.Scale(Texture2.Pixels[intu2, intv2], Texture2Factor),
+									diffuse)))
+								| Color.AlphaFull;
 
-						DepthBuffer[offset] = bufferZ;
-					}
+					DepthBuffer[offset] = bufferZ;
 				}
 
 				offset++;

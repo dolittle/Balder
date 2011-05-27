@@ -32,11 +32,11 @@
 
 
 				<Balder:Container x:Name="Container" Rotation="0,24,0">
-					<Geometries:Heightmap Dimension="20,20" LengthSegments="4" HeightSegments="4">
+					<Geometries:Heightmap x:Name="Heightmap" Dimension="20,20" LengthSegments="4" HeightSegments="4">
 						<Geometries:Heightmap.Material>
 							<Materials:Material Diffuse="Blue" 
 												Specular="White" 
-												DiffuseMap="BalderLogo.png"
+												DiffuseMap="/Balder.Silverlight.SampleBrowser;component/Assets/BalderLogo.png"
 												Wireframe="False" 
 												Shade="Gouraud">
 								
@@ -118,8 +118,10 @@
 
 				<TextBlock Grid.Column="0" Grid.Row="2" Text="Rotation"/>
 				<Controls:NumericUpDown Grid.Column="1" Grid.Row="2" Minimum="0" Maximum="360" Value="{Binding ElementName=Container, Path=Rotation.Y, Mode=TwoWay}"/>
-				
-				
+
+				<TextBlock Grid.Column="0" Grid.Row="3" Text="Triangles"/>
+				<TextBlock Grid.Column="1" Grid.Row="3" Text="{Binding ElementName=Heightmap, Path=Statistics.RenderedFaces}"/>
+
 
 			</Grid>
 		</Border>

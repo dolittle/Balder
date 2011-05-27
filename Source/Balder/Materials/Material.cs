@@ -29,6 +29,9 @@ using Balder.Rendering.Silverlight.Drawing;
 #endif
 using System.Collections.Generic;
 using Balder.Execution;
+#if(XNA)
+using Balder.Rendering.Xna;
+#endif
 
 namespace Balder.Materials
 {
@@ -433,6 +436,45 @@ namespace Balder.Materials
 			}
 		}
 
+		/// <summary>
+		/// BumpMap Property
+		/// </summary>
+		public static readonly Property<Material, IMap> BumpMapProperty =
+			Property<Material, IMap>.Register(m => m.BumpMap);
+
+		/// <summary>
+		/// Gets or sets the reflection map <see cref="IMap"/>
+		/// </summary>
+#if(XAML)
+		[TypeConverter(typeof(UriToImageMapTypeConverter))]
+#endif
+		public IMap BumpMap
+		{
+			get { return BumpMapProperty.GetValue(this); }
+			set
+			{
+				BumpMapProperty.SetValue(this, value);
+#if(SILVERLIGHT)
+				MaterialPropertiesChanged();
+#endif
+			}
+		}
+
+
+		public static readonly Property<Material, double> BumpMapStrengthProperty =
+			Property<Material, double>.Register(m => m.BumpMapStrength);
+		public double BumpMapStrength
+		{
+			get { return BumpMapStrengthProperty.GetValue(this); }
+			set
+			{
+				BumpMapStrengthProperty.SetValue(this, value);
+#if(SILVERLIGHT)
+				MaterialPropertiesChanged();
+#endif
+			}
+		}
+
 
 		private void UpdateColors()
 		{
@@ -448,6 +490,146 @@ namespace Balder.Materials
 			SpecularLevelAsFloat = (float)SpecularLevel;
 		}
 
+#if(XNA)
+		internal Shader Shader;
+
+		public Shader CustomShader { get; set; }
+		private void MaterialPropertiesChanged()
+		{
+			UpdateColors();
+			SetShader();
+			SetTextures();
+		}
+
+
+		private void SetShader()
+		{
+			if (CustomShader != null)
+			{
+				Shader = CustomShader;
+				return;
+			}
+
+			switch (Shade)
+			{
+				case MaterialShade.None:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								if (BumpMap == null || BumpMapStrength == 0)
+									Shader = ShaderManager.Instance.Flat;
+								else 
+									Shader = ShaderManager.Instance.Bump;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.EnvironmentMap;
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.TextureEnvironmentMap;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.Texture;
+							}
+						}
+
+					}
+					break;
+
+				case MaterialShade.Flat:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Flat;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.FlatEnvironmentMap;
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.FlatDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.FlatTexture;
+							}
+						}
+					}
+					break;
+
+				case MaterialShade.Gouraud:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Gouraud;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudEnvironmentMap;
+
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.GouraudDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudTexture;
+							}
+						}
+					}
+					break;
+
+				case MaterialShade.Phong:
+					{
+						if (null == DiffuseMap || DiffuseMapOpacity == 0)
+						{
+							if (null == ReflectionMap || ReflectionMapOpacity == 0)
+							{
+								Shader = ShaderManager.Instance.Phong;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.GouraudEnvironmentMap;
+
+							}
+						}
+						else
+						{
+							if (null != ReflectionMap && ReflectionMapOpacity != 0)
+							{
+								Shader = ShaderManager.Instance.GouraudDualTexture;
+							}
+							else
+							{
+								Shader = ShaderManager.Instance.PhongTexture;
+							}
+						}
+					}
+					break;
+
+			}
+
+		}
+#endif
 
 #if(SILVERLIGHT)
 		private static readonly FlatTriangle FlatTriangleRenderer = new FlatTriangle();
@@ -475,13 +657,14 @@ namespace Balder.Materials
 		internal int DiffuseTextureFactor;
 		internal int ReflectionTextureFactor;
 
-
+#if(!XNA)
 		private void MaterialPropertiesChanged()
 		{
 			UpdateColors();
 			SetRenderer();
 			SetTextures();
 		}
+#endif
 
 		private static ITextureManager _textureManager;
 		private void SetTextures()
