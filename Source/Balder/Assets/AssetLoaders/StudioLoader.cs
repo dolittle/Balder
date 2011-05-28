@@ -391,7 +391,6 @@ namespace Balder.Assets.AssetLoaders
 						break;
 				}
 			}
-			int specularPower = 100;
 		}
 
 		private string ReadMatMap(BinaryReader reader, int size)

@@ -38,6 +38,12 @@ namespace Balder.Math
 			Height = height;
 		}
 
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
+
+
 		public bool Equals(float width, float height)
 		{
 			return Width == width && Height == height;

@@ -63,7 +63,6 @@ namespace Balder.Rendering.Xna
 		private ushort[] _indices;
 
 		private bool _verticesPrepared;
-		private bool _indicesPrepared;
 
 		private Vertex[] _originalVertices;
 		private Face[] _originalFaces;

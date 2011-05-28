@@ -284,6 +284,10 @@ namespace Balder.Math
 		}
 
 #if(!(XAML && DESKTOP))
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
 		public override bool Equals(object obj)
 		{
 			var coordinate = obj as Coordinate;

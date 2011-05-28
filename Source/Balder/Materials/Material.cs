@@ -342,7 +342,7 @@ namespace Balder.Materials
 		}
 
 
-		public static readonly Property<Material, double> OpacityProperty =
+		public static new readonly Property<Material, double> OpacityProperty =
 			Property<Material, double>.Register(m => m.Opacity, 1.0);
 		public new double Opacity
 		{

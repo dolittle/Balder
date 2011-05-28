@@ -107,9 +107,9 @@ namespace Balder.Lighting
 			}
 		}
 
-		public static readonly Property<Light, bool> IsEnabledProperty =
+		public static new readonly Property<Light, bool> IsEnabledProperty =
 			Property<Light, bool>.Register(l => l.IsEnabled, true);
-		public bool IsEnabled
+		public new bool IsEnabled
 		{
 			get { return IsEnabledProperty.GetValue(this); }
 			set { IsEnabledProperty.SetValue(this, value); }

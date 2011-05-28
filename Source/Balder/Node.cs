@@ -85,20 +85,20 @@ namespace Balder
 		public static readonly BubbledEvent<Node, BubbledEventHandler> ContentPreparedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ContentPrepared);
 
-		public static readonly BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationStartedEvent =
+		public static readonly new BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationStartedEvent =
 			BubbledEvent<Node, ManipulationDeltaEventHandler>.Register(n => n.ManipulationStarted);
 
 		public static readonly BubbledEvent<Node, BubbledEventHandler> ManipulationStoppedEvent =
 			BubbledEvent<Node, BubbledEventHandler>.Register(n => n.ManipulationStopped);
 
-		public static readonly BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationDeltaEvent =
+		public static readonly new BubbledEvent<Node, ManipulationDeltaEventHandler> ManipulationDeltaEvent =
 			BubbledEvent<Node, ManipulationDeltaEventHandler>.Register(n => n.ManipulationDelta);
 
 		public event BubbledEventHandler Prepared = (s, e) => { };
 		public event BubbledEventHandler ContentPrepared = (s, e) => { };
-		public event ManipulationDeltaEventHandler ManipulationStarted = (s, e) => { };
+		public new event ManipulationDeltaEventHandler ManipulationStarted = (s, e) => { };
 		public event BubbledEventHandler ManipulationStopped = (s, e) => { };
-		public event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { };
+		public new event ManipulationDeltaEventHandler ManipulationDelta = (s, e) => { };
 
 		public event EventHandler Hover = (s, e) => { };
 		public event EventHandler Click = (s, e) => { };
@@ -340,7 +340,6 @@ namespace Balder
 
 		public static readonly Property<Node, Coordinate> PositionProp =
 			Property<Node, Coordinate>.Register(t => t.Position, TransformChanged);
-		private Coordinate _position;
 		/// <summary>
 		/// Gets or sets the position of the node in 3D space
 		/// </summary>
@@ -360,8 +359,6 @@ namespace Balder
 
 		public static readonly Property<Node, Coordinate> ScaleProp =
 			Property<Node, Coordinate>.Register(t => t.Scale, TransformChanged);
-
-		private Coordinate _scale;
 
 		/// <summary>
 		/// Gets or sets the scale of the node
@@ -384,8 +381,6 @@ namespace Balder
 
 		public static readonly Property<Node, Coordinate> RotationProp =
 			Property<Node, Coordinate>.Register(t => t.Rotation, TransformChanged);
-
-		private Coordinate _rotation;
 
 		/// <summary>
 		/// Gets or sets the rotation of the node in angles, 0-360 degrees

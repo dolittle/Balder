@@ -36,7 +36,7 @@ namespace Balder.Controls
 	/// </summary>
 	public class InstancingNodes : RenderableNode, ICanGetNodeAtPosition
 	{
-		private class DataItemInfo
+		public class DataItemInfo
 		{
 			public Vector Position;
 			public Vector Scale;
