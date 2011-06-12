@@ -21,14 +21,47 @@ using System;
 using Balder.Display;
 using Balder.Math;
 using Balder.Objects.Flat;
+using Balder.Objects.Geometries;
+using Microsoft.Xna.Framework.Graphics;
+
+#if(WINDOWS_PHONE)
+using D = Balder.Display.WP7.Display;
+#else
+#if(SILVERLIGHT)
+using D = Balder.Display.Silverlight5.Display;
+#else
+using D = Balder.Display.Xna.Display;
+#endif
+#endif
+using XnaMatrix = Microsoft.Xna.Framework.Matrix;
+
+
 
 namespace Balder.Rendering.Xna
 {
     public class SpriteContext : ISpriteContext
     {
+        RenderVertex _vertex;
+
+        public SpriteContext()
+        {
+            _vertex = new RenderVertex(new Vertex(0, 0, 0));
+        }
+
+
         public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
         {
-            
+            var graphicsDevice = D.GraphicsDevice;
+            var worldView = (XnaMatrix)(world * view);
+            var matrix = (XnaMatrix)(worldView * projection);
+            graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
+            graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
+
+            graphicsDevice.SetShader(ShaderManager.Instance.FlatTexture);
+
+            //graphicsDevice.SetVertexBuffer(_vertexBuffer);
+            _vertex.TransformAndProject(viewport, worldView, matrix);
+
         }
     }
 }

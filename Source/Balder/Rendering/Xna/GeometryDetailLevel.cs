@@ -18,15 +18,11 @@
 #endregion
 #if(XNA)
 using System;
-using System.IO;
-using System.Windows;
 using Balder.Materials;
 using Balder.Math;
 using Balder.Objects.Geometries;
 using Balder.Rendering.Silverlight5;
-using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Silverlight;
 using Viewport = Balder.Display.Viewport;
 
 #if(WINDOWS_PHONE)
@@ -38,7 +34,6 @@ using D = Balder.Display.Silverlight5.Display;
 using D = Balder.Display.Xna.Display;
 #endif
 #endif
-using MathHelper = Microsoft.Xna.Framework.MathHelper;
 using Matrix = Microsoft.Xna.Framework.Matrix;
 
 
