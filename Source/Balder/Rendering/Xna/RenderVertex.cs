@@ -18,6 +18,7 @@
 #endregion
 #if(XNA)
 using System;
+using Balder.Math;
 using Balder.Objects.Geometries;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -39,10 +40,20 @@ namespace Balder.Rendering.Xna
         {
             Position = new Vector3(vertex.X,vertex.Y,vertex.Z);
             Normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
-            Color = new Microsoft.Xna.Framework.Color(0,0,0xff,0xff);
+            Color = new Microsoft.Xna.Framework.Color(0xff,0xff,0xff,0xff);
         	TextureCoordinate = Vector2.Zero;
         	FaceNormal = Vector3.Zero;
         }
+
+		public RenderVertex(Vertex vertex, Vector2 textureCoordinate)
+		{
+			Position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+			Normal = new Vector3(vertex.NormalX, vertex.NormalY, vertex.NormalZ);
+			Color = new Microsoft.Xna.Framework.Color(0xff, 0xff, 0xff, 0xff);
+			TextureCoordinate = textureCoordinate;
+			FaceNormal = Vector3.Zero;
+		}
+
 
         public RenderVertex(Vertex vertex, Color color)
         {
@@ -52,6 +63,72 @@ namespace Balder.Rendering.Xna
 			TextureCoordinate = Vector2.Zero;
 			FaceNormal = Vector3.Zero;
         }
+
+		public RenderVertex(Vertex vertex, Color color, Normal normal)
+		{
+			Position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+			Normal = new Vector3(normal.X, normal.Y, normal.Z);
+			Color = color;
+			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
+		}
+
+		public RenderVertex(Vertex vertex, Color color, Normal normal, TextureCoordinate textureCoordinate)
+		{
+			Position = new Vector3(vertex.X, vertex.Y, vertex.Z);
+			Normal = new Vector3(normal.X, normal.Y, normal.Z);
+			Color = color;
+			TextureCoordinate = new Vector2(textureCoordinate.U, textureCoordinate.V);
+			FaceNormal = Vector3.Zero;
+		}
+
+
+		public RenderVertex(Vector vector)
+		{
+			Position = new Vector3(vector.X, vector.Y, vector.Z);
+			Normal = Vector3.Up;
+			Color = new Microsoft.Xna.Framework.Color(0xff, 0xff, 0xff, 0xff);
+			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
+		}
+
+		public RenderVertex(Vector vector, Vector2 textureCoordinate)
+		{
+			Position = new Vector3(vector.X, vector.Y, vector.Z);
+			Normal = Vector3.Up;
+			Color = new Microsoft.Xna.Framework.Color(0xff, 0xff, 0xff, 0xff);
+			TextureCoordinate = textureCoordinate;
+			FaceNormal = Vector3.Zero;
+		}
+
+
+		public RenderVertex(Vector vector, Color color)
+		{
+			Position = new Vector3(vector.X, vector.Y, vector.Z);
+			Normal = Vector3.Up;
+			Color = color;
+			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
+		}
+
+		public RenderVertex(Vector vector, Color color, Normal normal)
+		{
+			Position = new Vector3(vector.X, vector.Y, vector.Z);
+			Normal = new Vector3(normal.X, normal.Y, normal.Z);
+			Color = color;
+			TextureCoordinate = Vector2.Zero;
+			FaceNormal = Vector3.Zero;
+		}
+
+		public RenderVertex(Vector vector, Color color, Normal normal, TextureCoordinate textureCoordinate)
+		{
+			Position = new Vector3(vector.X, vector.Y, vector.Z);
+			Normal = new Vector3(normal.X, normal.Y, normal.Z);
+			Color = color;
+			TextureCoordinate = new Vector2(textureCoordinate.U, textureCoordinate.V);
+			FaceNormal = Vector3.Zero;
+		}
+
 
         public RenderVertex(Vector3 position, Microsoft.Xna.Framework.Color color)
         {
@@ -80,23 +157,16 @@ namespace Balder.Rendering.Xna
 			FaceNormal = Vector3.Zero;
 		}
 
-        public RenderVertex(Vertex vertex, Color color, Normal normal)
-        {
-            Position = new Vector3(vertex.X, vertex.Y, vertex.Z);
-            Normal = new Vector3(normal.X, normal.Y, normal.Z);
-            Color = color;
-			TextureCoordinate = Vector2.Zero;
-			FaceNormal = Vector3.Zero;
-        }
-
-		public RenderVertex(Vertex vertex, Color color, Normal normal, TextureCoordinate textureCoordinate)
+		public RenderVertex(Vector3 vertex, Vector2 textureCoordinate)
 		{
-			Position = new Vector3(vertex.X, vertex.Y, vertex.Z);
-			Normal = new Vector3(normal.X, normal.Y, normal.Z);
-			Color = color;
-			TextureCoordinate = new Vector2(textureCoordinate.U, textureCoordinate.V);
+			Position = vertex;
+			Normal = Vector3.Up;
+			Color = new Microsoft.Xna.Framework.Color(0xff, 0xff, 0xff, 0xff);
+			TextureCoordinate = textureCoordinate;
 			FaceNormal = Vector3.Zero;
 		}
+
+
 
 
         public static readonly VertexDeclaration VertexDeclaration = new VertexDeclaration

@@ -23,6 +23,7 @@ using Balder.Math;
 using Balder.Objects.Flat;
 using Balder.Objects.Geometries;
 using Balder.Rendering.Silverlight5;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
 #if(WINDOWS_PHONE)
@@ -30,6 +31,7 @@ using D = Balder.Display.WP7.Display;
 #else
 #if(SILVERLIGHT)
 using D = Balder.Display.Silverlight5.Display;
+using Matrix = Balder.Math.Matrix;
 #else
 using D = Balder.Display.Xna.Display;
 #endif
@@ -43,16 +45,19 @@ namespace Balder.Rendering.Xna
     public class SpriteContext : ISpriteContext
     {
     	readonly IRenderingManager _renderingManager;
-    	RenderVertex _vertex;
     	VertexBuffer _vertexBuffer;
 
 
         public SpriteContext(IRenderingManager renderingManager)
         {
         	_renderingManager = renderingManager;
-        	_vertex = new RenderVertex(new Vertex(0, 0, 0));
-			//_vertexBuffer = new VertexBuffer();
-        }
+			PrepareVertices();
+		}
+		
+		private void PrepareVertices()
+		{
+			_vertexBuffer = new VertexBuffer(D.GraphicsDevice, RenderVertex.VertexDeclaration, 6, BufferUsage.WriteOnly);
+		}
 
 
     	public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
@@ -62,16 +67,50 @@ namespace Balder.Rendering.Xna
 
 		internal void ActualRender(GraphicsDevice graphicsDevice, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
-			XnaMatrix worldView = world * view;
+			var sprite = node as Sprite;
+			if( sprite == null )
+				return;
+
+			var image = ((Sprite)node).CurrentFrame;
+			if (null == image)
+				return;
+
+			var size = (float)System.Math.Max(sprite.CurrentFrame.Width, sprite.CurrentFrame.Height);
+			var actualSize = size / 10f;
+
+			var inverseView = Matrix.Invert(view);
+			var upperLeft = Vector.TransformNormal(new Vector(-actualSize, actualSize, 0), inverseView);
+			var upperRight = Vector.TransformNormal(new Vector(actualSize, actualSize, 0), inverseView);
+			var lowerLeft = Vector.TransformNormal(new Vector(-actualSize, -actualSize, 0), inverseView);
+			var lowerRight = Vector.TransformNormal(new Vector(actualSize, -actualSize, 0), inverseView);
+
+			var vertices = new RenderVertex[6]
+			               	{
+								new RenderVertex(upperLeft, new Vector2(0f,0f)), 
+								new RenderVertex(upperRight, new Vector2(1f,0f)), 
+								new RenderVertex(lowerRight, new Vector2(1f,1f)), 
+
+								new RenderVertex(upperLeft, new Vector2(0f,0f)), 
+								new RenderVertex(lowerRight, new Vector2(1f,1f)), 
+								new RenderVertex(lowerLeft, new Vector2(0f,1f)), 
+
+			               	};
+			_vertexBuffer.SetData(0, vertices, 0, vertices.Length, 0);
+
+			XnaMatrix worldView = world*view; 
 			var matrix = worldView * projection;
 			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
 
-			graphicsDevice.SetShader(ShaderManager.Instance.Sprite);
 
-			//graphicsDevice.SetVertexBuffer(_vertexBuffer);
-			//_vertex.TransformAndProject(viewport, worldView, matrix);
-			
+			graphicsDevice.SetShader(ShaderManager.Instance.Sprite);
+			graphicsDevice.SetVertexBuffer(_vertexBuffer);
+
+			var imageContext = image.ImageContext as ImageContext;
+			graphicsDevice.Textures[0] = imageContext.Texture;
+
+			graphicsDevice.BlendState = BlendState.AlphaBlend;
+			graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertexBuffer.VertexCount / 3);
 		}
     }
 }
