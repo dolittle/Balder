@@ -347,12 +347,12 @@ namespace Balder.Rendering.Xna
 
 			var worldView = world * view;
 			var matrix = worldView * projection;
-			
-			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
 
+			graphicsDevice.SetVertexBuffer(_vertexBuffer);
 			var shader = ShaderManager.Instance.Gouraud;
+			
 
 			var geometry = node as Geometry;
 			if (geometry != null && geometry.Material != null)

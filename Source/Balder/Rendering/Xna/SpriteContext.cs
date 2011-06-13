@@ -22,6 +22,7 @@ using Balder.Display;
 using Balder.Math;
 using Balder.Objects.Flat;
 using Balder.Objects.Geometries;
+using Balder.Rendering.Silverlight5;
 using Microsoft.Xna.Framework.Graphics;
 
 #if(WINDOWS_PHONE)
@@ -41,28 +42,37 @@ namespace Balder.Rendering.Xna
 {
     public class SpriteContext : ISpriteContext
     {
-        RenderVertex _vertex;
+    	readonly IRenderingManager _renderingManager;
+    	RenderVertex _vertex;
+    	VertexBuffer _vertexBuffer;
 
-        public SpriteContext()
+
+        public SpriteContext(IRenderingManager renderingManager)
         {
-            _vertex = new RenderVertex(new Vertex(0, 0, 0));
+        	_renderingManager = renderingManager;
+        	_vertex = new RenderVertex(new Vertex(0, 0, 0));
+			//_vertexBuffer = new VertexBuffer();
         }
 
 
-        public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
+    	public void Render(Viewport viewport, Sprite sprite, Matrix view, Matrix projection, Matrix world, float xScale, float yScale, float rotation)
         {
-            var graphicsDevice = D.GraphicsDevice;
-            var worldView = (XnaMatrix)(world * view);
-            var matrix = (XnaMatrix)(worldView * projection);
-            graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
-            graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
-
-            graphicsDevice.SetShader(ShaderManager.Instance.FlatTexture);
-
-            //graphicsDevice.SetVertexBuffer(_vertexBuffer);
-            _vertex.TransformAndProject(viewport, worldView, matrix);
-
+			_renderingManager.RegisterForRendering(this, viewport, sprite, view, projection, sprite.RenderingWorld);
         }
+
+		internal void ActualRender(GraphicsDevice graphicsDevice, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
+		{
+			XnaMatrix worldView = world * view;
+			var matrix = worldView * projection;
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
+			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
+
+			graphicsDevice.SetShader(ShaderManager.Instance.Sprite);
+
+			//graphicsDevice.SetVertexBuffer(_vertexBuffer);
+			//_vertex.TransformAndProject(viewport, worldView, matrix);
+			
+		}
     }
 }
 #endif

@@ -3,16 +3,16 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Balder.Rendering.Silverlight5
 {
-	public class RenderingGeometry : RenderingObject
+	public class RenderingSprite : RenderingObject
 	{
-		public GeometryDetailLevel Geometry;
+		public SpriteContext Sprite;
 
 		public override void Render(GraphicsDevice graphicsDevice)
 		{
 			if (!IsVisible)
 				return;
 
-			Geometry.ActualRender(graphicsDevice, Viewport, Node, View, Projection, World);
+			Sprite.ActualRender(graphicsDevice, Viewport, Node, View, Projection, World);
 		}
 	}
 }

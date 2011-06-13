@@ -93,6 +93,8 @@ namespace Balder.Rendering.Xna
 
 		public Shader Bump { get; private set; }
 
+		public Shader Sprite { get; private set; }
+
 	}
 }
 #endif

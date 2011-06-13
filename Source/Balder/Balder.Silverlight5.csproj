@@ -203,6 +203,8 @@
     <Compile Include="Rendering\PrepareFrameMessage.cs" />
     <Compile Include="Rendering\RenderDoneMessage.cs" />
     <Compile Include="Rendering\Silverlight5\IRenderingManager.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingObject.cs" />
+    <Compile Include="Rendering\Silverlight5\RenderingSprite.cs" />
     <Compile Include="Rendering\Xna\Shaders\LightInfo.cs" />
     <Compile Include="Rendering\Silverlight5\RenderingGeometry.cs" />
     <Compile Include="Rendering\Silverlight5\RenderingManager.cs" />
@@ -449,6 +451,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="CompileShaders.cmd" />
+    <Resource Include="Rendering\Xna\Shaders\Sprite.ps" />
+    <Resource Include="Rendering\Xna\Shaders\Sprite.vs" />
     <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.ps" />
     <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.vs" />
     <Resource Include="Rendering\Xna\Shaders\Texture.ps" />
@@ -483,6 +487,9 @@
     <None Include="Rendering\Xna\Shaders\Source\Bump.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Bump.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\Bump.vs.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Sprite.ps.hlsl" />
+    <None Include="Rendering\Xna\Shaders\Source\Sprite.VertexOutput" />
+    <None Include="Rendering\Xna\Shaders\Source\Sprite.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.VertexOutput" />
     <None Include="Rendering\Xna\Shaders\Source\PhongTexture.vs.hlsl" />
