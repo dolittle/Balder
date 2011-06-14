@@ -14,6 +14,6 @@ sampler2D TextureSampler = sampler_state
 
 float4 main(VertexShaderOutput vertex) : COLOR
 {
-	float4 texel = tex2D(TextureSampler, vertex.UV).rgba;
+	float4 texel = tex2D(TextureSampler, vertex.UV);
 	return texel;
 }

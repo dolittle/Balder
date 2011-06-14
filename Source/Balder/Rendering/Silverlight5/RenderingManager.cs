@@ -12,13 +12,16 @@ namespace Balder.Rendering.Silverlight5
 	public class RenderingManager : IRenderingManager
 	{
 		Dictionary<INode, RenderingObject> _objects = new Dictionary<INode, RenderingObject>();
+		List<RenderingObject> _sprites = new List<RenderingObject>();
 		
 		public void Initialize()
 		{
 			if (_objects != null)
 				_objects.Clear();
 
+			
 			_objects = new Dictionary<INode, RenderingObject>();
+			_sprites = new List<RenderingObject>();
 		}
 
 
@@ -36,6 +39,8 @@ namespace Balder.Rendering.Silverlight5
 				creationCallback(renderingObject);
 				lock (_objects)
 					_objects[node] = renderingObject;
+
+				
 			}
 			if (renderingObject == null)
 				return;
@@ -56,15 +61,53 @@ namespace Balder.Rendering.Silverlight5
 
 		public void RegisterForRendering(SpriteContext sprite, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
-			RegisterForRendering<RenderingSprite>(viewport, node, view, projection, world, r => r.Sprite = sprite);
+			RegisterForRendering<RenderingSprite>(viewport, node, view, projection, world, r =>
+			                                                                               	{
+			                                                                               		r.Sprite = sprite;
+																								_sprites.Add(r);
+			                                                                               	});
 		}
-		
 
+	
 		public void Render(GraphicsDevice graphicsDevice)
 		{
 			lock (_objects)
+			{
+				graphicsDevice.BlendState = BlendState.Opaque;
+				graphicsDevice.DepthStencilState = DepthStencilState.Default;
+
 				foreach (var renderingObject in _objects.Values)
-					renderingObject.Render(graphicsDevice);
+					if( !_sprites.Contains(renderingObject))
+						Render(graphicsDevice, renderingObject);
+
+				
+				_sprites.Sort((a, b) =>
+				              	{
+				              		var viewPosition = a.View.GetTranslation();
+
+				              		var aDistance = viewPosition - a.World.GetTranslation();
+				              		var bDistance = viewPosition - b.World.GetTranslation();
+
+									if (aDistance == bDistance)
+										return 0;
+
+				              		return aDistance < bDistance ? -1 : 1;
+				              	});
+
+				graphicsDevice.BlendState = BlendState.AlphaBlend;
+				graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
+
+				foreach (var renderingObject in _sprites)
+					Render(graphicsDevice, renderingObject);
+			}
+		}
+
+		static void Render(GraphicsDevice graphicsDevice, RenderingObject renderingObject)
+		{
+			//if (!renderingObject.IsVisible) return;
+
+			renderingObject.Render(graphicsDevice);
+			//renderingObject.IsVisible = false;
 		}
 	}
 }

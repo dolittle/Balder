@@ -21,7 +21,6 @@ using System;
 using Balder.Display;
 using Balder.Math;
 using Balder.Objects.Flat;
-using Balder.Objects.Geometries;
 using Balder.Rendering.Silverlight5;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -46,7 +45,6 @@ namespace Balder.Rendering.Xna
     {
     	readonly IRenderingManager _renderingManager;
     	VertexBuffer _vertexBuffer;
-
 
         public SpriteContext(IRenderingManager renderingManager)
         {
@@ -109,7 +107,6 @@ namespace Balder.Rendering.Xna
 			var imageContext = image.ImageContext as ImageContext;
 			graphicsDevice.Textures[0] = imageContext.Texture;
 
-			graphicsDevice.BlendState = BlendState.AlphaBlend;
 			graphicsDevice.DrawPrimitives(PrimitiveType.TriangleList, 0, _vertexBuffer.VertexCount / 3);
 		}
     }

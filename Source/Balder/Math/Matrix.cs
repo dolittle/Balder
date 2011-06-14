@@ -99,6 +99,11 @@ namespace Balder.Math
 			M43 = z;
 		}
 
+		public Vector GetTranslation()
+		{
+			return new Vector(M41, M42, M43, 1f);
+		}
+
 
 		private static void SetIdentity(Matrix matrix)
 		{
