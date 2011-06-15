@@ -130,7 +130,11 @@ namespace Balder.Execution.Silverlight
 		public Type ImageContextType { get { return typeof(ImageContext); } }
 		public Type ShapeContextType { get { return typeof(ShapeContext); } }
 		public Type MaterialCalculatorType { get { return typeof(MaterialCalculator); } }
+#if(XNA)
+		public Type SkyboxContextType { get { return typeof(SkyboxContext); } }
+#else
 		public Type SkyboxContextType { get { return typeof(Rendering.Silverlight.SkyboxControl); } }
+#endif
 
 		public PlatformState CurrentState { get; private set; }
 

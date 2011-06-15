@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Balder.Display;
 using Balder.Execution;
+using Balder.Objects;
 using Balder.Rendering.Xna;
 using Microsoft.Xna.Framework.Graphics;
 using Matrix = Balder.Math.Matrix;
@@ -13,6 +14,11 @@ namespace Balder.Rendering.Silverlight5
 	{
 		Dictionary<INode, RenderingObject> _objects = new Dictionary<INode, RenderingObject>();
 		List<RenderingObject> _sprites = new List<RenderingObject>();
+
+		Viewport _skyboxViewport;
+		Skybox _skybox;
+		SkyboxContext _skyboxContext;
+
 		
 		public void Initialize()
 		{
@@ -59,6 +65,13 @@ namespace Balder.Rendering.Silverlight5
 			RegisterForRendering<RenderingGeometry>(viewport, node, view, projection, world, r => r.Geometry = geometry);
 		}
 
+		public void RegisterForRendering(SkyboxContext skyboxContext, Viewport viewport, Skybox skybox)
+		{
+			_skyboxViewport = viewport;
+			_skyboxContext = skyboxContext;
+			_skybox = skybox;
+		}
+
 		public void RegisterForRendering(SpriteContext sprite, Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world)
 		{
 			RegisterForRendering<RenderingSprite>(viewport, node, view, projection, world, r =>
@@ -71,9 +84,18 @@ namespace Balder.Rendering.Silverlight5
 	
 		public void Render(GraphicsDevice graphicsDevice)
 		{
+			graphicsDevice.BlendState = BlendState.Opaque;
+			if( _skyboxContext != null )
+			{
+				graphicsDevice.DepthStencilState = DepthStencilState.None;
+				graphicsDevice.RasterizerState = RasterizerState.CullNone;
+				_skyboxContext.ActualRender(graphicsDevice, _skyboxViewport, _skybox);
+				graphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
+			}
+
+
 			lock (_objects)
 			{
-				graphicsDevice.BlendState = BlendState.Opaque;
 				graphicsDevice.DepthStencilState = DepthStencilState.Default;
 
 				foreach (var renderingObject in _objects.Values)
