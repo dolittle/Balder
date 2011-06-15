@@ -89,6 +89,12 @@ namespace Balder.Rendering.Silverlight5
 			{
 				graphicsDevice.DepthStencilState = DepthStencilState.None;
 				graphicsDevice.RasterizerState = RasterizerState.CullNone;
+
+				var samplerState = new SamplerState();
+				samplerState.AddressU = TextureAddressMode.Clamp;
+				samplerState.AddressV = TextureAddressMode.Clamp;
+				graphicsDevice.SamplerStates[0] = samplerState;
+
 				_skyboxContext.ActualRender(graphicsDevice, _skyboxViewport, _skybox);
 				graphicsDevice.RasterizerState = RasterizerState.CullCounterClockwise;
 			}
@@ -115,6 +121,7 @@ namespace Balder.Rendering.Silverlight5
 
 				              		return aDistance < bDistance ? -1 : 1;
 				              	});
+
 
 				graphicsDevice.BlendState = BlendState.AlphaBlend;
 				graphicsDevice.DepthStencilState = DepthStencilState.DepthRead;
