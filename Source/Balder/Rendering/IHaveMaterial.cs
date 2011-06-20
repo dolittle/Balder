@@ -1,4 +1,4 @@
-#region License
+﻿#region License
 
 //
 // Author: Einar Ingebrigtsen <einar@dolittle.com>
@@ -18,11 +18,12 @@
 //
 
 #endregion
+using Balder.Materials;
 
 namespace Balder.Rendering
 {
-    public interface IHaveColor
-	{
-		Color Color { get; set; }
-	}
+    public interface IHaveMaterial
+    {
+        Material Material { get; set; }
+    }
 }

@@ -28,7 +28,7 @@ using Ninject;
 
 namespace Balder.Objects.Geometries
 {
-	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique
+	public class Geometry : RenderableNode, IAssetPart, ICanBeUnique, IHaveMaterial
 	{
 		public IGeometryContext GeometryContext { get; set; }
 		public IGeometryDetailLevel FullDetailLevel { get; set; }
@@ -212,13 +212,14 @@ namespace Balder.Objects.Geometries
 			{
 				return null;
 			}
-
 			var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
 			var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
 			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
 			pickRay = new Ray(transformedPosition, transformedDirection);
 
-			var distance = pickRay.Intersects(BoundingSphere);
+		    var transformedBoundingSphere = BoundingSphere.Transform(RenderingWorld);
+            transformedBoundingSphere.Center.Set(0,0,0);
+            var distance = pickRay.Intersects(transformedBoundingSphere);
 			if (null != distance)
 			{
 				var vertices = FullDetailLevel.GetVertices();
