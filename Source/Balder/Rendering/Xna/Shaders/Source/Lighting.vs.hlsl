@@ -1,4 +1,4 @@
-#define MaxLights 3
+#define MaxLights 2
 
 // Size = 20
 struct Light
@@ -12,16 +12,16 @@ struct Light
 
 
 
-float4 ViewPosition : register(c13);
+float4 ViewPosition : register(c17);
 
-Light Lights[MaxLights] : register(c14);	// Size = 20 * 7 = 140
+Light Lights[MaxLights] : register(c18);	// Size = 20 * 7 = 140
 
 
 float4 CalculateDiffuseForLight(Light light, float4 position, float4 normal)
 {
 	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-	float directionDot = saturate(dot(normal, lightDirection));
-
+	float directionDot = saturate(dot(lightDirection, normal));
+	
 	float lightDirRanged = lightDirection / light.Details.y;
 	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
 
@@ -31,23 +31,46 @@ float4 CalculateDiffuseForLight(Light light, float4 position, float4 normal)
 	return diffuse;
 }
 
+/*
+float4 DiffuseAndPhongPS(PixelShaderInputPerPixelDiffuse input) : COLOR
+{
+     //calculate per-pixel diffuse
+     float3 directionToLight = normalize(lightPosition - input.WorldPosition);
+     float diffuseIntensity = saturate( dot(directionToLight, input.WorldNormal));
+     float4 diffuse = diffuseLightColor * diffuseIntensity;
+
+     //calculate Phong components per-pixel
+     float3 reflectionVector = normalize(reflect(-directionToLight, input.WorldNormal));
+     float3 directionToCamera = normalize(cameraPosition - input.WorldPosition);
+     
+     //calculate specular component
+     float4 specular = specularLightColor * specularIntensity * 
+                       pow(saturate(dot(reflectionVector, directionToCamera)), 
+                           specularPower);
+      
+     //all color components are summed in the pixel shader
+     float4 color = specular  + diffuse + ambientLightColor;
+     color.a = 1.0;
+     return color;
+}*/
+
+
 float4 CalculateSpecularForLight(Light light, float4 position, float4 normal)
 {
 	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-	float directionDot = saturate(dot(normal, lightDirection));
-	float3 view = normalize(ViewPosition - position);
-	float3 reflection = normalize(2 * directionDot * normal - lightDirection);
-	float viewDot = saturate(dot(reflection, view));
+	float directionDot = saturate(dot(lightDirection, normal));
+	
+	float3 viewDirection = normalize(ViewPosition - position);
 
-	float lightDirRanged = lightDirection / light.Details.y;
-	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
+	
+	float3 reflection = normalize(reflect(-lightDirection,normal));
 
+	float viewDot = directionDot;
+	//saturate(dot(reflection, viewDirection));
 	float specularPower = CurrentMaterial.Details.y * pow(viewDot, CurrentMaterial.Details.x);
-						
-	float4 specular = 
-				((light.Specular * specularPower) * light.Details.x) *
-				attenuation;
-
+					
+	float4 specular = light.Specular * specularPower;
+	
 	return specular;
 }
 
@@ -55,7 +78,6 @@ float4 CalculateSpecularForLight(Light light, float4 position, float4 normal)
 float4 CalculateLighting(float4 position, float4 normal)
 {
 	float4 resultDiffuse = float4(0,0,0,1);
-	float4 diffuse = float4(0,0,0,0);
 
 	for( int lightIndex=0; lightIndex<MaxLights; lightIndex++ )
 	{
@@ -65,9 +87,11 @@ float4 CalculateLighting(float4 position, float4 normal)
 			// Omni light
 			if( light.Details.z == 1 ) 
 			{
+				//resultDiffuse = light.Ambient + CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
+				//resultDiffuse = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
 				float4 diffuse = CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
 				float4 specular = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
-				resultDiffuse = resultDiffuse + (diffuse + specular); // * attenuation);
+				resultDiffuse += light.Ambient + diffuse + specular;
 			}
 
 			// Directional light
@@ -78,6 +102,7 @@ float4 CalculateLighting(float4 position, float4 normal)
 		}
 	}
 
+	resultDiffuse += CurrentMaterial.Ambient;
 	resultDiffuse = saturate(resultDiffuse);
 	resultDiffuse.w = 1;
 	return resultDiffuse;
@@ -126,7 +151,6 @@ float4 CalculateSpecular(float4 position, float4 normal)
 			if( light.Details.z == 1 ) 
 			{
 				float4 specular = CalculateSpecularForLight(light, position, normal);
-
 				result = result + specular;
 			}
 

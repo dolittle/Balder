@@ -95,10 +95,13 @@ namespace Balder.Rendering.Xna
 			               	};
 			_vertexBuffer.SetData(0, vertices, 0, vertices.Length, 0);
 
-			XnaMatrix worldView = world*view; 
-			var matrix = worldView * projection;
-			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
+			XnaMatrix xnaWorld = world;
+			var worldView = xnaWorld * view; 
+			var worldViewProjection = worldView * projection;
+
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref xnaWorld);
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
+			graphicsDevice.SetVertexShaderConstantFloat4(8, ref worldViewProjection);
 
 
 			graphicsDevice.SetShader(ShaderManager.Instance.Sprite);

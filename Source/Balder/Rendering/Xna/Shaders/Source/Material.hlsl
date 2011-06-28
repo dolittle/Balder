@@ -10,4 +10,4 @@ struct Material
 	float4 MapOpacities; // x = DiffuseMap, y = ReflectionMap, z = nothing, w = nothing
 };
 
-Material CurrentMaterial : register(c8);
+Material CurrentMaterial : register(c12);
