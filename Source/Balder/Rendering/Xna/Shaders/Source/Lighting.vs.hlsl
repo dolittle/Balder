@@ -19,15 +19,24 @@ Light Lights[MaxLights] : register(c18);	// Size = 20 * 7 = 140
 
 float4 CalculateDiffuseForLight(Light light, float4 position, float4 normal)
 {
-	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
-	float directionDot = saturate(dot(lightDirection, normal));
+	float3 lightDirection;
+	float attenuation = 1;
+
+	if( light.Details.z == 1 ) 
+	{
+		lightDirection = normalize(light.PositionOrDirection.xyz - position);
+		float lightDirRanged = lightDirection / light.Details.y;
+		attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
+	}
+	else
+	{
+		lightDirection = -normalize(light.PositionOrDirection.xyz);
+	}
 	
-	float lightDirRanged = lightDirection / light.Details.y;
-	float attenuation = 1 - saturate(dot(lightDirRanged, lightDirRanged));
-
+	float directionDot = saturate(dot(lightDirection, normal));
 	float shadow = saturate(4*directionDot);
-
-	float4 diffuse = (((light.Diffuse * directionDot) * light.Details.x)*shadow)*attenuation;
+	float4 diffuse = (((light.Diffuse * directionDot)*light.Details.x)*shadow)*attenuation;
+	
 	return diffuse;
 }
 
@@ -57,12 +66,19 @@ float4 DiffuseAndPhongPS(PixelShaderInputPerPixelDiffuse input) : COLOR
 
 float4 CalculateSpecularForLight(Light light, float4 position, float4 normal)
 {
-	float3 lightDirection = normalize(light.PositionOrDirection.xyz - position);
+	float3 lightDirection;
+
+	if( light.Details.z == 1 ) 
+	{
+		lightDirection = normalize(light.PositionOrDirection.xyz - position);
+	}
+	else
+	{
+		lightDirection = -normalize(light.PositionOrDirection.xyz);
+	}
 	float directionDot = saturate(dot(lightDirection, normal));
 	
 	float3 viewDirection = normalize(ViewPosition - position);
-
-	
 	float3 reflection = normalize(reflect(-lightDirection,normal));
 
 	float viewDot = directionDot;
@@ -84,21 +100,11 @@ float4 CalculateLighting(float4 position, float4 normal)
 		Light light = Lights[lightIndex];
 		if( light.Details.x > 0 ) 
 		{
-			// Omni light
-			if( light.Details.z == 1 ) 
-			{
-				//resultDiffuse = light.Ambient + CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
-				//resultDiffuse = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
-				float4 diffuse = CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
-				float4 specular = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
-				resultDiffuse += light.Ambient + diffuse + specular;
-			}
-
-			// Directional light
-			//if( light.Details.z == 0 ) 
-			//{
-				//diffuse = CalculateDirectional(vertex, normal, Lights[lightIndex]);
-			//}
+			//resultDiffuse = light.Ambient + CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
+			//resultDiffuse = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
+			float4 diffuse = CalculateDiffuseForLight(light, position, normal) * CurrentMaterial.Diffuse;
+			float4 specular = CalculateSpecularForLight(light, position, normal) * CurrentMaterial.Specular;
+			resultDiffuse += light.Ambient + diffuse + specular;
 		}
 	}
 
@@ -121,12 +127,8 @@ float4 CalculateDiffuse(float4 position, float4 normal)
 		
 		if( light.Details.x > 0 ) 
 		{
-			// Omni light
-			if( light.Details.z == 1 ) 
-			{
-				diffuse = CalculateDiffuseForLight(light, position, normal);
-				resultDiffuse = resultDiffuse + diffuse;
-			}
+			diffuse = CalculateDiffuseForLight(light, position, normal);
+			resultDiffuse = resultDiffuse + diffuse;
 		}
 	}
 
@@ -147,18 +149,8 @@ float4 CalculateSpecular(float4 position, float4 normal)
 		
 		if( light.Details.x > 0 ) 
 		{
-			// Omni light
-			if( light.Details.z == 1 ) 
-			{
-				float4 specular = CalculateSpecularForLight(light, position, normal);
-				result = result + specular;
-			}
-
-			// Directional light
-			//if( light.Details.z == 0 ) 
-			//{
-				//diffuse = CalculateDirectional(vertex, normal, Lights[lightIndex]);
-			//}
+			float4 specular = CalculateSpecularForLight(light, position, normal);
+			result = result + specular;
 		}
 	}
 
