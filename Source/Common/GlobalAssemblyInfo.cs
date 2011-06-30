@@ -44,3 +44,4 @@ using System.Runtime.InteropServices;
 // by using the '*' as shown below:
 [assembly: AssemblyVersion("0.8.8.9")]
 [assembly: AssemblyFileVersion("0.8.8.9")]
+[assembly: AssemblyKeyFile(@"..\..\Keys\Balder.snk")]
