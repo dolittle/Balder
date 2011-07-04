@@ -31,6 +31,7 @@ using D = Balder.Display.WP7.Display;
 #else
 #if(SILVERLIGHT)
 using D = Balder.Display.Silverlight5.Display;
+using Matrix = Balder.Math.Matrix;
 #else
 using D = Balder.Display.Xna.Display;
 #endif
@@ -174,13 +175,16 @@ namespace Balder.Rendering.Xna
 			var topTexture = ((ImageContext)((ImageMap)skybox.Top).Image.ImageContext).Texture;
 			var bottomTexture = ((ImageContext)((ImageMap)skybox.Bottom).Image.ImageContext).Texture;
 
-			XnaMatrix worldView = viewport.View.ViewMatrix;
+			
+
+			XnaMatrix xnaWorld = Matrix.Identity;
+			var worldView = xnaWorld * viewport.View.ViewMatrix;
 			worldView.Translation = Vector3.Zero;
+			var worldViewProjection = worldView * viewport.View.ProjectionMatrix;
 
-			var matrix = worldView * viewport.View.ProjectionMatrix;
-
-			graphicsDevice.SetVertexShaderConstantFloat4(0, ref matrix);
+			graphicsDevice.SetVertexShaderConstantFloat4(0, ref xnaWorld);
 			graphicsDevice.SetVertexShaderConstantFloat4(4, ref worldView);
+			graphicsDevice.SetVertexShaderConstantFloat4(8, ref worldViewProjection);
 
 			graphicsDevice.SetShader(ShaderManager.Instance.Texture);
 

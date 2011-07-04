@@ -9,10 +9,12 @@ VertexShaderOutput main(RenderVertex vertex)
 {
 	VertexShaderOutput output;
 	float4 position = mul(float4(vertex.Position,1), WorldViewProj);
-	float4 normal = mul(vertex.FaceNormal, WorldView);
+	float4 normal = mul(vertex.FaceNormal, World);
+	float4 worldPosition = mul(float4(vertex.Position,1), World);
+	worldPosition = worldPosition / worldPosition.w;
 	output.Position = position;
-	output.Diffuse = CalculateDiffuse(position, normal);
-	output.Specular = CalculateSpecular(position, normal);
+	output.Diffuse = CalculateDiffuse(worldPosition, normal);
+	output.Specular = CalculateSpecular(worldPosition, normal);
 	output.UV = CalculateEnvironmentMapUV(vertex.Position, vertex.Normal);
 	return output;
 }

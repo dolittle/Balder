@@ -67,9 +67,66 @@ namespace Balder.Lighting
 		{
 			var actualAmbient = viewport.Scene.AmbientAsInt;
 			var actualDiffuse = DiffuseAsInt; 
-			var actualSpecular = SpecularAsInt; 
+			var actualSpecular = SpecularAsInt;
 
+			/*
+//////////////////////////////////////////////////////////////
+// Example 2.6                                              //
+//                                                          //
+// This vertex shader simply sets the output registers so   // 
+// that all lighting will be calculated per pixel.          //
+//////////////////////////////////////////////////////////////
+VertexShaderOutputPerPixelDiffuse PerPixelDiffuseVS(
+     float3 position : POSITION,
+     float3 normal : NORMAL )
+{
+     VertexShaderOutputPerPixelDiffuse output;
 
+     //generate the world-view-projection matrix
+     float4x4 wvp = mul(mul(world, view), projection);
+     
+     //transform the input position to the output
+     output.Position = mul(float4(position, 1.0), wvp);
+
+     output.WorldNormal =  mul(normal, world);
+     float4 worldPosition =  mul(float4(position, 1.0), world);
+     output.WorldPosition = worldPosition / worldPosition.w;
+
+     //return the output structure
+     return output;
+}
+			 * 
+			 //////////////////////////////////////////////////////////////
+			// Example 2.9                                              //
+			//                                                          //
+			// Diffuse + phong in the pixel shader gives the best-      //
+			// looking results, but is the most GPU intensive of the    //
+			// techniques in this sample, since more pixels are being   //
+			// calculated than vertices for our very simple scene.      //
+			//////////////////////////////////////////////////////////////
+			float4 DiffuseAndPhongPS(PixelShaderInputPerPixelDiffuse input) : COLOR
+			{
+				 //calculate per-pixel diffuse
+				 float3 directionToLight = normalize(lightPosition - input.WorldPosition);
+				 float diffuseIntensity = saturate( dot(directionToLight, input.WorldNormal));
+				 float4 diffuse = diffuseLightColor * diffuseIntensity;
+
+				 //calculate Phong components per-pixel
+				 float3 reflectionVector = normalize(reflect(-directionToLight, input.WorldNormal));
+				 float3 directionToCamera = normalize(cameraPosition - input.WorldPosition);
+     
+				 //calculate specular component
+				 float4 specular = specularLightColor * specularIntensity * 
+								   pow(saturate(dot(reflectionVector, directionToCamera)), 
+									   specularPower);
+      
+				 //all color components are summed in the pixel shader
+				 float4 color = specular  + diffuse + ambientLightColor;
+				 color.a = 1.0;
+				 return color;
+			}
+			* 
+			 * */
 			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
 			// Ambient light
 			var ambient = Color.Scale(actualAmbient, StrengthAsFloat);
@@ -79,16 +136,15 @@ namespace Balder.Lighting
 			lightDir.Normalize();
 			normal.Normalize();
 
-			var dfDot = System.Math.Max(0, lightDir.Dot(normal));
+			var dfDot = normal.Dot(lightDir); 
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
 			// Specular highlight
-			var reflection = 2f * dfDot * normal - lightDir;
+			var reflection = ((2f * normal) * dfDot) - lightDir;
 			reflection.Normalize();
 			var view = _viewPosition - point;
 			view.Normalize();
-			var spDot = reflection.Dot(view);
-			spDot = MathHelper.Saturate(spDot);
+			var spDot = System.Math.Max(0, reflection.Dot(view));
 
 			var specularPower = 
 				MathHelper.Saturate(
@@ -119,7 +175,7 @@ namespace Balder.Lighting
 					Color.Additive(
 						ambient, diffuse), specular)
 				, attenuation);
-
+			
 
 			return color;
 		}

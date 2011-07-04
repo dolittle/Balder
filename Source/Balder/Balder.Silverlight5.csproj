@@ -91,7 +91,8 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="System.Xml.Linq, Version=2.0.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
-    <Reference Include="XnaMath">
+    <Reference Include="XnaMath, Version=1.0.0.0, Culture=neutral, PublicKeyToken=bf48d44e48c0067a, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Components\Silverlight\XnaMath.dll</HintPath>
     </Reference>
   </ItemGroup>
@@ -457,7 +458,6 @@
     <Resource Include="Rendering\Xna\Shaders\TextureEnvironmentMap.vs" />
     <Resource Include="Rendering\Xna\Shaders\Texture.ps" />
     <Resource Include="Rendering\Xna\Shaders\Texture.vs" />
-    <Resource Include="Rendering\Xna\Shaders\Triangle.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.ps" />
     <Resource Include="Rendering\Xna\Shaders\Flat.vs" />
     <Resource Include="Rendering\Xna\Shaders\GouraudTexture.ps" />
@@ -538,9 +538,6 @@
     <None Include="Rendering\Xna\Shaders\Source\Flat.ps.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\Flat.vs.hlsl" />
     <None Include="Rendering\Xna\Shaders\Source\RenderVertex.hlsl" />
-    <None Include="Rendering\Xna\Shaders\Source\Triangle.ps.hlsl" />
-    <Resource Include="Rendering\Xna\Shaders\Triangle.vs" />
-    <None Include="Rendering\Xna\Shaders\Source\Triangle.vs.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
