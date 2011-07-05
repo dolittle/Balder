@@ -1,4 +1,5 @@
 #include "Lighting.ps.hlsl"
+#include "Material.hlsl"
 #include "GouraudTexture.VertexOutput"
 
 sampler2D TextureSampler = sampler_state
@@ -16,5 +17,5 @@ float4 main(VertexShaderOutput vertex) : COLOR
 {
 	float4 texel = tex2D(TextureSampler, vertex.UV).rgba;
 
-	return (vertex.Diffuse*texel) + vertex.Specular;
+	return CurrentMaterial.Ambient + (vertex.Diffuse*texel) + vertex.Specular;
 }

@@ -19,6 +19,7 @@ VertexShaderOutput main(RenderVertex vertex)
 	output.Position = position;
 	output.Diffuse = CalculateDiffuse(worldPosition, normal);
 	output.Specular = CalculateSpecular(worldPosition, normal);
+	
 	output.UV = vertex.UV.xy;
 
 	return output;

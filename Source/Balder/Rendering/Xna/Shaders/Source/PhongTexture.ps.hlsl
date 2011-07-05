@@ -20,6 +20,6 @@ float4 main(VertexShaderOutput vertex) : COLOR
 
 	float4 diffuse = CalculateDiffuseForLight(Lights[0], float4(vertex.WorldView,1), float4(vertex.Normal,1));
 	float4 specular = CalculateSpecularForLight(Lights[0], float4(vertex.WorldView,1), float4(vertex.Normal,1)) * CurrentMaterial.Specular;
-	return float4((diffuse * texel).xyz + specular.xyz,1);
+	return CurrentMaterial.Ambient + float4((diffuse * texel).xyz + specular.xyz,1);
 	//return float4(texel.xyz + specular.xyz,1);
 }
