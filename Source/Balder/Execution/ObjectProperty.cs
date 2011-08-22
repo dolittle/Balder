@@ -8,6 +8,7 @@ using System.Windows;
 
 namespace Balder.Execution
 {
+#if(FALSE)
     public class ObjectProperty<T>
     {
     	private readonly PropertyDescriptor _propertyDescriptor;
@@ -103,4 +104,5 @@ namespace Balder.Execution
 			}
 		}
     }
+#endif
 }

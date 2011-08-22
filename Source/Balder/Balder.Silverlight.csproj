@@ -139,7 +139,6 @@
     <Compile Include="Execution\IProperty.cs" />
     <Compile Include="Execution\IPropertyContainer.cs" />
     <Compile Include="Execution\PropertyContainer.cs" />
-    <Compile Include="Execution\PropertyDescriptor.cs" />
     <Compile Include="Execution\PropertyValueChanged.cs" />
     <Compile Include="Extensions\TypeExtensions.cs" />
     <Compile Include="Input\ICanGetNodeAtPosition.cs" />
