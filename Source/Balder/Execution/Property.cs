@@ -30,8 +30,11 @@ namespace Balder.Execution
 {
 	public class Property<T,TP> : IProperty
 #if(XAML)
-		where T:DependencyObject
+		where T:DependencyObject, IHavePropertyContainer
+#else
+		where T:IHavePropertyContainer
 #endif
+
 	{
 		private readonly PropertyDescriptor _propertyDescriptor;
 		private readonly Dictionary<object, ObjectProperty<TP>> _objectPropertyBag;

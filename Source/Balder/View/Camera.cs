@@ -33,7 +33,7 @@ namespace Balder.View
 #else
 	public class Camera :
 #endif
- IView, IHaveRuntimeContext
+ IView, IHaveRuntimeContext, IHavePropertyContainer
 	{
 		public const float DefaultFieldOfView = 45f;
 		public const float DefaultFar = 4000f;
@@ -55,6 +55,18 @@ namespace Balder.View
 			ViewMatrix = Matrix.CreateLookAt(Position, Target, Up);
 
 			Frustum = new Frustum();
+		}
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
 		}
 
 		public Frustum Frustum { get; protected set; }

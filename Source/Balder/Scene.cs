@@ -39,11 +39,13 @@ namespace Balder
 	/// of the nodes
 	/// </summary>
 #if(XAML)
-	public class Scene : FrameworkElement
+	public class Scene : FrameworkElement,
 #else
 	public class Scene
 #endif
+		IHavePropertyContainer
 	{
+
 
 		internal int AmbientAsInt;
 		public static int NodeCount = 0;
@@ -58,6 +60,18 @@ namespace Balder
 
 		public static readonly Property<Scene, Color> AmbientColorProperty =
 			Property<Scene, Color>.Register(s => s.AmbientColor);
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
+		}
 
 		/// <summary>
 		/// Ambient color for the scene - default is set to black

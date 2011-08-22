@@ -43,7 +43,7 @@ namespace Balder.Materials
 #else
 	public class Material :
 #endif
-		IHaveLabel
+		IHaveLabel, IHavePropertyContainer
 
 	{
 		internal Color CachedAmbient;
@@ -474,6 +474,19 @@ namespace Balder.Materials
 #endif
 			}
 		}
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
+		}
+
 
 
 		private void UpdateColors()

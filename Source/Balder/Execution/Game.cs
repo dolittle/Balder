@@ -40,7 +40,7 @@ namespace Balder.Execution
 {
 	public delegate void GameEventHandler(Game game);
 
-	public class Game : Actor, IHaveRuntimeContext
+	public class Game : Actor, IHaveRuntimeContext, IHavePropertyContainer
 	{
 		public IRuntimeContext RuntimeContext { get; private set; }
 
@@ -316,5 +316,18 @@ namespace Balder.Execution
 			OnUpdateOccured();
 			Update(this);
 		}
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
+		}
+
 	}
 }

@@ -53,7 +53,7 @@ namespace Balder
 #else
 	public abstract partial class Node :
 #endif
- INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel
+ INode, ICanBeCloned, ICanPrepare, IHaveRuntimeContext, IHaveLabel, IHavePropertyContainer
 	{
 #if(XAML)
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -107,6 +107,8 @@ namespace Balder
 		private bool _isInitialized = false;
 		private bool _isWorldInvalidated = false;
 		private bool _isForcePrepareMatrices = true;
+
+
 
 		protected Node()
 		{
@@ -591,6 +593,18 @@ namespace Balder
 			PrepareBoundingSphere();
 		}
 		#endregion
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
+		}
 
 		public IRuntimeContext RuntimeContext
 		{

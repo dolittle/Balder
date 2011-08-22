@@ -29,15 +29,17 @@ using Balder.Silverlight.TypeConverters;
 #endif
 #if(DEFAULT_CONSTRUCTOR)
 using Ninject;
+using Balder.Rendering;
 #endif
 
 namespace Balder.Objects
 {
 #if(XAML)
-	public class Skybox : FrameworkElement
+	public class Skybox : FrameworkElement,
 #else
 	public class Skybox
 #endif
+		IHavePropertyContainer
 	{
 #if(DEFAULT_CONSTRUCTOR)
 		public Skybox()
@@ -46,6 +48,19 @@ namespace Balder.Objects
 			
 		}
 #endif
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+
+			}
+		}
 
 		public Skybox(ISkyboxContext skyboxContext)
 		{

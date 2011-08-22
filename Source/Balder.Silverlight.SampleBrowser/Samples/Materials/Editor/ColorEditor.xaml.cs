@@ -1,5 +1,6 @@
 ﻿using System.Windows.Media;
 using Balder.Execution;
+using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 {
@@ -17,16 +18,16 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 			Color = ColorPicker.SelectedColor;
 		}
 
-		public static readonly Property<ColorEditor, string> NameOfColorProperty =
-			Property<ColorEditor, string>.Register(c => c.NameOfColor);
+		public static readonly DependencyProperty<ColorEditor, string> NameOfColorProperty =
+			DependencyProperty<ColorEditor, string>.Register(c => c.NameOfColor);
 		public string NameOfColor
 		{
 			get { return ColorName.Text; }
 			set { ColorName.Text = value; }
 		}
 
-		public static readonly Property<ColorEditor, System.Windows.Media.Color> ColorProperty =
-			Property<ColorEditor, System.Windows.Media.Color>.Register(c => c.Color);
+		public static readonly DependencyProperty<ColorEditor, System.Windows.Media.Color> ColorProperty =
+			DependencyProperty<ColorEditor, System.Windows.Media.Color>.Register(c => c.Color);
 
 		public System.Windows.Media.Color Color
 		{

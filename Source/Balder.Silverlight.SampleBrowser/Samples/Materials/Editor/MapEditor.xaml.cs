@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Balder.Execution;
+using Balder.Silverlight.Helpers;
 
 namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 {
@@ -26,8 +27,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 
 
 
-		public static readonly Property<MapEditor, string> MapNameProperty =
-			Property<MapEditor, string>.Register(m => m.MapName);
+		public static readonly DependencyProperty<MapEditor, string> MapNameProperty =
+			DependencyProperty<MapEditor, string>.Register(m => m.MapName);
 
 		public string MapName
 		{
@@ -36,8 +37,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 		}
 
 
-		public static readonly Property<MapEditor, double> OpacityProperty =
-			Property<MapEditor, double>.Register(m => m.Opacity);
+		public static readonly DependencyProperty<MapEditor, double> OpacityProperty =
+			DependencyProperty<MapEditor, double>.Register(m => m.Opacity);
 		public double Opacity
 		{
 			get { return OpacityProperty.GetValue(this);  }
@@ -49,16 +50,16 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 		}
 
 
-		public static readonly Property<MapEditor, IEnumerable> MapItemsProperty =
-			Property<MapEditor, IEnumerable>.Register(m => m.MapItems);
+		public static readonly DependencyProperty<MapEditor, IEnumerable> MapItemsProperty =
+			DependencyProperty<MapEditor, IEnumerable>.Register(m => m.MapItems);
 		public IEnumerable MapItems
 		{
 			get { return MapItemsComboBox.ItemsSource;  }
 			set { MapItemsComboBox.ItemsSource = value; }
 		}
 
-		public static readonly Property<MapEditor, string> MapItemDisplayMemberPathProperty =
-			Property<MapEditor, string>.Register(m => m.MapItemDisplayMemberPath);
+		public static readonly DependencyProperty<MapEditor, string> MapItemDisplayMemberPathProperty =
+			DependencyProperty<MapEditor, string>.Register(m => m.MapItemDisplayMemberPath);
 
 		public string MapItemDisplayMemberPath
 		{
@@ -66,8 +67,8 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Materials.Editor
 			set { MapItemsComboBox.DisplayMemberPath = value; }
 		}
 
-		public static readonly Property<MapEditor, object> SelectedMapItemProperty =
-			Property<MapEditor, object>.Register(m => m.SelectedMapItem);
+		public static readonly DependencyProperty<MapEditor, object> SelectedMapItemProperty =
+			DependencyProperty<MapEditor, object>.Register(m => m.SelectedMapItem);
 
 		public object SelectedMapItem
 		{

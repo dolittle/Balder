@@ -37,10 +37,11 @@ namespace Balder.Display
 	/// will be rendered within the viewport
 	/// </summary>
 #if(XAML)
-	public class Viewport : FrameworkElement
+	public class Viewport : FrameworkElement,
 #else
 	public class Viewport
 #endif
+		IHavePropertyContainer
 	{
 		private readonly IRuntimeContext _runtimeContext;
 		public const float MinDepth = 0f;
@@ -393,6 +394,16 @@ namespace Balder.Display
 			Scene.Prepare(this);
 		}
 
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
 
+				return _propertyContainer;
+			}
+		}
 	}
 }

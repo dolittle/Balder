@@ -38,7 +38,7 @@ namespace Balder.Math
 #else
 	public class Coordinate : 
 #endif
-		ICanBeCloned, ICopyable, IAmUnique
+		ICanBeCloned, ICopyable, IAmUnique, IHavePropertyContainer
 	{
 		private readonly Guid _identifier = Guid.NewGuid();
 
@@ -316,5 +316,18 @@ namespace Balder.Math
 				coordinate.Z = Z;
 			}
 		}
+
+		IPropertyContainer _propertyContainer;
+		public IPropertyContainer PropertyContainer
+		{
+			get
+			{
+				if (_propertyContainer == null)
+					_propertyContainer = new PropertyContainer();
+
+				return _propertyContainer;
+			}
+		}
+
 	}
 }
