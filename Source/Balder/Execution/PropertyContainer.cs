@@ -18,24 +18,40 @@
 //
 
 #endregion
-
 using Balder.Rendering;
+using System.Windows;
+
 namespace Balder.Execution
 {
 	public class PropertyContainer : IPropertyContainer
 	{
-		public PropertyContainer()
+#if(XAML)
+		DependencyObject _owner;
+#else
+		object _owner;
+#endif
+
+#if(XAML)
+		public PropertyContainer(DependencyObject owner)
+#else
+		public PropertyContainer(object owner)
+#endif
 		{
+			_owner = owner;
 		}
 
-		public void SetValue<T>(PropertyDescriptor property, T value)
+		public void SetValue<T>(IProperty property, T value)
 		{
-			throw new System.NotImplementedException();
+#if(XAML)
+			_owner.SetValue(property.ActualDependencyProperty, value);
+#endif
 		}
 
-		public T GetValue<T>(PropertyDescriptor property)
+		public T GetValue<T>(IProperty property)
 		{
-			throw new System.NotImplementedException();
+#if(XAML)
+			return (T)_owner.GetValue(property.ActualDependencyProperty);
+#endif
 		}
 	}
 }

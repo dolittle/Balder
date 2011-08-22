@@ -1,11 +1,15 @@
 ﻿using Balder.Rendering;
+#if(XAML)
+using System.Windows;
+#endif
 
 namespace Balder.Execution
 {
 	public interface IProperty
 	{
-		void SetRuntimeContext(object obj, IRuntimeContext runtimeContext);
-		void RemoveObjectProperties(object obj);
-		void CleanupChildren(object previousValue);
+#if(XAML)
+		DependencyProperty ActualDependencyProperty { get; }
+#endif
+		PropertyDescriptor Descriptor { get; }
 	}
 }

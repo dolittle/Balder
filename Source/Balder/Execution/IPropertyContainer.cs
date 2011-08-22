@@ -23,7 +23,7 @@ namespace Balder.Execution
 {
 	public interface IPropertyContainer
 	{
-		void SetValue<T>(PropertyDescriptor property, T value);
-		T GetValue<T>(PropertyDescriptor property);
+		void SetValue<T>(IProperty property, T value);
+		T GetValue<T>(IProperty property);
 	}
 }

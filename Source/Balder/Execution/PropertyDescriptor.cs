@@ -18,12 +18,15 @@ namespace Balder.Execution
 		public bool CanNotify { get; private set; }
 		public bool IsValueType { get; private set; }
 		public bool IsCopyable { get; private set; }
+		public object DefaultValue { get; private set; }
+
 #if(XAML)
 		public bool IsValueNotifyPropertyChanged { get; private set; }
 #endif
 
-		public PropertyDescriptor(Type ownerType, Type propertyType, Expression expression)
+		public PropertyDescriptor(Type ownerType, Type propertyType, object defaultValue, Expression expression)
 		{
+			DefaultValue = defaultValue;
 			OwnerType = ownerType;
 			PropertyType = propertyType;
 			PropertyInfo = expression.GetPropertyInfo();

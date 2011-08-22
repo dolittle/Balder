@@ -67,7 +67,7 @@ namespace Balder
 			get
 			{
 				if (_propertyContainer == null)
-					_propertyContainer = new PropertyContainer();
+					_propertyContainer = new PropertyContainer(this);
 
 				return _propertyContainer;
 			}
