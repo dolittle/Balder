@@ -23,6 +23,7 @@
 
 	<Grid x:Name="LayoutRoot">
 		<Grid.Triggers>
+			
 			<EventTrigger RoutedEvent="Grid.Loaded">
 				<BeginStoryboard>
 					<Storyboard RepeatBehavior="Forever" AutoReverse="True">

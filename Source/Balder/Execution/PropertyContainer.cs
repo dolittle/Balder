@@ -20,6 +20,11 @@
 #endregion
 using Balder.Rendering;
 using System.Windows;
+#if(XAML)
+using System.ComponentModel;
+using System.Collections.Generic;
+using System;
+#endif
 
 namespace Balder.Execution
 {
@@ -30,6 +35,9 @@ namespace Balder.Execution
 #else
 		object _owner;
 #endif
+
+		Dictionary<IProperty, object> _values = new Dictionary<IProperty, object>();
+		bool _localOnlyEnabled = false;
 
 #if(XAML)
 		public PropertyContainer(DependencyObject owner)
@@ -43,15 +51,66 @@ namespace Balder.Execution
 		public void SetValue<T>(IProperty property, T value)
 		{
 #if(XAML)
-			_owner.SetValue(property.ActualDependencyProperty, value);
+			if (!_localOnlyEnabled)
+			{
+				Action a = () => _owner.SetValue(property.ActualDependencyProperty, value);
+				if (Deployment.Current.Dispatcher.CheckAccess())
+					a();
+				else
+					Deployment.Current.Dispatcher.BeginInvoke(a);
+			}
 #endif
+			PropertyChanged(property, value, _values.ContainsKey(property)?_values[property]:null);
+			_values[property] = value;
 		}
 
 		public T GetValue<T>(IProperty property)
 		{
-#if(XAML)
-			return (T)_owner.GetValue(property.ActualDependencyProperty);
-#endif
+			if( _values.ContainsKey(property) ) 
+				return (T)_values[property];
+
+			return (T)property.DefaultValue;
 		}
+
+
+		public void PropertyChanged<T>(IProperty property, T newValue, T oldValue)
+		{
+#if(XAML)
+			if( property.IsValueNotifyPropertyChanged )
+			{
+				if( oldValue != null ) 
+					((INotifyPropertyChanged)oldValue).PropertyChanged -= ChildPropertyChanged;
+
+				if( newValue != null )
+					((INotifyPropertyChanged)newValue).PropertyChanged += ChildPropertyChanged;
+			}
+#endif
+			SignalRendering();
+		}
+
+		public void BeginLocal()
+		{
+			_localOnlyEnabled = true;
+		}
+
+		public void EndLocal()
+		{
+			_localOnlyEnabled = false;
+		}
+
+
+		void ChildPropertyChanged(object sender, PropertyChangedEventArgs e)
+		{
+			SignalRendering();
+		}
+
+		void SignalRendering()
+		{
+			if (_owner is IHaveRuntimeContext)
+				if (((IHaveRuntimeContext)_owner).RuntimeContext != null)
+					((IHaveRuntimeContext)_owner).RuntimeContext.SignalRendering();
+		}
+
+
 	}
 }

@@ -6,17 +6,21 @@
     xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
     xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" 
     xmlns:Animation="clr-namespace:Balder.Animation.Silverlight;assembly=Balder" 
-	xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder">
+	xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder"
+	xmlns:local="clr-namespace:Balder.Silverlight.SampleBrowser.Samples.Primitives.Box">
 	<Grid x:Name="LayoutRoot">
+		<Grid.Resources>
+			<local:ViewModel x:Key="ViewModel"/>
+		</Grid.Resources>
 
-		<Execution:Game Width="640" Height="480">
+		<Execution:Game Width="640" Height="480" DataContext="{StaticResource ViewModel}">
 			<Execution:Game.Camera>
 				<View:Camera Position="0,30,-60" Target="0,0,0"/>
 			</Execution:Game.Camera>
 
 			<Lighting:OmniLight Position="-100,100,0" Diffuse="Gray"/>
 
-            <Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red" InteractionEnabled="true"/>
+			<Geometries:Box x:Name="Box" Dimension="20,20,20" Color="Red" AllowDrop="{Binding Path=IsHitTest}" IsHitTestEnabled="{Binding Path=IsHitTest}" InteractionEnabled="true" Rotation="{Binding Path=Rotation}"/>
 		</Execution:Game>
 
 		<CheckBox x:Name="FlipNormals" 

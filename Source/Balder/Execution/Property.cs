@@ -115,9 +115,7 @@ namespace Balder.Execution
 			return property;
 		}
 
-
-		public PropertyDescriptor Descriptor { get; private set; }
-
+		
 		public TP GetValue(T obj)
 		{
 			return obj.PropertyContainer.GetValue<TP>(this);
@@ -129,13 +127,19 @@ namespace Balder.Execution
 		}
 
 #if(XAML)
-
-
-		private void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
+		void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
+			var propertyContainerObject = obj as IHavePropertyContainer;
+			if (propertyContainerObject != null)
+				propertyContainerObject.PropertyContainer.PropertyChanged<TP>(this, (TP)e.NewValue, (TP)e.OldValue);
+
+			propertyContainerObject.PropertyContainer.BeginLocal();
+			propertyContainerObject.PropertyContainer.SetValue<TP>(this, (TP)e.NewValue);
+			PropertyInfo.SetValue(obj, e.NewValue, null);
+			propertyContainerObject.PropertyContainer.EndLocal();
 		}
 
-		private void InitializeDependencyProperty()
+		void InitializeDependencyProperty()
 		{
 			ActualDependencyProperty =
 				DependencyProperty.Register(

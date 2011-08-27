@@ -340,26 +340,26 @@ namespace Balder
 
 
 
-		public static readonly Property<Node, Coordinate> PositionProp =
+		public static readonly Property<Node, Coordinate> PositionProperty =
 			Property<Node, Coordinate>.Register(t => t.Position, TransformChanged);
 		/// <summary>
 		/// Gets or sets the position of the node in 3D space
 		/// </summary>
 		public Coordinate Position
 		{
-			get { return PositionProp.GetValue(this); }
+			get { return PositionProperty.GetValue(this); }
 			set
 			{
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
-				PositionProp.SetValue(this, value);
+				PositionProperty.SetValue(this, value);
 			}
 		}
 
 
-		public static readonly Property<Node, Coordinate> ScaleProp =
+		public static readonly Property<Node, Coordinate> ScaleProperty =
 			Property<Node, Coordinate>.Register(t => t.Scale, TransformChanged);
 
 		/// <summary>
@@ -370,18 +370,18 @@ namespace Balder
 		/// </remarks>
 		public Coordinate Scale
 		{
-			get { return ScaleProp.GetValue(this); }
+			get { return ScaleProperty.GetValue(this); }
 			set
 			{
 				if (null == value)
 				{
 					value = new Coordinate(1, 1, 1);
 				}
-				ScaleProp.SetValue(this, value);
+				ScaleProperty.SetValue(this, value);
 			}
 		}
 
-		public static readonly Property<Node, Coordinate> RotationProp =
+		public static readonly Property<Node, Coordinate> RotationProperty =
 			Property<Node, Coordinate>.Register(t => t.Rotation, TransformChanged);
 
 		/// <summary>
@@ -389,14 +389,14 @@ namespace Balder
 		/// </summary>
 		public Coordinate Rotation
 		{
-			get { return RotationProp.GetValue(this); }
+			get { return RotationProperty.GetValue(this); }
 			set
 			{
 				if (null == value)
 				{
 					value = new Coordinate(0, 0, 0);
 				}
-				RotationProp.SetValue(this, value);
+				RotationProperty.SetValue(this, value);
 			}
 		}
 
@@ -443,6 +443,57 @@ namespace Balder
 		// TODO: this method should be split up and renamed!
 		internal void PrepareActualWorld()
 		{
+			var matrix = Matrix.Identity;
+			if (PivotPoint != null && (PivotPoint.X != 0f || PivotPoint.Y != 0f || PivotPoint.Z != 0f))
+			{
+				var negativePivot = PivotPoint.ToVector().Negative();
+				var pivotMatrix = Matrix.CreateTranslation(negativePivot);
+				matrix = matrix * pivotMatrix;
+			}
+
+			if (!World.IsIdentity)
+			{
+				matrix = matrix * World;
+			}
+
+			if (Scale != null && (Scale.X != 1f || Scale.Y != 1f || Scale.Z != 1f))
+			{
+				var scaleMatrix = Matrix.CreateScale(Scale);
+				matrix = matrix * scaleMatrix;
+			}
+
+			if (Rotation != null && (Rotation.X != 0f || Rotation.Y != 0f || Rotation.Z != 0f))
+			{
+				var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
+				matrix = matrix * rotationMatrix;
+			}
+
+			if (Position != null && (Position.X != 0f || Position.Y != 0f || Position.Z != 0f))
+			{
+				var translationMatrix = Matrix.CreateTranslation(Position);
+				matrix = matrix * translationMatrix;
+			}
+
+			ActualWorld = matrix;
+		}
+
+#if(false)		
+		internal void PrepareActualWorld	()
+		{
+			var matrix = Matrix.Identity;
+			var negativePivot = PivotPoint.ToVector().Negative();
+			var pivotMatrix = Matrix.CreateTranslation(negativePivot);
+			matrix = matrix * pivotMatrix;
+			matrix = matrix * World;
+			var scaleMatrix = Matrix.CreateScale(Scale);
+			matrix = matrix * scaleMatrix;
+			var rotationMatrix = Matrix.CreateRotation((float)Rotation.X, (float)Rotation.Y, (float)Rotation.Z);
+			matrix = matrix * rotationMatrix;
+			var translationMatrix = Matrix.CreateTranslation(Position);
+			matrix = matrix * translationMatrix;
+			ActualWorld = matrix;
+	
+
 			var isDifferent = false;
 			if (null == _previousWorld || !_previousWorld.EqualsTo(World))
 			{
@@ -490,6 +541,7 @@ namespace Balder
 			_isForcePrepareMatrices = false;
 			_isWorldInvalidated = false;
 		}
+#endif
 
 		private static void TransformChanged(object node, Coordinate oldCoordinate, Coordinate newCoordinate)
 		{
