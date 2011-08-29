@@ -47,6 +47,7 @@ namespace Balder.Execution
 		public bool IsValueType { get; private set; }
 		public bool IsCopyable { get; private set; }
 		public object DefaultValue { get; private set; }
+		public PropertyValueChanged<TP> PropertyValueChanged { get; private set; }
 
 #if(XAML)
 		public bool IsValueNotifyPropertyChanged { get; private set; }
@@ -57,6 +58,7 @@ namespace Balder.Execution
 		Property(Expression<Func<T, TP>> expression, TP defaultValue, PropertyValueChanged<TP> propertyValueChanged)
 		{
 			DefaultValue = defaultValue;
+			PropertyValueChanged = propertyValueChanged;
 			OwnerType = typeof(T);
 			PropertyType = typeof(TP);
 			PropertyInfo = expression.GetPropertyInfo();
@@ -126,17 +128,27 @@ namespace Balder.Execution
 			obj.PropertyContainer.SetValue<TP>(this, value);
 		}
 
+		public void OnPropertyValueChanged(object sender, object oldValue, object newValue)
+		{
+			if (PropertyValueChanged != null)
+				PropertyValueChanged(sender, (TP)oldValue, (TP)newValue);
+		}
+
+
 #if(XAML)
 		void PropertyChanged(DependencyObject obj, DependencyPropertyChangedEventArgs e)
 		{
 			var propertyContainerObject = obj as IHavePropertyContainer;
 			if (propertyContainerObject != null)
-				propertyContainerObject.PropertyContainer.PropertyChanged<TP>(this, (TP)e.NewValue, (TP)e.OldValue);
+			{
+				propertyContainerObject.PropertyContainer.BeginLocal();
+				propertyContainerObject.PropertyContainer.SetValue<TP>(this, (TP)e.NewValue);
+				PropertyInfo.SetValue(obj, e.NewValue, null);
+				propertyContainerObject.PropertyContainer.EndLocal();
 
-			propertyContainerObject.PropertyContainer.BeginLocal();
-			propertyContainerObject.PropertyContainer.SetValue<TP>(this, (TP)e.NewValue);
-			PropertyInfo.SetValue(obj, e.NewValue, null);
-			propertyContainerObject.PropertyContainer.EndLocal();
+				propertyContainerObject.PropertyContainer.PropertyChanged<TP>(this, (TP)e.OldValue, (TP)e.NewValue);
+				OnPropertyValueChanged(obj, e.OldValue, e.NewValue);
+			}
 		}
 
 		void InitializeDependencyProperty()

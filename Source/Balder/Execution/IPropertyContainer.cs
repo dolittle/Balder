@@ -27,6 +27,6 @@ namespace Balder.Execution
 		void EndLocal();
 		void SetValue<T>(IProperty property, T value);
 		T GetValue<T>(IProperty property);
-		void PropertyChanged<T>(IProperty property, T newValue, T oldValue);
+		void PropertyChanged<T>(IProperty property, T oldValue, T newValue);
 	}
 }

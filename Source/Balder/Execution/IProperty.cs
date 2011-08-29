@@ -20,6 +20,8 @@ namespace Balder.Execution
 		bool IsCopyable { get; }
 		object DefaultValue { get; }
 
+		void OnPropertyValueChanged(object sender, object oldValue, object newValue);
+
 #if(XAML)
 		bool IsValueNotifyPropertyChanged { get; }
 		DependencyProperty ActualDependencyProperty { get; }

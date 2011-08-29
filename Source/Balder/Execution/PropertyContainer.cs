@@ -73,16 +73,25 @@ namespace Balder.Execution
 		}
 
 
-		public void PropertyChanged<T>(IProperty property, T newValue, T oldValue)
+		public void PropertyChanged<T>(IProperty property, T oldValue, T newValue)
 		{
 #if(XAML)
 			if( property.IsValueNotifyPropertyChanged )
 			{
-				if( oldValue != null ) 
-					((INotifyPropertyChanged)oldValue).PropertyChanged -= ChildPropertyChanged;
+				if (property.IsValueNotifyPropertyChanged)
+				{
+					PropertyChangedEventHandler handler = (s, e) =>
+					{
+						property.OnPropertyValueChanged(_owner, oldValue, newValue);
+						SignalRendering();
+					};
 
-				if( newValue != null )
-					((INotifyPropertyChanged)newValue).PropertyChanged += ChildPropertyChanged;
+					if (oldValue != null)
+						((INotifyPropertyChanged)oldValue).PropertyChanged -= handler;
+
+					if (newValue != null)
+						((INotifyPropertyChanged)newValue).PropertyChanged += handler;
+				}
 			}
 #endif
 			SignalRendering();
