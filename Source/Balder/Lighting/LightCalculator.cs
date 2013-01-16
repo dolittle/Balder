@@ -42,8 +42,8 @@ namespace Balder.Lighting
 				return WhiteAsInt;
 			}
 
-			var color = material.AmbientAsInt; //0; // _sceneAmbient;
-			var diffuse = 0; // Color.AlphaFull | 0xffffff;
+			var color = material.AmbientAsInt; 
+			var diffuse = 0; 
 			var specular = 0;
 			var lightDiffuse = 0;
 			var lightSpecular = 0;
