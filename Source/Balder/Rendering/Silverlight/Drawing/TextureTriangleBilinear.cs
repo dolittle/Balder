@@ -24,7 +24,7 @@ using Balder.Math;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class TextureTriangleBilinear : Triangle
+	public class TextureTriangleBilinear : TriangleWithPerspectiveCorrection
 	{
 
 		protected override void DrawSpan(int offset)

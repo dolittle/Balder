@@ -228,7 +228,7 @@ namespace Balder.Rendering.Silverlight
 			{
 				var normal = _normals[normalIndex];
 				normal.Transformed = Vector.TransformNormal(normal.Vector, localView);
-				normal.Transformed.Normalize();
+				//normal.Transformed.Normalize();
 				normal.IsColorCalculated = false;
 			}
 		}
@@ -323,10 +323,9 @@ namespace Balder.Rendering.Silverlight
 			if (!normal.IsColorCalculated)
 			{
 				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
-				normal.CalculatedColorAsInt =
-					_lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed,
+                normal.CalculatedColorAsInt = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed,
 					                           out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
-						
+
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
 				normal.DiffuseColor = Color.FromInt(normal.DiffuseColorAsInt);
 				normal.SpecularColor = Color.FromInt(normal.SpecularColorAsInt);
@@ -337,7 +336,7 @@ namespace Balder.Rendering.Silverlight
 
 		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-			switch (material.Shade)
+			switch (material.CachedShade)
 			{
 				case MaterialShade.None:
 					{
@@ -356,7 +355,7 @@ namespace Balder.Rendering.Silverlight
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorA = face.ColorA * normal.DiffuseColor;
 						face.SpecularColorA = normal.SpecularColor;
-
+                        
 						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
 						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
@@ -413,17 +412,12 @@ namespace Balder.Rendering.Silverlight
 			var faceCount = 0;
 			var localView = (world * view);
 
-
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
 				face.Transform(world, view);
 
-				var visible = face.IsVisible(viewport, _vertices);
-				if (!visible)
-				{
-					continue;
-				}
+                if (!face.IsVisible(viewport, _vertices)) continue;
 
 				face.TransformNormal(localView);
 				face.Transform(localView);
@@ -434,18 +428,17 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1TextureCoordinateB = _textureCoordinates[face.DiffuseB];
 					face.Texture1TextureCoordinateC = _textureCoordinates[face.DiffuseC];
 				}
-
+                
 				if( face.Material == null )
 				{
 					face.Material = GetMaterialForFace(face, node, ((Geometry) node).Material);
 				}
+                
 				UpdateMaterialForFace(face);
 
 				if (ShouldCalculateVertexColorsForFace(face))
-				{
 					CalculateVertexColorsForFace(face, viewport, face.Material);
-				}
-
+                
 				if( face.DrawSolid )
 				{
 					face.Texture1 = face.Material.DiffuseTexture;
@@ -468,7 +461,6 @@ namespace Balder.Rendering.Silverlight
 					}
 					DrawFaceAsLine(viewport, face, _vertices);
 				}
-
 
 				faceCount++;
 			}

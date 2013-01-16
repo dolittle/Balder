@@ -23,7 +23,7 @@ using System;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class GouraudTextureTriangleBilinear : Triangle
+	public class GouraudTextureTriangleBilinear : TriangleWithPerspectiveCorrection
 	{
 		protected override void DrawSpan(int offset)
 		{

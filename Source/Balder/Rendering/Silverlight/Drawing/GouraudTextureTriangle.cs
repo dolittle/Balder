@@ -23,7 +23,7 @@ using System;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class GouraudTextureTriangle : Triangle
+	public class GouraudTextureTriangle : TriangleWithPerspectiveCorrection
 	{
 		protected override void DrawSpan(int offset)
 		{
@@ -59,8 +59,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			var x1Int = (int)X1;
 			var x2Int = (int)X2;
-
-
+            
 
 			for (var x = x1Int; x < x2Int; x++)
 			{

@@ -21,7 +21,7 @@
 #if(SILVERLIGHT)
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class TextureTriangleNoDepth : Triangle
+	public class TextureTriangleNoDepth : TriangleWithPerspectiveCorrection
 	{
 		protected override void DrawSpan(int offset)
 		{

@@ -23,7 +23,7 @@ using System;
 
 namespace Balder.Rendering.Silverlight.Drawing
 {
-	public class FlatDualTextureTriangleBilinear : Triangle
+	public class FlatDualTextureTriangleBilinear : TriangleWithPerspectiveCorrection
 	{
 		protected override void DrawSpan(int offset)
 		{
