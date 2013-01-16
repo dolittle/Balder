@@ -46,6 +46,7 @@ namespace Balder.Materials
 		IHaveLabel, IHavePropertyContainer
 
 	{
+        internal MaterialShade CachedShade;
 		internal Color CachedAmbient;
 		internal Color CachedDiffuse;
 		internal Color CachedSpecular;
@@ -300,6 +301,7 @@ namespace Balder.Materials
 			set
 			{
 				ShadeProperty.SetValue(this, value);
+                CachedShade = value;
 #if(SILVERLIGHT)
 				MaterialPropertiesChanged();
 #endif
@@ -491,6 +493,7 @@ namespace Balder.Materials
 
 		private void UpdateColors()
 		{
+            CachedShade = Shade;
 			CachedAmbient = Ambient;
 			CachedDiffuse = Diffuse;
 			CachedSpecular = Specular;
@@ -720,7 +723,7 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? TextureTriangleBilinearRenderer
-											: (Triangle)TextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)TextureTriangleRenderer;
 							}
 						}
 						else
@@ -729,13 +732,13 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? DualTextureTriangleBilinearRenderer
-											: (Triangle)DualTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)DualTextureTriangleRenderer;
 							}
 							else
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? TextureTriangleBilinearRenderer
-											: (Triangle)TextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)TextureTriangleRenderer;
 							}
 						}
 
@@ -754,7 +757,7 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? FlatTextureTriangleBilinearRenderer
-											: (Triangle)FlatTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)FlatTextureTriangleRenderer;
 							}
 						}
 						else
@@ -763,13 +766,13 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? FlatDualTextureTriangleBilinearRenderer
-											: (Triangle)FlatDualTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)FlatDualTextureTriangleRenderer;
 							}
 							else
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? FlatTextureTriangleBilinearRenderer
-											: (Triangle)FlatTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)FlatTextureTriangleRenderer;
 							}
 						}
 					}
@@ -787,7 +790,7 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? GouraudTextureTriangleBilinearRenderer
-											: (Triangle)GouraudTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)GouraudTextureTriangleRenderer;
 
 							}
 						}
@@ -797,13 +800,13 @@ namespace Balder.Materials
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? GouraudDualTextureTriangleBilinearRenderer
-											: (Triangle)GouraudDualTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)GouraudDualTextureTriangleRenderer;
 							}
 							else
 							{
 								Renderer = MagnificationFiltering == MaterialFiltering.Bilinear
 											? GouraudTextureTriangleBilinearRenderer
-											: (Triangle)GouraudTextureTriangleRenderer;
+											: (TriangleWithPerspectiveCorrection)GouraudTextureTriangleRenderer;
 							}
 						}
 					}
@@ -814,7 +817,7 @@ namespace Balder.Materials
 		public IVertexModifier DefaultVertexModifier { get; private set; }
 		public List<IVertexModifier> VertexModifiers { get; private set; }
 
-		public Triangle Renderer { get; private set; }
+		public TriangleWithPerspectiveCorrection Renderer { get; private set; }
 #endif
 	}
 }
