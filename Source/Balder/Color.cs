@@ -394,6 +394,8 @@ namespace Balder
 
 		public static int Blend(int color1, int color2, int factor)
 		{
+            if (factor == 256) return color1;
+
 			var alpha1 = (color1 >> 24) & 0xff;
 			var red1 = (color1 >> 16) & 0xff;
 			var green1 = (color1 >> 8) & 0xff;
