@@ -41,6 +41,7 @@ namespace Balder.Lighting
 			{
 				RangeProperty.SetValue(this,value);
 				_rangeAsFloat = (float) value;
+                LightChanged();
 			}
 		}
 

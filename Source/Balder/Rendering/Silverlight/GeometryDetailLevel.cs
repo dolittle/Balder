@@ -224,12 +224,18 @@ namespace Balder.Rendering.Silverlight
 				return;
 			}
 			var localView = (world * view);
+
+            var recalculateLight = _lightCalculator.HasLightsChanged;
+
 			for (var normalIndex = 0; normalIndex < _normals.Length; normalIndex++)
 			{
 				var normal = _normals[normalIndex];
 				normal.Transformed = Vector.TransformNormal(normal.Vector, localView);
 				//normal.Transformed.Normalize();
-				normal.IsColorCalculated = false;
+
+                if( recalculateLight )
+				    normal.IsColorCalculated = false;
+
 			}
 		}
 

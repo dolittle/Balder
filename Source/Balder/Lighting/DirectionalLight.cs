@@ -36,6 +36,7 @@ namespace Balder.Lighting
 		public DirectionalLight()
 		{
 			Direction = new Coordinate();
+            
 		}
 
 
@@ -55,6 +56,7 @@ namespace Balder.Lighting
 			{
 				DirectionProperty.SetValue(this, value);
 				DirectionValueChanged(this, value, value);
+                value.PropertyChanged += (s, e) => LightChanged();
 			}
 		}
 

@@ -61,5 +61,10 @@ namespace Balder.Lighting
 		/// Gets or sets wether or not the light is enabled
 		/// </summary>
 		bool IsEnabled { get; set; }
+
+        /// <summary>
+        /// Gets or sets wether or not the light is statically applied only when it changes properties and never relative to the screen
+        /// </summary>
+        bool IsStatic { get; set; }
 	}
 }

@@ -4,6 +4,7 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
+using Balder.Rendering;
 
 namespace Balder.Lighting
 {
@@ -16,6 +17,12 @@ namespace Balder.Lighting
 		private ILight[] _lights;
 		private int _sceneAmbient;
 
+        public LightCalculator(IRuntimeContext runtimeContext)
+        {
+            runtimeContext.MessengerContext.SubscriptionsFor<RenderDoneMessage>().AddListener(this, m => HasLightsChanged = false);
+            runtimeContext.MessengerContext.SubscriptionsFor<LightChangedMessage>().AddListener(this, m => HasLightsChanged = true);
+        }
+
 		public void Prepare(Viewport viewport, NodeCollection lights)
 		{
 			_sceneAmbient = viewport.Scene.AmbientColor.ToInt();
@@ -24,10 +31,9 @@ namespace Balder.Lighting
 			foreach( ILight light in lights )
 			{
 				if( light.IsEnabled )
-				{
 					lightsToUse.Add(light);
-				}
-				
+
+                if (!light.IsStatic) HasLightsChanged = true;
 			}
 			_lights = lightsToUse.ToArray();
 		}
@@ -61,6 +67,9 @@ namespace Balder.Lighting
 
 			return color | Color.AlphaFull;
 		}
-	}
+
+
+        public bool HasLightsChanged { get; private set; }
+    }
 #pragma warning restore 1591 // Xml Comments
 }

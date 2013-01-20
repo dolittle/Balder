@@ -27,7 +27,7 @@ using Balder.Math;
 namespace Balder.Lighting
 {
 	/// <summary>
-	/// Represents a service for calculating lighting in a viewport
+	/// Defines a service for calculating lighting in a viewport
 	/// </summary>
 	public interface ILightCalculator
 	{
@@ -37,6 +37,12 @@ namespace Balder.Lighting
 		/// <param name="viewport">Viewport to prepare</param>
 		/// <param name="lights">Collection of lights to prepare for</param>
 		void Prepare(Viewport viewport, NodeCollection lights);
+
+        /// <summary>
+        /// Gets a boolean indicating wether or not the lights has changed. Typically used to check if one needs to recalculate lighting.
+        /// </summary>
+        /// <returns>True is lights has changed, false if not</returns>
+        bool HasLightsChanged { get; }
 
 		/// <summary>
 		/// Calculate color based on lighting in the viewport

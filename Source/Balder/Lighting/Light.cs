@@ -26,12 +26,16 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Math;
 using Balder.Materials;
+using Balder.Rendering;
+using Balder.Extensions.Silverlight;
 
 namespace Balder.Lighting
 {
 #pragma warning disable 1591 // Xml Comments
 	public abstract class Light : EnvironmentalNode, ILight
 	{
+        protected static LightChangedMessage _lightChangedMessage;
+
 		protected int AmbientAsInt;
 		protected int DiffuseAsInt;
 		protected int SpecularAsInt;
@@ -46,7 +50,15 @@ namespace Balder.Lighting
 			Strength = 1;
 			Diffuse = Colors.White;
 			Specular = Colors.White;
+
+            Position.PropertyChanged += (e,p) => LightChanged();
 		}
+
+        protected void LightChanged()
+        {
+            if (RuntimeContext == null) return;
+            RuntimeContext.MessengerContext.Send(_lightChangedMessage);
+        }
 
 #if(XAML)
 		[TypeConverter(typeof(ColorConverter))]
@@ -58,6 +70,7 @@ namespace Balder.Lighting
 			{
 				DiffuseProperty.SetValue(this, value);
 				DiffuseAsInt = value.ToInt();
+                LightChanged();
 			}
 		}
 
@@ -73,6 +86,7 @@ namespace Balder.Lighting
 			{
 				SpecularProperty.SetValue(this, value);
 				SpecularAsInt = value.ToInt();
+                LightChanged();
 			}
 		}
 
@@ -88,6 +102,7 @@ namespace Balder.Lighting
 			{
 				AmbientProperty.SetValue(this, value);
 				AmbientAsInt = value.ToInt();
+                LightChanged();
 			}
 		}
 
@@ -104,6 +119,7 @@ namespace Balder.Lighting
 			{
 				StrengthProperty.SetValue(this, value);
 				StrengthAsFloat = (float)value;
+                LightChanged();
 			}
 		}
 
@@ -112,9 +128,25 @@ namespace Balder.Lighting
 		public new bool IsEnabled
 		{
 			get { return IsEnabledProperty.GetValue(this); }
-			set { IsEnabledProperty.SetValue(this, value); }
+			set 
+            { 
+                IsEnabledProperty.SetValue(this, value);
+                LightChanged();
+            }
 		}
 
-	}
+
+        public static new readonly Property<Light, bool> IsStaticProperty =
+            Property<Light, bool>.Register(l => l.IsStatic, false);
+        public bool IsStatic
+        {
+            get { return IsStaticProperty.GetValue(this); }
+            set 
+            { 
+                IsStaticProperty.SetValue(this, value);
+                LightChanged();
+            }
+        }
+    }
 #pragma warning restore 1591 // Xml Comments
 }
