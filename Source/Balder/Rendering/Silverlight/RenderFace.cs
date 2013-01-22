@@ -107,6 +107,8 @@ namespace Balder.Rendering.Silverlight
 		public bool DrawWireframe;
 		public bool WireframeHasConstantColor;
 
+        public bool AreColorsCalculated;
+
 		public RenderFace(int a, int b, int c)
 			: base(a, b, c)
 		{

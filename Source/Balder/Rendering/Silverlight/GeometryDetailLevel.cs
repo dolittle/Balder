@@ -235,7 +235,6 @@ namespace Balder.Rendering.Silverlight
 
                 if( recalculateLight )
 				    normal.IsColorCalculated = false;
-
 			}
 		}
 
@@ -316,12 +315,9 @@ namespace Balder.Rendering.Silverlight
 
 		private static readonly RenderNormal NullNormal = new RenderNormal(new Normal(0,0,0));
 
-		private RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
+		RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
 		{
-			if (null == _normals || null == _vertices)
-			{
-				return NullNormal;
-			}
+			if (null == _normals || null == _vertices) return NullNormal;
 
 			var normal = _normals[normalIndex];
 			var vertex = _vertices[vertexIndex];
@@ -340,8 +336,9 @@ namespace Balder.Rendering.Silverlight
 			return normal;
 		}
 
-		private void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
+		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
+
 			switch (material.CachedShade)
 			{
 				case MaterialShade.None:
@@ -383,6 +380,8 @@ namespace Balder.Rendering.Silverlight
 					}
 					break;
 			}
+
+            face.AreColorsCalculated = true;
 		}
 
 
@@ -418,9 +417,14 @@ namespace Balder.Rendering.Silverlight
 			var faceCount = 0;
 			var localView = (world * view);
 
+            var recalculateLights = _lightCalculator.HasLightsChanged;
+
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
+
+                if (recalculateLights) face.AreColorsCalculated = false;
+
 				face.Transform(world, view);
 
                 if (!face.IsVisible(viewport, _vertices)) continue;
@@ -486,7 +490,7 @@ namespace Balder.Rendering.Silverlight
 
 		private bool ShouldCalculateVertexColorsForFace(RenderFace face)
 		{
-			return face.DrawSolid || (face.DrawWireframe && !face.WireframeHasConstantColor);
+			return (face.DrawSolid || (face.DrawWireframe && !face.WireframeHasConstantColor)) && !face.AreColorsCalculated;
 		
 		}
 
