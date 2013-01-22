@@ -253,24 +253,21 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		protected void GetSortedPoints(ref RenderVertex vertexA,
-										ref RenderVertex vertexB,
-										ref RenderVertex vertexC,
-										Func<Vector, float> getComponent)
+		void GetSortedPointsBasedOnY(ref RenderVertex vertexA,ref RenderVertex vertexB,ref RenderVertex vertexC)
 		{
 			var point1 = vertexA;
 			var point2 = vertexB;
 			var point3 = vertexC;
 
 
-			if (getComponent(point1.ProjectedVector) > getComponent(point2.ProjectedVector))
+			if (point1.ProjectedVector.Y > point2.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point2;
 				point2 = p;
 			}
 
-			if (getComponent(point1.ProjectedVector) > getComponent(point3.ProjectedVector))
+			if (point1.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point1;
 				point1 = point3;
@@ -278,7 +275,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 
-			if (getComponent(point2.ProjectedVector) > getComponent(point3.ProjectedVector))
+			if (point2.ProjectedVector.Y > point3.ProjectedVector.Y)
 			{
 				var p = point2;
 				point2 = point3;
@@ -289,6 +286,41 @@ namespace Balder.Rendering.Silverlight
 			vertexB = point2;
 			vertexC = point3;
 		}
+
+        void GetSortedPointsBasedOnZ(ref RenderVertex vertexA, ref RenderVertex vertexB, ref RenderVertex vertexC)
+        {
+            var point1 = vertexA;
+            var point2 = vertexB;
+            var point3 = vertexC;
+
+
+            if (point1.ProjectedVector.Z > point2.ProjectedVector.Z)
+            {
+                var p = point1;
+                point1 = point2;
+                point2 = p;
+            }
+
+            if (point1.ProjectedVector.Z > point3.ProjectedVector.Z)
+            {
+                var p = point1;
+                point1 = point3;
+                point3 = p;
+            }
+
+
+            if (point2.ProjectedVector.Z > point3.ProjectedVector.Z)
+            {
+                var p = point2;
+                point2 = point3;
+                point3 = p;
+            }
+
+            vertexA = point1;
+            vertexB = point2;
+            vertexC = point3;
+        }
+
 
 		private static readonly List<RenderVertex> _sortList = new List<RenderVertex>();
 
@@ -413,17 +445,17 @@ namespace Balder.Rendering.Silverlight
 			vertexB = VertexB;
 			vertexC = VertexC;
 
-			GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
+			GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
-				GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Z);
+                GetSortedPointsBasedOnZ(ref vertexA, ref vertexB, ref vertexC);
 
 				if (vertexB.ProjectedVector.Z < viewport.View.Near)
 				{
 					ClipLine(viewport, vertexA, vertexC);
 					ClipLine(viewport, vertexB, vertexC);
 
-					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
+                    GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
 					Draw(viewport, this, material, vertexA, vertexB, vertexC);
 				}
 				else
@@ -438,13 +470,13 @@ namespace Balder.Rendering.Silverlight
 					var originalA = vertexA;
 					var originalC = vertexC;
 
-					GetSortedPoints(ref vertexA, ref vertexB, ref vertexC, (v) => v.Y);
+                    GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
 					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
 					
 					vertexA = originalA;
 					vertexC = originalC;
-					
-					GetSortedPoints(ref vertexA, ref vertexD, ref vertexC, (v) => v.Y);
+
+                    GetSortedPointsBasedOnY(ref vertexA, ref vertexD, ref vertexC);
 					Draw(viewport, this, material, vertexA, vertexD, vertexC);
 				}
 			}
