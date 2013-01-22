@@ -45,7 +45,6 @@ namespace Balder.Rendering.Silverlight
 		public Vector Position;
 		public Vector TransformedPosition;
 		public Vector TranslatedPosition;
-		public Vector TransformedDebugNormal;
 		public Vector TranslatedDebugNormal;
 
 		public TextureCoordinate Texture1TextureCoordinateA;
@@ -141,11 +140,7 @@ namespace Balder.Rendering.Silverlight
 			var dot = Vector.Dot(TransformedPosition, TransformedNormal);
 			var visible = dot < 0;
 
-			if (null != Material)
-			{
-				visible |= Material.CachedDoubleSided;
-			}
-
+			if (null != Material) visible |= Material.CachedDoubleSided;
 
 			return visible && IsInView(viewport, vertices);
 		}
@@ -193,13 +188,10 @@ namespace Balder.Rendering.Silverlight
 			TransformedPosition = Vector.Transform(Position, matrix);
 		}
 
-		public void Transform(Matrix world, Matrix view)
+		public void TransformWithWorldView(Matrix worldView)
 		{
-			TransformedNormal = Vector.TransformNormal(Normal, world);
-			TransformedNormal = Vector.TransformNormal(TransformedNormal, view);
-			TransformedPosition = Vector.Transform(Position, world, view);
-
-			TransformedDebugNormal = TransformedPosition + (TransformedNormal); //*DebugNormalLength);
+            TransformedNormal = Vector.TransformNormal(Normal, worldView);
+			TransformedPosition = Vector.Transform(Position, worldView);
 		}
 
 

@@ -338,7 +338,6 @@ namespace Balder.Rendering.Silverlight
 
 		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
-
 			switch (material.CachedShade)
 			{
 				case MaterialShade.None:
@@ -415,7 +414,7 @@ namespace Balder.Rendering.Silverlight
 			}
 
 			var faceCount = 0;
-			var localView = (world * view);
+			var worldView = (world * view);
 
             var recalculateLights = _lightCalculator.HasLightsChanged;
 
@@ -425,12 +424,12 @@ namespace Balder.Rendering.Silverlight
 
                 if (recalculateLights) face.AreColorsCalculated = false;
 
-				face.Transform(world, view);
+				face.TransformWithWorldView(worldView);
 
                 if (!face.IsVisible(viewport, _vertices)) continue;
 
-				face.TransformNormal(localView);
-				face.Transform(localView);
+				face.TransformNormal(worldView);
+				face.Transform(worldView);
 
 				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{

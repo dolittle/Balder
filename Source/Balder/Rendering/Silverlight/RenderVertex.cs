@@ -55,10 +55,9 @@ namespace Balder.Rendering.Silverlight
 		{
 			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
 			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
-
 			TransformedVector = Vector.Transform(X, Y, Z, worldView);
-			TransformedVectorNormalized = TransformedVector;
-			TransformedVectorNormalized.Normalize();
+
+            _transformedVectorChanged = true;
 
 			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
 			ConvertToScreenCoordinates(viewport);
@@ -76,7 +75,22 @@ namespace Balder.Rendering.Silverlight
 		public Vector ProjectedVector;
 		public Vector TransformedNormal;
 		public Vector TransformedVector;
-		public Vector TransformedVectorNormalized;
+
+        bool _transformedVectorChanged;
+        Vector _transformedVectorNormalized;
+        public Vector TransformedVectorNormalized
+        {
+            get
+            {
+                if (_transformedVectorChanged)
+                {
+                    _transformedVectorNormalized = TransformedVector;
+                    _transformedVectorNormalized.Normalize();
+                }
+                return _transformedVectorNormalized;
+            }
+        }
+
 
 		public float U1;
 		public float V1;
@@ -104,7 +118,6 @@ namespace Balder.Rendering.Silverlight
 			target.ProjectedVector = ProjectedVector;
 			target.TransformedNormal = TransformedNormal;
 			target.TransformedVector = TransformedVector;
-			target.TransformedVectorNormalized = TransformedVectorNormalized;
 
 			target.U1 = U1;
 			target.V1 = V1;
