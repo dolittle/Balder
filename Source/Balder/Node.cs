@@ -384,19 +384,21 @@ namespace Balder
 		public static readonly Property<Node, Coordinate> RotationProperty =
 			Property<Node, Coordinate>.Register(t => t.Rotation, TransformChanged);
 
+        Coordinate _rotation;
+
 		/// <summary>
 		/// Gets or sets the rotation of the node in angles, 0-360 degrees
 		/// </summary>
 		public Coordinate Rotation
 		{
-			get { return RotationProperty.GetValue(this); }
+			get { return _rotation; }
 			set
 			{
 				if (null == value)
-				{
 					value = new Coordinate(0, 0, 0);
-				}
+
 				RotationProperty.SetValue(this, value);
+                _rotation = value;
 			}
 		}
 
@@ -545,6 +547,9 @@ namespace Balder
 
 		private static void TransformChanged(object node, Coordinate oldCoordinate, Coordinate newCoordinate)
 		{
+
+            ((Node)node)._rotation = RotationProperty.GetValue((Node)node);
+
 			((Node)node).InvalidateWorld();
 		}
 		#endregion

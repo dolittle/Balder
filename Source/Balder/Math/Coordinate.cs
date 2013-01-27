@@ -76,10 +76,16 @@ namespace Balder.Math
 		public event PropertyChangedEventHandler PropertyChanged;
 #endif
 
-		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X, 0d);
+		public static readonly Property<Coordinate, double> XProp = Property<Coordinate, double>.Register(c => c.X, XChanged, 0d);
+
+        static void XChanged(object coordinate, double oldValue, double newValue)
+        {
+            ((Coordinate)coordinate)._x = newValue;
+        }
+
 		public double X
 		{
-			get { return XProp.GetValue(this); }
+            get { return _x; }
 			set
 			{
 				XProp.SetValue(this, value);
@@ -90,10 +96,16 @@ namespace Balder.Math
 			}
 		}
 
-		public static readonly Property<Coordinate, double> YProp = Property<Coordinate, double>.Register(c => c.Y, 0d);
+		public static readonly Property<Coordinate, double> YProp = Property<Coordinate, double>.Register(c => c.Y, YChanged, 0d);
+
+        static void YChanged(object coordinate, double oldValue, double newValue)
+        {
+            ((Coordinate)coordinate)._y = newValue;
+        }
+
 		public double Y
 		{
-			get { return YProp.GetValue(this); }
+            get { return _y; }
 			set
 			{
 				YProp.SetValue(this, value);
@@ -104,10 +116,16 @@ namespace Balder.Math
 			}
 		}
 
-		public static readonly Property<Coordinate, double> ZProp = Property<Coordinate, double>.Register(c => c.Z, 0d);
+		public static readonly Property<Coordinate, double> ZProp = Property<Coordinate, double>.Register(c => c.Z, ZChanged, 0d);
+
+        static void ZChanged(object coordinate, double oldValue, double newValue)
+        {
+            ((Coordinate)coordinate)._z = newValue;
+        }
+
 		public double Z
 		{
-			get { return ZProp.GetValue(this); }
+            get { return _z; }
 			set
 			{
 				ZProp.SetValue(this, value);
