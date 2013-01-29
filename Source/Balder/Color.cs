@@ -48,20 +48,19 @@ namespace Balder
 #endif
 	public struct Color : IEquatable<Color>
 	{
-		private static readonly Random Rnd = new Random();
+        static float OneMultiplier = 1f/255f;
 
-
-		private static readonly int RedMask;
-		private static readonly int GreenMask;
-		private static readonly int BlueMask;
-		private static readonly int AlphaMask;
-		private static readonly int AlphaShiftedMask;
-		private static readonly int RedUnderflow;
-		private static readonly int GreenUnderflow;
-		private static readonly int BlueUnderflow;
-		private static readonly int AlphaUnderflow;
-		private static readonly int AlphaShiftedUnderflow;
-
+		static readonly Random Rnd = new Random();
+		static readonly int RedMask;
+		static readonly int GreenMask;
+		static readonly int BlueMask;
+		static readonly int AlphaMask;
+		static readonly int AlphaShiftedMask;
+		static readonly int RedUnderflow;
+		static readonly int GreenUnderflow;
+		static readonly int BlueUnderflow;
+		static readonly int AlphaUnderflow;
+		static readonly int AlphaShiftedUnderflow;
 		public static int AlphaFull;
 
 		static Color()
@@ -84,6 +83,12 @@ namespace Balder
 			AlphaShiftedUnderflow = 0x0000ffff;
 		}
 
+
+        byte _red;
+        byte _green;
+        byte _blue;
+        byte _alpha;
+
 		/// <summary>
 		/// Creates an instance of <see cref="Color"/> with all channels initialized
 		/// </summary>
@@ -101,25 +106,77 @@ namespace Balder
 		}
 
 		/// <summary>
-		/// Gets or sets the Alpha channel value
-		/// </summary>
-		public byte Alpha { get; set; }
-
-		/// <summary>
 		/// Gets or sets the Red channel value
 		/// </summary>
-		public byte Red { get; set; }
+		public byte Red 
+        {
+            get { return _red; }
+            set
+            {
+                _red = value;
+                RedAsFloat = ((float)_red) * OneMultiplier;
+            }
+        }
 
 		/// <summary>
 		/// Gets or sets the Green channel value
 		/// </summary>
-		public byte Green { get; set; }
+		public byte Green 
+        {
+            get { return _green; }
+            set
+            {
+                _green = value;
+                GreenAsFloat = ((float)_green) * OneMultiplier;
+            }
+        }
 
 		/// <summary>
 		/// Gets or sets the Blue channel value
 		/// </summary>
-		public byte Blue { get; set; }
+		public byte Blue 
+        {
+            get { return _blue; }
+            set
+            {
+                _blue = value;
+                BlueAsFloat = ((float)_blue) * OneMultiplier;
+            }
+        }
 
+
+        /// <summary>
+        /// Gets or sets the Alpha channel value
+        /// </summary>
+        public byte Alpha
+        {
+            get { return _alpha; }
+            set
+            {
+                _alpha = value;
+                AlphaAsFloat = ((float)_alpha) * OneMultiplier;
+            }
+        }
+
+        /// <summary>
+        /// Gets red as float
+        /// </summary>
+        public float RedAsFloat { get; private set; }
+
+        /// <summary>
+        /// Gets red as float
+        /// </summary>
+        public float GreenAsFloat { get; private set; }
+
+        /// <summary>
+        /// Gets red as float
+        /// </summary>
+        public float BlueAsFloat { get; private set; }
+
+        /// <summary>
+        /// Gets red as float
+        /// </summary>
+        public float AlphaAsFloat { get; private set; }
 
 
 		#region Public Static Methods
@@ -395,6 +452,7 @@ namespace Balder
 		public static int Blend(int color1, int color2, int factor)
 		{
             if (factor == 256) return color1;
+            if (factor == 0) return color2;
 
 			var alpha1 = (color1 >> 24) & 0xff;
 			var red1 = (color1 >> 16) & 0xff;
@@ -423,31 +481,21 @@ namespace Balder
 		{
 			var red = (color1 & RedMask) + (color2 & RedMask);
 			if (red > RedMask)
-			{
 				red = RedMask;
-			}
 
 			var green = (color1 & GreenMask) + (color2 & GreenMask);
 			if (green > GreenMask)
-			{
 				green = GreenMask;
-			}
 
 			var blue = (color1 & BlueMask) + (color2 & BlueMask);
 			if (blue > BlueMask)
-			{
 				blue = BlueMask;
-			}
 
 			var alpha = ((color1 >> 8) & AlphaShiftedMask) + ((color2 >> 8) & AlphaShiftedMask);
 			if (alpha > (AlphaShiftedMask))
-			{
 				alpha = AlphaMask;
-			}
 			else
-			{
 				alpha <<= 8;
-			}
 
 			
 			var result = red | green | blue | alpha;
@@ -458,45 +506,29 @@ namespace Balder
 		{
 			var red = RedMask & (((color & RedMask) >> 8) * scale);
 			if (red > RedMask)
-			{
 				red = RedMask;
-			}
 			else if (red <= RedUnderflow)
-			{
 				red = 0;
-			}
 
 
 			var green = GreenMask & (((color & GreenMask) >> 8) * scale);
 			if (green > GreenMask)
-			{
 				green = GreenMask;
-			}
 			else if (green <= GreenUnderflow)
-			{
 				green = 0;
-			}
 
 
 			var blue = BlueMask & (((color & BlueMask) * scale) >> 8);
 			if (blue > BlueMask)
-			{
 				blue = BlueMask;
-			}
 			else if (blue <= BlueUnderflow)
-			{
 				blue = 0;
-			}
 
 			var alpha = AlphaMask & (((color >> 8) & AlphaShiftedMask) * scale);
 			if ((alpha >> 8) > (AlphaShiftedMask))
-			{
 				alpha = AlphaMask;
-			}
 			else if ((alpha >> 8) < AlphaShiftedUnderflow)
-			{
 				alpha = 0;
-			}
 
 			return red | green | blue | alpha;
 		}
