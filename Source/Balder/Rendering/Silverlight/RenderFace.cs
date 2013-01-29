@@ -190,8 +190,8 @@ namespace Balder.Rendering.Silverlight
 
 		public void TransformWithWorldView(Matrix worldView)
 		{
-            TransformedNormal = Vector.TransformNormal(Normal, worldView);
-			TransformedPosition = Vector.Transform(Position, worldView);
+            TransformNormal(worldView);
+            Transform(worldView);
 		}
 
 
