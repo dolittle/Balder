@@ -28,6 +28,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public abstract class TriangleWithPerspectiveCorrection : Triangle
 	{
+        
 		protected float U1zInterpolateX;
 		protected float V1zInterpolateX;
 		protected float U1zInterpolateY;
@@ -85,8 +86,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 				texture2Height = Texture2.Height;
 			}
 
-
-
 			var xa = vertexA.ProjectedVector.X + 0.5f;
 			var ya = vertexA.ProjectedVector.Y + 0.5f;
 			var za = vertexA.ProjectedVector.Z;
@@ -94,19 +93,19 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var v1a = vertexA.V1 * texture1Height;
 			var u2a = vertexA.U2 * texture2Width;
 			var v2a = vertexA.V2 * texture2Height;
-			var ra = ((float)vertexA.CalculatedColor.Red) / 255f;
-			var ga = ((float)vertexA.CalculatedColor.Green) / 255f;
-			var ba = ((float)vertexA.CalculatedColor.Blue) / 255f;
-			var aa = ((float)vertexA.CalculatedColor.Alpha) / 255f;
-			var diffuseRa = ((float)vertexA.DiffuseColor.Red) / 255f;
-			var diffuseGa = ((float)vertexA.DiffuseColor.Green) / 255f;
-			var diffuseBa = ((float)vertexA.DiffuseColor.Blue) / 255f;
-			var diffuseAa = ((float)vertexA.DiffuseColor.Alpha) / 255f;
-			var specularRa = ((float)vertexA.SpecularColor.Red) / 255f;
-			var specularGa = ((float)vertexA.SpecularColor.Green) / 255f;
-			var specularBa = ((float)vertexA.SpecularColor.Blue) / 255f;
-			var specularAa = ((float)vertexA.SpecularColor.Alpha) / 255f;
-
+			var ra = vertexA.CalculatedColor.RedAsFloat;
+			var ga = vertexA.CalculatedColor.GreenAsFloat;
+			var ba = vertexA.CalculatedColor.BlueAsFloat;
+			var aa = vertexA.CalculatedColor.AlphaAsFloat;
+			var diffuseRa = vertexA.DiffuseColor.RedAsFloat;
+			var diffuseGa = vertexA.DiffuseColor.GreenAsFloat;
+			var diffuseBa = vertexA.DiffuseColor.BlueAsFloat;
+			var diffuseAa = vertexA.DiffuseColor.AlphaAsFloat;
+			var specularRa = vertexA.SpecularColor.RedAsFloat;
+			var specularGa = vertexA.SpecularColor.GreenAsFloat;
+			var specularBa = vertexA.SpecularColor.BlueAsFloat;
+            var specularAa = vertexA.SpecularColor.AlphaAsFloat;
+            
 			var xb = vertexB.ProjectedVector.X + 0.5f;
 			var yb = vertexB.ProjectedVector.Y + 0.5f;
 			var zb = vertexB.ProjectedVector.Z;
@@ -114,38 +113,39 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var v1b = vertexB.V1 * texture1Height;
 			var u2b = vertexB.U2 * texture2Width;
 			var v2b = vertexB.V2 * texture2Height;
-			var rb = ((float)vertexB.CalculatedColor.Red) / 255f;
-			var gb = ((float)vertexB.CalculatedColor.Green) / 255f;
-			var bb = ((float)vertexB.CalculatedColor.Blue) / 255f;
-			var ab = ((float)vertexB.CalculatedColor.Alpha) / 255f;
-			var diffuseRb = ((float)vertexB.DiffuseColor.Red) / 255f;
-			var diffuseGb = ((float)vertexB.DiffuseColor.Green) / 255f;
-			var diffuseBb = ((float)vertexB.DiffuseColor.Blue) / 255f;
-			var diffuseAb = ((float)vertexB.DiffuseColor.Alpha) / 255f;
-			var specularRb = ((float)vertexB.SpecularColor.Red) / 255f;
-			var specularGb = ((float)vertexB.SpecularColor.Green) / 255f;
-			var specularBb = ((float)vertexB.SpecularColor.Blue) / 255f;
-			var specularAb = ((float)vertexB.SpecularColor.Alpha) / 255f;
+			var rb = vertexB.CalculatedColor.RedAsFloat;
+			var gb = vertexB.CalculatedColor.GreenAsFloat;
+			var bb = vertexB.CalculatedColor.BlueAsFloat;
+			var ab = vertexB.CalculatedColor.AlphaAsFloat;
+			var diffuseRb = vertexB.DiffuseColor.RedAsFloat;
+			var diffuseGb = vertexB.DiffuseColor.GreenAsFloat;
+			var diffuseBb = vertexB.DiffuseColor.BlueAsFloat;
+			var diffuseAb = vertexB.DiffuseColor.AlphaAsFloat;
+			var specularRb = vertexB.SpecularColor.RedAsFloat;
+			var specularGb = vertexB.SpecularColor.GreenAsFloat;
+			var specularBb = vertexB.SpecularColor.BlueAsFloat;
+            var specularAb = vertexB.SpecularColor.AlphaAsFloat;
 
-			var xc = vertexC.ProjectedVector.X + 0.5f;
+            var xc = vertexC.ProjectedVector.X + 0.5f;
 			var yc = vertexC.ProjectedVector.Y + 0.5f;
 			var zc = vertexC.ProjectedVector.Z;
 			var u1c = vertexC.U1 * texture1Width;
 			var v1c = vertexC.V1 * texture1Height;
 			var u2c = vertexC.U2 * texture2Width;
 			var v2c = vertexC.V2 * texture2Height;
-			var rc = ((float)vertexC.CalculatedColor.Red) / 255f;
-			var gc = ((float)vertexC.CalculatedColor.Green) / 255f;
-			var bc = ((float)vertexC.CalculatedColor.Blue) / 255f;
-			var ac = ((float)vertexC.CalculatedColor.Alpha) / 255f;
-			var diffuseRc = ((float)vertexC.DiffuseColor.Red) / 255f;
-			var diffuseGc = ((float)vertexC.DiffuseColor.Green) / 255f;
-			var diffuseBc = ((float)vertexC.DiffuseColor.Blue) / 255f;
-			var diffuseAc = ((float)vertexC.DiffuseColor.Alpha) / 255f;
-			var specularRc = ((float)vertexC.SpecularColor.Red) / 255f;
-			var specularGc = ((float)vertexC.SpecularColor.Green) / 255f;
-			var specularBc = ((float)vertexC.SpecularColor.Blue) / 255f;
-			var specularAc = ((float)vertexC.SpecularColor.Alpha) / 255f;
+			var rc = vertexC.CalculatedColor.RedAsFloat;
+			var gc = vertexC.CalculatedColor.GreenAsFloat;
+			var bc = vertexC.CalculatedColor.BlueAsFloat;
+            var ac = vertexC.CalculatedColor.AlphaAsFloat;
+			var diffuseRc = vertexC.DiffuseColor.RedAsFloat;
+			var diffuseGc = vertexC.DiffuseColor.GreenAsFloat;
+			var diffuseBc = vertexC.DiffuseColor.BlueAsFloat;
+            var diffuseAc = vertexC.DiffuseColor.AlphaAsFloat;
+			var specularRc = vertexC.SpecularColor.RedAsFloat;
+			var specularGc = vertexC.SpecularColor.GreenAsFloat;
+			var specularBc = vertexC.SpecularColor.BlueAsFloat;
+            var specularAc = vertexC.SpecularColor.AlphaAsFloat;
+
 
 			var yaInt = (int)ya;
 			var ybInt = (int)yb;
@@ -213,58 +213,63 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var deltaSpecularAB = specularAc - specularAa;
 			var deltaSpecularAC = specularAc - specularAb;
 
-			var xInterpolateA = deltaXA / deltaYA;
-			var xInterpolateB = deltaXB / deltaYB;
-			var xInterpolateC = deltaXC / deltaYC;
-
-			var rInterpolateA = deltaRA / deltaYA;
-			var rInterpolateB = deltaRB / deltaYB;
-			var rInterpolateC = deltaRC / deltaYC;
-
-			var gInterpolateA = deltaGA / deltaYA;
-			var gInterpolateB = deltaGB / deltaYB;
-			var gInterpolateC = deltaGC / deltaYC;
-
-			var bInterpolateA = deltaBA / deltaYA;
-			var bInterpolateB = deltaBB / deltaYB;
-			var bInterpolateC = deltaBC / deltaYC;
-
-			var aInterpolateA = deltaAA / deltaYA;
-			var aInterpolateB = deltaAB / deltaYB;
-			var aInterpolateC = deltaAC / deltaYC;
-
-			var diffuseRInterpolateA = deltaDiffuseRA / deltaYA;
-			var diffuseRInterpolateB = deltaDiffuseRB / deltaYB;
-			var diffuseRInterpolateC = deltaDiffuseRC / deltaYC;
-
-			var diffuseGInterpolateA = deltaDiffuseGA / deltaYA;
-			var diffuseGInterpolateB = deltaDiffuseGB / deltaYB;
-			var diffuseGInterpolateC = deltaDiffuseGC / deltaYC;
-
-			var diffuseBInterpolateA = deltaDiffuseBA / deltaYA;
-			var diffuseBInterpolateB = deltaDiffuseBB / deltaYB;
-			var diffuseBInterpolateC = deltaDiffuseBC / deltaYC;
-
-			var diffuseAInterpolateA = deltaDiffuseAA / deltaYA;
-			var diffuseAInterpolateB = deltaDiffuseAB / deltaYB;
-			var diffuseAInterpolateC = deltaDiffuseAC / deltaYC;
+            var oneOverDeltaYA = 1f / deltaYA;
+            var oneOverDeltaYB = 1f / deltaYB;
+            var oneOverDeltaYC = 1f / deltaYC;
 
 
-			var specularRInterpolateA = deltaSpecularRA / deltaYA;
-			var specularRInterpolateB = deltaSpecularRB / deltaYB;
-			var specularRInterpolateC = deltaSpecularRC / deltaYC;
+			var xInterpolateA = deltaXA * oneOverDeltaYA;
+			var xInterpolateB = deltaXB * oneOverDeltaYB;
+			var xInterpolateC = deltaXC * oneOverDeltaYC;
 
-			var specularGInterpolateA = deltaSpecularGA / deltaYA;
-			var specularGInterpolateB = deltaSpecularGB / deltaYB;
-			var specularGInterpolateC = deltaSpecularGC / deltaYC;
+			var rInterpolateA = deltaRA * oneOverDeltaYA;
+			var rInterpolateB = deltaRB * oneOverDeltaYB;
+			var rInterpolateC = deltaRC * oneOverDeltaYC;
 
-			var specularBInterpolateA = deltaSpecularBA / deltaYA;
-			var specularBInterpolateB = deltaSpecularBB / deltaYB;
-			var specularBInterpolateC = deltaSpecularBC / deltaYC;
+			var gInterpolateA = deltaGA * oneOverDeltaYA;
+			var gInterpolateB = deltaGB * oneOverDeltaYB;
+			var gInterpolateC = deltaGC * oneOverDeltaYC;
 
-			var specularAInterpolateA = deltaSpecularAA / deltaYA;
-			var specularAInterpolateB = deltaSpecularAB / deltaYB;
-			var specularAInterpolateC = deltaSpecularAC / deltaYC;
+			var bInterpolateA = deltaBA * oneOverDeltaYA;
+			var bInterpolateB = deltaBB * oneOverDeltaYB;
+			var bInterpolateC = deltaBC * oneOverDeltaYC;
+
+			var aInterpolateA = deltaAA * oneOverDeltaYA;
+			var aInterpolateB = deltaAB * oneOverDeltaYB;
+			var aInterpolateC = deltaAC * oneOverDeltaYC;
+
+			var diffuseRInterpolateA = deltaDiffuseRA * oneOverDeltaYA;
+			var diffuseRInterpolateB = deltaDiffuseRB * oneOverDeltaYB;
+			var diffuseRInterpolateC = deltaDiffuseRC * oneOverDeltaYC;
+
+			var diffuseGInterpolateA = deltaDiffuseGA * oneOverDeltaYA;
+			var diffuseGInterpolateB = deltaDiffuseGB * oneOverDeltaYB;
+			var diffuseGInterpolateC = deltaDiffuseGC * oneOverDeltaYC;
+
+			var diffuseBInterpolateA = deltaDiffuseBA * oneOverDeltaYA;
+			var diffuseBInterpolateB = deltaDiffuseBB * oneOverDeltaYB;
+			var diffuseBInterpolateC = deltaDiffuseBC * oneOverDeltaYC;
+
+			var diffuseAInterpolateA = deltaDiffuseAA * oneOverDeltaYA;
+			var diffuseAInterpolateB = deltaDiffuseAB * oneOverDeltaYB;
+			var diffuseAInterpolateC = deltaDiffuseAC * oneOverDeltaYC;
+
+
+			var specularRInterpolateA = deltaSpecularRA * oneOverDeltaYA;
+			var specularRInterpolateB = deltaSpecularRB * oneOverDeltaYB;
+			var specularRInterpolateC = deltaSpecularRC * oneOverDeltaYC;
+
+			var specularGInterpolateA = deltaSpecularGA * oneOverDeltaYA;
+			var specularGInterpolateB = deltaSpecularGB * oneOverDeltaYB;
+			var specularGInterpolateC = deltaSpecularGC * oneOverDeltaYC;
+
+			var specularBInterpolateA = deltaSpecularBA * oneOverDeltaYA;
+			var specularBInterpolateB = deltaSpecularBB * oneOverDeltaYB;
+			var specularBInterpolateC = deltaSpecularBC * oneOverDeltaYC;
+
+			var specularAInterpolateA = deltaSpecularAA * oneOverDeltaYA;
+			var specularAInterpolateB = deltaSpecularAB * oneOverDeltaYB;
+			var specularAInterpolateC = deltaSpecularAC * oneOverDeltaYC;
 
 
 			var oneOverZA = 1f / za;
@@ -625,7 +630,6 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		private void DrawSubTriangleSegment()
 		{
-            
 			var originalHeight = Y2Int - Y1Int;
 
 			if (
