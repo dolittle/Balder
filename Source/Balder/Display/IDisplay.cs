@@ -81,5 +81,12 @@ namespace Balder.Display
 		/// </summary>
 		/// <returns>An array of pixels, 32 bit with alpha</returns>
 		int[] GetCurrentFrame();
+
+        /// <summary>
+        /// Gets the current render frames pixeldata. This will return the framebuffer that is currently being rendered to
+        /// </summary>
+        /// <returns>An array of pixels, 32 bit with alpha</returns>
+        int[] GetCurrentRenderFrame();
+
 	}
 }

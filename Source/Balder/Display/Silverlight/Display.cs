@@ -144,10 +144,17 @@ namespace Balder.Display.Silverlight
 
 		public int[] GetCurrentFrame()
 		{
-			var frame = new int[_currentFrontBitmap.Pixels.Length];
-			Buffer.BlockCopy(_currentFrontBitmap.Pixels,0,frame,0,frame.Length*4);
-			return frame;
+            var frame = new int[_currentFrontBitmap.Pixels.Length];
+            Buffer.BlockCopy(_currentFrontBitmap.Pixels, 0, frame, 0, frame.Length * 4);
+            return frame;
 		}
+
+        public int[] GetCurrentRenderFrame()
+        {
+            var frame = new int[_currentRenderBitmap.Pixels.Length];
+            Buffer.BlockCopy(_currentRenderBitmap.Pixels, 0, frame, 0, frame.Length * 4);
+            return frame;
+        }
 
 		public Color BackgroundColor { get; set; }
 
@@ -255,6 +262,6 @@ namespace Balder.Display.Silverlight
 				_runtimeContext.MessengerContext.Send(_updateMessage);
 			}
 		}
-	}
+    }
 }
 #endif
