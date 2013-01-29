@@ -28,6 +28,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 {
 	public abstract class TriangleWithPerspectiveCorrection : Triangle
 	{
+        protected int _bufferWidth;
+        protected int _bufferHeight;
+
         
 		protected float U1zInterpolateX;
 		protected float V1zInterpolateX;
@@ -39,6 +42,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 		public virtual void Draw(Viewport viewport, RenderFace face, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
+            _bufferWidth = BufferContainer.Width;
+            _bufferHeight = BufferContainer.Height;
+
 			Opacity = face.Opacity;
 
 			Near = viewport.View.Near;
@@ -633,8 +639,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var originalHeight = Y2Int - Y1Int;
 
 			if (
-				(Y1Int > BufferContainer.Height || Y2Int < 0) ||
-				(Y1Int > BufferContainer.Height && Y2Int > BufferContainer.Height) ||
+				(Y1Int > _bufferHeight || Y2Int < 0) ||
+				(Y1Int > _bufferHeight && Y2Int > _bufferHeight) ||
 				(Y1Int < 0 && Y2Int < 0)
 				)
 			{
@@ -739,10 +745,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 			}
 
 
-			if (Y2Int > BufferContainer.Height)
-				Y2Int = BufferContainer.Height;
+			if (Y2Int > _bufferHeight)
+				Y2Int = _bufferHeight;
 
-			var yoffset = BufferContainer.Width * Y1Int;
+			var yoffset = _bufferWidth * Y1Int;
 
 			var leftClip = false;
 
@@ -765,7 +771,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				scanlineClip = false;
 
 				
-				if (X1Int > BufferContainer.Width && X2Int > BufferContainer.Width)
+				if (X1Int > _bufferWidth && X2Int > _bufferWidth)
 					scanlineClip = true;
 
 				if (X1Int < 0 && X2Int < 0)
@@ -801,10 +807,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 						leftClip = true;
 					}
 					
-					if (X2 > BufferContainer.Width)
+					if (X2 > _bufferWidth)
 					{
-						X2 = BufferContainer.Width;
-						X2Int = BufferContainer.Width;
+						X2 = _bufferWidth;
+						X2Int = _bufferWidth;
 					}
 
 					PixelOffset = yoffset + X1Int;
@@ -912,7 +918,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 				U2 += U2InterpolateY1;
 				V2 += V2InterpolateY1;
 
-				yoffset += BufferContainer.Width;
+				yoffset += _bufferWidth;
 			}
 
 			Y1Int = originalY1Int;
