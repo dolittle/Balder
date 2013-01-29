@@ -408,10 +408,7 @@ namespace Balder.Rendering.Silverlight
 
 		private int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
 		{
-			if (null == _faces)
-			{
-				return 0;
-			}
+            if (null == _faces) return 0;
 
 			var faceCount = 0;
 			var worldView = (world * view);
@@ -421,15 +418,11 @@ namespace Balder.Rendering.Silverlight
 			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
 			{
 				var face = _faces[faceIndex];
-
                 if (recalculateLights) face.AreColorsCalculated = false;
 
 				face.TransformWithWorldView(worldView);
 
                 if (!face.IsVisible(viewport, _vertices)) continue;
-
-				face.TransformNormal(worldView);
-				face.Transform(worldView);
 
 				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{
@@ -439,9 +432,7 @@ namespace Balder.Rendering.Silverlight
 				}
                 
 				if( face.Material == null )
-				{
 					face.Material = GetMaterialForFace(face, node, ((Geometry) node).Material);
-				}
                 
 				UpdateMaterialForFace(face);
 
