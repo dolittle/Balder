@@ -67,8 +67,8 @@ namespace Balder.Rendering.Silverlight
 			renderFace.MaterialId = face.MaterialId;
 
 			var aVector = _vertices[renderFace.A].ToVector();
-			var bVector = _vertices[renderFace.A].ToVector();
-			var cVector = _vertices[renderFace.A].ToVector();
+			var bVector = _vertices[renderFace.B].ToVector();
+			var cVector = _vertices[renderFace.C].ToVector();
 
 			var v1 = cVector - aVector;
 			var v2 = bVector - aVector;
