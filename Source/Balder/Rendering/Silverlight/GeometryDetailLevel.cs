@@ -100,12 +100,6 @@ namespace Balder.Rendering.Silverlight
 			return face;
 		}
 
-		public Vector GetFaceNormal(int index)
-		{
-			var face = _faces[index];
-			return face.TransformedNormal;
-		}
-
 		#endregion
 
 		#region Vertex related

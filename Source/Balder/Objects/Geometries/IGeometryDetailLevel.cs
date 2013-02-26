@@ -32,8 +32,7 @@ namespace Balder.Objects.Geometries
 		Line[] GetLines();
 
 		Face GetFace(int index);
-		Vector GetFaceNormal(int index);
-
+		
 		void AllocateTextureCoordinates(int count);
 		void SetTextureCoordinate(int index, TextureCoordinate textureCoordinate);
 		void SetFaceTextureCoordinateIndex(int index, int a, int b, int c);
