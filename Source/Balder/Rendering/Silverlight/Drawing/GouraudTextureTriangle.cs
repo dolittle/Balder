@@ -32,10 +32,10 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			float u;
 			float v;
-			float z;
-
-			var subPixelX = 1f - (X1 - (int)X1);
-			var zz = Z1 + subPixelX * ZInterpolateX;
+            float z;
+             
+            var subPixelX = 1f - (X1 - (int)X1);
+            var zz = Z1 + subPixelX * ZInterpolateX;
 			var uu = U1 + subPixelX * U1zInterpolateX;
 			var vv = V1 + subPixelX * V1zInterpolateX;
 
@@ -56,8 +56,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 			var specularGInterpolate = (int)(SpecularGScanlineInterpolate * 65535f);
 			var specularBInterpolate = (int)(SpecularBScanlineInterpolate * 65535f);
 			var specularAInterpolate = (int)(SpecularAScanlineInterpolate * 65535f);
-
-			var x1Int = (int)X1;
+            
+            var x1Int = (int)X1;
 			var x2Int = (int)X2;
 
 			for (var x = x1Int; x < x2Int; x++)
@@ -93,6 +93,8 @@ namespace Balder.Rendering.Silverlight.Drawing
 						Color.Additive(Color.Multiply(
 							Color.Blend(Texture1.Pixels[intu, intv], MaterialDiffuseAsInt, Texture1Factor), diffuse), specular)) |
 										  Color.AlphaFull;
+                    
+                    
 					DepthBuffer[offset] = bufferZ;
 				}
 

@@ -30,19 +30,41 @@ namespace Balder.Rendering.Silverlight
 		public int[,] Pixels;
 		public WriteableBitmap WriteableBitmap;
 
-		public int Width;
-		public int Height;
+        int _width;
+        int _height;
+
+        public float WidthAsFloat;
+        public float HeightAsFloat;
+
+        public int Width
+        {
+            get { return _width; }
+            set
+            {
+                _width = value;
+                WidthAsFloat = (float)value; 
+            }
+        }
+        public int Height
+        {
+            get { return _height; }
+            set
+            {
+                _height = value;
+                HeightAsFloat = (float)value;
+            }
+        }
 
 		public int WidthBitCount;
 		public int HeightBitCount;
 
 		public bool IsSemiTransparent;
 
-		private bool IsWidthPowerOfTwo;
-		private bool IsHeightPowerOfTwo;
+		bool IsWidthPowerOfTwo;
+		bool IsHeightPowerOfTwo;
 
 
-		private bool IsPowerOfTwo(int dimension, out int widthBitCount)
+		bool IsPowerOfTwo(int dimension, out int widthBitCount)
 		{
 			var log = (float) (System.Math.Log(dimension) / System.Math.Log(2));
 			var logAsInt = (int)log;
@@ -51,12 +73,12 @@ namespace Balder.Rendering.Silverlight
 			return logDiff == 0;
 		}
 
-		private void InitializeWidth()
+		void InitializeWidth()
 		{
 			IsWidthPowerOfTwo = IsPowerOfTwo(Width, out WidthBitCount);
 		}
 
-		private void InitializeHeight()
+		void InitializeHeight()
 		{
 			IsHeightPowerOfTwo = IsPowerOfTwo(Height, out HeightBitCount);
 		}
@@ -84,7 +106,7 @@ namespace Balder.Rendering.Silverlight
 			PreparePixels(originalPixels);
 		}
 
-		private void PreparePixels(int[] originalPixels)
+		void PreparePixels(int[] originalPixels)
 		{
 			Pixels = new int[Width, Height];
 
@@ -99,7 +121,7 @@ namespace Balder.Rendering.Silverlight
 			}
 		}
 
-		private void PrepareWriteableBitmap(int[] pixels)
+		void PrepareWriteableBitmap(int[] pixels)
 		{
 			WriteableBitmap = new WriteableBitmap(Width,Height);
 			Buffer.BlockCopy(pixels,0,WriteableBitmap.Pixels,0,pixels.Length*4);

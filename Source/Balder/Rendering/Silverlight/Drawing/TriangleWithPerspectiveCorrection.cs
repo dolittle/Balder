@@ -40,6 +40,9 @@ namespace Balder.Rendering.Silverlight.Drawing
 		protected float V2zInterpolateX;
 		protected float U2zInterpolateY;
 
+        static float UInt32MaxValueAsFloat = (float)UInt32.MaxValue;
+        
+
 		public virtual void Draw(Viewport viewport, RenderFace face, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
             _bufferWidth = BufferContainer.Width;
@@ -50,7 +53,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 			Near = viewport.View.Near;
 			Far = viewport.View.Far;
 			DepthMultiplier = viewport.View.DepthMultiplier;
-			ZMultiplier = DepthMultiplier * (float)UInt32.MaxValue;
+			ZMultiplier = DepthMultiplier * UInt32MaxValueAsFloat;
 
 			Texture1 = null;
 			if (null != face.Texture1 && face.Texture1Factor > 0)
@@ -75,21 +78,21 @@ namespace Balder.Rendering.Silverlight.Drawing
 
 			Texture1Factor = face.Texture1Factor;
 			Texture2Factor = face.Texture2Factor;
-			var texture1Width = 0;
-			var texture1Height = 0;
-			var texture2Width = 0;
-			var texture2Height = 0;
+			var texture1Width = 0f;
+			var texture1Height = 0f;
+			var texture2Width = 0f;
+			var texture2Height = 0f;
 
 			if (null != Texture1)
 			{
-				texture1Width = Texture1.Width;
-				texture1Height = Texture1.Height;
+				texture1Width = Texture1.WidthAsFloat;
+				texture1Height = Texture1.HeightAsFloat;
 			}
 
 			if (null != Texture2)
 			{
-				texture2Width = Texture2.Width;
-				texture2Height = Texture2.Height;
+				texture2Width = Texture2.WidthAsFloat;
+				texture2Height = Texture2.HeightAsFloat;
 			}
 
 			var xa = vertexA.ProjectedVector.X + 0.5f;
