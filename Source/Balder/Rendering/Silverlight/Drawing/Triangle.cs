@@ -164,6 +164,7 @@ namespace Balder.Rendering.Silverlight.Drawing
 
         protected void SetSphericalEnvironmentMapTextureCoordinate(RenderVertex vertex)
         {
+            /*
             var u = vertex.TransformedVectorNormalized;
             var n = vertex.TransformedNormal;
             var r = Vector.Reflect(n, u);
@@ -184,8 +185,7 @@ namespace Balder.Rendering.Silverlight.Drawing
             {
                 vertex.U2 = -(s * 0.5f) + 0.5f;
                 vertex.V2 = (t * 0.5f) + 0.5f;
-
-            }
+            }*/
         }
 
 

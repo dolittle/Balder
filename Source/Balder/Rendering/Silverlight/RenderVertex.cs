@@ -51,46 +51,20 @@ namespace Balder.Rendering.Silverlight
 			ProjectedVector = new Vector(x, y, z);
 		}
 
-		public void TransformAndProject(Viewport viewport, Matrix worldView, Matrix worldViewProjection)
-		{
-			// Todo: calculating the rotated normal should only be done when necessary - performance boost!
-			TransformedNormal = Vector.TransformNormal(NormalX, NormalY, NormalZ, worldView);
-			TransformedVector = Vector.Transform(X, Y, Z, worldView);
-
-            _transformedVectorChanged = true;
-
-			ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
-			ConvertToScreenCoordinates(viewport);
-		}
+        public void ProjectAndConvertToScreen(Viewport viewport, Matrix worldViewProjection)
+        {
+            ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);                
+            ConvertToScreenCoordinates(viewport);
+        }
 
 		public void ConvertToScreenCoordinates(Viewport viewport)
 		{
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
-			ProjectedVector.Z = TransformedVector.Z;
+            ProjectedVector.Z = ProjectedVector.Z+1f;
 		}
 
-		
-
 		public Vector ProjectedVector;
-		public Vector TransformedNormal;
-		public Vector TransformedVector;
-
-        bool _transformedVectorChanged;
-        Vector _transformedVectorNormalized;
-        public Vector TransformedVectorNormalized
-        {
-            get
-            {
-                if (_transformedVectorChanged)
-                {
-                    _transformedVectorNormalized = TransformedVector;
-                    _transformedVectorNormalized.Normalize();
-                }
-                return _transformedVectorNormalized;
-            }
-        }
-
 
 		public float U1;
 		public float V1;
@@ -116,8 +90,6 @@ namespace Balder.Rendering.Silverlight
 			target.Color = Color;
 
 			target.ProjectedVector = ProjectedVector;
-			target.TransformedNormal = TransformedNormal;
-			target.TransformedVector = TransformedVector;
 
 			target.U1 = U1;
 			target.V1 = V1;

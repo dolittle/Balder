@@ -41,12 +41,6 @@ namespace Balder.Rendering.Silverlight
 
 		public UInt16 Index;
 
-		public Vector TransformedNormal;
-		public Vector Position;
-		public Vector TransformedPosition;
-		public Vector TranslatedPosition;
-		public Vector TranslatedDebugNormal;
-
 		public TextureCoordinate Texture1TextureCoordinateA;
 		public TextureCoordinate Texture1TextureCoordinateB;
 		public TextureCoordinate Texture1TextureCoordinateC;
@@ -135,14 +129,14 @@ namespace Balder.Rendering.Silverlight
 			CalculatedColorC = Colors.Black;
 		}
 
-		public bool IsVisible(Viewport viewport, RenderVertex[] vertices)
+		public bool IsVisible(Viewport viewport, Vector viewForward, RenderVertex[] vertices)
 		{
-			var dot = Vector.Dot(TransformedPosition, TransformedNormal);
+			var dot = Vector.Dot(viewForward, Normal);
 			var visible = dot < 0;
 
 			if (null != Material) visible |= Material.CachedDoubleSided;
 
-			return visible && IsInView(viewport, vertices);
+			return visible; // && IsInView(viewport, vertices);
 		}
 
 		private bool IsInView(Viewport viewport, RenderVertex[] vertices)
@@ -176,26 +170,7 @@ namespace Balder.Rendering.Silverlight
 			return visible;
 		}
 
-
-
-		public void TransformNormal(Matrix matrix)
-		{
-			TransformedNormal = Vector.TransformNormal(Normal, matrix);
-		}
-
-		public void Transform(Matrix matrix)
-		{
-			TransformedPosition = Vector.Transform(Position, matrix);
-		}
-
-		public void TransformWithWorldView(Matrix worldView)
-		{
-            TransformNormal(worldView);
-            Transform(worldView);
-		}
-
-
-		private void Prepare(RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
+		void Prepare(RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC)
 		{
 			if (null != Texture1TextureCoordinateA)
 			{
@@ -396,6 +371,7 @@ namespace Balder.Rendering.Silverlight
 			return color;
 		}
 
+        /*
 		private void ClipLine(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB)
 		{
 			var distance = viewport.View.Near - vertexA.ProjectedVector.Z;
@@ -433,7 +409,7 @@ namespace Balder.Rendering.Silverlight
 			vertexA.DiffuseColor = ClipColor(vertexA.DiffuseColor, vertexB.DiffuseColor, length, distance);
 			vertexA.SpecularColor = ClipColor(vertexA.SpecularColor, vertexB.SpecularColor, length, distance);
 		}
-
+        */
 
 		private void Draw(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
 		{
@@ -446,6 +422,7 @@ namespace Balder.Rendering.Silverlight
 			vertexC = VertexC;
 
 			GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
+            /*
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
                 GetSortedPointsBasedOnZ(ref vertexA, ref vertexB, ref vertexC);
@@ -480,7 +457,7 @@ namespace Balder.Rendering.Silverlight
 					Draw(viewport, this, material, vertexA, vertexD, vertexC);
 				}
 			}
-			else
+			else*/
 			{
 				Draw(viewport, this, material, vertexA, vertexB, vertexC);
 			}

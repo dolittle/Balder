@@ -55,7 +55,7 @@ namespace Balder.Rendering.Silverlight
 			var worldView = world*view;
 			var worldViewProjection = worldView*projection;
 
-			_vertex.TransformAndProject(viewport, worldView, worldViewProjection);
+            _vertex.ProjectAndConvertToScreen(viewport, worldViewProjection);
 
 			if (_vertex.ProjectedVector.Z < viewport.View.Near || _vertex.ProjectedVector.Z >= viewport.View.Far)
 			{

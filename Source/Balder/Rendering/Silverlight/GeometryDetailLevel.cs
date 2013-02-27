@@ -77,9 +77,6 @@ namespace Balder.Rendering.Silverlight
 			cross.Normalize();
 			renderFace.Normal = cross;
 
-			var v = aVector + bVector + cVector;
-			renderFace.Position = v / 3;
-
 			_faces[index] = renderFace;
 		}
 
@@ -210,27 +207,20 @@ namespace Balder.Rendering.Silverlight
 
 		#endregion
 
-
-		public void CalculateNormals(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+        
+		public void ResetColorCalculationIfNeeded()
 		{
-			if (null == _normals)
-			{
-				return;
-			}
-			var localView = (world * view);
-
+			if (null == _normals) return;
             var recalculateLight = _lightCalculator.HasLightsChanged;
 
 			for (var normalIndex = 0; normalIndex < _normals.Length; normalIndex++)
 			{
 				var normal = _normals[normalIndex];
-				normal.Transformed = Vector.TransformNormal(normal.Vector, localView);
-				//normal.Transformed.Normalize();
-
                 if( recalculateLight )
 				    normal.IsColorCalculated = false;
 			}
 		}
+         
 
 
 		public void CalculateVertices(Viewport viewport, INode node)
@@ -256,22 +246,17 @@ namespace Balder.Rendering.Silverlight
 
 		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world, bool depthTest)
 		{
-			if (null == _vertices)
-			{
-				return;
-			}
+            if (null == _vertices) return;
 
+            ResetColorCalculationIfNeeded();
 
 			var color = GetColorFromNode(node);
 
 			BeginVerticesTiming(node);
-
 			CalculateVertices(viewport, view, projection, world);
 			EndVerticesTiming(node);
 
-			BeginLightingTiming(node);
-			CalculateNormals(viewport, view, projection, world);
-			EndLightingTiming(node);
+			
 
 			BeginRenderingTiming(node);
 			SetRenderedFaces(node, RenderFaces(node, viewport, view, world, depthTest));
@@ -279,13 +264,11 @@ namespace Balder.Rendering.Silverlight
 			EndRenderingTiming(node);
 
 			if (viewport.DebugInfo.ShowVertices)
-			{
 				RenderVertices(node, viewport);
-			}
 		}
 
 
-		private static Color GetColorFromNode(INode node)
+		static Color GetColorFromNode(INode node)
 		{
 			if (node is IHaveColor)
 			{
@@ -295,7 +278,7 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		private void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
+		void TransformAndTranslateVertices(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
 			var worldView = (world*view);
 			var worldViewProjection = worldView * projection;
@@ -303,13 +286,14 @@ namespace Balder.Rendering.Silverlight
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
-				vertex.TransformAndProject(viewport, worldView, worldViewProjection);
+				//vertex.TransformAndProject(viewport, worldView, worldViewProjection);
+                vertex.ProjectAndConvertToScreen(viewport, worldViewProjection);
 			}
 		}
 
-		private static readonly RenderNormal NullNormal = new RenderNormal(new Normal(0,0,0));
+		static readonly RenderNormal NullNormal = new RenderNormal(new Normal(0,0,0));
 
-		RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
+		RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Vector viewInLocalPosition, Material material)
 		{
 			if (null == _normals || null == _vertices) return NullNormal;
 
@@ -318,9 +302,13 @@ namespace Balder.Rendering.Silverlight
 
 			if (!normal.IsColorCalculated)
 			{
-				// Todo : use inverted matrix for lighting - calculate lights according to the vertices original coordinates
-                normal.CalculatedColorAsInt = _lightCalculator.Calculate(viewport, material, vertex.TransformedVector, normal.Transformed,
-					                           out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
+                normal.CalculatedColorAsInt = 
+                    _lightCalculator.Calculate(
+                        viewport, 
+                        material, 
+                        viewInLocalPosition, 
+                        normal.Vector,
+					    out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
 
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
 				normal.DiffuseColor = Color.FromInt(normal.DiffuseColorAsInt);
@@ -330,7 +318,7 @@ namespace Balder.Rendering.Silverlight
 			return normal;
 		}
 
-		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
+		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Vector viewInLocalPosition, Material material)
 		{
 			switch (material.CachedShade)
 			{
@@ -346,19 +334,19 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Gouraud:
 					{
-						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
+						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, viewInLocalPosition, material);
 						face.CalculatedColorA = face.ColorA * normal.CalculatedColor;
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorA = face.ColorA * normal.DiffuseColor;
 						face.SpecularColorA = normal.SpecularColor;
-                        
-						normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
+
+                        normal = CalculateColorForNormal(face.B, face.NormalB, viewport, viewInLocalPosition, material);
 						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorB = face.ColorB * normal.DiffuseColor;
 						face.SpecularColorB = normal.SpecularColor;
 
-						normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
+                        normal = CalculateColorForNormal(face.C, face.NormalC, viewport, viewInLocalPosition, material);
 						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorC = face.ColorC * normal.DiffuseColor;
@@ -368,7 +356,7 @@ namespace Balder.Rendering.Silverlight
 				case MaterialShade.Flat:
 					{
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, face.TransformedPosition, face.TransformedNormal, out face.DiffuseAsInt, out face.SpecularAsInt);
+							_lightCalculator.Calculate(viewport, material, viewInLocalPosition, face.Normal, out face.DiffuseAsInt, out face.SpecularAsInt);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
@@ -400,12 +388,16 @@ namespace Balder.Rendering.Silverlight
 
 
 
-		private int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix world, bool depthTest)
+		int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix localToWorld, bool depthTest)
 		{
             if (null == _faces) return 0;
 
 			var faceCount = 0;
-			var worldView = (world * view);
+			var worldView = (localToWorld * view);
+
+            var viewToLocal = Matrix.Invert(worldView);
+            var viewInLocalPosition = new Vector(viewToLocal.M41, viewToLocal.M42, viewToLocal.M43);
+            var viewInLocalForward = new Vector(viewToLocal.M31, viewToLocal.M32, viewToLocal.M33);
 
             var recalculateLights = _lightCalculator.HasLightsChanged;
 
@@ -414,9 +406,7 @@ namespace Balder.Rendering.Silverlight
 				var face = _faces[faceIndex];
                 if (recalculateLights) face.AreColorsCalculated = false;
 
-				face.TransformWithWorldView(worldView);
-
-                if (!face.IsVisible(viewport, _vertices)) continue;
+                if (!face.IsVisible(viewport, viewInLocalForward, _vertices)) continue;
 
 				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{
@@ -431,7 +421,7 @@ namespace Balder.Rendering.Silverlight
 				UpdateMaterialForFace(face);
 
 				if (ShouldCalculateVertexColorsForFace(face))
-					CalculateVertexColorsForFace(face, viewport, face.Material);
+					CalculateVertexColorsForFace(face, viewport, viewInLocalPosition, face.Material);
                 
 				if( face.DrawSolid )
 				{

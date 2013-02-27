@@ -32,13 +32,11 @@ namespace Balder.Rendering.Silverlight
 			Y = normal.Y;
 			Z = normal.Z;
 			Vector = new Vector(X,Y,Z);
-			Transformed = new Vector(X,Y,Z);
 			CalculatedColor = new Color(0, 0, 0, 0xff);
 			IsColorCalculated = false;
 		}
 
 		public Vector Vector;
-		public Vector Transformed;
 		public Color CalculatedColor;
 		public int CalculatedColorAsInt;
 		public Color DiffuseColor;

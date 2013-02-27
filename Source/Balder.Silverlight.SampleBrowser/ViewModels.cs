@@ -1,4 +1,7 @@
-﻿using Ninject;
+﻿
+using Balder.Math;
+using Balder.View;
+using Ninject;
 
 namespace Balder.Silverlight.SampleBrowser
 {
