@@ -55,8 +55,6 @@ namespace Balder.Lighting
 
 		public override void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world)
 		{
-			_position = Position;
-			_viewPosition = viewport.View.Position;
 			base.BeforeRendering(viewport, view, projection, world);
 		}
 
@@ -64,12 +62,19 @@ namespace Balder.Lighting
 		private Vector _viewPosition;
 		private float _rangeAsFloat;
 
+        public override void PrepareForNode(INode node, Matrix viewToLocal)
+        {
+            var invertedLocal = Matrix.Invert(node.RenderingWorld);
+            _position = Vector.Transform(Position, invertedLocal);
+            _viewPosition = new Vector(viewToLocal.M41, viewToLocal.M42, viewToLocal.M43);
+        }
+
+
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)
 		{
 			var actualAmbient = viewport.Scene.AmbientAsInt;
 			var actualDiffuse = DiffuseAsInt; 
 			var actualSpecular = SpecularAsInt;
-
 
 			// Use dotproduct for diffuse lighting. Add point functionality as this now is a directional light.
 			// Ambient light
@@ -78,7 +83,7 @@ namespace Balder.Lighting
 			// Diffuse light
 			var lightDir = _position - point;
 			lightDir.Normalize();
-			normal.Normalize();
+			//normal.Normalize();
 
 			var dfDot = normal.Dot(lightDir); 
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);

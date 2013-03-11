@@ -44,6 +44,13 @@ namespace Balder.Lighting
         /// <returns>True is lights has changed, false if not</returns>
         bool HasLightsChanged { get; }
 
+        /// <summary>
+        /// Prepare lights for node before rendering
+        /// </summary>
+        /// <param name="node">Node to prepare for</param>
+        /// <param name="viewToLocal">View to local space</param>
+        void PrepareForNode(INode node, Matrix viewToLocal);
+
 		/// <summary>
 		/// Calculate color based on lighting in the viewport
 		/// </summary>

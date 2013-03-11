@@ -31,12 +31,10 @@ namespace Balder.Rendering.Silverlight
 			X = normal.X;
 			Y = normal.Y;
 			Z = normal.Z;
-			Vector = new Vector(X,Y,Z);
 			CalculatedColor = new Color(0, 0, 0, 0xff);
 			IsColorCalculated = false;
 		}
-
-		public Vector Vector;
+		
 		public Color CalculatedColor;
 		public int CalculatedColorAsInt;
 		public Color DiffuseColor;
@@ -44,5 +42,10 @@ namespace Balder.Rendering.Silverlight
 		public Color SpecularColor;
 		public int SpecularColorAsInt;
 		public bool IsColorCalculated;
+
+        public Vector ToVector()
+        {
+            return new Vector(X, Y, Z);
+        }
 	}
 }

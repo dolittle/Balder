@@ -38,6 +38,12 @@ namespace Balder.Lighting
 			_lights = lightsToUse.ToArray();
 		}
 
+        public void PrepareForNode(INode node, Matrix viewToLocal)
+        {
+            foreach (var light in _lights)
+                light.PrepareForNode(node, viewToLocal);
+        }
+
 
 		public int Calculate(Viewport viewport, Material material, Vector vector, Vector normal, out int diffuseResult, out int specularResult)
 		{
@@ -70,6 +76,8 @@ namespace Balder.Lighting
 
 
         public bool HasLightsChanged { get; private set; }
+
+
     }
 #pragma warning restore 1591 // Xml Comments
 }

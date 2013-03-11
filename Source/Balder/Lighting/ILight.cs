@@ -48,6 +48,13 @@ namespace Balder.Lighting
 		/// </summary>
 		double Strength { get; set; }
 
+        /// <summary>
+        /// Prepare light for calculation for a specific node
+        /// </summary>
+        /// <param name="node">Node to prepare for</param>
+        /// <param name="viewToLocal">ViewToLocal space</param>
+        void PrepareForNode(INode node, Matrix viewToLocal);
+
 		/// <summary>
 		/// Calculate color for the light in a viewport for a specified point and normal of the point
 		/// </summary>

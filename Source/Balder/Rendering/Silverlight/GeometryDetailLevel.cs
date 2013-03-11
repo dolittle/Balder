@@ -248,7 +248,11 @@ namespace Balder.Rendering.Silverlight
 		{
             if (null == _vertices) return;
 
+            var worldView = (world * view);
+            var viewToLocal = Matrix.Invert(worldView);
+
             ResetColorCalculationIfNeeded();
+            _lightCalculator.PrepareForNode(node, viewToLocal);
 
 			var color = GetColorFromNode(node);
 
@@ -259,7 +263,7 @@ namespace Balder.Rendering.Silverlight
 			
 
 			BeginRenderingTiming(node);
-			SetRenderedFaces(node, RenderFaces(node, viewport, view, world, depthTest));
+			SetRenderedFaces(node, RenderFaces(node, viewport, view, world, viewToLocal, depthTest));
 			SetRenderedLines(node, RenderLines(viewport, color));
 			EndRenderingTiming(node);
 
@@ -293,7 +297,7 @@ namespace Balder.Rendering.Silverlight
 
 		static readonly RenderNormal NullNormal = new RenderNormal(new Normal(0,0,0));
 
-		RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Vector viewInLocalPosition, Material material)
+		RenderNormal CalculateColorForNormal(int vertexIndex, int normalIndex, Viewport viewport, Material material)
 		{
 			if (null == _normals || null == _vertices) return NullNormal;
 
@@ -306,8 +310,8 @@ namespace Balder.Rendering.Silverlight
                     _lightCalculator.Calculate(
                         viewport, 
                         material, 
-                        viewInLocalPosition, 
-                        normal.Vector,
+                        vertex.ToVector(), 
+                        normal.ToVector(),
 					    out normal.DiffuseColorAsInt, out normal.SpecularColorAsInt);
 
 				normal.CalculatedColor = Color.FromInt(normal.CalculatedColorAsInt);
@@ -318,7 +322,7 @@ namespace Balder.Rendering.Silverlight
 			return normal;
 		}
 
-		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Vector viewInLocalPosition, Material material)
+		void CalculateVertexColorsForFace(RenderFace face, Viewport viewport, Material material)
 		{
 			switch (material.CachedShade)
 			{
@@ -334,19 +338,19 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Gouraud:
 					{
-						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, viewInLocalPosition, material);
+						var normal = CalculateColorForNormal(face.A, face.NormalA, viewport, material);
 						face.CalculatedColorA = face.ColorA * normal.CalculatedColor;
 						face.CalculatedColorAAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorA = face.ColorA * normal.DiffuseColor;
 						face.SpecularColorA = normal.SpecularColor;
 
-                        normal = CalculateColorForNormal(face.B, face.NormalB, viewport, viewInLocalPosition, material);
+                        normal = CalculateColorForNormal(face.B, face.NormalB, viewport, material);
 						face.CalculatedColorB = face.ColorB * normal.CalculatedColor;
 						face.CalculatedColorBAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorB = face.ColorB * normal.DiffuseColor;
 						face.SpecularColorB = normal.SpecularColor;
 
-                        normal = CalculateColorForNormal(face.C, face.NormalC, viewport, viewInLocalPosition, material);
+                        normal = CalculateColorForNormal(face.C, face.NormalC, viewport, material);
 						face.CalculatedColorC = face.ColorC * normal.CalculatedColor;
 						face.CalculatedColorCAsInt = normal.CalculatedColorAsInt;
 						face.DiffuseColorC = face.ColorC * normal.DiffuseColor;
@@ -355,8 +359,10 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Flat:
 					{
+                        var center = (_vertices[face.A].ToVector() + _vertices[face.B].ToVector() + _vertices[face.C].ToVector()) / 3f;
+
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, viewInLocalPosition, face.Normal, out face.DiffuseAsInt, out face.SpecularAsInt);
+							_lightCalculator.Calculate(viewport, material, face.Normal, center, out face.DiffuseAsInt, out face.SpecularAsInt);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
@@ -388,14 +394,11 @@ namespace Balder.Rendering.Silverlight
 
 
 
-		int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix localToWorld, bool depthTest)
+		int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix localToWorld, Matrix viewToLocal, bool depthTest)
 		{
             if (null == _faces) return 0;
 
 			var faceCount = 0;
-			var worldView = (localToWorld * view);
-
-            var viewToLocal = Matrix.Invert(worldView);
             var viewInLocalPosition = new Vector(viewToLocal.M41, viewToLocal.M42, viewToLocal.M43);
             var viewInLocalForward = new Vector(viewToLocal.M31, viewToLocal.M32, viewToLocal.M33);
 
@@ -421,7 +424,7 @@ namespace Balder.Rendering.Silverlight
 				UpdateMaterialForFace(face);
 
 				if (ShouldCalculateVertexColorsForFace(face))
-					CalculateVertexColorsForFace(face, viewport, viewInLocalPosition, face.Material);
+					CalculateVertexColorsForFace(face, viewport, face.Material);
                 
 				if( face.DrawSolid )
 				{

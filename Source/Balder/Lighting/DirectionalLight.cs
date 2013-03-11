@@ -67,6 +67,10 @@ namespace Balder.Lighting
 			directionalLight._direction.Normalize();
 		}
 
+        public override void PrepareForNode(INode node, Matrix viewToLocal)
+        {
+        }
+
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)
 		{
 			var actualAmbient = viewport.Scene.AmbientAsInt;
@@ -108,5 +112,6 @@ namespace Balder.Lighting
 
 			return color;
 		}
-	}
+
+    }
 }
