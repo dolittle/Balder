@@ -65,7 +65,7 @@ namespace Balder.Lighting
         public override void PrepareForNode(INode node, Matrix viewToLocal)
         {
             var invertedLocal = Matrix.Invert(node.RenderingWorld);
-            _position = Vector.Transform(Position, invertedLocal);
+            _position = Vector.Transform(Position, viewToLocal);
             _viewPosition = new Vector(viewToLocal.M41, viewToLocal.M42, viewToLocal.M43);
         }
 
@@ -85,7 +85,7 @@ namespace Balder.Lighting
 			lightDir.Normalize();
 			//normal.Normalize();
 
-			var dfDot = normal.Dot(lightDir); 
+            var dfDot = normal.Dot(lightDir); 
 			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
 
 			// Specular highlight
@@ -117,8 +117,10 @@ namespace Balder.Lighting
 			diffuse = Color.Multiply(diffuse, material.DiffuseAsInt);
 			specular = Color.Multiply(specular, material.SpecularAsInt);
 
+            
 			// Final result
 			diffuse = Color.Scale(diffuse, shadow);
+            
 			var color = Color.Scale(
 				Color.Additive(
 					Color.Additive(
