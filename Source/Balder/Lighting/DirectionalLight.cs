@@ -31,7 +31,8 @@ namespace Balder.Lighting
 	/// </summary>
 	public class DirectionalLight : Light
 	{
-		private Vector _direction;
+		Vector _direction;
+        Vector _viewDirection;
 
 		public DirectionalLight()
 		{
@@ -62,14 +63,21 @@ namespace Balder.Lighting
 
 		private static void DirectionValueChanged(object owner, Coordinate oldValue, Coordinate newValue)
 		{
+            /*
 			var directionalLight = owner as DirectionalLight;
 			directionalLight._direction = directionalLight.Direction;
-			directionalLight._direction.Normalize();
+			directionalLight._direction.Normalize();*/
 		}
 
         public override void PrepareForNode(INode node, Matrix viewToLocal)
         {
+            var invertedLocal = Matrix.Invert(node.RenderingWorld);
+            _direction = Vector.Transform(Direction, invertedLocal);
+            _direction.Normalize();
+            _viewDirection = new Vector(viewToLocal.M31, viewToLocal.M32, viewToLocal.M33);
+            _viewDirection.Normalize();
         }
+
 
 		public override int Calculate(Viewport viewport, Material material, Vector point, Vector normal, out int diffuseResult, out int specularResult)
 		{
@@ -86,15 +94,13 @@ namespace Balder.Lighting
 			var reflectionVector = Vector.Reflect(_direction, normal);
 			reflectionVector.Normalize();
 
-			var viewDirection = Vector.Transform(Vector.Forward, viewport.View.ViewMatrix);
-			viewDirection.Normalize();
 
 			var shadow = 4.0f*dfDot; 
 			shadow = MathHelper.Saturate(shadow);
 
 			var specularPower = MathHelper.Saturate(material.SpecularLevelAsFloat* 
 				(float)System.Math.Pow(
-					MathHelper.Saturate(reflectionVector.Dot(viewDirection)), 
+					MathHelper.Saturate(reflectionVector.Dot(_viewDirection)), 
 						material.GlossinessAsFloat));
 			var specular = Color.Scale(Color.Scale(actualSpecular, specularPower), StrengthAsFloat);
 
@@ -103,7 +109,7 @@ namespace Balder.Lighting
 
 			diffuse = Color.Multiply(diffuse, material.DiffuseAsInt);
 			specular = Color.Multiply(specular, material.SpecularAsInt);
-
+            
 			diffuse = Color.Scale(diffuse, shadow);
 			var color =
 				Color.Additive(
