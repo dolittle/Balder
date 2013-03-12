@@ -45,7 +45,7 @@ namespace Balder.Lighting
 		/// Direction Property
 		/// </summary>
 		public static readonly Property<DirectionalLight, Coordinate> DirectionProperty =
-			Property<DirectionalLight, Coordinate>.Register(l => l.Direction, DirectionValueChanged);
+			Property<DirectionalLight, Coordinate>.Register(l => l.Direction);
 		
 		/// <summary>
 		/// Gets or sets the direction of the light
@@ -53,20 +53,7 @@ namespace Balder.Lighting
 		public Coordinate Direction
 		{
 			get { return DirectionProperty.GetValue(this); }
-			set
-			{
-				DirectionProperty.SetValue(this, value);
-				DirectionValueChanged(this, value, value);
-                value.PropertyChanged += (s, e) => LightChanged();
-			}
-		}
-
-		private static void DirectionValueChanged(object owner, Coordinate oldValue, Coordinate newValue)
-		{
-            /*
-			var directionalLight = owner as DirectionalLight;
-			directionalLight._direction = directionalLight.Direction;
-			directionalLight._direction.Normalize();*/
+			set	{ DirectionProperty.SetValue(this, value); }
 		}
 
         public override void PrepareForNode(INode node, Matrix viewToLocal)
