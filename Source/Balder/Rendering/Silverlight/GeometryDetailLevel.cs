@@ -290,7 +290,6 @@ namespace Balder.Rendering.Silverlight
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
-				//vertex.TransformAndProject(viewport, worldView, worldViewProjection);
                 vertex.ProjectAndConvertToScreen(viewport, worldViewProjection);
 			}
 		}
@@ -401,6 +400,7 @@ namespace Balder.Rendering.Silverlight
 			var faceCount = 0;
             var viewInLocalPosition = new Vector(viewToLocal.M41, viewToLocal.M42, viewToLocal.M43);
             var viewInLocalForward = new Vector(viewToLocal.M31, viewToLocal.M32, viewToLocal.M33);
+            viewInLocalForward.Normalize();
 
             var recalculateLights = _lightCalculator.HasLightsChanged;
 
@@ -409,7 +409,7 @@ namespace Balder.Rendering.Silverlight
 				var face = _faces[faceIndex];
                 if (recalculateLights) face.AreColorsCalculated = false;
 
-                if (!face.IsVisible(viewport, viewInLocalForward, _vertices)) continue;
+                if (!face.IsVisible(viewport, viewInLocalPosition, _vertices)) continue;
 
 				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{

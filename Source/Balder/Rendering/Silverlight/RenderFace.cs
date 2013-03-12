@@ -96,6 +96,8 @@ namespace Balder.Rendering.Silverlight
 
 		public Texture BumpMap;
 
+        public Vector Position;
+
 		public bool DrawSolid;
 		public bool DrawWireframe;
 		public bool WireframeHasConstantColor;
@@ -129,10 +131,11 @@ namespace Balder.Rendering.Silverlight
 			CalculatedColorC = Colors.Black;
 		}
 
-		public bool IsVisible(Viewport viewport, Vector viewForward, RenderVertex[] vertices)
+		public bool IsVisible(Viewport viewport, Vector viewPosition, RenderVertex[] vertices)
 		{
-			var dot = Vector.Dot(viewForward, Normal);
-			var visible = dot < 0;
+            var viewToFace = viewPosition - Position;
+            var dot = Vector.Dot(viewToFace, Normal);
+			var visible = dot > 0;
 
 			if (null != Material) visible |= Material.CachedDoubleSided;
 
@@ -225,6 +228,8 @@ namespace Balder.Rendering.Silverlight
 			vertexC.CalculatedColor = CalculatedColorC;
 			vertexC.DiffuseColor = DiffuseColorC;
 			vertexC.SpecularColor = SpecularColorC;
+
+            Position = (vertexA.ToVector() + vertexB.ToVector() + vertexC.ToVector()) / 3f;
 		}
 
 
