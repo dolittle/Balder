@@ -83,9 +83,11 @@ namespace Balder.Lighting
 			// Diffuse light
             var lightDir = point-_position;
 			lightDir.Normalize();
+            
 
-            var dfDot = normal.Dot(lightDir); 
-			var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
+            var dfDot = normal.Dot(lightDir);
+            var diffuse = Color.Scale(Color.Scale(actualDiffuse, dfDot), StrengthAsFloat);
+            
 
 			// Specular highlight
 			var reflection = ((2f * normal) * dfDot) - lightDir;
@@ -110,16 +112,17 @@ namespace Balder.Lighting
 			attenuation = MathHelper.Saturate(attenuation);
 			attenuation = 1f - attenuation;
 
-			diffuseResult = diffuse;
-			specularResult = specular;
+            // Final result
+            diffuse = Color.Scale(diffuse, shadow);
+
+            diffuse |= Color.AlphaFull;
+            specular |= Color.AlphaFull;
+            diffuseResult = diffuse;
+            specularResult = specular;
 
             diffuse = Color.Multiply(diffuse, material.DiffuseAsInt);
-            
-
             specular = Color.Multiply(specular, material.SpecularAsInt);
             
-			// Final result
-            diffuse = Color.Scale(diffuse, shadow);
             
 			var color = Color.Scale(
 				Color.Additive(
