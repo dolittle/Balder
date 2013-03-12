@@ -359,7 +359,7 @@ namespace Balder.Rendering.Silverlight
 				case MaterialShade.Flat:
 					{
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, face.Normal, face.Center, out face.DiffuseAsInt, out face.SpecularAsInt);
+							_lightCalculator.Calculate(viewport, material, face.Center, face.Normal, out face.DiffuseAsInt, out face.SpecularAsInt);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
