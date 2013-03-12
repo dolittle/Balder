@@ -96,7 +96,7 @@ namespace Balder.Rendering.Silverlight
 
 		public Texture BumpMap;
 
-        public Vector Position;
+        public Vector Center;
 
 		public bool DrawSolid;
 		public bool DrawWireframe;
@@ -133,7 +133,7 @@ namespace Balder.Rendering.Silverlight
 
 		public bool IsVisible(Viewport viewport, Vector viewPosition, RenderVertex[] vertices)
 		{
-            var viewToFace = viewPosition - Position;
+            var viewToFace = viewPosition - Center;
             var dot = Vector.Dot(viewToFace, Normal);
 			var visible = dot > 0;
 
@@ -229,7 +229,7 @@ namespace Balder.Rendering.Silverlight
 			vertexC.DiffuseColor = DiffuseColorC;
 			vertexC.SpecularColor = SpecularColorC;
 
-            Position = (vertexA.ToVector() + vertexB.ToVector() + vertexC.ToVector()) / 3f;
+            Center = (vertexA.ToVector() + vertexB.ToVector() + vertexC.ToVector()) / 3f;
 		}
 
 
