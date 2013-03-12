@@ -358,10 +358,8 @@ namespace Balder.Rendering.Silverlight
 					break;
 				case MaterialShade.Flat:
 					{
-                        var center = (_vertices[face.A].ToVector() + _vertices[face.B].ToVector() + _vertices[face.C].ToVector()) / 3f;
-
 						face.ColorAsInt = 
-							_lightCalculator.Calculate(viewport, material, face.Normal, center, out face.DiffuseAsInt, out face.SpecularAsInt);
+							_lightCalculator.Calculate(viewport, material, face.Normal, face.Center, out face.DiffuseAsInt, out face.SpecularAsInt);
 						face.Color = Color.FromInt(face.ColorAsInt);
 					}
 					break;
