@@ -7,6 +7,7 @@
 			 xmlns:Execution="clr-namespace:Balder.Execution;assembly=Balder" 
 			 xmlns:Geometries="clr-namespace:Balder.Objects.Geometries;assembly=Balder" 
 			 xmlns:View="clr-namespace:Balder.View;assembly=Balder" 
+             xmlns:Flat="clr-namespace:Balder.Objects.Flat;assembly=Balder" 
 			 xmlns:Materials="clr-namespace:Balder.Materials;assembly=Balder" 
 			 xmlns:toolkit="clr-namespace:System.Windows.Controls;assembly=System.Windows.Controls.Input.Toolkit" xmlns:Lighting="clr-namespace:Balder.Lighting;assembly=Balder" mc:Ignorable="d"
 			 
@@ -14,7 +15,33 @@
     >
 
 	<Grid x:Name="LayoutRoot">
-		<Grid.Resources>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="Grid.Loaded">
+                <BeginStoryboard>
+                    <Storyboard AutoReverse="true" RepeatBehavior="Forever">
+                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(X)" From="-50" To="50" Duration="00:00:5">
+                            <DoubleAnimation.EasingFunction>
+                                <CircleEase EasingMode="EaseInOut"/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(Y)" From="-50" To="50" Duration="00:00:3">
+                            <DoubleAnimation.EasingFunction>
+                                <ElasticEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(Z)" From="-50" To="50" Duration="00:00:2">
+                            <DoubleAnimation.EasingFunction>
+                                <BounceEase/>
+                            </DoubleAnimation.EasingFunction>
+                        </DoubleAnimation>
+                    </Storyboard>
+                </BeginStoryboard>
+
+            </EventTrigger>
+        </Grid.Triggers>
+
+
+        <Grid.Resources>
 			<Style TargetType="TextBlock" x:Key="HelpText">
 				<Style.Setters>
 					<Setter Property="Margin" Value="0,10,0,2"/>
@@ -74,10 +101,15 @@
 					<TextBlock Text="Object Properties" Style="{StaticResource Category}"/>
 					<StackPanel Orientation="Horizontal">
 						<TextBlock Text="Zoom"/>
-						<Slider Width="100" Minimum="-70" Maximum="-30" Value="{Binding ElementName=Game, Path=Camera.Position.Z, Mode=TwoWay}"/>
+						<Slider Width="100" Minimum="-170" Maximum="-30" Value="{Binding ElementName=Game, Path=Camera.Position.Z, Mode=TwoWay}"/>
 					</StackPanel>
 
-					<TextBlock Text="Global Properties" Style="{StaticResource Category}"/>
+                    <StackPanel Orientation="Horizontal">
+                        <TextBlock Text="Camera Y Position"/>
+                        <Slider Width="100" Minimum="-150" Maximum="150" Value="{Binding ElementName=Game, Path=Camera.Position.Y, Mode=TwoWay}"/>
+                    </StackPanel>
+
+                    <TextBlock Text="Global Properties" Style="{StaticResource Category}"/>
 					<local:ColorEditor NameOfColor="Scene Ambient" Color="{Binding ElementName=Game, Path=Scene.AmbientColor, Mode=TwoWay, Converter={StaticResource ColorConverter}}" />
 
 					<TextBlock Text="Properties" Style="{StaticResource Category}"/>
@@ -236,6 +268,7 @@
 					</Execution:Game.Camera>
 
 					<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
+                    <Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="{Binding ElementName=OmniLight, Path=Position}"/>
 					<Lighting:DirectionalLight x:Name="DirectionalLight" Direction="0,1,0" IsEnabled="False"/>
 
 					<Geometries:Mesh x:Name="Mesh" 
