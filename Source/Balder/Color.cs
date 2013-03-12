@@ -412,7 +412,7 @@ namespace Balder
 		public static int Multiply(int color1, int color2)
 		{
 			var red2 = (color2 & RedMask) >> 16;
-			var red = RedMask & (((color1 & RedMask) >> 8) * red2);
+			var red = RedMask & (((color1 & RedMask) >> 16) * red2);
 
 			var green2 = (color2 & GreenMask) >> 8;
 			var green = GreenMask & (((color1 & GreenMask) >> 8) * green2);
@@ -423,7 +423,7 @@ namespace Balder
 			var alpha2 = 0xff & ((color2 & AlphaMask) >> 24);
 			var alpha = AlphaMask & (((color1>>8) & AlphaShiftedMask) * alpha2);
 
-			return red | green | blue | alpha;
+            return red | green | blue | alpha;
 
 		}
 
@@ -539,46 +539,20 @@ namespace Balder
 			var scaleAsInt = (int)(scale * 65536f);
 
 			var red = RedMask & (((color & RedMask) >> 8) * scaleAsInt) >> 8;
-			if (red > RedMask)
-			{
-				red = RedMask;
-			}
-			else if (red <= RedUnderflow)
-			{
-				red = 0;
-			}
-
+			if (red > RedMask) red = RedMask;
+			else if (red < RedUnderflow) red = 0;
 
 			var green = GreenMask & (((color & GreenMask) >> 8) * scaleAsInt) >> 8;
-			if (green > GreenMask)
-			{
-				green = GreenMask;
-			}
-			else if (green <= GreenUnderflow)
-			{
-				green = 0;
-			}
-
+			if (green > GreenMask) green = GreenMask;
+			else if (green <= GreenUnderflow) green = 0;
 
 			var blue = BlueMask & (((color & BlueMask) * scaleAsInt) >> 16);
-			if (blue > BlueMask)
-			{
-				blue = BlueMask;
-			}
-			else if (blue <= BlueUnderflow)
-			{
-				blue = 0;
-			}
+			if (blue > BlueMask) blue = BlueMask;
+			else if (blue <= BlueUnderflow) blue = 0;
 
 			var alpha = (0xff0000 & (((((color & AlphaMask) >> 8)) * scaleAsInt) >> 8));
-			if ((alpha >> 8) > (AlphaShiftedMask))
-			{
-				alpha = AlphaMask;
-			}
-			else if ((alpha >> 8) < AlphaShiftedUnderflow)
-			{
-				alpha = 0;
-			}
+			if ((alpha >> 8) > (AlphaShiftedMask)) alpha = AlphaMask;
+			else if ((alpha >> 8) < AlphaShiftedUnderflow) alpha = 0;
 
 			return red | green | blue | alpha;
 		}
