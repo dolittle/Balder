@@ -54,7 +54,7 @@ namespace Balder.Lighting
 				return WhiteAsInt;
 			}
 
-			var color = material.AmbientAsInt; 
+            var color = material.AmbientAsInt; 
 			var diffuse = 0; 
 			var specular = 0;
 			var lightDiffuse = 0;
@@ -68,7 +68,7 @@ namespace Balder.Lighting
 				specular = Color.Additive(specular, lightSpecular);
 			}
 
-			diffuseResult = diffuse|Color.AlphaFull;
+			diffuseResult = diffuse | Color.AlphaFull;
 			specularResult = specular | Color.AlphaFull;
 
 			return color | Color.AlphaFull;
