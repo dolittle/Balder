@@ -191,6 +191,7 @@ namespace Balder
 			Property<Node, ToolTip>.Register(o => o.ToolTip);
 
 		public virtual object DataItem { get; set; }
+        public virtual void HandleDataItemInfo(DataItemInfo dataItemInfo) { }
 
 
 		/// <summary>

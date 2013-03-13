@@ -36,20 +36,10 @@ namespace Balder.Controls
 	/// </summary>
 	public class InstancingNodes : RenderableNode, ICanGetNodeAtPosition
 	{
-		public class DataItemInfo
-		{
-			public Vector Position;
-			public Vector Scale;
-			public Vector Rotation;
-			public Matrix Matrix;
-			public object DataItem;
-			public BoundingSphere BoundingSphere;
-		}
-
-		private readonly INodeRenderingService _nodeRenderingService;
-		private DataItemInfo[] _dataItemInfos;
-		private bool _boundingSpheresPrepared;
-
+		readonly INodeRenderingService _nodeRenderingService;
+		DataItemInfo[] _dataItemInfos;
+        RenderableNode _actualNodeTemplate;
+        bool _templatePrepared;
 
 		/// <summary>
 		/// Initializes an instance of <see cref="InstancingNodes"/>
@@ -66,7 +56,6 @@ namespace Balder.Controls
 		public InstancingNodes(INodeRenderingService nodeRenderingService)
 		{
 			_nodeRenderingService = nodeRenderingService;
-			_boundingSpheresPrepared = false;
 		}
 
 
@@ -80,7 +69,7 @@ namespace Balder.Controls
 			{
 				DataProperty.SetValue(this, value);
 				PrepareDataItemInfos(value);
-				_boundingSpheresPrepared = false;
+                PrepareMergedBoundingSphere();
 			}
 		}
 
@@ -93,8 +82,6 @@ namespace Balder.Controls
 			{
 				base.ItemTemplate = value;
 				LoadTemplate();
-				_boundingSpheresPrepared = false;
-
 			}
 		}
 
@@ -123,12 +110,16 @@ namespace Balder.Controls
 			{
 				var info = new DataItemInfo { DataItem = item };
 				_dataItemInfos[index] = info;
+
+                if (_actualNodeTemplate != null)
+                    _actualNodeTemplate.HandleDataItemInfo(info);
+
+                _dataItemInfos[index].Prepare();
+
 				index++;
 			}
 		}
 
-		private RenderableNode _actualNodeTemplate;
-		private bool _templatePrepared;
 
 		private void LoadTemplate()
 		{
@@ -139,6 +130,7 @@ namespace Balder.Controls
 			}
 			_actualNodeTemplate = templateContent as RenderableNode;
 			_templatePrepared = false;
+            _actualNodeTemplate.PrepareBoundingSphere();
 		}
 
 		public override void Prepare(Viewport viewport)
@@ -154,56 +146,17 @@ namespace Balder.Controls
 		{
 			if (null != Data && null != _actualNodeTemplate && null != _dataItemInfos)
 			{
-				var length = GetDataLength(Data);
-				if( length != _dataItemInfos.Length )
-				{
-					PrepareDataItemInfos(Data);
-				}
-
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
 					_actualNodeTemplate.DataItem = _dataItemInfos[index].DataItem;
-					_actualNodeTemplate.ActualWorld = GetRenderingWorld(_dataItemInfos[index], _actualNodeTemplate);
+                    _actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
 					_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
-				}
-
-				if( !_boundingSpheresPrepared )
-				{
-					PrepareMergedBoundingSphere();
 				}
 			}
 
 			base.Render(viewport, detailLevel);
 		}
-
-		private Matrix GetRenderingWorld(DataItemInfo info, RenderableNode template)
-		{
-			Matrix matrix;
-			if ((!info.Position.Equals(template.Position)) ||
-				(!info.Rotation.Equals(template.Rotation)) ||
-				(!info.Scale.Equals(template.Scale)))
-			{
-				_actualNodeTemplate.PrepareActualWorld();
-				matrix = _actualNodeTemplate.ActualWorld;
-				SetDataItemInfo(info, template);
-			}
-			else
-			{
-				matrix = info.Matrix;
-			}
-
-			return matrix;
-		}
-
-		private void SetDataItemInfo(DataItemInfo info, RenderableNode template)
-		{
-			info.Position = template.Position;
-			info.Rotation = template.Rotation;
-			info.Scale = template.Scale;
-			info.Matrix = template.ActualWorld;
-		}
-
 
 		private void PrepareMergedBoundingSphere()
 		{
@@ -211,14 +164,12 @@ namespace Balder.Controls
 			{
 				return;
 			}
-			_actualNodeTemplate.PrepareBoundingSphere();
+			
 			for (var index = 0; index < _dataItemInfos.Length; index++)
 			{
 				var boundingSphere = _actualNodeTemplate.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
 				BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
 			}
-			_boundingSpheresPrepared = true;
-
 			ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
 		}
 

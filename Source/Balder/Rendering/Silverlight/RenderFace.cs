@@ -380,7 +380,7 @@ namespace Balder.Rendering.Silverlight
 		private void ClipLine(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB)
 		{
 			var distance = viewport.View.Near - vertexA.ProjectedVector.Z;
-			var delta = vertexB.TransformedVector - vertexA.TransformedVector;
+			var delta = vertexB.ToVector() - vertexA.ToVector();
 			var deltaU1 = vertexB.U1 - vertexA.U1;
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
@@ -397,8 +397,8 @@ namespace Balder.Rendering.Silverlight
 			var v2Add = (deltaV2 / length) * distance;
 
 			vertexA.TransformedVector = new Vector(
-					vertexA.TransformedVector.X + xAdd,
-					vertexA.TransformedVector.Y + yAdd,
+					vertexA.X + xAdd,
+					vertexA.Y + yAdd,
 					viewport.View.Near
 					//vertexA.TransformedVector.Z + zAdd
 				);
@@ -427,6 +427,7 @@ namespace Balder.Rendering.Silverlight
 			vertexC = VertexC;
 
 			GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
+            
             /*
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
