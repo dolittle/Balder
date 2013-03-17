@@ -30,9 +30,20 @@ namespace Balder
         public object DataItem;
         public BoundingSphere BoundingSphere;
 
+        public DataItemInfo()
+        {
+            Position = Vector.Zero;
+            Rotation = Vector.Zero;
+            Scale = new Vector(1, 1, 1);
+            Matrix = Matrix.Identity;
+        }
+
         public void Prepare()
         {
-            Matrix = Matrix.CreateTranslation(Position);
+            var translation = Matrix.CreateTranslation(Position);
+            var scale = Matrix.CreateScale(Scale);
+            var rotation = Matrix.CreateRotation(Rotation.X, Rotation.Y, Rotation.Z);
+            Matrix = scale * rotation * translation;
         }
     }
 }

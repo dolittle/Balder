@@ -190,10 +190,6 @@ namespace Balder
 		public static readonly Property<Node, ToolTip> ToolTipProperty =
 			Property<Node, ToolTip>.Register(o => o.ToolTip);
 
-		public virtual object DataItem { get; set; }
-        public virtual void HandleDataItemInfo(DataItemInfo dataItemInfo) { }
-
-
 		/// <summary>
 		/// Tooltip to use on node
 		/// </summary>

@@ -41,6 +41,8 @@ namespace Balder.Controls
         RenderableNode _actualNodeTemplate;
         bool _templatePrepared;
 
+        public event PrepareDataItemInfo PrepareDataItemInfo;
+
 		/// <summary>
 		/// Initializes an instance of <see cref="InstancingNodes"/>
 		/// </summary>
@@ -85,54 +87,6 @@ namespace Balder.Controls
 			}
 		}
 
-		private int GetDataLength(IEnumerable enumerable)
-		{
-			var length = 0;
-			if (enumerable is Array)
-			{
-				length = ((Array)enumerable).Length;
-			}
-			else if (enumerable is ICollection)
-			{
-				length = ((ICollection)enumerable).Count;
-			}
-
-			return length;
-		}
-
-
-		private void PrepareDataItemInfos(IEnumerable enumerable)
-		{
-			var length = GetDataLength(enumerable);
-			_dataItemInfos = new DataItemInfo[length];
-			var index = 0;
-			foreach (var item in enumerable)
-			{
-				var info = new DataItemInfo { DataItem = item };
-				_dataItemInfos[index] = info;
-
-                if (_actualNodeTemplate != null)
-                    _actualNodeTemplate.HandleDataItemInfo(info);
-
-                _dataItemInfos[index].Prepare();
-
-				index++;
-			}
-		}
-
-
-		private void LoadTemplate()
-		{
-			var templateContent = NodeTemplate.LoadContent();
-			if (!(templateContent is RenderableNode))
-			{
-				throw new ArgumentException("NodeTemplate must be of a RenderableNode type");
-			}
-			_actualNodeTemplate = templateContent as RenderableNode;
-			_templatePrepared = false;
-            _actualNodeTemplate.PrepareBoundingSphere();
-		}
-
 		public override void Prepare(Viewport viewport)
 		{
 			if (!_templatePrepared && null != _actualNodeTemplate)
@@ -144,35 +98,17 @@ namespace Balder.Controls
 
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-			if (null != Data && null != _actualNodeTemplate && null != _dataItemInfos)
+            if (!HasData || !HasNodeTemplate || !HasDataItemInfos ) return;
+
+			for (var index = 0; index < _dataItemInfos.Length; index++)
 			{
-				for (var index = 0; index < _dataItemInfos.Length; index++)
-				{
-					_actualNodeTemplate.DataItem = _dataItemInfos[index].DataItem;
-                    _actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
-					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
-					_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
-				}
+                _actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
+				_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+				_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
 			}
 
 			base.Render(viewport, detailLevel);
 		}
-
-		private void PrepareMergedBoundingSphere()
-		{
-			if( null == _actualNodeTemplate || null == _dataItemInfos)
-			{
-				return;
-			}
-			
-			for (var index = 0; index < _dataItemInfos.Length; index++)
-			{
-				var boundingSphere = _actualNodeTemplate.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
-				BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
-			}
-			ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
-		}
-
 
 		public override float? Intersects(Viewport viewport, Ray pickRay)
 		{
@@ -212,12 +148,76 @@ namespace Balder.Controls
 					_actualNodeTemplate.ActualWorld = _dataItemInfos[closestIndex].Matrix;
 					_actualNodeTemplate.Parent = this;
 					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
+                    _actualNodeTemplate.DataContext = _dataItemInfos[closestIndex].DataItem;
 					
 					closestNode = _actualNodeTemplate;
-					closestNode.DataItem = _dataItemInfos[closestIndex].DataItem;
 				}
 			}
 		}
+
+        int GetDataLength(IEnumerable enumerable)
+        {
+            var length = 0;
+            if (enumerable is Array)
+            {
+                length = ((Array)enumerable).Length;
+            }
+            else if (enumerable is ICollection)
+            {
+                length = ((ICollection)enumerable).Count;
+            }
+
+            return length;
+        }
+
+        void PrepareDataItemInfos(IEnumerable enumerable)
+        {
+            var length = GetDataLength(enumerable);
+            _dataItemInfos = new DataItemInfo[length];
+            var index = 0;
+            foreach (var item in enumerable)
+            {
+                var info = new DataItemInfo { DataItem = item };
+                _dataItemInfos[index] = info;
+                if (PrepareDataItemInfo != null)
+                    PrepareDataItemInfo(item, info);
+
+                _dataItemInfos[index].Prepare();
+
+                index++;
+            }
+        }
+
+        void LoadTemplate()
+        {
+            var templateContent = NodeTemplate.LoadContent();
+            if (!(templateContent is RenderableNode))
+            {
+                throw new ArgumentException("NodeTemplate must be of a RenderableNode type");
+            }
+            _actualNodeTemplate = templateContent as RenderableNode;
+            _templatePrepared = false;
+            _actualNodeTemplate.PrepareBoundingSphere();
+        }
+
+        void PrepareMergedBoundingSphere()
+        {
+            if (null == _actualNodeTemplate || null == _dataItemInfos)
+            {
+                return;
+            }
+
+            for (var index = 0; index < _dataItemInfos.Length; index++)
+            {
+                var boundingSphere = _actualNodeTemplate.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
+                BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
+            }
+            ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
+        }
+
+        bool HasDataItemInfos { get { return _dataItemInfos != null; } }
+        bool HasNodeTemplate { get { return _actualNodeTemplate != null; } }
+        bool HasData { get { return Data != null; } }
 	}
 }
 #endif
