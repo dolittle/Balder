@@ -26,6 +26,7 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Input;
 using Balder.Math;
+using Balder.Objects.Geometries;
 using Balder.Rendering;
 using Ninject;
 
@@ -75,6 +76,8 @@ namespace Balder.Controls
 			}
 		}
 
+        public DataItemInfo[] DataItemInfos { get { return _dataItemInfos; } }
+
 		public static readonly Property<InstancingNodes, DataTemplate> NodeTemplateProperty =
 			Property<InstancingNodes, DataTemplate>.Register(n => n.NodeTemplate);
 		public DataTemplate NodeTemplate
@@ -98,13 +101,20 @@ namespace Balder.Controls
 
 		public override void Render(Viewport viewport, DetailLevel detailLevel)
 		{
-            if (!HasData || !HasNodeTemplate || !HasDataItemInfos ) return;
+            if (!HasData || !HasDataItemInfos ) return;
 
 			for (var index = 0; index < _dataItemInfos.Length; index++)
 			{
-                _actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
-				_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
-				_nodeRenderingService.RenderNode(_actualNodeTemplate, viewport, detailLevel);
+                var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
+                if (node != null)
+                {
+                    node.ActualWorld = _dataItemInfos[index].Matrix;
+                    //if( node is IHaveMaterial )
+                        //((IHaveMaterial)node).Material = _dataItemInfos[index].Material;
+                    
+                    _nodeRenderingService.PrepareNodeForRendering(node, viewport);
+                    _nodeRenderingService.RenderNode(node, viewport, detailLevel);
+                }
 			}
 
 			base.Render(viewport, detailLevel);
@@ -129,28 +139,36 @@ namespace Balder.Controls
 				var closestIndex = 0;
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
-					_actualNodeTemplate.ActualWorld = _dataItemInfos[index].Matrix;
-					if (_actualNodeTemplate.IsIntersectionTestEnabled)
-					{
-						_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
-						distance = _actualNodeTemplate.Intersects(viewport, pickRay);
-						if (null != distance && (distance < closestDistance || closestDistance == null))
-						{
-							closestDistance = distance;
-							closestIndex = index;
+                    var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
+                    if (node != null)
+                    {
+                        node.ActualWorld = _dataItemInfos[index].Matrix;
+                        if (node.IsIntersectionTestEnabled)
+                        {
+                            _nodeRenderingService.PrepareNodeForRendering(node, viewport);
+                            distance = node.Intersects(viewport, pickRay);
+                            if (null != distance && (distance < closestDistance || closestDistance == null))
+                            {
+                                closestDistance = distance;
+                                closestIndex = index;
 
-						}
-					}
+                            }
+                        }
+                    }
 				}
 
 				if (null != closestDistance)
 				{
-					_actualNodeTemplate.ActualWorld = _dataItemInfos[closestIndex].Matrix;
-					_actualNodeTemplate.Parent = this;
-					_nodeRenderingService.PrepareNodeForRendering(_actualNodeTemplate, viewport);
-                    _actualNodeTemplate.DataContext = _dataItemInfos[closestIndex].DataItem;
-					
-					closestNode = _actualNodeTemplate;
+                    var node = _dataItemInfos[closestIndex].Node ?? _actualNodeTemplate;
+                    if (node != null)
+                    {
+                        node.ActualWorld = _dataItemInfos[closestIndex].Matrix;
+                        node.Parent = this;
+                        _nodeRenderingService.PrepareNodeForRendering(node, viewport);
+                        node.DataContext = _dataItemInfos[closestIndex].DataItem;
+
+                        closestNode = node;
+                    }
 				}
 			}
 		}
@@ -202,15 +220,17 @@ namespace Balder.Controls
 
         void PrepareMergedBoundingSphere()
         {
-            if (null == _actualNodeTemplate || null == _dataItemInfos)
-            {
-                return;
-            }
+            if (!HasDataItemInfos) return;
 
             for (var index = 0; index < _dataItemInfos.Length; index++)
             {
-                var boundingSphere = _actualNodeTemplate.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
-                BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
+                var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
+                if (node != null)
+                {
+                    node.PrepareBoundingSphere();
+                    var boundingSphere = node.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
+                    BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
+                }
             }
             ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
         }

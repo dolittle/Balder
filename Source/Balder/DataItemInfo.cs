@@ -18,6 +18,7 @@
 //
 
 #endregion
+using Balder.Materials;
 using Balder.Math;
 namespace Balder
 {
@@ -29,6 +30,8 @@ namespace Balder
         public Matrix Matrix;
         public object DataItem;
         public BoundingSphere BoundingSphere;
+        public RenderableNode Node;
+        public Material Material;
 
         public DataItemInfo()
         {

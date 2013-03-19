@@ -942,11 +942,10 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Balder\Balder.Silverlight.csproj">
-      <Project>{9F4164D8-6C61-4C4D-B3FF-7AEEE16D9D6B}</Project>
+      <Project>{f861e855-0457-469c-be78-b7ba320f12ad}</Project>
       <Name>Balder.Silverlight</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Silverlight\$(SilverlightVersion)\Microsoft.Silverlight.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

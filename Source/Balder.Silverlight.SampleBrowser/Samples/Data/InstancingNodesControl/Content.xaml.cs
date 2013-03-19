@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Input;
+using Balder.Materials;
+using Balder.Math;
 using Balder.Objects.Geometries;
 using MouseEventArgs = Balder.Input.MouseEventArgs;
 
@@ -8,9 +10,15 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 {
 	public partial class Content
 	{
+        Box _box;
+
 		public Content()
 		{
 			InitializeComponent();
+
+            _box = Game.ContentManager.Creator.CreateGeometry<Box>();
+            _box.Dimension = new Coordinate(10, 10, 10);
+            _box.Prepare(Game.Viewport);
 
 		}
 
@@ -100,5 +108,14 @@ namespace Balder.Silverlight.SampleBrowser.Samples.Data.InstancingNodesControl
 		{
 			Game.Cursor = Cursors.Arrow;
 		}
+
+        private void InstancingNodes_PrepareDataItemInfo(object dataItem, DataItemInfo dataItemInfo)
+        {
+            var column = dataItem as Column;
+
+            dataItemInfo.Position = column.Position;
+            dataItemInfo.Material = Material.FromColor(column.Color);
+            dataItemInfo.Node = _box;
+        }
 	}
 }

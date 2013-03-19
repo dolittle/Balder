@@ -24,8 +24,9 @@
 							<Controls:NodesControl ItemsSource="{Binding Rows}">
 								<Controls:NodesControl.NodeTemplate>
 									<DataTemplate>
-										<Controls:InstancingNodes Data="{Binding Columns}" MouseEnter="InstancingNodes_MouseEnter" MouseLeave="InstancingNodes_MouseLeave">
+										<Controls:InstancingNodes Data="{Binding Columns}" MouseEnter="InstancingNodes_MouseEnter" MouseLeave="InstancingNodes_MouseLeave" PrepareDataItemInfo="InstancingNodes_PrepareDataItemInfo">
 
+                                            <!--
 											<Controls:InstancingNodes.NodeTemplate>
 												<DataTemplate>
 													
@@ -33,7 +34,9 @@
 													
 												</DataTemplate>
 											</Controls:InstancingNodes.NodeTemplate>
-										</Controls:InstancingNodes>
+                                            -->
+                                        </Controls:InstancingNodes>
+                                            
 															   
 										
 									</DataTemplate>
