@@ -109,8 +109,8 @@ namespace Balder.Controls
                 if (node != null)
                 {
                     node.ActualWorld = _dataItemInfos[index].Matrix;
-                    //if( node is IHaveMaterial )
-                        //((IHaveMaterial)node).Material = _dataItemInfos[index].Material;
+                    if( node is IHaveMaterial )
+                        ((IHaveMaterial)node).Material = _dataItemInfos[index].Material;
                     
                     _nodeRenderingService.PrepareNodeForRendering(node, viewport);
                     _nodeRenderingService.RenderNode(node, viewport, detailLevel);

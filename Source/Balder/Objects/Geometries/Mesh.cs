@@ -26,11 +26,12 @@ using Balder.Display;
 using Balder.Execution;
 using Balder.Materials;
 using Balder.Math;
+using Balder.Rendering;
 using Ninject;
 
 namespace Balder.Objects.Geometries
 {
-	public class Mesh : RenderableNode, IAsset, ICanHandleCloning
+	public class Mesh : RenderableNode, IAsset, ICanHandleCloning, IHaveMaterial
 	{
 		private readonly IContentManager _contentManager;
 		private bool _materialSet = false;
