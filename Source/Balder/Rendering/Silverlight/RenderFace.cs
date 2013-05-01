@@ -37,8 +37,6 @@ namespace Balder.Rendering.Silverlight
 
 		public static readonly float DebugNormalLength = 5f;
 
-		public Material Material;
-
 		public UInt16 Index;
 
 		public TextureCoordinate Texture1TextureCoordinateA;
@@ -113,7 +111,6 @@ namespace Balder.Rendering.Silverlight
 		public RenderFace(Face face)
 			: this(face.A, face.B, face.C)
 		{
-			//Material = face.Material;
 			ColorA = face.ColorA;
 			ColorB = face.ColorB;
 			ColorC = face.ColorC;
@@ -131,18 +128,30 @@ namespace Balder.Rendering.Silverlight
 			CalculatedColorC = Colors.Black;
 		}
 
-		public bool IsVisible(Viewport viewport, Vector viewPosition, RenderVertex[] vertices)
+		public bool IsVisible(Material material, Viewport viewport, Vector viewPosition, RenderVertex[] vertices)
 		{
             var viewToFace = viewPosition - Center;
             var dot = Vector.Dot(viewToFace, Normal);
 			var visible = dot > 0;
 
-			if (null != Material) visible |= Material.CachedDoubleSided;
+			if (null != material) visible |= material.CachedDoubleSided;
 
 			return visible; // && IsInView(viewport, vertices);
 		}
 
-		private bool IsInView(Viewport viewport, RenderVertex[] vertices)
+        public void UpdateMaterialInfo(Material material)
+        {
+            Opacity = material.CachedOpacityAsInt;
+            MaterialAmbientAsInt = material.AmbientAsInt;
+            MaterialDiffuseAsInt = material.DiffuseAsInt;
+
+            DrawSolid = material.CachedSolid;
+            DrawWireframe = material.CachedWireframe;
+            WireframeHasConstantColor = material.CachedConstantColorForWireframe;
+        }
+
+
+		bool IsInView(Viewport viewport, RenderVertex[] vertices)
 		{
 			var visible = true;
 
@@ -487,7 +496,6 @@ namespace Balder.Rendering.Silverlight
 			target.Texture2Factor = Texture2Factor;
 			target.LightMap = LightMap;
 			target.BumpMap = BumpMap;
-			target.Material = Material;
 		}
 	}
 }

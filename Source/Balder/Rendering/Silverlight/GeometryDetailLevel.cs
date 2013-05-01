@@ -189,22 +189,6 @@ namespace Balder.Rendering.Silverlight
 			return _textureCoordinates;
 		}
 
-		public void SetMaterial(Material material, INode node)
-		{
-			if (_faces == null)
-				return;
-
-			// Todo : Introduce IHaveMaterial or something... Bad assumption
-			var nodeMaterial = ((Geometry) node).Material;
-
-			for (var faceIndex = 0; faceIndex < _faces.Length; faceIndex++)
-			{
-				var face = _faces[faceIndex];
-				face.Material = GetMaterialForFace(face, node, nodeMaterial);
-				UpdateMaterialForFace(face);
-			}
-		}
-
 		#endregion
 
         
@@ -260,10 +244,12 @@ namespace Balder.Rendering.Silverlight
 			CalculateVertices(viewport, view, projection, world);
 			EndVerticesTiming(node);
 
-			
+            Material material = null;
+            if (node is IHaveMaterial && ((IHaveMaterial)node).Material != null)
+                material = ((IHaveMaterial)node).Material;
 
 			BeginRenderingTiming(node);
-			SetRenderedFaces(node, RenderFaces(node, viewport, view, world, viewToLocal, depthTest));
+			SetRenderedFaces(node, RenderFaces(node, material, viewport, view, world, viewToLocal, depthTest));
 			SetRenderedLines(node, RenderLines(viewport, color));
 			EndRenderingTiming(node);
 
@@ -391,7 +377,7 @@ namespace Balder.Rendering.Silverlight
 
 
 
-		int RenderFaces(INode node, Viewport viewport, Matrix view, Matrix localToWorld, Matrix viewToLocal, bool depthTest)
+		int RenderFaces(INode node, Material material, Viewport viewport, Matrix view, Matrix localToWorld, Matrix viewToLocal, bool depthTest)
 		{
             if (null == _faces) return 0;
 
@@ -407,7 +393,7 @@ namespace Balder.Rendering.Silverlight
 				var face = _faces[faceIndex];
                 if (recalculateLights) face.AreColorsCalculated = false;
 
-                if (!face.IsVisible(viewport, viewInLocalPosition, _vertices)) continue;
+                if (!face.IsVisible(material, viewport, viewInLocalPosition, _vertices)) continue;
 
 				if (null != _textureCoordinates && _textureCoordinates.Length > 0)
 				{
@@ -416,33 +402,31 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1TextureCoordinateC = _textureCoordinates[face.DiffuseC];
 				}
                 
-				if( face.Material == null )
-					face.Material = GetMaterialForFace(face, node, ((Geometry) node).Material);
-                
-				UpdateMaterialForFace(face);
+                material = GetMaterialForFace(face, node, material);
+                face.UpdateMaterialInfo(material);
 
 				if (ShouldCalculateVertexColorsForFace(face))
-					CalculateVertexColorsForFace(face, viewport, face.Material);
+					CalculateVertexColorsForFace(face, viewport, material);
                 
 				if( face.DrawSolid )
 				{
-					face.Texture1 = face.Material.DiffuseTexture;
-					face.Texture2 = face.Material.ReflectionTexture;
-					face.Texture1Factor = face.Material.DiffuseTextureFactor;
-					face.Texture2Factor = face.Material.ReflectionTextureFactor;
-					face.Draw(viewport, _vertices, face.Material);
+					face.Texture1 = material.DiffuseTexture;
+					face.Texture2 = material.ReflectionTexture;
+					face.Texture1Factor = material.DiffuseTextureFactor;
+					face.Texture2Factor = material.ReflectionTextureFactor;
+					face.Draw(viewport, _vertices, material);
 				}
 
 				if (face.DrawWireframe)
 				{
 					if (face.WireframeHasConstantColor)
 					{
-						face.CalculatedColorA = face.Material.CachedDiffuseWireframe;
-						face.CalculatedColorAAsInt = face.Material.CachedDiffuseWireframeAsInt;
-						face.CalculatedColorB = face.Material.CachedDiffuseWireframe;
-						face.CalculatedColorBAsInt = face.Material.CachedDiffuseWireframeAsInt;
-						face.CalculatedColorC = face.Material.CachedDiffuseWireframe;
-						face.CalculatedColorCAsInt = face.Material.CachedDiffuseWireframeAsInt;
+						face.CalculatedColorA = material.CachedDiffuseWireframe;
+						face.CalculatedColorAAsInt = material.CachedDiffuseWireframeAsInt;
+						face.CalculatedColorB = material.CachedDiffuseWireframe;
+						face.CalculatedColorBAsInt = material.CachedDiffuseWireframeAsInt;
+						face.CalculatedColorC = material.CachedDiffuseWireframe;
+						face.CalculatedColorCAsInt = material.CachedDiffuseWireframeAsInt;
 					}
 					DrawFaceAsLine(viewport, face, _vertices);
 				}
@@ -452,16 +436,6 @@ namespace Balder.Rendering.Silverlight
 			return faceCount;
 		}
 
-		private void UpdateMaterialForFace(RenderFace face)
-		{
-			face.Opacity = face.Material.CachedOpacityAsInt;
-			face.MaterialAmbientAsInt = face.Material.AmbientAsInt;
-			face.MaterialDiffuseAsInt = face.Material.DiffuseAsInt;
-
-			face.DrawSolid = face.Material.CachedSolid;
-			face.DrawWireframe = face.Material.CachedWireframe;
-			face.WireframeHasConstantColor = face.Material.CachedConstantColorForWireframe;
-		}
 
 		private bool ShouldCalculateVertexColorsForFace(RenderFace face)
 		{

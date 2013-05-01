@@ -76,13 +76,6 @@ namespace Balder.Rendering.Silverlight
 			return _detailLevels.ContainsKey(level);
 		}
 
-		public void SetMaterial(Material material, INode node)
-		{
-			foreach( var geometryDetailLevel in _detailLevels.Values )
-			{
-				geometryDetailLevel.SetMaterial(material, node);
-			}
-		}
 
 		private void GenerateBoundingBoxDetailLevel(DetailLevel sourceLevel)
 		{
