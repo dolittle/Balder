@@ -30,6 +30,7 @@ glob:*.suo
 glob:*.version
 glob:_ReSharper.*
 glob:Source/**/bin/*
+glob:Source/Solutions/packages
 glob:*.pidb
 glob:*.userprefs
 glob:*.pdb
