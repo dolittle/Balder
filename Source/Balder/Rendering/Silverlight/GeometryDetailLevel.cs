@@ -402,31 +402,31 @@ namespace Balder.Rendering.Silverlight
 					face.Texture1TextureCoordinateC = _textureCoordinates[face.DiffuseC];
 				}
                 
-                material = GetMaterialForFace(face, node, material);
-                face.UpdateMaterialInfo(material);
+                var faceMaterial = GetMaterialForFace(face, node, material);
+                face.UpdateMaterialInfo(faceMaterial);
 
 				if (ShouldCalculateVertexColorsForFace(face))
-					CalculateVertexColorsForFace(face, viewport, material);
+                    CalculateVertexColorsForFace(face, viewport, faceMaterial);
                 
 				if( face.DrawSolid )
 				{
-					face.Texture1 = material.DiffuseTexture;
-					face.Texture2 = material.ReflectionTexture;
-					face.Texture1Factor = material.DiffuseTextureFactor;
-					face.Texture2Factor = material.ReflectionTextureFactor;
-					face.Draw(viewport, _vertices, material);
+                    face.Texture1 = faceMaterial.DiffuseTexture;
+                    face.Texture2 = faceMaterial.ReflectionTexture;
+                    face.Texture1Factor = faceMaterial.DiffuseTextureFactor;
+                    face.Texture2Factor = faceMaterial.ReflectionTextureFactor;
+                    face.Draw(viewport, _vertices, faceMaterial);
 				}
 
 				if (face.DrawWireframe)
 				{
 					if (face.WireframeHasConstantColor)
 					{
-						face.CalculatedColorA = material.CachedDiffuseWireframe;
-						face.CalculatedColorAAsInt = material.CachedDiffuseWireframeAsInt;
-						face.CalculatedColorB = material.CachedDiffuseWireframe;
-						face.CalculatedColorBAsInt = material.CachedDiffuseWireframeAsInt;
-						face.CalculatedColorC = material.CachedDiffuseWireframe;
-						face.CalculatedColorCAsInt = material.CachedDiffuseWireframeAsInt;
+                        face.CalculatedColorA = faceMaterial.CachedDiffuseWireframe;
+                        face.CalculatedColorAAsInt = faceMaterial.CachedDiffuseWireframeAsInt;
+                        face.CalculatedColorB = faceMaterial.CachedDiffuseWireframe;
+                        face.CalculatedColorBAsInt = faceMaterial.CachedDiffuseWireframeAsInt;
+                        face.CalculatedColorC = faceMaterial.CachedDiffuseWireframe;
+                        face.CalculatedColorCAsInt = faceMaterial.CachedDiffuseWireframeAsInt;
 					}
 					DrawFaceAsLine(viewport, face, _vertices);
 				}
