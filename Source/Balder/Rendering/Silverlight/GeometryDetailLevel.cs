@@ -276,7 +276,7 @@ namespace Balder.Rendering.Silverlight
 			for (var vertexIndex = 0; vertexIndex < _vertices.Length; vertexIndex++)
 			{
 				var vertex = _vertices[vertexIndex];
-                vertex.ProjectAndConvertToScreen(viewport, worldViewProjection);
+                vertex.ProjectAndConvertToScreen(viewport, worldView, worldViewProjection);
 			}
 		}
 

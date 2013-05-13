@@ -51,17 +51,18 @@ namespace Balder.Rendering.Silverlight
 			ProjectedVector = new Vector(x, y, z);
 		}
 
-        public void ProjectAndConvertToScreen(Viewport viewport, Matrix worldViewProjection)
+        public void ProjectAndConvertToScreen(Viewport viewport, Matrix worldView, Matrix worldViewProjection)
         {
-            ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);                
+            ProjectedVector = Vector.Transform(X, Y, Z, worldViewProjection);
             ConvertToScreenCoordinates(viewport);
+
+            ProjectedVector.Z = (((X * worldView.M13) + (Y * worldView.M23)) + (Z * worldView.M33)) + (1f * worldView.M43);
         }
 
 		public void ConvertToScreenCoordinates(Viewport viewport)
 		{
 			ProjectedVector.X = (((ProjectedVector.X + 1f) * 0.5f) * viewport.Width);
 			ProjectedVector.Y = (((-ProjectedVector.Y + 1f) * 0.5f) * viewport.Height);
-            ProjectedVector.Z = ProjectedVector.Z+1f;
 		}
 
 		public Vector ProjectedVector;

@@ -136,7 +136,7 @@ namespace Balder.Rendering.Silverlight
 
 			if (null != material) visible |= material.CachedDoubleSided;
 
-			return visible; // && IsInView(viewport, vertices);
+			return visible && IsInView(viewport, vertices);
 		}
 
         public void UpdateMaterialInfo(Material material)

@@ -15,32 +15,6 @@
     >
 
 	<Grid x:Name="LayoutRoot">
-        <Grid.Triggers>
-            <EventTrigger RoutedEvent="Grid.Loaded">
-                <BeginStoryboard>
-                    <Storyboard AutoReverse="true" RepeatBehavior="Forever">
-                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(X)" From="-50" To="50" Duration="00:00:5">
-                            <DoubleAnimation.EasingFunction>
-                                <CircleEase EasingMode="EaseInOut"/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(Y)" From="-50" To="50" Duration="00:00:3">
-                            <DoubleAnimation.EasingFunction>
-                                <ElasticEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                        <DoubleAnimation Storyboard.TargetName="OmniLight" Storyboard.TargetProperty="(Node.Position).(Z)" From="-50" To="50" Duration="00:00:2">
-                            <DoubleAnimation.EasingFunction>
-                                <BounceEase/>
-                            </DoubleAnimation.EasingFunction>
-                        </DoubleAnimation>
-                    </Storyboard>
-                </BeginStoryboard>
-
-            </EventTrigger>
-        </Grid.Triggers>
-
-
         <Grid.Resources>
 			<Style TargetType="TextBlock" x:Key="HelpText">
 				<Style.Setters>
@@ -268,7 +242,6 @@
 					</Execution:Game.Camera>
 
 					<Lighting:OmniLight x:Name="OmniLight" Position="0,20,-10"/>
-                    <Flat:Sprite AssetName="/Balder.Silverlight.SampleBrowser;component/Assets/sun.png" Position="{Binding ElementName=OmniLight, Path=Position}"/>
 					<Lighting:DirectionalLight x:Name="DirectionalLight" Direction="0,1,0" IsEnabled="False"/>
 
 					<Geometries:Mesh x:Name="Mesh" 
