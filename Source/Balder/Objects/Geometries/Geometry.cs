@@ -93,7 +93,8 @@ namespace Balder.Objects.Geometries
             var highestVector = new Vector(maxX,maxY,maxZ);
 		    var center = Centroid(vertices);
             var length = highestVector - lowestVector;
-            BoundingObject.Sphere(center, length.Length / 2);
+            //BoundingObject.Sphere(center, length.Length / 2);
+            BoundingObject.Box(lowestVector, highestVector);
 
 			base.PrepareBoundingObject();
 		}

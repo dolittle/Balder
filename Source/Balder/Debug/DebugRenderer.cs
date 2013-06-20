@@ -28,10 +28,12 @@ namespace Balder.Debug
 	[Singleton]
 	public class DebugRenderer : IDebugRenderer
 	{
-		private readonly IKernel _kernel;
-		private DebugShape _boundingSphereDebugShape;
-		private RayDebugShape _rayDebugShape;
-		private RectangleDebugShape _rectangleDebugShape;
+		IKernel _kernel;
+		DebugShape _boundingSphereDebugShape;
+        DebugShape _boundingBoxDebugShape;
+
+		RayDebugShape _rayDebugShape;
+		RectangleDebugShape _rectangleDebugShape;
 
 		public DebugRenderer(IKernel kernel)
 		{
@@ -62,6 +64,8 @@ namespace Balder.Debug
 		{
 			_boundingSphereDebugShape = _kernel.Get<BoundingSphereDebugShape>();
 			_boundingSphereDebugShape.OnInitialize();
+            _boundingBoxDebugShape = _kernel.Get<BoundingBoxDebugShape>();
+            _boundingBoxDebugShape.OnInitialize();
 			_rayDebugShape = _kernel.Get<RayDebugShape>();
 			_rayDebugShape.OnInitialize();
 			_rectangleDebugShape = _kernel.Get<RectangleDebugShape>();
@@ -86,6 +90,15 @@ namespace Balder.Debug
 			_boundingSphereDebugShape.Render(viewport, detailLevel);
 		}
 
+        public void RenderBoundingBox(BoundingBox box, Viewport viewport, DetailLevel detailLevel, Matrix world)
+        {
+            var scaleMatrix = Matrix.CreateScale(box.Max - box.Min);
+
+            _boundingBoxDebugShape.Color = viewport.DebugInfo.Color;
+            _boundingBoxDebugShape.RenderingWorld = scaleMatrix * world;
+            _boundingBoxDebugShape.Render(viewport, detailLevel);
+        }
+
 		public void RenderRectangle(Vector upperLeft, Vector upperRight, Vector lowerLeft, Vector lowerRight, Viewport viewport, Matrix world)
 		{
 			_rectangleDebugShape.RenderingWorld = world;
@@ -106,6 +119,7 @@ namespace Balder.Debug
         public void RenderBoundingObject(IBoundingObject boundingObject, Viewport viewport, DetailLevel detailLevel, Matrix world)
         {
             if (boundingObject.IsSphere) RenderBoundingSphere(boundingObject.BoundingSphere, viewport, detailLevel, world);
+            if (boundingObject.IsBox) RenderBoundingBox(boundingObject.BoundingBox, viewport, detailLevel, world);
         }
     }
 }
