@@ -252,7 +252,6 @@ namespace Balder.Objects.Geometries
 			}
 
 			GeometryHelper.CalculateNormals(FullDetailLevel);
-			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}

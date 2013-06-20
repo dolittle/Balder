@@ -234,13 +234,6 @@ namespace Balder.View
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
-		public bool IsInView(BoundingSphere boundingSphere)
-		{
-			var inFrustum = Frustum.IsSphereInFrustum(boundingSphere.Center, boundingSphere.Radius);
-			return inFrustum == FrustumIntersection.Inside ||
-				   inFrustum == FrustumIntersection.Intersect;
-		}
-
 		public bool IsInView(Vector position, float radius)
 		{
 			var inFrustum = Frustum.IsSphereInFrustum(position, radius);

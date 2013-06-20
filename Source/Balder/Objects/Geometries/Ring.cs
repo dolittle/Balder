@@ -212,7 +212,6 @@ namespace Balder.Objects.Geometries
 			BuildFaces(actualSegments, actualStacks, vertexCount);
 
 			GeometryHelper.CalculateNormals(FullDetailLevel);
-			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}

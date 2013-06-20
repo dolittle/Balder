@@ -29,7 +29,6 @@ namespace Balder
         public Vector Rotation;
         public Matrix Matrix;
         public object DataItem;
-        public BoundingSphere BoundingSphere;
         public RenderableNode Node;
         public Material Material;
 

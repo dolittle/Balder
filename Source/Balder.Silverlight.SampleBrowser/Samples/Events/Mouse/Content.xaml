@@ -10,7 +10,7 @@
 		<Execution:Game x:Name="_game" Width="800" Height="480" PassiveRendering="False">
 			<Execution:Game.DebugInfo>
 				<Debug:DebugInfo ShowMouseHitDetectionRay="True"
-								 BoundingSpheres="True"
+								 BoundingObjects="True"
 								 />
 			</Execution:Game.DebugInfo>
 			<Geometries:Box 

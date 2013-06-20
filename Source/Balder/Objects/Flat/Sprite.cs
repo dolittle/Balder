@@ -241,7 +241,7 @@ namespace Balder.Objects.Flat
 
 		public override void RenderDebugInfo(Viewport viewport, DetailLevel detailLevel)
 		{
-			if (viewport.DebugInfo.BoundingRectangles)
+			if (viewport.DebugInfo.BoundingObjects)
 			{
 				DebugRenderer.Instance.RenderRectangle(
 					_upperLeft,

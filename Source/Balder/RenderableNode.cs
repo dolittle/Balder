@@ -71,7 +71,7 @@ namespace Balder
 		public virtual void Render(Viewport viewport, DetailLevel detailLevel) { }
 		public virtual void RenderDebugInfo(Viewport viewport, DetailLevel detailLevel)
 		{
-			if (viewport.DebugInfo.BoundingSpheres)
+			if (viewport.DebugInfo.BoundingObjects)
 			{
 				DebugRenderer.Instance.RenderBoundingObject(BoundingObject, viewport, detailLevel, RenderingWorld);
 			}

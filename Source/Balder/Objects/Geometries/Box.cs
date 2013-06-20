@@ -100,7 +100,6 @@ namespace Balder.Objects.Geometries
 			GenerateFaces();
 
 			GeometryHelper.CalculateNormals(FullDetailLevel);
-			//InitializeBoundingSphere();
 
 			base.Prepare(viewport);
 		}

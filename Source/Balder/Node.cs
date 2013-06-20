@@ -584,7 +584,7 @@ namespace Balder
 			Prepare(viewport);
 		}
 
-		internal void OnPrepareBoundingSphere()
+		internal void OnPrepareBoundingObject()
 		{
 			PrepareBoundingObject();
 		}

@@ -140,7 +140,7 @@ namespace Balder.Rendering
 			}
 
 			PrepareChildren(viewport, node);
-			PrepareBoundingSphereForNode(node);
+			PrepareBoundingObjectForNode(node);
 		}
 
 		private void PrepareChildren(Viewport viewport, INode node)
@@ -154,11 +154,11 @@ namespace Balder.Rendering
 			}
 		}
 
-		private void PrepareBoundingSphereForNode(INode node)
+		private void PrepareBoundingObjectForNode(INode node)
 		{
 			if( node is Node )
 			{
-				((Node)node).OnPrepareBoundingSphere();
+				((Node)node).OnPrepareBoundingObject();
 			}
 		}
 
@@ -192,8 +192,8 @@ namespace Balder.Rendering
 
 			if( node.BoundingObject.IsSet )
 			{
-				var boundingSpherePosition = node.BoundingObject.Center*node.RenderingWorld;
-				var inView = viewport.View.IsInView(boundingSpherePosition, node.BoundingObject.Radius);
+				var boundingObjectPosition = node.BoundingObject.Center*node.RenderingWorld;
+				var inView = viewport.View.IsInView(boundingObjectPosition, node.BoundingObject.Radius);
 				if( !inView )
 				{
 					return;

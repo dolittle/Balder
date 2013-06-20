@@ -54,19 +54,9 @@ namespace Balder.Debug
 		public bool Lights { get; set; }
 
 		/// <summary>
-		/// Gets or sets if the bounding boxes for objects should be rendered
+		/// Gets or sets if the bounding objects should be rendered
 		/// </summary>
-		public bool BoundingBoxes { get; set; }
-
-		/// <summary>
-		/// Gets or sets if the bounding spheres for objects should be rendered
-		/// </summary>
-		public bool BoundingSpheres { get; set; }
-
-		/// <summary>
-		/// Gets or sets if the bounding rectangles should be rendered, typically used by sprites
-		/// </summary>
-		public bool BoundingRectangles { get; set; }
+		public bool BoundingObjects { get; set; }
 
 		/// <summary>
 		/// Gets or sets if the vertices should be rendered

@@ -51,14 +51,14 @@ namespace Balder
 		{
 			foreach( var child in Children )
 			{
-				GenerateBoundingSphere(this, child);
+				GenerateBoundingObject(this, child);
 			}
 
 			base.PrepareBoundingObject();
 		}
 
 
-		private static void GenerateBoundingSphere(INode root, INode current)
+		private static void GenerateBoundingObject(INode root, INode current)
 		{
 			if (!root.Equals(current))
 			{
@@ -73,7 +73,7 @@ namespace Balder
 			{
 				foreach (var child in ((IHaveChildren)current).Children)
 				{
-					GenerateBoundingSphere(root, child);
+					GenerateBoundingObject(root, child);
 				}
 			}
 		}

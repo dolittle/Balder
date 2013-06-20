@@ -72,7 +72,7 @@ namespace Balder.Controls
 			{
 				DataProperty.SetValue(this, value);
 				PrepareDataItemInfos(value);
-                PrepareMergedBoundingSphere();
+                PrepareMergedBoundingObject();
 			}
 		}
 
@@ -217,7 +217,7 @@ namespace Balder.Controls
             _actualNodeTemplate.PrepareBoundingObject();
         }
 
-        void PrepareMergedBoundingSphere()
+        void PrepareMergedBoundingObject()
         {
             if (!HasDataItemInfos) return;
 
@@ -227,8 +227,8 @@ namespace Balder.Controls
                 if (node != null)
                 {
                     node.PrepareBoundingObject();
-                    var boundingSphere = node.BoundingObject.Transform(_dataItemInfos[index].Matrix);
-                    BoundingObject.Include(boundingSphere);
+                    var boundingObject = node.BoundingObject.Transform(_dataItemInfos[index].Matrix);
+                    BoundingObject.Include(boundingObject);
                 }
             }
             ActualBoundingObject = BoundingObject.Transform(ActualWorld);

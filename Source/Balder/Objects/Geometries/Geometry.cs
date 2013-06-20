@@ -209,9 +209,9 @@ namespace Balder.Objects.Geometries
 			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
 			pickRay = new Ray(transformedPosition, transformedDirection);
 
-		    var transformedBoundingSphere = BoundingObject.Transform(RenderingWorld);
-            transformedBoundingSphere.SetCenter(0, 0, 0);
-            var distance = transformedBoundingSphere.Intersects(pickRay);
+		    var transformedBoundingObject = BoundingObject.Transform(RenderingWorld);
+            transformedBoundingObject.SetCenter(0, 0, 0);
+            var distance = transformedBoundingObject.Intersects(pickRay);
 			if (null != distance)
 			{
 				var vertices = FullDetailLevel.GetVertices();
