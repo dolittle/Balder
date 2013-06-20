@@ -231,7 +231,6 @@ namespace Balder.Controls
                     BoundingObject.Include(boundingObject);
                 }
             }
-            //ActualBoundingObject = BoundingObject.Transform(ActualWorld);
         }
 
         bool HasDataItemInfos { get { return _dataItemInfos != null; } }
