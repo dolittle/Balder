@@ -93,8 +93,9 @@ namespace Balder.Objects.Geometries
             var highestVector = new Vector(maxX,maxY,maxZ);
 		    var center = Centroid(vertices);
             var length = highestVector - lowestVector;
-            //BoundingObject.Sphere(center, length.Length / 2);
-            BoundingObject.Box(lowestVector, highestVector);
+
+            if( DefaultBoundingObjectType == BoundingObjectType.Sphere ) BoundingObject.Sphere(center, length.Length / 2);
+            if (DefaultBoundingObjectType == BoundingObjectType.Box) BoundingObject.Box(lowestVector, highestVector);
 
 			base.PrepareBoundingObject();
 		}
@@ -195,24 +196,15 @@ namespace Balder.Objects.Geometries
 
 		public float? Intersects(Viewport viewport, Ray pickRay, out Face face, out int faceIndex, out float faceU, out float faceV)
 		{
-
 			face = null;
 			faceIndex = -1;
 			faceU = 0f;
 			faceV = 0f;
 
-			if( null == RenderingWorld )
-			{
-				return null;
-			}
-			var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
-			var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
-			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
-			pickRay = new Ray(transformedPosition, transformedDirection);
+            if (RenderingWorld == null) return null;
 
-		    var transformedBoundingObject = BoundingObject.Transform(RenderingWorld);
-            transformedBoundingObject.SetCenter(0, 0, 0);
-            var distance = transformedBoundingObject.Intersects(pickRay);
+            BoundingObject.SetCenter(0, 0, 0);
+            var distance = BoundingObject.Intersects(pickRay);
 			if (null != distance)
 			{
 				var vertices = FullDetailLevel.GetVertices();

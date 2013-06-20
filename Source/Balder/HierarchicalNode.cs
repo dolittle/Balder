@@ -45,14 +45,25 @@ namespace Balder
 		}
 
 		public NodeCollection Children { get; private set; }
+        
+        BoundingObjectType _defaultBoundingObjectType;
+        public override BoundingObjectType DefaultBoundingObjectType 
+        {
+            get { return _defaultBoundingObjectType; }
+            set
+            {
+                _defaultBoundingObjectType = value;
+                if( Children != null ) 
+                    foreach (var child in Children)
+                        child.DefaultBoundingObjectType = value;
+            }
+        }
 
 
 		public override void PrepareBoundingObject()
 		{
 			foreach( var child in Children )
-			{
 				GenerateBoundingObject(this, child);
-			}
 
 			base.PrepareBoundingObject();
 		}
@@ -87,6 +98,7 @@ namespace Balder
 					{
 						foreach (var item in e.NewItems)
 						{
+                            ((INode)item).DefaultBoundingObjectType = DefaultBoundingObjectType;
 							Items.Add(item);
 						}
 					}

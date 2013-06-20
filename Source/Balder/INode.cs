@@ -15,6 +15,7 @@ namespace Balder
 
 		NodeStatistics Statistics { get; }
 		IBoundingObject BoundingObject { get; set; }
+        BoundingObjectType DefaultBoundingObjectType { get; set; }
 
 		/// <summary>
 		/// Gets or sets wether or not Node should cause any hit test during interaction

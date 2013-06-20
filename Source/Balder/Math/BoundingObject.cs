@@ -136,7 +136,7 @@ namespace Balder.Math
         {
             var boundingObject = new BoundingObject();
             if (IsSphere) boundingObject.BoundingSphere = BoundingSphere.Transform(matrix);
-            if (IsBox) boundingObject.BoundingBox = BoundingBox;
+            if (IsBox) boundingObject.BoundingBox = BoundingBox.Transform(matrix);
             return boundingObject;
         }
 

@@ -26,6 +26,7 @@ namespace Balder.Math
 	{
 		public Vector Center;
 		public float Radius;
+
 		public BoundingSphere(Vector center, float radius)
 		{
 			if (radius < 0f)

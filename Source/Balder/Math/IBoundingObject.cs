@@ -35,7 +35,6 @@ namespace Balder.Math
         BoundingBox BoundingBox { get; }
         BoundingSphere BoundingSphere { get; }
 
-
         void SetCenter(float x, float y, float z);
 
         bool Intersects(BoundingBox box);

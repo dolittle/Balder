@@ -135,6 +135,9 @@ namespace Balder
 
 		public string Label { get; set; }
 
+
+        public virtual BoundingObjectType DefaultBoundingObjectType { get; set; }
+
 		public bool InteractionEnabled { get; set; }
 		private NodeStatistics _statistics;
 		public NodeStatistics Statistics
@@ -164,8 +167,7 @@ namespace Balder
 			MouseLeftButtonUp += (s, e) => OnCommand();
 #endif
             BoundingObject = new BoundingObject();
-            ActualBoundingObject = new BoundingObject();
-            
+            DefaultBoundingObjectType = BoundingObjectType.Sphere;
 		}
 
 #if(XAML)
@@ -278,7 +280,6 @@ namespace Balder
 		}
 
 		public IBoundingObject BoundingObject { get; set; }
-        public IBoundingObject ActualBoundingObject { get; protected set; }
 
 		private Scene _scene;
 		public Scene Scene
@@ -441,7 +442,6 @@ namespace Balder
 			set
 			{
 				_renderingWorld = value;
-				ActualBoundingObject = BoundingObject.Transform(value);
 			}
 		}
 

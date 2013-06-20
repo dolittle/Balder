@@ -82,7 +82,12 @@ namespace Balder
 		{
             if (BoundingObject.IsSet)
             {
-                var distance = ActualBoundingObject.Intersects(pickRay);
+                var inverseWorldMatrix = Matrix.Invert(RenderingWorld);
+                var transformedPosition = Vector.Transform(pickRay.Position, inverseWorldMatrix);
+                var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
+                pickRay = new Ray(transformedPosition, transformedDirection);
+
+                var distance = BoundingObject.Intersects(pickRay);
                 if (null != distance)
                 {
                     if (Children.Count > 0)

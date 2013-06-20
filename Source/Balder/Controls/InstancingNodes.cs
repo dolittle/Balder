@@ -133,7 +133,7 @@ namespace Balder.Controls
 		{
 			closestDistance = null;
 			closestNode = null;
-            var distance = ActualBoundingObject.Intersects(pickRay);
+            var distance = BoundingObject.Intersects(pickRay);
 			if (null != distance)
 			{
 				var closestIndex = 0;
@@ -231,7 +231,7 @@ namespace Balder.Controls
                     BoundingObject.Include(boundingObject);
                 }
             }
-            ActualBoundingObject = BoundingObject.Transform(ActualWorld);
+            //ActualBoundingObject = BoundingObject.Transform(ActualWorld);
         }
 
         bool HasDataItemInfos { get { return _dataItemInfos != null; } }

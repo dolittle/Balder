@@ -115,58 +115,6 @@ namespace Balder.Math
 			return IntersectsTriangle(vector1, vector2, vector3, out u, out v);
 		}
 
-		/*
-		public float? IntersectsTriangle(Vector vector1, Vector vector2, Vector vector3, out float barycentricU, out float barycentricV)
-		{
-			barycentricU = 0;
-			barycentricV = 0;
-
-			// Find vectors for two edges sharing vert0
-			var edge1 = vector2 - vector1;
-			var edge2 = vector3 - vector1;
-
-			// Begin calculating determinant - also used to calculate barycentricU parameter
-			var pvec = Vector.Cross(Direction, edge2);
-
-			// If determinant is near zero, ray lies in plane of triangle
-			var det = Vector.Dot(edge1, pvec);
-			if (det < 0.0001f)
-				return null;
-
-			// Calculate distance from vert0 to ray origin
-			var tvec = Position - vector1;
-
-			// Calculate barycentricU parameter and test bounds
-			barycentricU = Vector.Dot(tvec, pvec);
-			if (barycentricU < 0.0f || barycentricU > det)
-				return null;
-
-			// Prepare to test barycentricV parameter
-			var qvec = Vector.Cross(tvec, edge1);
-
-			// Calculate barycentricV parameter and test bounds
-			barycentricV = Vector.Dot(Direction, qvec);
-			if (barycentricV < 0.0f || barycentricU + barycentricV > det)
-				return null;
-
-			// Calculate pickDistance, scale parameters, ray intersects triangle
-			var pickDistance = Vector.Dot(edge2, qvec);
-			float fInvDet = 1.0f / det;
-			pickDistance *= fInvDet;
-			barycentricU *= fInvDet;
-			barycentricV *= fInvDet;
-
-			var w = 1 - (barycentricU + barycentricV);
-			var x = (barycentricU * vector1.X + barycentricV * vector2.X + w * vector3.X);
-			var y = (barycentricU * vector1.Y + barycentricV * vector2.Y + w * vector3.Y);
-			var z = (barycentricU * vector1.Z + barycentricV * vector2.Z + w * vector3.Z);
-
-			
-
-
-			return pickDistance;
-		}*/
-
 
 		public float? IntersectsTriangle(Vector vector1, Vector vector2, Vector vector3, out float triangleU, out float triangleV)
 		{

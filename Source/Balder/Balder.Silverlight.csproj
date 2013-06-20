@@ -180,6 +180,7 @@
     <Compile Include="Materials\MaterialFiltering.cs" />
     <Compile Include="Materials\Silverlight\MaterialCalculator.cs" />
     <Compile Include="Math\BoundingObject.cs" />
+    <Compile Include="Math\BoundingObjectType.cs" />
     <Compile Include="Math\FrustumIntersection.cs" />
     <Compile Include="Math\FrustumLocation.cs" />
     <Compile Include="Math\IBoundingObject.cs" />

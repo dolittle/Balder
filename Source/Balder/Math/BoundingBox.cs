@@ -24,51 +24,32 @@ namespace Balder.Math
 {
 	public class BoundingBox : IEquatable<BoundingBox>
 	{
+        public Matrix World { get; set; }
+
 		public const int CornerCount = 8;
 		public Vector Min;
 		public Vector Max;
 		public Vector[] GetCorners()
 		{
-			return new Vector[] { new Vector(this.Min.X, this.Max.Y, this.Max.Z), new Vector(this.Max.X, this.Max.Y, this.Max.Z), new Vector(this.Max.X, this.Min.Y, this.Max.Z), new Vector(this.Min.X, this.Min.Y, this.Max.Z), new Vector(this.Min.X, this.Max.Y, this.Min.Z), new Vector(this.Max.X, this.Max.Y, this.Min.Z), new Vector(this.Max.X, this.Min.Y, this.Min.Z), new Vector(this.Min.X, this.Min.Y, this.Min.Z) };
+			var corners = new Vector[] { 
+                new Vector(Min.X, Max.Y, Max.Z), 
+                new Vector(Max.X, Max.Y, Max.Z), 
+                new Vector(Max.X, Min.Y, Max.Z), 
+                new Vector(Min.X, Min.Y, Max.Z), 
+                new Vector(Min.X, Max.Y, Min.Z), 
+                new Vector(Max.X, Max.Y, Min.Z), 
+                new Vector(Max.X, Min.Y, Min.Z), 
+                new Vector(Min.X, Min.Y, Min.Z) 
+            };
+            if (World != null && !World.IsIdentity)
+                for (var cornerIndex = 0; cornerIndex < corners.Length; cornerIndex++)
+                    corners[cornerIndex] = Vector.Transform(corners[cornerIndex], World);
+
+            return corners;
 		}
 
-		public void GetCorners(Vector[] corners)
-		{
-			if (corners == null)
-			{
-				throw new ArgumentNullException("corners");
-			}
-			if (corners.Length < 8)
-			{
-				throw new ArgumentOutOfRangeException("corners", "Not enough corners");
-			}
-			corners[0].X = this.Min.X;
-			corners[0].Y = this.Max.Y;
-			corners[0].Z = this.Max.Z;
-			corners[1].X = this.Max.X;
-			corners[1].Y = this.Max.Y;
-			corners[1].Z = this.Max.Z;
-			corners[2].X = this.Max.X;
-			corners[2].Y = this.Min.Y;
-			corners[2].Z = this.Max.Z;
-			corners[3].X = this.Min.X;
-			corners[3].Y = this.Min.Y;
-			corners[3].Z = this.Max.Z;
-			corners[4].X = this.Min.X;
-			corners[4].Y = this.Max.Y;
-			corners[4].Z = this.Min.Z;
-			corners[5].X = this.Max.X;
-			corners[5].Y = this.Max.Y;
-			corners[5].Z = this.Min.Z;
-			corners[6].X = this.Max.X;
-			corners[6].Y = this.Min.Y;
-			corners[6].Z = this.Min.Z;
-			corners[7].X = this.Min.X;
-			corners[7].Y = this.Min.Y;
-			corners[7].Z = this.Min.Z;
-		}
 
-		public BoundingBox(Vector min, Vector max)
+        public BoundingBox(Vector min, Vector max)
 		{
 			this.Min = min;
 			this.Max = max;
@@ -101,9 +82,28 @@ namespace Balder.Math
 
 		public static BoundingBox CreateMerged(BoundingBox original, BoundingBox additional)
 		{
-			var min = Vector.Min(original.Min, additional.Min);
-			var max = Vector.Max(original.Max, additional.Max);
-			var box = new BoundingBox(min,max);
+            var lowestX = 0f;
+            var lowestY = 0f;
+            var lowestZ = 0f;
+            var highestX = 0f;
+            var highestY = 0f;
+            var highestZ = 0f;
+
+            var corners = additional.GetCorners();
+            foreach (var corner in corners)
+            {
+                if (corner.X < lowestX) lowestX = corner.X;
+                if (corner.Y < lowestY) lowestY = corner.Y;
+                if (corner.Z < lowestZ) lowestZ = corner.Z;
+                if (corner.X > highestX) highestX = corner.X;
+                if (corner.Y > highestY) highestY = corner.Y;
+                if (corner.Z > highestZ) highestZ = corner.Z;
+            }
+
+			var min = Vector.Min(original.Min, new Vector(lowestX, lowestY, lowestZ));
+            var max = Vector.Max(original.Max, new Vector(highestX, highestY, highestZ));
+
+            var box = new BoundingBox(min,max);
 			return box;
 		}
 
@@ -222,6 +222,7 @@ namespace Balder.Math
 
 		public float? Intersects(Ray ray)
 		{
+
 			float num = 0f;
 			float maxValue = float.MaxValue;
 			if (System.Math.Abs(ray.Direction.X) < 1E-06f)
@@ -483,5 +484,12 @@ namespace Balder.Math
 			result.Z = (v.Z >= 0f) ? this.Max.Z : this.Min.Z;
 			return result;
 		}
+
+        public BoundingBox Transform(Matrix matrix)
+        {
+            var boundingBox = new BoundingBox(Min, Max);
+            boundingBox.World = matrix;
+            return boundingBox;
+        }
 	}
 }
