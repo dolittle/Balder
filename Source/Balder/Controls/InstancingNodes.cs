@@ -133,7 +133,7 @@ namespace Balder.Controls
 		{
 			closestDistance = null;
 			closestNode = null;
-			var distance = pickRay.Intersects(ActualBoundingSphere);
+            var distance = ActualBoundingObject.Intersects(pickRay);
 			if (null != distance)
 			{
 				var closestIndex = 0;
@@ -151,7 +151,6 @@ namespace Balder.Controls
                             {
                                 closestDistance = distance;
                                 closestIndex = index;
-
                             }
                         }
                     }
@@ -215,7 +214,7 @@ namespace Balder.Controls
             }
             _actualNodeTemplate = templateContent as RenderableNode;
             _templatePrepared = false;
-            _actualNodeTemplate.PrepareBoundingSphere();
+            _actualNodeTemplate.PrepareBoundingObject();
         }
 
         void PrepareMergedBoundingSphere()
@@ -227,12 +226,12 @@ namespace Balder.Controls
                 var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
                 if (node != null)
                 {
-                    node.PrepareBoundingSphere();
-                    var boundingSphere = node.BoundingSphere.Transform(_dataItemInfos[index].Matrix);
-                    BoundingSphere = BoundingSphere.CreateMerged(BoundingSphere, boundingSphere);
+                    node.PrepareBoundingObject();
+                    var boundingSphere = node.BoundingObject.Transform(_dataItemInfos[index].Matrix);
+                    BoundingObject.Include(boundingSphere);
                 }
             }
-            ActualBoundingSphere = BoundingSphere.Transform(ActualWorld);
+            ActualBoundingObject = BoundingObject.Transform(ActualWorld);
         }
 
         bool HasDataItemInfos { get { return _dataItemInfos != null; } }

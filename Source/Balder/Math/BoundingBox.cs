@@ -483,20 +483,5 @@ namespace Balder.Math
 			result.Z = (v.Z >= 0f) ? this.Max.Z : this.Min.Z;
 			return result;
 		}
-
-		public static bool operator ==(BoundingBox a, BoundingBox b)
-		{
-			return a.Equals(b);
-		}
-
-		public static bool operator !=(BoundingBox a, BoundingBox b)
-		{
-			if (!(a.Min != b.Min))
-			{
-				return (a.Max != b.Max);
-			}
-			return true;
-		}
 	}
-
 }

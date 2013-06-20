@@ -163,6 +163,9 @@ namespace Balder
 			Height = 0;
 			MouseLeftButtonUp += (s, e) => OnCommand();
 #endif
+            BoundingObject = new BoundingObject();
+            ActualBoundingObject = new BoundingObject();
+            
 		}
 
 #if(XAML)
@@ -274,8 +277,8 @@ namespace Balder
 			InvalidateWorld();
 		}
 
-		public BoundingSphere BoundingSphere { get; set; }
-		public BoundingSphere ActualBoundingSphere { get; protected set; }
+		public IBoundingObject BoundingObject { get; set; }
+        public IBoundingObject ActualBoundingObject { get; protected set; }
 
 		private Scene _scene;
 		public Scene Scene
@@ -438,7 +441,7 @@ namespace Balder
 			set
 			{
 				_renderingWorld = value;
-				ActualBoundingSphere = BoundingSphere.Transform(value);
+				ActualBoundingObject = BoundingObject.Transform(value);
 			}
 		}
 
@@ -517,7 +520,7 @@ namespace Balder
 
 		public virtual void BeforeRendering(Viewport viewport, Matrix view, Matrix projection, Matrix world) { }
 
-		public virtual void PrepareBoundingSphere()
+		public virtual void PrepareBoundingObject()
 		{
 
 		}
@@ -583,7 +586,7 @@ namespace Balder
 
 		internal void OnPrepareBoundingSphere()
 		{
-			PrepareBoundingSphere();
+			PrepareBoundingObject();
 		}
 		#endregion
 

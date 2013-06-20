@@ -47,14 +47,14 @@ namespace Balder
 		public NodeCollection Children { get; private set; }
 
 
-		public override void PrepareBoundingSphere()
+		public override void PrepareBoundingObject()
 		{
 			foreach( var child in Children )
 			{
 				GenerateBoundingSphere(this, child);
 			}
 
-			base.PrepareBoundingSphere();
+			base.PrepareBoundingObject();
 		}
 
 
@@ -64,9 +64,9 @@ namespace Balder
 			{
 				if( current is Node )
 				{
-					((Node)current).PrepareBoundingSphere();
+					((Node)current).PrepareBoundingObject();
 				}
-				root.BoundingSphere = BoundingSphere.CreateMerged(root.BoundingSphere, current.BoundingSphere);
+                root.BoundingObject.Include(current.BoundingObject);
 			}
 
 			if (current is IHaveChildren)

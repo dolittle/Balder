@@ -20,6 +20,7 @@ namespace Balder.Math
 {
 	public enum PlaneIntersectionType
 	{
+        None,
 		Front,
 		Back,
 		Intersecting

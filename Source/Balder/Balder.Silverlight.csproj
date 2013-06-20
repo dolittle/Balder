@@ -178,8 +178,10 @@
     <Compile Include="Materials\IMaterialCalculator.cs" />
     <Compile Include="Materials\MaterialFiltering.cs" />
     <Compile Include="Materials\Silverlight\MaterialCalculator.cs" />
+    <Compile Include="Math\BoundingObject.cs" />
     <Compile Include="Math\FrustumIntersection.cs" />
     <Compile Include="Math\FrustumLocation.cs" />
+    <Compile Include="Math\IBoundingObject.cs" />
     <Compile Include="Math\OrthographicFrustum.cs" />
     <Compile Include="MVVM\CommandManager.cs" />
     <Compile Include="MVVM\CommandService.cs" />

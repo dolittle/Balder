@@ -22,11 +22,11 @@ using System.Globalization;
 
 namespace Balder.Math
 {
-	public struct BoundingSphere : IEquatable<BoundingSphere>
+	public class BoundingSphere : IEquatable<BoundingSphere>
 	{
 		public Vector Center;
 		public float Radius;
-		public BoundingSphere(Vector center, float radius) : this()
+		public BoundingSphere(Vector center, float radius)
 		{
 			if (radius < 0f)
 			{
@@ -205,7 +205,7 @@ namespace Balder.Math
 			result = num <= (this.Radius * this.Radius);
 		}
 
-		public PlaneIntersectionType Intersects(Plane plane)
+        public PlaneIntersectionType Intersects(Plane plane)
 		{
 			return plane.Intersects(this);
 		}
@@ -430,26 +430,6 @@ namespace Balder.Math
 			return sphere;
 		}
 
-		public bool IsSet()
-		{
-			return Radius > 0;
-		}
-
-
-		
-		public static bool operator ==(BoundingSphere a, BoundingSphere b)
-		{
-			return a.Equals(b);
-		}
-		 
-
-		public static bool operator !=(BoundingSphere a, BoundingSphere b)
-		{
-			if (!(a.Center != b.Center))
-			{
-				return (a.Radius != b.Radius);
-			}
-			return true;
-		}
+        public bool IsSet { get { return Radius > 0; } }
 	}
 }

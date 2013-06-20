@@ -73,39 +73,42 @@ namespace Balder
 		{
 			if (viewport.DebugInfo.BoundingSpheres)
 			{
-				DebugRenderer.Instance.RenderBoundingSphere(BoundingSphere, viewport, detailLevel, RenderingWorld);
+				DebugRenderer.Instance.RenderBoundingObject(BoundingObject, viewport, detailLevel, RenderingWorld);
 			}
 		}
 
 
 		public virtual float? Intersects(Viewport viewport, Ray pickRay)
 		{
-			var distance = pickRay.Intersects(ActualBoundingSphere);
-			if( null != distance ||
-				BoundingSphere.Radius <= 0 )
-			{
-				if (Children.Count > 0)
-				{
+            if (BoundingObject.IsSet)
+            {
+                var distance = ActualBoundingObject.Intersects(pickRay);
+                if (null != distance)
+                {
+                    if (Children.Count > 0)
+                    {
 
-					float? closestDistance = null;
-					foreach (var child in Children)
-					{
-						if (child is ICanBeIntersected)
-						{
-							distance = ((ICanBeIntersected) child).Intersects(viewport, pickRay);
-							if (null != distance && (distance < closestDistance || closestDistance == null))
-							{
-								closestDistance = distance;
-							}
-						}
-					}
+                        float? closestDistance = null;
+                        foreach (var child in Children)
+                        {
+                            if (child is ICanBeIntersected)
+                            {
+                                distance = ((ICanBeIntersected)child).Intersects(viewport, pickRay);
+                                if (null != distance && (distance < closestDistance || closestDistance == null))
+                                {
+                                    closestDistance = distance;
+                                }
+                            }
+                        }
 
-					return closestDistance;
-				} else
-				{
-					return distance;
-				}
-			}
+                        return closestDistance;
+                    }
+                    else
+                    {
+                        return distance;
+                    }
+                }
+            }
 
 			return null;
 		}

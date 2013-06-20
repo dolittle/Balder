@@ -20,6 +20,7 @@ namespace Balder.Math
 {
 	public enum ContainmentType
 	{
+        DoesNotContain,
 		Disjoint,
 		Contains,
 		Intersects

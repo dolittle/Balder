@@ -65,9 +65,9 @@ namespace Balder.Objects.Geometries
 			FullDetailLevel = GeometryContext.GetDetailLevel(DetailLevel.Full);
 		}
 
-		public override void PrepareBoundingSphere()
+		public override void PrepareBoundingObject()
 		{
-			if( BoundingSphere.IsSet() )
+			if( BoundingObject.IsSet )
 			{
 				return;
 			}
@@ -93,8 +93,9 @@ namespace Balder.Objects.Geometries
             var highestVector = new Vector(maxX,maxY,maxZ);
 		    var center = Centroid(vertices);
             var length = highestVector - lowestVector;
-			BoundingSphere = new BoundingSphere(center, length.Length / 2);
-			base.PrepareBoundingSphere();
+            BoundingObject.Sphere(center, length.Length / 2);
+
+			base.PrepareBoundingObject();
 		}
 
         public Vector Centroid(Vertex[] vertices)
@@ -174,7 +175,7 @@ namespace Balder.Objects.Geometries
 				var geometry = assetPart as Geometry;
 				Material = geometry.Material;
 				World = geometry.World;
-				BoundingSphere = geometry.BoundingSphere;
+				BoundingObject = geometry.BoundingObject;
 				FullDetailLevel = geometry.FullDetailLevel;
 			}
 		}
@@ -208,9 +209,9 @@ namespace Balder.Objects.Geometries
 			var transformedDirection = Vector.TransformNormal(pickRay.Direction, inverseWorldMatrix);
 			pickRay = new Ray(transformedPosition, transformedDirection);
 
-		    var transformedBoundingSphere = BoundingSphere.Transform(RenderingWorld);
-            transformedBoundingSphere.Center.Set(0,0,0);
-            var distance = pickRay.Intersects(transformedBoundingSphere);
+		    var transformedBoundingSphere = BoundingObject.Transform(RenderingWorld);
+            transformedBoundingSphere.SetCenter(0, 0, 0);
+            var distance = transformedBoundingSphere.Intersects(pickRay);
 			if (null != distance)
 			{
 				var vertices = FullDetailLevel.GetVertices();

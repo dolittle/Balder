@@ -24,6 +24,7 @@ namespace Balder.Debug
 {
 	public interface IDebugRenderer
 	{
+        void RenderBoundingObject(IBoundingObject boundingObject, Viewport viewport, DetailLevel detailLevel, Matrix world);
 		void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world);
 		void RenderRectangle(Vector upperLeft, Vector upperRight, Vector lowerLeft, Vector lowerRight, Viewport viewport, Matrix world);
 		void RenderRay(Vector position, Vector direction, Viewport viewport);

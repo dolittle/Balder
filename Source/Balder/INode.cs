@@ -14,7 +14,7 @@ namespace Balder
 		Scene Scene { get; set; }
 
 		NodeStatistics Statistics { get; }
-		BoundingSphere BoundingSphere { get; set; }
+		IBoundingObject BoundingObject { get; set; }
 
 		/// <summary>
 		/// Gets or sets wether or not Node should cause any hit test during interaction

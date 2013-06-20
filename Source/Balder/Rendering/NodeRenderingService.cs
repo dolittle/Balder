@@ -190,10 +190,10 @@ namespace Balder.Rendering
 				return;
 			}
 
-			if( node.BoundingSphere.IsSet() )
+			if( node.BoundingObject.IsSet )
 			{
-				var boundingSpherePosition = node.BoundingSphere.Center*node.RenderingWorld;
-				var inView = viewport.View.IsInView(boundingSpherePosition, node.BoundingSphere.Radius);
+				var boundingSpherePosition = node.BoundingObject.Center*node.RenderingWorld;
+				var inView = viewport.View.IsInView(boundingSpherePosition, node.BoundingObject.Radius);
 				if( !inView )
 				{
 					return;

@@ -102,5 +102,10 @@ namespace Balder.Debug
 			_rayDebugShape.Color = viewport.DebugInfo.Color;
 			_rayDebugShape.Render(viewport, DetailLevel.Full);
 		}
-	}
+
+        public void RenderBoundingObject(IBoundingObject boundingObject, Viewport viewport, DetailLevel detailLevel, Matrix world)
+        {
+            if (boundingObject.IsSphere) RenderBoundingSphere(boundingObject.BoundingSphere, viewport, detailLevel, world);
+        }
+    }
 }
