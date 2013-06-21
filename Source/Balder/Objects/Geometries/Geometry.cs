@@ -94,7 +94,7 @@ namespace Balder.Objects.Geometries
 		    var center = Centroid(vertices);
             var length = highestVector - lowestVector;
 
-            if( DefaultBoundingObjectType == BoundingObjectType.Sphere ) BoundingObject.Sphere(center, length.Length / 2);
+            if (DefaultBoundingObjectType == BoundingObjectType.Sphere) BoundingObject.Sphere(center, length.Length / 2);
             if (DefaultBoundingObjectType == BoundingObjectType.Box) BoundingObject.Box(lowestVector, highestVector);
 
 			base.PrepareBoundingObject();

@@ -16,18 +16,15 @@
 // limitations under the License.
 //
 #endregion
-using Balder.Display;
-using Balder.Math;
-using Balder.Rendering;
 
+using System;
 namespace Balder.Debug
 {
-	public interface IDebugRenderer
-	{
-        void RenderBoundingObject(IBoundingObject boundingObject, Viewport viewport, DetailLevel detailLevel, Matrix world);
-        void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world, bool topLevel);
-        void RenderBoundingBox(BoundingBox sphere, Viewport viewport, DetailLevel detailLevel, Matrix world, bool topLevel);
-		void RenderRectangle(Vector upperLeft, Vector upperRight, Vector lowerLeft, Vector lowerRight, Viewport viewport, Matrix world);
-		void RenderRay(Vector position, Vector direction, Viewport viewport);
-	}
+    public enum BoundingObjectsDebugInfo
+    {
+        None,
+        OnlyTopLevel,
+        OnlyLowLevel,
+        All
+    }
 }

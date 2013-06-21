@@ -72,14 +72,14 @@ namespace Balder.Debug
 			_rectangleDebugShape.OnInitialize();
 		}
 
-		public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world)
+        public void RenderBoundingSphere(BoundingSphere sphere, Viewport viewport, DetailLevel detailLevel, Matrix world, bool topLevel = false)
 		{
 			var scaleMatrix = Matrix.CreateScale(sphere.Radius);
 			var translationMatrix = Matrix.CreateTranslation(sphere.Center) * world;
 			var rotateYMatrix = Matrix.CreateRotationY(90);
 			var rotateXMatrix = Matrix.CreateRotationX(90);
 
-			_boundingSphereDebugShape.Color = viewport.DebugInfo.Color;
+            _boundingSphereDebugShape.Color = topLevel ? viewport.DebugInfo.TopLevelBoundingObjectsColor : viewport.DebugInfo.BoundingObjectsColor;
 			_boundingSphereDebugShape.RenderingWorld = scaleMatrix * translationMatrix;
 			_boundingSphereDebugShape.Render(viewport, detailLevel);
 
@@ -90,12 +90,13 @@ namespace Balder.Debug
 			_boundingSphereDebugShape.Render(viewport, detailLevel);
 		}
 
-        public void RenderBoundingBox(BoundingBox box, Viewport viewport, DetailLevel detailLevel, Matrix world)
+        public void RenderBoundingBox(BoundingBox box, Viewport viewport, DetailLevel detailLevel, Matrix world, bool topLevel = false)
         {
-            var scaleMatrix = Matrix.CreateScale(box.Max - box.Min);
+            var scaleMatrix = Matrix.CreateScale(box.Size);
+            var translationMatrix = Matrix.CreateTranslation(box.Center) * world;
 
-            _boundingBoxDebugShape.Color = viewport.DebugInfo.Color;
-            _boundingBoxDebugShape.RenderingWorld = scaleMatrix * world;
+            _boundingBoxDebugShape.Color = topLevel?viewport.DebugInfo.TopLevelBoundingObjectsColor:viewport.DebugInfo.BoundingObjectsColor;
+            _boundingBoxDebugShape.RenderingWorld = scaleMatrix * translationMatrix; 
             _boundingBoxDebugShape.Render(viewport, detailLevel);
         }
 
@@ -103,7 +104,7 @@ namespace Balder.Debug
 		{
 			_rectangleDebugShape.RenderingWorld = world;
 			_rectangleDebugShape.SetRectangle(upperLeft, upperRight, lowerLeft, lowerRight);
-			_rectangleDebugShape.Color = viewport.DebugInfo.Color;
+			_rectangleDebugShape.Color = viewport.DebugInfo.BoundingObjectsColor;
 			_rectangleDebugShape.Render(viewport, DetailLevel.Full);
 		}
 
@@ -112,14 +113,17 @@ namespace Balder.Debug
 		{
 			_rayDebugShape.Start = position;
 			_rayDebugShape.Direction = direction;
-			_rayDebugShape.Color = viewport.DebugInfo.Color;
+			_rayDebugShape.Color = viewport.DebugInfo.BoundingObjectsColor;
 			_rayDebugShape.Render(viewport, DetailLevel.Full);
 		}
 
         public void RenderBoundingObject(IBoundingObject boundingObject, Viewport viewport, DetailLevel detailLevel, Matrix world)
         {
-            if (boundingObject.IsSphere) RenderBoundingSphere(boundingObject.BoundingSphere, viewport, detailLevel, world);
-            if (boundingObject.IsBox) RenderBoundingBox(boundingObject.BoundingBox, viewport, detailLevel, world);
+            if (boundingObject.IsTopLevel && viewport.DebugInfo.BoundingObjects == BoundingObjectsDebugInfo.OnlyLowLevel) return;
+            if (!boundingObject.IsTopLevel && viewport.DebugInfo.BoundingObjects == BoundingObjectsDebugInfo.OnlyTopLevel) return;
+
+            if (boundingObject.IsSphere) RenderBoundingSphere(boundingObject.BoundingSphere, viewport, detailLevel, world, boundingObject.IsTopLevel);
+            if (boundingObject.IsBox) RenderBoundingBox(boundingObject.BoundingBox, viewport, detailLevel, world, boundingObject.IsTopLevel);
         }
     }
 }

@@ -362,7 +362,7 @@ namespace Balder.Rendering.Silverlight
 				var vertex = _vertices[vertexIndex];
 				PointRenderer.Draw((int)vertex.ProjectedVector.X,
 								   (int)vertex.ProjectedVector.Y,
-								   viewport.DebugInfo.Color,
+								   viewport.DebugInfo.BoundingObjectsColor,
 								   4);
 			}
 		}

@@ -31,6 +31,8 @@ namespace Balder.Debug
 		public DebugInfo()
 		{
 			Color = Color.FromArgb(0xFF, 0xFF, 0xFF, 0);
+            BoundingObjectsColor = Color.FromArgb(0xFF, 0xFF, 0xFF, 0);
+            TopLevelBoundingObjectsColor = Color.FromArgb(0xFF, 0x0, 0xFF, 0xFF);
 		}
 
 		/// <summary>
@@ -54,9 +56,11 @@ namespace Balder.Debug
 		public bool Lights { get; set; }
 
 		/// <summary>
-		/// Gets or sets if the bounding objects should be rendered
+		/// Gets or sets what bounding objects should be rendered
 		/// </summary>
-		public bool BoundingObjects { get; set; }
+		public BoundingObjectsDebugInfo BoundingObjects { get; set; }
+
+
 
 		/// <summary>
 		/// Gets or sets if the vertices should be rendered
@@ -68,9 +72,19 @@ namespace Balder.Debug
 		/// </summary>
 		public bool ShowMouseHitDetectionRay { get; set; }
 
-		/// <summary>
-		/// Gets or sets the debug information color used for all debug info
-		/// </summary>
-		public Color Color { get; set; } 
-	}
+        /// <summary>
+        /// Gets or sets the debug information color used for debug info
+        /// </summary>
+        public Color Color { get; set; }
+
+        /// <summary>
+        /// Gets or sets the debug information color used for bounding objects
+        /// </summary>
+        public Color BoundingObjectsColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets the debug information color used for top level bounding objects
+        /// </summary>
+        public Color TopLevelBoundingObjectsColor { get; set; }
+    }
 }

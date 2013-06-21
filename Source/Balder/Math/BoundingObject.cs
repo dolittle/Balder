@@ -22,7 +22,16 @@ namespace Balder.Math
 {
     public class BoundingObject : IBoundingObject
     {
-        public Vector Center { get { return BoundingSphere != null ? BoundingSphere.Center : Vector.Zero; } }
+        public Vector Center 
+        { 
+            get 
+            {
+                if (IsSphere) return BoundingSphere.Center;
+                if (IsBox) return BoundingBox.Center;
+                return Vector.Zero;
+            } 
+        }
+
         public float Radius { get { return BoundingSphere != null ? BoundingSphere.Radius : 0; } }
         public BoundingBox BoundingBox { get; private set; }
         public BoundingSphere BoundingSphere { get; private set; }
@@ -30,6 +39,13 @@ namespace Balder.Math
         public bool IsSet { get { return BoundingBox != null || (BoundingSphere != null && BoundingSphere.IsSet); } }
         public bool IsBox { get { return BoundingBox != null; } }
         public bool IsSphere { get { return BoundingSphere != null; } }
+
+        public bool IsTopLevel { get; set; }
+
+        public BoundingObject()
+        {
+            IsTopLevel = false;
+        }
 
         public void Sphere(float radius)
         {
@@ -47,6 +63,14 @@ namespace Balder.Math
         {
             BoundingBox = new BoundingBox(min, max);
         }
+
+
+        public void Reset()
+        {
+            BoundingBox = null;
+            BoundingSphere = null;
+        }
+
 
         public bool Intersects(BoundingBox box)
         {
@@ -149,6 +173,13 @@ namespace Balder.Math
         public void SetCenter(float x, float y, float z)
         {
             if (IsSphere) BoundingSphere.Center.Set(x, y, z);
+        }
+
+        public override string ToString()
+        {
+            if (IsSphere) return BoundingSphere.ToString();
+            if (IsBox) return BoundingBox.ToString();
+            return "Not Set";
         }
     }
 }

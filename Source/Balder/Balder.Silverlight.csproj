@@ -131,6 +131,7 @@
     <Compile Include="Content\Silverlight\IFilePathHelper.cs" />
     <Compile Include="DataItemInfo.cs" />
     <Compile Include="Debug\BoundingBoxDebugShape.cs" />
+    <Compile Include="Debug\BoundingObjectsDebugInfo.cs" />
     <Compile Include="Debug\RectangleDebugShape.cs" />
     <Compile Include="Execution\IHaveLabel.cs" />
     <Compile Include="Execution\IHavePropertyContainer.cs" />

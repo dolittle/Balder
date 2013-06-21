@@ -65,6 +65,8 @@ namespace Balder.Math
 
 		public static BoundingSphere CreateMerged(BoundingSphere original, BoundingSphere additional)
 		{
+            if (!original.IsSet) return new BoundingSphere(additional.Center, additional.Radius);
+
 			var vector2 = additional.Center - original.Center;
 			var num = vector2.Length;
 			var radius = original.Radius;

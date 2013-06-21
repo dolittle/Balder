@@ -24,6 +24,8 @@ namespace Balder.Math
 
         bool IsBox { get; }
         bool IsSphere { get; }
+
+        bool IsTopLevel { get; set; }
         
         void Sphere(float radius);
         void Sphere(Vector center, float radius);
@@ -36,6 +38,7 @@ namespace Balder.Math
         BoundingSphere BoundingSphere { get; }
 
         void SetCenter(float x, float y, float z);
+        void Reset();
 
         bool Intersects(BoundingBox box);
         void Intersects(ref BoundingBox box, out bool result);

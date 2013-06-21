@@ -40,7 +40,7 @@ namespace Balder.Math
                 new Vector(Max.X, Max.Y, Min.Z), 
                 new Vector(Max.X, Min.Y, Min.Z), 
                 new Vector(Min.X, Min.Y, Min.Z) 
-            };
+            };  
             if (World != null && !World.IsIdentity)
                 for (var cornerIndex = 0; cornerIndex < corners.Length; cornerIndex++)
                     corners[cornerIndex] = Vector.Transform(corners[cornerIndex], World);
@@ -54,6 +54,9 @@ namespace Balder.Math
 			this.Min = min;
 			this.Max = max;
 		}
+
+        public Vector Center { get { return (Min + Max)/2; } }
+        public Vector Size { get { return (Max - Min)/2; } }
 
 		public bool Equals(BoundingBox other)
 		{
@@ -82,12 +85,12 @@ namespace Balder.Math
 
 		public static BoundingBox CreateMerged(BoundingBox original, BoundingBox additional)
 		{
-            var lowestX = 0f;
-            var lowestY = 0f;
-            var lowestZ = 0f;
-            var highestX = 0f;
-            var highestY = 0f;
-            var highestZ = 0f;
+            var lowestX = float.MaxValue;
+            var lowestY = float.MaxValue;
+            var lowestZ = float.MaxValue;
+            var highestX = float.MinValue;
+            var highestY = float.MinValue;
+            var highestZ = float.MinValue;
 
             var corners = additional.GetCorners();
             foreach (var corner in corners)
@@ -99,13 +102,21 @@ namespace Balder.Math
                 if (corner.Y > highestY) highestY = corner.Y;
                 if (corner.Z > highestZ) highestZ = corner.Z;
             }
+            var lowest = new Vector(lowestX, lowestY, lowestZ);
+            var highest = new Vector(highestX, highestY, highestZ);
 
-			var min = Vector.Min(original.Min, new Vector(lowestX, lowestY, lowestZ));
-            var max = Vector.Max(original.Max, new Vector(highestX, highestY, highestZ));
+            if (!original.IsSet)
+                return new BoundingBox(lowest, highest);
+
+
+			var min = Vector.Min(original.Min, lowest);
+            var max = Vector.Max(original.Max, highest);
 
             var box = new BoundingBox(min,max);
 			return box;
 		}
+
+        bool IsSet { get { return !(Min == Vector.Zero && Max == Vector.Zero); } }
 
 
 		public static BoundingBox CreateFromSphere(BoundingSphere sphere)
