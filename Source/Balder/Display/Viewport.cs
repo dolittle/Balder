@@ -197,10 +197,6 @@ namespace Balder.Display
 
 
 
-
-
-
-
 		public void HandleMouseDebugInfo(int x, int y, Node hitNode)
 		{
 			if (DebugInfo.ShowMouseHitDetectionRay)
