@@ -21,6 +21,7 @@
 #if(SILVERLIGHT)
 using System;
 using System.Collections;
+using System.Collections.Specialized;
 using System.Windows;
 using Balder.Display;
 using Balder.Execution;
@@ -73,8 +74,22 @@ namespace Balder.Controls
 				DataProperty.SetValue(this, value);
 				PrepareDataItemInfos(value);
                 PrepareMergedBoundingObject();
+                HandleObservableCollection(value);
 			}
 		}
+
+        void HandleObservableCollection(IEnumerable data)
+        {
+            if (data is INotifyCollectionChanged)
+            {
+                var observableCollection = data as INotifyCollectionChanged;
+                observableCollection.CollectionChanged += (s, e) =>
+                {
+                    PrepareDataItemInfos(data);
+                    PrepareMergedBoundingObject();
+                };
+            }
+        }
 
         public DataItemInfo[] DataItemInfos { get { return _dataItemInfos; } }
 
@@ -221,6 +236,8 @@ namespace Balder.Controls
         {
             if (!HasDataItemInfos) return;
 
+            BoundingObject.Reset();
+
             for (var index = 0; index < _dataItemInfos.Length; index++)
             {
                 var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
@@ -231,6 +248,8 @@ namespace Balder.Controls
                     BoundingObject.Include(boundingObject);
                 }
             }
+
+            BoundingObject.IsTopLevel = true;
         }
 
         bool HasDataItemInfos { get { return _dataItemInfos != null; } }
