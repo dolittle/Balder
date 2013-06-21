@@ -28,10 +28,11 @@ namespace Balder.Input.Silverlight
 {
 	public class NodeMouseEventHelper : IDisposable
 	{
-		private readonly Game _game;
-		private readonly Viewport _viewport;
-		private readonly ManipulationEventHelper _manipulationEventHelper;
-		private Node _previousNode;
+		Game _game;
+		Viewport _viewport;
+		ManipulationEventHelper _manipulationEventHelper;
+		Node _previousNode;
+        object _previousDataContext;
 
 		public static MouseInfo	MouseInfo = new MouseInfo();
 
@@ -94,24 +95,30 @@ namespace Balder.Input.Silverlight
 				RaiseEvent(Node.MouseMoveEvent,hitNode,e);
 
 				if (null == _previousNode ||
-					!hitNode.Equals(_previousNode))
+					!hitNode.Equals(_previousNode) ||
+                    _previousDataContext != hitNode.DataContext)
 				{
 					RaiseEvent(Node.MouseEnterEvent, hitNode, e);
 				}
 
-				if (null != _previousNode &&
-					!hitNode.Equals(_previousNode))
-				{
-					HandleMouseLeave(xPosition, yPosition, e);
-					HandleMouseEnter(xPosition, yPosition, e);
-				}
-				_previousNode = hitNode;
+                if (_previousNode != null)
+                {
+                    if (_previousDataContext != hitNode.DataContext ||
+                        !hitNode.Equals(_previousNode))
+                    {
+                        HandleMouseLeave(xPosition, yPosition, e);
+                        HandleMouseEnter(xPosition, yPosition, e);
+                    }
+                }
+                _previousNode = hitNode;
+                _previousDataContext = hitNode.DataContext;
 			}
 			else if (null != _previousNode)
 			{
 				HandleMouseLeave(xPosition, yPosition, e);
 			}
 			_viewport.HandleMouseDebugInfo(xPosition, yPosition, hitNode);
+            
 		}
 
 		public void HandleMouseEnter(int xPosition, int yPosition, System.Windows.Input.MouseEventArgs e)
