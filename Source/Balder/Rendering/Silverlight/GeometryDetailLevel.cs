@@ -228,12 +228,13 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix world, bool depthTest)
+		public void Render(Viewport viewport, INode node, Matrix view, Matrix projection, Matrix localToWorld, bool depthTest)
 		{
             if (null == _vertices) return;
 
-            var worldView = (world * view);
-            var viewToLocal = Matrix.Invert(worldView);
+            var worldToView = (localToWorld * view);
+            var viewToLocal = Matrix.Invert(worldToView);
+            var worldToViewToProjection = worldToView * projection;
 
             ResetColorCalculationIfNeeded();
             _lightCalculator.PrepareForNode(node, viewToLocal);
@@ -241,7 +242,7 @@ namespace Balder.Rendering.Silverlight
 			var color = GetColorFromNode(node);
 
 			BeginVerticesTiming(node);
-			CalculateVertices(viewport, view, projection, world);
+			CalculateVertices(viewport, view, projection, localToWorld);
 			EndVerticesTiming(node);
 
             Material material = null;
@@ -249,7 +250,7 @@ namespace Balder.Rendering.Silverlight
                 material = ((IHaveMaterial)node).Material;
 
 			BeginRenderingTiming(node);
-			SetRenderedFaces(node, RenderFaces(node, material, viewport, view, world, viewToLocal, depthTest));
+			SetRenderedFaces(node, RenderFaces(node, material, viewport, view, localToWorld, worldToView, worldToViewToProjection, viewToLocal, depthTest));
 			SetRenderedLines(node, RenderLines(viewport, color));
 			EndRenderingTiming(node);
 
@@ -377,7 +378,7 @@ namespace Balder.Rendering.Silverlight
 
 
 
-		int RenderFaces(INode node, Material material, Viewport viewport, Matrix view, Matrix localToWorld, Matrix viewToLocal, bool depthTest)
+        int RenderFaces(INode node, Material material, Viewport viewport, Matrix view, Matrix localToWorld, Matrix worldToView, Matrix worldToViewToProjection, Matrix viewToLocal, bool depthTest)
 		{
             if (null == _faces) return 0;
 
@@ -414,7 +415,7 @@ namespace Balder.Rendering.Silverlight
                     face.Texture2 = faceMaterial.ReflectionTexture;
                     face.Texture1Factor = faceMaterial.DiffuseTextureFactor;
                     face.Texture2Factor = faceMaterial.ReflectionTextureFactor;
-                    face.Draw(viewport, _vertices, faceMaterial);
+                    face.Draw(viewport, worldToView, worldToViewToProjection, _vertices, faceMaterial);
 				}
 
 				if (face.DrawWireframe)

@@ -344,14 +344,14 @@ namespace Balder.Rendering.Silverlight
 		}
 
 
-		public void Draw(Viewport viewport, RenderVertex[] vertices, Material material)
+        public void Draw(Viewport viewport, Matrix worldToView, Matrix worldToViewToProjection, RenderVertex[] vertices, Material material)
 		{
 			var vertexA = vertices[A];
 			var vertexB = vertices[B];
 			var vertexC = vertices[C];
 			Prepare(vertexA, vertexB, vertexC);
 
-			Draw(viewport, vertexA, vertexB, vertexC, material);
+			Draw(viewport, worldToView, worldToViewToProjection, vertexA, vertexB, vertexC, material);
 		}
 
 		private Color ClipColor(Color colorA, Color colorB, float length, float distance)
@@ -385,17 +385,22 @@ namespace Balder.Rendering.Silverlight
 			return color;
 		}
 
-        /*
-		private void ClipLine(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB)
+
+        void ClipLine(Viewport viewport, Matrix worldToView, Matrix worldToViewToProjection, RenderVertex vertexA, RenderVertex vertexB)
 		{
 			var distance = viewport.View.Near - vertexA.ProjectedVector.Z;
-			var delta = vertexB.ToVector() - vertexA.ToVector();
+
+            var vectorA = Vector.Transform(vertexA.ToVector(), worldToView);
+            var vectorB = Vector.Transform(vertexB.ToVector(), worldToView);
+
+            var delta = vectorA - vectorB;
 			var deltaU1 = vertexB.U1 - vertexA.U1;
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
 			var deltaV2 = vertexB.V2 - vertexA.V2;
 			var length = delta.Z;
-				//System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+		    //var length = System.Math.Max(System.Math.Max(delta.X, delta.Y), delta.Z);
+            if (length == 0) return;
 
 			var xAdd = (delta.X / length) * distance;
 			var yAdd = (delta.Y / length) * distance;
@@ -405,14 +410,15 @@ namespace Balder.Rendering.Silverlight
 			var u2Add = (deltaU2 / length) * distance;
 			var v2Add = (deltaV2 / length) * distance;
 
-			vertexA.TransformedVector = new Vector(
-					vertexA.X + xAdd,
-					vertexA.Y + yAdd,
+			var vector = new Vector(
+					vectorA.X + xAdd,
+					vectorA.Y + yAdd,
 					viewport.View.Near
 					//vertexA.TransformedVector.Z + zAdd
 				);
-			vertexA.ProjectedVector = Vector.Transform(vertexA.TransformedVector, viewport.View.ProjectionMatrix);
-			vertexA.ConvertToScreenCoordinates(viewport);
+            vertexA.ProjectAndConvertToScreen(viewport, worldToView, worldToViewToProjection);
+			//vertexA.ProjectedVector = Vector.Transform(vector, viewport.View.ProjectionMatrix);
+			//vertexA.ConvertToScreenCoordinates(viewport);
 
 			vertexA.U1 += u1Add;
 			vertexA.V1 += v1Add;
@@ -423,9 +429,9 @@ namespace Balder.Rendering.Silverlight
 			vertexA.DiffuseColor = ClipColor(vertexA.DiffuseColor, vertexB.DiffuseColor, length, distance);
 			vertexA.SpecularColor = ClipColor(vertexA.SpecularColor, vertexB.SpecularColor, length, distance);
 		}
-        */
 
-		private void Draw(Viewport viewport, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
+
+        private void Draw(Viewport viewport, Matrix worldToView, Matrix worldToViewToProjection, RenderVertex vertexA, RenderVertex vertexB, RenderVertex vertexC, Material material)
 		{
 			vertexA.CopyTo(VertexA);
 			vertexB.CopyTo(VertexB);
@@ -437,15 +443,15 @@ namespace Balder.Rendering.Silverlight
 
 			GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
             
-            /*
+            
 			if (IsClippedAgainstNear(viewport, vertexA, vertexB, vertexC))
 			{
                 GetSortedPointsBasedOnZ(ref vertexA, ref vertexB, ref vertexC);
 
 				if (vertexB.ProjectedVector.Z < viewport.View.Near)
 				{
-					ClipLine(viewport, vertexA, vertexC);
-					ClipLine(viewport, vertexB, vertexC);
+					ClipLine(viewport, worldToView, worldToViewToProjection, vertexA, vertexC);
+                    ClipLine(viewport, worldToView, worldToViewToProjection, vertexB, vertexC);
 
                     GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
 					Draw(viewport, this, material, vertexA, vertexB, vertexC);
@@ -456,8 +462,8 @@ namespace Balder.Rendering.Silverlight
 					var vertexD = VertexD;
 					vertexA.CopyTo(vertexD);
 
-					ClipLine(viewport, vertexA, vertexB);
-					ClipLine(viewport, vertexD, vertexC);
+                    ClipLine(viewport, worldToView, worldToViewToProjection, vertexA, vertexB);
+                    ClipLine(viewport, worldToView, worldToViewToProjection, vertexD, vertexC);
 					
 					var originalA = vertexA;
 					var originalC = vertexC;
@@ -472,7 +478,7 @@ namespace Balder.Rendering.Silverlight
 					Draw(viewport, this, material, vertexA, vertexD, vertexC);
 				}
 			}
-			else*/
+			else
 			{
 				Draw(viewport, this, material, vertexA, vertexB, vertexC);
 			}
