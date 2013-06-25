@@ -58,6 +58,8 @@ namespace Balder.Objects.Geometries
 			: base(geometryContext)
 		{
 			_facesBySide = new Dictionary<BoxSide, List<int>>();
+            RepeatTextureCoordinateU = 1f;
+            RepeatTextureCoordinateV = 1f;
 		}
 
 
@@ -93,6 +95,30 @@ namespace Balder.Objects.Geometries
 			}
 		}
 
+        public static readonly Property<Box, double> RepeatTextureCoordinateUProperty = Property<Box, double>.Register(p => p.RepeatTextureCoordinateU);
+        public double RepeatTextureCoordinateU
+        {
+            get { return RepeatTextureCoordinateUProperty.GetValue(this); }
+            set
+            {
+                RepeatTextureCoordinateUProperty.SetValue(this, value);
+                InvalidatePrepare();
+            }
+        }
+
+
+        public static readonly Property<Box, double> RepeatTextureCoordinateVProperty = Property<Box, double>.Register(p => p.RepeatTextureCoordinateV);
+        public double RepeatTextureCoordinateV
+        {
+            get { return RepeatTextureCoordinateVProperty.GetValue(this); }
+            set
+            {
+                RepeatTextureCoordinateVProperty.SetValue(this, value);
+                InvalidatePrepare();
+            }
+        }
+
+
 		public override void Prepare(Viewport viewport)
 		{
 			GenerateVertices();
@@ -103,6 +129,7 @@ namespace Balder.Objects.Geometries
 
 			base.Prepare(viewport);
 		}
+
 
 		protected void AddFaceToSidesInfo(int face, BoxSide side)
 		{
@@ -119,7 +146,7 @@ namespace Balder.Objects.Geometries
 			faces.Add(face);
 		}
 
-		private void GenerateVertices()
+		void GenerateVertices()
 		{
 			var dimensionAsVector = (Vector)Dimension;
 			var halfDimension = dimensionAsVector / 2f;
@@ -146,17 +173,19 @@ namespace Balder.Objects.Geometries
 			FullDetailLevel.SetVertex(7, backLowerRight);
 		}
 
-		private void GenerateTextureCoordinates()
+		void GenerateTextureCoordinates()
 		{
+            var uRepeat = (float)RepeatTextureCoordinateU;
+            var vRepeat = (float)RepeatTextureCoordinateV;
 			FullDetailLevel.AllocateTextureCoordinates(4);
-			FullDetailLevel.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
-			FullDetailLevel.SetTextureCoordinate(1, new TextureCoordinate(1f, 0f));
-			FullDetailLevel.SetTextureCoordinate(2, new TextureCoordinate(0f, 1f));
-			FullDetailLevel.SetTextureCoordinate(3, new TextureCoordinate(1f, 1f));
+            FullDetailLevel.SetTextureCoordinate(0, new TextureCoordinate(0f, 0f));
+            FullDetailLevel.SetTextureCoordinate(1, new TextureCoordinate(uRepeat, 0f));
+            FullDetailLevel.SetTextureCoordinate(2, new TextureCoordinate(0f, vRepeat));
+            FullDetailLevel.SetTextureCoordinate(3, new TextureCoordinate(uRepeat, vRepeat));
 		}
 
 
-		private BoxSide GetBoxSideFromNormal(Vector normal)
+		BoxSide GetBoxSideFromNormal(Vector normal)
 		{
 			if (normal.Equals(Vector.Backward))
 			{
@@ -187,11 +216,12 @@ namespace Balder.Objects.Geometries
 
 		protected void SetFace(int faceIndex, int a, int b, int c, Vector normal, int diffuseA, int diffuseB, int diffuseC, int smoothingGroup)
 		{
+            var flipNormals = FlipNormals;
 			var face = CreateFace(a, b, c);
 			face.Normal = normal;
-			face.DiffuseA = diffuseA;
+			face.DiffuseA = flipNormals ? diffuseC : diffuseA;
 			face.DiffuseB = diffuseB;
-			face.DiffuseC = diffuseC;
+            face.DiffuseC = flipNormals ? diffuseA : diffuseC;
 
 			var boxSide = GetBoxSideFromNormal(normal);
 			face.MaterialId = (int) boxSide;
@@ -201,13 +231,13 @@ namespace Balder.Objects.Geometries
 		}
 
 
-		private void GenerateFaces()
+		void GenerateFaces()
 		{
 			FullDetailLevel.AllocateFaces(12);
 
 			SetFace(0, 2, 1, 0, Vector.Backward, 2, 1, 0, 0);
 			SetFace(1, 1, 2, 3, Vector.Backward, 1, 2, 3, 0);
-
+            
 			SetFace(2, 4, 5, 6, Vector.Forward, 1, 0, 3, 1);
 			SetFace(3, 7, 6, 5, Vector.Forward, 2, 3, 0, 1);
 
