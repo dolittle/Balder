@@ -21,6 +21,7 @@
 #if(SILVERLIGHT)
 using System;
 using System.Collections.Generic;
+using System.Windows.Input;
 using Balder.Display;
 using Balder.Materials;
 using Balder.Math;
@@ -393,7 +394,7 @@ namespace Balder.Rendering.Silverlight
             var vectorA = Vector.Transform(vertexA.ToVector(), worldToView);
             var vectorB = Vector.Transform(vertexB.ToVector(), worldToView);
 
-            var delta = vectorA - vectorB;
+            var delta = vectorB - vectorA;
 			var deltaU1 = vertexB.U1 - vertexA.U1;
 			var deltaV1 = vertexB.V1 - vertexA.V1;
 			var deltaU2 = vertexB.U2 - vertexA.U2;
@@ -410,15 +411,17 @@ namespace Balder.Rendering.Silverlight
 			var u2Add = (deltaU2 / length) * distance;
 			var v2Add = (deltaV2 / length) * distance;
 
-			var vector = new Vector(
-					vectorA.X + xAdd,
-					vectorA.Y + yAdd,
-					viewport.View.Near
-					//vertexA.TransformedVector.Z + zAdd
-				);
-            vertexA.ProjectAndConvertToScreen(viewport, worldToView, worldToViewToProjection);
-			//vertexA.ProjectedVector = Vector.Transform(vector, viewport.View.ProjectionMatrix);
-			//vertexA.ConvertToScreenCoordinates(viewport);
+            
+            var vector = new Vector
+            {
+                X = vectorA.X + xAdd,
+                Y = vectorA.Y + yAdd,
+                Z = viewport.View.Near
+            };
+            
+            vertexA.ProjectedVector = Vector.Transform(vector, viewport.View.ProjectionMatrix);
+            vertexA.ConvertToScreenCoordinates(viewport);
+            //vertexA.ProjectedVector.Z = (((vector.X * worldToView.M13) + (vector.Y * worldToView.M23)) + (vector.Z * worldToView.M33)) + (1f * worldToView.M43);
 
 			vertexA.U1 += u1Add;
 			vertexA.V1 += v1Add;
@@ -458,7 +461,6 @@ namespace Balder.Rendering.Silverlight
 				}
 				else
 				{
-					
 					var vertexD = VertexD;
 					vertexA.CopyTo(vertexD);
 
@@ -470,7 +472,8 @@ namespace Balder.Rendering.Silverlight
 
                     GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
 					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
-					
+			
+		            
 					vertexA = originalA;
 					vertexC = originalC;
 
