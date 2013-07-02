@@ -410,7 +410,6 @@ namespace Balder.Rendering.Silverlight
 			var v1Add = (deltaV1 / length) * distance;
 			var u2Add = (deltaU2 / length) * distance;
 			var v2Add = (deltaV2 / length) * distance;
-
             
             var vector = new Vector
             {
@@ -421,7 +420,7 @@ namespace Balder.Rendering.Silverlight
             
             vertexA.ProjectedVector = Vector.Transform(vector, viewport.View.ProjectionMatrix);
             vertexA.ConvertToScreenCoordinates(viewport);
-            //vertexA.ProjectedVector.Z = (((vector.X * worldToView.M13) + (vector.Y * worldToView.M23)) + (vector.Z * worldToView.M33)) + (1f * worldToView.M43);
+            vertexA.ProjectedVector.Z = viewport.View.Near;
 
 			vertexA.U1 += u1Add;
 			vertexA.V1 += v1Add;
@@ -471,8 +470,7 @@ namespace Balder.Rendering.Silverlight
 					var originalC = vertexC;
 
                     GetSortedPointsBasedOnY(ref vertexA, ref vertexB, ref vertexC);
-					material.Renderer.Draw(viewport, this, vertexA, vertexB, vertexC);
-			
+                    Draw(viewport, this, material, vertexA, vertexB, vertexC);
 		            
 					vertexA = originalA;
 					vertexC = originalC;
