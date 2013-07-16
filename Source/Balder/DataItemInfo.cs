@@ -31,6 +31,7 @@ namespace Balder
         public object DataItem;
         public RenderableNode Node;
         public Material Material;
+        public bool IsVisible;
 
         public DataItemInfo()
         {
@@ -38,6 +39,7 @@ namespace Balder
             Rotation = Vector.Zero;
             Scale = new Vector(1, 1, 1);
             Matrix = Matrix.Identity;
+            IsVisible = true;
         }
 
         public void Prepare()

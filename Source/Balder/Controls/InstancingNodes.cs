@@ -123,6 +123,8 @@ namespace Balder.Controls
                 var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
                 if (node != null)
                 {
+                    if (!_dataItemInfos[index].IsVisible) continue;
+
                     node.ActualWorld = _dataItemInfos[index].Matrix;
                     if( node is IHaveMaterial )
                         ((IHaveMaterial)node).Material = _dataItemInfos[index].Material;
@@ -155,7 +157,7 @@ namespace Balder.Controls
 				for (var index = 0; index < _dataItemInfos.Length; index++)
 				{
                     var node = _dataItemInfos[index].Node ?? _actualNodeTemplate;
-                    if (node != null)
+                    if (node != null && _dataItemInfos[index].IsVisible)
                     {
                         node.ActualWorld = _dataItemInfos[index].Matrix;
                         if (node.IsIntersectionTestEnabled)
@@ -174,7 +176,7 @@ namespace Balder.Controls
 				if (null != closestDistance)
 				{
                     var node = _dataItemInfos[closestIndex].Node ?? _actualNodeTemplate;
-                    if (node != null)
+                    if (node != null && _dataItemInfos[closestIndex].IsVisible)
                     {
                         node.ActualWorld = _dataItemInfos[closestIndex].Matrix;
                         node.Parent = this;
