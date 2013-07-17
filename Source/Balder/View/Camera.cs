@@ -240,6 +240,14 @@ namespace Balder.View
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
+
+        public bool IsInView(IBoundingObject boundingObject)
+        {
+            if (boundingObject.IsSphere)
+                return IsInView(boundingObject.BoundingSphere.Center, boundingObject.BoundingSphere.Radius);
+            else
+                return IsInView(boundingObject.BoundingBox.Center, boundingObject.BoundingBox.Size.Length);
+        }
 		#endregion
 
 		public IRuntimeContext RuntimeContext { get; internal set; }

@@ -91,6 +91,13 @@ namespace Balder.View
 		/// <returns>True if in view, false if not</returns>
 		bool IsInView(Vector position, float radius);
 
+        /// <summary>
+        /// Check if a <see cref="IBoundingObject"/> is within the view
+        /// </summary>
+        /// <param name="boundingObject"><see cref="IBoundingObject"/> to check</param>
+        /// <returns>True if in view, false if not</returns>
+        bool IsInView(IBoundingObject boundingObject);
+
 		/// <summary>
 		/// Get a pick ray that goes directly forward from the given 2D coordinates into the view
 		/// </summary>

@@ -192,12 +192,10 @@ namespace Balder.Rendering
 
 			if( node.BoundingObject.IsSet )
 			{
-				var boundingObjectPosition = node.BoundingObject.Center*node.RenderingWorld;
-				var inView = viewport.View.IsInView(boundingObjectPosition, node.BoundingObject.Radius);
+                var transformedBoundingObject = node.BoundingObject.Transform(node.RenderingWorld);
+                var inView = viewport.View.IsInView(transformedBoundingObject);
 				if( !inView )
-				{
 					return;
-				}
 			}
 
 			if (node is ICanRender)
