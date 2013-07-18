@@ -34,13 +34,10 @@ namespace Balder.Math
 		protected float _farWidth;
 		protected float _farHeight;
 
-
 		public Frustum()
 		{
 			for (var planeIndex = 0; planeIndex < _planes.Length; planeIndex++)
-			{
 				_planes[planeIndex] = new Plane();
-			}
 		}
 
 
@@ -94,40 +91,38 @@ namespace Balder.Math
 			_planes[(int)FrustumLocation.Far].SetVectors(_farTopRight, _farTopLeft, _farBottomLeft);
 		}
 
-
-
-		public FrustumIntersection IsPointInFrustum(Vector vector)
+		public FrustumIntersection Intersects(Vector vector)
 		{
 			for( var planeIndex=0; planeIndex<_planes.Length; planeIndex++ )
 			{
 				var plane = _planes[planeIndex];
 				var distance = plane.GetDistanceFromVector(vector);
                 if ( distance < 0)
-                {
                     return FrustumIntersection.Outside;
-                }
 			}
             return FrustumIntersection.Inside;
-
 		}
 
-		public FrustumIntersection IsSphereInFrustum(Vector vector, float radius)
-		{
-            float distance = 0;
+        public FrustumIntersection Intersects(IBoundingObject boundingObject)
+        {
+            var intersectingCount = 0;
 			for (var planeIndex = 0; planeIndex < _planes.Length; planeIndex++)
 			{
 				var plane = _planes[planeIndex];
-				distance = plane.GetDistanceFromVector(vector);
-                if (distance < -radius)
-                {
-                    return FrustumIntersection.Outside;
-                }
-                else if (distance < radius)
-                {
-                    return FrustumIntersection.Intersect;
-                }
+                PlaneIntersectionType intersection = PlaneIntersectionType.None;
+                if (boundingObject.IsBox)
+                    intersection = plane.Intersects(boundingObject.BoundingBox);
+
+                if (boundingObject.IsSphere)
+                    intersection = plane.Intersects(boundingObject.BoundingSphere);
+
+                if (intersection == PlaneIntersectionType.Back) return FrustumIntersection.Outside;
+                if (intersection == PlaneIntersectionType.Intersecting) intersectingCount++;
             }
+
+            if (intersectingCount != 0) return FrustumIntersection.Intersect;
+
             return FrustumIntersection.Inside;
-		}
+        }
 	}
 }

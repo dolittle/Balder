@@ -87,25 +87,18 @@ namespace Balder.Math
 
 		public PlaneIntersectionType Intersects(BoundingBox box)
 		{
-			var vector = Vector.Zero;
-			var vector2 = Vector.Zero;
-			vector2.X = (this.Normal.X >= 0f) ? box.Min.X : box.Max.X;
-			vector2.Y = (this.Normal.Y >= 0f) ? box.Min.Y : box.Max.Y;
-			vector2.Z = (this.Normal.Z >= 0f) ? box.Min.Z : box.Max.Z;
-			vector.X = (this.Normal.X >= 0f) ? box.Max.X : box.Min.X;
-			vector.Y = (this.Normal.Y >= 0f) ? box.Max.Y : box.Min.Y;
-			vector.Z = (this.Normal.Z >= 0f) ? box.Max.Z : box.Min.Z;
-			float num = ((this.Normal.X * vector2.X) + (this.Normal.Y * vector2.Y)) + (this.Normal.Z * vector2.Z);
-			if ((num + this.Distance) > 0f)
-			{
-				return PlaneIntersectionType.Front;
-			}
-			num = ((this.Normal.X * vector.X) + (this.Normal.Y * vector.Y)) + (this.Normal.Z * vector.Z);
-			if ((num + this.Distance) < 0f)
-			{
-				return PlaneIntersectionType.Back;
-			}
-			return PlaneIntersectionType.Intersecting;
+            var cornersOutside = 0;
+            var corners = box.GetCorners();
+            for (var cornerIndex = 0; cornerIndex < corners.Length; cornerIndex++)
+            {
+                var distance = GetDistanceFromVector(corners[cornerIndex]);
+                if (distance < 0) cornersOutside++;
+            }
+
+            if (cornersOutside == corners.Length) return PlaneIntersectionType.Back;
+            if (cornersOutside == 0) return PlaneIntersectionType.Front;
+
+            return PlaneIntersectionType.Intersecting;
 		}
 
 

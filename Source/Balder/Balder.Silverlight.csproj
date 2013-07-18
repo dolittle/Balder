@@ -209,6 +209,7 @@
     <Compile Include="Objects\Geometries\Normal.cs" />
     <Compile Include="Objects\ISkyboxContext.cs" />
     <Compile Include="Objects\Skybox.cs" />
+    <Compile Include="Math\PlaneIntersectionTypeExtensions.cs" />
     <Compile Include="PrepareDataItemInfo.cs" />
     <Compile Include="Rendering\IHaveMaterial.cs" />
     <Compile Include="Rendering\IRuntimeContext.cs" />

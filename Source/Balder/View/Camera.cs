@@ -222,31 +222,23 @@ namespace Balder.View
 
 		public bool IsInView(Vector vector)
 		{
-			var inFrustum = Frustum.IsPointInFrustum(vector);
+			var inFrustum = Frustum.Intersects(vector);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
 		public bool IsInView(Coordinate coordinate)
 		{
-			var inFrustum = Frustum.IsPointInFrustum(coordinate);
-			return inFrustum == FrustumIntersection.Inside ||
-				   inFrustum == FrustumIntersection.Intersect;
-		}
-
-		public bool IsInView(Vector position, float radius)
-		{
-			var inFrustum = Frustum.IsSphereInFrustum(position, radius);
+			var inFrustum = Frustum.Intersects(coordinate);
 			return inFrustum == FrustumIntersection.Inside ||
 				   inFrustum == FrustumIntersection.Intersect;
 		}
 
         public bool IsInView(IBoundingObject boundingObject)
         {
-            if (boundingObject.IsSphere)
-                return IsInView(boundingObject.BoundingSphere.Center, boundingObject.BoundingSphere.Radius);
-            else
-                return IsInView(boundingObject.BoundingBox.Center, boundingObject.BoundingBox.Size.Length);
+            var inFrustum = Frustum.Intersects(boundingObject);
+			return inFrustum == FrustumIntersection.Inside ||
+				   inFrustum == FrustumIntersection.Intersect;
         }
 		#endregion
 

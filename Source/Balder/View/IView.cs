@@ -26,6 +26,9 @@ namespace Balder.View
 	/// </summary>
 	public interface IView
 	{
+        /// <summary>
+        /// Gets or sets the position of the view
+        /// </summary>
 		Coordinate Position { get; set; }
 
 		/// <summary>
@@ -83,14 +86,6 @@ namespace Balder.View
 		/// <returns>True if in view, false if not</returns>
 		bool IsInView(Coordinate coordinate);
 
-		/// <summary>
-		/// Check if a sphere is within the view
-		/// </summary>
-		/// <param name="position">Position of sphere</param>
-		/// <param name="radius">Radius of the sphere</param>
-		/// <returns>True if in view, false if not</returns>
-		bool IsInView(Vector position, float radius);
-
         /// <summary>
         /// Check if a <see cref="IBoundingObject"/> is within the view
         /// </summary>
@@ -106,8 +101,22 @@ namespace Balder.View
 		/// <returns></returns>
 		Ray GetPickRay(int x, int y);
 
+        /// <summary>
+        /// Unproject a vector using a specific world matrix
+        /// </summary>
+        /// <param name="source">Vector to unproject</param>
+        /// <param name="world">World matrix</param>
+        /// <returns>Unprojected vector</returns>
 		Vector Unproject(Vector source, Matrix world);
- 
+
+        /// <summary>
+        /// Unproject a vector using specified projection, view and world matrices
+        /// </summary>
+        /// <param name="source">Vector to unproject</param>
+        /// <param name="projection">Projection matrix to use</param>
+        /// <param name="view">View matrix to use</param>
+        /// <param name="world">World matrix to use</param>
+        /// <returns>Unprojected vector</returns>
 		Vector Unproject(Vector source, Matrix projection, Matrix view, Matrix world);
 
 		/// <summary>
